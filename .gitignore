@@ -1,5 +1,5 @@
 target/*
-.settings
-.externalToolBuilders
+.settings/*
+.externalToolBuilders/*
 .project
 .classpath
