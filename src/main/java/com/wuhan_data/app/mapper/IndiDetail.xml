@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.IndiDetailMapper">
+       
+<!--          获得搜索的所有指标来源 -->
+        <select id="getFreqCodeByIndiName" resultType="String" parameterType="String">
+            select freq_code from  indi_all where indi_name= #{appIndiName}  group by freq_code   
+        </select>
+        
+		 <select id="indiDateByFreqName" resultType="String" parameterType="java.util.Map" >
+            select date_code from indi_all where indi_name= #{appIndiName} and freq_code=#{freqCode} group by date_code 
+        </select> 
+      
+        
+    </mapper>

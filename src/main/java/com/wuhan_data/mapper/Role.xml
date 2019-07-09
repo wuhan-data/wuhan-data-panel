@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.RoleMapper">
+        <insert id="add" parameterType="Role" >
+            insert into ROLE (role_code,role_name,role_description)values (#{role_code},#{role_name},#{role_description})
+        </insert>
+         
+        <delete id="delete" parameterType="Role" >
+            delete from ROLE where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="Role">
+            select * from  ROLE  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="Role" >
+            update ROLE set role_name=#{role_name}  , role_code=#{role_code} , role_description=#{role_description}   where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Role">
+            select * from ROLE    
+        </select>   
+        <select id="count" resultType="int">
+        	select count(*) from ROLE  
+        </select>
+        <!-- 列表，可分页 -->
+        <select id="listByPage" resultType="Role" parameterType="java.util.Map">
+        	select * from ROLE   order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        <!--模糊查询 -->
+		<select id="search" parameterType="java.util.Map" resultType="Role">
+            select * from ROLE 
+            <where>
+            role_name like concat(concat('%',#{role_name}),'%')  
+            </where>
+             order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        <!-- 模糊查询数量 -->
+        <select id="searchCount" resultType="int" parameterType="java.util.Map" >
+            select count(*) from ROLE where role_name like concat(concat('%',#{role_name}),'%')  
+        </select>
+         
+    </mapper>

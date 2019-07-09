@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.SysLogMapper">
+        <insert id="add" parameterType="SysLog" >
+        	insert into SYS_LOG (operate_user_id,operate,method,create_time) values (#{operate_user_id},#{operate},#{method},#{create_time}) 
+        </insert>
+         
+        <delete id="delete" parameterType="SysLog" >
+            delete from SYS_LOG where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="SysLog">
+            select * from  SYS_LOG  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="SysLog" >
+            update SYS_LOG set operate_user_id=#{operate_user_id} , operate=#{operate} , method=#{method} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="SysLog">
+            select * from SYS_LOG     
+        </select>    
+        <select id="count" resultType="int">
+        	select count(*) from SYS_LOG 
+        </select>
+        <!-- 列表，可分页 -->
+        <select id="listByPage" resultType="SysLog" parameterType="java.util.Map">
+        	select * from SYS_LOG   order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        <!--模糊查询 -->
+		<select id="search" parameterType="java.util.Map" resultType="SysLog">
+            select * from SYS_LOG 
+            <where>
+            operate_user_id like concat(concat('%',#{operate_user_id}),'%')  
+            </where>
+             order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        <!-- 模糊查询数量 -->
+        <select id="searchCount" resultType="int" parameterType="java.util.Map" >
+            select count(*) from SYS_LOG where operate_user_id like concat(concat('%',#{operate_user_id}),'%')  
+        </select>
+        
+    </mapper>

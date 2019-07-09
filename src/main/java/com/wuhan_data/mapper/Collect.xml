@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.CollectMapper">
+       <!--  <insert id="add" parameterType="Collect" >
+            insert into WUHAN_DATA."COLLECT"(id,uid,type,index_id,create_time)values (#{id},#{uid},#{type},#{index_id},#{create_time})
+        </insert>
+         
+        <delete id="delete" parameterType="Collect" >
+            delete from WUHAN_DATA."COLLECT" where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="Collect">
+            select * from   WUHAN_DATA."COLLECT"  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="Collect" >
+            update WUHAN_DATA."COLLECT" set uid=#{uid} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Collect">
+            select * from WUHAN_DATA."COLLECT"     
+        </select>    --> 
+        
+         <insert id="add" parameterType="Collect" >
+            insert into COLLECT(id,uid,type,index_id,create_time)values (#{id},#{uid},#{type},#{index_id},#{create_time})
+        </insert>
+         
+        <delete id="delete" parameterType="Collect" >
+            delete from COLLECT where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="Collect">
+            select * from   COLLECT  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="Collect" >
+            update COLLECT set uid=#{uid} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Collect">
+            select * from COLLECT    
+        </select>   
+    </mapper>

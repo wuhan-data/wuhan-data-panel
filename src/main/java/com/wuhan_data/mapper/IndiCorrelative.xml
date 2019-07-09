@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.IndiCorrelativeMapper">
+        <insert id="add" parameterType="IndiCorrelative" >
+            insert into CORRELATIVE_INDI(column_id,indi_id,indi_name,is_show)values (#{column_id},#{indi_id},#{indi_name},#{is_show})
+        </insert>
+         
+        <delete id="delete" parameterType="_int" >
+            delete from CORRELATIVE_INDI where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="IndiCorrelative">
+            select * from  CORRELATIVE_INDI  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="IndiCorrelative" >
+            update CORRELATIVE_INDI set column_id=#{column_id},indi_id=#{indi_id},indi_name=#{indi_name},is_show=#{is_show} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="IndiCorrelative">
+            select * from CORRELATIVE_INDI
+             <if test="start!=null and count!=null">
+                    limit #{start},#{count}
+            </if>     
+        </select>
+        <select id="total" resultType="int">
+            select count(*) from  CORRELATIVE_INDI   
+        </select>  
+        
+         <select id="listAddPage" resultType="IndiCorrelative" parameterType="java.util.Map" >
+            select * from CORRELATIVE_INDI
+            
+            order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select> 
+         
+<!--          根据指标id查询指标名字 -->
+ 		<select id="searchIndiNameById" resultType="String" parameterType="String">
+            select indi_name from INDEX_MANAGE  where indi_code= #{addCorrelativeIndiCode}  group by indi_name
+        </select> 
+        
+        <!--         //设置相关指标允许展示 -->
+        <update id="per_show_correIndi" parameterType="_int">
+        	update CORRELATIVE_INDI set is_show=0 where id=#{id}
+        </update>
+        
+         <update id="no_per_show_correIndi" parameterType="_int">
+        	update CORRELATIVE_INDI set is_show=1 where id=#{id}
+        </update>
+        
+        
+        
+    </mapper>

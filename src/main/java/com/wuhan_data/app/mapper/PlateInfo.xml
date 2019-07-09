@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.PlateInfoMapper">  
+       
+         
+        <select id="getPlateInfo" resultType="com.wuhan_data.pojo.ColPlate">
+            select pid,pname,show_type,term from col_plate where cid=#{cid}
+        </select>
+        
+        <select id="getIndiCorrelative" resultType="com.wuhan_data.pojo.IndiCorrelative" parameterType="int">
+           select distinct indi_id,indi_name from correlative_indi where cid=#{cid}
+        </select>
+	
+	<!-- 获取板块下的指标ID与指标name -->
+ <select id="getIndiByPid" resultType="com.wuhan_data.pojo.ColPlateIndi" parameterType="int">
+           select indi_id,indi_name,show_type,time_point,sjly  from col_plate_indi  where pid=#{pid}
+        </select> 
+        
+        <!-- 根据时间、频度、获取相应指标信息 -->
+       <select id="getIndiInfoByTime" resultType="com.wuhan_data.pojo.indi_TF" parameterType="java.util.Map">
+          select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname,group1_name from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} order by date_code
+<!--                select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code <![CDATA[ <= ]]> #{endTime} and time_point=#{time_point} order by date_code -->
+        </select> 
+           
+           <!-- 获取指标的时间跨度 -->
+         <select id="getDateCodeByFreq" resultType="String" parameterType="java.util.Map">
+          select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and time_point=#{time_point} and sjly=#{sjly} order by date_code desc limit 0,#{term}
+        </select> 
+        
+        
+        <!-- ********************************************** -->
+        <!-- 获得指标的频度列表 -->
+        <select id="getFreqCodeByIndiId" resultType="String" parameterType="String">
+         select distinct freq_code from indi_all where indi_code=#{indi_code}
+       
+        </select>
+        
+        <select id="getIndiShowType" resultType="String" parameterType="String">
+        select distinct SHOW_TYPE from index_manage where INDI_CODE=#{indi_code} 
+        </select>
+    </mapper>

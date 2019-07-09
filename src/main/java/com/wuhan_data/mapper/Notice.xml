@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.NoticeMapper">
+        <insert id="add" parameterType="Notice" >
+            insert into NOTICE (sender_id,receiver_id,content,create_time) values (#{sender_id},#{receiver_id},#{content},#{create_time})   
+        </insert>
+         
+         <insert id="addByRole" parameterType="java.util.ArrayList" >
+            insert into NOTICE (sender_id,receiver_id,content,create_time) 
+            values 
+            <foreach collection="list" item="item" index="index" separator=","> 
+        	(#{item.sender_id},#{item.receiver_id},#{item.content}, #{item.create_time}) 
+    		</foreach>  
+        </insert>
+        
+        <delete id="delete" parameterType="Notice" >
+            delete from NOTICE where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="Notice">
+            select * from  NOTICE  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="Notice" >
+            update NOTICE set content=#{content} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Notice">
+            select * from NOTICE     
+        </select> 
+        
+        <select id="count" resultType="int">
+        	select count(*) from NOTICE 
+        </select>
+
+        <!-- 列表，可分页 -->
+        <select id="listByPage" resultType="Notice" parameterType="java.util.Map">
+            select * from NOTICE   order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select> 
+        
+        <!--模糊查询 -->
+		<select id="searchByContent" parameterType="java.util.Map" resultType="Notice">
+            select * from NOTICE 
+            <where>
+            content like concat(concat('%',#{content}),'%')  
+            </where>
+             order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        
+        <!-- 模糊查询数量 -->
+        <select id="searchCountByContent" resultType="int" parameterType="java.util.Map" >
+            select count(*) from NOTICE where  content like concat(concat('%',#{content}),'%')  
+        </select>
+    
+
+    </mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.MenuMapper">
+        <insert id="add" parameterType="Menu" >
+        	insert into MENU (level_one,level_two,role_name,url,perm) values (#{level_one},#{level_two},#{role_name},#{url},#{perm}) 
+        </insert>
+         
+        <delete id="delete" parameterType="Menu" >
+            delete from MENU where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="Menu">
+            select * from  MENU  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="Menu" >
+            update MENU set level_one=#{level_one} , level_two=#{level_two} , role_name=#{role_name} , url=#{url} ,perm=#{perm} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Menu">
+            select * from MENU     
+        </select>    
+        
+        <select id="count" resultType="int">
+        	select count(*) from MENU  
+        </select>
+        
+         <select id="searchByRole" parameterType="java.util.Map" resultType="Menu">
+        	select * from MENU  where role_name=#{role_name}
+        </select>
+         <select id="searchByRoleGroupByOne" parameterType="java.util.Map" resultType="Menu">
+        	select * from MENU  where role_name=#{role_name}
+        </select>
+        <select id="searchByRoleAndLevel_one" parameterType="java.util.Map" resultType="Menu">
+        	select * from MENU  where role_name=#{role_name} and level_one=#{level_one}
+        </select>
+    </mapper>

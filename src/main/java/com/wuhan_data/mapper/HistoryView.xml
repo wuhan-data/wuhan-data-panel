@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.HistoryViewMapper">
+        <insert id="add" parameterType="HistoryView" >
+            insert into HISTORY_VIEW(uid,func_name,title,view_url,create_time)values (#{uid},#{func_name},#{title},#{view_url},#{create_time})   
+        </insert>
+         
+        <delete id="delete" parameterType="HistoryView" >
+            delete from HISTORY_VIEW where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="HistoryView">
+            select * from  HISTORY_VIEW  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="HistoryView" >
+            update HISTORY_VIEW set func_name=#{func_name} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="HistoryView">
+            select * from HISTORY_VIEW    
+        </select>    
+    </mapper>

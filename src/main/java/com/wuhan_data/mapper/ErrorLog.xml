@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.ErrorLogMapper">
+      <!--   <insert id="add" parameterType="ErrorLog" >
+            insert into WUHAN_DATA."ERROR_LOG"(func,code,msg,data,remark,create_time)values (#{func},#{code},#{msg},#{data},#{remark},#{create_time})   
+        </insert>
+         
+        <delete id="delete" parameterType="ErrorLog" >
+            delete from WUHAN_DATA."ERROR_LOG" where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="ErrorLog">
+            select * from   WUHAN_DATA."ERROR_LOG"  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="ErrorLog" >
+            update WUHAN_DATA."ERROR_LOG" set func=#{func} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="ErrorLog">
+            select * from WUHAN_DATA."ERROR_LOG"     
+        </select>   -->  
+        
+          <insert id="add" parameterType="ErrorLog" >
+            insert into ERROR_LOG(func,code,msg,data,remark,create_time)values (#{func},#{code},#{msg},#{data},#{remark},#{create_time})   
+        </insert>
+         
+        <delete id="delete" parameterType="ErrorLog" >
+            delete from ERROR_LOG where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="ErrorLog">
+            select * from  ERROR_LOG  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="ErrorLog" >
+            update ERROR_LOG set func=#{func} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="ErrorLog">
+            select * from ERROR_LOG    
+        </select>  
+    </mapper>

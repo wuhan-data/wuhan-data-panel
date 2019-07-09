@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.AppIndexMapper">  
+         
+        <select id="getlist" resultType="com.wuhan_data.pojo.IndexPic">
+            select * from index_pic 
+        </select>
+        
+         <select id="getIconList" resultType="com.wuhan_data.pojo.AnalysisIcon">
+            select iconweight,background,iconName,iconUrl from index_analysis_icon order by iconweight
+        </select>
+        
+         <select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">
+            select * from index_special
+        </select>
+        
+        <select id="getDesc" resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
+            select description from index_special where id=#{id}
+        </select>
+        
+    </mapper>

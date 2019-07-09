@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.UserMapper">
+        <insert id="add" parameterType="User" >
+            insert into USER ( username,password,status,gender,tel,real_name,role_list,role_name,create_time,role_id,department_id ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id})   
+        </insert>
+         
+        <delete id="delete" parameterType="User" >
+            delete from USER where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="User">
+            select * from  USER  where id= #{id}   
+        </select>
+        
+        <select id="getByName" parameterType="String" resultType="User">
+            select * from  USER  where username= #{username}   
+        </select>
+        
+        <select id="getByRole" parameterType="_int" resultType="User">
+            select * from   USER  where role_id= #{role_id}   
+        </select>
+        
+        <update id="update" parameterType="User" >
+            update USER set password=#{password} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="User">
+            select * from USER    
+        </select> 
+        
+        <select id="count" resultType="int">
+        	select count(*) from USER  
+        </select>
+        
+		<!--模糊查询 -->
+		<select id="search" parameterType="java.util.Map" resultType="User">
+            select * from USER 
+            <where>
+            username like concat(concat('%',#{username}),'%')  
+            </where>
+             order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        
+        <!-- 模糊查询数量 -->
+        <select id="searchCount" resultType="int" parameterType="java.util.Map" >
+            select count(*) from USER where username like concat(concat('%',#{username}),'%')  
+        </select>
+        <!-- 列表，可分页 -->
+        <select id="listByPage" resultType="User" parameterType="java.util.Map">
+            select * from USER   order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select> 
+        
+        <!-- 后台用户登陆 -->
+        <select id="logincheck" parameterType="User" resultType="User">
+        	select * from USER where	username = #{username} AND password = #{password}
+   		</select>
+   		<!-- 用户注册 -->
+   		<insert id="register" parameterType="User">
+			insert into USER ( username,password,status,gender,tel,real_name,role_list,role_name,create_time ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time})   
+	</insert>
+    
+
+    </mapper>

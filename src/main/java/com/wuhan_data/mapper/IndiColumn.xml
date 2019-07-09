@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.IndiColumnMapper">
+       <!--  <insert id="add" parameterType="IndiCorrelative" >
+            insert into WUHAN_DATA."CORRELATIVE_INDI"(column_id,indi_id,indi_name)values (#{column_id},#{indi_id},#{indi_name})
+        </insert>
+         
+        <delete id="delete" parameterType="_int" >
+            delete from WUHAN_DATA."CORRELATIVE_INDI" where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="IndiCorrelative">
+            select * from   WUHAN_DATA."CORRELATIVE_INDI"  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="IndiCorrelative" >
+            update WUHAN_DATA."CORRELATIVE_INDI" set column_id=#{column_id},indi_id=#{indi_id},indi_name=#{indi_name} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="IndiCorrelative">
+            select * from WUHAN_DATA."CORRELATIVE_INDI"
+             <if test="start!=null and count!=null">
+                    limit #{start},#{count}
+            </if>     
+        </select>
+        <select id="total" resultType="int">
+            select count(*) from  WUHAN_DATA."CORRELATIVE_INDI"    
+        </select>     -->
+        
+        
+        <insert id="add" parameterType="IndiCorrelative" >
+            insert into CORRELATIVE_INDI (column_id,indi_id,indi_name) values(#{column_id},#{indi_id},#{indi_name})
+        </insert>
+         
+        <delete id="delete" parameterType="int" >
+            delete from CORRELATIVE_INDI  where id=#{id}  
+        </delete>        
+         
+        <select id="getlist" parameterType="java.util.Map" resultType="IndiCorrelative">
+            select * from CORRELATIVE_INDI  where column_id=#{id} order by id limit #{page.dbIndex},#{page.dbNumber}   
+        </select>
+ 
+        <update id="update" parameterType="IndiCorrelative" >
+            update CORRELATIVE_INDI  set indi_name=#{indi_name} where id=#{id}
+        </update>
+        
+         <update id="updateShow" parameterType="IndiCorrelative" >
+            update CORRELATIVE_INDI
+            <set>
+            is_show=#{is_show}
+            </set>
+             where id=#{id}   
+        </update>
+        
+        
+      
+        <select id="total" resultType="int" parameterType="int">
+            select count(*) from  WUHAN_DATA."CORRELATIVE_INDI"  where column_id=#{cid}
+        </select>
+        
+    </mapper>

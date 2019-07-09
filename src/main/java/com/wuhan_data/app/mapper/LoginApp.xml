@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.LoginAppMapper">
+       
+<!--          根据用户名获得数据库中密码 -->
+        <select id="getPwByTel" resultType="String">
+            select password from   WUHAN_DATA."PANEL_USER" where username= #{username}  
+        </select>
+        
+      
+        
+    </mapper>
