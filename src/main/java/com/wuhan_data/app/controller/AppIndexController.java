@@ -24,7 +24,6 @@ import com.wuhan_data.pojo.IndexSpecial;
 @Controller
 @RequestMapping("")
 public class AppIndexController {
-	
 	@Autowired
 	AppIndexService appIndexService;
 	
