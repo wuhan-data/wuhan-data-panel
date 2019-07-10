@@ -3,10 +3,19 @@ package com.wuhan_data.app.service;
 import java.util.List;
 import java.util.Map;
 
+import com.wuhan_data.pojo.Collect;
+import com.wuhan_data.pojo.TPIndiValue;
+
 public interface IndiDetailService {
 
-	List<String> getFreqCodeByIndiName(String appIndiName);
+	List<String> getFreqCodeByIndiName(Map fcMap);
 
 	List<String> indiDateByFreqName(Map paraMap);
+
+	List<TPIndiValue> getIndiValue(Map<String, Object> map);
+
+	void indiCollect(Collect collect);
+
+	String getIndiShowType(Map showMap);
 
 }
