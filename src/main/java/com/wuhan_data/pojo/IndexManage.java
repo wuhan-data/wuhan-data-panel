@@ -12,7 +12,14 @@ public class IndexManage {
 //	String indi_value;//指标值
 //	Integer time_point;//时点
 	Integer status;//指示状态 0正常 1不展示
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
 	String show_type;//展示类型
+	String source;//来源
 	public Integer getId() {
 		return id;
 	}
