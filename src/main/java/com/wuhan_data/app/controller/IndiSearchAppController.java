@@ -39,6 +39,7 @@ import com.wuhan_data.app.showType.pojo.LineEntity;
 import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.Collect;
 import com.wuhan_data.pojo.HistorySearch;
+import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.TPIndiValue;
 import com.wuhan_data.tools.MapValueComparator;
 
@@ -204,28 +205,31 @@ public class IndiSearchAppController {
 
 	@RequestMapping(value = "searchIndi", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String searchIndi(@RequestBody String json) {
+	public String searchIndi() {
 
 		// 获得搜索的所有来源（如湖北统计局，国家统计局等）@RequestBody String json
-//		keyWord="社会";
-//		 source="湖北省统计局-";
+		String keyWord="社会";
+		source="湖北省统计局-";
 
-		JSONObject jsonObject = JSONObject.fromObject(json);
-		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-		System.out.println("json" + json);
-
-		String keyWord = mapget.get("keyWord").toString();
-		source = mapget.get("source").toString();
+//		JSONObject jsonObject = JSONObject.fromObject(json);
+//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+//		System.out.println("json" + json);
+//
+//		String keyWord = mapget.get("keyWord").toString();
+//		source = mapget.get("source").toString();
+		
+		
 
 		Map paraMap = new HashMap();
 		paraMap.put("keyWord", keyWord);
 		paraMap.put("source", source);
-		List<String> searchIndiList = indiSearchService.searchIndi(paraMap);
+		List<IndexManage> searchIndiList = indiSearchService.searchIndi(paraMap);
 		List resultList = new ArrayList();
 		for (int i = 0; i < searchIndiList.size(); i++) {
 			Map teMap = new HashMap();
 			teMap.put("id", Integer.toString(i + 1));
-			teMap.put("name", searchIndiList.get(i));
+			teMap.put("name", searchIndiList.get(i).getIndi_name());
+			teMap.put("source", searchIndiList.get(i).getSource());
 			resultList.add(teMap);
 			System.out.println(searchIndiList.get(i));
 		}

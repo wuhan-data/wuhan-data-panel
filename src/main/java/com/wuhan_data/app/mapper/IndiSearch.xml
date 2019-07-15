@@ -15,8 +15,8 @@
             select * from   WUHAN_DATA."HISTORY_SEARCH"  where uid= #{uid} order by id DESC limit 5  
         </select>
       
-      <select id="searchIndi" resultType="String" parameterType="java.util.Map">
-            select indi_name from WUHAN_DATA."INDEX_MANAGE" where indi_name like CONCAT('%',#{keyWord},'%') and source=#{source} 
+      <select id="searchIndi" resultType="IndexManage" parameterType="java.util.Map">
+            select * from WUHAN_DATA."INDEX_MANAGE" where indi_name like CONCAT('%',#{keyWord},'%') and source=#{source} 
         </select> 
         
 <!--        获得前十四天的搜索趋势 -->

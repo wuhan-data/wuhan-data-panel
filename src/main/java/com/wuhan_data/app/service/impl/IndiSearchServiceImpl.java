@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.wuhan_data.app.mapper.IndiSearchMapper;
 import com.wuhan_data.app.service.IndiSearchService;
 import com.wuhan_data.pojo.HistorySearch;
+import com.wuhan_data.pojo.IndexManage;
 
 @Service
 public class IndiSearchServiceImpl implements IndiSearchService{
@@ -29,7 +30,7 @@ public class IndiSearchServiceImpl implements IndiSearchService{
 	}
 
 	@Override
-	public List<String> searchIndi(Map paraMap) {
+	public List<IndexManage> searchIndi(Map paraMap) {
 		// TODO Auto-generated method stub
 		return indiSearchMapper.searchIndi(paraMap);
 	}
