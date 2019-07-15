@@ -53,4 +53,10 @@ public class IndiSearchServiceImpl implements IndiSearchService{
 		
 	}
 
+	@Override
+	public String getTrendSource(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiSearchMapper.getTrendSource(paraMap);
+	}
+
 }

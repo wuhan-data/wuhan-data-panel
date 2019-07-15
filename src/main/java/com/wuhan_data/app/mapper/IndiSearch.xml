@@ -27,9 +27,12 @@
             select create_time from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} 
         </select> 
         
+         <select id="getTrendSource" resultType="String" parameterType="java.util.Map">
+            select source from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} and keyword=#{indi_name} group by source limit 1
+        </select> 
         
          <insert id="addSearchHistory" parameterType="HistorySearch" >
-            insert into WUHAN_DATA."HISTORY_SEARCH"(uid,keyword,create_time)values (#{uid},#{keyword},#{create_time})
+            insert into WUHAN_DATA."HISTORY_SEARCH"(uid,keyword,create_time,source)values (#{uid},#{keyword},#{create_time},#{source})
         </insert>
         
     </mapper>

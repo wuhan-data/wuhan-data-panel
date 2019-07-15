@@ -159,10 +159,16 @@ public class IndiSearchAppController {
 			Map.Entry me = (Map.Entry) i.next();
 			tempMap.put("id", Integer.toString(index));
 			tempMap.put("name", me.getKey());
+			//获得搜索指标的来源
+			Map paraMap = new HashMap();
+			paraMap.put("indi_name", me.getKey());
+			paraMap.put("nowDate", nowDate);
+			String trendSource = indiSearchService.getTrendSource(paraMap);
+			tempMap.put("source", trendSource);
+			
 			float t = (float) finaMap.get(me.getKey());
 			DecimalFormat decimalFormat = new DecimalFormat("0.00");
-			String tS;
-			String type;
+			String tS,type;
 			if (judgeList.get(index-1) > 0) {
 				type = "up";// 代表上升
 				tS = decimalFormat.format(t*100);
@@ -170,7 +176,7 @@ public class IndiSearchAppController {
 				type = "down";// 代表下降f.toString();finaMap.get(me.getKey()).toString()
 				tS = decimalFormat.format(t*100);
 			}
-
+				
 			tempMap.put("arrow", type);
 			tempMap.put("rate", tS + "%");
 			paramList.add(tempMap);

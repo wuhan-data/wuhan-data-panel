@@ -13,5 +13,6 @@ public interface IndiSearchService {
 	public List<String> getTrendList(String nowDate);
 	public List<String> getTrendList1(String nowDate);
 	public void addSearchHistory(HistorySearch historySearch);
+	public String getTrendSource(Map paraMap);
 
 }
