@@ -164,6 +164,8 @@ public class IndiSearchAppController {
 			Map paraMap = new HashMap();
 			paraMap.put("indi_name", me.getKey());
 			paraMap.put("nowDate", nowDate);
+			calendar.set(calendar.DATE, calendar.get(calendar.DATE) - 8);
+			paraMap.put("beforeDate", calendar.getTime());
 			String trendSource = indiSearchService.getTrendSource(paraMap);
 			tempMap.put("source", trendSource);
 			

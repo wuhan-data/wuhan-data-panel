@@ -28,7 +28,7 @@
         </select> 
         
          <select id="getTrendSource" resultType="String" parameterType="java.util.Map">
-            select source from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} and keyword=#{indi_name} group by source limit 1
+            select source from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} and create_time &gt; #{beforeDate} and keyword=#{indi_name} group by source limit 1
         </select> 
         
          <insert id="addSearchHistory" parameterType="HistorySearch" >
