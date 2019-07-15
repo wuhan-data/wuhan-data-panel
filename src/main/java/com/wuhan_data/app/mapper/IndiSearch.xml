@@ -7,29 +7,29 @@
        
 <!--          获得搜索的所有指标来源 -->
         <select id="searchSource" resultType="String">
-            select source from   WUHAN_DATA."INDEX_LIST"  group by source   
+            select source from INDEX_LIST group by source   
         </select>
         
 <!--         获得该用户的历史搜索 -->
  		  <select id="getHistorySearch" parameterType="_int" resultType="HistorySearch">
-            select * from   WUHAN_DATA."HISTORY_SEARCH"  where uid= #{uid} order by id DESC limit 5  
+            select * from HISTORY_SEARCH where uid= #{uid} order by id DESC limit 5  
         </select>
       
       <select id="searchIndi" resultType="String" parameterType="java.util.Map">
-            select indi_name from WUHAN_DATA."INDEX_MANAGE" where indi_name like CONCAT('%',#{keyWord},'%') and source=#{source} 
+            select indi_name from INDEX_MANAGE where indi_name like CONCAT('%',#{keyWord},'%') and source=#{source} 
         </select> 
         
 <!--        获得前十四天的搜索趋势 -->
 		 <select id="getTrendList" resultType="String" parameterType="String">
-            select keyword from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} 
+            select keyword from HISTORY_SEARCH where  create_time &lt; #{nowDate} 
         </select> 
          <select id="getTrendList1" resultType="String" parameterType="String">
-            select create_time from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} 
+            select create_time from HISTORY_SEARCH where  create_time &lt; #{nowDate} 
         </select> 
         
         
          <insert id="addSearchHistory" parameterType="HistorySearch" >
-            insert into WUHAN_DATA."HISTORY_SEARCH"(uid,keyword,create_time)values (#{uid},#{keyword},#{create_time})
+            insert into HISTORY_SEARCH (uid,keyword,create_time) values (#{uid},#{keyword},#{create_time})
         </insert>
         
     </mapper>
