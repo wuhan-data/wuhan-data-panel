@@ -19,6 +19,10 @@
             select * from WUHAN_DATA."INDEX_MANAGE" where indi_name like CONCAT('%',#{keyWord},'%') and source=#{source} 
         </select> 
         
+         <select id="searchIndiAll" resultType="IndexManage" parameterType="String">
+            select * from WUHAN_DATA."INDEX_MANAGE" where indi_name like CONCAT('%',#{keyWord},'%')
+        </select> 
+        
 <!--        获得前十四天的搜索趋势 -->
 		 <select id="getTrendList" resultType="String" parameterType="String">
             select keyword from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} 

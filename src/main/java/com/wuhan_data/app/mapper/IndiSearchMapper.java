@@ -15,6 +15,7 @@ public interface IndiSearchMapper {
 	public List<String> getTrendList1(String nowDate);
 	public void addSearchHistory(HistorySearch historySearch);
 	public String getTrendSource(Map paraMap);
+	public List<IndexManage> searchIndiAll(String keyWord);
 	 
 
 }

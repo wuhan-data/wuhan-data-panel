@@ -60,4 +60,10 @@ public class IndiSearchServiceImpl implements IndiSearchService{
 		return indiSearchMapper.getTrendSource(paraMap);
 	}
 
+	@Override
+	public List<IndexManage> searchIndiAll(String keyWord) {
+		// TODO Auto-generated method stub
+		return indiSearchMapper.searchIndiAll(keyWord);
+	}
+
 }

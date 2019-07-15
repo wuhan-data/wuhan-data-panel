@@ -207,25 +207,32 @@ public class IndiSearchAppController {
 
 	@RequestMapping(value = "searchIndi", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String searchIndi() {
+	public String searchIndi(@RequestBody String json) {
 
 		// 获得搜索的所有来源（如湖北统计局，国家统计局等）@RequestBody String json
-		String keyWord="社会";
-		source="湖北省统计局-";
+//		String keyWord="社会";
+//		source="全部";
 
-//		JSONObject jsonObject = JSONObject.fromObject(json);
-//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-//		System.out.println("json" + json);
-//
-//		String keyWord = mapget.get("keyWord").toString();
-//		source = mapget.get("source").toString();
-		
-		
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+		System.out.println("json" + json);
 
-		Map paraMap = new HashMap();
-		paraMap.put("keyWord", keyWord);
-		paraMap.put("source", source);
-		List<IndexManage> searchIndiList = indiSearchService.searchIndi(paraMap);
+		String keyWord = mapget.get("keyWord").toString();
+		source = mapget.get("source").toString();
+		List<IndexManage> searchIndiList;
+		if(source.equals("全部"))
+		{
+			searchIndiList = indiSearchService.searchIndiAll(keyWord);
+		}
+		
+		else
+		{
+			Map paraMap = new HashMap();
+			paraMap.put("keyWord", keyWord);
+			paraMap.put("source", source);
+			searchIndiList = indiSearchService.searchIndi(paraMap);
+		}
+		
 		List resultList = new ArrayList();
 		for (int i = 0; i < searchIndiList.size(); i++) {
 			Map teMap = new HashMap();
