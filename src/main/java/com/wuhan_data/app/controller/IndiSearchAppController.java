@@ -131,13 +131,22 @@ public class IndiSearchAppController {
 		System.out.println("mapNum:" + mapNum);
 		System.out.println("mapNum2:" + mapNum2);
 		Map finaMap = new TreeMap();
+		List<Float> judgeList = new ArrayList<Float>();
 		Set<String> s2 = mapNum.keySet();
 		for (String mapNumStr : s2) {
 			if (mapNum2.containsKey(mapNumStr))
-				finaMap.put(mapNumStr, mapNum.get(mapNumStr) - mapNum2.get(mapNumStr));
+			{
+				judgeList.add(mapNum.get(mapNumStr) - mapNum2.get(mapNumStr));
+			}
+				
 			else
-				finaMap.put(mapNumStr, mapNum.get(mapNumStr));
+			{
+				judgeList.add(mapNum.get(mapNumStr));
+			}
+			finaMap.put(mapNumStr, mapNum.get(mapNumStr));
+				
 		}
+		System.out.println("judgeList:" + judgeList);
 		Map<String, Float> resultMap = sortMapByValue(mapNum);// 本周排序后的结果
 		System.out.println("finaMap:" + finaMap);
 		System.out.println("resultMap:" + resultMap);
@@ -149,17 +158,17 @@ public class IndiSearchAppController {
 			Map tempMap = new TreeMap();
 			Map.Entry me = (Map.Entry) i.next();
 			tempMap.put("id", Integer.toString(index));
-			tempMap.put("title", me.getKey());
+			tempMap.put("name", me.getKey());
 			float t = (float) finaMap.get(me.getKey());
 			DecimalFormat decimalFormat = new DecimalFormat("0.00");
 			String tS;
 			String type;
-			if (t > 0) {
+			if (judgeList.get(index-1) > 0) {
 				type = "up";// 代表上升
 				tS = decimalFormat.format(t*100);
 			} else {
 				type = "down";// 代表下降f.toString();finaMap.get(me.getKey()).toString()
-				tS = decimalFormat.format(-t*100);
+				tS = decimalFormat.format(t*100);
 			}
 
 			tempMap.put("arrow", type);
@@ -169,7 +178,15 @@ public class IndiSearchAppController {
 		}
 
 		Map dataMap = new HashMap();
-		dataMap.put("trend", paramList.subList(0, 5));
+		if(paramList.size()>5)
+		{
+			dataMap.put("trend", paramList.subList(0, 5));
+		}
+		else
+		{
+			dataMap.put("trend", paramList);
+		}
+		
 
 		map.put("errCode", "0");
 		map.put("errMsg", "success");
@@ -224,7 +241,7 @@ public class IndiSearchAppController {
 
 		// 获得指标的年季度范围
 		appIndiName = "地区生产总值";// 应从app获得
-		// source="湖北省统计局-";//指标来源
+		source="湖北省统计局-";//指标来源
 		// 记录历史搜索
 		int uid = 1;// 从session中获得
 		Date date = new Date();
@@ -232,6 +249,7 @@ public class IndiSearchAppController {
 		historySearch.setCreate_time(date);
 		historySearch.setUid(uid);
 		historySearch.setKeyword(appIndiName);
+		historySearch.setSource(source);
 		indiSearchService.addSearchHistory(historySearch);
 
 		Map fcMap = new HashMap();
