@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.IndiDetailService;
 import com.wuhan_data.app.service.PlateInfoService;
 import com.wuhan_data.app.showType.BarStackLineType;
 import com.wuhan_data.app.showType.BarStoreType;
 import com.wuhan_data.app.showType.BarType;
+import com.wuhan_data.app.showType.DoubleXaxisLineType;
 import com.wuhan_data.app.showType.LineAndBarType;
 import com.wuhan_data.app.showType.LineType;
 import com.wuhan_data.app.showType.PieType;
@@ -26,6 +28,7 @@ import com.wuhan_data.app.showType.RadarType;
 import com.wuhan_data.app.showType.pojo.BarEntity;
 import com.wuhan_data.app.showType.pojo.BarStackLineEntity;
 import com.wuhan_data.app.showType.pojo.BarStoreEntity;
+import com.wuhan_data.app.showType.pojo.DoubleXaxisLineEntity;
 import com.wuhan_data.app.showType.pojo.LineAndBarEntity;
 import com.wuhan_data.app.showType.pojo.LineEntity;
 import com.wuhan_data.app.showType.pojo.PieEntity;
@@ -488,7 +491,7 @@ public class PlateController {
 		@RequestMapping(value="ee",produces = "text/plain;charset=utf-8")
 		@ResponseBody
 			public String ee() {
-			int indexId=2; //从app获得栏目id
+			int indexId=13; //从app获得栏目id
 			Map cmap = new HashMap();
 			List<ColPlate> cpList = plateInfoService.getPlateInfo(indexId);//查询板块
 //			List<LineEntity> leList = new ArrayList<LineEntity>();
@@ -546,19 +549,26 @@ public class PlateController {
 					List<ColPlateIndi> indiList=plateInfoService.getIndiByPid(cpList.get(i).getPid());
 					String sTime="000000";
 					String eTime="999999";
-					
+					System.out.print("size:"+indiList.size());
 					for(int j=0;j<indiList.size();j++) {
 						Map map = new HashMap();
+						System.out.print(indiList.get(j));
+						
 						map.put("indi_code", indiList.get(j).getIndi_id());
 						map.put("time_point", indiList.get(j).getTime_point());
 						map.put("sjly", indiList.get(j).getSjly());
 						map.put("term", term);
-						
+						System.out.print("indi_code"+indiList.get(j).getIndi_id());
+						System.out.print("time_point"+indiList.get(j).getTime_point());
+						System.out.print("sjly"+indiList.get(j).getSjly());
+						System.out.print("term"+term);
 						//************************************
 //						map.put("freq_code","SS");
 						map.put("freq_code",OldFreq.get(k));
+						System.out.print("freq_code"+OldFreq.get(k));
 						List<String> timeSpan = plateInfoService.getDateCodeByFreq(map);
 						String maxTime=timeSpan.get(0).substring(0, 6);
+						System.out.println("what the error"+maxTime);
 						String minTime=timeSpan.get(timeSpan.size()-1).substring(0, 6);
 						if(sTime.compareTo(minTime)<0)
 							sTime=minTime;
@@ -763,7 +773,7 @@ public class PlateController {
 						List dataXX=new ArrayList();
 						List dataVV=new ArrayList();
 						List legend=new ArrayList();
-						LineType dxt = new LineType();	
+						DoubleXaxisLineType dxt = new DoubleXaxisLineType();	
 //						List<LineEntity> leList = new ArrayList<LineEntity>();
 					    for(int j=0;j<indiList.size();j++) {
 
@@ -792,7 +802,7 @@ public class PlateController {
 							
 						
 					}
-					LineEntity dxe=dxt.getOption(id,title,dataXX,legend,dataVV);
+					DoubleXaxisLineEntity dxe=dxt.getOption(id,title,dataXX,legend,dataVV);
 //					leList.add(le);
 					TotalList.add(dxe);
 						
@@ -927,9 +937,9 @@ public class PlateController {
 			//获取相关指标
 			List<IndiCorrelative> icList = plateInfoService.getIndiCorrelative(indexId);
 			List listRelative= new ArrayList();
-			for(int i=0;i<cpList.size();i++) {
+//			for(int i=0;i<cpList.size();i++) {
 				
-				
+			for(int i=0;i<icList.size();i++) {	
 				Map map2 = new HashMap();
 				map2.put("indi_id", icList.get(i).getIndi_id());//存放相关指标的id
 				map2.put("indi_name", icList.get(i).getIndi_name());//存放相关指标的名称
@@ -941,7 +951,7 @@ public class PlateController {
 //			mapAll.put("classInfo", leList);//板块信息
 			mapAll.put("classInfo",TotalList);
 			mapAll.put("relatedData", listRelative);//相关指标信息
-			String  param= JSON.toJSONString(mapAll);
+			String  param= JSON.toJSONString(mapAll, SerializerFeature.DisableCircularReferenceDetect);
 			return param;
 		
 		
@@ -1317,9 +1327,6 @@ public class PlateController {
 			
 		}
 		
-	
-		
-	
 
 }
 
