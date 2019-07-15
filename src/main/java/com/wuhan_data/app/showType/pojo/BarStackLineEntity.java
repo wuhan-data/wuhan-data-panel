@@ -4,9 +4,9 @@ package com.wuhan_data.app.showType.pojo;
 public class BarStackLineEntity {
 	
 	String id;
-	String classTitle;
-	String classType;
-	String classHeight;
+	String classTitle="柱状堆叠折线图";
+	String classType="echarts";
+	String classHeight="500";
 	BarStackLineOptionEntity echartOption;
 	
 	public BarStackLineEntity() {
