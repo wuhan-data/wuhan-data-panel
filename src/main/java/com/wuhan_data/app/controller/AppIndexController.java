@@ -80,5 +80,27 @@ public class AppIndexController {
         return param;
     }
 	
+	
+
+	//首页
+		@RequestMapping(value="initHome",produces = "text/plain;charset=utf-8")
+		@ResponseBody
+	    public String initHome(){
+			Map map = new HashMap();
+			map.put("errCode", "0");
+			map.put("errMsg", "success");
+			List<IndexPic> slideshow = appIndexService.getlist();
+			List<AnalysisIcon> analysis = appIndexService.getIconList();
+			List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
+			Map map1 = new HashMap();
+			map1.put("slideshow", slideshow);
+			map1.put("analysis", analysis);
+			map1.put("topic", topic);
+			map.put("data", map1);
+	        String  param= JSON.toJSONString(map);        
+	        return param;
+	    }
+	
+	
 
 }
