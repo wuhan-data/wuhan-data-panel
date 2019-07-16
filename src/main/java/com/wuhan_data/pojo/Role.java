@@ -2,7 +2,7 @@ package com.wuhan_data.pojo;
 
 public class Role {
 	Integer id;
-	Integer role_code;
+	String role_code;
 	String  role_name;
 	String  role_description;
 	public Integer getId() {
@@ -11,10 +11,10 @@ public class Role {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getRole_code() {
+	public String getRole_code() {
 		return role_code;
 	}
-	public void setRole_code(Integer role_code) {
+	public void setRole_code(String role_code) {
 		this.role_code = role_code;
 	}
 	public String getRole_name() {

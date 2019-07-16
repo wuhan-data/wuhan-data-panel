@@ -3,11 +3,12 @@ package com.wuhan_data.service;
 import java.util.List;
 import java.util.Map;
 
-import com.wuhan_data.pojo.SysLog;;
+import com.wuhan_data.pojo.SysLog;
+import com.wuhan_data.pojo.User;;
 
 public interface SysLogService {
 
-	public int add(SysLog sysLog);
+	public int add(String userName,String operate,String method);
 	
 	public void delete(int id);
 	

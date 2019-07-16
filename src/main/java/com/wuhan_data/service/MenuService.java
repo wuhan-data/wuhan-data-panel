@@ -22,9 +22,9 @@ public interface MenuService {
 		
 		public List<MenuList> getMenu(String role_name);
 		 //精确查询
-		public List<Menu> searchByRole(Map<String, Object> parameter);
+		public List<Menu> searchByRole(String[] parameter);
 		
-		public List<Menu> searchByRoleGroupByOne(Map<String, Object> parameter);
+		public List<Menu> searchByRoleGroupByOne(String[] parameter);
 		
 		public List<Menu> searchByRoleAndLevel_one(Map<String, Object> parameter);
 }
