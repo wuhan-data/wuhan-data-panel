@@ -39,8 +39,7 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
-	@Autowired
-	SysLogService sysLogService;
+
 	@Autowired
 	MenuService menuService;
 	private static String adminname="";//用于模糊查询的名字
@@ -166,10 +165,7 @@ public class AdminController {
            mav.addObject("controlURL", "adminSearchPage");//控制页码传递URL
            mav.setViewName("admin");     
            
-           HttpSession session=request.getSession();
-           Admin adminLL=(Admin)session.getAttribute("user"); 
-       	   sysLogService.add(adminLL.getUsername(),"adminSearchByName","com.wuhan_data.controller.AdminController.adminSearchByName");
-           
+          
            return mav;
     }
 	@RequestMapping("adminSearchPage")
@@ -261,10 +257,7 @@ request.setCharacterEncoding("UTF-8");
     	maView.setViewName("admin");
     	
     	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"addAdmin","com.wuhan_data.controller.AdminController.addAdmin");
-        
+     
     	
     	return maView;
     }
@@ -308,9 +301,6 @@ request.setCharacterEncoding("UTF-8");
     	maView.setViewName("admin");
     	
     	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"editAdmin","com.wuhan_data.controller.AdminController.editAdmin");
         
     	
     	return maView;
@@ -346,11 +336,6 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("page", page); 
     	maView.setViewName("admin");
     	
-    	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"deleteAdmin","com.wuhan_data.controller.AdminController.deleteAdmin");
-        
     	
     	return maView;
     }
@@ -376,7 +361,6 @@ request.setCharacterEncoding("UTF-8");
     		HttpSession session=request.getSession();
     		Admin adminLL=adminService.getByName(username) ;
     		session.setAttribute("user", adminLL);
-  			sysLogService.add(adminLL.getUsername(),"Login","com.wuhan_data.controller.UserController.login");
   			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
   			session.setAttribute("menuList",menuList);
 		}
