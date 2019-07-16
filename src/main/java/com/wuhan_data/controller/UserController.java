@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.wuhan_data.tools.MenuList;
 import com.wuhan_data.tools.Page;
+import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.AnalysisManage;
 import com.wuhan_data.pojo.Department;
 import com.wuhan_data.pojo.Role;
@@ -29,7 +32,7 @@ import com.wuhan_data.service.UserService;
 import com.wuhan_data.service.DepartmentService;
 import com.wuhan_data.service.MenuService;
 import com.wuhan_data.service.RoleService;
-import com.wuhan_data.service.SysLogService;;
+import com.wuhan_data.service.SysLogService;
 @Controller
 @RequestMapping("")
 public class UserController {
@@ -62,8 +65,8 @@ public class UserController {
     @RequestMapping("userInit")
     public ModelAndView userInit(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {
-//    	request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         
     	ModelAndView maView=new ModelAndView();
     	Page page=new Page();
@@ -98,8 +101,8 @@ public class UserController {
     @RequestMapping("userSelectAnalysisListByPage") 
     public ModelAndView selectAnalysisListByPage(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {
-//    	request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         
     	ModelAndView maView=new ModelAndView();
     	Page page=new Page();
@@ -135,7 +138,7 @@ public class UserController {
     @RequestMapping("userSearchByName")
     public ModelAndView userSearchByName(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	response.setCharacterEncoding("UTF-8");
+    	response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
     	username = java.net.URLDecoder.decode(request.getParameter("username"),"UTF-8");
     	System.out.println("username"+username);
@@ -165,6 +168,11 @@ public class UserController {
            mav.addObject("userListByPage", userListByPage);  
            mav.addObject("page", page);
            mav.addObject("controlURL", "userSearchPage");//控制页码传递URL
+           
+           HttpSession session=request.getSession();
+           Admin adminLL=(Admin)session.getAttribute("user");  
+       	   sysLogService.add(adminLL.getUsername(),"userSearchByName","com.wuhan_data.controller.UserController.userSearchByName");
+           
            mav.setViewName("user");           
            return mav;
     	
@@ -172,8 +180,8 @@ public class UserController {
     @RequestMapping("userSearchPage")
     public ModelAndView searchPage(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
 //    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
     	System.out.println("username"+username);
@@ -211,8 +219,8 @@ public class UserController {
     @RequestMapping("addUser")
     public ModelAndView addUser(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
 //    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
  //   	System.out.println("theme_name"+theme_name);
@@ -221,16 +229,32 @@ public class UserController {
 		/* user.setId(Integer.valueOf(request.getParameter("addUserId"))); */
     	user.setUsername(request.getParameter("addUserName"));
     	user.setPassword(request.getParameter("addUserPassword"));
-    	user.setRole_id(Integer.valueOf(request.getParameter("roleListSelect")));
-    	user.setDepartment_id(Integer.valueOf(request.getParameter("departmentListSelect")));
-    	user.setStatus("1");
-    	user.setGender(0);
-    	user.setTel("1");
-    	user.setReal_name("1");
-    	user.setRole_list("1");
-    	user.setReal_name("1");
+    	user.setRole_id(request.getParameter("roleListSelect"));
+    	user.setDepartment_id(request.getParameter("departmentListSelect"));
+    	user.setStatus("0");
+    	String genderString=request.getParameter("genderSelect");
+    	if (genderString.equals("男"))
+    		user.setGender(0);//男0女1
+    	else {
+			user.setGender(1);
+		}
+    	user.setTel(request.getParameter("addUserTel"));
+    	user.setReal_name(request.getParameter("addUserReal_name"));
+    	user.setRole_list(request.getParameter("addUserRole_list"));
     	user.setRole_name("1");
     	user.setCreate_time(new Date());
+    	try {
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    	Date birthday=formatter.parse(request.getParameter("addBirthday"));
+    	System.out.println("birthday"+birthday);
+    	user.setBirthday(birthday);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	user.setCity(request.getParameter("addCity"));
+    	
+    	
     	userService.add(user);
     	
     	Page page=new Page();
@@ -256,6 +280,11 @@ public class UserController {
         maView.addObject("userListByPage", userListByPage);
         maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
+        
+        HttpSession session=request.getSession();
+        Admin adminLL=(Admin)session.getAttribute("user"); 
+    	sysLogService.add(adminLL.getUsername(),"addUser","com.wuhan_data.controller.UserController.addUser");
+        
     	maView.setViewName("user");
     	return maView;
     }
@@ -266,14 +295,41 @@ public class UserController {
     public ModelAndView editUser(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
     	System.out.println("进入方法--------------");
-//    	request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
 //    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");   	
 //    	String theme_name="%"+search+"%";
     	User user=new User();
     	user.setId(Integer.parseInt(request.getParameter("editUserID")));
+    	user.setUsername(request.getParameter("editUserName"));
     	user.setPassword(request.getParameter("editUserPassword"));
+    	user.setRole_id(request.getParameter("editroleListSelect"));
+    	user.setDepartment_id(request.getParameter("editdepartmentListSelect"));
+    	user.setStatus(request.getParameter("editstatus"));
+    	String genderString=request.getParameter("editgenderSelect");
+    	if (genderString.equals("男"))
+    		user.setGender(0);//男0女1
+    	else {
+			user.setGender(1);
+		}
+    	user.setTel(request.getParameter("editUserTel"));
+    	user.setReal_name(request.getParameter("editUserReal_name"));
+    	user.setRole_list(request.getParameter("editUserRole_list"));
+    	user.setRole_name("1");
+    	
+    	try {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        	Date birthday=formatter.parse(request.getParameter("editBirthday"));
+        	user.setBirthday(birthday);
+    		} catch (Exception e) {
+    			// TODO: handle exception
+    			e.printStackTrace();
+    		}
+        	user.setCity(request.getParameter("editCity"));
+    	
+    	
+    	System.out.println(user.toString());
     	userService.updata(user);
     	Page page=new Page();
     	int count=userService.count();
@@ -299,6 +355,11 @@ public class UserController {
         maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("user");
+    	
+    	 HttpSession session=request.getSession();
+    	 Admin adminLL=(Admin)session.getAttribute("user");  
+     	sysLogService.add(adminLL.getUsername(),"editUser","com.wuhan_data.controller.UserController.editUser");
+    	
     	return maView;
     }
     
@@ -335,6 +396,11 @@ public class UserController {
         maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("user");
+    	
+    	HttpSession session=request.getSession();
+    	Admin adminLL=(Admin)session.getAttribute("user"); 
+     	sysLogService.add(adminLL.getUsername(),"deleteUser","com.wuhan_data.controller.UserController.deleteUser");
+    	
     	return maView;
     }
     
@@ -373,27 +439,33 @@ public class UserController {
   	}
   	
   	//登录验证
-  	@RequestMapping("loginUser")
+  	@RequestMapping("login1")
   	public String  login(@RequestParam("username") String username,
-  			@RequestParam("password") String password,Model model){
+  			@RequestParam("password") String password,Model model,HttpServletRequest request, 
+            HttpServletResponse response)throws IOException{
   		User user = new User();
-  		user.setUsername(username);
+  		String username1 = null;
+  		try {
+			username1 = new String(username.getBytes("iso-8859-1"),"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+  		user.setUsername(username1);
   		user.setPassword(password);
-  		System.out.println("用户输入username:"+username);
+  		System.out.println("用户输入username:"+username1);
   		System.out.println("用户输入password:"+password);
   		if(userService.logincheck(user) != null){
-  			model.addAttribute("error",username);
+  			model.addAttribute("error",username1);
   			//日志
-  			SysLog  sysLog=new SysLog();
+  			HttpSession session=request.getSession();
   			User newUser=userService.getByName(user.getUsername());
-  			sysLog.setOperate_user_id(newUser.getId());
-  			sysLog.setOperate("Login");
-  			sysLog.setMethod("com.wuhan_data.controller.UserController.login");
-  			sysLog.setCreate_time(new Date());
-  			sysLogService.add(sysLog);
+  			session.setAttribute("user", newUser);
+  			sysLogService.add(newUser.getUsername(),"Login","com.wuhan_data.controller.UserController.login");
   			//菜单生成
-  			List<MenuList> menuList=menuService.getMenu(newUser.getRole_name());
-  			System.out.println(menuList);
+  			System.out.println("role_list="+newUser.getRole_list());
+  			List<MenuList> menuList=menuService.getMenu(newUser.getRole_list());
+  			session.setAttribute("menuList",menuList);
   			
   			return "index";
   		}

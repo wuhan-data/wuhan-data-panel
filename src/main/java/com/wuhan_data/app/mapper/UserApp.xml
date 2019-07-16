@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.UserMapperApp">
+        <insert id="add" parameterType="User" >
+            insert into WUHAN_DATA.USER ( username,password,status,gender,tel,real_name,role_list,role_name,create_time,role_id,department_id,birthday,city,head,description ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id},#{birthday},#{city},#{head},#{description})   
+        </insert>
+         
+        <delete id="delete" parameterType="User" >
+            delete from WUHAN_DATA.USER where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="User">
+            select * from   WUHAN_DATA.USER  where id= #{id}   
+        </select>
+        
+        <select id="getByName" parameterType="String" resultType="User">
+            select * from   WUHAN_DATA.USER  where username= #{username}   
+        </select>
+        <select id="getByTel" parameterType="String" resultType="User">
+            select * from   WUHAN_DATA.USER  where tel= #{tel}   
+        </select>
+        
+        <select id="getByRole" parameterType="_int" resultType="User">
+            select * from   WUHAN_DATA.USER  where role_id= #{role_id}   
+        </select>
+        
+        <update id="update" parameterType="User" >
+            update WUHAN_DATA.USER set  username= #{username}, password=#{password} , status=#{status},gender=#{gender},
+            tel=#{tel},real_name=#{real_name},role_list=#{role_list},role_name=#{role_name},
+            role_id=#{role_id},department_id=#{department_id},birthday=#{birthday},city=#{city},head=#{head},description=#{description}
+             where id=#{id}   
+        </update>
+        
+        <update id="updatePasswordByTel" parameterType="User" >
+            update WUHAN_DATA.USER set   password=#{password}  where tel=#{tel}   
+        </update>
+        <update id="updatePasswordById" parameterType="User" >
+            update WUHAN_DATA.USER set   password=#{password}  where id=#{id}   
+        </update>
+        
+        <update id="updateTelById" parameterType="User" >
+            update WUHAN_DATA.USER set   tel=#{tel}  where id=#{id}   
+        </update>
+        
+        <update id="setHeadById" parameterType="java.util.Map" >
+            update WUHAN_DATA.USER set  head=#{head} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="User">
+            select * from WUHAN_DATA.USER     
+        </select> 
+        
+        <select id="count" resultType="int">
+        	select count(*) from WUHAN_DATA.USER  
+        </select>
+        
+		<!--模糊查询 -->
+		<select id="search" parameterType="java.util.Map" resultType="User">
+            select * from WUHAN_DATA.USER 
+            <where>
+            username like concat(concat('%',#{username}),'%')  
+            </where>
+             order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        
+        <!-- 模糊查询数量 -->
+        <select id="searchCount" resultType="int" parameterType="java.util.Map" >
+            select count(*) from WUHAN_DATA.USER where username like concat(concat('%',#{username}),'%')  
+        </select>
+        <!-- 列表，可分页 -->
+        <select id="listByPage" resultType="User" parameterType="java.util.Map">
+            select * from WUHAN_DATA.USER   order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select> 
+        
+        <!-- 后台用户登陆 -->
+        <select id="logincheck" parameterType="User" resultType="User">
+        	select * from WUHAN_DATA.USER where	username = #{username} AND password = #{password}
+   		</select>
+   		<select id="logincheckByTel" parameterType="User" resultType="User">
+        	select * from WUHAN_DATA.USER where	tel = #{tel} AND password = #{password}
+   		</select>
+   		<!-- 用户注册 -->
+   		<insert id="register" parameterType="User">
+			insert into WUHAN_DATA.USER (tel,password) values (#{tel},#{password})   
+		</insert>
+		<!-- 手机号是否存在 -->
+		<select id="telIsExist" resultType="int" parameterType="java.util.Map" >
+            select count(*) from WUHAN_DATA.USER where tel=#{tel}  
+        </select>
+
+    </mapper>

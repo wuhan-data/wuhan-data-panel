@@ -3,7 +3,7 @@ package com.wuhan_data.pojo;
 import java.util.Date;
 public class SysLog {
 	private Integer id;
-	private Integer operate_user_id;
+	private String operate_user_name;
 	private String operate;
 	private String method;
 	private Date create_time;
@@ -13,11 +13,12 @@ public class SysLog {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getOperate_user_id() {
-		return operate_user_id;
+
+	public String getOperate_user_name() {
+		return operate_user_name;
 	}
-	public void setOperate_user_id(Integer operate_user_id) {
-		this.operate_user_id = operate_user_id;
+	public void setOperate_user_name(String operate_user_name) {
+		this.operate_user_name = operate_user_name;
 	}
 	public String getOperate() {
 		return operate;
@@ -39,7 +40,7 @@ public class SysLog {
 	}
 	@Override
 	public String toString() {
-		return "SysLog [id=" + id + ", operate_user_id=" + operate_user_id + ", operate=" + operate + ", method=" + method
+		return "SysLog [id=" + id + ", operate_user_id=" + operate_user_name + ", operate=" + operate + ", method=" + method
 				+ ", create_time=" + create_time  + "]";
 	
 	}

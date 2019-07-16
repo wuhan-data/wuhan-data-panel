@@ -13,6 +13,8 @@ public interface RoleService {
 	
 	public Role get(int id);
 	
+	public Role getByName(String name);
+	
 	public int update(Role role);
 	
 	public List<Role> List();

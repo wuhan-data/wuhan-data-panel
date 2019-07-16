@@ -9,16 +9,19 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.Department;
 import com.wuhan_data.pojo.Role;
 import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.RoleService;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.tools.Page;
 
 @Controller
@@ -27,6 +30,8 @@ public class RoleController {
 	
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	SysLogService sysLogService;
 	private static String role_name="";//用于模糊查询的名字
 	@RequestMapping("listRole")
 	public ModelAndView listRole() {
@@ -40,9 +45,9 @@ public class RoleController {
 	}
 	@RequestMapping("roleInit")
 	public ModelAndView roleInit(HttpServletRequest request, 
-            HttpServletResponse response) throws UnsupportedEncodingException {
-//    	request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
+            HttpServletResponse response) throws Exception {
+    	request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         
     	ModelAndView maView=new ModelAndView();
     	Page page=new Page();
@@ -70,7 +75,7 @@ public class RoleController {
     }
 	@RequestMapping("roleListByPage")
 	public ModelAndView  roleListByPage(HttpServletRequest request, 
-            HttpServletResponse response) throws UnsupportedEncodingException {
+            HttpServletResponse response) throws Exception {
 		ModelAndView maView=new ModelAndView();
     	Page page=new Page();
     	
@@ -100,7 +105,7 @@ public class RoleController {
 	@RequestMapping("roleSearchByName")
     public ModelAndView roleSearchByName(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	response.setCharacterEncoding("UTF-8");
+    	response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
     	role_name = java.net.URLDecoder.decode(request.getParameter("role_name"),"UTF-8");
     	System.out.println("rolename"+role_name);
@@ -126,14 +131,21 @@ public class RoleController {
            mav.addObject("roleListByPage", roleListByPage);  
            mav.addObject("page", page);
            mav.addObject("controlURL", "roleSearchPage");//控制页码传递URL
-           mav.setViewName("role");           
+           mav.setViewName("role");   
+           
+
+	        HttpSession session=request.getSession();
+	        Admin adminLL=(Admin)session.getAttribute("user");  
+	    	sysLogService.add(adminLL.getUsername(),"roleSearchByName","com.wuhan_data.controller.RoleController.roleSearchByName");
+	        
+           
            return mav;
     }
 	@RequestMapping("roleSearchPage")
     public ModelAndView searchPage(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
     	   Page page=new Page(); //分页类
            Map<String,Object> mapSearch = new HashMap<String, Object>();
@@ -162,12 +174,12 @@ public class RoleController {
 	@RequestMapping("addRole")
 	public ModelAndView addRole(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
     	Role role=new Role();
 		/* user.setId(Integer.valueOf(request.getParameter("addUserId"))); */
-    	role.setRole_code(Integer.valueOf(request.getParameter("addRoleCode")));
+    	role.setRole_code(request.getParameter("addRoleCode"));
     	role.setRole_name(request.getParameter("addRoleName"));
     	role.setRole_description(request.getParameter("addRoleDescription"));
     	roleService.add(role);
@@ -191,6 +203,12 @@ public class RoleController {
         maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("role");
+    	
+    	HttpSession session=request.getSession();
+    	Admin adminLL=(Admin)session.getAttribute("user"); 
+	    sysLogService.add(adminLL.getUsername(),"addRole","com.wuhan_data.controller.RoleController.addRole");
+	        
+    	
     	return maView;
     }
 	//delete role
@@ -220,19 +238,25 @@ public class RoleController {
         maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("role");
+    	
+    	HttpSession session=request.getSession();
+    	Admin adminLL=(Admin)session.getAttribute("user");  
+	    sysLogService.add(adminLL.getUsername(),"deteleRole","com.wuhan_data.controller.RoleController.deteleRole");
+	      
+    	
     	return maView;
     }
 	//edit role
 	@RequestMapping("editRole")
     public ModelAndView editRole(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
     	Role role=new Role();
 		/* user.setId(Integer.valueOf(request.getParameter("addUserId"))); */
     	role.setId(Integer.valueOf(request.getParameter("editRoleID")));
-    	role.setRole_code(Integer.valueOf(request.getParameter("editRoleCode")));
+    	role.setRole_code(request.getParameter("editRoleCode"));
     	role.setRole_name(request.getParameter("editRoleName"));
     	role.setRole_description(request.getParameter("editRoleDescription"));
     	System.out.println(role.toString());
@@ -257,6 +281,12 @@ public class RoleController {
         maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("role");
+    	
+    	HttpSession session=request.getSession();
+    	Admin adminLL=(Admin)session.getAttribute("user");  
+	    sysLogService.add(adminLL.getUsername(),"editRole","com.wuhan_data.controller.RoleController.editRole");
+	      
+    	
     	return maView;
     }
     
