@@ -1,5 +1,6 @@
 package com.wuhan_data.pojo;
 
+
 public class AnalysisIcon {
 	int id;
 	int iconWeight;
