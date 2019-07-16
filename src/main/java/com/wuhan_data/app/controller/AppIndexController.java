@@ -1,6 +1,8 @@
 package com.wuhan_data.app.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,24 +85,45 @@ public class AppIndexController {
 	
 
 	//首页
-		@RequestMapping(value="initHome",produces = "text/plain;charset=utf-8")
-		@ResponseBody
-	    public String initHome(){
-			Map map = new HashMap();
-			map.put("errCode", "0");
-			map.put("errMsg", "success");
-			List<IndexPic> slideshow = appIndexService.getlist();
-			List<AnalysisIcon> analysis = appIndexService.getIconList();
-			List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
-			Map map1 = new HashMap();
-			map1.put("slideshow", slideshow);
-			map1.put("analysis", analysis);
-			map1.put("topic", topic);
-			map.put("data", map1);
-	        String  param= JSON.toJSONString(map);        
-	        return param;
-	    }
-	
-	
+	@RequestMapping(value="initHome",produces = "text/plain;charset=utf-8")
+	@ResponseBody
+    public String initHome(HttpServletRequest request, 
+            HttpServletResponse response) throws UnknownHostException{
+		Map map = new HashMap();
+		map.put("errCode", "0");
+		map.put("errMsg", "success");
+		String ip = InetAddress.getLocalHost().getHostAddress()+":"+request.getLocalPort();
+		List<IndexPic> slideshow = appIndexService.getlist();
+		for(int i=0;i<slideshow.size();i++) {
+			String hostIP = slideshow.get(i).getUrl();
+			hostIP = hostIP.replace("http://","");//去除http和https前缀
+			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
+			hostIP = arr[0];
+			slideshow.get(i).setUrl(slideshow.get(i).getUrl().replace(hostIP, ip));
+		}
+		List<AnalysisIcon> analysis = appIndexService.getIconList();
+		for(int i=0;i<analysis.size();i++) {
+			String hostIP = analysis.get(i).getIconUrl();
+			hostIP = hostIP.replace("http://","");//去除http和https前缀
+			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
+			hostIP = arr[0];
+			analysis.get(i).setIconUrl(analysis.get(i).getIconUrl().replace(hostIP, ip));
+		}
+		List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
+		for(int i=0;i<topic.size();i++) {
+			String hostIP = topic.get(i).getTopicImageUrl();
+			hostIP = hostIP.replace("http://","");//去除http和https前缀
+			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
+			hostIP = arr[0];
+			topic.get(i).setTopicImageUrl(topic.get(i).getTopicImageUrl().replace(hostIP, ip));
+		}
+		Map map1 = new HashMap();
+		map1.put("slideshow", slideshow);
+		map1.put("analysis", analysis);
+		map1.put("topic", topic);
+		map.put("data", map1);
+        String  param= JSON.toJSONString(map);        
+        return param;
+    }
 
 }
