@@ -7,8 +7,18 @@ public class Collect {
 	Integer id;//收藏id
 	Integer uid;//用户id
 	String type;//收藏的类型 analysis/index
-	Integer index_id;//指标数据id
+	String index_id;//指标数据id
 	Date create_time;//收藏时间
+	String indi_source;//指标来源
+	public String getIndi_source() {
+		return indi_source;
+	}
+	public void setIndi_source(String indi_source) {
+		this.indi_source = indi_source;
+	}
+	public void setIndex_id(String index_id) {
+		this.index_id = index_id;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -27,23 +37,14 @@ public class Collect {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Integer getIndex_id() {
-		return index_id;
-	}
-	public void setIndex_id(Integer index_id) {
-		this.index_id = index_id;
-	}
+	
 	public Date getCreate_time() {
 		return create_time;
 	}
 	public void setCreate_time(Date create_time) {
 		this.create_time = create_time;
 	}
-	@Override
-	public String toString() {
-		return "Collect [id=" + id + ", uid=" + uid + ", type=" + type + ", index_id=" + index_id + ", create_time="
-				+ create_time + "]";
-	}
+	
 	
 
 }
