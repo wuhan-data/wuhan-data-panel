@@ -56,7 +56,7 @@ public class IndiSearchAppController {
 
 	String source = "统计局数据库-国研网";// 搜索来源
 
-	@RequestMapping(value = "searchsource", produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String searchSource() {
 
