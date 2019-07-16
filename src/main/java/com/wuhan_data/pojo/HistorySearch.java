@@ -8,6 +8,7 @@ public class HistorySearch {
 	Integer uid;//用户id
 	String keyword;//搜索关键字
 	Date create_time;//创建时间
+	String source;//搜索的来源
 	public Integer getId() {
 		return id;
 	}
@@ -31,6 +32,14 @@ public class HistorySearch {
 	}
 	public void setCreate_time(Date create_time) {
 		this.create_time = create_time;
+	}
+	
+	
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
 	}
 	@Override
 	public String toString() {
