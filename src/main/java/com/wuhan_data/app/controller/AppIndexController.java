@@ -95,27 +95,27 @@ public class AppIndexController {
 		String ip = InetAddress.getLocalHost().getHostAddress()+":"+request.getLocalPort();
 		List<IndexPic> slideshow = appIndexService.getlist();
 		for(int i=0;i<slideshow.size();i++) {
-			String hostIP = slideshow.get(i).getUrl();
+			String hostIP = slideshow.get(i).getImage();
 			hostIP = hostIP.replace("http://","");//去除http和https前缀
 			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
 			hostIP = arr[0];
-			slideshow.get(i).setUrl(slideshow.get(i).getUrl().replace(hostIP, ip));
+			slideshow.get(i).setImage(slideshow.get(i).getImage().replace(hostIP, ip));
 		}
 		List<AnalysisIcon> analysis = appIndexService.getIconList();
 		for(int i=0;i<analysis.size();i++) {
-			String hostIP = analysis.get(i).getIconUrl();
+			String hostIP = analysis.get(i).getIcon_url();
 			hostIP = hostIP.replace("http://","");//去除http和https前缀
 			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
 			hostIP = arr[0];
-			analysis.get(i).setIconUrl(analysis.get(i).getIconUrl().replace(hostIP, ip));
+			analysis.get(i).setIcon_url(analysis.get(i).getIcon_url().replace(hostIP, ip));
 		}
 		List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
 		for(int i=0;i<topic.size();i++) {
-			String hostIP = topic.get(i).getTopicImageUrl();
+			String hostIP = topic.get(i).getImage();
 			hostIP = hostIP.replace("http://","");//去除http和https前缀
 			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
 			hostIP = arr[0];
-			topic.get(i).setTopicImageUrl(topic.get(i).getTopicImageUrl().replace(hostIP, ip));
+			topic.get(i).setImage(topic.get(i).getImage().replace(hostIP, ip));
 		}
 		Map map1 = new HashMap();
 		map1.put("slideshow", slideshow);
