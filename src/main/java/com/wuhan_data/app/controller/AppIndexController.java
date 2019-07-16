@@ -99,7 +99,7 @@ public class AppIndexController {
 			hostIP = hostIP.replace("http://","");//去除http和https前缀
 			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
 			hostIP = arr[0];
-			slideshow.get(i).setImage(slideshow.get(i).getImage().replace(hostIP, ip));
+			slideshow.get(i).setImage(slideshow.get(i).getImage().replace(hostIP,ip));
 		}
 		List<AnalysisIcon> analysis = appIndexService.getIconList();
 		for(int i=0;i<analysis.size();i++) {
