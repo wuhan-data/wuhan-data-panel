@@ -3,26 +3,27 @@ package com.wuhan_data.pojo;
 public class IndexSpecial {
 	
 	String id;
-	String topicName;
-	String topicImageUrl;
+	String title;
+	String image;
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getTopicName() {
-		return topicName;
+	public String getTitle() {
+		return title;
 	}
-	public void setTopicName(String topicName) {
-		this.topicName = topicName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getTopicImageUrl() {
-		return topicImageUrl;
+	public String getImage() {
+		return image;
 	}
-	public void setTopicImageUrl(String topicImageUrl) {
-		this.topicImageUrl = topicImageUrl;
+	public void setImage(String image) {
+		this.image = image;
 	}
+
 	
 
 }

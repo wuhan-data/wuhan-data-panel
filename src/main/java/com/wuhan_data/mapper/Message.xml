@@ -5,14 +5,14 @@
  
     <mapper namespace="com.wuhan_data.mapper.MessageMapper">
         <insert id="add" parameterType="Message" >
-            insert into WUHAN_DATA.Message (sender_name,receiver_name,url,create_time,title,remarks,is_read) values (#{sender_name},#{receiver_name},#{url},#{create_time},#{title},#{remarks},#{is_read})   
+            insert into WUHAN_DATA.Message (sender_id,receiver_id,url,create_time,title,remarks,is_read) values (#{sender_id},#{receiver_id},#{url},#{create_time},#{title},#{remarks},#{is_read})   
         </insert>
          
          <insert id="addByRole" parameterType="java.util.ArrayList" >
-            insert into WUHAN_DATA.Message (sender_name,receiver_name,url,create_time,title,remarks,is_read) 
+            insert into WUHAN_DATA.Message (sender_id,receiver_id,url,create_time,title,remarks,is_read) 
             values 
             <foreach collection="list" item="item" index="index" separator=","> 
-        	(#{item.sender_name},#{item.receiver_name},#{item.url}, #{item.create_time},#{item.title},#{item.remarks},#{item.is_read}) 
+        	(#{item.sender_id},#{item.receiver_id},#{item.url}, #{item.create_time},#{item.title},#{item.remarks},#{item.is_read}) 
     		</foreach>  
         </insert>
         
@@ -25,7 +25,7 @@
         </select>
  
         <update id="update" parameterType="Message" >
-            update WUHAN_DATA.Message set url=#{url},receiver_name=#{receiver_name},title=#{title},remarks=#{remarks},is_read=#{is_read} where id=#{id}   
+            update WUHAN_DATA.Message set url=#{url},receiver_id=#{receiver_id},title=#{title},remarks=#{remarks},is_read=#{is_read} where id=#{id}   
         </update>
         
         <select id="list" resultType="Message">

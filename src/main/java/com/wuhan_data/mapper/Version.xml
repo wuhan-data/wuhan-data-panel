@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.VersionMapper">
+        <insert id="add" parameterType="Version" >
+            insert into WUHAN_DATA.Version (appid,platform,version,text,url,create_time)values (#{appid},#{platform},#{version},#{text},#{url},#{create_time})
+        </insert>
+         
+        <delete id="delete" parameterType="Version" >
+            delete from WUHAN_DATA.Version where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="Version">
+            select * from   WUHAN_DATA.Version  where id= #{id}   
+        </select>
+ 
+        <update id="update" parameterType="Version" >
+            update WUHAN_DATA.Version set appid=#{appid}, platform=#{platform} , version=#{version}, text=#{text}, url=#{url}, create_time=#{create_time}   where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Version">
+            select * from WUHAN_DATA.Version    
+        </select>   
+        <select id="count" resultType="int">
+        	select count(*) from WUHAN_DATA.Version  
+        </select>
+        <!-- 列表，可分页 -->
+        <select id="listByPage" resultType="Version" parameterType="java.util.Map">
+        	select * from WUHAN_DATA.Version   order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        <!--模糊查询 -->
+		<select id="search" parameterType="java.util.Map" resultType="Version">
+            select * from WUHAN_DATA.Version 
+            <where>
+            version like concat(concat('%',#{version}),'%')  
+            </where>
+             order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        <!-- 模糊查询数量 -->
+        <select id="searchCount" resultType="int" parameterType="java.util.Map" >
+            select count(*) from WUHAN_DATA.Version where version like concat(concat('%',#{version}),'%')  
+        </select>
+         
+    </mapper>

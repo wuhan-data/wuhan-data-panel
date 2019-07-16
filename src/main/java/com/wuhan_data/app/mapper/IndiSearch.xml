@@ -7,29 +7,37 @@
        
 <!--          获得搜索的所有指标来源 -->
         <select id="searchSource" resultType="String">
-            select source from INDEX_LIST group by source   
+            select source from   WUHAN_DATA."INDEX_LIST"  group by source   
         </select>
         
 <!--         获得该用户的历史搜索 -->
  		  <select id="getHistorySearch" parameterType="_int" resultType="HistorySearch">
-            select * from HISTORY_SEARCH where uid= #{uid} order by id DESC limit 5  
+            select * from   WUHAN_DATA."HISTORY_SEARCH"  where uid= #{uid} order by id DESC limit 5  
         </select>
       
-      <select id="searchIndi" resultType="String" parameterType="java.util.Map">
-            select indi_name from INDEX_MANAGE where indi_name like CONCAT('%',#{keyWord},'%') and source=#{source} 
+     
+      <select id="searchIndi" resultType="IndexManage" parameterType="java.util.Map">
+            select indi_code,indi_name,sjly from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and sjly=#{source} and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly
+        </select> 
+        
+         <select id="searchIndiAll" resultType="IndexManage" parameterType="String">
+            select indi_code,indi_name,sjly from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and (sjly='湖北指数-统一模板数据入库工具下湖北指数入库' or sjly='国家统计局-' or sjly='湖北省统计局-') and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly
         </select> 
         
 <!--        获得前十四天的搜索趋势 -->
 		 <select id="getTrendList" resultType="String" parameterType="String">
-            select keyword from HISTORY_SEARCH where  create_time &lt; #{nowDate} 
+            select keyword from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} 
         </select> 
          <select id="getTrendList1" resultType="String" parameterType="String">
-            select create_time from HISTORY_SEARCH where  create_time &lt; #{nowDate} 
+            select create_time from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} 
         </select> 
         
+         <select id="getTrendSource" resultType="String" parameterType="java.util.Map">
+            select source from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} and create_time &gt; #{beforeDate} and keyword=#{indi_name} group by source limit 1
+        </select> 
         
          <insert id="addSearchHistory" parameterType="HistorySearch" >
-            insert into HISTORY_SEARCH (uid,keyword,create_time) values (#{uid},#{keyword},#{create_time})
+            insert into WUHAN_DATA."HISTORY_SEARCH"(uid,keyword,create_time,source)values (#{uid},#{keyword},#{create_time},#{source})
         </insert>
         
     </mapper>

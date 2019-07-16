@@ -5,36 +5,47 @@
  
     <mapper namespace="com.wuhan_data.mapper.MenuMapper">
         <insert id="add" parameterType="Menu" >
-        	insert into MENU (level_one,level_two,role_name,url,perm) values (#{level_one},#{level_two},#{role_name},#{url},#{perm}) 
+        	insert into WUHAN_DATA.Menu (level_one,level_two,role_name,url,perm) values (#{level_one},#{level_two},#{role_name},#{url},#{perm}) 
         </insert>
          
         <delete id="delete" parameterType="Menu" >
-            delete from MENU where id= #{id}  
+            delete from WUHAN_DATA.Menu where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Menu">
-            select * from  MENU  where id= #{id}   
+            select * from   WUHAN_DATA.Menu  where id= #{id}   
         </select>
  
         <update id="update" parameterType="Menu" >
-            update MENU set level_one=#{level_one} , level_two=#{level_two} , role_name=#{role_name} , url=#{url} ,perm=#{perm} where id=#{id}   
+            update WUHAN_DATA.Menu set level_one=#{level_one} , level_two=#{level_two} , role_name=#{role_name} , url=#{url} ,perm=#{perm} where id=#{id}   
         </update>
         
         <select id="list" resultType="Menu">
-            select * from MENU     
+            select * from WUHAN_DATA.Menu     
         </select>    
         
         <select id="count" resultType="int">
-        	select count(*) from MENU  
+        	select count(*) from WUHAN_DATA.Menu  
         </select>
         
-         <select id="searchByRole" parameterType="java.util.Map" resultType="Menu">
-        	select * from MENU  where role_name=#{role_name}
+         <select id="searchByRole" parameterType="java.util.ArrayList" resultType="Menu">
+        	select * from WUHAN_DATA.Menu  where role_name in 
+        	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+          		#{item}
+     		</foreach>
         </select>
-         <select id="searchByRoleGroupByOne" parameterType="java.util.Map" resultType="Menu">
-        	select * from MENU  where role_name=#{role_name}
+         <select id="searchByRoleGroupByOne" parameterType="java.util.ArrayList" resultType="Menu">
+        	select * from WUHAN_DATA.Menu  where role_name in  
+        	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+          		#{item}
+     		</foreach>
+        	group by level_one  ORDER BY id
         </select>
         <select id="searchByRoleAndLevel_one" parameterType="java.util.Map" resultType="Menu">
-        	select * from MENU  where role_name=#{role_name} and level_one=#{level_one}
+        	select * from WUHAN_DATA.Menu  where role_name=#{role_name} and level_one=#{level_one}
+        </select>
+        
+        <select id="getRole_nameBy" parameterType="java.util.Map" resultType="Menu">
+        	select * from WUHAN_DATA.Menu  where  level_two=#{level_two}
         </select>
     </mapper>

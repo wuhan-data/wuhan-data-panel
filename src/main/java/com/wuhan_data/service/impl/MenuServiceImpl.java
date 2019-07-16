@@ -27,12 +27,15 @@ public class MenuServiceImpl implements MenuService {
 	
 	  public List<MenuList> getMenu(String role_name) {
 		  // TODO Auto-generated method stub 
-	  this.role_name=role_name; Map<String,Object> map = new
-	  HashMap<String, Object>(); 
-	  map.put("role_name", role_name);
-	  listByRole=menuMapper.searchByRole(map);
-	  level_oneList=menuMapper.searchByRoleGroupByOne(map);
+	  this.role_name=role_name; 
+	  Map<String,Object> map = new HashMap<String, Object>(); 
 	  System.out.println("role_name"+role_name);
+	  map.put("role_name=", role_name);
+	  String [] arrayStrings=role_name.split(",");
+	  listByRole=menuMapper.searchByRole(arrayStrings);
+	  
+	  level_oneList=menuMapper.searchByRoleGroupByOne(arrayStrings);
+	  
 	  List<MenuList> menuLists=new ArrayList<MenuList>();
 	  for(int i=0;i<level_oneList.size();i++)
 	  {
@@ -89,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<Menu> searchByRoleGroupByOne(Map<String, Object> parameter) {
+	public List<Menu> searchByRoleGroupByOne(String[] parameter) {
 		// TODO Auto-generated method stub
 		return menuMapper.searchByRoleGroupByOne(parameter);
 	}
@@ -101,7 +104,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public List<Menu> searchByRole(Map<String, Object> parameter) {
+	public List<Menu> searchByRole(String[] parameter) {
 		// TODO Auto-generated method stub
 		return menuMapper.searchByRole(parameter);
 	}
