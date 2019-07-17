@@ -21,7 +21,7 @@
         
         <!-- 根据时间、频度、获取相应指标信息 -->
        <select id="getIndiInfoByTime" resultType="com.wuhan_data.pojo.indi_TF" parameterType="java.util.Map">
-          select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname,group1_name from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} order by date_code
+          select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname,group1_name from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} and freq_code=#{freq_code} order by date_code
 <!--                select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code <![CDATA[ <= ]]> #{endTime} and time_point=#{time_point} order by date_code -->
         </select> 
            

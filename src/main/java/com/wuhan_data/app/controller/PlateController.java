@@ -25,6 +25,7 @@ import com.wuhan_data.app.showType.LineType;
 import com.wuhan_data.app.showType.PieType;
 import com.wuhan_data.app.showType.PointType;
 import com.wuhan_data.app.showType.RadarType;
+import com.wuhan_data.app.showType.TableType;
 import com.wuhan_data.app.showType.pojo.BarEntity;
 import com.wuhan_data.app.showType.pojo.BarStackLineEntity;
 import com.wuhan_data.app.showType.pojo.BarStoreEntity;
@@ -34,6 +35,7 @@ import com.wuhan_data.app.showType.pojo.LineEntity;
 import com.wuhan_data.app.showType.pojo.PieEntity;
 import com.wuhan_data.app.showType.pojo.PointEntity;
 import com.wuhan_data.app.showType.pojo.RadarEntity;
+import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisManage;
 import com.wuhan_data.pojo.ColPlate;
 import com.wuhan_data.pojo.ColPlateIndi;
@@ -492,16 +494,19 @@ public class PlateController {
 	
 	
 	//***********************************************************************//
-		@RequestMapping(value="ee",produces = "text/plain;charset=utf-8",method = RequestMethod.POST)
+//		@RequestMapping(value="ee",produces = "text/plain;charset=utf-8",method = RequestMethod.POST)
+	@RequestMapping(value="lanmuee",produces = "application/json;charset=utf-8")
 		@ResponseBody
-			public String ee(@RequestBody String json) {
-			JSONObject jsonObject=JSONObject.fromObject(json);
-			AnalysisManage analysisManage=(AnalysisManage)JSONObject.toBean(jsonObject, AnalysisManage.class);
+//			public String ee(@RequestBody String json) {
+		public String lanmuee() {
+//			JSONObject jsonObject=JSONObject.fromObject(json);
+//			AnalysisManage analysisManage=(AnalysisManage)JSONObject.toBean(jsonObject, AnalysisManage.class);
 //			
-			int indexId=analysisManage.getId();
-//			int indexId=13; //从app获得栏目id
+//			int indexId=analysisManage.getId();
+			int indexId=3; //从app获得栏目id
 			Map cmap = new HashMap();
 			List<ColPlate> cpList = plateInfoService.getPlateInfo(indexId);//查询板块
+			System.out.println("show_type"+cpList.get(0).getShow_type());
 //			List<LineEntity> leList = new ArrayList<LineEntity>();
 //			List<BarEntity> beList=new ArrayList<BarEntity>();
 			List TotalList=new ArrayList();
@@ -630,6 +635,7 @@ public class PlateController {
 						
 						cmap.put("startTime",s_time.get(i)+suffix);
 						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("freq_code",suffix);
 //						cmap.put("endTime","201804");
 						List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 						
@@ -649,9 +655,13 @@ public class PlateController {
 							
 						
 					}
+					TableType tableType=new TableType();
+					TableEntity tableEntity=tableType.getTable(id, title, dataXX, legend, dataVV);
 					LineEntity le=lt.getOption(id,title,dataXX,legend,dataVV);
 //					leList.add(le);
 					TotalList.add(le);
+					TotalList.add(tableType);
+					System.out.println("i am here");
 					}
 			
 					break;
@@ -667,6 +677,7 @@ public class PlateController {
 							cmap.put("time_point", indiList.get(j).getTime_point());
 							cmap.put("startTime",s_time.get(i)+suffix);
 							cmap.put("endTime",e_time.get(i)+suffix);
+							cmap.put("freq_code",suffix);
 							List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 //							
 							List dataX=new ArrayList();
@@ -702,6 +713,7 @@ public class PlateController {
 						cmap.put("time_point",indiList.get(0).getTime_point());
 						cmap.put("startTime",e_time.get(0)+suffix);
 						cmap.put("endTime",e_time.get(0)+suffix);
+						cmap.put("freq_code",suffix);
 						List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);
 						for(int m=0;m<indiInfoList.size();m++) {
 							dataV.add(indiInfoList.get(m).getIndi_value());
@@ -721,6 +733,7 @@ public class PlateController {
 							cmap.put("time_point", indiList.get(j).getTime_point());
 							cmap.put("startTime",s_time.get(i)+suffix);
 							cmap.put("endTime",e_time.get(i)+suffix);
+							cmap.put("freq_code",suffix);
 							List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 							List dataV=new ArrayList();
 							for(int m=0;m<indiInfoList.size();m++) {//循环指标列表
@@ -752,6 +765,7 @@ public class PlateController {
 							cmap.put("time_point", indiList.get(j).getTime_point());
 							cmap.put("startTime",s_time.get(i)+suffix);
 							cmap.put("endTime",e_time.get(i)+suffix);
+							cmap.put("freq_code",suffix);
 							List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 							String sType=plateInfoService.getIndiShowType(indiList.get(j).getIndi_id());
 							List dataX=new ArrayList();
@@ -791,6 +805,7 @@ public class PlateController {
 						
 						cmap.put("startTime",s_time.get(i)+suffix);
 						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("freq_code",suffix);
 //						cmap.put("endTime","201804");
 						List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 						
@@ -828,6 +843,7 @@ public class PlateController {
 							cmap.put("time_point", indiList.get(j).getTime_point());
 							cmap.put("startTime",s_time.get(i)+suffix);
 							cmap.put("endTime",e_time.get(i)+suffix);
+							cmap.put("freq_code",suffix);
 							List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 							String sType=plateInfoService.getIndiShowType(indiList.get(j).getIndi_id());
 							List dataX=new ArrayList();
@@ -867,6 +883,7 @@ public class PlateController {
 						
 						cmap.put("startTime",s_time.get(i)+suffix);
 						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("freq_code",suffix);
 //						cmap.put("endTime","201804");
 						List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 						
@@ -906,6 +923,7 @@ public class PlateController {
 							cmap.put("time_point", indiList.get(j).getTime_point());
 							cmap.put("startTime",s_time.get(i)+suffix);
 							cmap.put("endTime",e_time.get(i)+suffix);
+							cmap.put("freq_code",suffix);
 							List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);
 							List dataX=new ArrayList();
 							List dataV=new ArrayList();
