@@ -2,31 +2,20 @@ package com.wuhan_data.app.showType.pojo;
 
 import java.util.List;
 
-//表格
 public class TableEntity {
-	
 	String id;
 	String classTitle;
-	String classType="table";
+	String calssType="table";
 	String classHeight="300";
-	List<List<String>> tableBody;
-	
+	List tableBody;
 	public TableEntity() {
 		super();
 	}
-	public TableEntity(String id, String classTitle, List<List<String>> tableBody) {
-		super();
-		this.id = id;
-		this.classTitle = classTitle;
-		this.tableBody = tableBody;
-	}
-	public TableEntity(String id, String classTitle, String classType, String classHeight, List<List<String>> tableBody) {
-		super();
-		this.id = id;
-		this.classTitle = classTitle;
-		this.classType = classType;
-		this.classHeight = classHeight;
-		this.tableBody = tableBody;
+	public TableEntity(String id,String classTitle,List tableBody) {
+		this.id=id;
+		this.classTitle=classTitle;
+		this.tableBody=tableBody;
+		
 	}
 	public String getId() {
 		return id;
@@ -40,25 +29,18 @@ public class TableEntity {
 	public void setClassTitle(String classTitle) {
 		this.classTitle = classTitle;
 	}
-	public String getClassType() {
-		return classType;
+	public String getCalssType() {
+		return calssType;
 	}
-	public void setClassType(String classType) {
-		this.classType = classType;
+	public void setCalssType(String calssType) {
+		this.calssType = calssType;
 	}
-	public String getClassHeight() {
-		return classHeight;
-	}
-	public void setClassHeight(String classHeight) {
-		this.classHeight = classHeight;
-	}
-	public List<List<String>> getTableBody() {
+	public List getTableBody() {
 		return tableBody;
 	}
-	public void setTableBody(List<List<String>> tableBody) {
+	public void setTableBody(List tableBody) {
 		this.tableBody = tableBody;
 	}
-	
 	
 
 }
