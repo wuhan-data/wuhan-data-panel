@@ -18,4 +18,6 @@ public interface IndiDetailService {
 
 	String getIndiShowType(Map showMap);
 
+	String getIndiCode(String appIndiName);
+
 }

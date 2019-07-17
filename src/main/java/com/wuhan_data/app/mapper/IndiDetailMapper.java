@@ -18,5 +18,7 @@ public interface IndiDetailMapper {
 	void indiCollect(Collect collect);
 	@DataSource(value="dataSource_dm")
 	String getIndiShowType(Map showMap);
+	@DataSource(value="dataSource_dm")
+	String getIndiCode(String appIndiName);
 
 }

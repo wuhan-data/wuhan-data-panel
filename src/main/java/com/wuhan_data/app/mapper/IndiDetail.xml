@@ -54,5 +54,8 @@
         <select id="getIndiShowType" resultType="String" parameterType="java.util.Map" >
             select show_type from WUHAN_DATA."INDEX_MANAGE" where indi_name=#{appIndiName} and source=#{source}
         </select> 
+        <select id="getIndiCode" resultType="String" parameterType="String" >
+            select indi_code from WUHAN_DATA."INDEX_MANAGE" where indi_name=#{appIndiName} group by indi_code
+        </select> 
         
     </mapper>
