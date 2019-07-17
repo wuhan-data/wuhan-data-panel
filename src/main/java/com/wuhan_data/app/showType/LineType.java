@@ -55,7 +55,7 @@ public class LineType {
 			temList=dataV.get(i);
 			Map map2 = new HashMap();
 			map2.put("type", "value");
-			map2.put("name","value");
+			map2.put("name","y轴");
 			String max=(String) Collections.max(temList);
 			String min=(String) Collections.min(temList);
 //			double span=(Double.parseDouble(max)-Double.parseDouble(min))*1.2;
@@ -85,7 +85,7 @@ public class LineType {
 		     oe.setSeries(seriesList);
 
 		LineEntity le = new LineEntity(id, title, oe);		
-
+		
 		return le;
 	}
 
