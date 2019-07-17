@@ -1,6 +1,8 @@
 package com.wuhan_data.app.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,5 +82,48 @@ public class AppIndexController {
         return param;
     }
 	
+	
+
+	//首页
+	@RequestMapping(value="initHome",produces = "text/plain;charset=utf-8")
+	@ResponseBody
+    public String initHome(HttpServletRequest request, 
+            HttpServletResponse response) throws UnknownHostException{
+		Map map = new HashMap();
+		map.put("errCode", "0");
+		map.put("errMsg", "success");
+		String ip = InetAddress.getLocalHost().getHostAddress()+":"+request.getLocalPort();
+		List<IndexPic> slideshow = appIndexService.getlist();
+		for(int i=0;i<slideshow.size();i++) {
+			String hostIP = slideshow.get(i).getImage();
+			hostIP = hostIP.replace("http://","");//去除http和https前缀
+			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
+			hostIP = arr[0];
+			slideshow.get(i).setImage(slideshow.get(i).getImage().replace(hostIP,ip));
+		}
+		List<AnalysisIcon> analysis = appIndexService.getIconList();
+		for(int i=0;i<analysis.size();i++) {
+			String hostIP = analysis.get(i).getIcon_url();
+			hostIP = hostIP.replace("http://","");//去除http和https前缀
+			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
+			hostIP = arr[0];
+			analysis.get(i).setIcon_url(analysis.get(i).getIcon_url().replace(hostIP, ip));
+		}
+		List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
+		for(int i=0;i<topic.size();i++) {
+			String hostIP = topic.get(i).getImage();
+			hostIP = hostIP.replace("http://","");//去除http和https前缀
+			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
+			hostIP = arr[0];
+			topic.get(i).setImage(topic.get(i).getImage().replace(hostIP, ip));
+		}
+		Map map1 = new HashMap();
+		map1.put("slideshow", slideshow);
+		map1.put("analysis", analysis);
+		map1.put("topic", topic);
+		map.put("data", map1);
+        String  param= JSON.toJSONString(map);        
+        return param;
+    }
 
 }

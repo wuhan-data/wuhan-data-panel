@@ -21,7 +21,7 @@ public interface UserService {
 	  //
 	  public User getByName(String username);
 	  //通过角色，获得用户列表
-	  public List<User> getByRole(int role_id); 
+	  public List<User> getByRole(String role_id); 
 	  //模糊查询，可分组
 	  public List<User> search(Map<String,Object> parameter);
 	  //模糊查询数量
@@ -31,9 +31,9 @@ public interface UserService {
 	  
 	  
 
-	//登录验证
+	  //登录验证
 	  public User logincheck(User user);
-		//用户注册
+	  //用户注册
 	  public void regist(User user);
 
 

@@ -13,18 +13,50 @@ public class User {
     private String role_list;//权限列表
     private String role_name;//权限名称
     private Date create_time;//创建时间
-    private Integer role_id;
-    private Integer department_id;
-	public Integer getRole_id() {
+    private String role_id;
+    private String department_id;
+    private Date birthday;
+    private String city;
+    private String head;
+    private String description;
+    public String getHead() {
+		return head;
+	}
+	public void setHead(String head) {
+		this.head = head;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+    
+	
+	public String getRole_id() {
 		return role_id;
 	}
-	public void setRole_id(Integer role_id) {
+	public void setRole_id(String role_id) {
 		this.role_id = role_id;
 	}
-	public Integer getDepartment_id() {
+	public String getDepartment_id() {
 		return department_id;
 	}
-	public void setDepartment_id(Integer department_id) {
+	public void setDepartment_id(String department_id) {
 		this.department_id = department_id;
 	}
 	public Integer getId() {
@@ -91,7 +123,10 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", status=" + status
 				+ ", gender=" + gender + ", tel=" + tel + ", real_name=" + real_name + ", role_list=" + role_list
-				+ ", role_name=" + role_name + ", create_time=" + create_time + "]";
+				+ ", role_name=" + role_name + ", create_time=" + create_time + ", role_id=" + role_id
+				+ ", department_id=" + department_id + ", birthday=" + birthday + ", city=" + city + ", head=" + head
+				+ ", description=" + description + "]";
 	}
+	
     
 }

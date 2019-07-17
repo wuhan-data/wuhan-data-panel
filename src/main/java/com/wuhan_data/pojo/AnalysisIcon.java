@@ -1,22 +1,23 @@
 package com.wuhan_data.pojo;
 
+
 public class AnalysisIcon {
 	int id;
-	String iconweight;
+	int iconWeight;
 	String background;
-	String iconName;
-	String iconUrl;
+	String icon_name;
+	String icon_url;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getIconweight() {
-		return iconweight;
+	public int getIconWeight() {
+		return iconWeight;
 	}
-	public void setIconweight(String iconweight) {
-		this.iconweight = iconweight;
+	public void setIconweight(int iconWeight) {
+		this.iconWeight = iconWeight;
 	}
 	public String getBackground() {
 		return background;
@@ -24,18 +25,19 @@ public class AnalysisIcon {
 	public void setBackground(String background) {
 		this.background = background;
 	}
-	public String getIconName() {
-		return iconName;
+	public String getIcon_name() {
+		return icon_name;
 	}
-	public void setIconName(String iconName) {
-		this.iconName = iconName;
+	public void setIcon_name(String icon_name) {
+		this.icon_name = icon_name;
 	}
-	public String getIconUrl() {
-		return iconUrl;
+	public String getIcon_url() {
+		return icon_url;
 	}
-	public void setIconUrl(String iconUrl) {
-		this.iconUrl = iconUrl;
+	public void setIcon_url(String icon_url) {
+		this.icon_url = icon_url;
 	}
+	
 	
 	
 	

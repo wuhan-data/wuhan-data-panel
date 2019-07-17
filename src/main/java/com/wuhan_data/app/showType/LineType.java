@@ -72,7 +72,7 @@ public class LineType {
 		   oe.setyAxis(yAxis);
 		
 		   List<Map> seriesList=new ArrayList();
-		   for(int i=0;i<dataV.size();i++) {
+		   for(int i=0;i<legendData.size();i++) {
 			   List temList= new ArrayList();
 			   temList =  dataV.get(i);
 			   Map map3=new HashMap();

@@ -77,12 +77,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> getByRole(int role_id) {
+	public List<User> getByRole(String role_id) {
 		// TODO Auto-generated method stub
 		return userMapper.getByRole(role_id);
 	}
 	
-	
+
 	
 	
 	
