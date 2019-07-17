@@ -159,6 +159,8 @@ public class IndiSearchAppController {
 		while (i.hasNext()) {
 			Map tempMap = new TreeMap();
 			Map.Entry me = (Map.Entry) i.next();
+			String indexCode = indiDetailService.getIndiCode((String) me.getKey());
+			tempMap.put("indexId", indexCode);
 			tempMap.put("id", Integer.toString(index));
 			tempMap.put("name", me.getKey());
 			//获得搜索指标的来源
@@ -252,7 +254,8 @@ public class IndiSearchAppController {
 		List resultList = new ArrayList();
 		for (int i = 0; i < searchIndiList.size(); i++) {
 			Map teMap = new HashMap();
-			teMap.put("id", Integer.toString(i + 1));
+			String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
+			teMap.put("id", indexCode);
 			teMap.put("name", searchIndiList.get(i).getIndi_name());
 			switch(searchIndiList.get(i).getSjly())
 			{
@@ -279,21 +282,21 @@ public class IndiSearchAppController {
 
 	@RequestMapping(value = "searchDetail", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String indiDetail() {
+	public String indiDetail(@RequestBody String json) {
 
 		// 获得指标的年季度范围@RequestBody String json
-//		JSONObject jsonObject = JSONObject.fromObject(json);
-//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-//		System.out.println("json" + json);
-//
-//		String indexCode = mapget.get("indexCode").toString();
-		String indexCode = "2200309";
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+		System.out.println("json" + json);
+
+		String indexCode = mapget.get("indexId").toString();
+//		String indexCode = "2200309";
 		String appIndiName = indiDetailService.getIndexName(indexCode);
 		
-//		source = mapget.get("source").toString();
+		source = mapget.get("source").toString();
 		
 //		String appIndiName = "湖北PMI";// 应从app获得2200309
-		source="湖统";//指标来源
+//		source="湖统";//指标来源
 		String area_name = null;
 		switch(source)
 		{
@@ -347,6 +350,9 @@ public class IndiSearchAppController {
 			List<String> indiDateList = indiDetailService.indiDateByFreqName(ParaMap);
 			Collections.sort(indiDateList);
 			System.out.println("timeRange:" + indiDateList);
+			
+			
+			
 			timeMap.put("startArray", indiDateList);// 开始时间范围
 			timeMap.put("endArray", indiDateList);// 结束时间范围
 			if(i==0)
@@ -465,8 +471,20 @@ public class IndiSearchAppController {
 						dataList.add(tempList.get(j).getIndi_value());
 				}
 			}
-			
-			legendList.add(appIndiName);
+			String showName;
+			if(legendData1.get(i).equals("104"))
+			{
+				showName="本期";
+			}
+			else if(legendData1.get(i).equals("203"))
+			{
+				showName="自年初累计";
+			}
+			else
+			{
+				showName="其他";
+			}
+			legendList.add(appIndiName+"-"+showName);
 			data.add(dataList);
 			dataX.add(dateList);
 			if(legendData1.get(i).equals("104") || legendData1.get(i).equals("203") )
@@ -474,24 +492,24 @@ public class IndiSearchAppController {
 				// 创建柱状图
 				BarType barType = new BarType();// 柱状图
 				System.out.println("legendList长度:"+legendList.size());
-				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName, dataX, legendList, data);
+				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX, legendList, data);
 				classInfoList.add(barEntity);
-				System.out.println("yes or no:"+(barEntity.getEchartOption().getLegend().get("data")));
+				
 				// 创建表格
 				TableType tableType = new TableType();
-				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName, dataX, legendList, data);// 表格
-				
+				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName+"-"+showName, dataX, legendList, data);// 表格
+				System.out.println("yes or no:"+tableEntity.getTableBody());
 				classInfoList.add(tableEntity);
 			}
 			else{
 				//TODO 其他情况
 				// 创建折线图
 				LineType lineType = new LineType();
-				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName, dataX, legendList, data);
+				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX, legendList, data);
 	
 				// 创建表格
 				TableType tableType = new TableType();
-				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName, dataX, legendList, data);// 表格
+				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName+"-"+showName, dataX, legendList, data);// 表格
 				classInfoList.add(lineEntity);
 				classInfoList.add(tableEntity);
 				
@@ -523,7 +541,7 @@ public class IndiSearchAppController {
 		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
 		System.out.println("json" + json);
 
-		String indexCode = mapget.get("indexCode").toString();
+		String indexCode = mapget.get("indexId").toString();
 		source = mapget.get("source").toString();
 		
 		String appIndiName = indiDetailService.getIndexName(indexCode);
@@ -652,8 +670,20 @@ public class IndiSearchAppController {
 					dataList.add(tempList.get(j).getIndi_value());
 				}
 			}
-
-			legendList.add(appIndiName);
+			String showName;
+			if(legendData.get(i).equals("104"))
+			{
+				showName="本期";
+			}
+			else if(legendData.get(i).equals("203"))
+			{
+				showName="自年初累计";
+			}
+			else
+			{
+				showName="其他";
+			}
+			legendList.add(appIndiName+"-"+showName);
 			data.add(dataList);
 			dataX.add(dateList);
 			System.out.println("legendList"+legendList);
@@ -662,23 +692,23 @@ public class IndiSearchAppController {
 			if (legendData.get(i).equals("104") || legendData.get(i).equals("203")) {
 				// 创建柱状图
 				BarType barType = new BarType();// 柱状图
-				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName, dataX, legendList, data);
+				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX, legendList, data);
 				System.out.println("barEntity"+barEntity.getEchartOption().getSeries());
 				// 创建表格
 
 				TableType tableType = new TableType();
-				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName, dataX, legendList, data);// 表格
+				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName+"-"+showName, dataX, legendList, data);// 表格
 				classInfoList.add(barEntity);
 				classInfoList.add(tableEntity);
 			} else {
 				// TODO 其他情况
 				// 创建折线图
 				LineType lineType = new LineType();
-				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName, dataX, legendList, data);
+				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX, legendList, data);
 
 				// 创建表格
 				TableType tableType = new TableType();
-				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName, dataX, legendList, data);// 表格
+				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName+"-"+showName, dataX, legendList, data);// 表格
 				classInfoList.add(lineEntity);
 				classInfoList.add(tableEntity);
 

@@ -15,11 +15,13 @@ public interface IndiDetailMapper {
 	List<String> indiDateByFreqName(Map paraMap);
 	@DataSource(value="dataSource_mysql")
 	List<TPIndiValue> getIndiValue(Map<String, Object> map);
+	@DataSource(value="dataSource_dm")
 	void indiCollect(Collect collect);
 	@DataSource(value="dataSource_dm")
 	String getIndiShowType(Map showMap);
 	@DataSource(value="dataSource_dm")
 	String getIndiCode(String appIndiName);
+	@DataSource(value="dataSource_dm")
 	String getIndexName(String indexCode);
 
 }

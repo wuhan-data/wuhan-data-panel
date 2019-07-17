@@ -78,8 +78,8 @@ public class BarType {
 			    double maxL=(maxd)+space; 
 			    minL= (double) Math.round(minL * 100) / 100;
 			    maxL= (double) Math.round(maxL * 100) / 100;
-			    map21.put("min", minL);
-			    map21.put("max", maxL);
+//			    map21.put("min", minL);
+//			    map21.put("max", maxL);
 			    yAxis.add(map21);
 			   }
 			      oe.setyAxis(yAxis);
