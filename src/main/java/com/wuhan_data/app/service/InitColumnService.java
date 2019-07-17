@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.wuhan_data.pojo.AnalysisManage;
-import com.wuhan_data.pojo.ColCollection;
 import com.wuhan_data.pojo.Collect;
 
 public interface InitColumnService {
