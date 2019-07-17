@@ -351,10 +351,13 @@ public class IndiSearchAppController {
 			Collections.sort(indiDateList);
 			System.out.println("timeRange:" + indiDateList);
 			
-			
-			
-			timeMap.put("startArray", indiDateList);// 开始时间范围
-			timeMap.put("endArray", indiDateList);// 结束时间范围
+			List<String> newindiDateList = new ArrayList<String>();
+			for(int k=0;k<indiDateList.size();k++)
+			{
+				newindiDateList.add(indiDateList.get(k).substring(0, 4)+"/"+indiDateList.get(k).substring(4, 6));
+			}
+			timeMap.put("startArray", newindiDateList);// 开始时间范围
+			timeMap.put("endArray", newindiDateList);// 结束时间范围
 			if(i==0)
 			{
 				List currentList = new ArrayList();
@@ -460,14 +463,14 @@ public class IndiSearchAppController {
 			{
 				for (int j = 0; j < 8; j++) {//tempList.size()
 					
-					dateList.add(tempList.get(j).getDate_code().substring(0, 6));
+					dateList.add(tempList.get(j).getDate_code().substring(0, 4)+"/"+tempList.get(j).getDate_code().substring(4, 6));
 					dataList.add(tempList.get(j).getIndi_value());
 				}
 			}
 			else{
 					for (int j = 0; j < tempList.size(); j++) {//tempList.size()
 					
-						dateList.add(tempList.get(j).getDate_code().substring(0, 6));
+						dateList.add(tempList.get(j).getDate_code().substring(0, 4)+"/"+tempList.get(j).getDate_code().substring(4, 6));
 						dataList.add(tempList.get(j).getIndi_value());
 				}
 			}
@@ -566,6 +569,9 @@ public class IndiSearchAppController {
 		case "季度": freqCode="SS";break;
 		default : freqCode="YY";break;
 		}
+		
+		String newStartTime = startTime.substring(0,4)+startTime.substring(5,7)+freqCode;
+		String newEndTime = endTime.substring(0,4)+endTime.substring(5,7)+freqCode;
 //		appIndiName = "地区生产总值";// 应从app获得
 //		startTime = "199804SS";
 //		endTime = "201800SS";
@@ -614,8 +620,8 @@ public class IndiSearchAppController {
 		Map defaultMap = new HashMap();
 		defaultMap.put("appIndiName", appIndiName);
 		defaultMap.put("freqCode", freqCode);
-		defaultMap.put("startTime", startTime);
-		defaultMap.put("endTime", endTime);
+		defaultMap.put("startTime", newStartTime);
+		defaultMap.put("endTime", newEndTime);
 		defaultMap.put("source", source);
 		defaultMap.put("area_name", area_name);
 		List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValue(defaultMap);
@@ -660,13 +666,13 @@ public class IndiSearchAppController {
 			if (tempList.size() > 8) {
 				for (int j = 0; j < 8; j++) {// tempList.size()
 
-					dateList.add(tempList.get(j).getDate_code().substring(0, 6));
+					dateList.add(tempList.get(j).getDate_code().substring(0, 4)+"/"+tempList.get(j).getDate_code().substring(4, 6));
 					dataList.add(tempList.get(j).getIndi_value());
 				}
 			} else {
 				for (int j = 0; j < tempList.size(); j++) {// tempList.size()
 
-					dateList.add(tempList.get(j).getDate_code().substring(0, 6));
+					dateList.add(tempList.get(j).getDate_code().substring(0, 4)+"/"+tempList.get(j).getDate_code().substring(4, 6));
 					dataList.add(tempList.get(j).getIndi_value());
 				}
 			}
