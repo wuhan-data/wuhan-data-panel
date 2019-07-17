@@ -20,4 +20,6 @@ public interface IndiDetailService {
 
 	String getIndiCode(String appIndiName);
 
+	String getIndexName(String indexCode);
+
 }

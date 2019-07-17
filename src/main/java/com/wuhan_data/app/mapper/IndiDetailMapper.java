@@ -20,5 +20,6 @@ public interface IndiDetailMapper {
 	String getIndiShowType(Map showMap);
 	@DataSource(value="dataSource_dm")
 	String getIndiCode(String appIndiName);
+	String getIndexName(String indexCode);
 
 }

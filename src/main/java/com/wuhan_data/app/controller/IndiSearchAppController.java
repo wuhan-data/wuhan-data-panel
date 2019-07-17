@@ -279,18 +279,21 @@ public class IndiSearchAppController {
 
 	@RequestMapping(value = "searchDetail", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String indiDetail(@RequestBody String json) {
+	public String indiDetail() {
 
 		// 获得指标的年季度范围@RequestBody String json
-		JSONObject jsonObject = JSONObject.fromObject(json);
-		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-		System.out.println("json" + json);
-
-		String appIndiName = mapget.get("indexName").toString();
-		source = mapget.get("source").toString();
+//		JSONObject jsonObject = JSONObject.fromObject(json);
+//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+//		System.out.println("json" + json);
+//
+//		String indexCode = mapget.get("indexCode").toString();
+		String indexCode = "2200309";
+		String appIndiName = indiDetailService.getIndexName(indexCode);
 		
-//		String appIndiName = "湖北PMI";// 应从app获得
-//		source="湖统";//指标来源
+//		source = mapget.get("source").toString();
+		
+//		String appIndiName = "湖北PMI";// 应从app获得2200309
+		source="湖统";//指标来源
 		String area_name = null;
 		switch(source)
 		{
@@ -497,8 +500,10 @@ public class IndiSearchAppController {
 		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
 		System.out.println("json" + json);
 
-		String appIndiName = mapget.get("indexName").toString();
+		String indexCode = mapget.get("indexCode").toString();
 		source = mapget.get("source").toString();
+		
+		String appIndiName = indiDetailService.getIndexName(indexCode);
 //		source="湖统";//指标来源
 //		String appIndiName = "湖北PMI";
 		String area_name = null;

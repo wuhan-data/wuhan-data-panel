@@ -33,6 +33,7 @@ public class BarType {
 			Map map2 = new HashMap();
 			map2.put("top", "top");
 			map2.put("data", legendData);
+			System.out.println("legendData"+legendData);
 			oe.setLegend(map2);
 			
 			List<Map> xAxis = new ArrayList();

@@ -48,5 +48,10 @@ public class IndiDetailServiceImpl implements IndiDetailService{
 		// TODO Auto-generated method stub
 		return indiDetailMapper.getIndiCode(appIndiName);
 	}
+	@Override
+	public String getIndexName(String indexCode) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndexName(indexCode);
+	}
 
 }

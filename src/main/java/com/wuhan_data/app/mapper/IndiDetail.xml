@@ -57,5 +57,8 @@
         <select id="getIndiCode" resultType="String" parameterType="String" >
             select indi_code from WUHAN_DATA."INDEX_MANAGE" where indi_name=#{appIndiName} group by indi_code
         </select> 
+         <select id="getIndexName" resultType="String" parameterType="String" >
+            select indi_name from WUHAN_DATA."INDEX_MANAGE" where indi_code=#{indexCode} group by indi_name
+        </select>
         
     </mapper>
