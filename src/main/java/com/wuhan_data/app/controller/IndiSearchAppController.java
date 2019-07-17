@@ -349,6 +349,18 @@ public class IndiSearchAppController {
 			System.out.println("timeRange:" + indiDateList);
 			timeMap.put("startArray", indiDateList);// 开始时间范围
 			timeMap.put("endArray", indiDateList);// 结束时间范围
+			if(i==0)
+			{
+				List currentList = new ArrayList();
+				currentList.add(0);
+				if(indiDateList.size()>=8)
+				{
+					currentList.add(7);
+				}
+				else
+					currentList.add(indiDateList.size()-1);
+				timeMap.put("current", currentList);
+			}
 			timeCondition.add(timeMap);
 
 		}
@@ -380,10 +392,19 @@ public class IndiSearchAppController {
 		Collections.sort(indiDateList1);
 		// dataX.add(indiDateList1);
 		// 创建图例列表和数据列表
-		List<String> legendData = new ArrayList();
+		List<String> legendData1 = new ArrayList();
 		String startTime1 = indiDateList1.get(0);
 		System.out.println("startTime1" + startTime1);
-		String endTime1 = indiDateList1.get(indiDateList1.size() - 1);
+		String endTime1;
+		if(indiDateList1.size()>=8)
+		{
+			endTime1 = indiDateList1.get(7);
+		}
+		else
+		{
+			endTime1 = indiDateList1.get(indiDateList1.size() - 1);
+		}
+		
 		System.out.println("endTime1" + endTime1);
 		Map defaultMap = new HashMap();
 		defaultMap.put("appIndiName", appIndiName);
@@ -418,18 +439,18 @@ public class IndiSearchAppController {
 			}
 		}
 		Set<String> set = tm.keySet();
-		legendData.addAll(set);
+		legendData1.addAll(set);
 		
 		// 创建数据列表
 		
-		for (int i = 0; i < legendData.size(); i++) {
+		for (int i = 0; i < legendData1.size(); i++) {
 			List<List> data = new ArrayList();
 			List<List> dataX = new ArrayList();
-			List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData.get(i));
+			List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData1.get(i));
 			List<String> dataList = new ArrayList();
 			List<String> dateList = new ArrayList();
 			List<String> legendList = new ArrayList();
-			if(tempList.size()>8)
+			if(tempList.size()>=8)
 			{
 				for (int j = 0; j < 8; j++) {//tempList.size()
 					
@@ -448,16 +469,18 @@ public class IndiSearchAppController {
 			legendList.add(appIndiName);
 			data.add(dataList);
 			dataX.add(dateList);
-			if(legendData.get(i).equals("104") || legendData.get(i).equals("203") )
+			if(legendData1.get(i).equals("104") || legendData1.get(i).equals("203") )
 			{
 				// 创建柱状图
 				BarType barType = new BarType();// 柱状图
+				System.out.println("legendList长度:"+legendList.size());
 				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName, dataX, legendList, data);
-				
+				classInfoList.add(barEntity);
+				System.out.println("yes or no:"+(barEntity.getEchartOption().getLegend().get("data")));
 				// 创建表格
 				TableType tableType = new TableType();
 				TableEntity tableEntity = tableType.getTable(Integer.toString(i+2), appIndiName, dataX, legendList, data);// 表格
-				classInfoList.add(barEntity);
+				
 				classInfoList.add(tableEntity);
 			}
 			else{
