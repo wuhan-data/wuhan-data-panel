@@ -282,21 +282,19 @@ public class IndiSearchAppController {
 
 	@RequestMapping(value = "searchDetail", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String indiDetail(@RequestBody String json) {
+	public String indiDetail() {
 
 		// 获得指标的年季度范围@RequestBody String json
-		JSONObject jsonObject = JSONObject.fromObject(json);
-		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-		System.out.println("json" + json);
-
-		String indexCode = mapget.get("indexId").toString();
-//		String indexCode = "2200309";
+//		JSONObject jsonObject = JSONObject.fromObject(json);
+//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+//		System.out.println("json" + json);
+//		String indexCode = mapget.get("indexId").toString();
+//		source = mapget.get("source").toString();
+		
+		String indexCode = "2200309";
+		source="湖统";//指标来源
+		
 		String appIndiName = indiDetailService.getIndexName(indexCode);
-		
-		source = mapget.get("source").toString();
-		
-//		String appIndiName = "湖北PMI";// 应从app获得2200309
-//		source="湖统";//指标来源
 		String area_name = null;
 		switch(source)
 		{
@@ -361,13 +359,13 @@ public class IndiSearchAppController {
 			if(i==0)
 			{
 				List currentList = new ArrayList();
-				currentList.add(0);
 				if(indiDateList.size()>=8)
 				{
-					currentList.add(7);
+					currentList.add(indiDateList.size()-8);
 				}
 				else
-					currentList.add(indiDateList.size()-1);
+					currentList.add(0);
+				currentList.add(indiDateList.size()-1);
 				timeMap.put("current", currentList);
 			}
 			timeCondition.add(timeMap);
@@ -402,19 +400,19 @@ public class IndiSearchAppController {
 		// dataX.add(indiDateList1);
 		// 创建图例列表和数据列表
 		List<String> legendData1 = new ArrayList();
-		String startTime1 = indiDateList1.get(0);
-		System.out.println("startTime1" + startTime1);
-		String endTime1;
+		String endTime1 = indiDateList1.get(indiDateList1.size()-1);
+		System.out.println("endTime1" + endTime1);
+		String startTime1;
 		if(indiDateList1.size()>=8)
 		{
-			endTime1 = indiDateList1.get(7);
+			startTime1 = indiDateList1.get(indiDateList1.size()-8);
 		}
 		else
 		{
-			endTime1 = indiDateList1.get(indiDateList1.size() - 1);
+			startTime1 = indiDateList1.get(0);
 		}
 		
-		System.out.println("endTime1" + endTime1);
+		System.out.println("startTime1" + startTime1);
 		Map defaultMap = new HashMap();
 		defaultMap.put("appIndiName", appIndiName);
 		defaultMap.put("freqCode", freqCodeList.get(0));
