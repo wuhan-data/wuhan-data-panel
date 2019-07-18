@@ -62,6 +62,13 @@ public class PlateInfoServiceImpl implements PlateInfoService {
 		
 	}
 
+	@Override
+	public List<String> getTimeSpan(Map map) {
+		return plateInfoMapper.getTimeSpan(map);
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

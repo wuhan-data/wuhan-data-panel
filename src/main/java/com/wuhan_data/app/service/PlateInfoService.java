@@ -22,4 +22,6 @@ public interface PlateInfoService {
 	List<String> getFreqCodeByIndiId(String string);
 	//获取指标show_type
 	String getIndiShowType(String indi_code);
+	//用于获取时间跨度
+		List<String> getTimeSpan(Map map);
 }

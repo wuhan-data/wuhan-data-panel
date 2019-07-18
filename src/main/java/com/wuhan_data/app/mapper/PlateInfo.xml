@@ -27,7 +27,7 @@
            
            <!-- 获取指标的时间跨度 -->
          <select id="getDateCodeByFreq" resultType="String" parameterType="java.util.Map">
-          select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and time_point=#{time_point} and sjly=#{sjly} order by date_code desc limit 0,#{term}
+          select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and time_point=#{time_point} and sjly=#{sjly}  order by date_code desc limit 0,#{term}
         </select> 
         
         
@@ -40,5 +40,8 @@
         
         <select id="getIndiShowType" resultType="String" parameterType="String">
         select distinct SHOW_TYPE from index_manage where INDI_CODE=#{indi_code} 
+        </select>
+        <select id="getTimeSpan" resultType="String" parameterType="java.util.Map">
+        select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} order by date_code
         </select>
     </mapper>
