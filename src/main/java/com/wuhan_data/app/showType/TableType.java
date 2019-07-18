@@ -9,11 +9,10 @@ public class TableType {
 	
 	public TableEntity getTable(String id,String title,List<List> dataX,List legendData,List<List> dataV) {
 		//加入table类型
-				legendData.add(0," ");
 				List table=new ArrayList();
-				table.add(legendData);
-				System.out.println("col"+dataX.get(0).size());
-				System.out.println("row"+dataX.get(0));
+				List legendDATA=new ArrayList(legendData);
+				legendDATA.add(0," ");
+				table.add(legendDATA);
 				for(int i=0;i<dataX.get(0).size();i++) {
 					List listData=new ArrayList();
 					listData.add(dataX.get(0).get(i));
