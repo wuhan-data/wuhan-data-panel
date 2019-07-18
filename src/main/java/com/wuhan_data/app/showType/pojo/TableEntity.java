@@ -5,7 +5,7 @@ import java.util.List;
 public class TableEntity {
 	String id;
 	String classTitle;
-	String calssType="table";
+	String classType="table";
 	List tableBody;
 	public TableEntity() {
 		super();
@@ -29,10 +29,10 @@ public class TableEntity {
 		this.classTitle = classTitle;
 	}
 	public String getCalssType() {
-		return calssType;
+		return classType;
 	}
 	public void setCalssType(String calssType) {
-		this.calssType = calssType;
+		this.classType = calssType;
 	}
 	public List getTableBody() {
 		return tableBody;
