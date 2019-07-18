@@ -282,17 +282,17 @@ public class IndiSearchAppController {
 
 	@RequestMapping(value = "searchDetail", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String indiDetail() {
+	public String indiDetail(@RequestBody String json) {
 
 		// 获得指标的年季度范围@RequestBody String json
-//		JSONObject jsonObject = JSONObject.fromObject(json);
-//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-//		System.out.println("json" + json);
-//		String indexCode = mapget.get("indexId").toString();
-//		source = mapget.get("source").toString();
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+		System.out.println("json" + json);
+		String indexCode = mapget.get("indexId").toString();
+		source = mapget.get("source").toString();
 		
-		String indexCode = "2200309";
-		source="湖统";//指标来源
+//		String indexCode = "2200309";
+//		source="湖统";//指标来源
 		
 		String appIndiName = indiDetailService.getIndexName(indexCode);
 		String area_name = null;
