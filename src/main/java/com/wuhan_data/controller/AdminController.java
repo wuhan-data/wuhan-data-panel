@@ -41,6 +41,8 @@ public class AdminController {
 	AdminService adminService;
 
 	@Autowired
+	SysLogService sysLogService;
+	@Autowired
 	MenuService menuService;
 	private static String adminname="";//用于模糊查询的名字
 	@RequestMapping("listAdmin")
@@ -102,6 +104,7 @@ public class AdminController {
         maView.addObject("page", page); 
     	maView.setViewName("admin");
     	System.out.println(allMenuLevelTwo);
+    	
     	return maView;
     }
 	@RequestMapping("adminSelectAnalysisListByPage")
@@ -363,6 +366,7 @@ request.setCharacterEncoding("UTF-8");
     		session.setAttribute("user", adminLL);
   			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
   			session.setAttribute("menuList",menuList);
+  			//sysLogService.add(1, "1", "2");
 		}
     	return maView;
     }

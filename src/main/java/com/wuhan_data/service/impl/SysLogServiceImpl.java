@@ -20,15 +20,13 @@ public class SysLogServiceImpl implements SysLogService {
 	SysLogMapper sysLogMapper;
 	
 	@Override
-	public int add(String userName,String operate,String method) {
+	public int add(int operate_user_id,String operate,String method) {
 		// TODO Auto-generated method stub
 		SysLog sysLog=new SysLog();
-		sysLog.setOperate_user_name(userName);
+		sysLog.setOperate_user_id(operate_user_id);
 		sysLog.setOperate(operate);
 		sysLog.setMethod(method);
 		sysLog.setCreate_time(new Date());
-		
-		
 		return sysLogMapper.add(sysLog);
 	}
 

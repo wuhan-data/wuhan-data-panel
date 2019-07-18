@@ -3,11 +3,14 @@ package com.wuhan_data.app.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,57 +52,80 @@ public class UpImagesControllerApp {
 	
 	
 	//接口 头像上传
-	@RequestMapping(value="UpImagesHead",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+	@RequestMapping(value="setHeadApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
-	public String UpImagesHead( HttpServletRequest request, @RequestParam("file")MultipartFile [] files) {
+	public String setHead( HttpServletRequest request, @RequestParam("file")MultipartFile [] files) {
 		// 得到上传图片的地址
 		Map mapReturn=new HashMap();
-	    int id =Integer.valueOf(request.getParameter("id"));
-		//int id=22;
-	    if (files.length!=1)
-	    {
-	    	System.out.print(files.length);
-	    	mapReturn.put("code", 2);
-	    	mapReturn.put("msg","传输图片的数量错误");
-	    	mapReturn.put("head", null);
-	    }
-	    else 
-	    {
-			//获取旧的头像的地址
-	    	String oldHead=userServiceApp.get(id).getHead();
-	    	//上传新的图片的地址
-	    	try {
-	    		String imgPath = ImageUtils.uploadHead(request, files[0]);
-	    		if(imgPath==null ||imgPath.equals(""))
-	    		{
-	    			mapReturn.put("code", 0);
-	    	    	mapReturn.put("msg","头像上传失败");
-	    	    	mapReturn.put("head", null);
-	    		}
-	    		else {
-					//上传成功，删除原来的图片
-	    			if(oldHead!=null||oldHead!="")
-	    			{
-	    				String url = request.getSession().getServletContext().getRealPath("");
-		    			String deletehead=url+"/"+oldHead;
-	    				File oldFile = new File(deletehead); 
-		    			if(oldFile.exists())
-						{
-							System.out.println("删除是否成功："+oldFile.delete()+"路径:"+deletehead);//直接删除
-						}
-	    			}
-	    			Map map=new HashMap();
-	    			map.put("id", id);
-	    			map.put("head", imgPath);
-	    			userServiceApp.setHeadById(map);
-	    			mapReturn.put("code", 1);
-	    	    	mapReturn.put("msg","头像上传成功");
-	    	    	mapReturn.put("head", imgPath);	
-				}
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
+	    String tokenString =request.getParameter("token");
+	    HttpSession session = request.getSession();
+	  	if(session.getAttribute(tokenString)==null)
+	  	{
+			mapReturn.put("errCode", "2");
+			mapReturn.put("errMsg", "token令牌错误");
+			
+	  	}
+	  	else {
+	  		 if (files.length!=1)
+	 	    {
+	 	    	System.out.print(files.length);
+	 	    	mapReturn.put("errCode", "3");
+	 	    	mapReturn.put("errMsg","传输图片的数量错误");
+	 	    	mapReturn.put("head", null);
+	 	    }
+	 	    else 
+	 	    {
+	 	    	Map map2=(HashMap)session.getAttribute(tokenString);
+		  		int id=Integer.valueOf((String)map2.get("userId"));
+	 	    	
+	 			//获取旧的头像的地址
+	 	    	String oldHead=userServiceApp.get(id).getHead();
+	 	    	//上传新的图片的地址
+	 	    	try {
+	 	    		String imgPath = ImageUtils.uploadHead(request, files[0]);
+	 	    		if(imgPath==null ||imgPath.equals(""))
+	 	    		{
+	 	    			mapReturn.put("errCode", "1");
+	 	    	    	mapReturn.put("errMsg","头像上传失败");
+
+	 	    		}
+	 	    		else {
+	 					//上传成功，删除原来的图片
+	 	    			if(oldHead!=null||oldHead!="")
+	 	    			{
+	 	    				String url = request.getSession().getServletContext().getRealPath("");
+	 		    			String deletehead=url+"/"+oldHead;
+	 	    				File oldFile = new File(deletehead); 
+	 		    			if(oldFile.exists())
+	 						{
+	 							System.out.println("删除是否成功："+oldFile.delete()+"路径:"+deletehead);//直接删除
+	 						}
+	 	    			}
+	 	    			Map map=new HashMap();
+	 	    			map.put("id", id);
+	 	    			map.put("head", imgPath);
+	 	    			userServiceApp.setHeadById(map);
+	 	    			
+	 	    			//返回数据
+	 	    			mapReturn.put("errCode", "0");
+	 	    	    	mapReturn.put("errMsg","头像上传成功");
+	 	    	    	
+	 	    	    	List list = new ArrayList();
+	 	    	    	Map map1 = new HashMap();
+	 	    	    	map1.put("head", imgPath);
+	 	    	    	list.add(map1);
+	 	    	    	mapReturn.put("data", list);
+	 	    	    	//刷新session中的内容
+	 	    	    	new UserControllerApp().flashSession(request,tokenString);
+	 				}
+	 			} catch (Exception e) {
+	 				// TODO: handle exception
+	 			}
+	 		}
+			
 		}
+		//int id=22;
+	   
 		String param=JSON.toJSONString(mapReturn);
 		return param;
  

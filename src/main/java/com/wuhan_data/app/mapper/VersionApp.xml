@@ -45,7 +45,7 @@
          
           <!--检测更新 -->
 		<select id="versionDetection" parameterType="java.util.Map" resultType="Version">
-            select * from WUHAN_DATA.Version  where appid=#{appid} order by create_time DESC
+            select * from WUHAN_DATA.Version  where platform=#{platform} order by create_time DESC
         </select>
          
          

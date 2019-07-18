@@ -42,8 +42,7 @@ public class MessageController {
 	RoleService roleService;
 	@Autowired
 	UserService userService;
-	@Autowired
-	SysLogService sysLogService;
+	
 	private static String content="";//用于模糊查询的名字
 	
 	@RequestMapping("listMessage")
@@ -161,12 +160,7 @@ public class MessageController {
 	        maView.addObject("page", page); 
 	    	maView.setViewName("message");
 	    	
-	    	 
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"addMessage","com.wuhan_data.controller.MessageController.addMessage");
-	        
-	    	
+	    
 	    	return maView;
 	    }
 	@RequestMapping("addMessageByRole")
@@ -237,11 +231,6 @@ public class MessageController {
 	        maView.addObject("page", page); 
 	    	maView.setViewName("message");
 	    	
-	    	 
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"addMessageByRole","com.wuhan_data.controller.MessageController.addMessageByRole");
-	        
 	    	
 	    	return maView;
 	    }
@@ -292,11 +281,6 @@ public class MessageController {
    	maView.setViewName("message");
    	
    	 
-       HttpSession session=request.getSession();
-       Admin adminLL=(Admin)session.getAttribute("user"); 
-   	sysLogService.add(adminLL.getUsername(),"editMessage","com.wuhan_data.controller.MessageController.editMessage");
-       
-   	
    	return maView;
    }
 	@RequestMapping("deleteMessage")
@@ -332,11 +316,6 @@ public class MessageController {
    	maView.setViewName("message");
    	
    	 
-       HttpSession session=request.getSession();
-       Admin adminLL=(Admin)session.getAttribute("user"); 
-   	sysLogService.add(adminLL.getUsername(),"deleteMessage","com.wuhan_data.controller.MessageController.deleteMessage");
-       
-   	
    	return maView;
    }
 	@RequestMapping("messageSearchByContent")
@@ -372,12 +351,7 @@ public class MessageController {
           mav.addObject("page", page); 
           mav.setViewName("message");
           
-          
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"messageSearchByContent","com.wuhan_data.controller.MessageController.messageSearchByContent");
-	        
-          
+         
       	   return mav;
    }
 	@RequestMapping("messageSearchListByPage")
