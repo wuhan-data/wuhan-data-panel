@@ -32,26 +32,35 @@ public class BarType {
 			oe.setLegend(map2);
 			
 			List<Map> xAxis = new ArrayList();
-			for(int i=0;i<dataX.size();i++)
-			{
-				List temList= new ArrayList();
-				temList =  dataX.get(i);
-				Map map3 = new HashMap();
-				map3.put("type", "category");
-				map3.put("name","x轴");
-				map3.put("data",temList );
-				xAxis.add(map3);
-			}
+//			List<List> dataList=new ArrayList();
+			
+			Map map3 = new HashMap();
+//			for(int i=0;i<dataX.size();i++)
+//			{
+//				List temList= new ArrayList();
+//				temList =  dataX.get(i);
+//				dataList.add(temList);
+//				Map map3 = new HashMap();
+//				map3.put("type", "category");
+//				map3.put("name","x轴");
+//				map3.put("data",temList );
+//				xAxis.add(map3);
+//			}
+			map3.put("type", "category");
+			map3.put("name","x轴");
+			map3.put("data",dataX.get(0));
+			xAxis.add(map3);
+			
 			oe.setxAxis(xAxis);
 			
 			List<Map> yAxis = new ArrayList();
-			for(int i=0;i<dataX.size();i++)
-			{
+//			for(int i=0;i<dataX.size();i++)
+//			{
 				Map map4 = new HashMap();
 				map4.put("type", "value");
 				map4.put("name","y轴");
 				yAxis.add(map4);
-			}
+//			}
 			oe.setyAxis(yAxis);
 			
 
