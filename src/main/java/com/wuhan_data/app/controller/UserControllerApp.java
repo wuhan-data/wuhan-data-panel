@@ -18,9 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 
-import org.apache.commons.httpclient.HttpException;
 import org.aspectj.weaver.NewConstructorTypeMunger;
-import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
