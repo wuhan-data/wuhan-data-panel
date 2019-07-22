@@ -29,16 +29,13 @@ public class VersionController {
 
 	@Autowired
 	VersionService versionService;
-	@Autowired
-	SysLogService sysLogService;
+	
 	private static String version_name="";//用于模糊查询的名字
 	@RequestMapping("listVersion")
 	public ModelAndView listVersion() {
 		ModelAndView mav=new ModelAndView();
 		List<Version> versionList=versionService.List();
-		
 		mav.addObject("versionList",versionList);
-		
 		mav.setViewName("listVersion");
 		return mav;
 	}
@@ -131,13 +128,7 @@ public class VersionController {
            mav.addObject("page", page);
            mav.addObject("controlURL", "versionSearchPage");//控制页码传递URL
            mav.setViewName("version");   
-           
 
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"versionSearchByName","com.wuhan_data.controller.VersionController.versionSearchByName");
-	        
-           
            return mav;
     }
 	@RequestMapping("versionSearchPage")
@@ -206,12 +197,7 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("controlURL", "versionListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("version");
-    	
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user"); 
-	    sysLogService.add(adminLL.getUsername(),"addVersion","com.wuhan_data.controller.VersionController.addVersion");
-	        
-    	
+
     	return maView;
     }
 	//delete version
@@ -241,12 +227,7 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("controlURL", "versionListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("version");
-    	
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user");  
-	    sysLogService.add(adminLL.getUsername(),"deteleVersion","com.wuhan_data.controller.VersionController.deteleVersion");
-	      
-    	
+
     	return maView;
     }
 	//edit version
@@ -286,12 +267,7 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("controlURL", "versionListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("version");
-    	
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user");  
-	    sysLogService.add(adminLL.getUsername(),"editVersion","com.wuhan_data.controller.VersionController.editVersion");
-	      
-    	
+
     	return maView;
     }
 

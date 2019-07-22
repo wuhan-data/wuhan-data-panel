@@ -30,8 +30,6 @@ import com.wuhan_data.tools.Page;
 public class FeedbackController {
 	@Autowired
 	FeedbackService feedbackService;
-	@Autowired
-	SysLogService sysLogService;
 	
 	private static int uid=0;//用于模糊查询的名字
 	
@@ -126,10 +124,7 @@ public class FeedbackController {
            mav.addObject("page", page);
            mav.addObject("controlURL", "feedbackSearchPage");//控制页码传递URL
            mav.setViewName("feedback");   
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"feedbackSearchById","com.wuhan_data.controller.FeedbackController.feedbackSearchById");
-           return mav;
+	       return mav;
     }
 	@RequestMapping("feedbackSearchPage")
     public ModelAndView searchPage(HttpServletRequest request, 
@@ -207,11 +202,6 @@ public class FeedbackController {
         maView.addObject("page", page); 
     	maView.setViewName("feedback");
       
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user");  
-	    sysLogService.add(adminLL.getUsername(),"editFeedback","com.wuhan_data.controller.FeedbackController.editFeedback");
-	      
-    	
     	return maView;
     }
     

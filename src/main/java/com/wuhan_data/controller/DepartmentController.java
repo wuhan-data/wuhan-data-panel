@@ -31,8 +31,7 @@ public class DepartmentController {
 	
 	@Autowired
 	DepartmentService departmentService;
-	@Autowired
-	SysLogService sysLogService;
+	
 	private static String departmentname="";//用于模糊查询的名字
 	@RequestMapping("listDepartment")
 	public ModelAndView listDepartment() {
@@ -140,10 +139,7 @@ public class DepartmentController {
            mav.addObject("controlURL", "departmentSearchPage");//控制页码传递URL
            mav.setViewName("department");     
            
-           HttpSession session=request.getSession();
-           Admin adminLL=(Admin)session.getAttribute("user"); 
-       	   sysLogService.add(adminLL.getUsername(),"departmentSearchByName","com.wuhan_data.controller.DepartmentController.departmentSearchByName");
-           
+          
            return mav;
     }
 	@RequestMapping("departmentSearchPage")
@@ -219,10 +215,7 @@ request.setCharacterEncoding("UTF-8");
     	maView.setViewName("department");
     	
     	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"addDepartment","com.wuhan_data.controller.DepartmentController.addDepartment");
-        
+       
     	
     	return maView;
     }
@@ -265,11 +258,7 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("page", page); 
     	maView.setViewName("department");
     	
-    	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user");  
-    	sysLogService.add(adminLL.getUsername(),"editDepartment","com.wuhan_data.controller.DepartmentController.editDepartment");
-        
+    	
     	
     	return maView;
     }
@@ -304,11 +293,7 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("page", page); 
     	maView.setViewName("department");
     	
-    	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"deleteDepartment","com.wuhan_data.controller.DepartmentController.deleteDepartment");
-        
+    	
     	
     	return maView;
     }

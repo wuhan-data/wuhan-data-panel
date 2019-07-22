@@ -38,8 +38,7 @@ import com.wuhan_data.service.SysLogService;
 public class UserController {
 	@Autowired
     UserService userService;
-	@Autowired
-	SysLogService sysLogService;
+	
 	@Autowired
 	RoleService roleService;
 	@Autowired
@@ -168,11 +167,7 @@ public class UserController {
            mav.addObject("userListByPage", userListByPage);  
            mav.addObject("page", page);
            mav.addObject("controlURL", "userSearchPage");//控制页码传递URL
-           
-           HttpSession session=request.getSession();
-           Admin adminLL=(Admin)session.getAttribute("user");  
-       	   sysLogService.add(adminLL.getUsername(),"userSearchByName","com.wuhan_data.controller.UserController.userSearchByName");
-           
+          
            mav.setViewName("user");           
            return mav;
     	
@@ -281,10 +276,7 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
         
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"addUser","com.wuhan_data.controller.UserController.addUser");
-        
+       
     	maView.setViewName("user");
     	return maView;
     }
@@ -356,9 +348,6 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("page", page); 
     	maView.setViewName("user");
     	
-    	 HttpSession session=request.getSession();
-    	 Admin adminLL=(Admin)session.getAttribute("user");  
-     	sysLogService.add(adminLL.getUsername(),"editUser","com.wuhan_data.controller.UserController.editUser");
     	
     	return maView;
     }
@@ -397,9 +386,6 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("page", page); 
     	maView.setViewName("user");
     	
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user"); 
-     	sysLogService.add(adminLL.getUsername(),"deleteUser","com.wuhan_data.controller.UserController.deleteUser");
     	
     	return maView;
     }
@@ -461,7 +447,7 @@ request.setCharacterEncoding("UTF-8");
   			HttpSession session=request.getSession();
   			User newUser=userService.getByName(user.getUsername());
   			session.setAttribute("user", newUser);
-  			sysLogService.add(newUser.getUsername(),"Login","com.wuhan_data.controller.UserController.login");
+  			
   			//菜单生成
   			System.out.println("role_list="+newUser.getRole_list());
   			List<MenuList> menuList=menuService.getMenu(newUser.getRole_list());

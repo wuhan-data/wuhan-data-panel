@@ -38,8 +38,7 @@ public class NoticeController {
 	RoleService roleService;
 	@Autowired
 	UserService userService;
-	@Autowired
-	SysLogService sysLogService;
+	
 	private static String content="";//用于模糊查询的名字
 	@RequestMapping("listNotice")
 	public ModelAndView listNoticce() {
@@ -156,11 +155,7 @@ public class NoticeController {
 	        maView.addObject("page", page); 
 	    	maView.setViewName("notice");
 	    	
-	    	 
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user"); 
-	    	sysLogService.add(adminLL.getUsername(),"addNotice","com.wuhan_data.controller.NoticeController.addNotice");
-	        
+	    	
 	    	
 	    	return maView;
 	    }
@@ -229,11 +224,6 @@ public class NoticeController {
 	        maView.addObject("page", page); 
 	    	maView.setViewName("notice");
 	    	
-	    	 
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"addNoticeByRole","com.wuhan_data.controller.NoticeController.addNoticeByRole");
-	        
 	    	
 	    	return maView;
 	    }
@@ -283,11 +273,7 @@ public class NoticeController {
         maView.addObject("page", page); 
     	maView.setViewName("notice");
     	
-    	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"editNotice","com.wuhan_data.controller.NoticeController.editNotice");
-        
+    	
     	
     	return maView;
     }
@@ -323,11 +309,7 @@ public class NoticeController {
         maView.addObject("page", page); 
     	maView.setViewName("notice");
     	
-    	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	sysLogService.add(adminLL.getUsername(),"deleteNotice","com.wuhan_data.controller.NoticeController.deleteNotice");
-        
+    	
     	
     	return maView;
     }
@@ -364,11 +346,6 @@ public class NoticeController {
            mav.addObject("page", page); 
            mav.setViewName("notice");
            
-           
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"noticeSearchByContent","com.wuhan_data.controller.NoticeController.noticeSearchByContent");
-	        
            
        	   return mav;
     }
