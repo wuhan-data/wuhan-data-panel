@@ -11,7 +11,7 @@ import com.wuhan_data.app.showType.pojo.LineAndBarOptionEntity;
 //折柱混搭
 public class LineAndBarType {
 	//参数：图例名称、x轴数据、数据、显示类型
-	public LineAndBarEntity getOption(String id,String title,List<List> dataX,List legendData,List<List> data,List showType) {
+	public LineAndBarEntity getOption(String id,String title,List dataX,List legendData,List<List> data,List showType) {
 		LineAndBarOptionEntity oe = new LineAndBarOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
@@ -29,21 +29,21 @@ public class LineAndBarType {
 		oe.setLegend(map2);
 		
 		List<Map> xAxis = new ArrayList();
-		for(int i=0;i<dataX.size();i++)
-		{
+//		for(int i=0;i<dataX.size();i++)
+//		{
 			List temList= new ArrayList();
-			temList =  dataX.get(i);
+			temList =  dataX;
 			Map map3 = new HashMap();
 			map3.put("type", "category");
 			map3.put("name","x轴");
 			map3.put("data",temList );
 			xAxis.add(map3);
-		}
+//		}
 		oe.setxAxis(xAxis);
 		
 		List<Map> yAxis = new ArrayList();
-		for(int i=0;i<dataX.size();i++)
-		{
+//		for(int i=0;i<dataX.size();i++)
+//		{
 			Map map4 = new HashMap();
 			map4.put("type", "value");
 			map4.put("name","y0轴");
@@ -53,7 +53,7 @@ public class LineAndBarType {
 			map5.put("type", "value");
 			map5.put("name","y1轴");
 			yAxis.add(map5);
-		}
+//		}
 		oe.setyAxis(yAxis);
 		
 		List<Map> seriesList=new ArrayList();

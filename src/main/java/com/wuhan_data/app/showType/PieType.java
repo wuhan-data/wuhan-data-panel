@@ -63,10 +63,12 @@ public class PieType {
 		Map map1=new HashMap();
 		map1.put("show",true);
 		map1.put("trigger","item");
+		oe.setTooltip(map1);
 		
 		Map map2=new HashMap();
 		map2.put("top","top");
 		map2.put("data",legend);
+		oe.setLegend(map2);
 		
 		Map map3=new HashMap();
 		List<Map> listTotal=new ArrayList();

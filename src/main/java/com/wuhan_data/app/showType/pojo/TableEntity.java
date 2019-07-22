@@ -6,6 +6,14 @@ public class TableEntity {
 	String id;
 	String classTitle;
 	String classType="table";
+	String classHeight="300";
+	
+	public String getClassHeight() {
+		return classHeight;
+	}
+	public void setClassHeight(String classHeight) {
+		this.classHeight = classHeight;
+	}
 	List tableBody;
 	public TableEntity() {
 		super();
@@ -28,11 +36,11 @@ public class TableEntity {
 	public void setClassTitle(String classTitle) {
 		this.classTitle = classTitle;
 	}
-	public String getCalssType() {
+	public String getClassType() {
 		return classType;
 	}
-	public void setCalssType(String calssType) {
-		this.classType = calssType;
+	public void setClassType(String calssType) {
+		this.classType = classType;
 	}
 	public List getTableBody() {
 		return tableBody;

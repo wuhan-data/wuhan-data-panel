@@ -50,6 +50,7 @@ public class SpecialInfoController {
 	@RequestMapping(value="special",produces = "text/plain;charset=utf-8")
 	@ResponseBody
 		public String special() {
+		
 		int indexId=1001; //从app获得栏目id
 		Map cmap = new HashMap();
 		System.out.println("i am ok");
@@ -312,6 +313,7 @@ public class SpecialInfoController {
 				}break;
 				case "散点图":{
 					List dataVV=new ArrayList();
+					List dataXX=new ArrayList();
 					List legend=new ArrayList();
 					PointType pt=new PointType();
 					for(int j=0;j<indiList.size();j++) {
@@ -323,17 +325,19 @@ public class SpecialInfoController {
 						cmap.put("freq_code",OldFreq.get(0));
 						List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 						List dataV=new ArrayList();
+						List dataX=new ArrayList();
 						for(int m=0;m<indiInfoList.size();m++) {//循环指标列表
 //							dataX.add(indiInfoList.get(m).getDate_code().substring(0, 6));//获取X轴的数据，因为数据库里的数据为“201801SS”这样类似的，而APP展示的时候仅需要“201801”，所以需要对字符串进行分割
 							dataV.add(indiInfoList.get(m).getIndi_value());//将对应日期的指标值加入到list中
 //							
 						}
 						dataVV.add(dataV);
+						dataXX.add(dataX);
 						legend.add(indiList.get(j).getIndi_name());
 						
 					
 				}
-					PointEntity pe=pt.getOption(id, title, legend, dataVV);
+					PointEntity pe=pt.getOption(id, title, legend, dataVV,dataXX);
 //					peList.add(pe);
 					TotalList.add(pe);
 					
