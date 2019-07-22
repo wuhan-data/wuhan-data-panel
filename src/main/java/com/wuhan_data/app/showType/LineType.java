@@ -53,17 +53,23 @@ public class LineType {
 		for(int i=0;i<dataV.size();i++) {
 			List temList=new ArrayList();
 			temList=dataV.get(i);
+			List temListDouble=new ArrayList();
+			for(int j=0;j<temList.size();j++) {
+				temListDouble.add(Double.parseDouble((String) temList.get(j)));
+				
+			}
 			Map map2 = new HashMap();
 			map2.put("type", "value");
-			map2.put("name","value");
-			String max=(String) Collections.max(temList);
-			String min=(String) Collections.min(temList);
+			map2.put("name","y轴");
+			System.out.print("temList:"+temList.size());
+			double max= Collections.max(temListDouble);
+			double min= Collections.min(temListDouble);
 //			double span=(Double.parseDouble(max)-Double.parseDouble(min))*1.2;
-			double space=(Double.parseDouble(max)-Double.parseDouble(min))*0.1;
-			double maxd=Double.parseDouble(max);
-			double mind=Double.parseDouble(min);
-			int minL=(int)(mind)-(int)space;
-			int maxL=(int)(maxd)+(int)space;
+			double space=(max-min)*0.1;
+//			double maxd=Double.parseDouble(max);
+//			double mind=Double.parseDouble(min);
+			int minL=(int) Math.floor(min-space);
+			int maxL=(int) Math.ceil(max+space);
 			
 			map2.put("min", minL);
 			map2.put("max", maxL);
@@ -72,7 +78,7 @@ public class LineType {
 		   oe.setyAxis(yAxis);
 		
 		   List<Map> seriesList=new ArrayList();
-		   for(int i=0;i<legendData.size();i++) {
+		   for(int i=0;i<dataV.size();i++) {
 			   List temList= new ArrayList();
 			   temList =  dataV.get(i);
 			   Map map3=new HashMap();
@@ -85,7 +91,7 @@ public class LineType {
 		     oe.setSeries(seriesList);
 
 		LineEntity le = new LineEntity(id, title, oe);		
-
+		
 		return le;
 	}
 

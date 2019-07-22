@@ -6,7 +6,7 @@
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
     Admin ad=(Admin)session.getAttribute("user");
-    int username=ad.getId();
+    String username=ad.getUsername();
 %>
 <!DOCTYPE html>
 <html>
@@ -52,55 +52,6 @@
         .page b{ color:#2979b4}
 
     </style>
-    
-    
-     <script type="text/javascript">
-
-      
-      function addCheckreceiver_id(){
-       	 var rolecode = document.getElementById("addreceiver_id").value;
-       	 var reg = /^[1-9]\d*$/;
-            if (!reg.test(rolecode)) {
-         	   add_span_receiver_id.innerHTML = "请输入正整数";
-                return false;
-            }
-            else {
-         	   add_span_receiver_id.innerHTML = "格式正确";
-                return true;
-            }
-       }
-        function add_checkForm(){
-        	var roleCode=addCheckreceiver_id();
-        	if (roleCode)
-        		return true;
-        	else
-        		return false;
-        }
-      
-      
-      
-      function editCheckreceiver_id(){
-      	 var rolecode = document.getElementById("editMessagereceiver_id").value;
-      	 var reg = /^[1-9]\d*$/;
-           if (!reg.test(rolecode)) {
-        	   edit_span_receiver_id.innerHTML = "请输入正整数";
-               return false;
-           }
-           else {
-        	   edit_span_receiver_id.innerHTML = "格式正确";
-               return true;
-           }
-      }
-       function edit_checkForm(){
-       	var roleCode=editCheckreceiver_id();
-       	if (roleCode)
-       		return true;
-       	else
-       		return false;
-       }
-      </script>
-    
-    
 </head>
 <body>
     <div id="wrapper">
@@ -516,7 +467,7 @@
     </form> -->
     
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="按照标题搜索" aria-label="Search" id="searchtname" value="">
+      <input class="form-control" type="search" placeholder="按照内容搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
                             <div class="table-responsive">
@@ -524,8 +475,8 @@
                                     <thead>
                                         <tr>
                                             <th>通知id</th>
-                                            <th>发送人id</th>
-                                            <th>接收人id</th>
+                                            <th>发送人名字</th>
+                                            <th>接收人名字</th>
                                             <th>标题</th>
                                             <th>url</th>
                                             <th>备注</th>
@@ -538,8 +489,8 @@
      <c:forEach items="${messagesListByPage}" var="c" varStatus="st">
         <tr>
             <td >${c.id}</td>
-            <td >${c.sender_id}</td>
-            <td >${c.receiver_id}</td>
+            <td >${c.sender_name}</td>
+            <td >${c.receiver_name}</td>
             <td >${c.title}</td>
             <td >${c.url}</td>
             <td >${c.remarks}</td>
@@ -550,17 +501,13 @@
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="editrole('${c.id}','${c.sender_id}','${c.receiver_id}','${c.url}','${c.title}','${c.remarks}','${c.is_read}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="editrole('${c.id}','${c.sender_name}','${c.receiver_name}','${c.url}','${c.title}','${c.remarks}','${c.is_read}')">
 <i class="fa fa-edit"></i>修改
 </div>
-<%-- <a href="deleteMessage?id=${c.id}">
+<a href="deleteMessage?id=${c.id }">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除
 </div>
-</a> --%>
-
-<div class="btn btn-danger btn-sm" onclick="del('${c.id}')"><i class="fa fa-trash-o" ></i>删除
-
-
+</a>
 </td>
         </tr>
     </c:forEach>
@@ -582,15 +529,14 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editMessage"onsubmit="return edit_checkForm()">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editMessage">
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editMessageID" id="editMessageID">
-   发送人id：<input class="form-control" type="text" name="editMessagesender_id" id="editMessagesender_id"  readonly>  <br> 
-   接收人id：<input class="form-control" type="text" name="editMessagereceiver_id" id="editMessagereceiver_id" onblur="editCheckreceiver_id()">
-   <span id="edit_span_receiver_id">请填写整数</span><br>  
+   发送人名字：<input class="form-control" type="text" name="editMessagesender_name" id="editMessagesender_name" >  <br> 
+   接收人名字：<input class="form-control" type="text" name="editMessagereceiver_name" id="editMessagereceiver_name"> <br>
    标题：<input class="form-control" type="text" name="editMessageTitle" id="editMessageTitle"> <br>
- url：<input class="form-control" type="text" name="editMessageContent" id="editMessageContent">  <br>
+   url：<input class="form-control" type="text" name="editMessageContent" id="editMessageContent">  <br>
    备注：<input class="form-control" type="text" name="editMessageRemarks" id="editMessageRemarks"> <br>
  <!--   是否已读：<input class="form-control" type="text" name="editMessageIs_read" id="editMessageIs_read">  -->
    
@@ -627,13 +573,12 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addMessage"onsubmit="return add_checkForm()">
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addMessage">
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     发送人id：<input class="form-control" type="search" placeholder="发送人id" name="addsender_id" readonly value=<%out.print(username); %>><br>
-     接收人id：<input class="form-control" type="search" placeholder="接收人id" name="addreceiver_id" id="addreceiver_id" onblur="addCheckreceiver_id()">
-     <span id="add_span_receiver_id">请填写整数</span><br>
+     发送人名字：<input class="form-control" type="search" placeholder="发送人名字" name="addsender_name" readonly value=<%out.print(username); %>><br>
+     接收人名字：<input class="form-control" type="search" placeholder="接收人名字" name="addreceiver_name"><br>
      标题：<input class="form-control" type="search" placeholder="标题" name="addTitle"><br>
      内容：<input class="form-control" type="search" placeholder="内容" name="addContent"><br>
      备注：<input class="form-control" type="search" placeholder="备注" name="addRemark">
@@ -667,8 +612,8 @@
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     发送人id：<input class="form-control" type="search" placeholder="发送人id" name="addByRolesender_id" readonly value=<%out.print(username); %> ><br>
-     接收人角色id：<!-- <input class="form-control" type="search" placeholder="接收人角色id" name="addByRoleid"><br> -->
+     发送人名字：<input class="form-control" type="search" placeholder="发送人名字" name="addByRolesender_name" readonly value=<%out.print(username); %> ><br>
+     接收人角色名字：<!-- <input class="form-control" type="search" placeholder="接收人角色名字" name="addByRoleid"><br> -->
      
   <select class="form-control" id="roleListSelectMessage" name="roleListSelectMessage" onchange="">
   	<c:forEach items="${roleList}" var="c" varStatus="st">
@@ -777,16 +722,25 @@
             }
             function search(){
             	var searchName=document.getElementById("searchtname").value;
+            	alert(searchName)
             	var content=encodeURI(encodeURI(searchName));
+            	
             	var formSearch=document.getElementById("formSearch");
             	formSearch.action="messageSearchByContent?content="+content;
             	formSearch.submit();
             	
             }
-            function editrole(ID,sender_id,receiver_id,url,title,remarks,is_read){
+  
+         /*    function add(themename){
+            	alert(themename);
+            	var addForm=document.getElementById("");
+            	addForm.action="";
+            	addFrom.submit();
+            } */
+            function editrole(ID,sender_name,receiver_name,url,title,remarks,is_read){
             	$("#editMessageID").val(ID);
-            	$("#editMessagesender_id").val(sender_id);
-            	$("#editMessagereceiver_id").val(receiver_id);
+            	$("#editMessagesender_name").val(sender_name);
+            	$("#editMessagereceiver_name").val(receiver_name);
             	$("#editMessageContent").val(url);
             	$("#editMessageTitle").val(title)
             	$("#editMessageRemarks").val(remarks)
@@ -794,18 +748,26 @@
                 	
             }
             function del(aid){
-            	var r=confirm("确定删除id:"+aid)
-          	  if (r==true)
-          	    {
-	                var id=encodeURI(encodeURI(aid));
-	                window.location.href="http://localhost:8080/wuhan_data1/deleteMessage?id="+id;
-         		}
-          	  else
-          	    {
-          	    	
-          	    }
-            }     
+            	alert("sss")
+            	/* var aid=document.getElementById("aid").value; */
+            	alert(aid);
+            	var id=encodeURI(encodeURI(aid));
+          	    window.location.href="http://localhost:8089/wuhan_data1/delCol?id="+id;  
+            /* 	$.ajax({
+                    type: "POST",
+                    data: {"id":id},
+                    url: "deleteCol", 
+                    success:function(){
+                    	alert("删除成功！");
+                    }
+            	})  */
+            	
+            }
+            
            var order =  new BootstrapOrder();
+           
+       
+        
             function addSort(item) {
             	order.addItem(item);
             }

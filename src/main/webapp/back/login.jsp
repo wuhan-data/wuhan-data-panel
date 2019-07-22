@@ -3,7 +3,6 @@
   
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,13 +26,6 @@
 		border: none;
 	}
 	</style>
-<script language="javascript">
-        //防止页面后退
-        history.pushState(null, null, document.URL);
-        window.addEventListener('popstate', function () {
-            history.pushState(null, null, document.URL);
-        });
-    </script>
 </head>
 <body class="login">	
 	<!-- PAGE -->
@@ -207,5 +199,8 @@
 		}
 	</script>
 	<!-- /JAVASCRIPTS -->
+	
+	
+	
 </body>
 </html>

@@ -60,12 +60,14 @@ public class SpecialInfoController {
 		List TotalList=new ArrayList();
 		//记录整个栏目的频度信息
 		List<String> OldFreq=new ArrayList();
-		//此处顺序不能调换，关系到后面取最小粒度数据
+		//此处顺序不能调换，此处顺序与栏目中的数据恰好相反
 		
-		OldFreq.add("YY");
 		
-		OldFreq.add("SS");
+		
+		
 		OldFreq.add("MM");
+		OldFreq.add("SS");
+		OldFreq.add("YY");
 		
 		//获得频度信息
 		for(int i=0;i<cpList.size();i++) {
@@ -85,73 +87,114 @@ public class SpecialInfoController {
 			
 			
 		}
+		if(OldFreq.size()==0) {
+			String error=JSON.toJSONString("没有公共的频度信息");
+					
+			return error;
+		}
+//		List<String> startTime=new ArrayList();
+//		List<String> endTime=new ArrayList();
+		String sTime="000000";
+		String eTime="999999";
+		for(int i=0;i<cpList.size();i++) {
+			int term = cpList.get(i).getTerm();//获取期数 期数是最新
+			//查询每个板块下的指标数据
+			List<ColPlateIndi> indiList=specialInfoService.getIndiByPid(cpList.get(i).getPid());
+			
+			System.out.print("size:"+indiList.size());
+			for(int j=0;j<indiList.size();j++) {
+				Map map = new HashMap();
+//				System.out.print(indiList.get(j));
+				
+				map.put("indi_code", indiList.get(j).getIndi_id());
+				map.put("time_point", indiList.get(j).getTime_point());
+				map.put("sjly", indiList.get(j).getSjly());
+				map.put("term", term);
+				map.put("freq_code",OldFreq.get(0));
+//				System.out.print("freq_code"+OldFreq.get(0));
+				List<String> timeSpan = specialInfoService.getDateCodeByFreq(map);
+				String maxTime=timeSpan.get(0).substring(0, 6);
+//				System.out.println("what the error"+maxTime);
+				String minTime=timeSpan.get(timeSpan.size()-1).substring(0, 6);
+				if(sTime.compareTo(minTime)<0)
+					sTime=minTime;
+				if(eTime.compareTo(maxTime)>0)
+					eTime=maxTime;
+			}
+//			startTime.add(sTime);
+//			endTime.add(eTime);
+			
+		}
+					
+				
+		
 //		for(int m=0;m<OldFreq.size();m++) {
 //			System.out.print(OldFreq.get(m));
 //		}
 //		
 //		OldFreq.add("SS");
-		List listTimeCondition= new ArrayList();
+//		List listTimeCondition= new ArrayList();
 		//记录后缀信息
-		String suffix = null;
+//		String suffix = null;
 		//记录最小粒度时间信息
-		List<String> s_time=new ArrayList();
-		List<String> e_time=new ArrayList();
+//		List<String> s_time=new ArrayList();
+//		List<String> e_time=new ArrayList();
 		//获得时间期数
-		for(int k=0;k<OldFreq.size();k++) {
-			Map timeConditionMap=new HashMap();
-			timeConditionMap.put("freqName",OldFreq.get(k));
-			//记录时间跨度
-			List<String> startTime=new ArrayList();
-			List<String> endTime=new ArrayList();
-			
-			for(int i=0;i<cpList.size();i++) {
-				int term = cpList.get(i).getTerm();//获取期数 期数是最新
-				//查询每个板块下的指标数据
-				List<ColPlateIndi> indiList=specialInfoService.getIndiByPid(cpList.get(i).getPid());
-				String sTime="000000";
-				String eTime="999999";
-				System.out.print("size:"+indiList.size());
-				for(int j=0;j<indiList.size();j++) {
-					Map map = new HashMap();
-					System.out.print(indiList.get(j));
-					
-					map.put("indi_code", indiList.get(j).getIndi_id());
-					map.put("time_point", indiList.get(j).getTime_point());
-					map.put("sjly", indiList.get(j).getSjly());
-					map.put("term", term);
-					System.out.print("indi_code"+indiList.get(j).getIndi_id());
-					System.out.print("time_point"+indiList.get(j).getTime_point());
-					System.out.print("sjly"+indiList.get(j).getSjly());
-					System.out.print("term"+term);
-					//************************************
-//					map.put("freq_code","SS");
-					map.put("freq_code",OldFreq.get(k));
-					System.out.print("freq_code"+OldFreq.get(k));
-					List<String> timeSpan = specialInfoService.getDateCodeByFreq(map);
-					String maxTime=timeSpan.get(0).substring(0, 6);
-					System.out.println("what the error"+maxTime);
-					String minTime=timeSpan.get(timeSpan.size()-1).substring(0, 6);
-					if(sTime.compareTo(minTime)<0)
-						sTime=minTime;
-					if(eTime.compareTo(maxTime)>0)
-						eTime=maxTime;
-						
-					
-				}
-				startTime.add(sTime);
-				endTime.add(eTime);
-				
-			}
-			
-			timeConditionMap.put("startArray",startTime);
-			timeConditionMap.put("endArray",endTime);
-			s_time=startTime;
-			e_time=endTime;
-			suffix=OldFreq.get(k);
-			listTimeCondition.add(timeConditionMap);
-			
-			
-		}
+//		for(int k=0;k<OldFreq.size();k++) {
+////			Map timeConditionMap=new HashMap();
+////			timeConditionMap.put("freqName",OldFreq.get(k));
+//			//记录时间跨度
+////			List<String> startTime=new ArrayList();
+////			List<String> endTime=new ArrayList();
+//			
+//			for(int i=0;i<cpList.size();i++) {
+//				int term = cpList.get(i).getTerm();//获取期数 期数是最新
+//				//查询每个板块下的指标数据
+//				List<ColPlateIndi> indiList=specialInfoService.getIndiByPid(cpList.get(i).getPid());
+//				String sTime="000000";
+//				String eTime="999999";
+//				System.out.print("size:"+indiList.size());
+//				for(int j=0;j<indiList.size();j++) {
+//					Map map = new HashMap();
+//					System.out.print(indiList.get(j));
+//					
+//					map.put("indi_code", indiList.get(j).getIndi_id());
+//					map.put("time_point", indiList.get(j).getTime_point());
+//					map.put("sjly", indiList.get(j).getSjly());
+//					map.put("term", term);
+//					System.out.print("indi_code"+indiList.get(j).getIndi_id());
+//					System.out.print("time_point"+indiList.get(j).getTime_point());
+//					System.out.print("sjly"+indiList.get(j).getSjly());
+//					System.out.print("term"+term);
+//					//************************************
+////					map.put("freq_code","SS");
+//					map.put("freq_code",OldFreq.get(k));
+//					System.out.print("freq_code"+OldFreq.get(k));
+//					List<String> timeSpan = specialInfoService.getDateCodeByFreq(map);
+//					String maxTime=timeSpan.get(0).substring(0, 6);
+//					System.out.println("what the error"+maxTime);
+//					String minTime=timeSpan.get(timeSpan.size()-1).substring(0, 6);
+//					if(sTime.compareTo(minTime)<0)
+//						sTime=minTime;
+//					if(eTime.compareTo(maxTime)>0)
+//						eTime=maxTime;
+//						
+//					
+//				}
+//				startTime.add(sTime);
+//				endTime.add(eTime);
+//				
+//			}
+//			
+//			timeConditionMap.put("startArray",startTime);
+//			timeConditionMap.put("endArray",endTime);
+//			s_time=startTime;
+//			e_time=endTime;
+//			suffix=OldFreq.get(k);
+//			listTimeCondition.add(timeConditionMap);
+//			
+//			
+//		}
 		//输出主体数据部分
 		for(int i=0;i<cpList.size();i++) {
 //			int term = cpList.get(i).getTerm();
@@ -181,8 +224,9 @@ public class SpecialInfoController {
 					cmap.put("time_point", indiList.get(j).getTime_point());
 //					Map dFreq=(Map) listTimeCondition.get(0);
 					
-					cmap.put("startTime",s_time.get(i)+suffix);
-					cmap.put("endTime",e_time.get(i)+suffix);
+					cmap.put("startTime",sTime+OldFreq.get(0));
+					cmap.put("endTime",eTime+OldFreq.get(0));
+					cmap.put("freq_code",OldFreq.get(0));
 //					cmap.put("endTime","201804");
 					List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 					
@@ -218,8 +262,9 @@ public class SpecialInfoController {
 //						BarType bt=new BarType();
 						cmap.put("indi_code", indiList.get(j).getIndi_id());//获取当前指标对象的指标代码
 						cmap.put("time_point", indiList.get(j).getTime_point());
-						cmap.put("startTime",s_time.get(i)+suffix);
-						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("startTime",sTime+OldFreq.get(0));
+						cmap.put("endTime",eTime+OldFreq.get(0));
+						cmap.put("freq_code",OldFreq.get(0));
 						List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 //						
 						List dataX=new ArrayList();
@@ -253,8 +298,9 @@ public class SpecialInfoController {
 					//饼状图只有一个指标
 					cmap.put("indi_code",indiList.get(0).getIndi_id());
 					cmap.put("time_point",indiList.get(0).getTime_point());
-					cmap.put("startTime",e_time.get(0)+suffix);
-					cmap.put("endTime",e_time.get(0)+suffix);
+					cmap.put("startTime",eTime+OldFreq.get(0));
+					cmap.put("endTime",eTime+OldFreq.get(0));
+					cmap.put("freq_code",OldFreq.get(0));
 					List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);
 					for(int m=0;m<indiInfoList.size();m++) {
 						dataV.add(indiInfoList.get(m).getIndi_value());
@@ -272,8 +318,9 @@ public class SpecialInfoController {
 //						BarType bt=new BarType();
 						cmap.put("indi_code", indiList.get(j).getIndi_id());//获取当前指标对象的指标代码
 						cmap.put("time_point", indiList.get(j).getTime_point());
-						cmap.put("startTime",s_time.get(i)+suffix);
-						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("startTime",sTime+OldFreq.get(0));
+						cmap.put("endTime",eTime+OldFreq.get(0));
+						cmap.put("freq_code",OldFreq.get(0));
 						List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 						List dataV=new ArrayList();
 						for(int m=0;m<indiInfoList.size();m++) {//循环指标列表
@@ -303,8 +350,9 @@ public class SpecialInfoController {
 //						BarType bt=new BarType();
 						cmap.put("indi_code", indiList.get(j).getIndi_id());//获取当前指标对象的指标代码
 						cmap.put("time_point", indiList.get(j).getTime_point());
-						cmap.put("startTime",s_time.get(i)+suffix);
-						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("startTime",sTime+OldFreq.get(0));
+						cmap.put("endTime",eTime+OldFreq.get(0));
+						cmap.put("freq_code",OldFreq.get(0));
 						List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 						String sType=specialInfoService.getIndiShowType(indiList.get(j).getIndi_id());
 						List dataX=new ArrayList();
@@ -342,8 +390,9 @@ public class SpecialInfoController {
 					cmap.put("time_point", indiList.get(j).getTime_point());
 //					Map dFreq=(Map) listTimeCondition.get(0);
 					
-					cmap.put("startTime",s_time.get(i)+suffix);
-					cmap.put("endTime",e_time.get(i)+suffix);
+					cmap.put("startTime",sTime+OldFreq.get(0));
+					cmap.put("endTime",eTime+OldFreq.get(0));
+					cmap.put("freq_code",OldFreq.get(0));
 //					cmap.put("endTime","201804");
 					List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 					
@@ -379,8 +428,9 @@ public class SpecialInfoController {
 //						BarType bt=new BarType();
 						cmap.put("indi_code", indiList.get(j).getIndi_id());//获取当前指标对象的指标代码
 						cmap.put("time_point", indiList.get(j).getTime_point());
-						cmap.put("startTime",s_time.get(i)+suffix);
-						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("startTime",sTime+OldFreq.get(0));
+						cmap.put("endTime",eTime+OldFreq.get(0));
+						cmap.put("freq_code",OldFreq.get(0));
 						List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 						String sType=specialInfoService.getIndiShowType(indiList.get(j).getIndi_id());
 						List dataX=new ArrayList();
@@ -418,8 +468,9 @@ public class SpecialInfoController {
 					cmap.put("time_point", indiList.get(j).getTime_point());
 //					Map dFreq=(Map) listTimeCondition.get(0);
 					
-					cmap.put("startTime",s_time.get(i)+suffix);
-					cmap.put("endTime",e_time.get(i)+suffix);
+					cmap.put("startTime",sTime+OldFreq.get(0));
+					cmap.put("endTime",eTime+OldFreq.get(0));
+					cmap.put("freq_code",OldFreq.get(0));
 //					cmap.put("endTime","201804");
 					List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
 					
@@ -457,8 +508,9 @@ public class SpecialInfoController {
 					for(int j=0;j<indiList.size();j++) {
 						cmap.put("indi_code", indiList.get(j).getIndi_id());//获取当前指标对象的指标代码
 						cmap.put("time_point", indiList.get(j).getTime_point());
-						cmap.put("startTime",s_time.get(i)+suffix);
-						cmap.put("endTime",e_time.get(i)+suffix);
+						cmap.put("startTime",sTime+OldFreq.get(0));
+						cmap.put("endTime",eTime+OldFreq.get(0));
+						cmap.put("freq_code",OldFreq.get(0));
 						List<indi_TF> indiInfoList=specialInfoService.getIndiInfoByTime(cmap);
 						List dataX=new ArrayList();
 						List dataV=new ArrayList();
@@ -495,24 +547,24 @@ public class SpecialInfoController {
 				}
 		}
 		
-		//获取相关指标
-		List<IndiCorrelative> icList = specialInfoService.getIndiCorrelative(indexId);
-		List listRelative= new ArrayList();
-		System.out.println("the length"+icList.size());
-		for(int i=0;i<icList.size();i++) {
-			
-			
-			Map map2 = new HashMap();
-			map2.put("indi_id", icList.get(i).getIndi_id());//存放相关指标的id
-			map2.put("indi_name", icList.get(i).getIndi_name());//存放相关指标的名称
-			listRelative.add(map2);//循环添加到列表中
-		}
-		
+//		//获取相关指标
+//		List<IndiCorrelative> icList = specialInfoService.getIndiCorrelative(indexId);
+//		List listRelative= new ArrayList();
+//		System.out.println("the length"+icList.size());
+//		for(int i=0;i<icList.size();i++) {
+//			
+//			
+//			Map map2 = new HashMap();
+//			map2.put("indi_id", icList.get(i).getIndi_id());//存放相关指标的id
+//			map2.put("indi_name", icList.get(i).getIndi_name());//存放相关指标的名称
+//			listRelative.add(map2);//循环添加到列表中
+//		}
+//		
 		Map mapAll=new HashMap();
-		mapAll.put("timeCondition",listTimeCondition);//初始化的时间信息
+//		mapAll.put("timeCondition",listTimeCondition);//初始化的时间信息
 //		mapAll.put("classInfo", leList);//板块信息
 		mapAll.put("classInfo",TotalList);
-		mapAll.put("relatedData", listRelative);//相关指标信息
+//		mapAll.put("relatedData", listRelative);//相关指标信息
 		String  param= JSON.toJSONString(mapAll, SerializerFeature.DisableCircularReferenceDetect);
 		return param;
 	

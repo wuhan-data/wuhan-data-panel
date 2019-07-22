@@ -476,8 +476,7 @@
                                             <th>指标代码</th>
                                             <th>指标名称</th>
                                             <th>状态</th>
-                                            <th>展示类型</th>
-                                            <th>来源</th>
+<!--                                             <th>来源</th> -->
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -488,13 +487,12 @@
             <td>${c.indi_code}</td>
             <td>${c.indi_name}</td>
             <td>${c.status}</td>
-            <td>${c.show_type}</td>
-            <td>${c.source}</td>
+<%--             <td>${c.source}</td> --%>
 
             <td >
-            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.indi_name}","${c.show_type}","${c.status}")'><i class="fa fa-edit"></i> 修改</div>
+            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.indi_name}","${c.status}")'><i class="fa fa-edit"></i> 修改</div>
             	<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> <a href="#" id="deleteIndi" onclick="deleteIndi(${c.id})">删除</a></div>
-
+            	
 	<div class="btn-group">
     <button type="button" class="btn btn-info dropdown-toggle btn-sm"  data-toggle="dropdown">
     <c:if test="${c.status==0 }"> &nbsp;&nbsp;&nbsp; 展示</c:if>
@@ -547,7 +545,7 @@
 				
 				
 <!-- 				<span class="text-info">指标值</span><input type="text" class="form-control" id="IndiValue" value="" name="Value"> -->
-				<span class="text-info">展示类型</span><input type="text" class="form-control" id="IndiShowType" value="" name="ShowType">
+<!-- 				<span class="text-info">时点</span><input type="text" class="form-control" id="IndiTimePoint" value="" name="TimePoint"> -->
 				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status">
 <!-- 				<span class="text-info">来源</span><input type="text" class="form-control" id="IndiSource" value="" name="Source"> -->
 				
@@ -686,13 +684,12 @@
 
 	<script type="text/javascript">
 	//id,indi_code,indi_name,freq_code,indi_value,time_point,status,source
-		function updateIndi(id,indi_code,indi_name,show_type,status){
+		function updateIndi(id,indi_code,indi_name,status){
 			
  			 $("#IndiId").val(id);
 			$("#IndiCode").val(indi_code);
 			$("#IndiName").val(indi_name);
 			
-			$("#IndiShowType").val(show_type);
 			$("#IndiStatus").val(status);
 			
 }
