@@ -43,6 +43,6 @@
         </select>
         <select id="getTimeSpan" resultType="String" parameterType="java.util.Map">
        select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} and area_name=#{area_name} and group_count=#{group_count} and sjly=#{sjly}  order by date_code
-      <!--  select date_code from indi_all where freq_code="SS" and indi_code='0100001' and date_code &gt;= '201404SS' and date_code &lt;= '201804SS' and time_point=203 and area_name='湖北省' and group_count='0' and sjly='湖北省统计局-' order by date_code-->
+       <!-- select date_code from indi_all where freq_code="SS" and indi_code='0100001' and date_code &gt;= '201404SS' and date_code &lt;= '201804SS' and time_point=203 and area_name='湖北省' and group_count='0' and sjly='湖北省统计局-' order by date_code-->
         </select>
     </mapper>

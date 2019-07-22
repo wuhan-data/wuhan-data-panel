@@ -2,6 +2,7 @@ package com.wuhan_data.app.mapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.wuhan_data.pojo.ColPlate;
 import com.wuhan_data.pojo.ColPlateIndi;
@@ -23,6 +24,7 @@ public interface PlateInfoMapper {
 	String getIndiShowType(String indi_code);
 	//用于获取时间跨度
 	List<String> getTimeSpan(Map map);
+//	Set getTimeSpan(Map map);
 	
 	
 	
