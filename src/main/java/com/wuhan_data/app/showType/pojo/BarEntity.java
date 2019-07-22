@@ -5,7 +5,7 @@ public class BarEntity {
 	String id;
 	String classTitle;
 	String classType="echarts";
-	String classHeight="300";
+	String classHeight="200";
 	BarOptionEntity echartOption;
 	
 	public BarEntity() {
