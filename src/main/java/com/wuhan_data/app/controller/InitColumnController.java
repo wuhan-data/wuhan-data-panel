@@ -77,7 +77,7 @@ public class InitColumnController {
 		Collect collect=new Collect();
 		collect.setUid(uid);
 		collect.setCreate_time(create_time);
-		collect.setIndex_id(index_id);
+		collect.setIndex_id(Integer.toString(index_id));
 		collect.setType(type);
 		System.out.println("uid"+collect.getUid());
 		System.out.println("create_time"+collect.getCreate_time());
