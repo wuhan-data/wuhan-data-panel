@@ -40,26 +40,26 @@ public class AnalysisServiceImpl implements AnalysisService {
 		ArrayList<Object> result = new ArrayList<Object>();
 		List<AnalysisTheme> subList = analysisMapper.getAnalysisSubList(typeId);
 		for (int i = 0; i < subList.size(); i++) {
-			ArrayList<Object> descMap = new ArrayList<Object>();
 			Map<String, Object> subListMap = new HashMap<String, Object>();
 			String indexId = subList.get(i).getIndexId().toString();
 			String indexName = subList.get(i).getIndexName().toString();
 			subListMap.put("indexId", indexId);
 			subListMap.put("indexName", indexName);
 			// TODO 指标数据描述数据获取待优化
-			Map<String, Object> desc1 = analysisMapper.getAnalysisDesc1(indexName);
-			Map<String, Object> desc2 = analysisMapper.getAnalysisDesc2(indexName);
-			Map<String, Object> desc3 = analysisMapper.getAnalysisDesc3(indexName);
-			if (desc1 != null) {
-				descMap.add(desc1);
-			}
-			if (desc2 != null) {
-				descMap.add(desc2);
-			}
-			if (desc3 != null) {
-				descMap.add(desc3);
-			}
-			subListMap.put("desc", descMap);
+//			ArrayList<Object> descMap = new ArrayList<Object>();
+//			Map<String, Object> desc1 = analysisMapper.getAnalysisDesc1(indexName);
+//			Map<String, Object> desc2 = analysisMapper.getAnalysisDesc2(indexName);
+//			Map<String, Object> desc3 = analysisMapper.getAnalysisDesc3(indexName);
+//			if (desc1 != null) {
+//				descMap.add(desc1);
+//			}
+//			if (desc2 != null) {
+//				descMap.add(desc2);
+//			}
+//			if (desc3 != null) {
+//				descMap.add(desc3);
+//			}
+//			subListMap.put("desc", descMap);
 			result.add(subListMap);
 		}
 		return result;

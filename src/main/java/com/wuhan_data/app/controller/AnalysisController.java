@@ -47,11 +47,9 @@ public class AnalysisController {
 		if (token != "") {
 			// TODO 根据用户token获取对应的role_list
 			role_list.add("analysis_zonghe");
-		}
-		
+		}	
 		ArrayList<Object> list = analysisService.getAnalysisList();
 		data.put("list", list);
-		
 		return this.apiReturn("0", "成功获取数据", data);
 	}
 

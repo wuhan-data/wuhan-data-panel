@@ -7,7 +7,7 @@
 
 	<select id="getAnalysisList"
 		resultType="com.wuhan_data.pojo.AnalysisTheme">
-		SELECT
+		SELECT DISTINCT
 		`type_id` as listId,
 		`type_name` as listName
 		FROM
