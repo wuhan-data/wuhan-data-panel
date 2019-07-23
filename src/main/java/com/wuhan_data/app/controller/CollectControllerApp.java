@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.wuhan_data.app.service.CollectServiceApp;
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.pojo.Collect;
+import com.wuhan_data.tools.SessionApp;
+import com.wuhan_data.tools.StringToMap;
 
 import net.sf.json.JSONObject;
 
@@ -29,7 +32,8 @@ import net.sf.json.JSONObject;
 public class CollectControllerApp {
 	@Autowired
 	CollectServiceApp  collectServiceApp;
-	
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
 	
 	@RequestMapping(value="setCollectApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
@@ -37,23 +41,21 @@ public class CollectControllerApp {
             HttpServletResponse response,@RequestBody String json) throws Exception
 	{
 		Map mapReturn=new HashMap();
-//		int uid=Integer.valueOf(request.getParameter("uid"));
-//		String type=request.getParameter("type");
-//		int index_id=Integer.valueOf(request.getParameter("index_id"));
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
 	  	String tokenString=mapget.get("token").toString();
 	  	String typeString=mapget.get("type").toString();
 	  	String indexIdString=mapget.get("indexId").toString();
+	  	String indexNameString=mapget.get("indexName").toString();
 	  	String sourceString=mapget.get("source").toString();
-	  	HttpSession session = request.getSession();
-	  	if(session.getAttribute(tokenString)==null)
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
 			mapReturn.put("errCode", "2");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {
-	  		Map map=(HashMap)session.getAttribute(tokenString);
+	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	  		Map map=StringToMap.stringToMap(mapString);
 	  		int uid=Integer.valueOf((String)map.get("userId"));
 	  		//int uid=0;
 //			String type ="指标数据";
@@ -64,6 +66,7 @@ public class CollectControllerApp {
 			collect.setUid(uid);
 			collect.setType(typeString);
 			collect.setIndex_id(indexIdString);
+			collect.setIndex_name(indexNameString);
 			collect.setIndi_source(sourceString);
 			collect.setCreate_time(new Date());
 			if (collectServiceApp.add(collect)!=0)
@@ -92,14 +95,14 @@ public class CollectControllerApp {
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
 	  	String tokenString=mapget.get("token").toString();
-	  	HttpSession session = request.getSession();
-	  	if(session.getAttribute(tokenString)==null)
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
 			mapReturn.put("errCode", "2");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {
-	  		Map map=(HashMap)session.getAttribute(tokenString);
+	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	  		Map map=StringToMap.stringToMap(mapString);
 	  		int uid=Integer.valueOf((String)map.get("userId"));
 	  		List<Collect> collects=collectServiceApp.getByUid(uid);
 	  		List list1=new ArrayList();
@@ -114,6 +117,7 @@ public class CollectControllerApp {
 					map1.put("type", "指标数据");
 					map1.put("collectId", collect.getId().toString());
 					map1.put("indexId",collect.getIndex_id());
+					map1.put("indexName",collect.getIndex_name());
 					map1.put("source", collect.getIndi_source());
 					//时间数据格式化
 					Date create = collect.getCreate_time();
@@ -126,13 +130,14 @@ public class CollectControllerApp {
 					map1.put("type", "经济分析");
 					map1.put("collectId", collect.getId().toString());
 					map1.put("indexId",collect.getIndex_id());
+					map1.put("indexName",collect.getIndex_name());
 					map1.put("source", collect.getIndi_source());
 					//时间数据格式化
 					Date create = collect.getCreate_time();
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 					String createTime = formatter.format(create);
 					map1.put("createTime", createTime);
-					list1.add(map1);
+					list2.add(map1);
 				}
 			}
 			mapReturn.put("errCode","0");

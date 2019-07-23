@@ -10,6 +10,7 @@ import com.wuhan_data.tools.DataSource;
 
 
 public interface IndexManageMapper {
+		@DataSource(value="dataSource_dm")
 	    public int add(IndexManage indexManager); 
      
 	    public void delete(int id); 

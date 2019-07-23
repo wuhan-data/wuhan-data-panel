@@ -82,12 +82,6 @@ public class UserServiceAppImpl implements UserServiceApp {
 		return userMapperApp.logincheck(user);
 	}
 
-	@Override
-	public void register(Map<String, Object> parameter) {
-		// TODO Auto-generated method stub
-		userMapperApp.register(parameter);
-
-	}
 
 	@Override
 	public int count() {

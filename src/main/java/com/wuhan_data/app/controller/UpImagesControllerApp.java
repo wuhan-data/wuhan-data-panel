@@ -25,10 +25,13 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.wuhan_data.app.service.FeedbackServiceApp;
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.app.service.UserServiceApp;
 import com.wuhan_data.pojo.Feedback;
 import com.wuhan_data.pojo.User;
 import com.wuhan_data.tools.ImageUtils;
+import com.wuhan_data.tools.SessionApp;
+import com.wuhan_data.tools.StringToMap;
 
 import net.sf.json.JSONObject;
 @Controller
@@ -38,6 +41,8 @@ public class UpImagesControllerApp {
 	UserServiceApp userServiceApp;
 	@Autowired
 	FeedbackServiceApp feedbackServiceApp;
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
 	/**
 	 * 添加用户信息
 	 * @param user，封装表单中除图片地址以外的其他数据（要求<input>中的name跟实体类中的属性一致）
@@ -48,22 +53,44 @@ public class UpImagesControllerApp {
 	 * 接口所声明的形参名一致，不然需要用@RequestParam注解绑定
 	 */
 	
+	@RequestMapping(value="uploadHead",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+	@ResponseBody
+	public String uploadHead( HttpServletRequest request,  @RequestParam("file")MultipartFile file) {
+		
+		Map mapReturn=new HashMap();
+//		JSONObject jsonObject =JSONObject.fromObject(json); 
+//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
+//		String tokenString=mapget.get("token").toString();
+	    String tokenString =request.getParameter("token");
+	    System.out.println("图片上传接口："+"token"+tokenString);
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
+	  	{
+			mapReturn.put("errCode", "2");
+			mapReturn.put("errMsg", "token令牌错误");
+	  	}
+	  	String param=JSON.toJSONString(mapReturn);
+		return param;
+	  	
+	}
+	
+	
+	
 	//只允许传输单个图片
-	
-	
 	//接口 头像上传
 	@RequestMapping(value="setHeadApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
 	public String setHead( HttpServletRequest request, @RequestParam("file")MultipartFile [] files) {
 		// 得到上传图片的地址
 		Map mapReturn=new HashMap();
+//		JSONObject jsonObject =JSONObject.fromObject(json); 
+//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
+//		String tokenString=mapget.get("token").toString();
 	    String tokenString =request.getParameter("token");
-	    HttpSession session = request.getSession();
-	  	if(session.getAttribute(tokenString)==null)
+	    System.out.println("图片上传接口："+"token"+tokenString);
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
 			mapReturn.put("errCode", "2");
 			mapReturn.put("errMsg", "token令牌错误");
-			
 	  	}
 	  	else {
 	  		 if (files.length!=1)
@@ -75,11 +102,12 @@ public class UpImagesControllerApp {
 	 	    }
 	 	    else 
 	 	    {
-	 	    	Map map2=(HashMap)session.getAttribute(tokenString);
+	 	    	String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	 	    	Map map2=StringToMap.stringToMap(mapString);
 		  		int id=Integer.valueOf((String)map2.get("userId"));
-	 	    	
 	 			//获取旧的头像的地址
 	 	    	String oldHead=userServiceApp.get(id).getHead();
+	 	    	System.out.println("oldHead"+oldHead);
 	 	    	//上传新的图片的地址
 	 	    	try {
 	 	    		String imgPath = ImageUtils.uploadHead(request, files[0]);
@@ -87,14 +115,13 @@ public class UpImagesControllerApp {
 	 	    		{
 	 	    			mapReturn.put("errCode", "1");
 	 	    	    	mapReturn.put("errMsg","头像上传失败");
-
 	 	    		}
 	 	    		else {
 	 					//上传成功，删除原来的图片
 	 	    			if(oldHead!=null||oldHead!="")
 	 	    			{
 	 	    				String url = request.getSession().getServletContext().getRealPath("");
-	 		    			String deletehead=url+"/"+oldHead;
+	 		    			String deletehead=oldHead;
 	 	    				File oldFile = new File(deletehead); 
 	 		    			if(oldFile.exists())
 	 						{
@@ -105,18 +132,17 @@ public class UpImagesControllerApp {
 	 	    			map.put("id", id);
 	 	    			map.put("head", imgPath);
 	 	    			userServiceApp.setHeadById(map);
-	 	    			
 	 	    			//返回数据
 	 	    			mapReturn.put("errCode", "0");
 	 	    	    	mapReturn.put("errMsg","头像上传成功");
-	 	    	    	
 	 	    	    	List list = new ArrayList();
 	 	    	    	Map map1 = new HashMap();
 	 	    	    	map1.put("head", imgPath);
 	 	    	    	list.add(map1);
 	 	    	    	mapReturn.put("data", list);
 	 	    	    	//刷新session中的内容
-	 	    	    	new UserControllerApp().flashSession(request,tokenString);
+	 	    	    	flashSession(tokenString);
+	 	    	    	
 	 				}
 	 			} catch (Exception e) {
 	 				// TODO: handle exception
@@ -130,19 +156,24 @@ public class UpImagesControllerApp {
 		return param;
  
 	}
-	
 	// 接口 问题反馈 多个图片
 	//多个图片的上传
 	// 如下代码只保留了主逻辑
-	@RequestMapping(value="uploadFeedback",produces="text/plain;charset=utf-8",method=RequestMethod.GET)
+	@RequestMapping(value="uploadFeedback",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
 	public String uploadFile(HttpServletRequest request) throws IOException{
 		
-		
-		int uid=Integer.valueOf(request.getParameter("id"));
+		Map mapReturn=new HashMap();
+	    String tokenString =request.getParameter("token");
+		//int uid=Integer.valueOf(request.getParameter("id"));
 		String text=request.getParameter("text");
 		String contact=request.getParameter("contact");
-		Map mapReturn=new HashMap();
+		
+		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	    Map map2=StringToMap.stringToMap(mapString);
+  		int uid=Integer.valueOf((String)map2.get("userId"));
+		System.out.println("反馈接口1"+"token"+tokenString+"text"+text+"contact"+contact);
+	
 	    CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 	    commonsMultipartResolver.setDefaultEncoding("utf-8");
 	 
@@ -173,21 +204,21 @@ public class UpImagesControllerApp {
 	        	feedback.setContact(contact);
 	        	Date date=new Date();
 	        	feedback.setCreate_time(date);
+	        	System.out.println("feedback"+feedback.toString());
 	        	if(feedbackServiceApp.add(feedback)!=0)
 	        	{
-	        		mapReturn.put("code", 1);
+	        		mapReturn.put("code", 0);
 					mapReturn.put("msg","上传反馈成功");
 	        	}
 	        	else {
-	        		mapReturn.put("code", 0);
+	        		mapReturn.put("code", 1);
 					mapReturn.put("msg","上传反馈失败");
 				}
 	        }
 	        else {
 	        	mapReturn.put("code", 3);
 				mapReturn.put("msg","上传图片失败");
-			}
-	        
+			} 
 	    }
 	    else 
 	    {
@@ -198,24 +229,110 @@ public class UpImagesControllerApp {
 		return param;
 	}
 	
-	
-	@RequestMapping(value="ppp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+	@RequestMapping(value="uploadFeedback2",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
-	public void uploadFile(HttpServletRequest request, @RequestParam("file")MultipartFile [] files){
-	    int id=Integer.valueOf(request.getParameter("id"));
-	    System.out.print(id);
-	    // 这样就可以收到文件了，files.length == 1.
-	    System.out.println(files.length);
-	    MultipartFile file=files[0];
-	    try {
-			ImageUtils.uploadHead(request, file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	 
-	    // 后续操作省略
+	public String uploadFeedback2(HttpServletRequest request, @RequestParam("file")MultipartFile [] files) throws IOException{
+		
+		Map mapReturn=new HashMap();
+	    String tokenString =request.getParameter("token");
+	    // int uid=Integer.valueOf(request.getParameter("id"));
+	    //id通过token来获取
+		String textString=request.getParameter("text");
+		String contactString=request.getParameter("contact");
+	    System.out.println("图片上传接口："+"token"+tokenString+"text"+textString+"contact"+contactString);
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
+	  	{
+			mapReturn.put("errCode", "2");
+			mapReturn.put("errMsg", "token令牌错误");
+	  	}
+	  	else {
+	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+ 	    	Map map2=StringToMap.stringToMap(mapString);
+	  		int uid=Integer.valueOf((String)map2.get("userId"));
+	  		String feedImgString="";
+	  		System.out.println("几张图"+files.length);
+	  		for(int i=0;i<files.length;i++)
+	  		{
+	  			try {
+	 	    		String imgPath = ImageUtils.uploadFeedback(request, files[i]);
+	 	    		if(imgPath==null ||imgPath.equals(""))
+	 	    		{
+	 	    			mapReturn.put("errCode", "2");
+	 	    	    	mapReturn.put("errMsg","图片上传失败");
+	 	    		}
+	 	    		feedImgString=feedImgString+";"+imgPath;
+	 	    		System.out.println("feedImgString"+feedImgString);
+	  			}
+	  			catch (Exception e) {
+	 				// TODO: handle exception
+	 			}
+	  		}
+	  		Feedback feedback=new Feedback();
+        	feedback.setUid(uid);
+        	feedback.setText(textString);
+        	feedback.setImg(feedImgString);
+        	feedback.setContact(contactString);
+        	Date date=new Date();
+        	feedback.setCreate_time(date);
+        	System.out.println(feedback.toString());
+        	if(feedbackServiceApp.add(feedback)!=0)
+        	{
+        		mapReturn.put("code", 0);
+				mapReturn.put("msg","上传反馈成功");
+        	}
+        	else {
+        		mapReturn.put("code", 1);
+				mapReturn.put("msg","上传反馈失败");
+			}
+	  	}
+	    String param=JSON.toJSONString(mapReturn);
+	    System.out.println("反馈"+param);
+	 	return param;
+		
 	}
+	
+	
+	//刷新sessionid中的值
+	  public void flashSession(String token)
+	  {
+		  String mapString=sessionSQLServiceApp.get(token).getSess_value();
+	  		Map map=StringToMap.stringToMap(mapString);
+	  		String tel=(String)map.get("tel");
+	  		User user = userServiceApp.getByTel(tel);//通过电话号码获取用户
+	  		String idString = String.valueOf(user.getId());
+			String telString = user.getTel();
+			String realNameString = user.getReal_name();
+			String genderString = "女";
+			if (user.getGender() == 0) {
+				genderString = "女";
+			} else {
+				genderString = "男";
+			}
+			String headString = user.getHead();
+			Date birth = user.getBirthday();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String birthdayString = formatter.format(birth);
+			String cityString = user.getCity();
+			String descriptionString = user.getDescription();
+			String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
+			String roleNameString = user.getRole_id();
+			List list = new ArrayList();
+			Map map1 = new HashMap();
+			map1.put("userId", idString);
+			map1.put("tel", telString);
+			map1.put("realName", realNameString);
+			map1.put("gender", genderString);
+			map1.put("head", headString);
+			map1.put("birthday", birthdayString);
+			map1.put("city", cityString);
+			map1.put("description", descriptionString);
+			map1.put("department", deparmentString);
+			map1.put("roleName", roleNameString);
+			list.add(map1);
+			sessionSQLServiceApp.set(token, map1.toString());
+			System.out.println("flash"+map1.toString());
+		  
+	  }
 	
 	
 	

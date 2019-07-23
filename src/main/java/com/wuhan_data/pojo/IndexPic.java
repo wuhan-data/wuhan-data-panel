@@ -2,8 +2,8 @@ package com.wuhan_data.pojo;
 
 public class IndexPic {
 	String id;
-	String name;
-	String url;
+	String title;
+	String image;
 	
 	
 	public String getId() {
@@ -12,17 +12,17 @@ public class IndexPic {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getUrl() {
-		return url;
+	public String getImage() {
+		return image;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 

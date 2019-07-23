@@ -1,8 +1,10 @@
 package com.wuhan_data.app.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,126 +20,75 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 
-import org.apache.commons.httpclient.HttpException;
+import org.springframework.beans.factory.annotation.Autowired;  
+import org.springframework.web.context.request.RequestAttributes;  
+import org.springframework.web.context.request.RequestContextHolder;  
+import org.springframework.web.context.request.ServletRequestAttributes;  
 import org.aspectj.weaver.NewConstructorTypeMunger;
-import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import net.sf.json.JSONObject;
 
 import com.alibaba.druid.sql.parser.Token;
 import com.alibaba.fastjson.JSON;
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.app.service.UserServiceApp;
 import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.UserService;
+import com.wuhan_data.tools.ImageUtils;
 import com.wuhan_data.tools.SendMessage;
+import com.wuhan_data.tools.SessionApp;
+import com.wuhan_data.tools.StringToMap;
 import com.wuhan_data.tools.TokenUtil;
 
-import jdk.nashorn.internal.ir.ReturnNode;
+
 
 @Controller
 @RequestMapping("")
 public class UserControllerApp {
 	@Autowired
 	UserServiceApp userServiceApp;
-
-
-	
-
-	@RequestMapping(value = "ttt", produces = "text/plain;charset=utf-8", method = RequestMethod.GET)
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
+	@RequestMapping(value = "loginTest", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
-	public String ttt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String loginTest(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
+			throws Exception {
 		Map mapReturn = new HashMap();
-		String tel = "15172462980";
-		String Vercode = "561778";
-		System.out.println("登录接口:获取的参数为" + "tel" + tel + "Vercode" + Vercode);
-		HttpSession session = request.getSession();// 设置session
-		String sessioncode = (String) session.getAttribute(tel + "code");
-		System.out.println("sessioncod"+sessioncode);
-		// 对比缓存是否相同
-		if ((Vercode).equals(sessioncode)) {
-			// 判断是否为新用户
-			if (userServiceApp.getByTel(tel) == null) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("tel", tel);
-				map.put("password", "123123");
-				userServiceApp.register(map);
-				mapReturn.put("errCode", 0);
-				mapReturn.put("errMsg", "新用户登录成功");
-			} else {
-				mapReturn.put("errCode", 0);
-				mapReturn.put("errMsg", "登录成功");
-				// 将用户的信息加到session中，以token为key，对应的职位
-			}
-			// 将对应用户的信息加到data中
-			User user = userServiceApp.getByTel(tel);
-			// 生成token令牌
-			String tokenString = TokenUtil.getToken(tel + new Date().toString());
-			String idString = String.valueOf(user.getId());
-			String telString = user.getTel();
-			String realNameString = user.getReal_name();
-			String genderString = "女";
-			if (user.getGender() == 0) {
-				genderString = "女";
-			} else {
-				genderString = "男";
-			}
-			String headString = user.getHead();
-			Date birth = user.getBirthday();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			String birthdayString = formatter.format(birth);
-			String cityString = user.getCity();
-			String descriptionString = user.getDescription();
-			String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
-			String roleNameString = user.getRole_id();
-			List list = new ArrayList();
-			Map map1 = new HashMap();
-			map1.put("token", tokenString);
-			map1.put("userId", idString);
-			map1.put("tel", telString);
-			map1.put("realName", realNameString);
-			map1.put("gender", genderString);
-			map1.put("head", headString);
-			map1.put("birthday", birthdayString);
-			map1.put("city", cityString);
-			map1.put("description", descriptionString);
-			map1.put("department", deparmentString);
-			map1.put("roleName", roleNameString);
-			list.add(map1);
-			mapReturn.put("data", list);
-			// 将用户的信息加到session中，以token为key，对应的职位
-			session.setAttribute(tokenString, map1);  	
-			// 没有设置保存多长时间会不会有问题
-		} else {
-			mapReturn.put("errCode", 1);
-			mapReturn.put("errMsg", "手机号或者验证码不正确");
-		}
+		mapReturn.put("errCode","0");
+		mapReturn.put("errMsg", "登录成功");
+		String valueString=sessionSQLServiceApp.get("a6daa3840f2425799be009ea4c573713").getSess_value();
+		Map map=StringToMap.stringToMap(valueString);
+		mapReturn.put("data", map);
 		String param = JSON.toJSONString(mapReturn);
-		System.out.println("登录接口:" + param);
+		System.out.println("测试login接口返回:" + param);
 		return param;
 	}
+	
+	
+	
 
 	// 接口获取验证码
-	@RequestMapping(value = "getVercodeApp", produces = "text/plain;charset=utf-8", method = RequestMethod.GET)
+	@RequestMapping(value = "getVercodeApp", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
-	public String getVercode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String getVercode(HttpServletRequest request, HttpServletResponse response,@RequestBody String json) throws Exception {
 		Map mapReturn = new HashMap();
-		String tel = request.getParameter("tel");
-		// String tel="15172462980";;
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+		String tel = mapget.get("tel").toString();
 		System.out.println("获取验证码接口：sendSMS:" + "tel=" + tel);
-		HttpSession session1 = request.getSession();
-		if (session1.getAttribute(tel + "sendSMS") != null) {
+		
+		if (sessionSQLServiceApp.isTimeOut(tel+"verCode", 60)==false) {
 			mapReturn.put("errCode","3");
 			mapReturn.put("errMsg", "一分钟请勿重复申请验证码");
 		} else {
 
-			session1.setAttribute(tel + "sendSMS", tel);
-			session1.setMaxInactiveInterval(60);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("tel", tel);
 			HashMap<String, String> m = SendMessage.getMessageStatus(tel); // 应用发送短信接口  
@@ -145,10 +96,9 @@ public class UserControllerApp {
 			if (result.trim().equals("1")) // 发送成功
 			{
 				String code = m.get("code");
-				// String code="123456";
-				HttpSession session = request.getSession(); // 设置session  
-				session.setAttribute(tel + "code", code); // 将短信验证码放到session中保存  
-				session.setMaxInactiveInterval(60 * 3); // 缓存设置3分钟
+			   // 将短信验证码放到session中保存  
+				sessionSQLServiceApp.set(tel + "verCode", code);
+				System.out.println("发送的验证码："+"code"+code);
 				mapReturn.put("errCode","0");
 				mapReturn.put("errMsg", "短信发送成功");
 			} else {
@@ -171,18 +121,23 @@ public class UserControllerApp {
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
 		String tel = mapget.get("tel").toString();
-		String Vercode = mapget.get("Vercode").toString();
-		System.out.println("登录接口:获取的参数为" + "tel" + tel + "Vercode" + Vercode);
-		HttpSession session = request.getSession();// 设置session
-		String sessioncode = (String) session.getAttribute(tel + "code");
-		// 对比缓存是否相同
-		if ((Vercode).equals(sessioncode)) {
+		String verCode = mapget.get("verCode").toString();
+		System.out.println("登录接口:获取的参数为" + "tel" + tel + "verCode" + verCode);
+		//HttpSession session = request.getSession();// 设置session
+		String sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
+		// 对比缓存是否相同+
+		if ((verCode).equals(sessioncode)) {
 			// 判断是否为新用户
 			if (userServiceApp.getByTel(tel) == null) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("tel", tel);
-				map.put("password", "123123");
-				userServiceApp.register(map);
+				User user=new User();
+				user.setTel(tel);
+				//设置头像路径
+				String headString=ImageUtils.getURL(request);
+				user.setTel(headString+"head/default.jpg");
+				
+				userServiceApp.add(user);
+				
+				System.out.println(user.toString());
 				mapReturn.put("errCode","0");
 				mapReturn.put("errMsg", "新用户登录成功");
 			} else {
@@ -227,7 +182,7 @@ public class UserControllerApp {
 			;
 			mapReturn.put("data", map1);
 			// 将用户的信息加到session中，以token为key，对应的职位
-			session.setAttribute(tokenString, map1);
+			sessionSQLServiceApp.set(tokenString, map1.toString());
 			// 没有设置保存多长时间会不会有问题
 		} else {
 			mapReturn.put("errCode","1");
@@ -249,14 +204,18 @@ public class UserControllerApp {
 	  	JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
 	  	String tokenString=mapget.get("token").toString();
-	  	HttpSession session = request.getSession();
-	  	if(session.getAttribute(tokenString)==null)
+	  	System.out.println("获取用户个人信息接口："+"token"+tokenString);
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
 			mapReturn.put("errCode", "1");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {
-	  		Map map=(HashMap)session.getAttribute(tokenString);
+	  		
+	  		  
+	  		
+	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	  		Map map=StringToMap.stringToMap(mapString);
 	  		String tel=(String)map.get("tel");
 	  		User user = userServiceApp.getByTel(tel);//通过电话号码获取用户
 	  		String idString = String.valueOf(user.getId());
@@ -302,7 +261,6 @@ public class UserControllerApp {
 	  @ResponseBody public String editUser(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
 	{
 			Map mapReturn=new HashMap(); 
-			HttpSession session = request.getSession();
 			JSONObject jsonObject =JSONObject.fromObject(json); 
 			Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
 			String tokenString=mapget.get("token").toString();
@@ -310,14 +268,14 @@ public class UserControllerApp {
 			realName = URLDecoder.decode(realName, "utf-8");
 			String genderString = mapget.get("gender").toString();
 			genderString = URLDecoder.decode(genderString, "utf-8");
-			String birthday = mapget.get("birth").toString();
+			String birthday = mapget.get("birthday").toString();
 			String city = mapget.get("city").toString();
 			city = URLDecoder.decode(city, "utf-8");
 			String description = mapget.get("description").toString();
 			description = URLDecoder.decode(description, "utf-8");
-
+			System.out.println("realName"+realName+"description"+description);
 			//token验证
-			if(session.getAttribute(tokenString)==null)
+			if(sessionSQLServiceApp.get(tokenString)==null)
 		  	{
 				mapReturn.put("errCode", "2");
 				mapReturn.put("errMsg", "token令牌错误");
@@ -337,7 +295,8 @@ public class UserControllerApp {
 					// TODO: handle exception
 					e.printStackTrace();
 				}
-				Map map=(HashMap)session.getAttribute(tokenString);
+				String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+		  		Map map=StringToMap.stringToMap(mapString);
 		  		String tel=(String)map.get("tel");
 				User user = userServiceApp.getByTel(tel);
 				user.setReal_name(realName);
@@ -345,6 +304,7 @@ public class UserControllerApp {
 				user.setBirthday(birth);
 				user.setCity(city);
 				user.setDescription(description);
+				System.out.println("user"+user.toString());
 				if (userServiceApp.updata(user) != 0) {
 					mapReturn.put("errCode", "0");
 					mapReturn.put("errMsg", "用户信息修改成功");
@@ -362,10 +322,10 @@ public class UserControllerApp {
 	  
 	  
 	//刷新sessionid中的值
-	  public void flashSession(HttpServletRequest request,String token)
+	  public void flashSession(String token)
 	  {
-		  HttpSession session = request.getSession();
-		  Map map=(HashMap)session.getAttribute(token);
+		  String mapString=sessionSQLServiceApp.get(token).getSess_value();
+	  		Map map=StringToMap.stringToMap(mapString);
 	  		String tel=(String)map.get("tel");
 	  		User user = userServiceApp.getByTel(tel);//通过电话号码获取用户
 	  		String idString = String.valueOf(user.getId());
@@ -398,9 +358,17 @@ public class UserControllerApp {
 			map1.put("department", deparmentString);
 			map1.put("roleName", roleNameString);
 			list.add(map1);
-			session.setAttribute(token, map1);
+			sessionSQLServiceApp.set(token, map1.toString());
+			System.out.println("flash"+map1.toString());
 		  
 	  }
+	  
+//	  //获取项目的地址
+//	  public String getURL(HttpServletRequest request)
+//	  {
+//		  String urlString=request.getScheme()+"://192.168.124.11"+":"+request.getLocalPort()+"/"+"wuhan_data1/";
+//		  return urlString;
+//	  }
 //
 //	// 接口 注册（注册）
 //	@RequestMapping(value = "userRegisterlAPP", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
@@ -417,7 +385,7 @@ public class UserControllerApp {
 ////		String code="521117";
 ////		String password="123456";
 //		HttpSession session = request.getSession();// 设置session
-//		String sessioncode = (String) session.getAttribute(tel + "code");
+//		String sessioncode = (String) session.get(tel + "code");
 //		System.out.println("userRegisterlAPP:" + "code" + sessioncode);
 //		if ((code).equals(sessioncode)) {// 比对缓存
 //			// 注册
@@ -459,7 +427,7 @@ public class UserControllerApp {
 //		} else {
 //			User user = userServiceApp.logincheckByTel(map);
 //			HttpSession session = request.getSession();
-//			session.setAttribute("uid", user.getId());
+//			session.put("uid", user.getId());
 //			mapReturn.put("code", 1);
 //			mapReturn.put("msg", "用户名密码正确");
 //			mapReturn.put("id", user.getId());
@@ -488,7 +456,7 @@ public class UserControllerApp {
 //				System.out
 //						.println(code + "============================================================================");
 //				HttpSession session = request.getSession(); // 设置session  
-//				session.setAttribute("ForgetPassword" + tel + "code", code); // 将短信验证码放到session中保存  
+//				session.put("ForgetPassword" + tel + "code", code); // 将短信验证码放到session中保存  
 //				session.setMaxInactiveInterval(60 * 3); // 缓存设置3分钟
 //				mapReturn.put("code", 1);
 //				mapReturn.put("msg", "短信发送成功");
@@ -517,7 +485,7 @@ public class UserControllerApp {
 //		// String tel="";
 //		// String code="";
 //		HttpSession session = request.getSession();// 设置session
-//		String sessioncode = (String) session.getAttribute("ForgetPassword" + tel + "code");
+//		String sessioncode = (String) session.get("ForgetPassword" + tel + "code");
 //		System.out.println("checkSMSForgetPassword=" + "tel:" + tel + "code:" + code);
 //		if (code.trim().equals(sessioncode.trim())) {
 //			mapReturn.put("code", 1);
@@ -672,7 +640,7 @@ public class UserControllerApp {
 //				System.out
 //						.println(code + "============================================================================");
 //				HttpSession session = request.getSession(); // 设置session  
-//				session.setAttribute("changeTel" + tel + "code", code); // 将短信验证码放到session中保存  
+//				session.put("changeTel" + tel + "code", code); // 将短信验证码放到session中保存  
 //				session.setMaxInactiveInterval(60 * 3); // 缓存设置3分钟
 //				mapReturn.put("code", 1);
 //				mapReturn.put("msg", "短信发送成功");
@@ -705,7 +673,7 @@ public class UserControllerApp {
 //
 //		System.out.println("changeTel=" + "id" + id + "tel:" + tel + "code:" + code);
 //		HttpSession session = request.getSession();// 设置session
-//		String sessioncode = (String) session.getAttribute("changeTel" + tel + "code");
+//		String sessioncode = (String) session.get("changeTel" + tel + "code");
 //		if ((code).equals(sessioncode)) {// 比对缓存
 //			// 改tel
 //			Map<String, Object> map = new HashMap<String, Object>();

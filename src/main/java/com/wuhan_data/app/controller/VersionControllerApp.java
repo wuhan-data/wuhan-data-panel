@@ -20,6 +20,7 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import com.wuhan_data.app.service.CollectServiceApp;
 import com.wuhan_data.app.service.VersionServiceApp;
 import com.wuhan_data.pojo.Version;
+import com.wuhan_data.tools.SessionApp;
 
 @Controller
 @RequestMapping("")
@@ -48,7 +49,7 @@ public class VersionControllerApp {
 		else {
 			Version iosVersion=versions.get(0);
 			Version androidVersion=versionList.get(0);
-			mapReturn.put("errcode","0");
+			mapReturn.put("errCode","0");
 			mapReturn.put("errMsg","最新版本信息获取成功");
 			List list1 = new ArrayList();
 			Map map1 = new HashMap();
@@ -69,7 +70,9 @@ public class VersionControllerApp {
 			map3.put("IOS", list1);
 			map3.put("Android", list2);
 
-			mapReturn.put("data", map3);
+			//mapReturn.put("data", map3);
+			mapReturn.put("IOS", map1);
+			mapReturn.put("Android", map2);
 		}
 		String param=JSON.toJSONString(mapReturn);
 		System.out.println("最新版本信息接口："+param);

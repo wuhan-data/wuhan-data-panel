@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.app.service.TrackServiceApp;
 import com.wuhan_data.pojo.Track;
+import com.wuhan_data.tools.StringToMap;
 
 import net.sf.json.JSONObject;
 
@@ -31,6 +33,8 @@ public class TrackControllerApp {
 	
 	@Autowired
 	TrackServiceApp  trackServiceApp;
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
 	//set足迹接口
 	@RequestMapping(value="setTrackApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
@@ -38,33 +42,28 @@ public class TrackControllerApp {
             HttpServletResponse response,@RequestBody String json) throws Exception
 	{
 		Map mapReturn=new HashMap();
-//		int uid=Integer.valueOf(request.getParameter("uid"));
-//		String type=request.getParameter("type");
-//		int index_id=Integer.valueOf(request.getParameter("index_id"));
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
 	  	String tokenString=mapget.get("token").toString();
 	  	String typeString=mapget.get("type").toString();
 	  	String indexIdString=mapget.get("indexId").toString();
+	  	String indexNameString=mapget.get("indexName").toString();
 	  	String sourceString=mapget.get("source").toString();
-	  	HttpSession session = request.getSession();
-	  	if(session.getAttribute(tokenString)==null)
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
 			mapReturn.put("errCode","2");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {
-	  		Map map=(HashMap)session.getAttribute(tokenString);
+	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	  		Map map=StringToMap.stringToMap(mapString);
 	  		int uid=Integer.valueOf((String)map.get("userId"));
-//	  		int uid=22;
-//			String type ="指标数据";
-//			String index_id="150";
-//			String indi_source="国统";
 			Date create_time=new Date();
 			Track track=new Track();
 			track.setUid(uid);
 			track.setType(typeString);
 			track.setIndex_id(indexIdString);
+			track.setIndex_name(indexNameString);
 			track.setIndi_source(sourceString);
 			track.setCreate_time(create_time);
 			if (trackServiceApp.add(track)!=0)
@@ -91,27 +90,22 @@ public class TrackControllerApp {
 	public String getTrack(HttpServletRequest request, 
             HttpServletResponse response,@RequestBody String json) throws Exception
 	{
-		
-		
-		
 		Map mapReturn=new HashMap();
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
 	  	String tokenString=mapget.get("token").toString();
-	  	HttpSession session = request.getSession();
-	  	if(session.getAttribute(tokenString)==null)
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
 			mapReturn.put("errCode", "2");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 		else {
-			Map map1=(HashMap)session.getAttribute(tokenString);
+			String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	  		Map map1=StringToMap.stringToMap(mapString);
 	  		int uid=Integer.valueOf((String)map1.get("userId"));
-			//int uid=22;
 			List<Track> tracks=trackServiceApp.getByUid(uid);
 			List list1=new ArrayList();
 			List list2=new ArrayList();
-			
 			for(int i=0;i<tracks.size();i++)
 			{
 				Map map=new HashMap();
@@ -122,6 +116,7 @@ public class TrackControllerApp {
 					map.put("trackId", track.getId().toString());
 					map.put("source", track.getIndi_source());
 					map.put("indexId",track.getIndex_id());
+					map.put("indexName",track.getIndex_name());
 					Date create = track.getCreate_time();
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 					String createTime = formatter.format(create);
@@ -133,11 +128,11 @@ public class TrackControllerApp {
 					map.put("trackId", track.getId().toString());
 					map.put("source", track.getIndi_source());
 					map.put("indexId",track.getIndex_id());
+					map.put("indexName",track.getIndex_name());
 					Date create = track.getCreate_time();
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 					String createTime = formatter.format(create);
 					map.put("createTime", createTime);
-					
 					list2.add(map);
 				}
 			}
@@ -148,10 +143,8 @@ public class TrackControllerApp {
 			map2.put("indexData", list1);
 			mapReturn.put("data",map2);//返回的格式不正确
 		}
-
 		String param=JSON.toJSONString(mapReturn);
+		System.out.println("足迹返回接口"+param);
 		return param;
 	}
-	
-
 }

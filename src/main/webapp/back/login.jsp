@@ -35,7 +35,15 @@
         });
     </script>
 </head>
-<body class="login">	
+<body class="login">
+
+<form method="post" enctype="multipart/form-data" action="setHeadApp" >
+		<input type="text" name="token" id="token" value="525d54dd4097a0d4722d4c4228eb0577" />
+		<input type="file" name="file" id="file" value="请选择图片" />
+		<button type="submit" >提交</button>
+	</form>
+
+	
 	<!-- PAGE -->
 	<section id="page">
 			<!-- HEADER -->

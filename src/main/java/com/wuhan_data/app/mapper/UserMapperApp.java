@@ -54,9 +54,7 @@ public interface UserMapperApp {
 		
 		@DataSource(value="dataSource_mysql")
 		User logincheckByTel(Map<String,Object> parameter);
-		//注册
-		@DataSource(value="dataSource_mysql")
-		void register(Map<String,Object> parameter);
+		
 		
 		@DataSource(value="dataSource_mysql")
 		int telIsExist(Map<String,Object> parameter);
