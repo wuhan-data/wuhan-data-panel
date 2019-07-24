@@ -24,6 +24,7 @@
 		SELECT
 		`theme_id` as themeId,
 		`theme_name` as themeName,
+		`type_name` as listName,
 		`is_show` as isShow
 		FROM
 		`analysis_theme`
