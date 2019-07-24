@@ -94,9 +94,39 @@
 		INNER JOIN `analysis_theme` b
 		ON a.theme_id=b.theme_id
 		WHERE
-		a.`theme_id` = #{theme_id} AND
-		(a.`is_show` = 0 OR
-		a.`is_show` = 9)
+		a.`theme_id` = #{themeId} AND
+		a.`is_show` = 0
+	</select>
+
+	<!-- 获取指定板块下的指标信息 -->
+	<select id="getIndiByPid" resultType="com.wuhan_data.pojo.AnalysisIndi"
+	 parameterType="int">
+		SELECT
+		`indi_id` as indiId,
+		`plate_id` as plateId,
+		`indi_name` as indiName,
+		`show_type` as showType,
+		`indi_code` as indiCode,
+		`time_point` as timePoint,
+		`source` as source,
+		`area_name` as areaName,
+		`indi_weight` as indiWeight,
+		`is_show` as isShow
+		FROM
+		`analysis_indi`
+		WHERE
+		`plate_id` = #{plateId} AND
+		`is_show` = 0
+    </select>
+    
+	<select id="getFreqcodeByIndicode" resultType="String"
+		parameterType="String">
+		SELECT DISTINCT
+		`freq_code`
+		FROM
+		`indi_all`
+		WHERE
+		INDI_CODE = #{indiCode}
 	</select>
 
 </mapper>
