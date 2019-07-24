@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.DbToExcelMapper">
+
+        <select id="selectIndi" resultType="IndiAll" parameterType="String">
+            select * from MIDUSER."DT_EXP_ALL_SJLY" where indi_code = #{indi_code}  limit 5
+        </select> 
+        
+        <select id="getIndi" resultType="IndexManage" parameterType="String">
+            select indi_name from WUHAN_DATA."INDEX_MANAGE" where indi_name like CONCAT('%',#{keyword},'%') group by indi_name
+        </select>    
+        
+         <select id="getIndiSourceByIndiName" resultType="String" parameterType="String">
+            select source from WUHAN_DATA."INDEX_MANAGE" where indi_name= #{indiName} group by source
+        </select> 
+
+    </mapper>
