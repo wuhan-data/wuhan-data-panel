@@ -19,12 +19,11 @@
 		`type_weight` DESC
 	</select>
 
-
 	<select id="getAnalysisSubList"
 		resultType="com.wuhan_data.pojo.AnalysisTheme" parameterType="int">
 		SELECT
-		`theme_id` as indexId,
-		`theme_name` as indexName,
+		`theme_id` as themeId,
+		`theme_name` as themeName,
 		`is_show` as isShow
 		FROM
 		`analysis_theme`
@@ -34,6 +33,7 @@
 		`is_show` = 9)
 	</select>
 
+	<!-- 查询指定INDI_NAME的最新指标描述数据 -->
 	<select id="getAnalysisDesc1" resultType="map"
 		parameterType="string">
 		SELECT
@@ -77,6 +77,26 @@
 		`TIME_POINT` = 207
 		ORDER BY `DATE_CODE` DESC
 		LIMIT 1
+	</select>
+	
+	<select id="getAnalysisPlate" resultType="com.wuhan_data.pojo.AnalysisPlate"
+		parameterType="int">
+		SELECT
+		`plate_id` as plateId,
+		a.`theme_id` as themeId,
+		b.`theme_name` as themeName,
+		`plate_name` as plateName,
+		`show_type` as showType,
+		`show_term` as showTerm,
+		a.`is_show` as isShow
+		FROM
+		`analysis_plate` a
+		INNER JOIN `analysis_theme` b
+		ON a.theme_id=b.theme_id
+		WHERE
+		a.`theme_id` = #{theme_id} AND
+		(a.`is_show` = 0 OR
+		a.`is_show` = 9)
 	</select>
 
 </mapper>

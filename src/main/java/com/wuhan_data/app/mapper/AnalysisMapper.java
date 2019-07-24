@@ -3,6 +3,7 @@ package com.wuhan_data.app.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 
 public interface AnalysisMapper {
@@ -15,4 +16,6 @@ public interface AnalysisMapper {
 	public Map<String, Object> getAnalysisDesc2(String indexName);
 
 	public Map<String, Object> getAnalysisDesc3(String indexName);
+	
+	public List<AnalysisPlate> getAnalysisPlate(int themeId); // 查询指定经济分析栏目下所有版块
 }

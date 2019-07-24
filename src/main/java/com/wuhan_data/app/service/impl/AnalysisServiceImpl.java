@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.AnalysisService;
+import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 
 @Service
@@ -41,8 +42,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<AnalysisTheme> subList = analysisMapper.getAnalysisSubList(typeId);
 		for (int i = 0; i < subList.size(); i++) {
 			Map<String, Object> subListMap = new HashMap<String, Object>();
-			String indexId = subList.get(i).getIndexId().toString();
-			String indexName = subList.get(i).getIndexName().toString();
+			String indexId = subList.get(i).getThemeId().toString();
+			String indexName = subList.get(i).getThemeName().toString();
 			subListMap.put("indexId", indexId);
 			subListMap.put("indexName", indexName);
 			// TODO 指标数据描述数据获取待优化
@@ -92,5 +93,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 		}
 		return result;
+	}
+
+	public List<AnalysisPlate> getAnalysisPlate(int themeId) {
+		return analysisMapper.getAnalysisPlate(themeId);
 	}
 }
