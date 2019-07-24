@@ -55,7 +55,7 @@ public class MessageControllerApp {
 	  	String tokenString=mapget.get("token").toString();
 	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
-	  		mapReturn.put("errCode", "2");
+	  		mapReturn.put("errCode", "-3");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {

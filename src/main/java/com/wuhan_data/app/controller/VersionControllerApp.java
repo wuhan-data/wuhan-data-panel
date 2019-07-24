@@ -43,7 +43,7 @@ public class VersionControllerApp {
 		List<Version> versionList=versionServiceApp.versionDetection(mapAnd);
 		if (versions.size()==0||versionList.size()==0)
 		{
-			mapReturn.put("errCode","1");
+			mapReturn.put("errCode","-1");
 			mapReturn.put("errMsg","最新版本信息获取失败");
 		}
 		else {

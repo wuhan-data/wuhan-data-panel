@@ -63,9 +63,9 @@ public class UserControllerApp {
 		Map mapReturn = new HashMap();
 		mapReturn.put("errCode","0");
 		mapReturn.put("errMsg", "登录成功");
-		String valueString=sessionSQLServiceApp.get("a6daa3840f2425799be009ea4c573713").getSess_value();
-		Map map=StringToMap.stringToMap(valueString);
-		mapReturn.put("data", map);
+//		String valueString=sessionSQLServiceApp.get("a6daa3840f2425799be009ea4c573713").getSess_value();
+//		Map map=StringToMap.stringToMap(valueString);
+//		mapReturn.put("data", map);
 		String param = JSON.toJSONString(mapReturn);
 		System.out.println("测试login接口返回:" + param);
 		return param;
@@ -84,8 +84,10 @@ public class UserControllerApp {
 		String tel = mapget.get("tel").toString();
 		System.out.println("获取验证码接口：sendSMS:" + "tel=" + tel);
 		
-		if (sessionSQLServiceApp.isTimeOut(tel+"verCode", 60)==false) {
-			mapReturn.put("errCode","3");
+		if (
+				sessionSQLServiceApp.isTimeOut(tel+"verCode", 60)==false
+				) {
+			mapReturn.put("errCode","-2");
 			mapReturn.put("errMsg", "一分钟请勿重复申请验证码");
 		} else {
 
@@ -102,7 +104,7 @@ public class UserControllerApp {
 				mapReturn.put("errCode","0");
 				mapReturn.put("errMsg", "短信发送成功");
 			} else {
-				mapReturn.put("errCode","1");
+				mapReturn.put("errCode","-2");
 				mapReturn.put("errMsg", "短信发送失败");
 			}
 		}
@@ -133,7 +135,7 @@ public class UserControllerApp {
 				user.setTel(tel);
 				//设置头像路径
 				String headString=ImageUtils.getURL(request);
-				user.setTel(headString+"head/default.jpg");
+				user.setHead(headString+"heads/default.jpg");
 				
 				userServiceApp.add(user);
 				
@@ -185,7 +187,7 @@ public class UserControllerApp {
 			sessionSQLServiceApp.set(tokenString, map1.toString());
 			// 没有设置保存多长时间会不会有问题
 		} else {
-			mapReturn.put("errCode","1");
+			mapReturn.put("errCode","-2");
 			mapReturn.put("errMsg", "手机号或者验证码不正确");
 		}
 		String param = JSON.toJSONString(mapReturn);
@@ -207,7 +209,7 @@ public class UserControllerApp {
 	  	System.out.println("获取用户个人信息接口："+"token"+tokenString);
 	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
-			mapReturn.put("errCode", "1");
+			mapReturn.put("errCode", "-3");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {
@@ -277,7 +279,7 @@ public class UserControllerApp {
 			//token验证
 			if(sessionSQLServiceApp.get(tokenString)==null)
 		  	{
-				mapReturn.put("errCode", "2");
+				mapReturn.put("errCode", "-3");
 				mapReturn.put("errMsg", "token令牌错误");
 		  	}
 			else {
@@ -309,7 +311,7 @@ public class UserControllerApp {
 					mapReturn.put("errCode", "0");
 					mapReturn.put("errMsg", "用户信息修改成功");
 				} else {
-					mapReturn.put("errCode", "1");
+					mapReturn.put("errCode", "-1");
 					mapReturn.put("errMsg", "用户信息修改失败");
 				}
 				
@@ -319,6 +321,58 @@ public class UserControllerApp {
 			return param;
 		  
 	  }
+	//更换手机号
+	@RequestMapping(value="changeTelApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+	@ResponseBody public String changeTel(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
+	{
+		Map mapReturn=new HashMap(); 
+		JSONObject jsonObject =JSONObject.fromObject(json); 
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
+		String tokenString=mapget.get("token").toString();
+		//String oldTel=mapget.get("oldTel").toString();
+		String newTel=mapget.get("newTel").toString();
+		String verCode=mapget.get("verCode").toString();
+		if(sessionSQLServiceApp.get(tokenString)==null)
+	  	{
+			mapReturn.put("errCode", "-3");
+			mapReturn.put("errMsg", "token令牌错误");
+	  	}
+		else {
+			//新手机号是否已经被注册
+			if(userServiceApp.getByTel(newTel)!=null)
+			{
+				//已经注册了
+				mapReturn.put("errCode", "-2");
+				mapReturn.put("errMsg", "该手机号已经注册");
+				
+			}
+			else {
+				
+				//验证码是否正确
+				String sessioncode = (String) sessionSQLServiceApp.get(newTel+"verCode").getSess_value();
+				if((verCode).equals(sessioncode))
+				{
+					//验证码正确
+					String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+			  		Map map=StringToMap.stringToMap(mapString);
+			  		int id=Integer.valueOf((String)map.get("userId"));//获得旧手机号
+			  		User user=userServiceApp.get(id);
+			  		user.setTel(newTel);
+			  		userServiceApp.updata(user);
+			  		flashSession(tokenString);
+			  		mapReturn.put("errCode", "0");
+					mapReturn.put("errMsg", "手机号修改成功");
+				}
+				else {
+					mapReturn.put("errCode", "-2");
+					mapReturn.put("errMsg", "验证码不正确");
+				}		
+			}
+			
+		}  
+		String param = JSON.toJSONString(mapReturn);
+		return param;
+	}
 	  
 	  
 	//刷新sessionid中的值
@@ -326,8 +380,8 @@ public class UserControllerApp {
 	  {
 		  String mapString=sessionSQLServiceApp.get(token).getSess_value();
 	  		Map map=StringToMap.stringToMap(mapString);
-	  		String tel=(String)map.get("tel");
-	  		User user = userServiceApp.getByTel(tel);//通过电话号码获取用户
+	  		int id=Integer.valueOf((String)map.get("userId"));
+	  		User user = userServiceApp.get(id);//通过id获取用户
 	  		String idString = String.valueOf(user.getId());
 			String telString = user.getTel();
 			String realNameString = user.getReal_name();

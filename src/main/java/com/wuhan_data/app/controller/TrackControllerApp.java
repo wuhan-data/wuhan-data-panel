@@ -51,7 +51,7 @@ public class TrackControllerApp {
 	  	String sourceString=mapget.get("source").toString();
 	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
-			mapReturn.put("errCode","2");
+			mapReturn.put("errCode","-3");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {
@@ -72,7 +72,7 @@ public class TrackControllerApp {
 				mapReturn.put("errMsg","足迹记录成功");
 			}
 			else {
-				mapReturn.put("errCode","1");
+				mapReturn.put("errCode","-1");
 				mapReturn.put("errMsg","足迹记录失败");
 				
 			}
@@ -96,7 +96,7 @@ public class TrackControllerApp {
 	  	String tokenString=mapget.get("token").toString();
 	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
-			mapReturn.put("errCode", "2");
+			mapReturn.put("errCode", "-3");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 		else {
