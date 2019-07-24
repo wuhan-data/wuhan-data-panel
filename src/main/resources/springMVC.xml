@@ -36,6 +36,7 @@
         <property name="prefix" value="/back/" />
         <property name="suffix" value=".jsp" />
     </bean>
+    
     <!-- 定义文件上传解析器 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 设定默认编码 -->
