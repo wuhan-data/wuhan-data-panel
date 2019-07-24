@@ -75,18 +75,15 @@ public class UserControllerApp {
 	
 
 	// 接口获取验证码
-	@RequestMapping(value = "getVercodeApp", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
+	@RequestMapping(value = "getVercodeApp2", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
-	public String getVercode(HttpServletRequest request, HttpServletResponse response,@RequestBody String json) throws Exception {
+	public String getVercode2(HttpServletRequest request, HttpServletResponse response,@RequestBody String json) throws Exception {
 		Map mapReturn = new HashMap();
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
 		String tel = mapget.get("tel").toString();
 		System.out.println("获取验证码接口：sendSMS:" + "tel=" + tel);
-		
-		if (
-				sessionSQLServiceApp.isTimeOut(tel+"verCode", 60)==false
-				) {
+		if (sessionSQLServiceApp.isTimeOut(tel+"verCode", 60)==false) {
 			mapReturn.put("errCode","-2");
 			mapReturn.put("errMsg", "一分钟请勿重复申请验证码");
 		} else {
@@ -114,86 +111,149 @@ public class UserControllerApp {
 
 	}
 
+	// 接口获取验证码
+	@RequestMapping(value = "getVercodeApp", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
+	@ResponseBody
+	public String getVercode(HttpServletRequest request, HttpServletResponse response,@RequestBody String json) throws Exception {
+		Map data = new HashMap();
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+		//获取参数
+		String tel ="";
+		try {
+			tel=mapget.get("tel").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-2", "请求参数获取异常", data);
+		}		
+		System.out.println("获取验证码接口：sendSMS:" + "tel=" + tel);
+		
+		//是否一分钟内重复申请
+		boolean isTimeout=false;
+		try {
+			isTimeout=sessionSQLServiceApp.isTimeOut(tel+"verCode", 60);	
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-1", "数据库错误", data);
+		}
+
+		if (isTimeout==false) {
+			return this.apiReturn("-2", "一分钟请勿重复申请验证码", data);
+		}
+		else {
+			//短信发送服务
+			try {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("tel", tel);
+				HashMap<String, String> m = SendMessage.getMessageStatus(tel); // 应用发送短信接口  
+				String result = m.get("result");// 获取到result值  
+				if (result.trim().equals("1")) // 发送成功
+				{
+					String code = m.get("code");
+				   // 将短信验证码放到session中保存  
+					sessionSQLServiceApp.set(tel + "verCode", code);
+					System.out.println("发送的验证码："+"code"+code);
+					return this.apiReturn("0", "短信发送 成功", data);
+				} else {
+					return this.apiReturn("-2", "短信发送失败", data);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "短信发送异常", data);
+			}
+			
+		}
+	}
+
 	// 接口登录
 	@RequestMapping(value = "loginaa", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
 			throws Exception {
-		Map mapReturn = new HashMap();
+		Map data = new HashMap();
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-		String tel = mapget.get("tel").toString();
-		String verCode = mapget.get("verCode").toString();
+		String tel="";
+		String verCode="";
+		//参数获取
+		try {
+			tel = mapget.get("tel").toString();
+			verCode = mapget.get("verCode").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-2", "请求参数获取异常", data);
+		}
+		
 		System.out.println("登录接口:获取的参数为" + "tel" + tel + "verCode" + verCode);
-		//HttpSession session = request.getSession();// 设置session
-		String sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
+		String sessioncode="";
+		try {
+			sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-1", "session获取异常", data);
+		}
 		// 对比缓存是否相同+
 		if ((verCode).equals(sessioncode)) {
-			// 判断是否为新用户
-			if (userServiceApp.getByTel(tel) == null) {
-				User user=new User();
-				user.setTel(tel);
-				//设置头像路径
-				String headString=ImageUtils.getURL(request);
-				user.setHead(headString+"heads/default.jpg");
-				
-				userServiceApp.add(user);
-				
-				System.out.println(user.toString());
-				mapReturn.put("errCode","0");
-				mapReturn.put("errMsg", "新用户登录成功");
-			} else {
-				mapReturn.put("errCode","0");
-				mapReturn.put("errMsg", "登录成功");
+			//获取用户信息
+			try {
+				// 判断是否为新用户
+				String errMsg="";
+				if (userServiceApp.getByTel(tel) == null) {
+					User user=new User();
+					user.setTel(tel);
+					//设置头像路径
+					String headString=ImageUtils.getURL(request);
+					user.setHead(headString+"heads/default.jpg");
+					userServiceApp.add(user);
+					System.out.println(user.toString());
+					errMsg="新用户登录成功";	
+				} else {
+					errMsg="用户登录成功";
+					// 将用户的信息加到session中，以token为key，对应的职位
+				}
+				// 将对应用户的信息加到data中
+				User user = userServiceApp.getByTel(tel);
+				// 生成token令牌
+				String tokenString = TokenUtil.getToken(tel + new Date().toString());
+				String idString = String.valueOf(user.getId());
+				String telString = user.getTel();
+				String realNameString = user.getReal_name();
+				String genderString = "女";
+				if (user.getGender() == 0) {
+					genderString = "女";
+				} else {
+					genderString = "男";
+				}
+				String headString = user.getHead();
+				Date birth = user.getBirthday();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				String birthdayString = formatter.format(birth);
+				String cityString = user.getCity();
+				String descriptionString = user.getDescription();
+				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
+				String roleNameString = user.getRole_id();
+				data.put("token", tokenString);
+				data.put("userId", idString);
+				data.put("tel", telString);
+				data.put("realName", realNameString);
+				data.put("gender", genderString);
+				data.put("head", headString);
+				data.put("birthday", birthdayString);
+				data.put("city", cityString);
+				data.put("description", descriptionString);
+				data.put("department", deparmentString);
+				data.put("roleName", roleNameString);
 				// 将用户的信息加到session中，以token为key，对应的职位
+				sessionSQLServiceApp.set(tokenString, data.toString());
+				return this.apiReturn("0", errMsg, data);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据库获取异常", data);
 			}
-			// 将对应用户的信息加到data中
-			User user = userServiceApp.getByTel(tel);
-			// 生成token令牌
-			String tokenString = TokenUtil.getToken(tel + new Date().toString());
-			String idString = String.valueOf(user.getId());
-			String telString = user.getTel();
-			String realNameString = user.getReal_name();
-			String genderString = "女";
-			if (user.getGender() == 0) {
-				genderString = "女";
-			} else {
-				genderString = "男";
-			}
-			String headString = user.getHead();
-			Date birth = user.getBirthday();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			String birthdayString = formatter.format(birth);
-			String cityString = user.getCity();
-			String descriptionString = user.getDescription();
-			String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
-			String roleNameString = user.getRole_id();
-			
-			Map map1 = new HashMap();
-			map1.put("token", tokenString);
-			map1.put("userId", idString);
-			map1.put("tel", telString);
-			map1.put("realName", realNameString);
-			map1.put("gender", genderString);
-			map1.put("head", headString);
-			map1.put("birthday", birthdayString);
-			map1.put("city", cityString);
-			map1.put("description", descriptionString);
-			map1.put("department", deparmentString);
-			map1.put("roleName", roleNameString);
-			;
-			mapReturn.put("data", map1);
-			// 将用户的信息加到session中，以token为key，对应的职位
-			sessionSQLServiceApp.set(tokenString, map1.toString());
 			// 没有设置保存多长时间会不会有问题
 		} else {
-			mapReturn.put("errCode","-2");
-			mapReturn.put("errMsg", "手机号或者验证码不正确");
+			return this.apiReturn("-2", "手机号或者验证码不正确", data);
 		}
-		String param = JSON.toJSONString(mapReturn);
-		System.out.println("登录接口:" + param);
-		return param;
-
 	}
 
 	
@@ -202,176 +262,216 @@ public class UserControllerApp {
 	  @RequestMapping(value="getUserApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	  @ResponseBody public String getUser(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
 	  { 
-		Map mapReturn=new HashMap(); 
+		Map data=new HashMap(); 
 	  	JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
-	  	String tokenString=mapget.get("token").toString();
+	  	//获取数据
+	  	String tokenString="";
+	  	try {
+	  		 tokenString=mapget.get("token").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-2", "请求参数异常", data);
+		}
 	  	System.out.println("获取用户个人信息接口："+"token"+tokenString);
-	  	if(sessionSQLServiceApp.get(tokenString)==null)
+	  	
+	  	//token令牌验证
+	  	Boolean tokenIsEmpty=true;
+	  	try {
+			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-1", "数据库异常", data);
+		}
+	  	
+	  	if(tokenIsEmpty)
 	  	{
-			mapReturn.put("errCode", "-3");
-			mapReturn.put("errMsg", "token令牌错误");
+	  		return this.apiReturn("-3", "token令牌错误", data);
 	  	}
 	  	else {
-	  		
-	  		  
-	  		
-	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
-	  		Map map=StringToMap.stringToMap(mapString);
-	  		String tel=(String)map.get("tel");
-	  		User user = userServiceApp.getByTel(tel);//通过电话号码获取用户
-	  		String idString = String.valueOf(user.getId());
-			String telString = user.getTel();
-			String realNameString = user.getReal_name();
-			String genderString = "女";
-			if (user.getGender() == 0) {
-				genderString = "女";
-			} else {
-				genderString = "男";
-			}
-			String headString = user.getHead();
-			Date birth = user.getBirthday();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			String birthdayString = formatter.format(birth);
-			String cityString = user.getCity();
-			String descriptionString = user.getDescription();
-			String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
-			String roleNameString = user.getRole_id();
-			Map map1 = new HashMap();
-			map1.put("userId", idString);
-			map1.put("tel", telString);
-			map1.put("realName", realNameString);
-			map1.put("gender", genderString);
-			map1.put("head", headString);
-			map1.put("birthday", birthdayString);
-			map1.put("city", cityString);
-			map1.put("description", descriptionString);
-			map1.put("department", deparmentString);
-			map1.put("roleName", roleNameString);
-			mapReturn.put("data", map1);
-			mapReturn.put("errCode","0");
-			mapReturn.put("errMsg", "用户信息获取成功");
-		}
-		String param = JSON.toJSONString(mapReturn);
-		System.out.println("获取个人信息接口:" + param);
-		return param;
-	  
-	  }
-	//接口更换头像 ,在UPImagesControllerAPP中
-	//接口
-	  @RequestMapping(value="editUserApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
-	  @ResponseBody public String editUser(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
-	{
-			Map mapReturn=new HashMap(); 
-			JSONObject jsonObject =JSONObject.fromObject(json); 
-			Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
-			String tokenString=mapget.get("token").toString();
-			String realName = mapget.get("realName").toString();
-			realName = URLDecoder.decode(realName, "utf-8");
-			String genderString = mapget.get("gender").toString();
-			genderString = URLDecoder.decode(genderString, "utf-8");
-			String birthday = mapget.get("birthday").toString();
-			String city = mapget.get("city").toString();
-			city = URLDecoder.decode(city, "utf-8");
-			String description = mapget.get("description").toString();
-			description = URLDecoder.decode(description, "utf-8");
-			System.out.println("realName"+realName+"description"+description);
-			//token验证
-			if(sessionSQLServiceApp.get(tokenString)==null)
-		  	{
-				mapReturn.put("errCode", "-3");
-				mapReturn.put("errMsg", "token令牌错误");
-		  	}
-			else {
-				int gender = 0;
-				if (genderString.trim().equals("女")) {
-					gender = 0;
-				} else {
-					gender = 1;
-				}
-				Date birth = new Date();
-				try {
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					birth = formatter.parse(birthday);
-				} catch (Exception e) {
-					// TODO: handle exception
-					e.printStackTrace();
-				}
-				String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	  		//获取用户数据
+	  		try {
+	  			String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
 		  		Map map=StringToMap.stringToMap(mapString);
 		  		String tel=(String)map.get("tel");
-				User user = userServiceApp.getByTel(tel);
-				user.setReal_name(realName);
-				user.setGender(gender);
-				user.setBirthday(birth);
-				user.setCity(city);
-				user.setDescription(description);
-				System.out.println("user"+user.toString());
-				if (userServiceApp.updata(user) != 0) {
-					mapReturn.put("errCode", "0");
-					mapReturn.put("errMsg", "用户信息修改成功");
+		  		User user = userServiceApp.getByTel(tel);//通过电话号码获取用户
+		  		String idString = String.valueOf(user.getId());
+				String telString = user.getTel();
+				String realNameString = user.getReal_name();
+				String genderString = "女";
+				if (user.getGender() == 0) {
+					genderString = "女";
 				} else {
-					mapReturn.put("errCode", "-1");
-					mapReturn.put("errMsg", "用户信息修改失败");
+					genderString = "男";
 				}
-				
+				String headString = user.getHead();
+				Date birth = user.getBirthday();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				String birthdayString = formatter.format(birth);
+				String cityString = user.getCity();
+				String descriptionString = user.getDescription();
+				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
+				String roleNameString = user.getRole_id();
+				data.put("userId", idString);
+				data.put("tel", telString);
+				data.put("realName", realNameString);
+				data.put("gender", genderString);
+				data.put("head", headString);
+				data.put("birthday", birthdayString);
+				data.put("city", cityString);
+				data.put("description", descriptionString);
+				data.put("department", deparmentString);
+				data.put("roleName", roleNameString);
+				return this.apiReturn("0", "用户信息获取成功", data);			
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据库操作错误", data);
+			}
+	  		
+	  	}  
+	  }
+	//接口更换头像 ,在UPImagesControllerAPP中
+	  
+	//接口编辑用户信息
+	  @RequestMapping(value="editUserApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+	  @ResponseBody public String editUserApp(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
+	{
+			Map data=new HashMap(); 
+			JSONObject jsonObject =JSONObject.fromObject(json); 
+			Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
+			//请求参数获取
+			String tokenString="";
+			String realName="";
+			String genderString="";
+			String birthday="";
+			String city="";
+			String description="";
+			try {
+				tokenString=mapget.get("token").toString();
+				realName = mapget.get("realName").toString();
+				realName = URLDecoder.decode(realName, "utf-8");
+				genderString = mapget.get("gender").toString();
+				genderString = URLDecoder.decode(genderString, "utf-8");
+				birthday = mapget.get("birthday").toString();
+				city = mapget.get("city").toString();
+				city = URLDecoder.decode(city, "utf-8");
+				description = mapget.get("description").toString();
+				description = URLDecoder.decode(description, "utf-8");
+				System.out.println("用户信息编辑接口:"+"realName"+realName+"description"+description);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-2", "请求参数错误", data);
+			}
+			//token令牌验证
+		  	Boolean tokenIsEmpty=true;
+		  	try {
+				tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据库异常", data);
 			}
 			
-			String param = JSON.toJSONString(mapReturn);
-			return param;
-		  
+			if(tokenIsEmpty)
+		  	{
+				return this.apiReturn("-3", "token令牌错误", data);
+		  	}
+			else {
+				//用户信息设置
+				try {
+					int gender = 0;
+					if (genderString.trim().equals("女")) {
+						gender = 0;
+					} else {
+						gender = 1;
+					}
+					Date birth = new Date();
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+						birth = formatter.parse(birthday);
+					String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+			  		Map map=StringToMap.stringToMap(mapString);
+			  		String tel=(String)map.get("tel");
+					User user = userServiceApp.getByTel(tel);
+					user.setReal_name(realName);
+					user.setGender(gender);
+					user.setBirthday(birth);
+					user.setCity(city);
+					user.setDescription(description);
+					System.out.println("user"+user.toString());
+					if (userServiceApp.updata(user) != 0) {
+						return this.apiReturn("0", "用户信息修改成功", data);
+					} else {
+						return this.apiReturn("-1", "用户信息修改失败", data);
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+					return this.apiReturn("-1", "数据库操作异常", data);
+				}		
+			}	  
 	  }
 	//更换手机号
 	@RequestMapping(value="changeTelApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody public String changeTel(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
 	{
-		Map mapReturn=new HashMap(); 
+		Map data=new HashMap(); 
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
-		String tokenString=mapget.get("token").toString();
-		//String oldTel=mapget.get("oldTel").toString();
-		String newTel=mapget.get("newTel").toString();
-		String verCode=mapget.get("verCode").toString();
-		if(sessionSQLServiceApp.get(tokenString)==null)
+		//获取参数
+		String tokenString="";
+		String newTel="";
+		String verCode="";
+		try {
+			tokenString=mapget.get("token").toString();
+			newTel=mapget.get("newTel").toString();
+			verCode=mapget.get("verCode").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-2", "请求参数异常", data);
+		}
+		//token令牌验证
+	  	Boolean tokenIsEmpty=true;
+	  	try {
+			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-1", "数据库异常", data);
+		}
+		
+		if(tokenIsEmpty)
 	  	{
-			mapReturn.put("errCode", "-3");
-			mapReturn.put("errMsg", "token令牌错误");
+			return this.apiReturn("-3", "token令牌错误", data);
 	  	}
 		else {
-			//新手机号是否已经被注册
-			if(userServiceApp.getByTel(newTel)!=null)
-			{
-				//已经注册了
-				mapReturn.put("errCode", "-2");
-				mapReturn.put("errMsg", "该手机号已经注册");
-				
-			}
-			else {
-				
-				//验证码是否正确
-				String sessioncode = (String) sessionSQLServiceApp.get(newTel+"verCode").getSess_value();
-				if((verCode).equals(sessioncode))
-				{
-					//验证码正确
-					String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
-			  		Map map=StringToMap.stringToMap(mapString);
-			  		int id=Integer.valueOf((String)map.get("userId"));//获得旧手机号
-			  		User user=userServiceApp.get(id);
-			  		user.setTel(newTel);
-			  		userServiceApp.updata(user);
-			  		flashSession(tokenString);
-			  		mapReturn.put("errCode", "0");
-					mapReturn.put("errMsg", "手机号修改成功");
+			//获取数据
+			try {
+				//新手机号是否已经被注册
+				if(userServiceApp.getByTel(newTel)!=null)
+				{   //已经注册了
+					return this.apiReturn("-2", "改手机号已经被注册", data);
 				}
 				else {
-					mapReturn.put("errCode", "-2");
-					mapReturn.put("errMsg", "验证码不正确");
-				}		
-			}
-			
+					//验证码是否正确
+					String sessioncode = (String) sessionSQLServiceApp.get(newTel+"verCode").getSess_value();
+					if((verCode).equals(sessioncode))
+					{
+						//验证码正确
+						String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+				  		Map map=StringToMap.stringToMap(mapString);
+				  		int id=Integer.valueOf((String)map.get("userId"));//获得旧手机号
+				  		User user=userServiceApp.get(id);
+				  		user.setTel(newTel);
+				  		userServiceApp.updata(user);
+				  		flashSession(tokenString);
+				  		return this.apiReturn("0", "手机号修改成功", data);
+					}
+					else {
+						return this.apiReturn("-2", "验证码不正确", data);
+					}		
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据获取异常", data);
+			}		
 		}  
-		String param = JSON.toJSONString(mapReturn);
-		return param;
 	}
 	  
 	  
@@ -416,6 +516,13 @@ public class UserControllerApp {
 			System.out.println("flash"+map1.toString());
 		  
 	  }
+	  public String apiReturn(String errCode, String errMsg, Map<String, Object> data) {
+			Map<String, Object> responseMap = new HashMap<String, Object>();
+			responseMap.put("errCode", errCode);
+			responseMap.put("errMsg", errMsg);
+			responseMap.put("data", data);
+			return JSON.toJSONString(responseMap);
+		}
 	  
 //	  //获取项目的地址
 //	  public String getURL(HttpServletRequest request)

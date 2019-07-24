@@ -78,6 +78,13 @@ public class VersionControllerApp {
 		System.out.println("最新版本信息接口："+param);
 		return param;
 	}
+	public String apiReturn(String errCode, String errMsg, Map<String, Object> data) {
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		responseMap.put("errCode", errCode);
+		responseMap.put("errMsg", errMsg);
+		responseMap.put("data", data);
+		return JSON.toJSONString(responseMap);
+	}
 //	@RequestMapping(value="checkVersion",produces="text/plain;charset=utf-8",method=RequestMethod.GET)
 //	@ResponseBody
 //	public String checkVersion(HttpServletRequest request, 

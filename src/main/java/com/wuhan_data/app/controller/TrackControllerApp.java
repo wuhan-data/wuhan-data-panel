@@ -41,46 +41,65 @@ public class TrackControllerApp {
 	public String setTrack(HttpServletRequest request, 
             HttpServletResponse response,@RequestBody String json) throws Exception
 	{
-		Map mapReturn=new HashMap();
+		Map data=new HashMap();
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
-	  	String tokenString=mapget.get("token").toString();
-	  	String typeString=mapget.get("type").toString();
-	  	String indexIdString=mapget.get("indexId").toString();
-	  	String indexNameString=mapget.get("indexName").toString();
-	  	String sourceString=mapget.get("source").toString();
-	  	if(sessionSQLServiceApp.get(tokenString)==null)
+	  	//获取请求参数
+	  	String tokenString="";
+	  	String typeString="";
+	  	String indexIdString="";
+	  	String indexNameString="";
+	  	String sourceString="";
+	  	try {
+	  		tokenString=mapget.get("token").toString();
+		  	typeString=mapget.get("type").toString();
+		  	indexIdString=mapget.get("indexId").toString();
+		  	indexNameString=mapget.get("indexName").toString();
+		  	sourceString=mapget.get("source").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-2", "请求参数异常", data);
+		}
+	  	//token令牌验证
+	  	Boolean tokenIsEmpty=true;
+	  	try {
+			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-1", "数据库异常", data);
+		}  
+	  	if(tokenIsEmpty)
 	  	{
-			mapReturn.put("errCode","-3");
-			mapReturn.put("errMsg", "token令牌错误");
+	  		return this.apiReturn("-3", "token令牌错误", data);
 	  	}
 	  	else {
-	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
-	  		Map map=StringToMap.stringToMap(mapString);
-	  		int uid=Integer.valueOf((String)map.get("userId"));
-			Date create_time=new Date();
-			Track track=new Track();
-			track.setUid(uid);
-			track.setType(typeString);
-			track.setIndex_id(indexIdString);
-			track.setIndex_name(indexNameString);
-			track.setIndi_source(sourceString);
-			track.setCreate_time(create_time);
-			if (trackServiceApp.add(track)!=0)
-			{
-				mapReturn.put("errCode","0");
-				mapReturn.put("errMsg","足迹记录成功");
+	  		//获取设置数据
+	  		try {
+	  			String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+		  		Map map=StringToMap.stringToMap(mapString);
+		  		int uid=Integer.valueOf((String)map.get("userId"));
+				Date create_time=new Date();
+				Track track=new Track();
+				track.setUid(uid);
+				track.setType(typeString);
+				track.setIndex_id(indexIdString);
+				track.setIndex_name(indexNameString);
+				track.setIndi_source(sourceString);
+				track.setCreate_time(create_time);
+				if (trackServiceApp.add(track)!=0)
+				{
+					return this.apiReturn("0", "足迹记录成功", data);
+				}
+				else {
+					return this.apiReturn("-2", "足迹记录失败", data);
+	
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据库操作异常", data);
 			}
-			else {
-				mapReturn.put("errCode","-1");
-				mapReturn.put("errMsg","足迹记录失败");
-				
-			}
+	  		
 		}
-
-		String param=JSON.toJSONString(mapReturn);
-		System.out.println("set足迹接口:"+param);
-		return param;
 	}
 	
 	
@@ -90,61 +109,86 @@ public class TrackControllerApp {
 	public String getTrack(HttpServletRequest request, 
             HttpServletResponse response,@RequestBody String json) throws Exception
 	{
-		Map mapReturn=new HashMap();
+		Map data=new HashMap();
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
-	  	String tokenString=mapget.get("token").toString();
-	  	if(sessionSQLServiceApp.get(tokenString)==null)
+	  	String tokenString="";
+	  	//请求参数获取
+	  	try {
+	  		tokenString=mapget.get("token").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-2", "请求参数错误", data);
+		}
+	  	
+	  	//token令牌验证
+	  	Boolean tokenIsEmpty=true;
+	  	try {
+			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-1", "数据库异常", data);
+		}  
+
+	  	if(tokenIsEmpty)
 	  	{
-			mapReturn.put("errCode", "-3");
-			mapReturn.put("errMsg", "token令牌错误");
+	  		return this.apiReturn("-3", "token令牌错误", data);
 	  	}
 		else {
-			String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
-	  		Map map1=StringToMap.stringToMap(mapString);
-	  		int uid=Integer.valueOf((String)map1.get("userId"));
-			List<Track> tracks=trackServiceApp.getByUid(uid);
-			List list1=new ArrayList();
-			List list2=new ArrayList();
-			for(int i=0;i<tracks.size();i++)
-			{
-				Map map=new HashMap();
-				Track track=tracks.get(i);
-				if (track.getType().trim().equals("指标数据"))
+			//获取数据
+			try {
+				String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+		  		Map map1=StringToMap.stringToMap(mapString);
+		  		int uid=Integer.valueOf((String)map1.get("userId"));
+				List<Track> tracks=trackServiceApp.getByUid(uid);
+				List list1=new ArrayList();
+				List list2=new ArrayList();
+				for(int i=0;i<tracks.size();i++)
 				{
-					map.put("type", "指标数据");
-					map.put("trackId", track.getId().toString());
-					map.put("source", track.getIndi_source());
-					map.put("indexId",track.getIndex_id());
-					map.put("indexName",track.getIndex_name());
-					Date create = track.getCreate_time();
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-					String createTime = formatter.format(create);
-					map.put("createTime", createTime);
-					list1.add(map);
+					Map map=new HashMap();
+					Track track=tracks.get(i);
+					if (track.getType().trim().equals("指标数据"))
+					{
+						map.put("type", "指标数据");
+						map.put("trackId", track.getId().toString());
+						map.put("source", track.getIndi_source());
+						map.put("indexId",track.getIndex_id());
+						map.put("indexName",track.getIndex_name());
+						Date create = track.getCreate_time();
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+						String createTime = formatter.format(create);
+						map.put("createTime", createTime);
+						list1.add(map);
+					}
+					else {
+						map.put("type", "经济分析");
+						map.put("trackId", track.getId().toString());
+						map.put("source", track.getIndi_source());
+						map.put("indexId",track.getIndex_id());
+						map.put("indexName",track.getIndex_name());
+						Date create = track.getCreate_time();
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+						String createTime = formatter.format(create);
+						map.put("createTime", createTime);
+						list2.add(map);
+					}
 				}
-				else {
-					map.put("type", "经济分析");
-					map.put("trackId", track.getId().toString());
-					map.put("source", track.getIndi_source());
-					map.put("indexId",track.getIndex_id());
-					map.put("indexName",track.getIndex_name());
-					Date create = track.getCreate_time();
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-					String createTime = formatter.format(create);
-					map.put("createTime", createTime);
-					list2.add(map);
-				}
-			}
-			mapReturn.put("errCode","0");
-			mapReturn.put("errMsg","足迹获取成功");
-			Map map2=new HashMap();
-			map2.put("economyData", list2);
-			map2.put("indexData", list1);
-			mapReturn.put("data",map2);//返回的格式不正确
+				Map map2=new HashMap();
+				data.put("economyData", list2);
+				data.put("indexData", list1);
+				return this.apiReturn("0", "足迹获取成功", data);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据库操作异常", data);
+			}		
 		}
-		String param=JSON.toJSONString(mapReturn);
-		System.out.println("足迹返回接口"+param);
-		return param;
 	}
+	public String apiReturn(String errCode, String errMsg, Map<String, Object> data) {
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		responseMap.put("errCode", errCode);
+		responseMap.put("errMsg", errMsg);
+		responseMap.put("data", data);
+		return JSON.toJSONString(responseMap);
+	}
+	
 }
