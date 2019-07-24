@@ -30,9 +30,14 @@ public class RadarType {
 		List list1=new ArrayList();
 		for(int i=0;i<nameData.size();i++) {
 			List temList=data.get(i);
+			List temListDouble=new ArrayList();
+			for(int j=0;j<temList.size();j++) {
+				temListDouble.add(Double.parseDouble((String) temList.get(j)));
+				
+			}
 			Map mapi=new HashMap();
-			String max=(String) Collections.max(temList);
-			double maxd=Double.parseDouble(max)*1.1;
+			double max=Collections.max(temListDouble);
+			double maxd=max*1.1;
 			mapi.put("name",nameData.get(i));
 			mapi.put("max",maxd);
 			list1.add(mapi);
@@ -59,8 +64,7 @@ public class RadarType {
 			mapTem3.put("label",mapTem2);
 			mapTem3.put("value",dataByTime.get(i));
 			mapTem3.put("name",legendData.get(i));
-			listTem.add(mapTem3);
-	
+			listTem.add(mapTem3);	
 		}
 		map3.put("type","radar");
 		map3.put("data",listTem);

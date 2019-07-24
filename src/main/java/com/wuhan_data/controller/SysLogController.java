@@ -26,12 +26,12 @@ import com.wuhan_data.tools.Page;
 public class SysLogController {
 	@Autowired
 	SysLogService sysLogService;
-	private String operate_user_id="";
+	private String operate_user_name="";
 	@RequestMapping("sysLogInit")
 	public ModelAndView departmentInit(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {
-//    	request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         
     	ModelAndView maView=new ModelAndView();
     	Page page=new Page();
@@ -92,14 +92,14 @@ public class SysLogController {
 	@RequestMapping("sysLogSearchByName")
     public ModelAndView userSearchByName(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	response.setCharacterEncoding("UTF-8");
+    	response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
-    	operate_user_id = java.net.URLDecoder.decode(request.getParameter(" operate_user_id"),"UTF-8");
+    	operate_user_name = java.net.URLDecoder.decode(request.getParameter(" operate_user_name"),"UTF-8");
 
 //    	String theme_name="%"+search+"%";
     	   Page page=new Page(); //分页类
            Map<String,Object> mapSearch = new HashMap<String, Object>();
-           mapSearch.put("operate_user_id", operate_user_id);
+           mapSearch.put("operate_user_name", operate_user_name);
            int count = sysLogService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
            System.out.println("count:"+count);
            Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
@@ -113,7 +113,7 @@ public class SysLogController {
            page.setTotalNumber(count);
            page.count();
            map.put("page", page);
-           map.put("operate_user_id",operate_user_id);
+           map.put("operate_user_name",operate_user_name);
            List<SysLog> sysLogListByPage= sysLogService.search(map);//分页查询二极栏目
           
            maView.addObject("sysLogListByPage", sysLogListByPage);
@@ -125,16 +125,17 @@ public class SysLogController {
 	@RequestMapping("sysLogSearchPage")
     public ModelAndView searchPage(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
 //    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
     
 //    	String theme_name="%"+search+"%";
     	   Page page=new Page(); //分页类
            Map<String,Object> mapSearch = new HashMap<String, Object>();
-           mapSearch.put(" operate_user_id", operate_user_id);
+           mapSearch.put("operate_user_name", operate_user_name);
            int count = sysLogService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
+           //System.out.println("operate:"+operate_user_name);
            System.out.println("count:"+count);
            Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
            String currentPage=request.getParameter("currentPage");
@@ -147,7 +148,7 @@ public class SysLogController {
            page.setTotalNumber(count);
            page.count();
            map.put("page", page);
-           map.put("operate_user_id",operate_user_id);
+           map.put("operate_user_name",operate_user_name);
            List<SysLog> sysLogListByPage= sysLogService.search(map);//分页查询二极栏目
            mav.addObject("sysLogListByPage", sysLogListByPage);
            mav.addObject("controlURL", "sysLogSearchPage");//控制页码传递URL

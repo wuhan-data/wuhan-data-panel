@@ -587,7 +587,18 @@
    </select>
    <br>
      管理员权限：<input class="form-control" type="search" placeholder="管理员权限 "name="addAdminRole_list"><br>
+  管理员权限：
+   <c:forEach items="${allMenuLevelTwo}" var="c" varStatus="st">
+           	<li>
+           	<input type="checkbox" name="addMenuLevelTwo" value="${c}" checked>${c}  
+            </li>
+  </c:forEach> 
+     
+     
 			</div>
+			
+			
+			
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>

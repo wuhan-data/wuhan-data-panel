@@ -4,76 +4,35 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.wuhan_data.mapper.DepartmentMapper">
-     <!--    <insert id="add" parameterType="Department" >
-        	insert into WUHAN_DATA."DEPARTMENT" (department_code,department_name,department_description) values (#{department_code},#{department_name},#{department_description}) 
+        <insert id="add" parameterType="Department" >
+        	insert into WUHAN_DATA.Department (id,department_code,department_name,department_description) values (#{id},#{department_code},#{department_name},#{department_description}) 
         </insert>
          
         <delete id="delete" parameterType="Department" >
-            delete from WUHAN_DATA."DEPARTMENT" where id= #{id}  
+            delete from WUHAN_DATA.Department where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Department">
-            select * from   WUHAN_DATA."DEPARTMENT"  where id= #{id}   
+            select * from   WUHAN_DATA.Department  where id= #{id}   
         </select>
  
         <update id="update" parameterType="Department" >
-            update WUHAN_DATA."DEPARTMENT" set department_code=#{department_code} , department_name=#{department_name} , department_description=#{department_description} where id=#{id}   
+            update WUHAN_DATA.Department set department_code=#{department_code} , department_name=#{department_name} , department_description=#{department_description} where id=#{id}   
         </update>
         
         <select id="list" resultType="Department">
-            select * from WUHAN_DATA."DEPARTMENT"     
+            select * from WUHAN_DATA.Department     
         </select>    
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA."DEPARTMENT"  
-        </select>
-        列表，可分页
-        <select id="listByPage" resultType="Department" parameterType="java.util.Map">
-        	select * from WUHAN_DATA."DEPARTMENT"   order by id limit #{page.dbIndex},#{page.dbNumber}
-        </select>
-        模糊查询
-		<select id="search" parameterType="java.util.Map" resultType="Department">
-            select * from WUHAN_DATA."DEPARTMENT" 
-            <where>
-            department_name like concat(concat('%',#{departmentname}),'%')  
-            </where>
-             order by id limit #{page.dbIndex},#{page.dbNumber}
-        </select>
-        模糊查询数量
-        <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA."DEPARTMENT" where department_name like concat(concat('%',#{departmentname}),'%')  
-        </select>
-         -->
-         
-         
-            <insert id="add" parameterType="Department" >
-        	insert into DEPARTMENT (department_code,department_name,department_description) values (#{department_code},#{department_name},#{department_description}) 
-        </insert>
-         
-        <delete id="delete" parameterType="Department" >
-            delete from DEPARTMENT where id= #{id}  
-        </delete>
-         
-        <select id="get" parameterType="_int" resultType="Department">
-            select * from DEPARTMENT  where id= #{id}   
-        </select>
- 
-        <update id="update" parameterType="Department" >
-            update DEPARTMENT set department_code=#{department_code} , department_name=#{department_name} , department_description=#{department_description} where id=#{id}   
-        </update>
-        
-        <select id="list" resultType="Department">
-            select * from DEPARTMENT     
-        </select>    
-        <select id="count" resultType="int">
-        	select count(*) from DEPARTMENT  
+        	select count(*) from WUHAN_DATA.Department  
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Department" parameterType="java.util.Map">
-        	select * from DEPARTMENT   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA.Department   order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Department">
-            select * from DEPARTMENT 
+            select * from WUHAN_DATA.Department 
             <where>
             department_name like concat(concat('%',#{departmentname}),'%')  
             </where>
@@ -81,7 +40,7 @@
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from DEPARTMENT where department_name like concat(concat('%',#{departmentname}),'%')  
+            select count(*) from WUHAN_DATA.Department where department_name like concat(concat('%',#{departmentname}),'%')  
         </select>
         
     </mapper>

@@ -1,6 +1,8 @@
 package com.wuhan_data.controller;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wuhan_data.pojo.Admin;
+import com.wuhan_data.pojo.Menu;
 import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.User;
@@ -26,7 +29,9 @@ import com.wuhan_data.service.MenuService;
 import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.service.impl.SysLogServiceImpl;
 import com.wuhan_data.tools.MenuList;
-import com.wuhan_data.tools.Page;;
+import com.wuhan_data.tools.Page;
+
+import sun.print.PSPrinterJob.PluginPrinter;;
 
 @Controller
 @RequestMapping("")
@@ -34,6 +39,7 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
+
 	@Autowired
 	SysLogService sysLogService;
 	@Autowired
@@ -50,6 +56,15 @@ public class AdminController {
 		return mav;
 		
 	}
+	/*
+	 * @RequestMapping("test") public ModelAndView test() { ModelAndView mav=new
+	 * ModelAndView();
+	 * 
+	 * mav.setViewName("test"); return mav;
+	 * 
+	 * }
+	 */
+	
 	
 	@RequestMapping("adminInit")
 	public ModelAndView adminInit(HttpServletRequest request, 
@@ -78,10 +93,18 @@ public class AdminController {
         map.put("page", page);
         List<Admin> adminListByPage=adminService.listByPage(map);
         
+    	List<Menu> menus=menuService.list();
+    	List<String> allMenuLevelTwo=new ArrayList<String>();
+    	for (int i=0;i<menus.size();i++)
+    		allMenuLevelTwo.add(menus.get(i).getLevel_two());
+        maView.addObject("allMenuLevelTwo",allMenuLevelTwo);
+        
         maView.addObject("adminListByPage", adminListByPage);
         maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("admin");
+    	System.out.println(allMenuLevelTwo);
+    	
     	return maView;
     }
 	@RequestMapping("adminSelectAnalysisListByPage")
@@ -145,10 +168,7 @@ public class AdminController {
            mav.addObject("controlURL", "adminSearchPage");//控制页码传递URL
            mav.setViewName("admin");     
            
-           HttpSession session=request.getSession();
-           Admin adminLL=(Admin)session.getAttribute("user"); 
-       	   //sysLogService.add(adminLL.getUsername(),"adminSearchByName","com.wuhan_data.controller.AdminController.adminSearchByName");
-           
+          
            return mav;
     }
 	@RequestMapping("adminSearchPage")
@@ -201,6 +221,20 @@ request.setCharacterEncoding("UTF-8");
     	admin.setStatus(Integer.valueOf(request.getParameter("addAdminStatus")));
     	admin.setRole_list(request.getParameter("addAdminRole_list"));
     	admin.setCreate_date(new Date());
+    	
+    	
+    	String[] getLevelTwoList=request.getParameterValues("addMenuLevelTwo");
+    	for(int i=0;i<getLevelTwoList.length;i++)
+    	{
+    		System.out.println(getLevelTwoList[i]);
+    	}
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	adminService.add(admin);
     	
     	Page page=new Page();
@@ -226,10 +260,7 @@ request.setCharacterEncoding("UTF-8");
     	maView.setViewName("admin");
     	
     	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	//sysLogService.add(adminLL.getUsername(),"addAdmin","com.wuhan_data.controller.AdminController.addAdmin");
-        
+     
     	
     	return maView;
     }
@@ -273,9 +304,6 @@ request.setCharacterEncoding("UTF-8");
     	maView.setViewName("admin");
     	
     	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	//sysLogService.add(adminLL.getUsername(),"editAdmin","com.wuhan_data.controller.AdminController.editAdmin");
         
     	
     	return maView;
@@ -311,11 +339,6 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("page", page); 
     	maView.setViewName("admin");
     	
-    	 
-        HttpSession session=request.getSession();
-        Admin adminLL=(Admin)session.getAttribute("user"); 
-    	//sysLogService.add(adminLL.getUsername(),"deleteAdmin","com.wuhan_data.controller.AdminController.deleteAdmin");
-        
     	
     	return maView;
     }
@@ -341,9 +364,9 @@ request.setCharacterEncoding("UTF-8");
     		HttpSession session=request.getSession();
     		Admin adminLL=adminService.getByName(username) ;
     		session.setAttribute("user", adminLL);
-  			//sysLogService.add(adminLL.getUsername(),"Login","com.wuhan_data.controller.UserController.login");
   			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
   			session.setAttribute("menuList",menuList);
+  			//sysLogService.add(1, "1", "2");
 		}
     	return maView;
     }

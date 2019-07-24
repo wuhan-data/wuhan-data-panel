@@ -1,9 +1,11 @@
 package com.wuhan_data.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.wuhan_data.pojo.SysLog;
+import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.SysLogService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,13 @@ public class SysLogServiceImpl implements SysLogService {
 	SysLogMapper sysLogMapper;
 	
 	@Override
-	public int add(SysLog sysLog) {
+	public int add(int operate_user_id,String operate,String method) {
 		// TODO Auto-generated method stub
+		SysLog sysLog=new SysLog();
+		sysLog.setOperate_user_id(operate_user_id);
+		sysLog.setOperate(operate);
+		sysLog.setMethod(method);
+		sysLog.setCreate_time(new Date());
 		return sysLogMapper.add(sysLog);
 	}
 

@@ -33,10 +33,10 @@ public class PieOptionEntity {
 	public void setSeries(List<Map> listTotal) {
 		this.series = listTotal;
 	}
-	public Map getToolTip() {
+	public Map getTooltip() {
 		return tooltip;
 	}
-	public void setToolTip(Map tooltip) {
+	public void setTooltip(Map tooltip) {
 		this.tooltip=tooltip;
 	}
 	

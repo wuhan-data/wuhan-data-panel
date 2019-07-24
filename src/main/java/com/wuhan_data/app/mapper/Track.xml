@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.TrackMapperApp">
+        <insert id="add" parameterType="Track" >
+            insert into WUHAN_DATA.Track (uid,type,index_id,index_name,indi_source,create_time) values (#{uid},#{type},#{index_id},#{index_name},#{indi_source},#{create_time})   
+        </insert>
+        <delete id="delete" parameterType="Track" >
+            delete from WUHAN_DATA.Track where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="_int" resultType="Track">
+            select * from   WUHAN_DATA.Track  where id= #{id}   
+        </select>
+         <select id="getByUid" parameterType="_int" resultType="Track">
+            select * from   WUHAN_DATA.Track  where uid= #{uid}   
+        </select>
+ 
+        <update id="update" parameterType="Track" >
+            update WUHAN_DATA.Track set uid=#{uid},type=#{type},index_id=#{index_id},index_name=#{index_name},indi_source=#{indi_source},create_time=#{create_time} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Track">
+            select * from WUHAN_DATA.Track     
+        </select> 
+        
+        <select id="count" resultType="int">
+        	select count(*) from WUHAN_DATA.Track  
+        </select>
+
+       
+
+    </mapper>

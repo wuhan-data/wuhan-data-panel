@@ -2,6 +2,7 @@ package com.wuhan_data.app.mapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.wuhan_data.pojo.ColPlate;
 import com.wuhan_data.pojo.ColPlateIndi;
@@ -19,8 +20,11 @@ public interface PlateInfoMapper {
 	//*************************************************************//
 	//根据indi_id获得频度列表
 	List<String> getFreqCodeByIndiId(String indi_code);
-	//获取指标show_type
+	//获取指标show_typ
 	String getIndiShowType(String indi_code);
+	//用于获取时间跨度
+	List<String> getTimeSpan(Map map);
+//	Set getTimeSpan(Map map);
 	
 	
 	

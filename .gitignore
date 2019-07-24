@@ -4,5 +4,4 @@ target/*
 .project
 .classpath
 /target/
-src/main/resources/*.xml
-pom.xml
+applicationContext.xml

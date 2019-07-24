@@ -1,3 +1,4 @@
+<%@page import="com.wuhan_data.pojo.Admin"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -64,207 +65,209 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
-<!--                 <li class="dropdown"> -->
-<!--                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> -->
-<!--                         <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i> -->
-<!--                     </a> -->
-<!--                     <ul class="dropdown-menu dropdown-messages"> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <strong>John Doe</strong> -->
-<!--                                     <span class="pull-right text-muted"> -->
-<!--                                         <em>Today</em> -->
-<!--                                     </span> -->
-<!--                                 </div> -->
-<!--                                 <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <strong>John Smith</strong> -->
-<!--                                     <span class="pull-right text-muted"> -->
-<!--                                         <em>Yesterday</em> -->
-<!--                                     </span> -->
-<!--                                 </div> -->
-<!--                                 <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <strong>John Smith</strong> -->
-<!--                                     <span class="pull-right text-muted"> -->
-<!--                                         <em>Yesterday</em> -->
-<!--                                     </span> -->
-<!--                                 </div> -->
-<!--                                 <div>Lorem Ipsum has been the industry's standard dummy text ever since the...</div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a class="text-center" href="#"> -->
-<!--                                 <strong>Read All Messages</strong> -->
-<!--                                 <i class="fa fa-angle-right"></i> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                     /.dropdown-messages -->
-<!--                 </li> -->
-<!--                 /.dropdown -->
-<!--                 <li class="dropdown"> -->
-<!--                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> -->
-<!--                         <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i> -->
-<!--                     </a> -->
-<!--                     <ul class="dropdown-menu dropdown-tasks"> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 1</strong> -->
-<!--                                         <span class="pull-right text-muted">60% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> -->
-<!--                                             <span class="sr-only">60% Complete (success)</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 2</strong> -->
-<!--                                         <span class="pull-right text-muted">28% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%"> -->
-<!--                                             <span class="sr-only">28% Complete</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 3</strong> -->
-<!--                                         <span class="pull-right text-muted">60% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> -->
-<!--                                             <span class="sr-only">60% Complete (warning)</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 4</strong> -->
-<!--                                         <span class="pull-right text-muted">85% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%"> -->
-<!--                                             <span class="sr-only">85% Complete (danger)</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a class="text-center" href="#"> -->
-<!--                                 <strong>See All Tasks</strong> -->
-<!--                                 <i class="fa fa-angle-right"></i> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                     /.dropdown-tasks -->
-<!--                 </li> -->
-<!--                 /.dropdown -->
-<!--                 <li class="dropdown"> -->
-<!--                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> -->
-<!--                         <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> -->
-<!--                     </a> -->
-<!--                     <ul class="dropdown-menu dropdown-alerts"> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-comment fa-fw"></i> New Comment -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-twitter fa-fw"></i> 3 New Followers -->
-<!--                                     <span class="pull-right text-muted small">12 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-envelope fa-fw"></i> Message Sent -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-tasks fa-fw"></i> New Task -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-upload fa-fw"></i> Server Rebooted -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a class="text-center" href="#"> -->
-<!--                                 <strong>See All Alerts</strong> -->
-<!--                                 <i class="fa fa-angle-right"></i> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                     /.dropdown-alerts -->
-<!--                 </li> -->
-                <!-- /.dropdown -->
+                <!-- <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Doe</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Today</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    /.dropdown-messages
+                </li>
+                /.dropdown
                 <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 1</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 2</strong>
+                                        <span class="pull-right text-muted">28% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
+                                            <span class="sr-only">28% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 3</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (warning)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 4</strong>
+                                        <span class="pull-right text-muted">85% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                                            <span class="sr-only">85% Complete (danger)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Tasks</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    /.dropdown-tasks
+                </li>
+                /.dropdown
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    /.dropdown-alerts
+                </li>
+                /.dropdown -->
+                <li class="dropdown">
+                
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-<!--                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a> -->
-<!--                         </li> -->
-<!--                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> -->
-<!--                         </li> -->
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                       <!--  <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li> -->
+                        <%out.print(((Admin)session.getAttribute("user")).getUsername()); %>你好         
+                        <li><a href="adminLogout"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -272,79 +275,102 @@
                 <!-- /.dropdown -->
             </ul>
         </nav>
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+            <li>
+                <a class="active-menu" href="back/index.jsp"><i class="fa fa-dashboard"></i>首页</a>
+            </li>
+            <c:forEach items="${menuList}" var="c" varStatus="st">
+           		 <li>
+                        <a href="#"><i class="${c.level_twoInOneList.get(0).perm}"></i>${c.level_one}<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
+                        
+                            	<li>
+                                	<a href="${cc.url}">${cc.level_two}</a>
+                            	</li>
+                        	 </c:forEach>
+                        </ul>
+                  </li>
+            </c:forEach> 
+            </ul>
+            </div>
+            </nav>
         <!--/. NAV TOP  -->
+        <!-- 
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
 
-                    <!-- <li>
-                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
-                    </li> -->
                     <li>
-                        <a href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
+                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
                     </li>
                     <li>
-                        <a href="listIndiCorrelative"><i class="fa fa-list-alt"></i>元数据管理</a>
+                        <a href="index.html"><i class="fa fa-dashboard"></i>首页</a>
+                    </li>
+                    <li>
+                        <a href="metaDataManage.html"><i class="fa fa-list-alt"></i>元数据管理</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="listIndexManage">指标数据维护</a>
+                                <a href="indiDataManage.html">指标数据维护</a>
                             </li>
-<!--                             <li> -->
-<!--                                 <a href="dataReview.html">数据审核</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="reportDataManage.html">报告、报表数据管理</a> -->
-<!--                             </li> -->
+                            <li>
+                                <a href="dataReview.html">数据审核</a>
+                            </li>
+                            <li>
+                                <a href="reportDataManage.html">报告、报表数据管理</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li class="active-menu"> -->
-<!--                                 <a href="columnManage.html">栏目维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPowerManage.html">栏目权限维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContentManage.html">内容配置</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContPowerManage.html">内容权限设置</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
+                        <a href="#"><i class="fa fa-tasks"></i>栏目管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li class="active-menu">
+                                <a href="columnManage.html">栏目维护</a>
+                            </li>
+                            <li>
+                                <a href="columnPowerManage.html">栏目权限维护</a>
+                            </li>
+                            <li>
+                                <a href="columnContentManage.html">内容配置</a>
+                            </li>
+                            <li>
+                                <a href="columnContPowerManage.html">内容权限设置</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                         <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="specialManage.html">专题维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="specialPowerManage.html">专题权限维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="specialContentManage.html">内容配置</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="specialContPowerManage.html">内容权限设置</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
+                        <a href="#"><i class="fa fa-quote-left"></i>专题管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="specialManage.html">专题维护</a>
+                            </li>
+                            <li>
+                                <a href="specialPowerManage.html">专题权限维护</a>
+                            </li>
+                            <li>
+                                <a href="specialContentManage.html">内容配置</a>
+                            </li>
+                            <li>
+                                <a href="specialContPowerManage.html">内容权限设置</a>
+                            </li>
+                        </ul>
                     </li>
-<!--                     <li> -->
-<!--                         <a href="#"><i class="fa fa-laptop"></i>发布管理<span class="fa arrow"></span></a> -->
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPublish.html">栏目发布</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="publishedManage.html">已发布内容管理</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-<!--                     </li> -->
+                    <li>
+                        <a href="#"><i class="fa fa-laptop"></i>发布管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="columnPublish.html">栏目发布</a>
+                            </li>
+                            <li>
+                                <a href="publishedManage.html">已发布内容管理</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -377,14 +403,14 @@
 
             </div>
 
-        </nav>
+        </nav> -->
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                           辅助功能 <small>/日志管理</small>
+                            辅助管理 <small>日志管理</small>
                         </h1>
                     </div>
                 </div> 
@@ -397,15 +423,15 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            日志
+                             栏目
                         </div>
                         <div class="panel-body">
-                     
+<%--                      
 <div class="form-group col-md-2">
 <form method="post" id="form1" accept-charset="UTF-8">
 <select class="form-control" id="FormControlSelect1" name="parentListName" onchange=""> 
    
-<%-- <c:forEach items="${analysisListParent}" var="c" varStatus="st">
+<c:forEach items="${analysisListParent}" var="c" varStatus="st">
 <c:choose>
 
     <c:when test="${c.type_name==tname}">
@@ -417,23 +443,23 @@
     </c:otherwise>
 </c:choose>
 
-</c:forEach> --%>
+</c:forEach>
 </select>
 </form>
 </div>
+   --%>
   
-  
-   <div class="btns col-md-4">
+   <!-- <div class="btns col-md-4">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
-      <!-- <button class="btn btn-primary" onclick="showSort()"><i class="fa fa-cog"></i>设置</button> -->
-    </div>  
+      <button class="btn btn-primary" onclick="showSort()"><i class="fa fa-cog"></i>设置</button>
+    </div>  --> 
   <!--   <form class="form-inline my-2 my-lg-0" style="float:right" id="formSearch">
       <input class="form-control mr-sm-2" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchCol">
       <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
     </form> -->
     
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="搜索" aria-label="Search" id="searchtname" value="">
+      <input class="form-control" type="search" placeholder="按操作者名字搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
                             <div class="table-responsive">
@@ -452,7 +478,7 @@
      <c:forEach items="${sysLogListByPage}" var="c" varStatus="st">
         <tr>
             <td >${c.id}</td>
-            <td >${c.operate_user_id}</td>
+            <td >${c.operate_user_name}</td>
             <td >${c.operate}</td>
             <td >${c.method}</td>
             <td >${c.create_time}</td>
@@ -461,9 +487,9 @@
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="">
+<!-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="">
 <i class="fa fa-edit"></i>修改
-</div>
+</div> -->
 <a href="">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除
 </div>
@@ -631,10 +657,10 @@
             function search(){
             	var searchName=document.getElementById("searchtname").value;
             	alert(searchName)
-            	var  operate_user_id=encodeURI(encodeURI(searchName));
+            	var  operate_user_name=encodeURI(encodeURI(searchName));
             	
             	var formSearch=document.getElementById("formSearch");
-            	formSearch.action="sysLogSearchByName? operate_user_id="+ operate_user_id;
+            	formSearch.action="sysLogSearchByName? operate_user_name="+ operate_user_name;
             	formSearch.submit();
             	
             }

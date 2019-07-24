@@ -16,7 +16,7 @@ public class LineType {
 	//参数 板块id，板块名称，x轴数组,值的数组
 	//y轴的最大最小值根据数据再计算
 //	public LineEntity getOption(String id,String title,List dataX,List dataV) {
-	public LineEntity getOption(String id,String title,List<List> dataX,List legendData,List<List> dataV) {
+	public LineEntity getOption(String id,String title,List dataX,List legendData,List<List> dataV) {
 		LineOptionEntity oe = new LineOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
@@ -37,33 +37,51 @@ public class LineType {
 //		oe.setxAxis(map1);
 		
 		List<Map> xAxis = new ArrayList();
-		for(int i=0;i<dataX.size();i++)
-		{
+//		for(int i=0;i<dataV.size();i++)
+//		{
 			List temList= new ArrayList();
-			temList =  dataX.get(i);
+			temList =  dataX;
 			Map map1 = new HashMap();
 			map1.put("type", "category");
 			map1.put("name","x轴");
 			map1.put("data",temList );
 			xAxis.add(map1);
-		}
+//		}
 		oe.setxAxis(xAxis);
 
 		List<Map> yAxis = new ArrayList();
 		for(int i=0;i<dataV.size();i++) {
-			List temList=new ArrayList();
-			temList=dataV.get(i);
+			List temList1=new ArrayList();
+			temList1=dataV.get(i);
+			List temListDouble=new ArrayList();
+			System.out.println("dataV[i]"+temList1);
+			//由于不能将null强制转换，逐个取出做判断
+			
+			for(int j=0;j<temList1.size();j++) {
+				
+//				System.out.println("null强制转换"+Double.parseDouble( (String) temList1.get(j)));
+				if(temList1.get(j)==null){
+					temListDouble.add(0.0);
+				}
+				else {
+					temListDouble.add(Double.parseDouble( (String) temList1.get(j)));
+					
+				}
+				
+				
+			}
 			Map map2 = new HashMap();
 			map2.put("type", "value");
-			map2.put("name","value");
-			String max=(String) Collections.max(temList);
-			String min=(String) Collections.min(temList);
+			map2.put("name","y轴");
+			System.out.print("temList:"+temList1.size());
+			double max= Collections.max(temListDouble);
+			double min= Collections.min(temListDouble);
 //			double span=(Double.parseDouble(max)-Double.parseDouble(min))*1.2;
-			double space=(Double.parseDouble(max)-Double.parseDouble(min))*0.1;
-			double maxd=Double.parseDouble(max);
-			double mind=Double.parseDouble(min);
-			int minL=(int)(mind)-(int)space;
-			int maxL=(int)(maxd)+(int)space;
+			double space=(max-min)*0.1;
+//			double maxd=Double.parseDouble(max);
+//			double mind=Double.parseDouble(min);
+			int minL=(int) Math.floor(min-space);
+			int maxL=(int) Math.ceil(max+space);
 			
 			map2.put("min", minL);
 			map2.put("max", maxL);
@@ -72,20 +90,20 @@ public class LineType {
 		   oe.setyAxis(yAxis);
 		
 		   List<Map> seriesList=new ArrayList();
-		   for(int i=0;i<legendData.size();i++) {
-			   List temList= new ArrayList();
-			   temList =  dataV.get(i);
+		   for(int i=0;i<dataV.size();i++) {
+			   List temList1= new ArrayList();
+			   temList1 =  dataV.get(i);
 			   Map map3=new HashMap();
 			   map3.put("name", legendData.get(i));
 			   map3.put("type", type);
-			   map3.put("data", temList);
+			   map3.put("data", temList1);
 			   seriesList.add(map3);
 		   }
 		     
 		     oe.setSeries(seriesList);
 
 		LineEntity le = new LineEntity(id, title, oe);		
-
+		
 		return le;
 	}
 

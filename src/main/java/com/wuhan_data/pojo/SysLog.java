@@ -13,12 +13,17 @@ public class SysLog {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+
 	public Integer getOperate_user_id() {
 		return operate_user_id;
 	}
 	public void setOperate_user_id(Integer operate_user_id) {
 		this.operate_user_id = operate_user_id;
 	}
+
+
+	
 	public String getOperate() {
 		return operate;
 	}
@@ -39,10 +44,10 @@ public class SysLog {
 	}
 	@Override
 	public String toString() {
-		return "SysLog [id=" + id + ", operate_user_id=" + operate_user_id + ", operate=" + operate + ", method=" + method
-				+ ", create_time=" + create_time  + "]";
-	
+		return "SysLog [id=" + id + ", operate_user_id=" + operate_user_id + ", operate=" + operate + ", method="
+				+ method + ", create_time=" + create_time + "]";
 	}
+	
 	
 	
 

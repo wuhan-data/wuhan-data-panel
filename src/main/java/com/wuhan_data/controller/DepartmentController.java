@@ -10,15 +10,19 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.Department;
 import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.DepartmentService;
+import com.wuhan_data.service.SysLogService;
+import com.wuhan_data.service.impl.SysLogServiceImpl;
 import com.wuhan_data.tools.Page;;
 
 @Controller
@@ -27,6 +31,7 @@ public class DepartmentController {
 	
 	@Autowired
 	DepartmentService departmentService;
+	
 	private static String departmentname="";//用于模糊查询的名字
 	@RequestMapping("listDepartment")
 	public ModelAndView listDepartment() {
@@ -43,8 +48,8 @@ public class DepartmentController {
 	@RequestMapping("departmentInit")
 	public ModelAndView departmentInit(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {
-//    	request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         
        
     	ModelAndView maView=new ModelAndView();
@@ -105,7 +110,7 @@ public class DepartmentController {
 	@RequestMapping("departmentSearchByName")
     public ModelAndView userSearchByName(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	response.setCharacterEncoding("UTF-8");
+    	response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
     	departmentname = java.net.URLDecoder.decode(request.getParameter("departmentname"),"UTF-8");
     	System.out.println("departmentname"+departmentname);
@@ -132,14 +137,16 @@ public class DepartmentController {
            mav.addObject("departmentListByPage", departmentListByPage);  
            mav.addObject("page", page);
            mav.addObject("controlURL", "departmentSearchPage");//控制页码传递URL
-           mav.setViewName("department");           
+           mav.setViewName("department");     
+           
+          
            return mav;
     }
 	@RequestMapping("departmentSearchPage")
     public ModelAndView searchPage(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
 //    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
     	System.out.println("departmentname"+departmentname);
@@ -172,15 +179,15 @@ public class DepartmentController {
     @RequestMapping("addDepartment")
     public ModelAndView addDepartment(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-//    	request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
 //    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
  //   	System.out.println("theme_name"+theme_name);
 //    	String theme_name="%"+search+"%";
     	Department department=new Department();
 		/* user.setId(Integer.valueOf(request.getParameter("addUserId"))); */
-    	department.setDepartment_code(Integer.valueOf(request.getParameter("addDepartmentCode")));
+    	department.setDepartment_code(request.getParameter("addDepartmentCode"));
     	department.setDepartment_name(request.getParameter("addDepartmentName"));
     	department.setDepartment_description(request.getParameter("addDepartmentDescription"));
     	departmentService.add(department);
@@ -206,6 +213,10 @@ public class DepartmentController {
         maView.addObject("controlURL", "departmentSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("department");
+    	
+    	 
+       
+    	
     	return maView;
     }
   //修改
@@ -213,14 +224,14 @@ public class DepartmentController {
     public ModelAndView editDepartment(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
     	System.out.println("进入方法--------------");
-//    	request.setCharacterEncoding("UTF-8");    	
-//        response.setCharacterEncoding("UTF-8");
+    	request.setCharacterEncoding("UTF-8");    	
+        response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
 //    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");   	
 //    	String theme_name="%"+search+"%";
     	Department department=new Department();
     	department.setId(Integer.valueOf(request.getParameter("editDepartmentID")));
-    	department.setDepartment_code(Integer.valueOf(request.getParameter("editDepartmentCode")));
+    	department.setDepartment_code(request.getParameter("editDepartmentCode"));
     	department.setDepartment_name(request.getParameter("editDepartmentName"));
     	department.setDepartment_description(request.getParameter("editDepartmentDescription"));
     	System.out.print(department.getId()+department.getDepartment_code());
@@ -246,6 +257,9 @@ public class DepartmentController {
         maView.addObject("controlURL", "departmentSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("department");
+    	
+    	
+    	
     	return maView;
     }
   //删除
@@ -278,6 +292,9 @@ public class DepartmentController {
         maView.addObject("controlURL", "departmentSelectAnalysisListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("department");
+    	
+    	
+    	
     	return maView;
     }
     

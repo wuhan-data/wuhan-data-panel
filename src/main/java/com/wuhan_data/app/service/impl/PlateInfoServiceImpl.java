@@ -2,6 +2,7 @@ package com.wuhan_data.app.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,13 @@ public class PlateInfoServiceImpl implements PlateInfoService {
 	public String getIndiShowType(String indi_code) {
 		// TODO Auto-generated method stub
 		return plateInfoMapper.getIndiShowType(indi_code);
+		
+	}
+
+	@Override
+	public List<String> getTimeSpan(Map map) {
+		return plateInfoMapper.getTimeSpan(map);
+		// TODO Auto-generated method stub
 		
 	}
 

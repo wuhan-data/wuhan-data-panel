@@ -2,7 +2,7 @@ package com.wuhan_data.pojo;
 
 public class Department {
 	Integer id;
-	Integer department_code;//部门编号
+	String department_code;//部门编号
 	String department_name;//部门名字
 	String department_description;//部门描述
 	public Integer getId() {
@@ -11,10 +11,10 @@ public class Department {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getDepartment_code() {
+	public String getDepartment_code() {
 		return department_code;
 	}
-	public void setDepartment_code(Integer department_code) {
+	public void setDepartment_code(String department_code) {
 		this.department_code = department_code;
 	}
 	public String getDepartment_name() {

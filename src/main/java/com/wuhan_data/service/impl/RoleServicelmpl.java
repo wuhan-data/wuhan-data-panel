@@ -34,6 +34,10 @@ public class RoleServicelmpl implements RoleService {
 		// TODO Auto-generated method stub
 		return roleMapper.get(id);
 	}
+	@Override
+	public Role getByName(String name) {
+		return roleMapper.getByName(name);
+	}
 
 	@Override
 	public int update(Role role) {
@@ -70,5 +74,6 @@ public class RoleServicelmpl implements RoleService {
 		// TODO Auto-generated method stub
 		return roleMapper.searchCount(parameter);
 	}
+
 
 }

@@ -21,13 +21,13 @@
         
         <!-- 根据时间、频度、获取相应指标信息 -->
        <select id="getIndiInfoByTime" resultType="com.wuhan_data.pojo.indi_TF" parameterType="java.util.Map">
-          select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname,group1_name from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} order by date_code
+          select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname,group1_name from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} and freq_code=#{freq_code} and sjly=#{sjly} and area_name=#{area_name} and group_count=#{group_count} order by date_code
 <!--                select indi_code,indi_name,date_code,freq_code,time_point,indi_value,unitname from indi_all where indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code <![CDATA[ <= ]]> #{endTime} and time_point=#{time_point} order by date_code -->
         </select> 
            
            <!-- 获取指标的时间跨度 -->
          <select id="getDateCodeByFreq" resultType="String" parameterType="java.util.Map">
-          select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and time_point=#{time_point} and sjly=#{sjly} order by date_code desc limit 0,#{term}
+          select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and time_point=#{time_point} and sjly=#{sjly} and area_name=#{area_name} and group_count=#{group_count} order by date_code desc limit 0,#{term}
         </select> 
         
         
@@ -40,5 +40,9 @@
         
         <select id="getIndiShowType" resultType="String" parameterType="String">
         select distinct SHOW_TYPE from index_manage where INDI_CODE=#{indi_code} 
+        </select>
+        <select id="getTimeSpan" resultType="String" parameterType="java.util.Map">
+       select date_code from indi_all where freq_code=#{freq_code} and indi_code=#{indi_code} and date_code&gt;=#{startTime} and date_code&lt;=#{endTime} and time_point=#{time_point} and area_name=#{area_name} and group_count=#{group_count} and sjly=#{sjly}  order by date_code
+       <!-- select date_code from indi_all where freq_code="SS" and indi_code='0100001' and date_code &gt;= '201404SS' and date_code &lt;= '201804SS' and time_point=203 and area_name='湖北省' and group_count='0' and sjly='湖北省统计局-' order by date_code-->
         </select>
     </mapper>
