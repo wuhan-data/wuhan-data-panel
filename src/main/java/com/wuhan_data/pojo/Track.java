@@ -7,12 +7,19 @@ public class Track {
 	Integer uid;//用户id
 	String type;//收藏的类型 analysis/index
 	String index_id;//指标数据id
+	String index_name;//指标数据的name与id相对应
+	public String getIndex_name() {
+		return index_name;
+	}
+	public void setIndex_name(String index_name) {
+		this.index_name = index_name;
+	}
 	String indi_source;//来源国统省级
 	Date create_time;//收藏时间
 	@Override
 	public String toString() {
-		return "Track [id=" + id + ", uid=" + uid + ", type=" + type + ", index_id=" + index_id + ", indi_source="
-				+ indi_source + ", create_time=" + create_time + "]";
+		return "Track [id=" + id + ", uid=" + uid + ", type=" + type + ", index_id=" + index_id + ", index_name="
+				+ index_name + ", indi_source=" + indi_source + ", create_time=" + create_time + "]";
 	}
 	public Integer getId() {
 		return id;

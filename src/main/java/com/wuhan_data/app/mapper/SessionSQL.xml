@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.SessionSQLMapperApp">
+        <insert id="add" parameterType="SessionSQL" >
+            insert into WUHAN_DATA.SessionSQL (sess_key,sess_value,create_date) values (#{sess_key},#{sess_value},#{create_date})   
+        </insert>
+        <delete id="delete" parameterType="SessionSQL" >
+            delete from WUHAN_DATA.SessionSQL where sess_key= #{sess_key}  
+        </delete> 
+        <select id="get" parameterType="String" resultType="SessionSQL">
+            select * from   WUHAN_DATA.SessionSQL  where sess_key= #{sess_key}   
+        </select>
+        <update id="update" parameterType="SessionSQL" >
+            update WUHAN_DATA.SessionSQL set sess_value=#{sess_value},create_date=#{create_date} where sess_key=#{sess_key}   
+        </update>
+    </mapper>

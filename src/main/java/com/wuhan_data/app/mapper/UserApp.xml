@@ -5,7 +5,7 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.UserMapperApp">
         <insert id="add" parameterType="User" >
-            insert into WUHAN_DATA.USER ( username,password,status,gender,tel,real_name,role_list,role_name,create_time,role_id,department_id,birthday,city,head,description ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id},#{birthday},#{city},#{head},#{description})   
+            insert into WUHAN_DATA.USER ( tel,username,password,status,gender,real_name,role_list,role_name,create_time,role_id,department_id,birthday,city,head,description ) values (#{tel},#{username},#{password},#{status},#{gender},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id},#{birthday},#{city},#{head},#{description})   
         </insert>
          
         <delete id="delete" parameterType="User" >
@@ -82,10 +82,7 @@
    		<select id="logincheckByTel" parameterType="User" resultType="User">
         	select * from WUHAN_DATA.USER where	tel = #{tel} AND password = #{password}
    		</select>
-   		<!-- 用户注册 -->
-   		<insert id="register" parameterType="User">
-			insert into WUHAN_DATA.USER (tel,password) values (#{tel},#{password})   
-		</insert>
+   		
 		<!-- 手机号是否存在 -->
 		<select id="telIsExist" resultType="int" parameterType="java.util.Map" >
             select count(*) from WUHAN_DATA.USER where tel=#{tel}  

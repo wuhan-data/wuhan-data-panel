@@ -19,6 +19,26 @@ public class User {
     private String city;
     private String head;
     private String description;
+    public User() {
+		// TODO Auto-generated constructor stub
+    	username="undefined";
+    	password="undefined";
+    	status="0";
+    	gender=0;
+    	tel="888888888";
+    	real_name="undefined";
+    	role_list="undefined";
+    	role_name="undefined";
+    	create_time=new Date();
+    	role_id="职员";
+    	department_id="组织部";
+    	birthday=new Date();
+    	city="undefined";
+    	head="E:\\project\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\wuhan-data-panel\\heads/default.jpg";
+    	description="undefined";
+    	
+    	
+	}
     public String getHead() {
 		return head;
 	}

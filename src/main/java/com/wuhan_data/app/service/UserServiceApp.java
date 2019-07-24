@@ -38,7 +38,7 @@ public interface UserServiceApp {
 	  public User logincheck(User user);
 	  public User logincheckByTel(Map<String,Object> parameter);
 	  //用户注册
-	  public void register(Map<String,Object> parameter);
+	 
 	  public int telIsExist(Map<String,Object> parameter);
 	  public int count();
 	  public int setHeadById(Map<String,Object> parameter);

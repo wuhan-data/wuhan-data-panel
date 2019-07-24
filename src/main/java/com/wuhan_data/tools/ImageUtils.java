@@ -1,9 +1,10 @@
 package com.wuhan_data.tools;
 
 
-
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -48,11 +49,22 @@ public class ImageUtils {
 			// 以绝对路径保存重名命后的图片
 			pictureFile.transferTo(new File(url + "/" + name + "." + ext));
 			// 装配图片地址
-			imgPath = "heads"+"/" + name + "." + ext;
+			imgPath = getURL(request)+"heads/" + name + "." + ext;
+			//System.out.println("上传图片成功，路径为="+imgPath);
 		}
 		
 		return imgPath;
 	}
+	public static String getURL(HttpServletRequest request) throws IOException
+	  {
+		String contextPath = request.getContextPath();
+		String basePath = request.getScheme()+"://"+InetAddress.getLocalHost().getHostAddress()+":"+  
+                request.getServerPort()+contextPath+"/"; 
+		return basePath;
+//  		System.out.println(basePath);
+//		  String urlString=request.getScheme()+"://192.168.124.11"+":"+request.getLocalPort()+"/"+"wuhan_data1/";
+//		  return urlString;
+	  }
 	//上传返回图片
 	public static String uploadFeedback(HttpServletRequest request,
 			MultipartFile pictureFile) throws IOException {
@@ -72,7 +84,7 @@ public class ImageUtils {
 			// 以绝对路径保存重名命后的图片
 			pictureFile.transferTo(new File(url + "/" + name + "." + ext));
 			// 装配图片地址
-			imgPath = "feedback"+"/" + name + "." + ext;
+			imgPath = getURL(request)+"feedback"+"/" + name + "." + ext;
 		}
 		
 		return imgPath;

@@ -22,9 +22,12 @@ import com.alibaba.fastjson.JSON;
 import com.sun.xml.internal.ws.api.model.MEP;
 import com.wuhan_data.app.service.MessageServiceApp;
 import com.wuhan_data.app.service.NoticeServiceApp;
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.pojo.Message;
 import com.wuhan_data.pojo.Notice;
 import com.wuhan_data.tools.SendMessage;
+import com.wuhan_data.tools.SessionApp;
+import com.wuhan_data.tools.StringToMap;
 
 import net.sf.json.JSONObject;
 
@@ -36,7 +39,8 @@ public class MessageControllerApp {
 	MessageServiceApp messageServiceApp;
 	@Autowired
 	NoticeServiceApp noticeServiceApp;
-	
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
 	
 	//消息页 get
 	@RequestMapping(value="getMessageApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
@@ -49,17 +53,15 @@ public class MessageControllerApp {
 		JSONObject jsonObject =JSONObject.fromObject(json); 
 	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
 	  	String tokenString=mapget.get("token").toString();
-	  	HttpSession session = request.getSession();
-	  	if(session.getAttribute(tokenString)==null)
+	  	if(sessionSQLServiceApp.get(tokenString)==null)
 	  	{
 	  		mapReturn.put("errCode", "2");
 			mapReturn.put("errMsg", "token令牌错误");
 	  	}
 	  	else {
-	  		Map map1=(HashMap)session.getAttribute(tokenString);
+	  		String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+	  		Map map1=StringToMap.stringToMap(mapString);
 	  		int receiver_id=Integer.valueOf((String)map1.get("userId"));
-	  		
-	  	//int receiver_id=22;
 			List<Message> messages=new ArrayList<Message>();
 			List<Notice> notices=new ArrayList<Notice>();
 			messages=messageServiceApp.getByRid(receiver_id);
@@ -77,11 +79,11 @@ public class MessageControllerApp {
 				String remarks=message.getRemarks();
 				Date create_time=message.getCreate_time();
 				SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss"); 
-				String datetime=formatter.format(create_time);
+				String dateTime=formatter.format(create_time);
 				map.put("messageId",idString);
 				map.put("title", title);
 				map.put("label",label);
-				map.put("datetime",datetime);
+				map.put("dateTime",dateTime);
 				map.put("content", remarks);
 				list.add(map);
 			}
@@ -94,20 +96,17 @@ public class MessageControllerApp {
 				String label="系统推送";
 				String remarks=notice.getRemarks();
 				Date create_time=notice.getCreate_time();
-				SimpleDateFormat formatter = new SimpleDateFormat ("yyyy/MM/dd hh:mm:ss"); 
-				String datetime=formatter.format(create_time);
+				SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss"); 
+				String dateTime=formatter.format(create_time);
 				map.put("messageId",idString);
 				map.put("title", title);
 				map.put("label",label);
-				map.put("datetime",datetime);
+				map.put("dateTime",dateTime);
 				map.put("content", remarks);
 				list.add(map);
 			}
-//			mapReturn.put("message",messages);
-//			mapReturn.put("notice",notices);
 			Map map2 =new HashMap();
 			map2.put("message", list);
-			
 			mapReturn.put("data", map2);
 		}
 		String param=JSON.toJSONString(mapReturn);
