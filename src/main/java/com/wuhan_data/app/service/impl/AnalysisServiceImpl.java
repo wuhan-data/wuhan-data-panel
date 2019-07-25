@@ -15,8 +15,6 @@ import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 import com.wuhan_data.pojo.ColPlateIndi;
 
-import net.sf.jsqlparser.statement.select.Select;
-
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
 
@@ -97,7 +95,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 				}
 				break;
-				
+
 			// TODO 对更多权限的判断和处理
 
 			default:
@@ -114,22 +112,22 @@ public class AnalysisServiceImpl implements AnalysisService {
 	}
 
 	public ArrayList<Object> getAnalysisPlate(int themeId) {
+		ArrayList<Object> result = new ArrayList<Object>();
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
 		// 记录整个栏目的频度信息
-		List<String> OldFreq = new ArrayList<String>();
+		List<String> timeFreq = new ArrayList<String>();
 		// 此处顺序不能调换，关系到后面取最小粒度数据
-		OldFreq.add("MM");
-		OldFreq.add("SS");
-		OldFreq.add("YY");
-		// 获得频度信息
+		timeFreq.add("MM");
+		timeFreq.add("SS");
+		timeFreq.add("YY");
+		// 获得所有指标的可取频度信息
 		for (int i = 0; i < analysisPlate.size(); i++) {
 			// 查询每个板块下的指标数据
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
-			for (int j = 0; j < indiList.size(); j++) {
-				List<String> NewFreq = analysisMapper.getFreqcodeByIndicode(indiList.get(j).getIndiCode());
-				OldFreq.retainAll(NewFreq);
-			}
+			result.add(indiList);
 		}
-		return null;
+		result.add(analysisPlate);
+		result.add(timeFreq);
+		return result;
 	}
 }

@@ -105,12 +105,10 @@
 		SELECT
 		`indi_id` as indiId,
 		`plate_id` as plateId,
-		`indi_name` as indiName,
+		`search_indi_id` as indiCode,
+		`indi_new_name` as indiName,
 		`show_type` as showType,
-		`indi_code` as indiCode,
-		`time_point` as timePoint,
-		`source` as source,
-		`area_name` as areaName,
+		`show_color` as showColor,
 		`indi_weight` as indiWeight,
 		`is_show` as isShow
 		FROM
@@ -123,11 +121,31 @@
 	<select id="getFreqcodeByIndicode" resultType="String"
 		parameterType="String">
 		SELECT DISTINCT
-		`freq_code`
+		`FREQ_CODE` as freqCode
 		FROM
 		`indi_all`
 		WHERE
 		INDI_CODE = #{indiCode}
 	</select>
+	
+	<!-- 获取指标的时间跨度 -->
+	<select id="getDatecodeByFreq" resultType="String"
+		parameterType="java.util.Map">
+		SELECT
+		`DATE_CODE` as dateCode
+		FROM
+		`indi_all`
+		WHERE
+		INDI_CODE = #{indiCode} AND
+		FREQ_CODE = #{freqCode} AND
+		TIME_POINT = #{timePoint} AND
+		SJLY = #{source} AND
+		AREA_NAME = #{areaName} AND
+		GROUP_COUNT = #{groupCount} AND
+		ORDER BY
+		DATE_CODE DESC
+		LIMIT 0, #{showTerm}
+	</select>
+
 
 </mapper>

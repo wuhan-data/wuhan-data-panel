@@ -3,12 +3,10 @@ package com.wuhan_data.pojo;
 public class AnalysisIndi {
 	Integer indiId; // 版块下指标id
 	Integer plateId; // 所属版块id
-	String indiName; // 指标展示名称
-	String showType; // 指标展示类型，一般用于复合图重病
 	String indiCode; // 查同方指标表的指标CODE
-	String timePoint; // 查同方指标表的时点
-	String source; // 查同方指标表的数据来源
-	String areaName; // 查同方指标表的地区名称
+	String indiName; // 指标展示名称
+	String showType; // 指标展示类型，一般用于复合图
+	String showColor;// 指标展示颜色，一般用于GDP三产的特殊颜色设定
 	Integer indiWeigth;// 指标展示权重
 	Integer isShow; // 是否展示 0-正常 1-不展示
 
@@ -20,6 +18,10 @@ public class AnalysisIndi {
 		return plateId;
 	}
 
+	public String getIndiCode() {
+		return indiCode;
+	}
+
 	public String getIndiName() {
 		return indiName;
 	}
@@ -28,22 +30,10 @@ public class AnalysisIndi {
 		return showType;
 	}
 
-	public String getIndiCode() {
-		return indiCode;
+	public String getShowColor() {
+		return showColor;
 	}
 
-	public String getTimePoint() {
-		return timePoint;
-	}
-
-	public String getSource() {
-		return source;
-	}
-	
-	public String getAreaName() {
-		return areaName;
-	}
-	
 	public Integer getIndiWeigth() {
 		return indiWeigth;
 	}

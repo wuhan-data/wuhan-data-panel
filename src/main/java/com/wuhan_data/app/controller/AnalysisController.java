@@ -2,7 +2,6 @@ package com.wuhan_data.app.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wuhan_data.app.service.AnalysisService;
-import com.wuhan_data.app.service.IndiDetailService;
-import com.wuhan_data.app.service.InitColumnService;
 import com.wuhan_data.app.service.PlateInfoService;
-import com.wuhan_data.pojo.AnalysisManage;
-import com.wuhan_data.pojo.AnalysisPlate;
-import com.wuhan_data.pojo.AnalysisTheme;
-import com.wuhan_data.pojo.ColPlate;
-import com.wuhan_data.pojo.ColPlateIndi;
 
 @Controller
 @RequestMapping("")
