@@ -17,7 +17,6 @@ import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
-import com.wuhan_data.pojo.ColPlateIndi;
 
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
@@ -88,7 +87,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					String isShow = subList.get(j).getIsShow().toString();
 					String listName = subList.get(j).getListName().toString();
 					if (listName.equals("综合")) {
-						System.out.println("listName=zonghe");
 						if (isShow.equals("0") || isShow.equals("9")) {
 							result.add(subList.get(j));
 						}
@@ -115,9 +113,42 @@ public class AnalysisServiceImpl implements AnalysisService {
 		return result;
 	}
 
+	/**
+	 * 获取初始化版块数据
+	 */
 	public ArrayList<Object> getAnalysisPlate(int themeId) {
 		ArrayList<Object> result = new ArrayList<Object>();
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
+		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
+		Map<String, Object> freqObject = timeCondition.get(0);
+		List<String> startTimeList = (List<String>) freqObject.get("startArray");
+		List<String> endTimeList = (List<String>) freqObject.get("endArray");
+		String freqName = (String) freqObject.get("freqName");
+		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
+		String startTime = startTimeList.get(current.get(0)).toString();
+		String endTime = endTimeList.get(current.get(1)).toString();
+
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		String indiCode = "PMI001;400:706501;363:706401;62:1";
+		queryMap.put("indiCode", indiCode);
+		queryMap.put("freqName", freqName);
+		queryMap.put("startTime", startTime);
+		queryMap.put("endTime", endTime);
+		System.out.println(queryMap.toString());
+		List<AnalysisIndiValue> test = analysisMapper.getIndiValue(queryMap);
+		result.add(test);
+		result.add(startTimeList);
+		return result;
+	}
+
+	/**
+	 * 根据版块信息获取可取的时间区间
+	 * 
+	 * @param analysisPlate
+	 * @return
+	 */
+	public ArrayList<Map<String, Object>> getTimeCondition(List<AnalysisPlate> analysisPlate) {
+		ArrayList<Map<String, Object>> timeCondition = new ArrayList<Map<String, Object>>();
 		// 记录整个栏目的频度信息
 		List<String> timeFreq = new ArrayList<String>();
 		// 此处顺序不能调换，关系到后面取最小粒度数据
@@ -144,7 +175,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 		}
 
-		ArrayList<Object> timeCondition = new ArrayList<Object>();
 		// 获取时间选择器区间，取指标的并集
 		for (int i = 0; i < timeFreq.size(); i++) {
 			String freqName = timeFreq.get(i);
@@ -153,7 +183,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 			for (int j = 0; j < analysisPlate.size(); j++) {
 				Integer pid = analysisPlate.get(j).getPlateId();
 				Integer showTerm = analysisPlate.get(j).getShowTerm();
-				System.out.println(showTerm);
 				List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
 				for (int k = 0; k < indiList.size(); k++) {
 					Map<String, Object> queryMap = new HashMap<String, Object>();
@@ -161,16 +190,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMap.put("indiCode", indiCode);
 					queryMap.put("freqName", freqName);
 					queryMap.put("showTerm", 999); // showTerm
-					System.out.println(queryMap.toString());
 					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
-
 					Set<String> timeSpanSet = new HashSet<String>(timeList);
 					timeSpanFinal.addAll(timeSpanSet);
-//					System.out.println(timeSpanFinal.toString());
 				}
 			}
 			List<String> timeList = new ArrayList<String>(timeSpanFinal);
-//			Collections.sort(timeList);
+			Collections.sort(timeList);
 			Collections.reverse(timeList);
 			switch (freqName) {
 			case "月度":
@@ -187,19 +213,23 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 			timeConditionMap.put("startArray", timeList);
 			timeConditionMap.put("endArray", timeList);
+			// 添加默认选择的时间区间，只有最小粒度需要
+			if (i == 0) {
+				ArrayList<Integer> subIndex = new ArrayList<Integer>();
+				Integer currentLen = 8;
+				if (timeList.size() > currentLen) {
+					subIndex.add(currentLen);
+					subIndex.add(0);
+					timeConditionMap.put("current", subIndex);
+				} else {
+					subIndex.add(timeConditionMap.size() - 1);
+					subIndex.add(0);
+					timeConditionMap.put("current", subIndex);
+				}
+			}
 			timeCondition.add(timeConditionMap);
 		}
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		String indiCode = "PMI001;400:706501;363:706401;62:1";
-		String freqName = "月度";
-		queryMap.put("indiCode", indiCode);
-		queryMap.put("freqName", freqName);
-		queryMap.put("startTime", "2019/01");
-		queryMap.put("endTime", "2019/06");
-		List<AnalysisIndiValue> test = analysisMapper.getIndiValue(queryMap);
-		result.add(test);
-//		result.add(timeCondition);
-		return result;
+		return timeCondition;
 	}
 
 }
