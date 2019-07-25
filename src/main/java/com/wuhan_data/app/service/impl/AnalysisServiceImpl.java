@@ -131,7 +131,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> freqNameList = analysisMapper.getFreqnameByIndicode(indiCode);
 				for (int k = 0; k < freqNameList.size(); k++) {
 					String freqName = freqNameList.get(k);
-					List<String> timeList = analysisMapper.getTimeByFreqname(indiCode, freqName, showTerm);
+					Map<String, Object> queryMap = new HashMap<String, Object>();
+					queryMap.put("indiCode", indiCode);
+					queryMap.put("freqName", freqName);
+					queryMap.put("showTerm", showTerm);
+					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
 					result.add(timeList);
 				}
 			}
