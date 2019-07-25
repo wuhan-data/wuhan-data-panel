@@ -118,32 +118,29 @@
 		`is_show` = 0
     </select>
     
-	<select id="getFreqcodeByIndicode" resultType="String"
+    <!-- 获取指标的所有可取频度 -->
+	<select id="getFreqnameByIndiid" resultType="String"
 		parameterType="String">
 		SELECT DISTINCT
-		`FREQ_CODE` as freqCode
+		`INDICATOR_GRP21_ITEM_NAME` as freqName
 		FROM
-		`indi_all`
+		`srit_data_indicator_tj`
 		WHERE
 		INDI_CODE = #{indiCode}
 	</select>
 	
-	<!-- 获取指标的时间跨度 -->
-	<select id="getDatecodeByFreq" resultType="String"
+	<!-- 获取指标指定频度的时间跨度 -->
+	<select id="getTimeByFreq" resultType="String"
 		parameterType="java.util.Map">
 		SELECT
-		`DATE_CODE` as dateCode
+		`DATA_TIME_NAME` as time
 		FROM
-		`indi_all`
+		`srit_data_indicator_tj`
 		WHERE
-		INDI_CODE = #{indiCode} AND
-		FREQ_CODE = #{freqCode} AND
-		TIME_POINT = #{timePoint} AND
-		SJLY = #{source} AND
-		AREA_NAME = #{areaName} AND
-		GROUP_COUNT = #{groupCount} AND
+		indiId = #{indiCode} AND
+		INDICATOR_GRP21_ITEM_NAME = #{freqName} AND
 		ORDER BY
-		DATE_CODE DESC
+		DATA_TIME_NAME DESC
 		LIMIT 0, #{showTerm}
 	</select>
 

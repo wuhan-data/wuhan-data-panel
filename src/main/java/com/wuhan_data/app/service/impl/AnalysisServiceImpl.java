@@ -120,10 +120,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 		timeFreq.add("MM");
 		timeFreq.add("SS");
 		timeFreq.add("YY");
-		// 获得所有指标的可取频度信息
+		// 获得所有指标的可取的时间区间及频度信息
 		for (int i = 0; i < analysisPlate.size(); i++) {
 			// 查询每个板块下的指标数据
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
+
 			result.add(indiList);
 		}
 		result.add(analysisPlate);
