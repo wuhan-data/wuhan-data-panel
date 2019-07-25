@@ -4,8 +4,6 @@ target/*
 .project
 .classpath
 /target/
-
-
 src/main/resources/springMVC.xml
-
 /.gradle/
+applicationContext.xml

@@ -4,8 +4,8 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.wuhan_data.mapper.SysLogMapper">
-        <insert id="add" parameterType="SysLog" >
-        	insert into WUHAN_DATA.sys_log (operate_user_name,operate,method,create_time) values (#{operate_user_name},#{operate},#{method},#{create_time}) 
+        <insert id="add" parameterType="SysLog">
+        	insert into WUHAN_DATA.sys_log (operate_user_id,operate,method,create_time) values (#{operate_user_id},#{operate},#{method},#{create_time}) 
         </insert>
          
         <delete id="delete" parameterType="SysLog" >
@@ -17,7 +17,7 @@
         </select>
  
         <update id="update" parameterType="SysLog" >
-            update WUHAN_DATA.sys_log set operate_user_name=#{operate_user_name} , operate=#{operate} , method=#{method} where id=#{id}   
+            update WUHAN_DATA.sys_log set operate_user_id=#{operate_user_id} , operate=#{operate} , method=#{method} where id=#{id}   
         </update>
         
         <select id="list" resultType="SysLog">
@@ -34,13 +34,13 @@
 		<select id="search" parameterType="java.util.Map" resultType="SysLog">
             select * from WUHAN_DATA.sys_log 
             <where>
-            operate_user_name like concat(concat('%',#{operate_user_name}),'%')  
+            operate_user_id like concat(concat('%',#{operate_user_id}),'%')  
             </where>
              order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.sys_log where operate_user_name like concat(concat('%',#{operate_user_name}),'%')  
+            select count(*) from WUHAN_DATA.sys_log where operate_user_id like concat(concat('%',#{operate_user_id}),'%')  
         </select>
         
     </mapper>

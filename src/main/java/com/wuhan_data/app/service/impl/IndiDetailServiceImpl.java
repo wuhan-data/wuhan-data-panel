@@ -43,5 +43,15 @@ public class IndiDetailServiceImpl implements IndiDetailService{
 		System.out.println("showMap:"+showMap.get("source"));
 		return indiDetailMapper.getIndiShowType(showMap);
 	}
+	@Override
+	public String getIndiCode(String appIndiName) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndiCode(appIndiName);
+	}
+	@Override
+	public String getIndexName(String indexCode) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndexName(indexCode);
+	}
 
 }

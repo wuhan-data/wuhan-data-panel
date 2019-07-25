@@ -8,7 +8,7 @@ import com.wuhan_data.pojo.User;;
 
 public interface SysLogService {
 
-	public int add(String userName,String operate,String method);
+	public int add(int operate_user_id,String operate,String method);
 	
 	public void delete(int id);
 	

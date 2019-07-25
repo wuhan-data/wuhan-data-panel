@@ -30,8 +30,7 @@ public class RoleController {
 	
 	@Autowired
 	RoleService roleService;
-	@Autowired
-	SysLogService sysLogService;
+	
 	private static String role_name="";//用于模糊查询的名字
 	@RequestMapping("listRole")
 	public ModelAndView listRole() {
@@ -134,10 +133,6 @@ public class RoleController {
            mav.setViewName("role");   
            
 
-	        HttpSession session=request.getSession();
-	        Admin adminLL=(Admin)session.getAttribute("user");  
-	    	sysLogService.add(adminLL.getUsername(),"roleSearchByName","com.wuhan_data.controller.RoleController.roleSearchByName");
-	        
            
            return mav;
     }
@@ -204,11 +199,6 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("page", page); 
     	maView.setViewName("role");
     	
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user"); 
-	    sysLogService.add(adminLL.getUsername(),"addRole","com.wuhan_data.controller.RoleController.addRole");
-	        
-    	
     	return maView;
     }
 	//delete role
@@ -238,11 +228,6 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("role");
-    	
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user");  
-	    sysLogService.add(adminLL.getUsername(),"deteleRole","com.wuhan_data.controller.RoleController.deteleRole");
-	      
     	
     	return maView;
     }
@@ -281,11 +266,6 @@ request.setCharacterEncoding("UTF-8");
         maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
         maView.addObject("page", page); 
     	maView.setViewName("role");
-    	
-    	HttpSession session=request.getSession();
-    	Admin adminLL=(Admin)session.getAttribute("user");  
-	    sysLogService.add(adminLL.getUsername(),"editRole","com.wuhan_data.controller.RoleController.editRole");
-	      
     	
     	return maView;
     }
