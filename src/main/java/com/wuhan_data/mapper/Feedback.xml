@@ -4,31 +4,31 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.wuhan_data.mapper.FeedbackMapper">
-        <insert id="add" parameterType="Feedback" >
-            insert into WUHAN_DATA.Feedback (uid,title,text,img,contact,create_time,state)values (#{uid},#{title},#{text},#{img},#{contact},#{create_time},#{state})
+        <insert id="add" parameterType="com.wuhan_data.pojo.Feedback" >
+            insert into feedback (uid,title,text,img,contact,create_time,state) values (#{uid},#{title},#{text},#{img},#{contact},#{create_time},#{state})
         </insert>
-        <delete id="delete" parameterType="Feedback" >
-            delete from WUHAN_DATA.Feedback where id= #{id}  
+        <delete id="delete" parameterType="int" >
+            delete from feedback where id= #{id}  
         </delete>
-        <select id="get" parameterType="_int" resultType="Feedback">
-            select * from   WUHAN_DATA.Feedback  where id= #{id}   
+        <select id="get" parameterType="_int" resultType="com.wuhan_data.pojo.Feedback">
+            select * from   feedback  where id= #{id}   
         </select>
-        <update id="update" parameterType="Feedback" >
-            update WUHAN_DATA.Feedback set uid=#{uid},title=#{title},text=#{text},img=#{img},contact=#{contact},create_time=#{create_time},state=#{state}   where id=#{id}   
+        <update id="update" parameterType="com.wuhan_data.pojo.Feedback" >
+            update Feedback set uid=#{uid},title=#{title},text=#{text},img=#{img},contact=#{contact},create_time=#{create_time},state=#{state}   where id=#{id}   
         </update>
-        <select id="list" resultType="Feedback">
-            select * from WUHAN_DATA.Feedback    
+        <select id="list" resultType="com.wuhan_data.pojo.Feedback">
+            select * from feedback    
         </select>   
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.Feedback  
+        	select count(*) from feedback  
         </select>
         <!-- 列表，可分页 -->
-        <select id="listByPage" resultType="Feedback" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.Feedback   order by id limit #{page.dbIndex},#{page.dbNumber}
+        <select id="listByPage" resultType="com.wuhan_data.pojo.Feedback" parameterType="java.util.Map">
+        	select * from feedback   order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
-		<select id="search" parameterType="java.util.Map" resultType="Feedback">
-            select * from WUHAN_DATA.Feedback 
+		<select id="search" parameterType="java.util.Map" resultType="com.wuhan_data.pojo.Feedback">
+            select * from feedback 
             <where>
            uid like concat(concat('%',#{uid}),'%')  
             </where>
@@ -36,7 +36,7 @@
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.Feedback where uid like concat(concat('%',#{uid}),'%')  
+            select count(*) from feedback where uid like concat(concat('%',#{uid}),'%')  
         </select>
          
     </mapper>
