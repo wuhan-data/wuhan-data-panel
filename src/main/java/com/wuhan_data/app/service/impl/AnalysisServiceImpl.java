@@ -117,18 +117,35 @@ public class AnalysisServiceImpl implements AnalysisService {
 		// 记录整个栏目的频度信息
 		List<String> timeFreq = new ArrayList<String>();
 		// 此处顺序不能调换，关系到后面取最小粒度数据
-		timeFreq.add("MM");
-		timeFreq.add("SS");
-		timeFreq.add("YY");
+		timeFreq.add("月度");
+		timeFreq.add("季度");
+		timeFreq.add("年度");
 		// 获得所有指标的可取的时间区间及频度信息
 		for (int i = 0; i < analysisPlate.size(); i++) {
 			// 查询每个板块下的指标数据
-			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
-
-			result.add(indiList);
+			Integer pid = analysisPlate.get(i).getPlateId();
+			Integer showTerm = analysisPlate.get(i).getShowTerm();
+			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
+			for (int j = 0; j < indiList.size(); j++) {
+				String indiCode = indiList.get(j).getIndiCode();
+				List<String> freqNameList = analysisMapper.getFreqnameByIndicode(indiCode);
+				for (int k = 0; k < freqNameList.size(); k++) {
+					String freqName = freqNameList.get(k);
+					if (freqName.equals("")) {
+						continue;
+					}
+					Map<String, Object> queryMap = new HashMap<String, Object>();
+					queryMap.put("indiCode", indiCode);
+					queryMap.put("freqName", freqName);
+					queryMap.put("showTerm", showTerm);
+					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
+					result.add(timeList);
+				}
+			}
+//			result.add(indiList);
 		}
-		result.add(analysisPlate);
-		result.add(timeFreq);
+//		result.add(analysisPlate);
+//		result.add(timeFreq);
 		return result;
 	}
 }

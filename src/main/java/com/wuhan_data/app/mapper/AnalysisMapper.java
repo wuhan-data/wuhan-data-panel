@@ -22,4 +22,8 @@ public interface AnalysisMapper {
 
 	public List<AnalysisIndi> getIndiByPid(int plateId); // 查询指定版块下的所有指标配置项
 
+	public List<String> getFreqnameByIndicode(String indiCode); // 根据指标code查询所有可取的频度数据
+	
+	public List<String> getTimeByFreqname(Map<String, Object> map); // 根据频度信息获取可取的时间范围
+	
 }
