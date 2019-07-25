@@ -1,6 +1,7 @@
 package com.wuhan_data.app.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.AnalysisService;
+import com.wuhan_data.app.showType.LineType;
+import com.wuhan_data.app.showType.TableType;
+import com.wuhan_data.app.showType.pojo.LineEntity;
+import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
@@ -116,28 +121,42 @@ public class AnalysisServiceImpl implements AnalysisService {
 	/**
 	 * 获取初始化版块数据
 	 */
-	public ArrayList<Object> getAnalysisPlate(int themeId) {
-		ArrayList<Object> result = new ArrayList<Object>();
+	public Map<String, Object> getAnalysisPlate(int themeId) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		// 获取版块信息
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
+		if (analysisPlate.size() == 0) {
+			return result;
+		}
+
+		// 获取时间可取区间数据
 		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
+		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
+		if (timeCondition.toString().equals(errorTimeCondition)) {
+			return result;
+		}
+
+		// 构建查询条件
 		Map<String, Object> freqObject = timeCondition.get(0);
+		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
 		List<String> startTimeList = (List<String>) freqObject.get("startArray");
 		List<String> endTimeList = (List<String>) freqObject.get("endArray");
 		String freqName = (String) freqObject.get("freqName");
-		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
+		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
+		System.out.println(xAxis.toString());
 		String startTime = startTimeList.get(current.get(0)).toString();
 		String endTime = endTimeList.get(current.get(1)).toString();
-
 		Map<String, Object> queryMap = new HashMap<String, Object>();
-		String indiCode = "PMI001;400:706501;363:706401;62:1";
-		queryMap.put("indiCode", indiCode);
 		queryMap.put("freqName", freqName);
 		queryMap.put("startTime", startTime);
 		queryMap.put("endTime", endTime);
-		System.out.println(queryMap.toString());
-		List<AnalysisIndiValue> test = analysisMapper.getIndiValue(queryMap);
-		result.add(test);
-		result.add(startTimeList);
+
+		// 查询指标数据并绘制图形
+		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis);
+
+		result.put("timeCondition", timeCondition);
+		result.put("classInfo", classInfo);
+
 		return result;
 	}
 
@@ -197,7 +216,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 			List<String> timeList = new ArrayList<String>(timeSpanFinal);
 			Collections.sort(timeList);
-			Collections.reverse(timeList);
 			switch (freqName) {
 			case "月度":
 				timeConditionMap.put("freqName", "月度");
@@ -218,18 +236,69 @@ public class AnalysisServiceImpl implements AnalysisService {
 				ArrayList<Integer> subIndex = new ArrayList<Integer>();
 				Integer currentLen = 8;
 				if (timeList.size() > currentLen) {
-					subIndex.add(currentLen);
+					subIndex.add(timeList.size() - currentLen - 1);
+					subIndex.add(timeList.size() - 1);
+				} else if (timeList.size() < 1) {
 					subIndex.add(0);
-					timeConditionMap.put("current", subIndex);
+					subIndex.add(0);
 				} else {
-					subIndex.add(timeConditionMap.size() - 1);
 					subIndex.add(0);
-					timeConditionMap.put("current", subIndex);
+					subIndex.add(timeList.size() - 1);
 				}
+				System.out.println(subIndex.toString());
+				timeConditionMap.put("current", subIndex);
 			}
 			timeCondition.add(timeConditionMap);
 		}
 		return timeCondition;
+	}
+
+	@Override
+	public List<Object> getClassInfo(List<AnalysisPlate> analysisPlate, Map<String, Object> queryMap,
+			List<String> xAxis) {
+		List<Object> TotalList = new ArrayList<Object>();
+		for (int i = 0; i < analysisPlate.size(); i++) {
+			String id = String.valueOf(analysisPlate.get(i).getPlateId());// 板块id
+			String title = analysisPlate.get(i).getPlateName();// 板块名
+			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
+			switch (analysisPlate.get(i).getShowType()) {
+			case "折线图": {
+				System.out.println("进入折线图");
+				List<List> dataValue = new ArrayList();
+				List<String> legend = new ArrayList<String>();
+				LineType lineType = new LineType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				TableType tableType = new TableType();
+				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue);
+				List<List> dataXaisTable = new ArrayList();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(lineEntity);
+				TotalList.add(tableEntity);
+			}
+				break;
+			case "柱状图": {
+				System.out.println("进入柱状图");
+			}
+			}
+		}
+		// TODO Auto-generated method stub
+		return TotalList;
 	}
 
 }

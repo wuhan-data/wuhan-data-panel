@@ -60,6 +60,7 @@ public class AnalysisController {
 		int indexId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
+			System.out.println(requestObject.toString());
 			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
 			boolean hasIndexId = requestObject.containsKey("indexId");
 			if (!hasIndexId) {
@@ -72,11 +73,11 @@ public class AnalysisController {
 		}
 
 		// 获取栏目下的版块信息
-		ArrayList<Object> analysisPlate = analysisService.getAnalysisPlate(indexId);
-		data.put("plate", analysisPlate);
+		Map<String, Object> analysisPlate = analysisService.getAnalysisPlate(indexId);
 		
 		
-		return this.apiReturn("0", "数据获取成功", data);
+		
+		return this.apiReturn("0", "数据获取成功", analysisPlate);
 	}
 
 	public String apiReturn(String errCode, String errMsg, Map<String, Object> data) {
