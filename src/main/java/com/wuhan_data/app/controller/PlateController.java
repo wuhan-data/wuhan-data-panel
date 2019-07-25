@@ -1488,9 +1488,9 @@ public class PlateController {
 		
 //			int indexId=6; //从app获得栏目id
 			int  indexId = Integer.parseInt(indexId1);
-//			int indexId=2;
-//			String startTime="201702SS";
-//			String endTime="201802SS";
+//			int indexId=91;
+//			String startTime="201701SS";
+//			String endTime="201804SS";
 //			String freq="SS";
 			
 			System.out.println("indexid"+indexId);
@@ -1502,8 +1502,54 @@ public class PlateController {
 //			String freq="SS";//从app获取
 			
 			
-			Map cmap = new HashMap();
+			
+			//*********************************************//
+			//查询公共时间段
+			Set timeSpanFinal=new HashSet();
 			List<ColPlate> cpList = plateInfoService.getPlateInfo(indexId);//查询板块
+			for(int i=0;i<cpList.size();i++) {
+//				int term = cpList.get(i).getTerm();//获取期数 期数是最新
+				//查询每个板块下的指标数据
+				List<ColPlateIndi> indiList=plateInfoService.getIndiByPid(cpList.get(i).getPid());
+				
+				System.out.println("指标size:"+indiList.size());
+				for(int j=0;j<indiList.size();j++) {
+					Map map = new HashMap();
+					System.out.print(indiList.get(j));
+					
+					map.put("indi_code", indiList.get(j).getIndi_id());
+					map.put("time_point", indiList.get(j).getTime_point());
+					map.put("sjly", indiList.get(j).getSjly());
+//					map.put("term", term);
+					map.put("area_name","湖北省");
+					map.put("group_count","0");
+					System.out.println("indi_code"+indiList.get(j).getIndi_id());
+					System.out.println("time_point"+indiList.get(j).getTime_point());
+					System.out.println("sjly"+indiList.get(j).getSjly());
+//					System.out.println("term"+term);
+					//************************************
+//					map.put("freq_code","SS");
+					map.put("freq_code",freq);
+					map.put("startTime",startTime);
+					map.put("endTime",endTime);
+//					System.out.print("freq_code"+OldFreq.get(k));
+//					List<String> timeSpan = plateInfoService.getDateCodeByFreq(map);
+					List<String> timeSpan=plateInfoService.getTimeSpan(map);
+					System.out.println("timeSpan"+timeSpan);
+					Set timeSpanSet = new HashSet(timeSpan);
+					timeSpanFinal.addAll(timeSpanSet);
+					
+//					Collections.reverse(timeSpanFinal);
+				}
+			}
+			List<String> TimeSpanFinalList =new ArrayList<String>();
+			TimeSpanFinalList.addAll(timeSpanFinal);
+			Collections.sort(TimeSpanFinalList);
+			System.out.println("the final time Span:"+TimeSpanFinalList);
+			
+			//****************************************************//
+			
+//			List<ColPlate> cpList = plateInfoService.getPlateInfo(indexId);//查询板块
 //			List<LineEntity> leList = new ArrayList<LineEntity>();
 //			List<BarEntity> beList=new ArrayList<BarEntity>();
 			List TotalList=new ArrayList();
@@ -1514,15 +1560,17 @@ public class PlateController {
 //				int term = cpList.get(i).getTerm();
 //				switch(cpList.get(i).getShow_type()) {
 //				case "折线图":
-				
+					Map cmap = new HashMap();
 					String id = String.valueOf(cpList.get(i).getPid());//获取板块id
 					String title = cpList.get(i).getPname();	//获取板块名称	
 					List<ColPlateIndi> indiList=plateInfoService.getIndiByPid(cpList.get(i).getPid());
 					System.out.println("indiList"+indiList.size());
 //					if(cpList.get(i).getShow_type().equals("折线图")) {
+					System.out.println("展示类型:"+cpList.get(0).getShow_type());
 					switch(cpList.get(i).getShow_type()) {
 					case "折线图":{
-						List dataXX=new ArrayList();
+						System.out.println("进入折线图");
+//						List dataXX=new ArrayList();
 						List dataVV=new ArrayList();
 						List legend=new ArrayList();
 						LineType lt = new LineType();	
@@ -1542,17 +1590,40 @@ public class PlateController {
 						cmap.put("freq_code",freq);
 						cmap.put("startTime",startTime);
 						cmap.put("endTime",endTime);
+						cmap.put("area_name","湖北省");
+						cmap.put("group_count","0");
+						//临时配置
+						cmap.put("sjly","湖北省统计局-");
+						//临时
+//						cmap.put("term", 99);
 //						cmap.put("endTime","201804");
-						List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
+						System.out.println("indi_code"+indiList.get(j).getIndi_id());
+						System.out.println("time_point"+indiList.get(j).getTime_point());
+						System.out.println("freq_code"+freq);
+						System.out.println("startTime"+startTime);
+						System.out.println("endTime"+endTime);
 						
-						List dataX=new ArrayList();//折线图X轴的数据
-						List dataV=new ArrayList();//指标数据
+						List<indi_TF> indiInfoList=plateInfoService.getIndiInfoByTime(cmap);//根据查询条件（开始时间，结束时间，指标代码，时点）查询indi_all（也就是同方的表）得到具体指标数据
+						System.out.println("indinfoSize"+indiInfoList.size());
+//						List dataX=new ArrayList();//折线图X轴的数据
+						List<String> dataV = Arrays.asList(new String[TimeSpanFinalList.size()]);//指标数据
 						for(int m=0;m<indiInfoList.size();m++) {//循环指标列表
-							dataX.add(indiInfoList.get(m).getDate_code().substring(0, 6));//获取X轴的数据，因为数据库里的数据为“201801SS”这样类似的，而APP展示的时候仅需要“201801”，所以需要对字符串进行分割
-							dataV.add(indiInfoList.get(m).getIndi_value());//将对应日期的指标值加入到list中
+//							String dataXTemp=indiInfoList.get(m).getDate_code().substring(0, 6);
+							String dataXTemp=indiInfoList.get(m).getDate_code();
+							System.out.println("dataxTemp"+dataXTemp);
+							if(TimeSpanFinalList.contains(dataXTemp)){
+								int index = TimeSpanFinalList.indexOf(dataXTemp);
+//							System.out.println("下标:"+index);
+//							System.out.println("dataXaisFinal:"+TimeSpanFinalList);
+//							System.out.println("dataXTemp"+dataXTemp);
+							dataV.set(index,indiInfoList.get(m).getIndi_value());
+//							dataX.add(indiInfoList.get(m).getDate_code().substring(0, 6));//获取X轴的数据，因为数据库里的数据为“201801SS”这样类似的，而APP展示的时候仅需要“201801”，所以需要对字符串进行分割
+//							dataV.add(indiInfoList.get(m).getIndi_value());//将对应日期的指标值加入到list中
 							
-						}	
-						dataXX.add(dataX);
+						}
+						}
+						System.out.println("指标值"+dataV);
+//						dataXX.add(dataX);
 						dataVV.add(dataV);
 						legend.add(indiList.get(j).getIndi_name());
 						
@@ -1561,7 +1632,7 @@ public class PlateController {
 							
 						
 					}
-					LineEntity le=lt.getOption(id,title,dataXX,legend,dataVV);
+					LineEntity le=lt.getOption(id,title,TimeSpanFinalList,legend,dataVV);
 //					leList.add(le);
 					TotalList.add(le);
 					}
