@@ -5,5 +5,7 @@ target/*
 .classpath
 /target/
 
+
 src/main/resources/springMVC.xml
-src/main/resources
+
+/.gradle/

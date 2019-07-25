@@ -227,39 +227,39 @@ public class IndiDetailAppController {
 		return param;
 	}
 	
-	@RequestMapping(value="testPoint",produces = "application/json; charset=utf-8")
-	@ResponseBody
-	public String testPoint() {	
-		String id="7";
-		String title="散点图";
-		List<String> nameData=Arrays.asList("谷歌","必应");
-		
-		List<List> data =new ArrayList();
-		
-		List point1= new ArrayList();point1.add(14.0);point1.add(9.96);
-		List point2= new ArrayList();point2.add(14.0);point2.add(9.96);
-		List point3= new ArrayList();point3.add(14.0);point3.add(9.96);
-		List<List> data1 = new ArrayList();
-		data1.add(point1);data1.add(point2);data1.add(point1);
-		List<List> data2 = new ArrayList();
-		data2.add(point1);data2.add(point2);data2.add(point1);
-		
-		data.add(data1);
-		data.add(data2);
-		
-		System.out.println(data1);
-		System.out.println(data2);
-//		List<String> show=Arrays.asList("bar", "bar", "bar", "line");
-		
-		PointType pointType= new PointType();
-		
-		PointEntity pointEntity = pointType.getOption(id, title,nameData,data);
-	
-		Map map=new HashMap();
-		map.put("pointEntity",pointEntity);
-		String  param= JSON.toJSONString(map);
-		return param;
-	}
+//	@RequestMapping(value="testPoint",produces = "application/json; charset=utf-8")
+//	@ResponseBody
+//	public String testPoint() {	
+//		String id="7";
+//		String title="散点图";
+//		List<String> nameData=Arrays.asList("谷歌","必应");
+//		
+//		List<List> data =new ArrayList();
+//		
+//		List point1= new ArrayList();point1.add(14.0);point1.add(9.96);
+//		List point2= new ArrayList();point2.add(14.0);point2.add(9.96);
+//		List point3= new ArrayList();point3.add(14.0);point3.add(9.96);
+//		List<List> data1 = new ArrayList();
+//		data1.add(point1);data1.add(point2);data1.add(point1);
+//		List<List> data2 = new ArrayList();
+//		data2.add(point1);data2.add(point2);data2.add(point1);
+//		
+//		data.add(data1);
+//		data.add(data2);
+//		
+//		System.out.println(data1);
+//		System.out.println(data2);
+////		List<String> show=Arrays.asList("bar", "bar", "bar", "line");
+//		
+//		PointType pointType= new PointType();
+//		
+//		PointEntity pointEntity = pointType.getOption(id, title,nameData,data);
+//	
+//		Map map=new HashMap();
+//		map.put("pointEntity",pointEntity);
+//		String  param= JSON.toJSONString(map);
+//		return param;
+//	}
 	
 	
 	@RequestMapping(value="testTable",produces = "application/json; charset=utf-8")
@@ -288,10 +288,10 @@ public class IndiDetailAppController {
 		
 		PointType pointType= new PointType();
 		
-		PointEntity pointEntity = pointType.getOption(id, title,nameData,data);
+//		PointEntity pointEntity = pointType.getOption(id, title,nameData,data);
 	
 		Map map=new HashMap();
-		map.put("pointEntity",pointEntity);
+//		map.put("pointEntity",pointEntity);
 		String  param= JSON.toJSONString(map);
 		return param;
 	}
