@@ -148,6 +148,28 @@
 		DATA_TIME_NAME DESC
 		LIMIT 0, #{showTerm}
 	</select>
+	
+
+	<select id="getIndiValue" resultType="com.wuhan_data.pojo.AnalysisIndiValue"
+		parameterType="java.util.Map">
+		SELECT
+		`INDEXDATAID` as indiCode,
+		`INDICATOR_GRP21_ITEM_NAME` as freqName,
+		`DATA_TIME_NAME` as time,
+		`INDICATOR_GRP22_ITEM_NAME` as timePoint,
+		`VALUE` as indiValue,
+		`UNIT_NAME` as unitName
+		FROM
+		`srit_data_indicator_tj`
+		WHERE
+		INDEXDATAID = #{indiCode} AND
+		INDICATOR_GRP21_ITEM_NAME = #{freqName} AND
+		DATA_TIME_NAME &gt;= #{startTime} AND
+		DATA_TIME_NAME &lt;= #{endTime}
+		ORDER BY
+		DATA_TIME_NAME DESC
+	</select>
+	
 
 
 </mapper>

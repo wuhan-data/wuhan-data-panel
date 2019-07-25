@@ -1,9 +1,12 @@
 package com.wuhan_data.app.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.AnalysisService;
 import com.wuhan_data.pojo.AnalysisIndi;
+import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 import com.wuhan_data.pojo.ColPlateIndi;
@@ -120,29 +124,82 @@ public class AnalysisServiceImpl implements AnalysisService {
 		timeFreq.add("月度");
 		timeFreq.add("季度");
 		timeFreq.add("年度");
+
 		// 获得所有指标的可取的时间区间及频度信息
 		for (int i = 0; i < analysisPlate.size(); i++) {
 			// 查询每个板块下的指标数据
 			Integer pid = analysisPlate.get(i).getPlateId();
-			Integer showTerm = analysisPlate.get(i).getShowTerm();
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
 			for (int j = 0; j < indiList.size(); j++) {
 				String indiCode = indiList.get(j).getIndiCode();
 				List<String> freqNameList = analysisMapper.getFreqnameByIndicode(indiCode);
+				// TOOD 因为测试数据不全，所以这里对可能取不到的频度进行忽略
 				for (int k = 0; k < freqNameList.size(); k++) {
-					String freqName = freqNameList.get(k);
-					Map<String, Object> queryMap = new HashMap<String, Object>();
-					queryMap.put("indiCode", indiCode);
-					queryMap.put("freqName", freqName);
-					queryMap.put("showTerm", showTerm);
-					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
-					result.add(timeList);
+					if (freqNameList.get(k).equals("")) {
+						continue;
+					} else {
+						timeFreq.retainAll(freqNameList);
+					}
 				}
 			}
-//			result.add(indiList);
 		}
-//		result.add(analysisPlate);
-//		result.add(timeFreq);
+
+		ArrayList<Object> timeCondition = new ArrayList<Object>();
+		// 获取时间选择器区间，取指标的并集
+		for (int i = 0; i < timeFreq.size(); i++) {
+			String freqName = timeFreq.get(i);
+			Map<String, Object> timeConditionMap = new HashMap<String, Object>();
+			Set<String> timeSpanFinal = new HashSet<String>();
+			for (int j = 0; j < analysisPlate.size(); j++) {
+				Integer pid = analysisPlate.get(j).getPlateId();
+				Integer showTerm = analysisPlate.get(j).getShowTerm();
+				System.out.println(showTerm);
+				List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
+				for (int k = 0; k < indiList.size(); k++) {
+					Map<String, Object> queryMap = new HashMap<String, Object>();
+					String indiCode = indiList.get(k).getIndiCode();
+					queryMap.put("indiCode", indiCode);
+					queryMap.put("freqName", freqName);
+					queryMap.put("showTerm", 999); // showTerm
+					System.out.println(queryMap.toString());
+					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
+
+					Set<String> timeSpanSet = new HashSet<String>(timeList);
+					timeSpanFinal.addAll(timeSpanSet);
+//					System.out.println(timeSpanFinal.toString());
+				}
+			}
+			List<String> timeList = new ArrayList<String>(timeSpanFinal);
+//			Collections.sort(timeList);
+			Collections.reverse(timeList);
+			switch (freqName) {
+			case "月度":
+				timeConditionMap.put("freqName", "月度");
+				break;
+			case "季度":
+				timeConditionMap.put("freqName", "季度");
+				break;
+			case "年度":
+				timeConditionMap.put("freqName", "年度");
+				break;
+			default:
+				timeConditionMap.put("freqName", "暂无");
+			}
+			timeConditionMap.put("startArray", timeList);
+			timeConditionMap.put("endArray", timeList);
+			timeCondition.add(timeConditionMap);
+		}
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		String indiCode = "PMI001;400:706501;363:706401;62:1";
+		String freqName = "月度";
+		queryMap.put("indiCode", indiCode);
+		queryMap.put("freqName", freqName);
+		queryMap.put("startTime", "2019/01");
+		queryMap.put("endTime", "2019/06");
+		List<AnalysisIndiValue> test = analysisMapper.getIndiValue(queryMap);
+		result.add(test);
+//		result.add(timeCondition);
 		return result;
 	}
+
 }
