@@ -11,7 +11,7 @@ import com.wuhan_data.app.showType.pojo.LineAndBarOptionEntity;
 //折柱混搭
 public class LineAndBarType {
 	//参数：图例名称、x轴数据、数据、显示类型
-	public LineAndBarEntity getOption(String id,String title,List dataX,List legendData,List<List> data,List showType) {
+	public LineAndBarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> data,List<String> showType) {
 		LineAndBarOptionEntity oe = new LineAndBarOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);

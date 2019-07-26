@@ -16,7 +16,7 @@ public class LineType {
 	//参数 板块id，板块名称，x轴数组,值的数组
 	//y轴的最大最小值根据数据再计算
 //	public LineEntity getOption(String id,String title,List dataX,List dataV) {
-	public LineEntity getOption(String id,String title,List dataX,List legendData,List<List> dataV) {
+	public LineEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> dataV) {
 		LineOptionEntity oe = new LineOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);

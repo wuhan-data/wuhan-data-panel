@@ -7,7 +7,7 @@ import com.wuhan_data.app.showType.pojo.TableEntity;
 
 public class TableType {
 	
-	public TableEntity getTable(String id,String title,List<List> dataX,List legendData,List<List> dataV) {
+	public TableEntity getTable(String id,String title,List<List<String>> dataX,List<String> legendData,List<List<String>> dataV) {
 		//加入table类型
 		    	List legendDATA=new ArrayList(legendData);
 //		    	legendDATA=legendData;

@@ -13,7 +13,7 @@ import com.wuhan_data.app.showType.pojo.DoubleXaxisLineOptionEntity;
 public class DoubleXaxisLineType {
 	String type="line";
 	//参数：id、指标或版块名字、图例名称列表、双x轴数据、指标数据
-	public DoubleXaxisLineEntity getOption(String id,String title,List<List> dataX,List legendData,List<List> data) {
+	public DoubleXaxisLineEntity getOption(String id,String title,List<List<String>> dataX,List<String> legendData,List<List<String>> data) {
 		DoubleXaxisLineOptionEntity oe = new DoubleXaxisLineOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
