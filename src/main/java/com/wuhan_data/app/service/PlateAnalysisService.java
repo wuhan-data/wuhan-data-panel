@@ -13,7 +13,7 @@ public interface PlateAnalysisService {
 	//得到timeCondition
 	public List<Map> getTimeCondition(List<String> Freq,List<String> timeSpan);
 	//得到数据的主体部分
-	public List getTotalList(List<AnalysisPlate> cpList,String startTime,String endTime,List<String> dataXais);
+	public List getTotalList(List<AnalysisPlate> cpList,String startTime,String endTime,List<String> dataXais,String freqName);
 	//得到相关指标
 	public List<Map> getRelatedData();
 	//得到指标收藏信息

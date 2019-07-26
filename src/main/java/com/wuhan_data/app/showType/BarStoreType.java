@@ -12,7 +12,7 @@ import com.wuhan_data.app.showType.pojo.BarStoreOptionEntity;
 public class BarStoreType {
 	String type="bar";
 	//参数：图例名称列表、x轴数据、数据
-	public BarStoreEntity getOption(String id,String title,List<List> dataX,List legendData,List<List> data) {
+	public BarStoreEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> data) {
 		BarStoreOptionEntity oe = new BarStoreOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
@@ -32,26 +32,26 @@ public class BarStoreType {
 		oe.setLegend(map2);
 		
 		List<Map> xAxis = new ArrayList();
-		for(int i=0;i<dataX.size();i++)
-		{
+//		for(int i=0;i<dataX.size();i++)
+//		{
 			List temList= new ArrayList();
-			temList =  dataX.get(i);
+			temList =  dataX;
 			Map map3 = new HashMap();
 			map3.put("type", "category");
 			map3.put("name","x轴");
 			map3.put("data",temList );
 			xAxis.add(map3);
-		}
+//		}
 		oe.setxAxis(xAxis);
 		
 		List<Map> yAxis = new ArrayList();
-		for(int i=0;i<dataX.size();i++)
-		{
+//		for(int i=0;i<dataX.size();i++)
+//		{
 			Map map4 = new HashMap();
 			map4.put("type", "value");
 			map4.put("name","y轴");
 			yAxis.add(map4);
-		}
+//		}
 		oe.setyAxis(yAxis);
 		
 		List<Map> seriesList=new ArrayList();
@@ -62,7 +62,7 @@ public class BarStoreType {
 			Map map6 = new HashMap();
 			map6.put("name", legendData.get(i));
 			map6.put("type", type);
-			map6.put("stack", "广告");
+			map6.put("stack", "三次产业");
 			map6.put("data", tempList);
 			seriesList.add(map6);
 		}

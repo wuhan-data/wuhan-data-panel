@@ -12,7 +12,7 @@ import com.wuhan_data.app.showType.pojo.RadarOptionEntity;
 //雷达图
 public class RadarType {
 	//参数：图例名称列表、指标名称列表、数据
-	public RadarEntity getOption(String id,String title,List legendData,List nameData,List<List> data,List<List> dataByTime) {
+	public RadarEntity getOption(String id,String title,List<String> legendData,List<String> nameData,List<List<String>> data,List<List<String>> dataByTime) {
 		RadarOptionEntity oe = new RadarOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
