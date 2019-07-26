@@ -29,7 +29,7 @@
           <value>root</value> 
       </property> 
       <property name="password"> 
-          <value>admin</value> 
+          <value>root</value> 
       </property>    
     </bean>
     
@@ -51,7 +51,7 @@
           <value>root</value> 
       </property> 
       <property name="password"> 
-          <value>admin</value> 
+          <value>root</value> 
       </property>    
 <!-- 	 <property name="username">  -->
 <!--           <value>root</value>  -->
@@ -66,8 +66,8 @@
     
     <!-- 下面的是切换数据库的自定义类 -->
 	<bean id="dataSource" class="com.wuhan_data.tools.MultipleDataSource">
-	<!-- 默认使用DM7数据库 -->
-		<property name="defaultTargetDataSource" ref="dataSource_dm"></property>
+	<!-- 默认使用MySQL数据库 -->
+		<property name="defaultTargetDataSource" ref="dataSource_mysql"></property>
 		<property name="targetDataSources">
 			<map>
 				<entry key="dataSource_dm" value-ref="dataSource_dm"></entry>
