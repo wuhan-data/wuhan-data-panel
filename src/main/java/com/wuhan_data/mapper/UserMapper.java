@@ -5,7 +5,6 @@ import java.util.Map;
 import com.wuhan_data.pojo.User;
 import com.wuhan_data.tools.DataSource;
 
-import jdk.nashorn.internal.runtime.regexp.joni.SearchAlgorithm;
 public interface UserMapper {
 	
 	@DataSource(value="dataSource_mysql")
