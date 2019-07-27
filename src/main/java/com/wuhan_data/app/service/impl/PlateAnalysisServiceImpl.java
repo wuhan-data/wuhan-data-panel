@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.PlateAnalysisService;
+import com.wuhan_data.app.showType.BarStackLineType;
 import com.wuhan_data.app.showType.BarStoreType;
 import com.wuhan_data.app.showType.BarType;
 import com.wuhan_data.app.showType.DoubleXaxisLineType;
@@ -20,11 +21,13 @@ import com.wuhan_data.app.showType.PointType;
 import com.wuhan_data.app.showType.RadarType;
 import com.wuhan_data.app.showType.TableType;
 import com.wuhan_data.app.showType.pojo.BarEntity;
+import com.wuhan_data.app.showType.pojo.BarStackLineEntity;
 import com.wuhan_data.app.showType.pojo.BarStoreEntity;
 import com.wuhan_data.app.showType.pojo.DoubleXaxisLineEntity;
 import com.wuhan_data.app.showType.pojo.LineAndBarEntity;
 import com.wuhan_data.app.showType.pojo.LineEntity;
 import com.wuhan_data.app.showType.pojo.PieEntity;
+import com.wuhan_data.app.showType.pojo.PointEntity;
 import com.wuhan_data.app.showType.pojo.RadarEntity;
 import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
@@ -154,6 +157,7 @@ public class PlateAnalysisServiceImpl implements PlateAnalysisService {
 						legend.set(index,indiInfoList.get(m).getFreqName());
 					}
 				}
+				dataV=dataIndiValue;
 				PieEntity pieEntity=pieType.getOption(id, title, dataV, legend);
 				TotalList.add(pieEntity);
 	
@@ -184,10 +188,13 @@ public class PlateAnalysisServiceImpl implements PlateAnalysisService {
 							dataIndiValue.set(index,indiInfoList.get(m).getIndiValue());
 						}
 					}
-					
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
 					
 				}
 				
+				PointEntity pointEntity=pointType.getOption(id, title, legend, dataValue);
+				TotalList.add(pointEntity);				
 			}break;
 			case "折柱混搭图":
 			{
@@ -339,6 +346,36 @@ public class PlateAnalysisServiceImpl implements PlateAnalysisService {
 				}
 				DoubleXaxisLineEntity doubleXaxisLineEntity=doubleXaxisLineType.getOption(id, title, dataDoubleXais, legend, dataValue);
 				TotalList.add(doubleXaxisLineEntity);
+			}break;
+			case "柱状堆积折线图":
+			{
+				System.out.println("进入柱状堆叠折线图");
+				List<List<String>> dataValue=new ArrayList<List<String>>();
+				List<String> legend=new ArrayList<String>();
+				List<String> showType=new ArrayList<String>();
+				BarStackLineType barStackLineType=new BarStackLineType();
+				for(int j=0;j<indiList.size();j++) {
+					Map<String,Object> queryMap=new HashMap<String,Object>();
+					queryMap.put("freqName",freqName);
+					queryMap.put("startTime",startTime);
+					queryMap.put("endTime",endTime);
+					queryMap.put("indiCode",indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList=analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[dataXais.size()]);
+					for(int m=0;m<indiInfoList.size();m++) {
+						String dataXTemp=indiInfoList.get(m).getTime();
+						if(dataXais.contains(dataXTemp)) {
+							int index=dataXais.indexOf(dataXTemp);
+							dataIndiValue.set(index,indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+					showType.add(indiList.get(j).getShowType());
+				}
+				BarStackLineEntity barStackLineEntity=barStackLineType.getOption(id, title, dataXais, legend, dataValue, showType);
+				TotalList.add(barStackLineEntity);				
+				
 			}break;
 				
 			}
