@@ -2,6 +2,7 @@ package com.wuhan_data.app.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.AnalysisService;
 import com.wuhan_data.app.service.PlateInfoService;
+import com.wuhan_data.pojo.AnalysisIndi;
+import com.wuhan_data.pojo.AnalysisPlate;
 
 @Controller
 @RequestMapping("")
@@ -75,7 +78,7 @@ public class AnalysisController {
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
 		try {
 			// 获取栏目下的版块信息
-			analysisPlate = analysisService.getAnalysisPlate(indexId);
+			analysisPlate = analysisService.initAnalysisPlate(indexId);
 		} catch (Exception e) {
 			return this.apiReturn("-1", "获取数据异常", data);
 		}
@@ -121,12 +124,12 @@ public class AnalysisController {
 		}
 
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
-		try {
-			// 获取栏目下的版块信息
-			analysisPlate = analysisService.getAnalysisPlateByTime(indexId, startTime, endTime, freqName);
-		} catch (Exception e) {
-			return this.apiReturn("-1", "获取数据异常", data);
-		}
+//		try {
+		// 获取栏目下的版块信息
+		analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, freqName);
+//		} catch (Exception e) {
+//			return this.apiReturn("-1", "获取数据异常", data);
+//		}
 		return this.apiReturn("0", "数据获取成功", analysisPlate);
 	}
 
@@ -136,6 +139,57 @@ public class AnalysisController {
 		responseMap.put("errMsg", errMsg);
 		responseMap.put("data", data);
 		return JSON.toJSONString(responseMap, SerializerFeature.DisableCircularReferenceDetect);
+	}
+
+	// 下面的都是测试接口
+
+	@RequestMapping(value = "getPlateById", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String getPlateById(@RequestBody String resquestParams) {
+		JSONObject requestObject = JSONObject.parseObject(resquestParams);
+		int indexId = 0;
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			boolean hasIndexId = requestObject.containsKey("indexId");
+			if (!hasIndexId) {
+				return this.apiReturn("-1", "需要指定栏目id", data);
+			}
+			String indexIdString = requestObject.get("indexId").toString();
+			indexId = Integer.parseInt(indexIdString);
+		} catch (Exception e) {
+			return this.apiReturn("-1", "参数获取异常", data);
+		}
+
+		// 获取栏目下的版块信息
+		Map<String, Object> result = new HashMap<String, Object>();
+		// 获取栏目下的版块信息
+		List<AnalysisPlate> analysisPlate = analysisPlate = analysisService.getAnalysisPlate(indexId);
+		result.put("plateList", analysisPlate);
+		return this.apiReturn("0", "数据获取成功", result);
+	}
+
+	@RequestMapping(value = "getIndiById", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String getIndiById(@RequestBody String resquestParams) {
+		JSONObject requestObject = JSONObject.parseObject(resquestParams);
+		int plateId = 0;
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			boolean hasIndexId = requestObject.containsKey("plateId");
+			if (!hasIndexId) {
+				return this.apiReturn("-1", "需要指定版块id", data);
+			}
+			String plateIdString = requestObject.get("plateId").toString();
+			plateId = Integer.parseInt(plateIdString);
+		} catch (Exception e) {
+			return this.apiReturn("-1", "参数获取异常", data);
+		}
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		// 获取栏目下的版块信息
+		List<AnalysisIndi> analysisPlate = analysisService.getAnalysisIndi(plateId);
+		result.put("indiList", analysisPlate);
+		return this.apiReturn("0", "数据获取成功", result);
 	}
 
 }

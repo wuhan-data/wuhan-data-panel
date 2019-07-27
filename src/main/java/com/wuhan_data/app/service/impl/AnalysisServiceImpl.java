@@ -135,7 +135,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 	/**
 	 * 获取初始化版块数据
 	 */
-	public Map<String, Object> getAnalysisPlate(int themeId) {
+	public Map<String, Object> initAnalysisPlate(int themeId) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		// 获取版块信息
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
@@ -180,8 +180,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 		return result;
 	}
-	
-	public Map<String, Object> getAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName) {
+
+	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		// 获取版块信息
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
@@ -213,7 +213,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 		}
 		List<String> xAxis = startTimeList.subList(startFlag, endFlag);
-		
+
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String startTimePoint = endTimeList.get(0).toString();
 		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
@@ -602,6 +602,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 		}
 		// TODO Auto-generated method stub
 		return TotalList;
+	}
+
+	public List<AnalysisPlate> getAnalysisPlate(int themeId) {
+		return analysisMapper.getAnalysisPlate(themeId);
+	}
+	public List<AnalysisIndi> getAnalysisIndi(int plateId) {
+		return analysisMapper.getIndiByPid(plateId);
 	}
 
 }
