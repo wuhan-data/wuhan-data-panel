@@ -27,15 +27,6 @@
     <url-pattern>/*</url-pattern>
 </filter-mapping>
     
-   <filter>
-    <filter-name>SysFilter</filter-name>
-    <filter-class>com.wuhan_data.tools.SysFilter</filter-class>
-</filter>
- 
-<filter-mapping>
-    <filter-name>SysFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
     
   
     <listener>  
@@ -46,10 +37,7 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
-	<listener>
-<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-</listener>
+     
     <!-- spring mvc核心：分发servlet -->
     <servlet>
         <servlet-name>mvc-dispatcher</servlet-name>
@@ -65,4 +53,15 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
+    
+    <error-page>
+    <error-code>404</error-code>
+    <location>/back/error.jsp</location>
+  </error-page>
+  
+  <error-page>
+    <error-code>500</error-code>
+    <location>/back/error.jsp</location>
+  </error-page>
 </web-app>

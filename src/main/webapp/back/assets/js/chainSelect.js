@@ -14,13 +14,15 @@ $(document).ready(function(){
 	indiNameSelect.change(function(){
 		alert("进入indiNameSelect");
 		//只要第一个下拉框有变化则隐藏第三个下拉框
-		wheelSelect.parent().hide();
+		freqCodeSelect.parent().hide();
 		
 		//隐藏汽车图片 attr：先清空上次src图片路径避免下一次先显示一次
 //		carimg.hide().attr("src","");
-		
+		alert("进了吗");
 		//1、找到下拉框的值
 		var indiNameValue = $(this).val();
+		alert("indiNameValue有值吗？："+indiNameValue);
+		alert(indiNameValue);
 		//2、如果下拉框所选值不为空，则将该值传送给服务器
 		if(indiNameValue != "")
 		{

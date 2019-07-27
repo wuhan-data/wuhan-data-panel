@@ -1,14 +1,17 @@
 package com.wuhan_data.service.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+//import org.apache.tomcat.util.http.fileupload.IOUtils;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.util.IOUtils;
 import com.wuhan_data.mapper.DbToExcelMapper;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.IndiAll;
@@ -54,20 +57,45 @@ public class DbToExcelServiceImpl implements DbToExcelService{
 	    writer.flush(out);
 	    // 关闭writer，释放内存
 	    writer.close();
-	    IOUtils.closeQuietly(out);
+	    //IOUtils.closeQuietly(out);
+	    IOUtils.close(out);
 	    return out.toByteArray();
 	}
 
 	@Override
 	public List<IndexManage> getIndi(String keyword) {
-		// TODO Auto-generated method stub
+	
 		return dbToExcelMapper.getIndi(keyword);
 	}
 
 	@Override
 	public List<String> getIndiSourceByIndiName(String indiName) {
-		// TODO Auto-generated method stub
+	
 		return dbToExcelMapper.getIndiSourceByIndiName(indiName);
+	}
+
+	@Override
+	public List<String> getIndiFreqCode(Map<String, String> indiNameSourceMap) {
+		
+		return dbToExcelMapper.getIndiFreqCode(indiNameSourceMap);
+	}
+
+	@Override
+	public List<String> getIndiStartTime(Map<String, String> indiNameSourceFreqMap) {
+		
+		return dbToExcelMapper.getIndiStartTime(indiNameSourceFreqMap);
+	}
+
+	@Override
+	public List<String> getIndiEndTime(Map<String, String> indiNameSourceFreqSTimeMap) {
+		
+		return dbToExcelMapper.getIndiEndTime(indiNameSourceFreqSTimeMap);
+	}
+
+	@Override
+	public List<IndiAll> getSelectIndex(Map<String, String> indiConditionMap) {
+		
+		return dbToExcelMapper.getSelectIndex(indiConditionMap);
 	}
 
 	
