@@ -14,7 +14,7 @@ import com.wuhan_data.app.showType.pojo.BarOptionEntity;
 public class BarType {
 	String type="bar";
 	//参数：指标或版块id、指标或版块名称、
-		public BarEntity getOption(String id,String title,List<List> dataX,List legendData,List<List> data) {
+		public BarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> data) {
 			BarOptionEntity oe = new BarOptionEntity();
 			Map map = new HashMap();
 			map.put("containLabel", true);
@@ -48,7 +48,8 @@ public class BarType {
 //			}
 			map3.put("type", "category");
 			map3.put("name","x轴");
-			map3.put("data",dataX.get(0));
+			map3.put("scale", "true");
+			map3.put("data",dataX);
 			xAxis.add(map3);
 			
 			oe.setxAxis(xAxis);

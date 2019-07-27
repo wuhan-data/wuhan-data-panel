@@ -7,7 +7,7 @@ public class LineEntity {
 	String id;
 	String classTitle;
 	String classType="echarts";
-	String classHeight="300";
+	String classHeight="400";
 	LineOptionEntity echartOption;
 	
 	

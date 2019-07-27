@@ -2,7 +2,6 @@ package com.wuhan_data.app.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.AnalysisService;
-import com.wuhan_data.app.service.IndiDetailService;
-import com.wuhan_data.app.service.InitColumnService;
 import com.wuhan_data.app.service.PlateInfoService;
-import com.wuhan_data.pojo.AnalysisManage;
-import com.wuhan_data.pojo.AnalysisPlate;
-import com.wuhan_data.pojo.AnalysisTheme;
-import com.wuhan_data.pojo.ColPlate;
-import com.wuhan_data.pojo.ColPlateIndi;
 
 @Controller
 @RequestMapping("")
@@ -68,6 +61,7 @@ public class AnalysisController {
 		int indexId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
+			System.out.println(requestObject.toString());
 			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
 			boolean hasIndexId = requestObject.containsKey("indexId");
 			if (!hasIndexId) {
@@ -80,11 +74,11 @@ public class AnalysisController {
 		}
 
 		// 获取栏目下的版块信息
-		ArrayList<Object> analysisPlate = analysisService.getAnalysisPlate(indexId);
-		data.put("plate", analysisPlate);
+		Map<String, Object> analysisPlate = analysisService.getAnalysisPlate(indexId);
 		
 		
-		return this.apiReturn("0", "数据获取成功", data);
+		
+		return this.apiReturn("0", "数据获取成功", analysisPlate);
 	}
 
 	public String apiReturn(String errCode, String errMsg, Map<String, Object> data) {
@@ -92,7 +86,7 @@ public class AnalysisController {
 		responseMap.put("errCode", errCode);
 		responseMap.put("errMsg", errMsg);
 		responseMap.put("data", data);
-		return JSON.toJSONString(responseMap);
+		return JSON.toJSONString(responseMap, SerializerFeature.DisableCircularReferenceDetect);
 	}
 
 }

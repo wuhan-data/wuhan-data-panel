@@ -29,59 +29,16 @@
 		FROM
 		`analysis_theme`
 		WHERE
-		`type_id` = #{type_id} AND
+		`type_id` =
+		#{type_id} AND
 		(`is_show` = 0 OR
 		`is_show` = 9)
 	</select>
 
-	<!-- 查询指定INDI_NAME的最新指标描述数据 -->
-	<select id="getAnalysisDesc1" resultType="map"
-		parameterType="string">
-		SELECT
-		`TIME_POINT` as descName,
-		`INDI_VALUE` as descValue,
-		`UNITNAME` as descUnit
-		FROM
-		`indi_all`
-		WHERE
-		`INDI_NAME` = #{indexName} AND
-		`TIME_POINT` = 104
-		ORDER BY `DATE_CODE` DESC
-		LIMIT 1
-	</select>
-	
-	<select id="getAnalysisDesc2" resultType="map"
-		parameterType="string">
-		SELECT
-		`TIME_POINT` as descName,
-		`INDI_VALUE` as descValue,
-		`UNITNAME` as descUnit
-		FROM
-		`indi_all`
-		WHERE
-		`INDI_NAME` = #{indexName} AND
-		`TIME_POINT` = 203
-		ORDER BY `DATE_CODE` DESC
-		LIMIT 1
-	</select>
-	
-	<select id="getAnalysisDesc3" resultType="map"
-		parameterType="string">
-		SELECT
-		`TIME_POINT` as descName,
-		`INDI_VALUE` as descValue,
-		`UNITNAME` as descUnit
-		FROM
-		`indi_all`
-		WHERE
-		`INDI_NAME` = #{indexName} AND
-		`TIME_POINT` = 207
-		ORDER BY `DATE_CODE` DESC
-		LIMIT 1
-	</select>
-	
-	<select id="getAnalysisPlate" resultType="com.wuhan_data.pojo.AnalysisPlate"
-		parameterType="int">
+	<!-- TODO 查询指定INDI_NAME的最新指标描述数据 -->
+
+	<select id="getAnalysisPlate"
+		resultType="com.wuhan_data.pojo.AnalysisPlate" parameterType="int">
 		SELECT
 		`plate_id` as plateId,
 		a.`theme_id` as themeId,
@@ -97,37 +54,79 @@
 		WHERE
 		a.`theme_id` = #{themeId} AND
 		a.`is_show` = 0
+		ORDER BY
+		`plate_id` ASC
 	</select>
 
 	<!-- 获取指定板块下的指标信息 -->
-	<select id="getIndiByPid" resultType="com.wuhan_data.pojo.AnalysisIndi"
-	 parameterType="int">
+	<select id="getIndiByPid"
+		resultType="com.wuhan_data.pojo.AnalysisIndi" parameterType="int">
 		SELECT
 		`indi_id` as indiId,
 		`plate_id` as plateId,
-		`indi_name` as indiName,
+		`search_indi_id` as indiCode,
+		`indi_new_name` as indiName,
 		`show_type` as showType,
-		`indi_code` as indiCode,
-		`time_point` as timePoint,
-		`source` as source,
-		`area_name` as areaName,
+		`show_color` as showColor,
 		`indi_weight` as indiWeight,
-		`is_show` as isShow
+		`is_show` as
+		isShow
 		FROM
 		`analysis_indi`
 		WHERE
 		`plate_id` = #{plateId} AND
 		`is_show` = 0
-    </select>
-    
-	<select id="getFreqcodeByIndicode" resultType="String"
+		ORDER BY
+		`indi_weight` DESC
+	</select>
+
+	<!-- 获取指标的所有可取频度 -->
+	<select id="getFreqnameByIndicode" resultType="String"
 		parameterType="String">
 		SELECT DISTINCT
-		`freq_code`
+		`INDICATOR_GRP21_ITEM_NAME` as freqName
 		FROM
-		`indi_all`
+		`srit_data_indicator_tj`
 		WHERE
-		INDI_CODE = #{indiCode}
+		INDEXDATAID = #{indiCode}
 	</select>
+
+	<!-- 获取指标指定频度的时间跨度 -->
+	<select id="getTimeByFreqname" resultType="String"
+		parameterType="java.util.Map">
+		SELECT
+		`DATA_TIME_NAME` as time
+		FROM
+		`srit_data_indicator_tj`
+		WHERE
+		INDEXDATAID = #{indiCode} AND
+		INDICATOR_GRP21_ITEM_NAME = #{freqName}
+		ORDER BY
+		DATA_TIME_NAME DESC
+		LIMIT 0, #{showTerm}
+	</select>
+	
+
+	<select id="getIndiValue" resultType="com.wuhan_data.pojo.AnalysisIndiValue"
+		parameterType="java.util.Map">
+		SELECT
+		`INDEXDATAID` as indiCode,
+		`INDICATOR_GRP21_ITEM_NAME` as freqName,
+		`DATA_TIME_NAME` as time,
+		`INDICATOR_GRP22_ITEM_NAME` as timePoint,
+		`VALUE` as indiValue,
+		`UNIT_NAME` as unitName
+		FROM
+		`srit_data_indicator_tj`
+		WHERE
+		INDEXDATAID = #{indiCode} AND
+		INDICATOR_GRP21_ITEM_NAME = #{freqName} AND
+		DATA_TIME_NAME &gt;= #{startTime} AND
+		DATA_TIME_NAME &lt;= #{endTime}
+		ORDER BY
+		DATA_TIME_NAME DESC
+	</select>
+	
+
 
 </mapper>
