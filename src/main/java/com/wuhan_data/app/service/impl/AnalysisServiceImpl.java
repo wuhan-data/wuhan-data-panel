@@ -137,6 +137,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 	 */
 	public Map<String, Object> initAnalysisPlate(int themeId) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		
 		// 获取版块信息
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
 		if (analysisPlate.size() == 0) {

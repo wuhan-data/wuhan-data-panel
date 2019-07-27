@@ -15,8 +15,7 @@
 		WHERE
 		is_show = 0 OR
 		is_show = 9
-		ORDER BY
-		type_weight DESC
+		
 	</select>
 
 	<select id="getAnalysisSubList"
@@ -74,7 +73,7 @@
 		FROM
 		WUHAN_DATA."ANALYSIS_INDI"
 		WHERE
-		plate_i = #{plateId} AND
+		plate_id = #{plateId} AND
 		is_show = 0
 		ORDER BY
 		indi_weight DESC
@@ -86,7 +85,7 @@
 		SELECT DISTINCT
 		INDICATOR_GRP21_ITEM_NAME as freqName
 		FROM
-		PLATFORM1."SRIT_DTA_INDICATOR_TJ"
+		PLATFORM1."SRIT_DATA_INDICATOR_TJ"
 		WHERE
 		INDEXDATAID = #{indiCode}
 	</select>
@@ -97,7 +96,7 @@
 		SELECT
 		DATA_TIME_NAME as time
 		FROM
-		PLATFORM1."SRIT_DTA_INDICATOR_TJ"
+		PLATFORM1."SRIT_DATA_INDICATOR_TJ"
 		WHERE
 		INDEXDATAID = #{indiCode} AND
 		INDICATOR_GRP21_ITEM_NAME = #{freqName}
@@ -117,7 +116,7 @@
 		VALUE as indiValue,
 		UNIT_NAME as unitName
 		FROM
-		PLATFORM1."SRIT_DTA_INDICATOR_TJ"
+		PLATFORM1."SRIT_DATA_INDICATOR_TJ"
 		WHERE
 		INDEXDATAID = #{indiCode} AND
 		INDICATOR_GRP21_ITEM_NAME = #{freqName} AND
