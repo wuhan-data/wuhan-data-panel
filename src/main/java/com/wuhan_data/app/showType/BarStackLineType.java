@@ -12,7 +12,7 @@ import com.wuhan_data.app.showType.pojo.BarStackLineOptionEntity;
 
 public class BarStackLineType {
 	//参数：图例名称列表、x轴数据、数据、展示类型
-	public BarStackLineEntity getOption(String id,String title,List<List> dataX,List legendData,List<List> data,List showType) {
+	public BarStackLineEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> data,List<String> showType) {
 		BarStackLineOptionEntity oe = new BarStackLineOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
@@ -30,21 +30,21 @@ public class BarStackLineType {
 		oe.setLegend(map2);
 		
 		List<Map> xAxis = new ArrayList();
-		for(int i=0;i<dataX.size();i++)
-		{
+//		for(int i=0;i<dataX.size();i++)
+//		{
 			List temList= new ArrayList();
-			temList =  dataX.get(i);
+			temList =  dataX;
 			Map map3 = new HashMap();
 			map3.put("type", "category");
 			map3.put("name","x轴");
 			map3.put("data",temList );
 			xAxis.add(map3);
-		}
+//		}
 		oe.setxAxis(xAxis);
 		
 		List<Map> yAxis = new ArrayList();
-		for(int i=0;i<dataX.size();i++)
-		{
+//		for(int i=0;i<dataX.size();i++)
+//		{
 			Map map4 = new HashMap();
 			map4.put("type", "value");
 			map4.put("name","y0轴");
@@ -54,7 +54,7 @@ public class BarStackLineType {
 			map5.put("type", "value");
 			map5.put("name","y1轴");
 			yAxis.add(map5);
-		}
+//		}
 		oe.setyAxis(yAxis);
 		
 		List<Map> seriesList=new ArrayList();

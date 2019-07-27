@@ -12,7 +12,7 @@ import com.wuhan_data.app.showType.pojo.PointOptionEntity;
 public class PointType {
 	String type="scatter";
 	//参数：id、名称、数据名称、
-	public PointEntity getOption(String id,String title,List nameData,List<List> data,List<List> dataX) {
+	public PointEntity getOption(String id,String title,List<String> nameData,List<List<String>> data) {
 		PointOptionEntity oe = new PointOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
@@ -41,9 +41,12 @@ public class PointType {
 		for(int i=0;i<data.size();i++)
 		{
 			List tempList= new ArrayList();
+			List tempListSecond=new ArrayList();
 			List tempListDataX=new ArrayList();
 			tempList=data.get(i);//数据
-			tempListDataX=dataX.get(i);
+			i++;
+			tempListSecond=data.get(i);
+//			tempListDataX=dataX.get(i);
 			List dataTotal=new ArrayList();
 			
 			Map map5 = new HashMap();
@@ -52,8 +55,9 @@ public class PointType {
 			map5.put("type", type);
 			for(int j=0;j<tempList.size();j++) {
 				List data_each=new ArrayList();
-				data_each.add(tempListDataX.get(j));
+//				data_each.add(tempListDataX.get(j));
 				data_each.add(tempList.get(j));
+				data_each.add(tempListSecond.get(j));
 				dataTotal.add(data_each);
 			}
 			map5.put("data", dataTotal);
