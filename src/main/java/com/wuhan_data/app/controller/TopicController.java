@@ -394,8 +394,8 @@ public class TopicController {
 
 				
 				List<String> legendData7 = new ArrayList<String>();
-				legendData7.add(list7_1.get(0).getIndi_name());
-				legendData7.add(list7_2.get(0).getIndi_name());
+				legendData7.add(list7_1.get(0).getIndi_name()+"-累计值");
+				legendData7.add(list7_2.get(0).getIndi_name()+"-增速");
 
 				
 				TopicLineAndBarType topicLineAndBarType7 = new TopicLineAndBarType();
@@ -429,8 +429,8 @@ public class TopicController {
 
 				
 				List<String> legendData8 = new ArrayList<String>();
-				legendData8.add(list8_1.get(0).getIndi_name());
-				legendData8.add(list8_2.get(0).getIndi_name());
+				legendData8.add(list8_1.get(0).getIndi_name()+"-累计值");
+				legendData8.add(list8_2.get(0).getIndi_name()+"-增速");
 
 				
 				TopicLineAndBarType topicLineAndBarType8 = new TopicLineAndBarType();
@@ -463,8 +463,8 @@ public class TopicController {
 
 				
 				List<String> legendData9 = new ArrayList<String>();
-				legendData9.add(list9_1.get(0).getIndi_name());
-				legendData9.add(list9_2.get(0).getIndi_name());
+				legendData9.add(list9_1.get(0).getIndi_name()+"-累计值");
+				legendData9.add(list9_2.get(0).getIndi_name()+"-增速");
 
 				
 				TopicLineAndBarType topicLineAndBarType9 = new TopicLineAndBarType();
