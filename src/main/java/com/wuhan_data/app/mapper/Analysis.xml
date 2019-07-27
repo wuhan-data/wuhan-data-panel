@@ -35,54 +35,7 @@
 		`is_show` = 9)
 	</select>
 
-	<!-- 查询指定INDI_NAME的最新指标描述数据 -->
-	<select id="getAnalysisDesc1" resultType="map"
-		parameterType="string">
-		SELECT
-		`TIME_POINT` as descName,
-		`INDI_VALUE` as descValue,
-		`UNITNAME` as descUnit
-		FROM
-		`indi_all`
-		WHERE
-		`INDI_NAME` =
-		#{indexName} AND
-		`TIME_POINT` = 104
-		ORDER BY `DATE_CODE` DESC
-		LIMIT 1
-	</select>
-
-	<select id="getAnalysisDesc2" resultType="map"
-		parameterType="string">
-		SELECT
-		`TIME_POINT` as descName,
-		`INDI_VALUE` as descValue,
-		`UNITNAME` as descUnit
-		FROM
-		`indi_all`
-		WHERE
-		`INDI_NAME` =
-		#{indexName} AND
-		`TIME_POINT` = 203
-		ORDER BY `DATE_CODE` DESC
-		LIMIT 1
-	</select>
-
-	<select id="getAnalysisDesc3" resultType="map"
-		parameterType="string">
-		SELECT
-		`TIME_POINT` as descName,
-		`INDI_VALUE` as descValue,
-		`UNITNAME` as descUnit
-		FROM
-		`indi_all`
-		WHERE
-		`INDI_NAME` =
-		#{indexName} AND
-		`TIME_POINT` = 207
-		ORDER BY `DATE_CODE` DESC
-		LIMIT 1
-	</select>
+	<!-- TODO 查询指定INDI_NAME的最新指标描述数据 -->
 
 	<select id="getAnalysisPlate"
 		resultType="com.wuhan_data.pojo.AnalysisPlate" parameterType="int">
