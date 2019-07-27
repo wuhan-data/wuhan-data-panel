@@ -151,13 +151,15 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
 		System.out.println(xAxis.toString());
 		String startTime = startTimeList.get(current.get(0)).toString();
-		String startTimeRadar = endTimeList.get(current.get(1) - 3).toString();
+		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String endTime = endTimeList.get(current.get(1)).toString();
+		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("freqName", freqName);
 		queryMap.put("startTime", startTime);
 		queryMap.put("startTimeRadar", startTimeRadar);
 		queryMap.put("endTime", endTime);
+		queryMap.put("endTimeRadar", endTimeRadar);
 
 		// 查询指标数据并绘制图形
 		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis);
@@ -279,6 +281,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					System.out.println(indiInfoList.size());
 					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
 					for (int m = 0; m < indiInfoList.size(); m++) {
 						String dataXTemp = indiInfoList.get(m).getTime();
@@ -342,17 +345,21 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<List<String>> dataByTime = new ArrayList<List<String>>();
 				RadarType radarType = new RadarType();
 				// 雷达图支取最近的三期数据进行展示
-				xAxis = xAxis.subList(xAxis.size() - 3, xAxis.size());
+				List<String> xAxis1 = xAxis.subList(xAxis.size() - 3, xAxis.size());
+//				xAxis = xAxis.subList(xAxis.size() - 3, xAxis.size());
 				for (int j = 0; j < indiList.size(); j++) {
 					// 时间不与时间选择器进行关联
-					queryMap.put("startTime", queryMap.get("startTimeRadar"));
-					queryMap.put("indiCode", indiList.get(j).getIndiCode());
-					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
-					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					Map<String, Object> queryMap1 = new HashMap<String, Object>();
+					queryMap1.put("freqName", queryMap.get("freqName"));
+					queryMap1.put("startTime", queryMap.get("startTimeRadar"));
+					queryMap1.put("endTime", queryMap.get("endTimeRadar"));
+					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis1.size()]);
 					for (int m = 0; m < indiInfoList.size(); m++) {
 						String dataXTemp = indiInfoList.get(m).getTime();
-						if (xAxis.contains(dataXTemp)) {
-							int index = xAxis.indexOf(dataXTemp);
+						if (xAxis1.contains(dataXTemp)) {
+							int index = xAxis1.indexOf(dataXTemp);
 							String indiValue = indiInfoList.get(m).getIndiValue();
 							dataIndiValue.set(index, indiValue);
 						}
@@ -360,7 +367,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					dataValue.add(dataIndiValue);
 					dataName.add(indiList.get(j).getIndiName());
 				}
-				for (int k = 0; k < xAxis.size(); k++) {
+				for (int k = 0; k < xAxis1.size(); k++) {
 					List<String> dataOfTime = new ArrayList<String>();
 					for (int n = 0; n < dataValue.size(); n++) {
 						List<String> dataTem = dataValue.get(n);
@@ -368,7 +375,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataByTime.add(dataOfTime);
 				}
-				RadarEntity radarEntity = radarType.getOption(id, title, xAxis, dataName, dataValue, dataByTime);
+				RadarEntity radarEntity = radarType.getOption(id, title, xAxis1, dataName, dataValue, dataByTime);
 				TotalList.add(radarEntity);
 			}
 				break;

@@ -101,6 +101,8 @@
 		WHERE
 		a.`theme_id` = #{themeId} AND
 		a.`is_show` = 0
+		ORDER BY
+		`plate_id` ASC
 	</select>
 
 	<!-- 获取指定板块下的指标信息 -->
@@ -121,6 +123,8 @@
 		WHERE
 		`plate_id` = #{plateId} AND
 		`is_show` = 0
+		ORDER BY
+		`indi_weight` DESC
 	</select>
 
 	<!-- 获取指标的所有可取频度 -->

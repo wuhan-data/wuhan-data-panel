@@ -31,7 +31,6 @@ public class RadarType {
 		for (int i = 0; i < nameData.size(); i++) {
 			List temList = data.get(i);
 			List temListDouble = new ArrayList();
-			System.out.println(temList.toString());
 			for (int j = 0; j < temList.size(); j++) {
 				if (temList.get(j) == null) {
 					temListDouble.add(0.0);
