@@ -84,9 +84,9 @@
 	<select id="getFreqnameByIndicode" resultType="String"
 		parameterType="String">
 		SELECT DISTINCT
-		`INDICATOR_GRP21_ITEM_NAME` as freqName
+		INDICATOR_GRP21_ITEM_NAME as freqName
 		FROM
-		`srit_data_indicator_tj`
+		PLATFORM1."SRIT_DTA_INDICATOR_TJ"
 		WHERE
 		INDEXDATAID = #{indiCode}
 	</select>
@@ -95,9 +95,9 @@
 	<select id="getTimeByFreqname" resultType="String"
 		parameterType="java.util.Map">
 		SELECT
-		`DATA_TIME_NAME` as time
+		DATA_TIME_NAME as time
 		FROM
-		`srit_data_indicator_tj`
+		PLATFORM1."SRIT_DTA_INDICATOR_TJ"
 		WHERE
 		INDEXDATAID = #{indiCode} AND
 		INDICATOR_GRP21_ITEM_NAME = #{freqName}
@@ -110,14 +110,14 @@
 	<select id="getIndiValue" resultType="com.wuhan_data.pojo.AnalysisIndiValue"
 		parameterType="java.util.Map">
 		SELECT
-		`INDEXDATAID` as indiCode,
-		`INDICATOR_GRP21_ITEM_NAME` as freqName,
-		`DATA_TIME_NAME` as time,
-		`INDICATOR_GRP22_ITEM_NAME` as timePoint,
-		`VALUE` as indiValue,
-		`UNIT_NAME` as unitName
+		INDEXDATAID as indiCode,
+		INDICATOR_GRP21_ITEM_NAME as freqName,
+		DATA_TIME_NAME as time,
+		INDICATOR_GRP22_ITEM_NAME as timePoint,
+		VALUE as indiValue,
+		UNIT_NAME as unitName
 		FROM
-		`srit_data_indicator_tj`
+		PLATFORM1."SRIT_DTA_INDICATOR_TJ"
 		WHERE
 		INDEXDATAID = #{indiCode} AND
 		INDICATOR_GRP21_ITEM_NAME = #{freqName} AND

@@ -5,22 +5,22 @@
  
     <mapper namespace="com.wuhan_data.mapper.PanelUserMapper">
         <insert id="add" parameterType="PanelUser" >
-            insert into PANEL_USER(username,password,status,role_list,create_time) values (#{username},#{password},#{status},#{role_list},#{create_time})   
+            insert into WUHAN_DATA.PANEL_USER(username,password,status,role_list,create_time) values (#{username},#{password},#{status},#{role_list},#{create_time})   
         </insert>
          
         <delete id="delete" parameterType="PanelUser" >
-            delete from PANEL_USER where id= #{id}  
+            delete from WUHAN_DATA.PANEL_USER where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="PanelUser">
-            select * from   PANEL_USER  where id= #{id}   
+            select * from   WUHAN_DATA.PANEL_USER  where id= #{id}   
         </select>
  
         <update id="update" parameterType="PanelUser" >
-            update PANEL_USER set username=#{username} where id=#{id}   
+            update WUHAN_DATA.PANEL_USER set username=#{username} where id=#{id}   
         </update>
         
         <select id="list" resultType="PanelUser">
-            select * from PANEL_USER     
+            select * from WUHAN_DATA.PANEL_USER     
         </select>    
     </mapper>

@@ -5,34 +5,34 @@
  
     <mapper namespace="com.wuhan_data.mapper.SysLogMapper">
         <insert id="add" parameterType="SysLog">
-        	insert into WUHAN_DATA.sys_log (operate_user_id,operate,method,create_time) values (#{operate_user_id},#{operate},#{method},#{create_time}) 
+        	insert into WUHAN_DATA.SYS_LOG (operate_user_id,operate,method,create_time) values (#{operate_user_id},#{operate},#{method},#{create_time}) 
         </insert>
          
         <delete id="delete" parameterType="SysLog" >
-            delete from WUHAN_DATA.sys_log where id= #{id}  
+            delete from WUHAN_DATA.SYS_LOG where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="SysLog">
-            select * from   WUHAN_DATA.sys_log  where id= #{id}   
+            select * from   WUHAN_DATA.SYS_LOG  where id= #{id}   
         </select>
  
         <update id="update" parameterType="SysLog" >
-            update WUHAN_DATA.sys_log set operate_user_id=#{operate_user_id} , operate=#{operate} , method=#{method} where id=#{id}   
+            update WUHAN_DATA.SYS_LOG set operate_user_id=#{operate_user_id} , operate=#{operate} , method=#{method} where id=#{id}   
         </update>
         
         <select id="list" resultType="SysLog">
-            select * from WUHAN_DATA.sys_log     
+            select * from WUHAN_DATA.SYS_LOG     
         </select>    
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.sys_log  
+        	select count(*) from WUHAN_DATA.SYS_LOG  
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="SysLog" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.sys_log   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA.SYS_LOG   order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="SysLog">
-            select * from WUHAN_DATA.sys_log 
+            select * from WUHAN_DATA.SYS_LOG 
             <where>
             operate_user_id like concat(concat('%',#{operate_user_id}),'%')  
             </where>
@@ -40,7 +40,7 @@
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.sys_log where operate_user_id like concat(concat('%',#{operate_user_id}),'%')  
+            select count(*) from WUHAN_DATA.SYS_LOG where operate_user_id like concat(concat('%',#{operate_user_id}),'%')  
         </select>
         
     </mapper>

@@ -5,7 +5,7 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.UserMapperApp">
         <insert id="add" parameterType="User" >
-            insert into WUHAN_DATA."USER" ( tel,username,password,status,gender,real_name,role_list,role_name,create_time,role_id,department_id,birthday,city,head,description ) values (#{tel},#{username},#{password},#{status},#{gender},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id},#{birthday},#{city},#{head},#{description})   
+            insert into WUHAN_DATA."USER" (tel,username,password,status,gender,real_name,role_list,role_name,create_time,role_id,department_id,birthday,city,head,description ) values (#{tel},#{username},#{password},#{status},#{gender},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id},#{birthday},#{city},#{head},#{description})   
         </insert>
          
         <delete id="delete" parameterType="User" >

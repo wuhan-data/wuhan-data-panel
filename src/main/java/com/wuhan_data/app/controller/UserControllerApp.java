@@ -198,12 +198,15 @@ public class UserControllerApp {
 			try {
 				// 判断是否为新用户
 				String errMsg="";
+				System.out.println("laiji");
 				if (userServiceApp.getByTel(tel) == null) {
 					User user=new User();
 					user.setTel(tel);
 					//设置头像路径
+					System.out.println("laiji22");
 					String headString=ImageUtils.getURL(request);
 					user.setHead(headString+"heads/default.jpg");
+					System.out.println(user.toString());
 					userServiceApp.add(user);
 					System.out.println(user.toString());
 					errMsg="新用户登录成功";	
