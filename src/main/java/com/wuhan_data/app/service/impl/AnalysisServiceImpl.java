@@ -311,10 +311,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 				for (int q = 0; q < indiList.size(); q++) {
 					dataXaisTable.add(xAxis);
 				}
-//				System.out.println(dataXaisTable.toString());
-//				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
-//				TotalList.add(lineEntity);
-//				TotalList.add(tableEntity);
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(lineEntity);
+				TotalList.add(tableEntity);
 			}
 				break;
 			case "柱状图": {
