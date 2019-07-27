@@ -157,7 +157,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<String> endTimeList = (List<String>) freqObject.get("endArray");
 		String freqName = (String) freqObject.get("freqName");
 		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
-		System.out.println(xAxis.toString());
 		String startTime = startTimeList.get(current.get(0)).toString();
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String startTimePoint = endTimeList.get(0).toString();

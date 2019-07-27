@@ -41,8 +41,7 @@ public class AnalysisController {
 
 		// 获取经济分析栏目列表数据
 		ArrayList<Object> analysisList = new ArrayList<Object>();
-		
-		
+
 		try {
 			analysisList = analysisService.getAnalysisList(userId);
 		} catch (Exception e) {
@@ -72,12 +71,14 @@ public class AnalysisController {
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
-
-		// 获取栏目下的版块信息
-		Map<String, Object> analysisPlate = analysisService.getAnalysisPlate(indexId);
 		
-		
-		
+		Map<String, Object> analysisPlate = new HashMap<String, Object>();
+		try {
+			// 获取栏目下的版块信息
+			analysisPlate = analysisService.getAnalysisPlate(indexId);
+		} catch (Exception e) {
+			return this.apiReturn("-1", "获取数据异常", data);
+		}
 		return this.apiReturn("0", "数据获取成功", analysisPlate);
 	}
 
