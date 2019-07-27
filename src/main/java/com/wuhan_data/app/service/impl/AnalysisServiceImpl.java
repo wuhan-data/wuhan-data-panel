@@ -176,7 +176,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 		queryMap.put("endTime", endTime);
 		queryMap.put("endTimeRadar", endTimeRadar);
 		queryMap.put("endTimePoint", endTimePoint);
-		System.out.println("查询语句构建成功:" + df.format(new Date()));
 
 		// 查询指标数据并绘制图形
 		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
@@ -249,6 +248,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 	 */
 	public ArrayList<Map<String, Object>> getTimeCondition(List<AnalysisPlate> analysisPlate) {
 		ArrayList<Map<String, Object>> timeCondition = new ArrayList<Map<String, Object>>();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+
 		// 记录整个栏目的频度信息
 		List<String> timeFreq = new ArrayList<String>();
 		// 此处顺序不能调换，关系到后面取最小粒度数据
@@ -274,6 +275,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 			}
 		}
+		System.out.println("时间频度数据获取成功:" + df.format(new Date()));
 
 		// 获取时间选择器区间，取指标的并集
 		for (int i = 0; i < timeFreq.size(); i++) {
@@ -329,6 +331,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				timeConditionMap.put("current", subIndex);
 			}
 			timeCondition.add(timeConditionMap);
+			System.out.println(freqName + "时间频度区间成功:" + df.format(new Date()));
 		}
 		return timeCondition;
 	}
