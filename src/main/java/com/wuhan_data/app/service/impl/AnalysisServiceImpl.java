@@ -1,5 +1,7 @@
 package com.wuhan_data.app.service.impl;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -137,18 +139,21 @@ public class AnalysisServiceImpl implements AnalysisService {
 	 */
 	public Map<String, Object> initAnalysisPlate(int themeId) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+		System.out.println("开始初始化数据:" + df.format(new Date()));// new Date()为获取当前系统时间
 		// 获取版块信息
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
 		if (analysisPlate.size() == 0) {
 			return result;
 		}
-
+		System.out.println("版块数据获取成功:" + df.format(new Date()));
 		// 获取时间可取区间数据
 		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
 		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
 		if (timeCondition.toString().equals(errorTimeCondition)) {
 			return result;
 		}
+		System.out.println("时间区间数据获取成功:" + df.format(new Date()));
 
 		// 构建查询条件
 		Map<String, Object> freqObject = timeCondition.get(0);
@@ -171,10 +176,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 		queryMap.put("endTime", endTime);
 		queryMap.put("endTimeRadar", endTimeRadar);
 		queryMap.put("endTimePoint", endTimePoint);
+		System.out.println("查询语句构建成功:" + df.format(new Date()));
 
 		// 查询指标数据并绘制图形
 		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
-
+		System.out.println("指标数据查询绘制成功:" + df.format(new Date()));
 		result.put("timeCondition", timeCondition);
 		result.put("classInfo", classInfo);
 
@@ -310,7 +316,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 			if (i == 0) {
 				ArrayList<Integer> subIndex = new ArrayList<Integer>();
 				Integer currentLen = 8;
-				System.out.println(currentLen);
 				if (timeList.size() > currentLen) {
 					subIndex.add(timeList.size() - currentLen - 1);
 					subIndex.add(timeList.size() - 1);
@@ -321,7 +326,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					subIndex.add(0);
 					subIndex.add(timeList.size() - 1);
 				}
-				System.out.println(subIndex.toString());
 				timeConditionMap.put("current", subIndex);
 			}
 			timeCondition.add(timeConditionMap);
@@ -334,6 +338,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 			List<String> xAxis, List<String> timeList) {
 		List<Object> TotalList = new ArrayList<Object>();
 		for (int i = 0; i < analysisPlate.size(); i++) {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+			System.out.println("正在处理第" + i + "个版块数据:" + df.format(new Date()));
 			String id = String.valueOf(analysisPlate.get(i).getPlateId());// 板块id
 			String title = analysisPlate.get(i).getPlateName();// 板块名
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
@@ -346,7 +352,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
-					System.out.println(indiInfoList.size());
 					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
 					for (int m = 0; m < indiInfoList.size(); m++) {
 						String dataXTemp = indiInfoList.get(m).getTime();
@@ -458,7 +463,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMapPie.put("endTime", queryMap.get("endTime"));
 					queryMapPie.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
-					System.out.println(indiInfoList.toString());
 					String indiValue = "0";
 					if (indiInfoList.get(0) != null) {
 						indiValue = indiInfoList.get(0).getIndiValue();
@@ -607,6 +611,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 	public List<AnalysisPlate> getAnalysisPlate(int themeId) {
 		return analysisMapper.getAnalysisPlate(themeId);
 	}
+
 	public List<AnalysisIndi> getAnalysisIndi(int plateId) {
 		return analysisMapper.getIndiByPid(plateId);
 	}
