@@ -466,6 +466,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue);
 				TotalList.add(barStoreEntity);
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(tableEntity);
 			}
 				break;
 			default:

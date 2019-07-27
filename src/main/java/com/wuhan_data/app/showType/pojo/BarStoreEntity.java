@@ -4,7 +4,7 @@ public class BarStoreEntity {
 	String id;
 	String classTitle;
 	String classType="echarts";
-	String classHeight="400";
+	String classHeight="550";
 	BarStoreOptionEntity echartOption;
 	
 	public BarStoreEntity() {
