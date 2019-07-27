@@ -6,18 +6,18 @@
     <mapper namespace="com.wuhan_data.app.mapper.InitColumnMapper">  
          
         <select id="getOnelist" resultType="com.wuhan_data.pojo.AnalysisManage">
-            select weight,type_name from analysis_list group by weight,type_name order by weight
+            select weight,type_name from WUHAN_DATA."ANALYSIS_LIST" group by weight,type_name order by weight
         </select>
         
         <select id="getTwolist" resultType="com.wuhan_data.pojo.AnalysisManage" parameterType="int">
-           select id,theme_name,weight,isFavorite from analysis_list where weight=#{weight}
+           select id,theme_name,weight,isFavorite from WUHAN_DATA."ANALYSIS_LIST" where weight=#{weight}
         </select>
              
         <select id="getFavorite" resultType="String" parameterType="String">
-        select isFavorite from analysis_list where id=#{cid}
+        select isFavorite from WUHAN_DATA."ANALYSIS_LIST" where id=#{cid}
         </select>
         <update id="setFavorite" parameterType="String">
-        update analysis_list
+        update WUHAN_DATA."ANALYSIS_LIST"
       
         <set>
        
@@ -27,16 +27,16 @@
         where id=#{cid}
         </update>
         <update id="setNotFavorite" parameterType="String">
-        update analysis_list
+        update WUHAN_DATA."ANALYSIS_LIST"
         <set>
         isFavorite="false"
         where id=#{cid}
         </set>
         </update>
         <insert id="colCollect" parameterType="Collect">
-        insert into collect(uid,type,index_id,create_time) values (#{uid},#{type},#{index_id},#{create_time})
+        insert into WUHAN_DATA."COLLECT"(uid,type,index_id,create_time) values (#{uid},#{type},#{index_id},#{create_time})
         </insert>
         <delete id="colDelete" parameterType="int">
-        delete from collect where index_id=#{cid}
+        delete from WUHAN_DATA."COLLECT where index_id=#{cid}
         </delete>
     </mapper>

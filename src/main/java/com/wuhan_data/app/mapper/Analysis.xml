@@ -8,31 +8,31 @@
 	<select id="getAnalysisList"
 		resultType="com.wuhan_data.pojo.AnalysisTheme">
 		SELECT DISTINCT
-		`type_id` as listId,
-		`type_name` as listName
+		type_id as listId,
+		type_name as listName
 		FROM
-		`analysis_theme`
+		WUHAN_DATA."ANALYSIS_THEME"
 		WHERE
-		`is_show` = 0 OR
-		`is_show` = 9
+		is_show = 0 OR
+		is_show = 9
 		ORDER BY
-		`type_weight` DESC
+		type_weight DESC
 	</select>
 
 	<select id="getAnalysisSubList"
 		resultType="com.wuhan_data.pojo.AnalysisTheme" parameterType="int">
 		SELECT
-		`theme_id` as themeId,
-		`theme_name` as themeName,
-		`type_name` as listName,
-		`is_show` as isShow
+		theme_id as themeId,
+		theme_name as themeName,
+		type_name as listName,
+		is_show as isShow
 		FROM
-		`analysis_theme`
+		WUHAN_DATA."ANALYSIS_THEME"
 		WHERE
-		`type_id` =
+		type_id =
 		#{type_id} AND
-		(`is_show` = 0 OR
-		`is_show` = 9)
+		(is_show = 0 OR
+		is_show = 9)
 	</select>
 
 	<!-- TODO 查询指定INDI_NAME的最新指标描述数据 -->
@@ -40,44 +40,44 @@
 	<select id="getAnalysisPlate"
 		resultType="com.wuhan_data.pojo.AnalysisPlate" parameterType="int">
 		SELECT
-		`plate_id` as plateId,
-		a.`theme_id` as themeId,
-		b.`theme_name` as themeName,
-		`plate_name` as plateName,
-		`show_type` as showType,
-		`show_term` as showTerm,
-		a.`is_show` as isShow
+		plate_id as plateId,
+		a.theme_id as themeId,
+		b.theme_name as themeName,
+		plate_name as plateName,
+		show_type as showType,
+		show_term as showTerm,
+		a.is_show as isShow
 		FROM
-		`analysis_plate` a
-		INNER JOIN `analysis_theme` b
+		WUHAN_DATA."ANALYSIS_PLATE" a
+		INNER JOIN WUHAN_DATA."ANALYSIS_THEME" b
 		ON a.theme_id=b.theme_id
 		WHERE
-		a.`theme_id` = #{themeId} AND
-		a.`is_show` = 0
+		a.theme_id = #{themeId} AND
+		a.is_show = 0
 		ORDER BY
-		`plate_id` ASC
+		plate_id ASC
 	</select>
 
 	<!-- 获取指定板块下的指标信息 -->
 	<select id="getIndiByPid"
 		resultType="com.wuhan_data.pojo.AnalysisIndi" parameterType="int">
 		SELECT
-		`indi_id` as indiId,
-		`plate_id` as plateId,
-		`search_indi_id` as indiCode,
-		`indi_new_name` as indiName,
-		`show_type` as showType,
-		`show_color` as showColor,
-		`indi_weight` as indiWeight,
-		`is_show` as
+		indi_id as indiId,
+		plate_id as plateId,
+		search_indi_id as indiCode,
+		indi_new_name as indiName,
+		show_type as showType,
+		show_color as showColor,
+		indi_weight as indiWeight,
+		is_show as
 		isShow
 		FROM
-		`analysis_indi`
+		WUHAN_DATA."ANALYSIS_INDI"
 		WHERE
-		`plate_id` = #{plateId} AND
-		`is_show` = 0
+		plate_i = #{plateId} AND
+		is_show = 0
 		ORDER BY
-		`indi_weight` DESC
+		indi_weight DESC
 	</select>
 
 	<!-- 获取指标的所有可取频度 -->
