@@ -48,6 +48,7 @@ public class BarType {
 //			}
 			map3.put("type", "category");
 			map3.put("name","x轴");
+			map3.put("scale", "true");
 			map3.put("data",dataX);
 			xAxis.add(map3);
 			

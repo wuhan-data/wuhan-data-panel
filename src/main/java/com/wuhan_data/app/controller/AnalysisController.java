@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.AnalysisService;
 import com.wuhan_data.app.service.PlateInfoService;
 
@@ -85,7 +86,7 @@ public class AnalysisController {
 		responseMap.put("errCode", errCode);
 		responseMap.put("errMsg", errMsg);
 		responseMap.put("data", data);
-		return JSON.toJSONString(responseMap);
+		return JSON.toJSONString(responseMap, SerializerFeature.DisableCircularReferenceDetect);
 	}
 
 }

@@ -66,6 +66,7 @@ public class CollectControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println(e.getMessage());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)

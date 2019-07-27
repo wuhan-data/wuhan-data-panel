@@ -14,9 +14,15 @@ import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.AnalysisService;
+import com.wuhan_data.app.showType.BarType;
+import com.wuhan_data.app.showType.LineAndBarType;
 import com.wuhan_data.app.showType.LineType;
+import com.wuhan_data.app.showType.RadarType;
 import com.wuhan_data.app.showType.TableType;
+import com.wuhan_data.app.showType.pojo.BarEntity;
+import com.wuhan_data.app.showType.pojo.LineAndBarEntity;
 import com.wuhan_data.app.showType.pojo.LineEntity;
+import com.wuhan_data.app.showType.pojo.RadarEntity;
 import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiValue;
@@ -145,10 +151,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
 		System.out.println(xAxis.toString());
 		String startTime = startTimeList.get(current.get(0)).toString();
+		String startTimeRadar = endTimeList.get(current.get(1) - 3).toString();
 		String endTime = endTimeList.get(current.get(1)).toString();
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("freqName", freqName);
 		queryMap.put("startTime", startTime);
+		queryMap.put("startTimeRadar", startTimeRadar);
 		queryMap.put("endTime", endTime);
 
 		// 查询指标数据并绘制图形
@@ -235,6 +243,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 			if (i == 0) {
 				ArrayList<Integer> subIndex = new ArrayList<Integer>();
 				Integer currentLen = 8;
+				System.out.println(currentLen);
 				if (timeList.size() > currentLen) {
 					subIndex.add(timeList.size() - currentLen - 1);
 					subIndex.add(timeList.size() - 1);
@@ -264,7 +273,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 			switch (analysisPlate.get(i).getShowType()) {
 			case "折线图": {
 				System.out.println("进入折线图");
-				List<List> dataValue = new ArrayList();
+				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
 				LineType lineType = new LineType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -283,7 +292,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				TableType tableType = new TableType();
 				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue);
-				List<List> dataXaisTable = new ArrayList();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				for (int q = 0; q < indiList.size(); q++) {
 					dataXaisTable.add(xAxis);
 				}
@@ -294,7 +303,111 @@ public class AnalysisServiceImpl implements AnalysisService {
 				break;
 			case "柱状图": {
 				System.out.println("进入柱状图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				BarType barType = new BarType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				TableType tableType = new TableType();
+				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue);
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(barEntity);
+				TotalList.add(tableEntity);
 			}
+				break;
+			case "雷达图": {
+				System.out.println("进入雷达图");
+				// 记录图例，此处为时间
+				// 分指标记录值
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				// 记录指标名
+				List<String> dataName = new ArrayList<String>();
+				// 记录以时间跨度的值
+				List<List<String>> dataByTime = new ArrayList<List<String>>();
+				RadarType radarType = new RadarType();
+				// 雷达图支取最近的三期数据进行展示
+				xAxis = xAxis.subList(xAxis.size() - 3, xAxis.size());
+				for (int j = 0; j < indiList.size(); j++) {
+					// 时间不与时间选择器进行关联
+					queryMap.put("startTime", queryMap.get("startTimeRadar"));
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							String indiValue = indiInfoList.get(m).getIndiValue();
+							dataIndiValue.set(index, indiValue);
+						}
+					}
+					dataValue.add(dataIndiValue);
+					dataName.add(indiList.get(j).getIndiName());
+				}
+				for (int k = 0; k < xAxis.size(); k++) {
+					List<String> dataOfTime = new ArrayList<String>();
+					for (int n = 0; n < dataValue.size(); n++) {
+						List<String> dataTem = dataValue.get(n);
+						dataOfTime.add(dataTem.get(k));
+					}
+					dataByTime.add(dataOfTime);
+				}
+				RadarEntity radarEntity = radarType.getOption(id, title, xAxis, dataName, dataValue, dataByTime);
+				TotalList.add(radarEntity);
+			}
+				break;
+			case "折柱混搭图": {
+				System.out.println("进入折柱混搭图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				LineAndBarType lineAndBarType = new LineAndBarType();
+				for (int j = 0; j < indiList.size(); j++) {
+					String sType = indiList.get(j).getShowType();
+					showType.add(sType);
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				TableType tableType = new TableType();
+				LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
+						showType);
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(lineAndBarEntity);
+				TotalList.add(tableEntity);
+			}
+				break;
+			default:
+				break;
 			}
 		}
 		// TODO Auto-generated method stub
