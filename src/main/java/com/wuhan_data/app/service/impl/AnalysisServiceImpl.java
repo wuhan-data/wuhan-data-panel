@@ -14,14 +14,18 @@ import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.AnalysisService;
+import com.wuhan_data.app.showType.BarStoreType;
 import com.wuhan_data.app.showType.BarType;
 import com.wuhan_data.app.showType.LineAndBarType;
 import com.wuhan_data.app.showType.LineType;
+import com.wuhan_data.app.showType.PieType;
 import com.wuhan_data.app.showType.RadarType;
 import com.wuhan_data.app.showType.TableType;
 import com.wuhan_data.app.showType.pojo.BarEntity;
+import com.wuhan_data.app.showType.pojo.BarStoreEntity;
 import com.wuhan_data.app.showType.pojo.LineAndBarEntity;
 import com.wuhan_data.app.showType.pojo.LineEntity;
+import com.wuhan_data.app.showType.pojo.PieEntity;
 import com.wuhan_data.app.showType.pojo.RadarEntity;
 import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
@@ -299,9 +303,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 				for (int q = 0; q < indiList.size(); q++) {
 					dataXaisTable.add(xAxis);
 				}
-				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
-				TotalList.add(lineEntity);
-				TotalList.add(tableEntity);
+//				System.out.println(dataXaisTable.toString());
+//				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+//				TotalList.add(lineEntity);
+//				TotalList.add(tableEntity);
 			}
 				break;
 			case "柱状图": {
@@ -345,7 +350,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<List<String>> dataByTime = new ArrayList<List<String>>();
 				RadarType radarType = new RadarType();
 				// 雷达图支取最近的三期数据进行展示
-				List<String> xAxis1 = xAxis.subList(xAxis.size() - 3, xAxis.size());
+				List<String> xAxisRadar = xAxis.subList(xAxis.size() - 3, xAxis.size());
 //				xAxis = xAxis.subList(xAxis.size() - 3, xAxis.size());
 				for (int j = 0; j < indiList.size(); j++) {
 					// 时间不与时间选择器进行关联
@@ -355,11 +360,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMap1.put("endTime", queryMap.get("endTimeRadar"));
 					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
-					List<String> dataIndiValue = Arrays.asList(new String[xAxis1.size()]);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxisRadar.size()]);
 					for (int m = 0; m < indiInfoList.size(); m++) {
 						String dataXTemp = indiInfoList.get(m).getTime();
-						if (xAxis1.contains(dataXTemp)) {
-							int index = xAxis1.indexOf(dataXTemp);
+						if (xAxisRadar.contains(dataXTemp)) {
+							int index = xAxisRadar.indexOf(dataXTemp);
 							String indiValue = indiInfoList.get(m).getIndiValue();
 							dataIndiValue.set(index, indiValue);
 						}
@@ -367,7 +372,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					dataValue.add(dataIndiValue);
 					dataName.add(indiList.get(j).getIndiName());
 				}
-				for (int k = 0; k < xAxis1.size(); k++) {
+				for (int k = 0; k < xAxisRadar.size(); k++) {
 					List<String> dataOfTime = new ArrayList<String>();
 					for (int n = 0; n < dataValue.size(); n++) {
 						List<String> dataTem = dataValue.get(n);
@@ -375,8 +380,34 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataByTime.add(dataOfTime);
 				}
-				RadarEntity radarEntity = radarType.getOption(id, title, xAxis1, dataName, dataValue, dataByTime);
+				RadarEntity radarEntity = radarType.getOption(id, title, xAxisRadar, dataName, dataValue, dataByTime);
 				TotalList.add(radarEntity);
+			}
+				break;
+			case "饼图": {
+				System.out.println("进入饼状图");
+				List<String> dataV = new ArrayList<String>();
+				List<String> legend = new ArrayList<String>();
+				PieType pieType = new PieType();
+				for (int j = 0; j < indiList.size(); j++) {
+					String indiName = indiList.get(j).getIndiName().toString();
+					// 饼状图只有一个指标，不用for循环
+					Map<String, Object> queryMapPie = new HashMap<String, Object>();
+					queryMapPie.put("freqName", queryMap.get("freqName"));
+					queryMapPie.put("startTime", queryMap.get("endTime"));
+					queryMapPie.put("endTime", queryMap.get("endTime"));
+					queryMapPie.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
+					System.out.println(indiInfoList.toString());
+					String indiValue = "0";
+					if (indiInfoList.get(0) != null) {
+						indiValue = indiInfoList.get(0).getIndiValue();
+					}
+					legend.add(j, indiName);
+					dataV.add(j, indiValue);
+				}
+				PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+				TotalList.add(pieEntity);
 			}
 				break;
 			case "折柱混搭图": {
@@ -411,6 +442,30 @@ public class AnalysisServiceImpl implements AnalysisService {
 				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
 				TotalList.add(lineAndBarEntity);
 				TotalList.add(tableEntity);
+			}
+				break;
+			case "柱状堆积图": {
+				System.out.println("进入柱状堆叠图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				BarStoreType barStoreType = new BarStoreType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					// 此处legend的值可能需要更改
+					legend.add(indiList.get(j).getIndiName());
+				}
+				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue);
+				TotalList.add(barStoreEntity);
 			}
 				break;
 			default:

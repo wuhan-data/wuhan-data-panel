@@ -5,7 +5,7 @@ public class PieEntity {
 	String id;
 	String classTitle;
 	String classType="echarts";
-	String classHeight="200";
+	String classHeight="300";
 	PieOptionEntity echartOption;
 	
 	
