@@ -17,15 +17,18 @@ public class BarStoreType {
 			List<List<String>> data) {
 		BarStoreOptionEntity oe = new BarStoreOptionEntity();
 		Map map = new HashMap();
-		map.put("height", "330");
+		map.put("height", "320");
 		map.put("bottom", "50");
 		map.put("containLabel", true);
 		oe.setGrid(map);
 
 		Map map1 = new HashMap();
+		Map map11 = new HashMap();
 		map1.put("show", true);
 		map1.put("trigger", "axis");
 		map1.put("snap", true);
+		map11.put("type", "cross");
+		map1.put("axisPointer", map11);
 		oe.setTooltip(map1);
 
 		Map map2 = new HashMap();

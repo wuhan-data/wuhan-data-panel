@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.AnalysisService;
+import com.wuhan_data.app.showType.BarStackLineType;
 import com.wuhan_data.app.showType.BarStoreType;
 import com.wuhan_data.app.showType.BarType;
 import com.wuhan_data.app.showType.LineAndBarType;
@@ -22,6 +23,7 @@ import com.wuhan_data.app.showType.PieType;
 import com.wuhan_data.app.showType.RadarType;
 import com.wuhan_data.app.showType.TableType;
 import com.wuhan_data.app.showType.pojo.BarEntity;
+import com.wuhan_data.app.showType.pojo.BarStackLineEntity;
 import com.wuhan_data.app.showType.pojo.BarStoreEntity;
 import com.wuhan_data.app.showType.pojo.LineAndBarEntity;
 import com.wuhan_data.app.showType.pojo.LineEntity;
@@ -466,6 +468,40 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue);
 				TotalList.add(barStoreEntity);
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(tableEntity);
+			}
+				break;
+			case "柱状堆积折线图": {
+				System.out.println("进入柱状堆叠折线图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				BarStackLineType barStackLineType = new BarStackLineType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+					showType.add(indiList.get(j).getShowType());
+				}
+				BarStackLineEntity barStackLineEntity = barStackLineType.getOption(id, title, xAxis, legend, dataValue,
+						showType);
+				TotalList.add(barStackLineEntity);
+
 				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				for (int q = 0; q < indiList.size(); q++) {
