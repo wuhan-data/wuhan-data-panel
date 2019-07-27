@@ -180,6 +180,60 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 		return result;
 	}
+	
+	public Map<String, Object> getAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		// 获取版块信息
+		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
+		if (analysisPlate.size() == 0) {
+			return result;
+		}
+
+		// 获取时间可取区间数据
+		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
+		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
+		if (timeCondition.toString().equals(errorTimeCondition)) {
+			return result;
+		}
+
+		// 构建查询条件
+		Map<String, Object> freqObject = timeCondition.get(0);
+		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
+		List<String> startTimeList = (List<String>) freqObject.get("startArray");
+		List<String> endTimeList = (List<String>) freqObject.get("endArray");
+		// 根据起始时间结束时间设置x轴
+		Integer startFlag = 0;
+		Integer endFlag = 0;
+		for (int i = 0; i < startTimeList.size(); i++) {
+			if (startTimeList.get(i).equals(startTime)) {
+				startFlag = i;
+			}
+			if (startTimeList.get(i).equals(endTime)) {
+				endFlag = i;
+			}
+		}
+		List<String> xAxis = startTimeList.subList(startFlag, endFlag);
+		
+		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
+		String startTimePoint = endTimeList.get(0).toString();
+		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
+		String endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("freqName", freqName);
+		queryMap.put("startTime", startTime);
+		queryMap.put("startTimeRadar", startTimeRadar);
+		queryMap.put("startTimePoint", startTimePoint);
+		queryMap.put("endTime", endTime);
+		queryMap.put("endTimeRadar", endTimeRadar);
+		queryMap.put("endTimePoint", endTimePoint);
+
+		// 查询指标数据并绘制图形
+		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
+
+		result.put("classInfo", classInfo);
+
+		return result;
+	}
 
 	/**
 	 * 根据版块信息获取可取的时间区间
