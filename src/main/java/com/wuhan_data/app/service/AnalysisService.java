@@ -17,5 +17,5 @@ public interface AnalysisService {
 	public Map<String, Object> getAnalysisPlate(int themeId); // 查询经济分析栏目下所有版块
 
 	public List<Object> getClassInfo(List<AnalysisPlate> analysisPlate, Map<String, Object> queryMap,
-			List<String> xAxis);
+			List<String> xAxis, List<String> timeList);
 }

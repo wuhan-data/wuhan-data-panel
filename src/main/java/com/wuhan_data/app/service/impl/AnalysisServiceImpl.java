@@ -20,6 +20,7 @@ import com.wuhan_data.app.showType.BarType;
 import com.wuhan_data.app.showType.LineAndBarType;
 import com.wuhan_data.app.showType.LineType;
 import com.wuhan_data.app.showType.PieType;
+import com.wuhan_data.app.showType.PointType;
 import com.wuhan_data.app.showType.RadarType;
 import com.wuhan_data.app.showType.TableType;
 import com.wuhan_data.app.showType.pojo.BarEntity;
@@ -28,6 +29,7 @@ import com.wuhan_data.app.showType.pojo.BarStoreEntity;
 import com.wuhan_data.app.showType.pojo.LineAndBarEntity;
 import com.wuhan_data.app.showType.pojo.LineEntity;
 import com.wuhan_data.app.showType.pojo.PieEntity;
+import com.wuhan_data.app.showType.pojo.PointEntity;
 import com.wuhan_data.app.showType.pojo.RadarEntity;
 import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
@@ -158,17 +160,21 @@ public class AnalysisServiceImpl implements AnalysisService {
 		System.out.println(xAxis.toString());
 		String startTime = startTimeList.get(current.get(0)).toString();
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
+		String startTimePoint = endTimeList.get(0).toString();
 		String endTime = endTimeList.get(current.get(1)).toString();
 		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
+		String endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("freqName", freqName);
 		queryMap.put("startTime", startTime);
 		queryMap.put("startTimeRadar", startTimeRadar);
+		queryMap.put("startTimePoint", startTimePoint);
 		queryMap.put("endTime", endTime);
 		queryMap.put("endTimeRadar", endTimeRadar);
+		queryMap.put("endTimePoint", endTimePoint);
 
 		// 查询指标数据并绘制图形
-		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis);
+		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
 
 		result.put("timeCondition", timeCondition);
 		result.put("classInfo", classInfo);
@@ -272,7 +278,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 	@Override
 	public List<Object> getClassInfo(List<AnalysisPlate> analysisPlate, Map<String, Object> queryMap,
-			List<String> xAxis) {
+			List<String> xAxis, List<String> timeList) {
 		List<Object> TotalList = new ArrayList<Object>();
 		for (int i = 0; i < analysisPlate.size(); i++) {
 			String id = String.valueOf(analysisPlate.get(i).getPlateId());// 板块id
@@ -410,6 +416,33 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
 				TotalList.add(pieEntity);
+			}
+				break;
+			case "散点图": {
+				System.out.println("进入散点图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				PointType pointType = new PointType();
+				for (int j = 0; j < indiList.size(); j++) {
+					Map<String, Object> queryMap1 = new HashMap<String, Object>();
+					queryMap1.put("freqName", queryMap.get("freqName"));
+					queryMap1.put("startTime", queryMap.get("startTimePoint"));
+					queryMap1.put("endTime", queryMap.get("endTimePoint"));
+					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
+					List<String> dataIndiValue = Arrays.asList(new String[timeList.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (timeList.contains(dataXTemp)) {
+							int index = timeList.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				PointEntity pointEntity = pointType.getOption(id, title, legend, dataValue);
+				TotalList.add(pointEntity);
 			}
 				break;
 			case "折柱混搭图": {
