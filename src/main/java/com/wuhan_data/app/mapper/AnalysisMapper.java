@@ -22,5 +22,5 @@ public interface AnalysisMapper {
 	
 	public List<AnalysisIndi> getIndiByPid(int plateId);
 	
-	public String getFreqcodeByIndicode(String indiCode);
+	public List<String> getFreqcodeByIndicode(String indiCode);
 }

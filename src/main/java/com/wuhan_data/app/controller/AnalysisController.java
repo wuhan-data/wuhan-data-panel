@@ -21,6 +21,7 @@ import com.wuhan_data.pojo.AnalysisManage;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 import com.wuhan_data.pojo.ColPlate;
+import com.wuhan_data.pojo.ColPlateIndi;
 
 @Controller
 @RequestMapping("")
@@ -36,24 +37,21 @@ public class AnalysisController {
 	public String getAnalysisList(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String token = "";
+		Integer userId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+			userId = 1;
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
 
-		// TODO 根据用户权限列表获取对应的analysis_list
-		ArrayList<String> role_list = new ArrayList<String>();
-		if (token != "") {
-			// TODO 根据用户token获取对应的role_list
-			role_list.add("analysis_zonghe");
-		}
-
 		// 获取经济分析栏目列表数据
 		ArrayList<Object> analysisList = new ArrayList<Object>();
+		
+		
 		try {
-			analysisList = analysisService.getAnalysisList();
+			analysisList = analysisService.getAnalysisList(userId);
 		} catch (Exception e) {
 			return this.apiReturn("-1", "获取数据异常", data);
 		}
@@ -82,8 +80,10 @@ public class AnalysisController {
 		}
 
 		// 获取栏目下的版块信息
-		List<AnalysisPlate> analysisPlate = analysisService.getAnalysisPlate(indexId);
+		ArrayList<Object> analysisPlate = analysisService.getAnalysisPlate(indexId);
 		data.put("plate", analysisPlate);
+		
+		
 		return this.apiReturn("0", "数据获取成功", data);
 	}
 
