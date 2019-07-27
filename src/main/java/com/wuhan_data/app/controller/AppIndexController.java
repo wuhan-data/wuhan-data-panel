@@ -30,10 +30,10 @@ public class AppIndexController {
 	AppIndexService appIndexService;
 	
 	//测试
-	@RequestMapping(value="t",produces = "text/plain;charset=utf-8",method = RequestMethod.POST)
+	@RequestMapping(value="t",produces = "text/plain;charset=utf-8")
 	@ResponseBody
-    public String t(@RequestBody String json){
-		System.out.println(json);
+    public String t(){
+		System.out.println("asd");
 		Map map = new HashMap();	
 		map.put("code", 1);
 		map.put("id", 123456);
