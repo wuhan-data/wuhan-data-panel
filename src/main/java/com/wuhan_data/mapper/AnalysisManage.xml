@@ -192,6 +192,10 @@
             </where>
             order by id limit #{page.dbIndex},#{page.dbNumber}
         </select> 
+        
+        <select id="getBaseInfo" resultType="Map" parameterType="Integer">
+        select type_name,theme_name from analysis_theme where theme_id=#{themeId}
+        </select>
 
        
     </mapper>

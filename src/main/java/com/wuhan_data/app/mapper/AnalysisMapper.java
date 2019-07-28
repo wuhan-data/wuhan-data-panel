@@ -7,6 +7,7 @@ import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
+import com.wuhan_data.pojo.Collect;
 import com.wuhan_data.tools.DataSource;
 
 public interface AnalysisMapper {
@@ -25,4 +26,8 @@ public interface AnalysisMapper {
 	public List<String> getTimeByFreqname(Map<String, Object> queryMap); // 根据频度信息获取可取的时间范围
 	@DataSource(value="dataSource_app_plateform1")
 	public List<AnalysisIndiValue> getIndiValue(Map<String, Object> queryMap); // 查询指标信息
+	
+	@DataSource(value="dataSource_app_plateform1")
+	public List<Collect> getBaseInfo(Integer themeId);
+	
 }
