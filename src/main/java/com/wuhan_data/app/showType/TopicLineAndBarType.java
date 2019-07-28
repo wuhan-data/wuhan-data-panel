@@ -25,7 +25,7 @@ public class TopicLineAndBarType {
 		oe.setTooltip(map1);
 		
 		
-		if(legendData.size()>=4) {
+		if(legendData.size()>=2) {
 			
 			Map map = new HashMap();
 			map.put("containLabel", true);
@@ -35,7 +35,7 @@ public class TopicLineAndBarType {
 			
 			Map map2 = new HashMap();
 			map2.put("orient", "vertical");
-			if(legendData.size()==4) {
+			if(legendData.size()==4||legendData.size()==2) {
 				map2.put("bottom", "420");
 			}else {
 				map2.put("bottom", "430");
@@ -110,6 +110,9 @@ public class TopicLineAndBarType {
 		}
 		if(legendData.size()==4){
 			pe.setClassHeight("560");
+		}
+		if(legendData.size()==2){
+			pe.setClassHeight("490");
 		}
 		return pe;
 	}

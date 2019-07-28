@@ -156,5 +156,24 @@ public interface TopicMapper {
 	@DataSource(value="dataSource_app_sjjg")
 	public String getTopic3Card4_1();
 	
+	//*************topic4-固定资产投资************	
+//	-----------图表数据部分-------------
+	public List<indi_TF> getTopic4Value1_1();  //图表1的指标数据--投资先行指数
+	public List<indi_TF> getTopic4Value2_1();  //图表2的指标数据--固定资产投资（不含农户）完成额(累计值)
+	public List<indi_TF> getTopic4Value2_2();  //图表2的指标数据--固定资产投资（不含农户）完成额（增速）	
+	public List<indi_TF> getTopic4Value3_1();  //图表3的指标数据--本年新开工项目个数（累计值）
+	public List<indi_TF> getTopic4Value3_2();  //图表3的指标数据--本年新开工项目个数（累计增速）
+	public List<indi_TF> getTopic4Value3_3();  //图表3的指标数据--施工项目个数（累计值）
+	public List<indi_TF> getTopic4Value3_4();  //图表3的指标数据--施工项目个数（累计增速）
+	public List<indi_TF> getTopic4Value4_1();  //图表4的指标数据--固定资产投资对GDP的拉动（累计值）
+	public List<indi_TF> getTopic4Value51_1();  //图表4的指标数据--民间投资
+	public List<indi_TF> getTopic4Value51_2();  //图表4的指标数据--民间投资占固定资产投资比重
+//	-----------card部分-------------
+	public String getTopic4Card1_1();
+	public String getTopic4Card2_1();
+	public String getTopic4Card3_1();
+	public String getTopic4Card4_1();
+	
+	
 	
 }
