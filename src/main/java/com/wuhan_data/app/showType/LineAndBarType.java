@@ -13,27 +13,27 @@ public class LineAndBarType {
 	//参数：图例名称、x轴数据、数据、显示类型
 	public LineAndBarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> data,List<String> showType) {
 		LineAndBarOptionEntity oe = new LineAndBarOptionEntity();
-		Map map = new HashMap();
+		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("containLabel", true);
 		oe.setGrid(map);
 		
-		Map map1 = new HashMap();
+		Map<String,Object> map1 = new HashMap<String,Object>();
 		map1.put("show", true);
 		map1.put("trigger", "axis");
 		map1.put("snap", true);
 		oe.setTooltip(map1);
 		
-		Map map2 = new HashMap();
+		Map<String,Object> map2 = new HashMap<String,Object>();
 		map2.put("top", "top");
 		map2.put("data", legendData);
 		oe.setLegend(map2);
 		
-		List<Map> xAxis = new ArrayList();
+		List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 //		for(int i=0;i<dataX.size();i++)
 //		{
-			List temList= new ArrayList();
+			List<String> temList= new ArrayList<String>();
 			temList =  dataX;
-			Map map3 = new HashMap();
+			Map<String,Object> map3 = new HashMap<String,Object>();
 			map3.put("type", "category");
 			map3.put("name","x轴");
 			map3.put("data",temList );
@@ -41,28 +41,28 @@ public class LineAndBarType {
 //		}
 		oe.setxAxis(xAxis);
 		
-		List<Map> yAxis = new ArrayList();
+		List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 //		for(int i=0;i<dataX.size();i++)
 //		{
-			Map map4 = new HashMap();
+			Map<String,Object> map4 = new HashMap<String,Object>();
 			map4.put("type", "value");
 			map4.put("name","y0轴");
 			yAxis.add(map4);
 			
-			Map map5 = new HashMap();
+			Map<String,Object> map5 = new HashMap<String,Object>();
 			map5.put("type", "value");
 			map5.put("name","y1轴");
 			yAxis.add(map5);
 //		}
 		oe.setyAxis(yAxis);
 		
-		List<Map> seriesList=new ArrayList();
+		List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 		for(int i=0;i<data.size();i++)
 		{
-			List tempList= new ArrayList();
+			List<String> tempList= new ArrayList<String>();
 			tempList=data.get(i);//数据
 			String showT= (String) showType.get(i);//展示类型
-			Map map6 = new HashMap();
+			Map<String,Object> map6 = new HashMap<String,Object>();
 			if(showT.equals("bar"))
 			{
 				map6.put("name", legendData.get(i));

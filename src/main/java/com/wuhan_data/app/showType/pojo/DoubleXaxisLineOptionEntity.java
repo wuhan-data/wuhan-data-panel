@@ -4,46 +4,46 @@ import java.util.List;
 import java.util.Map;
 
 public class DoubleXaxisLineOptionEntity {
-	Map grid;
-	Map tooltip;
-	Map legend;
-	List<Map> xAxis;
-	List<Map> yAxis;
-	List<Map> series;
-	public Map getGrid() {
+	Map<String,Object> grid;
+	Map<String,Object> tooltip;
+	Map<String,Object> legend;
+	List<Map<String,Object>> xAxis;
+	List<Map<String,Object>> yAxis;
+	List<Map<String,Object>> series;
+	public Map<String,Object> getGrid() {
 		return grid;
 	}
-	public void setGrid(Map grid) {
+	public void setGrid(Map<String,Object> grid) {
 		this.grid = grid;
 	}
-	public Map getTooltip() {
+	public Map<String,Object> getTooltip() {
 		return tooltip;
 	}
-	public void setTooltip(Map tooltip) {
+	public void setTooltip(Map<String,Object> tooltip) {
 		this.tooltip = tooltip;
 	}
-	public Map getLegend() {
+	public Map<String,Object> getLegend() {
 		return legend;
 	}
-	public void setLegend(Map legend) {
+	public void setLegend(Map<String,Object> legend) {
 		this.legend = legend;
 	}
-	public List<Map> getxAxis() {
+	public List<Map<String,Object>> getxAxis() {
 		return xAxis;
 	}
-	public void setxAxis(List<Map> xAxis) {
-		this.xAxis = xAxis;
+	public void setxAxis(List<Map<String, Object>> xAxis2) {
+		this.xAxis = xAxis2;
 	}
-	public List<Map> getyAxis() {
+	public List<Map<String,Object>> getyAxis() {
 		return yAxis;
 	}
-	public void setyAxis(List<Map> yAxis) {
+	public void setyAxis(List<Map<String,Object>> yAxis) {
 		this.yAxis = yAxis;
 	}
-	public List<Map> getSeries() {
+	public List<Map<String,Object>> getSeries() {
 		return series;
 	}
-	public void setSeries(List<Map> series) {
+	public void setSeries(List<Map<String,Object>> series) {
 		this.series = series;
 	}
 	

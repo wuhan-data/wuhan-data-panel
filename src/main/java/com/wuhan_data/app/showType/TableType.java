@@ -15,13 +15,7 @@ public class TableType {
 					
 				}
 		    	List legendDATA=new ArrayList(legendData);
-//		    	legendDATA=legendData;
-		    	System.out.println("legendData"+legendData);
-		    	System.out.println("legendDATA"+legendDATA);
 		    	legendDATA.add(0," ");
-		    	System.out.println("legendData"+legendData);
-		    	System.out.println("legendDATA"+legendDATA);
-//				legendData.add(0," ");
 				List table=new ArrayList();
 				table.add(legendDATA);
 				for(int i=0;i<dataX.get(0).size();i++) {

@@ -5,29 +5,29 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.HistoryViewMapperApp">
         <insert id="add" parameterType="HistoryView" >
-            insert into WUHAN_DATA.History_View (uid,func_name,title,view_url,create_time) values (#{uid},#{func_name},#{title},#{view_url},#{create_time})   
+            insert into WUHAN_DATA."HISTORY_VIEW" (uid,func_name,title,view_url,create_time) values (#{uid},#{func_name},#{title},#{view_url},#{create_time})   
         </insert>
         <delete id="delete" parameterType="HistoryView" >
-            delete from WUHAN_DATA.History_View where id= #{id}  
+            delete from WUHAN_DATA."HISTORY_VIEW" where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="HistoryView">
-            select * from   WUHAN_DATA.History_View  where id= #{id}   
+            select * from   WUHAN_DATA."HISTORY_VIEW"  where id= #{id}   
         </select>
          <select id="getByUid" parameterType="_int" resultType="HistoryView">
-            select * from   WUHAN_DATA.History_View  where uid= #{uid}   
+            select * from   WUHAN_DATA."HISTORY_VIEW"  where uid= #{uid}   
         </select>
  
         <update id="update" parameterType="HistoryView" >
-            update WUHAN_DATA.NOTICE set uid=#{uid},func_name=#{func_name},title=#{title},view_url=#{view_url},create_time=#{create_time} where id=#{id}   
+            update WUHAN_DATA."NOTICE" set uid=#{uid},func_name=#{func_name},title=#{title},view_url=#{view_url},create_time=#{create_time} where id=#{id}   
         </update>
         
         <select id="list" resultType="HistoryView">
-            select * from WUHAN_DATA.NOTICE     
+            select * from WUHAN_DATA."NOTICE"     
         </select> 
         
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.NOTICE  
+        	select count(*) from WUHAN_DATA."NOTICE"  
         </select>
 
        

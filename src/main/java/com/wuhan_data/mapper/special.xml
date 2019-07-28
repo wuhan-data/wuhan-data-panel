@@ -41,35 +41,35 @@
          
          <!-- 删除一个专题 -->
         <delete id="delete" parameterType="int" >
-            delete from SPECIAL_DETAIL where special_id=#{special_id}  
+            delete from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id}  
         </delete>    
         
          <!-- 删除一个专题下一个指标 -->
         <delete id="deleteIndi" parameterType="int" >
-            delete from SPECIAL_DETAIL where id=#{id}  
+            delete from WUHAN_DATA.SPECIAL_DETAIL where id=#{id}  
         </delete>     
          
          <!-- 得到专题列表 -->
         <select id="getlist" parameterType="java.util.Map" resultType="SpecialDetail">
-            select special_id,special_name,is_show from SPECIAL_DETAIL group by special_id,special_name,is_show order by special_id limit #{page.dbIndex},#{page.dbNumber}   
+            select special_id,special_name,is_show from WUHAN_DATA.SPECIAL_DETAIL group by special_id,special_name,is_show order by special_id limit #{page.dbIndex},#{page.dbNumber}   
         </select>  
 
  <select id="getSname" parameterType="int" resultType="String">
-            select distinct special_name from SPECIAL_DETAIL where special_id=#{special_id}
+            select distinct special_name from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id}
         </select>  
  
         <!--修改专题名称  -->
         <update id="update" parameterType="SpecialDetail" >
-            update SPECIAL_DETAIL set special_name=#{special_name} where special_id=#{special_id}
+            update WUHAN_DATA.SPECIAL_DETAIL set special_name=#{special_name} where special_id=#{special_id}
         </update>
         
         <update id="updateIndi" parameterType="SpecialDetail" >
-            update SPECIAL_DETAIL set indi_name=#{indi_name} where id=#{id}
+            update WUHAN_DATA.SPECIAL_DETAIL set indi_name=#{indi_name} where id=#{id}
         </update>
                
         <!-- 修改专题是否显示 -->
          <update id="updateShow" parameterType="SpecialDetail" >
-            update SPECIAL_DETAIL
+            update WUHAN_DATA.SPECIAL_DETAIL
             <set>
             is_show=#{is_show}
             </set>
@@ -79,7 +79,7 @@
         
          <!-- 修改专题是否显示 -->
          <update id="updateIndiShow" parameterType="SpecialDetail" >
-            update SPECIAL_DETAIL
+            update WUHAN_DATA.SPECIAL_DETAIL
             <set>
             is_show=#{is_show}
             </set>
@@ -88,23 +88,23 @@
         
       <!-- 统计专题数量 -->
         <select id="total" resultType="int">
-            select count(*) from (select special_id from SPECIAL_DETAIL group by special_id) a
+            select count(*) from (select special_id from WUHAN_DATA.SPECIAL_DETAIL group by special_id) a
         </select>
         
         <!-- 统计专题下指标数量 -->
          <select id="totalIndi" resultType="int">
-            select count(*) from SPECIAL_DETAIL where special_id=#{special_id}
+            select count(*) from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id}
         </select>
         
         
         
         <!-- 统计专题数量 -->
         <select id="maxSpecialId" resultType="int">
-           select max(special_id)+1 from SPECIAL_DETAIL
+           select max(special_id)+1 from WUHAN_DATA.SPECIAL_DETAIL
         </select>
         
       <!-- 得到专题下指标列表 -->
         <select id="getIndiList" parameterType="java.util.Map" resultType="SpecialDetail">
-            select * from SPECIAL_DETAIL where special_id=#{special_id} limit #{page.dbIndex},#{page.dbNumber}            
+            select * from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id} limit #{page.dbIndex},#{page.dbNumber}            
         </select>  
     </mapper>

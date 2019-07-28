@@ -5,29 +5,29 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.FeedbackMapperApp">
         <insert id="add" parameterType="Feedback" >
-            insert into WUHAN_DATA.Feedback (uid,title,text,img,contact,create_time,state) values (#{uid},#{title},#{text},#{img},#{contact},#{create_time},#{state})   
+            insert into WUHAN_DATA."FEEDBACK" (uid,title,text,img,contact,create_time,state) values (#{uid},#{title},#{text},#{img},#{contact},#{create_time},#{state})   
         </insert>
         <delete id="delete" parameterType="Feedback" >
-            delete from WUHAN_DATA.Feedback where id= #{id}  
+            delete from WUHAN_DATA."FEEDBACK" where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Feedback">
-            select * from   WUHAN_DATA.Feedback  where id= #{id}   
+            select * from   WUHAN_DATA."FEEDBACK"  where id= #{id}   
         </select>
          <select id="getByUid" parameterType="_int" resultType="Feedback">
-            select * from   WUHAN_DATA.Feedback  where uid= #{uid}   
+            select * from   WUHAN_DATA."FEEDBACK"  where uid= #{uid}   
         </select>
  
         <update id="update" parameterType="Feedback" >
-            update WUHAN_DATA.Feedback set uid=#{uid},title=#{title},img=#{img},contact=#{contact},create_time=#{create_time},state=#{state} where id=#{id}   
+            update WUHAN_DATA."FEEDBACK" set uid=#{uid},title=#{title},img=#{img},contact=#{contact},create_time=#{create_time},state=#{state} where id=#{id}   
         </update>
         
         <select id="list" resultType="Feedback">
-            select * from WUHAN_DATA.Feedback     
+            select * from WUHAN_DATA."FEEDBACK"     
         </select> 
         
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.Feedback  
+        	select count(*) from WUHAN_DATA."FEEDBACK"  
         </select>
 
        

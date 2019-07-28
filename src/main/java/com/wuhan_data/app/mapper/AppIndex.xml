@@ -6,19 +6,19 @@
     <mapper namespace="com.wuhan_data.app.mapper.AppIndexMapper">  
          
         <select id="getlist" resultType="com.wuhan_data.pojo.IndexPic">
-            select * from index_pic 
+            select * from WUHAN_DATA."INDEX_PIC"
         </select>
         
          <select id="getIconList" resultType="com.wuhan_data.pojo.AnalysisIcon">
-            select iconWeight,background,icon_name,icon_url from index_analysis_icon order by iconweight
+            select iconWeight,background,icon_name,icon_url from WUHAN_DATA."INDEX_ANALYSIS_ICON" order by iconweight
         </select>
         
          <select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">
-            select * from index_special
+            select * from WUHAN_DATA."INDEX_SPECIAL"
         </select>
         
         <select id="getDesc" resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
-            select description from index_special where id=#{id}
+            select description from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
         </select>
         
     </mapper>

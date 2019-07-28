@@ -5,11 +5,11 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.MessageMapperApp">
         <insert id="add" parameterType="Message" >
-            insert into WUHAN_DATA.Message (sender_id,receiver_id,url,create_time,title,remarks,is_read) values (#{sender_id},#{receiver_id},#{url},#{create_time},#{title},#{remarks},#{is_read})   
+            insert into WUHAN_DATA."MESSAGE" (sender_id,receiver_id,url,create_time,title,remarks,is_read) values (#{sender_id},#{receiver_id},#{url},#{create_time},#{title},#{remarks},#{is_read})   
         </insert>
          
          <insert id="addByRole" parameterType="java.util.ArrayList" >
-            insert into WUHAN_DATA.Message (sender_id,receiver_id,url,create_time,title,remarks,is_read) 
+            insert into WUHAN_DATA."MESSAGE" (sender_id,receiver_id,url,create_time,title,remarks,is_read) 
             values 
             <foreach collection="list" item="item" index="index" separator=","> 
         	(#{item.sender_id},#{item.receiver_id},#{item.url}, #{item.create_time},#{item.title},#{item.remarks},#{item.is_read}) 
@@ -17,33 +17,33 @@
         </insert>
         
         <delete id="delete" parameterType="Message" >
-            delete from WUHAN_DATA.Message where id= #{id}  
+            delete from WUHAN_DATA."MESSAGE" where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Message">
-            select * from   WUHAN_DATA.Message  where id= #{id}   
+            select * from   WUHAN_DATA."MESSAGE"  where id= #{id}   
         </select>
  
         <update id="update" parameterType="Message" >
-            update WUHAN_DATA.Message set url=#{url},receiver_id=#{receiver_id},title=#{title},remarks=#{remarks},is_read=#{is_read} where id=#{id}   
+            update WUHAN_DATA."MESSAGE" set url=#{url},receiver_id=#{receiver_id},title=#{title},remarks=#{remarks},is_read=#{is_read} where id=#{id}   
         </update>
         
         <select id="list" resultType="Message">
-            select * from WUHAN_DATA.Message     
+            select * from WUHAN_DATA."MESSAGE"     
         </select> 
         
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.Message  
+        	select count(*) from WUHAN_DATA."MESSAGE"  
         </select>
 
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Message" parameterType="java.util.Map">
-            select * from WUHAN_DATA.Message   order by id limit #{page.dbIndex},#{page.dbNumber}
+            select * from WUHAN_DATA."MESSAGE"   order by id limit #{page.dbIndex},#{page.dbNumber}
         </select> 
         
         <!--模糊查询 -->
 		<select id="searchByContent" parameterType="java.util.Map" resultType="Message">
-            select * from WUHAN_DATA.Message 
+            select * from WUHAN_DATA."MESSAGE" 
             <where>
             title like concat(concat('%',#{title}),'%')  
             </where>
@@ -52,11 +52,11 @@
         
         <!-- 模糊查询数量 -->
         <select id="searchCountByContent" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.Message where  title like concat(concat('%',#{title}),'%')  
+            select count(*) from WUHAN_DATA."MESSAGE" where  title like concat(concat('%',#{title}),'%')  
         </select>
         
         <select id="getByRid" resultType="Message">
-            select * from WUHAN_DATA.Message where receiver_id=#{receiver_id}
+            select * from WUHAN_DATA."MESSAGE" where receiver_id=#{receiver_id}
         </select>
     
 

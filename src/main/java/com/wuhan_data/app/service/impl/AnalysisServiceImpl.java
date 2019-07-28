@@ -1,6 +1,9 @@
 package com.wuhan_data.app.service.impl;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,11 +16,28 @@ import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
 import com.wuhan_data.app.service.AnalysisService;
+import com.wuhan_data.app.showType.BarStackLineType;
+import com.wuhan_data.app.showType.BarStoreType;
+import com.wuhan_data.app.showType.BarType;
+import com.wuhan_data.app.showType.LineAndBarType;
+import com.wuhan_data.app.showType.LineType;
+import com.wuhan_data.app.showType.PieType;
+import com.wuhan_data.app.showType.PointType;
+import com.wuhan_data.app.showType.RadarType;
+import com.wuhan_data.app.showType.TableType;
+import com.wuhan_data.app.showType.pojo.BarEntity;
+import com.wuhan_data.app.showType.pojo.BarStackLineEntity;
+import com.wuhan_data.app.showType.pojo.BarStoreEntity;
+import com.wuhan_data.app.showType.pojo.LineAndBarEntity;
+import com.wuhan_data.app.showType.pojo.LineEntity;
+import com.wuhan_data.app.showType.pojo.PieEntity;
+import com.wuhan_data.app.showType.pojo.PointEntity;
+import com.wuhan_data.app.showType.pojo.RadarEntity;
+import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
-import com.wuhan_data.pojo.ColPlateIndi;
 
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
@@ -88,7 +108,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					String isShow = subList.get(j).getIsShow().toString();
 					String listName = subList.get(j).getListName().toString();
 					if (listName.equals("综合")) {
-						System.out.println("listName=zonghe");
 						if (isShow.equals("0") || isShow.equals("9")) {
 							result.add(subList.get(j));
 						}
@@ -115,9 +134,121 @@ public class AnalysisServiceImpl implements AnalysisService {
 		return result;
 	}
 
-	public ArrayList<Object> getAnalysisPlate(int themeId) {
-		ArrayList<Object> result = new ArrayList<Object>();
+	/**
+	 * 获取初始化版块数据
+	 */
+	public Map<String, Object> initAnalysisPlate(int themeId) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+		System.out.println("开始初始化数据:" + df.format(new Date()));// new Date()为获取当前系统时间
+		// 获取版块信息
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
+		if (analysisPlate.size() == 0) {
+			return result;
+		}
+		System.out.println("版块数据获取成功:" + df.format(new Date()));
+		// 获取时间可取区间数据
+		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
+		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
+		if (timeCondition.toString().equals(errorTimeCondition)) {
+			return result;
+		}
+		System.out.println("时间区间数据获取成功:" + df.format(new Date()));
+
+		// 构建查询条件
+		Map<String, Object> freqObject = timeCondition.get(0);
+		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
+		List<String> startTimeList = (List<String>) freqObject.get("startArray");
+		List<String> endTimeList = (List<String>) freqObject.get("endArray");
+		String freqName = (String) freqObject.get("freqName");
+		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
+		String startTime = startTimeList.get(current.get(0)).toString();
+		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
+		String startTimePoint = endTimeList.get(0).toString();
+		String endTime = endTimeList.get(current.get(1)).toString();
+		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
+		String endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("freqName", freqName);
+		queryMap.put("startTime", startTime);
+		queryMap.put("startTimeRadar", startTimeRadar);
+		queryMap.put("startTimePoint", startTimePoint);
+		queryMap.put("endTime", endTime);
+		queryMap.put("endTimeRadar", endTimeRadar);
+		queryMap.put("endTimePoint", endTimePoint);
+		System.out.println("查询语句构建成功:" + df.format(new Date()));
+
+		// 查询指标数据并绘制图形
+		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
+		System.out.println("指标数据查询绘制成功:" + df.format(new Date()));
+		result.put("timeCondition", timeCondition);
+		result.put("classInfo", classInfo);
+
+		return result;
+	}
+
+	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		// 获取版块信息
+		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
+		if (analysisPlate.size() == 0) {
+			return result;
+		}
+
+		// 获取时间可取区间数据
+		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
+		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
+		if (timeCondition.toString().equals(errorTimeCondition)) {
+			return result;
+		}
+
+		// 构建查询条件
+		Map<String, Object> freqObject = timeCondition.get(0);
+		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
+		List<String> startTimeList = (List<String>) freqObject.get("startArray");
+		List<String> endTimeList = (List<String>) freqObject.get("endArray");
+		// 根据起始时间结束时间设置x轴
+		Integer startFlag = 0;
+		Integer endFlag = 0;
+		for (int i = 0; i < startTimeList.size(); i++) {
+			if (startTimeList.get(i).equals(startTime)) {
+				startFlag = i;
+			}
+			if (startTimeList.get(i).equals(endTime)) {
+				endFlag = i;
+			}
+		}
+		List<String> xAxis = startTimeList.subList(startFlag, endFlag);
+
+		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
+		String startTimePoint = endTimeList.get(0).toString();
+		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
+		String endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("freqName", freqName);
+		queryMap.put("startTime", startTime);
+		queryMap.put("startTimeRadar", startTimeRadar);
+		queryMap.put("startTimePoint", startTimePoint);
+		queryMap.put("endTime", endTime);
+		queryMap.put("endTimeRadar", endTimeRadar);
+		queryMap.put("endTimePoint", endTimePoint);
+
+		// 查询指标数据并绘制图形
+		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
+
+		result.put("classInfo", classInfo);
+
+		return result;
+	}
+
+	/**
+	 * 根据版块信息获取可取的时间区间
+	 * 
+	 * @param analysisPlate
+	 * @return
+	 */
+	public ArrayList<Map<String, Object>> getTimeCondition(List<AnalysisPlate> analysisPlate) {
+		ArrayList<Map<String, Object>> timeCondition = new ArrayList<Map<String, Object>>();
 		// 记录整个栏目的频度信息
 		List<String> timeFreq = new ArrayList<String>();
 		// 此处顺序不能调换，关系到后面取最小粒度数据
@@ -144,7 +275,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 		}
 
-		ArrayList<Object> timeCondition = new ArrayList<Object>();
 		// 获取时间选择器区间，取指标的并集
 		for (int i = 0; i < timeFreq.size(); i++) {
 			String freqName = timeFreq.get(i);
@@ -153,7 +283,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 			for (int j = 0; j < analysisPlate.size(); j++) {
 				Integer pid = analysisPlate.get(j).getPlateId();
 				Integer showTerm = analysisPlate.get(j).getShowTerm();
-				System.out.println(showTerm);
 				List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
 				for (int k = 0; k < indiList.size(); k++) {
 					Map<String, Object> queryMap = new HashMap<String, Object>();
@@ -161,17 +290,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMap.put("indiCode", indiCode);
 					queryMap.put("freqName", freqName);
 					queryMap.put("showTerm", 999); // showTerm
-					System.out.println(queryMap.toString());
 					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
-
 					Set<String> timeSpanSet = new HashSet<String>(timeList);
 					timeSpanFinal.addAll(timeSpanSet);
-//					System.out.println(timeSpanFinal.toString());
 				}
 			}
 			List<String> timeList = new ArrayList<String>(timeSpanFinal);
-//			Collections.sort(timeList);
-			Collections.reverse(timeList);
+			Collections.sort(timeList);
 			switch (freqName) {
 			case "月度":
 				timeConditionMap.put("freqName", "月度");
@@ -187,19 +312,308 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 			timeConditionMap.put("startArray", timeList);
 			timeConditionMap.put("endArray", timeList);
+			// 添加默认选择的时间区间，只有最小粒度需要
+			if (i == 0) {
+				ArrayList<Integer> subIndex = new ArrayList<Integer>();
+				Integer currentLen = 8;
+				if (timeList.size() > currentLen) {
+					subIndex.add(timeList.size() - currentLen - 1);
+					subIndex.add(timeList.size() - 1);
+				} else if (timeList.size() < 1) {
+					subIndex.add(0);
+					subIndex.add(0);
+				} else {
+					subIndex.add(0);
+					subIndex.add(timeList.size() - 1);
+				}
+				timeConditionMap.put("current", subIndex);
+			}
 			timeCondition.add(timeConditionMap);
 		}
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		String indiCode = "PMI001;400:706501;363:706401;62:1";
-		String freqName = "月度";
-		queryMap.put("indiCode", indiCode);
-		queryMap.put("freqName", freqName);
-		queryMap.put("startTime", "2019/01");
-		queryMap.put("endTime", "2019/06");
-		List<AnalysisIndiValue> test = analysisMapper.getIndiValue(queryMap);
-		result.add(test);
-//		result.add(timeCondition);
-		return result;
+		return timeCondition;
+	}
+
+	@Override
+	public List<Object> getClassInfo(List<AnalysisPlate> analysisPlate, Map<String, Object> queryMap,
+			List<String> xAxis, List<String> timeList) {
+		List<Object> TotalList = new ArrayList<Object>();
+		for (int i = 0; i < analysisPlate.size(); i++) {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+			System.out.println("正在处理第" + i + "个版块数据:" + df.format(new Date()));
+			String id = String.valueOf(analysisPlate.get(i).getPlateId());// 板块id
+			String title = analysisPlate.get(i).getPlateName();// 板块名
+			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
+			switch (analysisPlate.get(i).getShowType()) {
+			case "折线图": {
+				System.out.println("进入折线图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				LineType lineType = new LineType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				TableType tableType = new TableType();
+				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue);
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(lineEntity);
+				TotalList.add(tableEntity);
+			}
+				break;
+			case "柱状图": {
+				System.out.println("进入柱状图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				BarType barType = new BarType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				TableType tableType = new TableType();
+				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue);
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(barEntity);
+				TotalList.add(tableEntity);
+			}
+				break;
+			case "雷达图": {
+				System.out.println("进入雷达图");
+				// 记录图例，此处为时间
+				// 分指标记录值
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				// 记录指标名
+				List<String> dataName = new ArrayList<String>();
+				// 记录以时间跨度的值
+				List<List<String>> dataByTime = new ArrayList<List<String>>();
+				RadarType radarType = new RadarType();
+				// 雷达图支取最近的三期数据进行展示
+				List<String> xAxisRadar = xAxis.subList(xAxis.size() - 3, xAxis.size());
+//				xAxis = xAxis.subList(xAxis.size() - 3, xAxis.size());
+				for (int j = 0; j < indiList.size(); j++) {
+					// 时间不与时间选择器进行关联
+					Map<String, Object> queryMap1 = new HashMap<String, Object>();
+					queryMap1.put("freqName", queryMap.get("freqName"));
+					queryMap1.put("startTime", queryMap.get("startTimeRadar"));
+					queryMap1.put("endTime", queryMap.get("endTimeRadar"));
+					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxisRadar.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxisRadar.contains(dataXTemp)) {
+							int index = xAxisRadar.indexOf(dataXTemp);
+							String indiValue = indiInfoList.get(m).getIndiValue();
+							dataIndiValue.set(index, indiValue);
+						}
+					}
+					dataValue.add(dataIndiValue);
+					dataName.add(indiList.get(j).getIndiName());
+				}
+				for (int k = 0; k < xAxisRadar.size(); k++) {
+					List<String> dataOfTime = new ArrayList<String>();
+					for (int n = 0; n < dataValue.size(); n++) {
+						List<String> dataTem = dataValue.get(n);
+						dataOfTime.add(dataTem.get(k));
+					}
+					dataByTime.add(dataOfTime);
+				}
+				RadarEntity radarEntity = radarType.getOption(id, title, xAxisRadar, dataName, dataValue, dataByTime);
+				TotalList.add(radarEntity);
+			}
+				break;
+			case "饼图": {
+				System.out.println("进入饼状图");
+				List<String> dataV = new ArrayList<String>();
+				List<String> legend = new ArrayList<String>();
+				PieType pieType = new PieType();
+				for (int j = 0; j < indiList.size(); j++) {
+					String indiName = indiList.get(j).getIndiName().toString();
+					// 饼状图只有一个指标，不用for循环
+					Map<String, Object> queryMapPie = new HashMap<String, Object>();
+					queryMapPie.put("freqName", queryMap.get("freqName"));
+					queryMapPie.put("startTime", queryMap.get("endTime"));
+					queryMapPie.put("endTime", queryMap.get("endTime"));
+					queryMapPie.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
+					String indiValue = "0";
+					if (indiInfoList.get(0) != null) {
+						indiValue = indiInfoList.get(0).getIndiValue();
+					}
+					legend.add(j, indiName);
+					dataV.add(j, indiValue);
+				}
+				PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+				TotalList.add(pieEntity);
+			}
+				break;
+			case "散点图": {
+				System.out.println("进入散点图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				PointType pointType = new PointType();
+				for (int j = 0; j < indiList.size(); j++) {
+					Map<String, Object> queryMap1 = new HashMap<String, Object>();
+					queryMap1.put("freqName", queryMap.get("freqName"));
+					queryMap1.put("startTime", queryMap.get("startTimePoint"));
+					queryMap1.put("endTime", queryMap.get("endTimePoint"));
+					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
+					List<String> dataIndiValue = Arrays.asList(new String[timeList.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (timeList.contains(dataXTemp)) {
+							int index = timeList.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				PointEntity pointEntity = pointType.getOption(id, title, legend, dataValue);
+				TotalList.add(pointEntity);
+			}
+				break;
+			case "折柱混搭图": {
+				System.out.println("进入折柱混搭图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				LineAndBarType lineAndBarType = new LineAndBarType();
+				for (int j = 0; j < indiList.size(); j++) {
+					String sType = indiList.get(j).getShowType();
+					showType.add(sType);
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+				}
+				TableType tableType = new TableType();
+				LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
+						showType);
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(lineAndBarEntity);
+				TotalList.add(tableEntity);
+			}
+				break;
+			case "柱状堆积图": {
+				System.out.println("进入柱状堆叠图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				BarStoreType barStoreType = new BarStoreType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					// 此处legend的值可能需要更改
+					legend.add(indiList.get(j).getIndiName());
+				}
+				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue);
+				TotalList.add(barStoreEntity);
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(tableEntity);
+			}
+				break;
+			case "柱状堆积折线图": {
+				System.out.println("进入柱状堆叠折线图");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				BarStackLineType barStackLineType = new BarStackLineType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+					showType.add(indiList.get(j).getShowType());
+				}
+				BarStackLineEntity barStackLineEntity = barStackLineType.getOption(id, title, xAxis, legend, dataValue,
+						showType);
+				TotalList.add(barStackLineEntity);
+
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(tableEntity);
+			}
+				break;
+			default:
+				break;
+			}
+		}
+		// TODO Auto-generated method stub
+		return TotalList;
+	}
+
+	public List<AnalysisPlate> getAnalysisPlate(int themeId) {
+		return analysisMapper.getAnalysisPlate(themeId);
+	}
+
+	public List<AnalysisIndi> getAnalysisIndi(int plateId) {
+		return analysisMapper.getIndiByPid(plateId);
 	}
 
 }
