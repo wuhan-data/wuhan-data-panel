@@ -168,7 +168,7 @@ public class TopicController {
 			TopicLineType lineType5 = new TopicLineType();
 			LineEntity lineEntity5 = lineType5.getOption("9", "湖北产业转型升级", dataX5, legendData5, dataV5,30,70);
 //第10部分
-			String cardText5 = topicService.getTopic1Card5_1()+"。";
+			String cardText5 = topicService.getTopic1Card5_1();
 			CardEntity cardEntity5 = new CardEntity("10", "新经济发展分析", "card", cardText5);
 //第11部分			
 			List<indi_TF> list6_1 = topicService.getValue6_1();
@@ -233,7 +233,7 @@ public class TopicController {
 				LineEntity lineEntity1 = lineType.getOption("1", "湖北省宏观预警指数变化趋势", dataX, legendData1, dataV,0,100);
 	
 	//第二部分-文字1
-				String cardText1 = topicService.getTopic2Card1_1()+"。";
+				String cardText1 = topicService.getTopic2Card1_1();
 				CardEntity cardEntity1 = new CardEntity("2", "宏观经济分析", "card", cardText1);
 	
 	//第三部分-图表2				
