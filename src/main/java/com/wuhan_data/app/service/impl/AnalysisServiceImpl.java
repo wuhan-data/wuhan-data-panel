@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
+import com.wuhan_data.app.mapper.CollectMapperApp;
 import com.wuhan_data.app.service.AnalysisService;
 import com.wuhan_data.app.showType.BarStackLineType;
 import com.wuhan_data.app.showType.BarStoreType;
@@ -38,12 +39,16 @@ import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
+import com.wuhan_data.pojo.Collect;
 
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
 
 	@Autowired
 	AnalysisMapper analysisMapper;
+
+	@Autowired
+	CollectMapperApp collectMapperApp;
 
 	@Override
 	public ArrayList<Object> getAnalysisList(int userId) {
@@ -81,9 +86,17 @@ public class AnalysisServiceImpl implements AnalysisService {
 			String indexName = subList.get(i).getThemeName().toString();
 			subListMap.put("indexId", indexId);
 			subListMap.put("indexName", indexName);
-			// TODO 从用户收藏表获取指标收藏信息
-
-			subListMap.put("isFavorite", false);
+			// 从用户收藏表获取指标收藏信息
+			Collect collect = new Collect();
+			collect.setType("经济分析");
+			collect.setIndex_id(indexId);
+			collect.setUid(userId);
+			List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
+			if (collectInfo.size() != 0) {
+				subListMap.put("isFavorite", true);
+			} else {
+				subListMap.put("isFavorite", false);
+			}
 			result.add(subListMap);
 		}
 		return result;
