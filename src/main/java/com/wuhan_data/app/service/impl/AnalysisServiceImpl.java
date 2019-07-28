@@ -159,6 +159,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 		if (analysisPlate.size() == 0) {
 			return result;
 		}
+		Map<String, Object> baseInfo = new HashMap<String, Object>();
+		baseInfo.put("indexId", themeId);
+		// TODO 根据themeId查询analysis_theme表中的type_name/theme_name
+		baseInfo.put("indexName", "");
+		baseInfo.put("source", "");
+		// TODO 根据userId/type/indexId查询收藏信息
+		baseInfo.put("isFavorite", false);
+
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
 		// 获取时间可取区间数据
 		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
@@ -193,6 +201,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		// 查询指标数据并绘制图形
 		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
 		System.out.println("指标数据查询绘制成功:" + df.format(new Date()));
+		result.put("baseInfo", baseInfo);
 		result.put("timeCondition", timeCondition);
 		result.put("classInfo", classInfo);
 
