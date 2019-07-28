@@ -49,6 +49,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 	@Autowired
 	CollectMapperApp collectMapperApp;
+	
+	
+	
 
 	@Override
 	public ArrayList<Object> getAnalysisList(int userId) {
@@ -150,7 +153,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 	/**
 	 * 获取初始化版块数据
 	 */
-	public Map<String, Object> initAnalysisPlate(int themeId) {
+	public Map<String, Object> initAnalysisPlate(int themeId, int userId) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 		System.out.println("开始初始化数据:" + df.format(new Date()));// new Date()为获取当前系统时间
@@ -159,13 +162,26 @@ public class AnalysisServiceImpl implements AnalysisService {
 		if (analysisPlate.size() == 0) {
 			return result;
 		}
+		List<Collect> baseInfoList=analysisMapper.getBaseInfo(themeId);
+		String indexName=baseInfoList.get(0).getIndex_name();
+		String source=baseInfoList.get(0).getType();
 		Map<String, Object> baseInfo = new HashMap<String, Object>();
 		baseInfo.put("indexId", themeId);
 		// TODO 根据themeId查询analysis_theme表中的type_name/theme_name
-		baseInfo.put("indexName", "");
-		baseInfo.put("source", "");
+		Collect collect = new Collect();
+		collect.setType("经济分析");
+		collect.setIndex_id(String.valueOf(themeId));
+		collect.setUid(userId);
+		baseInfo.put("indexName", indexName);
+		baseInfo.put("source", source);
+		List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
+		if (collectInfo.size() != 0) {
+			baseInfo.put("isFavorite", true);
+		} else {
+			baseInfo.put("isFavorite", false);
+		}
 		// TODO 根据userId/type/indexId查询收藏信息
-		baseInfo.put("isFavorite", false);
+		
 
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
 		// 获取时间可取区间数据
