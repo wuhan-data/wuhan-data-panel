@@ -478,4 +478,116 @@ public class TopicServiceImple implements TopicService {
 		return topicMapper.getTopic3Value5_1();
 	}
 
+
+
+	@Override
+	public List<indi_TF> getTopic4Value1_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value1_1();
+	}
+
+
+
+	@Override
+	public String getTopic4Card1_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Card1_1();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value2_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value2_1();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value2_2() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value2_2();
+	}
+
+
+
+	@Override
+	public String getTopic4Card2_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Card2_1();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value3_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value3_1();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value3_2() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value3_2();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value3_3() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value3_3();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value3_4() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value3_4();
+	}
+
+
+
+	@Override
+	public String getTopic4Card3_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Card3_1();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value4_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value4_1();
+	}
+
+
+
+	@Override
+	public String getTopic4Card4_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Card4_1();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value51_1() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value51_1();
+	}
+
+
+
+	@Override
+	public List<indi_TF> getTopic4Value51_2() {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopic4Value51_2();
+	}
+
 }
