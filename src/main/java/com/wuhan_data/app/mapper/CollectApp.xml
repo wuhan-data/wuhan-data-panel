@@ -10,6 +10,10 @@
         <delete id="delete" parameterType="Collect" >
             delete from WUHAN_DATA.Collect where id= #{id}  
         </delete>
+         <delete id="deleteByUidTypeIndex" parameterType="Collect" >
+            delete from WUHAN_DATA.Collect where uid= #{uid} and   index_id=#{index_id} and type=#{type}
+        </delete>
+        
          
         <select id="get" parameterType="_int" resultType="Collect">
             select * from   WUHAN_DATA.Collect  where id= #{id}   
@@ -28,6 +32,9 @@
         
         <select id="count" resultType="int">
         	select count(*) from WUHAN_DATA.Collect  
+        </select>
+         <select id="IsExist" parameterType="Collect" resultType="int">
+            select count(*) from   WUHAN_DATA.Collect  where uid= #{uid} and index_id=#{index_id} and type=#{type}   
         </select>
 
        

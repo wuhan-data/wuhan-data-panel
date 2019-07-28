@@ -56,4 +56,16 @@ public class CollectServiceAppImpl implements CollectServiceApp{
 		return collectMapperApp.getByUid(uid);
 	}
 
+	@Override
+	public int deleteByUidTypeIndex(Collect collect) {
+		// TODO Auto-generated method stub
+		return collectMapperApp.deleteByUidTypeIndex(collect);
+	}
+
+	@Override
+	public int IsExist(Collect collect) {
+		// TODO Auto-generated method stub
+		return collectMapperApp.IsExist(collect);
+	}
+
 }

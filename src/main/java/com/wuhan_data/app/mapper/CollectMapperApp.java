@@ -20,5 +20,9 @@ public interface CollectMapperApp {
 	public int count();
 	@DataSource(value="dataSource_mysql")
 	public List<Collect> getByUid(int uid);
-
+	@DataSource(value="dataSource_mysql")
+	public int  deleteByUidTypeIndex(Collect collect);
+	@DataSource(value="dataSource_mysql")
+	public int  IsExist(Collect collect);
+	
 }

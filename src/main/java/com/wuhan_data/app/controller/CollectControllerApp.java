@@ -35,6 +35,65 @@ public class CollectControllerApp {
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
 	
+	@RequestMapping(value="delCollectApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+	@ResponseBody
+	public String delCollect(HttpServletRequest request, 
+            HttpServletResponse response,@RequestBody String json) throws Exception
+	{
+		Map data=new HashMap();
+		JSONObject jsonObject =JSONObject.fromObject(json); 
+	  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
+	  	//请求参数获取
+	  	String tokenString="";
+	  	String typeString="";
+	  	String indexIdString="";
+		try {
+	  		tokenString=mapget.get("token").toString();
+		  	typeString=mapget.get("type").toString();
+		  	indexIdString=mapget.get("indexId").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-2", "请求参数错误", data);
+		}
+		 //token令牌验证
+	  	Boolean tokenIsEmpty=true;
+	  	try {
+			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return this.apiReturn("-1", "数据库异常", data);
+		}  	
+	  	if(tokenIsEmpty)
+	  	{
+	  		return this.apiReturn("-3", "token令牌错误", data);
+	  	}
+	  	else {
+	  		try {
+	  			String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+		  		Map map=StringToMap.stringToMap(mapString);
+		  		int uid=Integer.valueOf((String)map.get("userId"));
+		  		Collect collect=new Collect();
+				collect.setUid(uid);
+				collect.setType(typeString);
+				collect.setIndex_id(indexIdString);
+				if (collectServiceApp.deleteByUidTypeIndex(collect)!=0)
+				{
+					return this.apiReturn("0", "取消收藏成功", data);
+				}
+				else {
+					return this.apiReturn("-2", "取消收藏失败", data);
+					
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据库操作异常", data);
+			}		
+	  		
+	  	}
+		
+		
+	}
+	
 	@RequestMapping(value="setCollectApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
 	public String setCollect(HttpServletRequest request, 
@@ -66,6 +125,7 @@ public class CollectControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -84,14 +144,20 @@ public class CollectControllerApp {
 				collect.setIndex_name(indexNameString);
 				collect.setIndi_source(sourceString);
 				collect.setCreate_time(new Date());
-				if (collectServiceApp.add(collect)!=0)
+				if(collectServiceApp.IsExist(collect)!=0)
 				{
-					return this.apiReturn("0", "收藏成功", data);
+					return this.apiReturn("-2", "已经收藏", data);
 				}
 				else {
-					return this.apiReturn("-2", "收藏失败", data);
-					
+					if (collectServiceApp.add(collect)!=0)
+					{
+						return this.apiReturn("0", "收藏成功", data);
+					}
+					else {
+						return this.apiReturn("-2", "收藏失败", data);		
+					}
 				}
+				
 			} catch (Exception e) {
 				// TODO: handle exception
 				return this.apiReturn("-1", "数据库操作异常", data);
