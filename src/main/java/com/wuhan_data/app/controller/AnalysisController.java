@@ -16,8 +16,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.AnalysisService;
 import com.wuhan_data.app.service.PlateInfoService;
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisPlate;
+import com.wuhan_data.tools.StringToMap;
 
 @Controller
 @RequestMapping("")
@@ -27,6 +29,8 @@ public class AnalysisController {
 	AnalysisService analysisService;
 	@Autowired
 	PlateInfoService plateInfoService;
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
 
 	@RequestMapping(value = "getAnalysisList", produces = "text/plain;charset=utf-8")
 	@ResponseBody
@@ -37,15 +41,28 @@ public class AnalysisController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
-			userId = 1;
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
+		}
+
+		try {
+			if (!token.equals("")) {
+				String mapString = sessionSQLServiceApp.get(token).getSess_value();
+				Map map = StringToMap.stringToMap(mapString);
+				userId= Integer.valueOf((String) map.get("userId"));
+			}
+		} catch (Exception e) {
+//			return this.apiReturn("-1", "无效的token令牌", data);
 		}
 
 		// 获取经济分析栏目列表数据
 		ArrayList<Object> analysisList = new ArrayList<Object>();
 
+
 //		try {
+
+		try {
+
 			analysisList = analysisService.getAnalysisList(userId);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);

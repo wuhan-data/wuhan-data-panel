@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.AnalysisMapper;
+import com.wuhan_data.app.mapper.CollectMapperApp;
 import com.wuhan_data.app.service.AnalysisService;
 import com.wuhan_data.app.showType.BarStackLineType;
 import com.wuhan_data.app.showType.BarStoreType;
@@ -38,12 +39,16 @@ import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
+import com.wuhan_data.pojo.Collect;
 
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
 
 	@Autowired
 	AnalysisMapper analysisMapper;
+
+	@Autowired
+	CollectMapperApp collectMapperApp;
 
 	@Override
 	public ArrayList<Object> getAnalysisList(int userId) {
@@ -81,9 +86,17 @@ public class AnalysisServiceImpl implements AnalysisService {
 			String indexName = subList.get(i).getThemeName().toString();
 			subListMap.put("indexId", indexId);
 			subListMap.put("indexName", indexName);
-			// TODO 从用户收藏表获取指标收藏信息
-
-			subListMap.put("isFavorite", false);
+			// 从用户收藏表获取指标收藏信息
+			Collect collect = new Collect();
+			collect.setType("经济分析");
+			collect.setIndex_id(indexId);
+			collect.setUid(userId);
+			List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
+			if (collectInfo.size() != 0) {
+				subListMap.put("isFavorite", true);
+			} else {
+				subListMap.put("isFavorite", false);
+			}
 			result.add(subListMap);
 		}
 		return result;
@@ -146,6 +159,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 		if (analysisPlate.size() == 0) {
 			return result;
 		}
+		Map<String, Object> baseInfo = new HashMap<String, Object>();
+		baseInfo.put("indexId", themeId);
+		// TODO 根据themeId查询analysis_theme表中的type_name/theme_name
+		baseInfo.put("indexName", "");
+		baseInfo.put("source", "");
+		// TODO 根据userId/type/indexId查询收藏信息
+		baseInfo.put("isFavorite", false);
+
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
 		// 获取时间可取区间数据
 		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
@@ -176,11 +197,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 		queryMap.put("endTime", endTime);
 		queryMap.put("endTimeRadar", endTimeRadar);
 		queryMap.put("endTimePoint", endTimePoint);
-		System.out.println("查询语句构建成功:" + df.format(new Date()));
 
 		// 查询指标数据并绘制图形
 		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
 		System.out.println("指标数据查询绘制成功:" + df.format(new Date()));
+		result.put("baseInfo", baseInfo);
 		result.put("timeCondition", timeCondition);
 		result.put("classInfo", classInfo);
 
@@ -249,6 +270,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 	 */
 	public ArrayList<Map<String, Object>> getTimeCondition(List<AnalysisPlate> analysisPlate) {
 		ArrayList<Map<String, Object>> timeCondition = new ArrayList<Map<String, Object>>();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+
 		// 记录整个栏目的频度信息
 		List<String> timeFreq = new ArrayList<String>();
 		// 此处顺序不能调换，关系到后面取最小粒度数据
@@ -274,6 +297,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 			}
 		}
+		System.out.println("时间频度数据获取成功:" + df.format(new Date()));
 
 		// 获取时间选择器区间，取指标的并集
 		for (int i = 0; i < timeFreq.size(); i++) {
@@ -329,6 +353,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				timeConditionMap.put("current", subIndex);
 			}
 			timeCondition.add(timeConditionMap);
+			System.out.println(freqName + "时间频度区间成功:" + df.format(new Date()));
 		}
 		return timeCondition;
 	}
