@@ -107,6 +107,22 @@
 		INDI_CODE = #{indiCode}
 	</select>
 
+	<select id="getTimeByFreq"
+		resultType="com.wuhan_data.pojo.AnalysisIndiTime"
+		parameterType="java.util.Map">
+		SELECT DISTINCT
+		INDI_CODE as indiCode,
+		FREQ_NAME as
+		freqName,
+		START_TIME as startTime,
+		END_TIME as endTime
+		FROM
+		"MIDUSER"."APP_ANALYSIS_INDI_TIME"
+		WHERE
+		INDI_CODE = #{indiCode},
+		FREQ_NAME = #{freqName}
+	</select>
+
 	<!-- 获取指标指定频度的时间跨度 -->
 	<select id="getTimeByFreqname" resultType="String"
 		parameterType="java.util.Map">
