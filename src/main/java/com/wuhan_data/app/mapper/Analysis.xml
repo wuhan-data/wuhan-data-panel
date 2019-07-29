@@ -119,7 +119,7 @@
 		FROM
 		"MIDUSER"."APP_ANALYSIS_INDI_TIME"
 		WHERE
-		INDI_CODE = #{indiCode},
+		INDI_CODE = #{indiCode} AND
 		FREQ_NAME = #{freqName}
 	</select>
 
