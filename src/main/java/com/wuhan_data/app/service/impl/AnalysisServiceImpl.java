@@ -223,24 +223,18 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
+		System.out.println("开始初始化数据:" + df.format(new Date()));// new Date()为获取当前系统时间
 		// 获取版块信息
 		List<AnalysisPlate> analysisPlate = analysisMapper.getAnalysisPlate(themeId);
 		if (analysisPlate.size() == 0) {
 			return result;
 		}
-
-		// 获取时间可取区间数据
-		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
-		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
-		if (timeCondition.toString().equals(errorTimeCondition)) {
-			return result;
-		}
-
+		System.out.println("版块数据获取成功:" + df.format(new Date()));
 		// 构建查询条件
-		Map<String, Object> freqObject = timeCondition.get(0);
-		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
-		List<String> startTimeList = (List<String>) freqObject.get("startArray");
-		List<String> endTimeList = (List<String>) freqObject.get("endArray");
+		List<String> startTimeList = this.fillTimeList(freqName, startTime, endTime);
+		List<String> endTimeList = this.fillTimeList(freqName, startTime, endTime);
+		System.out.println("时间区间数据获取成功:" + df.format(new Date()));
 		// 根据起始时间结束时间设置x轴
 		Integer startFlag = 0;
 		Integer endFlag = 0;
@@ -269,7 +263,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 		// 查询指标数据并绘制图形
 		List<Object> classInfo = this.getClassInfo(analysisPlate, queryMap, xAxis, startTimeList);
-
+		System.out.println("指标数据查询绘制成功:" + df.format(new Date()));
 		result.put("classInfo", classInfo);
 
 		return result;
