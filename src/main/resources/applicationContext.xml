@@ -1,174 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xsi:schemaLocation="
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
      http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-     
-   <context:annotation-config />
-    <context:component-scan base-package="com.wuhan_data.service" />
- 	 <context:component-scan base-package="com.wuhan_data.app.service" />
- 	 
-    <bean id="dataSource_dm" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-      <property name="driverClassName"> 
-<!--           <value>com.mysql.jdbc.Driver</value>  -->
-          <value>dm.jdbc.driver.DmDriver</value> 
-      </property> 
-      <property name="url"> 
-<!--          <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value>   -->
-     	<value>jdbc:dm://localhost:5236/WUHAN_DATA?characterEncoding=UTF-8</value>
-      </property> 
-      <property name="username"> 
-          <value>SYSDBA</value> 
-      </property> 
-      <property name="password"> 
-          <value>123456</value> 
-      </property>    
-    </bean>
-    
-    
-    
-    
-   	<!--  配置第二个数据库 -->
-    <!-- 连接本地MySQL数据库。-->
-    <bean id="dataSource_mysql" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-      <property name="driverClassName"> 
-<!--          <value>com.mysql.jdbc.Driver</value>  -->
-				<value>dm.jdbc.driver.DmDriver</value> 
-      </property> 
-      <property name="url"> 
-<!--          <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value>    -->
-			<value>jdbc:dm://59.208.244.49:5236/MIDUSER?characterEncoding=UTF-8</value>
-      </property> 
-	 <property name="username"> 
-          <value>MIDUSER</value> 
-      </property> 
-      <property name="password"> 
-          <value>hbpassword</value> 
-      </property>   
-    </bean>
-    
-     <!-- 连接59.208.244.49App数据库。-->
-    <bean id="dataSource_app_sjjg" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-      <property name="driverClassName"> 
-<!--          <value>com.mysql.jdbc.Driver</value>  -->
-				<value>dm.jdbc.driver.DmDriver</value> 
-      </property> 
-      <property name="url"> 
-<!--          <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value>    -->
-			<value>jdbc:dm://59.208.244.49:5240/[SJJG][CJCL_1921681237_1521_YTB_GJ]?characterEncoding=UTF-8</value>
-      </property> 
-	 <property name="username"> 
-          <value>APP</value> 
-      </property> 
-      <property name="password"> 
-          <value>APPPASSWORD</value> 
-      </property>   
-    </bean>
-    
-    <bean id="dataSource_app_cjcl" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-      <property name="driverClassName"> 
-<!--          <value>com.mysql.jdbc.Driver</value>  -->
-				<value>dm.jdbc.driver.DmDriver</value> 
-      </property> 
-      <property name="url"> 
-<!--          <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value>    -->
-			<value>jdbc:dm://59.208.244.49:5240/CJCL_1921681237_1521_YTB_GJ?characterEncoding=UTF-8</value>
-      </property> 
-	 <property name="username"> 
-          <value>APP</value> 
-      </property> 
-      <property name="password"> 
-          <value>APPPASSWORD</value> 
-      </property>   
-    </bean>
-    
-    <bean id="dataSource_app_plateform1" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-      <property name="driverClassName"> 
-<!--          <value>com.mysql.jdbc.Driver</value>  -->
-				<value>dm.jdbc.driver.DmDriver</value> 
-      </property> 
-      <property name="url"> 
-<!--          <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value>    -->
-			<value>jdbc:dm://59.208.244.49:5236/PLATFORM1?characterEncoding=UTF-8</value>
-      </property> 
-	 <property name="username"> 
-          <value>MIDUSER</value> 
-      </property> 
-      <property name="password"> 
-          <value>hbpassword</value> 
-      </property>   
-    </bean>
-    
-   
-    <!-- 下面的是切换数据库的自定义类 -->
-	<bean id="dataSource" class="com.wuhan_data.tools.MultipleDataSource">
-	<!-- 默认使用DM7数据库 -->
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.wuhan_data.service" />
+	<context:component-scan
+		base-package="com.wuhan_data.app.service" />
+
+	<bean id="dataSource_dm"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<!-- <value>com.mysql.jdbc.Driver</value> -->
+			<value>dm.jdbc.driver.DmDriver</value>
+		</property>
+		<property name="url">
+			<!-- <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value> -->
+			<value>jdbc:dm://localhost:5236/WUHAN_DATA?characterEncoding=UTF-8
+			</value>
+		</property>
+		<property name="username">
+			<value>SYSDBA</value>
+		</property>
+		<property name="password">
+			<value>123456</value>
+		</property>
+	</bean>
+
+
+
+
+	<!-- 配置第二个数据库 -->
+	<!-- 连接本地MySQL数据库。 -->
+	<bean id="dataSource_mysql"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<!-- <value>com.mysql.jdbc.Driver</value> -->
+			<value>dm.jdbc.driver.DmDriver</value>
+		</property>
+		<property name="url">
+			<!-- <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value> -->
+			<value>jdbc:dm://59.208.244.49:5236/MIDUSER?characterEncoding=UTF-8
+			</value>
+		</property>
+		<property name="username">
+			<value>MIDUSER</value>
+		</property>
+		<property name="password">
+			<value>hbpassword</value>
+		</property>
+	</bean>
+
+	<!-- 连接59.208.244.49App数据库。 -->
+	<bean id="dataSource_app_sjjg"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<!-- <value>com.mysql.jdbc.Driver</value> -->
+			<value>dm.jdbc.driver.DmDriver</value>
+		</property>
+		<property name="url">
+			<!-- <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value> -->
+			<value>jdbc:dm://59.208.244.49:5240/[SJJG][CJCL_1921681237_1521_YTB_GJ]?characterEncoding=UTF-8
+			</value>
+		</property>
+		<property name="username">
+			<value>APP</value>
+		</property>
+		<property name="password">
+			<value>APPPASSWORD</value>
+		</property>
+	</bean>
+
+	<bean id="dataSource_app_cjcl"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<!-- <value>com.mysql.jdbc.Driver</value> -->
+			<value>dm.jdbc.driver.DmDriver</value>
+		</property>
+		<property name="url">
+			<!-- <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value> -->
+			<value>jdbc:dm://59.208.244.49:5240/CJCL_1921681237_1521_YTB_GJ?characterEncoding=UTF-8
+			</value>
+		</property>
+		<property name="username">
+			<value>APP</value>
+		</property>
+		<property name="password">
+			<value>APPPASSWORD</value>
+		</property>
+	</bean>
+
+	<bean id="dataSource_app_plateform1"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<!-- <value>com.mysql.jdbc.Driver</value> -->
+			<value>dm.jdbc.driver.DmDriver</value>
+		</property>
+		<property name="url">
+			<!-- <value>jdbc:mysql://localhost:3306/wuhan_data?characterEncoding=UTF-8</value> -->
+			<value>jdbc:dm://59.208.244.49:5236/PLATFORM1?characterEncoding=UTF-8
+			</value>
+		</property>
+		<property name="username">
+			<value>MIDUSER</value>
+		</property>
+		<property name="password">
+			<value>hbpassword</value>
+		</property>
+	</bean>
+
+
+	<!-- 下面的是切换数据库的自定义类 -->
+	<bean id="dataSource"
+		class="com.wuhan_data.tools.MultipleDataSource">
+		<!-- 默认使用DM7数据库 -->
 		<property name="defaultTargetDataSource" ref="dataSource_dm"></property>
 		<property name="targetDataSources">
 			<map>
 				<entry key="dataSource_dm" value-ref="dataSource_dm"></entry>
 				<entry key="dataSource_mysql" value-ref="dataSource_mysql"></entry>
-				<entry key="dataSource_app_sjjg" value-ref="dataSource_app_sjjg"></entry>
-				<entry key="dataSource_app_cjcl" value-ref="dataSource_app_cjcl"></entry>
-				<entry key="dataSource_app_plateform1" value-ref="dataSource_app_plateform1"></entry>
+				<entry key="dataSource_app_sjjg"
+					value-ref="dataSource_app_sjjg"></entry>
+				<entry key="dataSource_app_cjcl"
+					value-ref="dataSource_app_cjcl"></entry>
+				<entry key="dataSource_app_plateform1"
+					value-ref="dataSource_app_plateform1"></entry>
 			</map>
 		</property>
 	</bean>
-	<!--  配置第二个数据库结束 -->
-    
-    
-    
-    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="typeAliasesPackage" value="com.wuhan_data.pojo" />
-        <property name="dataSource" ref="dataSource"/>
-<!--         <property name="mapperLocations" value="classpath:com/wuhan_data/mapper/*.xml"/> -->
+	<!-- 配置第二个数据库结束 -->
+
+
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="typeAliasesPackage"
+			value="com.wuhan_data.pojo" />
+		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="mapperLocations" value="classpath:com/wuhan_data/mapper/*.xml"/> -->
 		<property name="mapperLocations">
-        	<array>
-                <value>classpath:com/wuhan_data/mapper/*.xml</value>
-                <value>classpath:com/wuhan_data/app/mapper/*.xml</value>
-         	</array>     
-         </property>
-        
-    </bean>
-    
-    <!--  配置第二个数据库 -->
-     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			<array>
+				<value>classpath:com/wuhan_data/mapper/*.xml</value>
+				<value>classpath:com/wuhan_data/app/mapper/*.xml</value>
+			</array>
+		</property>
+
+	</bean>
+
+	<!-- 配置第二个数据库 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!-- p:basePackage="com.wuhan_data.mapper" p:sqlSessionFactoryBeanName="sqlSession"> -->
-		 <property name="basePackage" value="com.wuhan_data.mapper,com.wuhan_data.app.mapper"/>
- 		<property name="sqlSessionFactoryBeanName" value="sqlSession"/>
-	</bean> 
- 
+		<property name="basePackage"
+			value="com.wuhan_data.mapper,com.wuhan_data.app.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSession" />
+	</bean>
+
 	<bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
- 
-	<tx:annotation-driven transaction-manager="txManager" />
+
+	<tx:annotation-driven
+		transaction-manager="txManager" />
 	<!-- 切面 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-	<bean id="dataSourceAspect" class="com.wuhan_data.tools.DataSourceAspect"></bean>
-		<aop:config>
-			<aop:aspect ref="dataSourceAspect">
-				<!-- 拦截所有service方法，在dao层添加注解 -->
-<!-- 				<aop:pointcut expression="execution(* com.wuhan_data.mapper..*.*(..))" id="dataSourcePointcut"/> -->
-				<aop:pointcut expression="(execution(* com.wuhan_data.mapper..*.*(..))) or (execution(* com.wuhan_data.app.mapper..*.*(..)))" id="dataSourcePointcut"/>
-				<aop:before method="intercept" pointcut-ref="dataSourcePointcut"/>
-			</aop:aspect>
-		</aop:config>
-	<!--  配置第二个数据库结束 -->
-    
-    
- 
-   <!--  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.wuhan_data.mapper"/>
-    </bean> -->
-     
+	<bean id="dataSourceAspect"
+		class="com.wuhan_data.tools.DataSourceAspect"></bean>
+	<aop:config>
+		<aop:aspect ref="dataSourceAspect">
+			<!-- 拦截所有service方法，在dao层添加注解 -->
+			<!-- <aop:pointcut expression="execution(* com.wuhan_data.mapper..*.*(..))" 
+				id="dataSourcePointcut"/> -->
+			<aop:pointcut
+				expression="(execution(* com.wuhan_data.mapper..*.*(..))) or (execution(* com.wuhan_data.app.mapper..*.*(..)))"
+				id="dataSourcePointcut" />
+			<aop:before method="intercept"
+				pointcut-ref="dataSourcePointcut" />
+		</aop:aspect>
+	</aop:config>
+	<!-- 配置第二个数据库结束 -->
+
+
+
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> <property 
+		name="basePackage" value="com.wuhan_data.mapper"/> </bean> -->
+
 </beans>
