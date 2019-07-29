@@ -27,12 +27,12 @@ public interface CollectMapperApp {
 	@DataSource(value = "dataSource_dm")
 	public List<Collect> getByUid(int uid);
 
-	@DataSource(value = "dataSource_mysql")
+	@DataSource(value = "dataSource_dm")
 	public List<Integer> getTypeCollect(Collect collect);
 
 	public int deleteByUidTypeIndex(Collect collect);
 
-	@DataSource(value = "dataSource_mysql")
+	@DataSource(value = "dataSource_dm")
 	public int IsExist(Collect collect);
 
 }

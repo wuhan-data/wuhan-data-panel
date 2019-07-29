@@ -29,7 +29,7 @@
           <value>SYSDBA</value> 
       </property> 
       <property name="password"> 
-          <value>app123456</value> 
+          <value>123456</value> 
       </property>    
     </bean>
     
