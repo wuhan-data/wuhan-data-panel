@@ -24,7 +24,7 @@ public interface AnalysisMapper {
 	public List<AnalysisIndi> getIndiByPid(int plateId); // 查询指定版块下的所有指标配置项
 
 	@DataSource(value = "dataSource_dm")
-	public List<Collect> getBaseInfo(Integer themeId);
+	public List<AnalysisTheme> getThemeBaseInfo(Integer themeId);
 
 	@DataSource(value = "dataSource_mysql")
 	public List<String> getFreqnameByIndicode(String indiCode); // 根据指标code查询所有可取的频度数据
