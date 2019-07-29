@@ -160,18 +160,18 @@ public class AnalysisServiceImpl implements AnalysisService {
 			return result;
 		}
 		// 根据themeId查询analysis_theme表中的信息
-		List<Collect> baseInfoList = analysisMapper.getBaseInfo(themeId);
-		String indexName = baseInfoList.get(0).getIndex_name();
-		String source = baseInfoList.get(0).getType();
+		List<AnalysisTheme> baseInfoList = analysisMapper.getThemeBaseInfo(themeId);
+		String indexName = baseInfoList.get(0).getThemeName();
+		String source = baseInfoList.get(0).getListName();
 		Map<String, Object> baseInfo = new HashMap<String, Object>();
 		baseInfo.put("indexId", themeId);
+		baseInfo.put("indexName", indexName);
+		baseInfo.put("source", source);
 		// 根据userId/type/indexId查询收藏信息
 		Collect collect = new Collect();
 		collect.setType("经济分析");
 		collect.setIndex_id(String.valueOf(themeId));
 		collect.setUid(userId);
-		baseInfo.put("indexName", indexName);
-		baseInfo.put("source", source);
 		List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
 		if (collectInfo.size() != 0) {
 			baseInfo.put("isFavorite", true);

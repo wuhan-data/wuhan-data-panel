@@ -15,7 +15,7 @@
 		WHERE
 		is_show = 0 OR
 		is_show = 9
-		
+
 	</select>
 
 	<select id="getAnalysisSubList"
@@ -34,6 +34,20 @@
 		is_show = 9)
 	</select>
 
+	<select id="getThemeBaseInfo"
+		resultType="com.wuhan_data.pojo.AnalysisTheme" parameterType="int">
+		SELECT
+		theme_id as themeId,
+		theme_name as themeName,
+		type_name as listName,
+		is_show as isShow
+		FROM
+		WUHAN_DATA."ANALYSIS_THEME"
+		WHERE
+		theme_id =
+		#{theme}
+	</select>
+
 	<!-- TODO 查询指定INDI_NAME的最新指标描述数据 -->
 
 	<select id="getAnalysisPlate"
@@ -48,10 +62,12 @@
 		a.is_show as isShow
 		FROM
 		WUHAN_DATA."ANALYSIS_PLATE" a
-		INNER JOIN WUHAN_DATA."ANALYSIS_THEME" b
+		INNER JOIN
+		WUHAN_DATA."ANALYSIS_THEME" b
 		ON a.theme_id=b.theme_id
 		WHERE
-		a.theme_id = #{themeId} AND
+		a.theme_id =
+		#{themeId} AND
 		a.is_show = 0
 		ORDER BY
 		plate_id ASC
@@ -66,7 +82,8 @@
 		search_indi_id as indiCode,
 		indi_new_name as indiName,
 		show_type as showType,
-		show_color as showColor,
+		show_color as
+		showColor,
 		indi_weight as indiWeight,
 		is_show as
 		isShow
@@ -78,7 +95,7 @@
 		ORDER BY
 		indi_weight DESC
 	</select>
-	
+
 	<!-- 获取指标的所有可取频度(物化视图) -->
 	<select id="getFreqnameByIndicode" resultType="String"
 		parameterType="String">
@@ -93,8 +110,8 @@
 	<!-- 获取指标指定频度的时间跨度 -->
 	<select id="getTimeByFreqname" resultType="String"
 		parameterType="java.util.Map">
-<!-- 		select "INDI_CODE","FREQ_NAME","INDI_TIME","TIME_POINT","INDI_VALUE","UNIT_NAME"
-from "MIDUSER"."APP_ANALYSIS_INDI_VALUE"; -->
+		<!-- select "INDI_CODE","FREQ_NAME","INDI_TIME","TIME_POINT","INDI_VALUE","UNIT_NAME" 
+			from "MIDUSER"."APP_ANALYSIS_INDI_VALUE"; -->
 		SELECT
 		INDI_TIME as time
 		FROM
@@ -103,11 +120,13 @@ from "MIDUSER"."APP_ANALYSIS_INDI_VALUE"; -->
 		INDI_CODE = #{indiCode} AND
 		FREQ_NAME = #{freqName}
 		ORDER BY
-		INDI_TIME DESC
+		INDI_TIME
+		DESC
 	</select>
-	
 
-	<select id="getIndiValue" resultType="com.wuhan_data.pojo.AnalysisIndiValue"
+
+	<select id="getIndiValue"
+		resultType="com.wuhan_data.pojo.AnalysisIndiValue"
 		parameterType="java.util.Map">
 		SELECT
 		INDI_CODE as indiCode,
@@ -121,12 +140,13 @@ from "MIDUSER"."APP_ANALYSIS_INDI_VALUE"; -->
 		WHERE
 		INDI_CODE = #{indiCode} AND
 		FREQ_NAME = #{freqName} AND
-		INDI_TIME &gt;= #{startTime} AND
+		INDI_TIME &gt;=
+		#{startTime} AND
 		INDI_TIME &lt;= #{endTime}
 		ORDER BY
 		INDI_TIME DESC
 	</select>
-	
+
 
 
 </mapper>
