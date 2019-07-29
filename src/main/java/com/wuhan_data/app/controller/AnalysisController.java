@@ -49,21 +49,17 @@ public class AnalysisController {
 			if (!token.equals("")) {
 				String mapString = sessionSQLServiceApp.get(token).getSess_value();
 				Map map = StringToMap.stringToMap(mapString);
-				userId= Integer.valueOf((String) map.get("userId"));
+				userId = Integer.valueOf((String) map.get("userId"));
 			}
 		} catch (Exception e) {
-//			return this.apiReturn("-1", "无效的token令牌", data);
+			System.out.println("无效的token令牌");
 		}
 
 		// 获取经济分析栏目列表数据
 		ArrayList<Object> analysisList = new ArrayList<Object>();
 
-
 //		try {
-
-		try {
-
-			analysisList = analysisService.getAnalysisList(userId);
+		analysisList = analysisService.getAnalysisList(userId);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}
@@ -77,7 +73,8 @@ public class AnalysisController {
 	public String getAnalysisDetail(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String token = "";
-		int indexId = 0;
+		Integer indexId = 0;
+		Integer userId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			System.out.println(requestObject.toString());
@@ -93,9 +90,20 @@ public class AnalysisController {
 		}
 
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
+
+		try {
+			if (!token.equals("")) {
+				String mapString = sessionSQLServiceApp.get(token).getSess_value();
+				Map map = StringToMap.stringToMap(mapString);
+				userId = Integer.valueOf((String) map.get("userId"));
+			}
+		} catch (Exception e) {
+			System.out.println("无效的token令牌");
+		}
+
 //		try {
-			// 获取栏目下的版块信息
-			analysisPlate = analysisService.initAnalysisPlate(indexId);
+		// 获取栏目下的版块信息
+		analysisPlate = analysisService.initAnalysisPlate(indexId, userId);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}
