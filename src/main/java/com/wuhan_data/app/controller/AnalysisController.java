@@ -217,4 +217,25 @@ public class AnalysisController {
 		return this.apiReturn("0", "数据获取成功", result);
 	}
 
+	@RequestMapping(value = "fillTimeList", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String fillTimeList(@RequestBody String resquestParams) {
+		JSONObject requestObject = JSONObject.parseObject(resquestParams);
+		String freqName = "";
+		String startTime = "";
+		String endTime = "";
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			freqName = requestObject.get("freqName").toString();
+			startTime = requestObject.get("startTime").toString();
+			endTime = requestObject.get("endTime").toString();
+		} catch (Exception e) {
+			return this.apiReturn("-1", "参数获取异常", data);
+		}
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<String> timeList = analysisService.fillTimeList(freqName, startTime, endTime);
+		result.put("indiList", timeList);
+		return this.apiReturn("0", "数据获取成功", result);
+	}
+
 }

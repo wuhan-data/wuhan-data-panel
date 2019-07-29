@@ -36,6 +36,7 @@ import com.wuhan_data.app.showType.pojo.PointEntity;
 import com.wuhan_data.app.showType.pojo.RadarEntity;
 import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
+import com.wuhan_data.pojo.AnalysisIndiTime;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
@@ -325,8 +326,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 					String indiCode = indiList.get(k).getIndiCode();
 					queryMap.put("indiCode", indiCode);
 					queryMap.put("freqName", freqName);
-					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
-					Set<String> timeSpanSet = new HashSet<String>(timeList);
+					// TOOD 从app_analysis_indi_time视图中直接取出start_time/end_time并组成数组
+					// List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
+					List<AnalysisIndiTime> timeList1 = analysisMapper.getTimeByFreq(queryMap);
+					String startTime = timeList1.get(0).getStartTime();
+					String endTime = timeList1.get(0).getEndTime();
+					List<String> timeList2 = this.fillTimeList(freqName, startTime, endTime);
+					Set<String> timeSpanSet = new HashSet<String>(timeList2);
 					timeSpanFinal.addAll(timeSpanSet);
 				}
 			}
@@ -650,6 +656,78 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 	public List<AnalysisIndi> getAnalysisIndi(int plateId) {
 		return analysisMapper.getIndiByPid(plateId);
+	}
+
+	public List<String> fillTimeList(String freqName, String startTime, String endTime) {
+		List<String> timeList = new ArrayList<String>();
+		switch (freqName) {
+		case "月度":
+			// 2016/01
+			int startYear1 = Integer.parseInt(startTime.substring(0, 4));
+			int startMonth1 = Integer.parseInt(startTime.substring(5, 7));
+			int endYear1 = Integer.parseInt(endTime.substring(0, 4));
+			int endMonth1 = Integer.parseInt(endTime.substring(5, 7));
+			for (int i = startYear1; i <= endYear1; i++) {
+				if (i == startYear1) {
+					for (int j = startMonth1; j <= 12; j++) {
+						String timeItem = String.valueOf(i) + '/' + String.format("%02d", Integer.valueOf(j));
+						timeList.add(timeItem);
+					}
+				}
+				if (i != startYear1 && i != endYear1) {
+					for (int j = 1; j <= 12; j++) {
+						String timeItem = String.valueOf(i) + '/' + String.format("%02d", Integer.valueOf(j));
+						timeList.add(timeItem);
+					}
+				}
+				if (i == endYear1) {
+					for (int j = 1; j <= endMonth1; j++) {
+						String timeItem = String.valueOf(i) + '/' + String.format("%02d", Integer.valueOf(j));
+						timeList.add(timeItem);
+					}
+				}
+			}
+			break;
+		case "季度":
+			// 2016/Q1
+			int startYear2 = Integer.parseInt(startTime.substring(0, 4));
+			int startQuarter2 = Integer.parseInt(startTime.substring(6, 7));
+			int endYear2 = Integer.parseInt(endTime.substring(0, 4));
+			int endQuarter2 = Integer.parseInt(endTime.substring(6, 7));
+			for (int i = startYear2; i <= endYear2; i++) {
+				if (i == startYear2) {
+					for (int j = startQuarter2; j <= 4; j++) {
+						String timeItem = String.valueOf(i) + "/Q" + String.valueOf(j);
+						timeList.add(timeItem);
+					}
+				}
+				if (i != startYear2 && i != endYear2) {
+					for (int j = 1; j <= 4; j++) {
+						String timeItem = String.valueOf(i) + "/Q" + String.valueOf(j);
+						timeList.add(timeItem);
+					}
+				}
+				if (i == endYear2) {
+					for (int j = 1; j <= endQuarter2; j++) {
+						String timeItem = String.valueOf(i) + "/Q" + String.valueOf(j);
+						timeList.add(timeItem);
+					}
+				}
+			}
+			break;
+		case "年度":
+			// 2016
+			int startYear3 = Integer.parseInt(startTime.substring(0, 4));
+			int endYear3 = Integer.parseInt(endTime.substring(0, 4));
+			for (int i = startYear3; i <= endYear3; i++) {
+				String timeItem = String.valueOf(i);
+				timeList.add(timeItem);
+			}
+			break;
+		default:
+			break;
+		}
+		return timeList;
 	}
 
 }

@@ -25,4 +25,6 @@ public interface AnalysisService {
 	public List<AnalysisPlate> getAnalysisPlate(int themeId);
 
 	public List<AnalysisIndi> getAnalysisIndi(int plateId);
+	
+	public List<String> fillTimeList(String freqName, String startTime, String endTime);
 }

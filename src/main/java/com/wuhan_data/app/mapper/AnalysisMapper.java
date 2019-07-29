@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.wuhan_data.pojo.AnalysisIndi;
+import com.wuhan_data.pojo.AnalysisIndiTime;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
@@ -28,6 +29,9 @@ public interface AnalysisMapper {
 
 	@DataSource(value = "dataSource_mysql")
 	public List<String> getFreqnameByIndicode(String indiCode); // 根据指标code查询所有可取的频度数据
+
+	@DataSource(value = "dataSource_mysql")
+	public List<AnalysisIndiTime> getTimeByFreq(Map<String, Object> queryMap); // 根据指标code查询所有可取的起始结束时间
 
 	@DataSource(value = "dataSource_mysql")
 	public List<String> getTimeByFreqname(Map<String, Object> queryMap); // 根据频度信息获取可取的时间范围
