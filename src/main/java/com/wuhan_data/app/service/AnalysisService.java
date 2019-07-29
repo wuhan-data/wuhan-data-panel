@@ -15,7 +15,7 @@ public interface AnalysisService {
 
 	public List<AnalysisTheme> getAnalysisRoleList(List<AnalysisTheme> subList, ArrayList<String> roleList);
 
-	public Map<String, Object> initAnalysisPlate(int themeId); // 查询经济分析栏目下所有版块
+	public Map<String, Object> initAnalysisPlate(int themeId, int userId); // 查询经济分析栏目下所有版块
 
 	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName); // 根据时间查询经济分析栏目下版块数据
 

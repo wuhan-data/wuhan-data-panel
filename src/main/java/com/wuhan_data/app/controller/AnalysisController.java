@@ -49,19 +49,20 @@ public class AnalysisController {
 			if (!token.equals("")) {
 				String mapString = sessionSQLServiceApp.get(token).getSess_value();
 				Map map = StringToMap.stringToMap(mapString);
-				userId= Integer.valueOf((String) map.get("userId"));
+				userId = Integer.valueOf((String) map.get("userId"));
 			}
 		} catch (Exception e) {
-//			return this.apiReturn("-1", "无效的token令牌", data);
+			System.out.println("无效的token令牌");
 		}
 
 		// 获取经济分析栏目列表数据
 		ArrayList<Object> analysisList = new ArrayList<Object>();
-		try {
-			analysisList = analysisService.getAnalysisList(userId);
-		} catch (Exception e) {
-			return this.apiReturn("-1", "获取数据异常", data);
-		}
+
+//		try {
+		analysisList = analysisService.getAnalysisList(userId);
+//		} catch (Exception e) {
+//			return this.apiReturn("-1", "获取数据异常", data);
+//		}
 		data.put("list", analysisList);
 
 		return this.apiReturn("0", "成功获取数据", data);
@@ -72,7 +73,8 @@ public class AnalysisController {
 	public String getAnalysisDetail(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String token = "";
-		int indexId = 0;
+		Integer indexId = 0;
+		Integer userId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			System.out.println(requestObject.toString());
@@ -88,12 +90,23 @@ public class AnalysisController {
 		}
 
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
+
 		try {
-			// 获取栏目下的版块信息
-			analysisPlate = analysisService.initAnalysisPlate(indexId);
+			if (!token.equals("")) {
+				String mapString = sessionSQLServiceApp.get(token).getSess_value();
+				Map map = StringToMap.stringToMap(mapString);
+				userId = Integer.valueOf((String) map.get("userId"));
+			}
 		} catch (Exception e) {
-			return this.apiReturn("-1", "获取数据异常", data);
+			System.out.println("无效的token令牌");
 		}
+
+//		try {
+		// 获取栏目下的版块信息
+		analysisPlate = analysisService.initAnalysisPlate(indexId, userId);
+//		} catch (Exception e) {
+//			return this.apiReturn("-1", "获取数据异常", data);
+//		}
 		return this.apiReturn("0", "数据获取成功", analysisPlate);
 	}
 

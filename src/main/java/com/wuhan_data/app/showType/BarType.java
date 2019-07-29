@@ -2,11 +2,8 @@ package com.wuhan_data.app.showType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import com.wuhan_data.app.showType.pojo.BarEntity;
 import com.wuhan_data.app.showType.pojo.BarOptionEntity;
 
@@ -15,72 +12,72 @@ public class BarType {
 	String type="bar";
 	//参数：指标或版块id、指标或版块名称、
 		public BarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> data) {
-			BarOptionEntity oe = new BarOptionEntity();
-			Map map = new HashMap();
+			BarOptionEntity barOptionEntity = new BarOptionEntity();
+			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("containLabel", true);
-			oe.setGrid(map);
+			barOptionEntity.setGrid(map);
 			
-			Map map1 = new HashMap();
-			map1.put("show", true);
-			map1.put("trigger", "axis");
-			map1.put("snap", true);
-			oe.setTooltip(map1);
+			Map<String,Object> toolTipMap = new HashMap<String,Object>();
+			toolTipMap.put("show", true);
+			toolTipMap.put("trigger", "axis");
+			toolTipMap.put("snap", true);
+			barOptionEntity.setTooltip(toolTipMap);
 			
-			Map map2 = new HashMap();
-			map2.put("top", "top");
-			map2.put("data", legendData);
-			oe.setLegend(map2);
+			Map<String,Object> legendMap = new HashMap<String,Object>();
+			legendMap.put("top", "top");
+			legendMap.put("data", legendData);
+			barOptionEntity.setLegend(legendMap);
 			
-			List<Map> xAxis = new ArrayList();
+			List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 //			List<List> dataList=new ArrayList();
 			
-			Map map3 = new HashMap();
+			Map<String,Object> xAxisMap = new HashMap<String,Object>();
 //			for(int i=0;i<dataX.size();i++)
 //			{
 //				List temList= new ArrayList();
 //				temList =  dataX.get(i);
 //				dataList.add(temList);
-//				Map map3 = new HashMap();
-//				map3.put("type", "category");
-//				map3.put("name","x轴");
-//				map3.put("data",temList );
-//				xAxis.add(map3);
+//				Map xAxisMap = new HashMap();
+//				xAxisMap.put("type", "category");
+//				xAxisMap.put("name","x轴");
+//				xAxisMap.put("data",temList );
+//				xAxis.add(xAxisMap);
 //			}
-			map3.put("type", "category");
-			map3.put("name","x轴");
-			map3.put("scale", "true");
-			map3.put("data",dataX);
-			xAxis.add(map3);
+			xAxisMap.put("type", "category");
+			xAxisMap.put("name","x轴");
+			xAxisMap.put("scale", "true");
+			xAxisMap.put("data",dataX);
+			xAxis.add(xAxisMap);
 			
-			oe.setxAxis(xAxis);
+			barOptionEntity.setxAxis(xAxis);
 			
-			List<Map> yAxis = new ArrayList();
+			List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 //			for(int i=0;i<dataX.size();i++)
 //			{
-				Map map4 = new HashMap();
-				map4.put("type", "value");
-				map4.put("name","y轴");
-				yAxis.add(map4);
+				Map<String,Object> yAxisMap = new HashMap<String,Object>();
+				yAxisMap.put("type", "value");
+				yAxisMap.put("name","y轴");
+				yAxis.add(yAxisMap);
 //			}
-			oe.setyAxis(yAxis);
+			barOptionEntity.setyAxis(yAxis);
 			
 
-			List<Map> seriesList=new ArrayList();
+			List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 			for(int i=0;i<data.size();i++)
 			{
-				List tempList= new ArrayList();
+				List<String> tempList= new ArrayList<String>();
 				tempList=data.get(i);//数据
-				Map map6 = new HashMap();
-				map6.put("name", legendData.get(i));
-				map6.put("type", type);
-				map6.put("data", tempList);
-				seriesList.add(map6);
+				Map<String,Object> seriesListMap = new HashMap<String,Object>();
+				seriesListMap.put("name", legendData.get(i));
+				seriesListMap.put("type", type);
+				seriesListMap.put("data", tempList);
+				seriesList.add(seriesListMap);
 			}
-			oe.setSeries(seriesList);
+			barOptionEntity.setSeries(seriesList);
 			
-			BarEntity pe = new BarEntity(id, title, oe);		
+			BarEntity barEntity = new BarEntity(id, title, barOptionEntity);		
 
-			return pe;
+			return barEntity;
 		}
 
 }

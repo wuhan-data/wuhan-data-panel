@@ -12,78 +12,78 @@ import com.wuhan_data.app.showType.pojo.LineAndBarOptionEntity;
 public class LineAndBarType {
 	//参数：图例名称、x轴数据、数据、显示类型
 	public LineAndBarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> data,List<String> showType) {
-		LineAndBarOptionEntity oe = new LineAndBarOptionEntity();
-		Map map = new HashMap();
-		map.put("containLabel", true);
-		oe.setGrid(map);
+		LineAndBarOptionEntity lineAndBarOptionEntity = new LineAndBarOptionEntity();
+		Map<String,Object> gridMap = new HashMap<String,Object>();
+		gridMap.put("containLabel", true);
+		lineAndBarOptionEntity.setGrid(gridMap);
 		
-		Map map1 = new HashMap();
-		map1.put("show", true);
-		map1.put("trigger", "axis");
-		map1.put("snap", true);
-		oe.setTooltip(map1);
+		Map<String,Object> toolTipMap = new HashMap<String,Object>();
+		toolTipMap.put("show", true);
+		toolTipMap.put("trigger", "axis");
+		toolTipMap.put("snap", true);
+		lineAndBarOptionEntity.setTooltip(toolTipMap);
 		
-		Map map2 = new HashMap();
-		map2.put("top", "top");
-		map2.put("data", legendData);
-		oe.setLegend(map2);
+		Map<String,Object> legendMap = new HashMap<String,Object>();
+		legendMap.put("top", "top");
+		legendMap.put("data", legendData);
+		lineAndBarOptionEntity.setLegend(legendMap);
 		
-		List<Map> xAxis = new ArrayList();
+		List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 //		for(int i=0;i<dataX.size();i++)
 //		{
-			List temList= new ArrayList();
+			List<String> temList= new ArrayList<String>();
 			temList =  dataX;
-			Map map3 = new HashMap();
-			map3.put("type", "category");
-			map3.put("name","x轴");
-			map3.put("data",temList );
-			xAxis.add(map3);
+			Map<String,Object> xAxisMap = new HashMap<String,Object>();
+			xAxisMap.put("type", "category");
+			xAxisMap.put("name","x轴");
+			xAxisMap.put("data",temList );
+			xAxis.add(xAxisMap);
 //		}
-		oe.setxAxis(xAxis);
+		lineAndBarOptionEntity.setxAxis(xAxis);
 		
-		List<Map> yAxis = new ArrayList();
+		List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 //		for(int i=0;i<dataX.size();i++)
 //		{
-			Map map4 = new HashMap();
-			map4.put("type", "value");
-			map4.put("name","y0轴");
-			yAxis.add(map4);
+			Map<String,Object> yAxisFirstMap = new HashMap<String,Object>();
+			yAxisFirstMap.put("type", "value");
+			yAxisFirstMap.put("name","y0轴");
+			yAxis.add(yAxisFirstMap);
 			
-			Map map5 = new HashMap();
-			map5.put("type", "value");
-			map5.put("name","y1轴");
-			yAxis.add(map5);
+			Map<String,Object> yAxisSecondMap = new HashMap<String,Object>();
+			yAxisSecondMap.put("type", "value");
+			yAxisSecondMap.put("name","y1轴");
+			yAxis.add(yAxisSecondMap);
 //		}
-		oe.setyAxis(yAxis);
+		lineAndBarOptionEntity.setyAxis(yAxis);
 		
-		List<Map> seriesList=new ArrayList();
+		List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 		for(int i=0;i<data.size();i++)
 		{
-			List tempList= new ArrayList();
+			List<String> tempList= new ArrayList<String>();
 			tempList=data.get(i);//数据
 			String showT= (String) showType.get(i);//展示类型
-			Map map6 = new HashMap();
+			Map<String,Object> seriesListMap = new HashMap<String,Object>();
 			if(showT.equals("bar"))
 			{
-				map6.put("name", legendData.get(i));
-				map6.put("type", showT);
-				map6.put("data", tempList);
-				map6.put("yAxisIndex", 1);
+				seriesListMap.put("name", legendData.get(i));
+				seriesListMap.put("type", showT);
+				seriesListMap.put("data", tempList);
+				seriesListMap.put("yAxisIndex", 1);
 			}
 			else
 			{
-				map6.put("name", legendData.get(i));
-				map6.put("type", showT);
-				map6.put("data", tempList);
+				seriesListMap.put("name", legendData.get(i));
+				seriesListMap.put("type", showT);
+				seriesListMap.put("data", tempList);
 			}
-			seriesList.add(map6);
+			seriesList.add(seriesListMap);
 		}
 		
-		oe.setSeries(seriesList);
+		lineAndBarOptionEntity.setSeries(seriesList);
 		
-		LineAndBarEntity pe = new LineAndBarEntity(id, title, oe);		
+		LineAndBarEntity lineAndBarEntity = new LineAndBarEntity(id, title, lineAndBarOptionEntity);		
 
-		return pe;
+		return lineAndBarEntity;
 	}
 
 }

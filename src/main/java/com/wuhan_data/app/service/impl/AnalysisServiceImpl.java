@@ -150,7 +150,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 	/**
 	 * 获取初始化版块数据
 	 */
-	public Map<String, Object> initAnalysisPlate(int themeId) {
+	public Map<String, Object> initAnalysisPlate(int themeId, int userId) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 		System.out.println("开始初始化数据:" + df.format(new Date()));// new Date()为获取当前系统时间
@@ -159,15 +159,27 @@ public class AnalysisServiceImpl implements AnalysisService {
 		if (analysisPlate.size() == 0) {
 			return result;
 		}
+		// 根据themeId查询analysis_theme表中的信息
+		List<Collect> baseInfoList = analysisMapper.getBaseInfo(themeId);
+		String indexName = baseInfoList.get(0).getIndex_name();
+		String source = baseInfoList.get(0).getType();
 		Map<String, Object> baseInfo = new HashMap<String, Object>();
 		baseInfo.put("indexId", themeId);
-		// TODO 根据themeId查询analysis_theme表中的type_name/theme_name
-		baseInfo.put("indexName", "");
-		baseInfo.put("source", "");
-		// TODO 根据userId/type/indexId查询收藏信息
-		baseInfo.put("isFavorite", false);
-
+		// 根据userId/type/indexId查询收藏信息
+		Collect collect = new Collect();
+		collect.setType("经济分析");
+		collect.setIndex_id(String.valueOf(themeId));
+		collect.setUid(userId);
+		baseInfo.put("indexName", indexName);
+		baseInfo.put("source", source);
+		List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
+		if (collectInfo.size() != 0) {
+			baseInfo.put("isFavorite", true);
+		} else {
+			baseInfo.put("isFavorite", false);
+		}
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
+
 		// 获取时间可取区间数据
 		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
 		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
@@ -184,7 +196,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		String freqName = (String) freqObject.get("freqName");
 		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
 		String startTime = startTimeList.get(current.get(0)).toString();
-		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
+		String startTimeRadar = endTimeList.get(startTimeList.size() - 3).toString();
 		String startTimePoint = endTimeList.get(0).toString();
 		String endTime = endTimeList.get(current.get(1)).toString();
 		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
@@ -286,8 +298,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
 			for (int j = 0; j < indiList.size(); j++) {
 				String indiCode = indiList.get(j).getIndiCode();
+				// 查询指标所有可取的时间区间
 				List<String> freqNameList = analysisMapper.getFreqnameByIndicode(indiCode);
-				// TOOD 因为测试数据不全，所以这里对可能取不到的频度进行忽略
+				// 所以这里对可能取不到的频度进行忽略
 				for (int k = 0; k < freqNameList.size(); k++) {
 					if (freqNameList.get(k).equals("")) {
 						continue;
@@ -306,14 +319,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 			Set<String> timeSpanFinal = new HashSet<String>();
 			for (int j = 0; j < analysisPlate.size(); j++) {
 				Integer pid = analysisPlate.get(j).getPlateId();
-				Integer showTerm = analysisPlate.get(j).getShowTerm();
 				List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
 				for (int k = 0; k < indiList.size(); k++) {
 					Map<String, Object> queryMap = new HashMap<String, Object>();
 					String indiCode = indiList.get(k).getIndiCode();
 					queryMap.put("indiCode", indiCode);
 					queryMap.put("freqName", freqName);
-					queryMap.put("showTerm", 999); // showTerm
 					List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
 					Set<String> timeSpanSet = new HashSet<String>(timeList);
 					timeSpanFinal.addAll(timeSpanSet);

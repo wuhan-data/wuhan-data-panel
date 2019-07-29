@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.wuhan_data.app.showType.pojo.BarEntity;
-import com.wuhan_data.app.showType.pojo.BarOptionEntity;
 import com.wuhan_data.app.showType.pojo.BarStackLineEntity;
 import com.wuhan_data.app.showType.pojo.BarStackLineOptionEntity;
 
@@ -14,81 +12,82 @@ public class BarStackLineType {
 	// 参数：图例名称列表、x轴数据、数据、展示类型
 	public BarStackLineEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
 			List<List<String>> data, List<String> showType) {
-		BarStackLineOptionEntity oe = new BarStackLineOptionEntity();
-		Map map = new HashMap();
-		map.put("height", "320");
-		map.put("bottom", "50");
-		map.put("containLabel", true);
-		oe.setGrid(map);
+		BarStackLineOptionEntity barStackLineOptionEntity = new BarStackLineOptionEntity();
+		Map<String,Object> mapGrid = new HashMap<String,Object>();
+		mapGrid.put("height", "320");
+		mapGrid.put("bottom", "50");
+		mapGrid.put("containLabel", true);
+		barStackLineOptionEntity.setGrid(mapGrid);
 
-		Map map1 = new HashMap();
-		Map map11 = new HashMap();
-		map1.put("show", true);
-		map1.put("trigger", "axis");
-		map1.put("snap", true);
-		map11.put("type", "cross");
-		map1.put("axisPointer", map11);
-		oe.setTooltip(map1);
+		Map<String,Object> mapTooltip = new HashMap<String,Object>();
+		Map<String,Object> mapTooltipType = new HashMap<String,Object>();
+		mapTooltip.put("show", true);
+		mapTooltip.put("trigger", "axis");
+		mapTooltip.put("snap", true);
+		mapTooltipType.put("type", "cross");
+		mapTooltip.put("axisPointer", mapTooltipType);
+		barStackLineOptionEntity.setTooltip(mapTooltip);
 
-		Map map2 = new HashMap();
-		map2.put("bottom", "420");
-		map2.put("orient", "vertical");
-		map2.put("data", legendData);
-		oe.setLegend(map2);
+		Map<String,Object> mapLegend = new HashMap<String,Object>();
+		mapLegend.put("bottom", "420");
+		mapLegend.put("orient", "vertical");
+		mapLegend.put("data", legendData);
+		barStackLineOptionEntity.setLegend(mapLegend);
 
-		List<Map> xAxis = new ArrayList();
+		List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 //		for(int i=0;i<dataX.size();i++)
 //		{
-		List temList = new ArrayList();
+		List<String> temList = new ArrayList<String>();
 		temList = dataX;
-		Map map3 = new HashMap();
-		map3.put("type", "category");
-		map3.put("name", "x轴");
-		map3.put("data", temList);
-		xAxis.add(map3);
+		Map<String,Object> mapxAis = new HashMap<String,Object>();
+		mapxAis.put("type", "category");
+		mapxAis.put("name", "x轴");
+		mapxAis.put("data", temList);
+		xAxis.add(mapxAis);
 //		}
-		oe.setxAxis(xAxis);
+		barStackLineOptionEntity.setxAxis(xAxis);
 
-		List<Map> yAxis = new ArrayList();
+		List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 //		for(int i=0;i<dataX.size();i++)
 //		{
-		Map map4 = new HashMap();
-		map4.put("type", "value");
-		map4.put("name", "y0轴");
-		yAxis.add(map4);
+		Map<String,Object> mapFirst_yAxis = new HashMap<String,Object>();
+		mapFirst_yAxis.put("type", "value");
+		mapFirst_yAxis.put("name", "y0轴");
+		yAxis.add(mapFirst_yAxis);
 
-		Map map5 = new HashMap();
-		map5.put("type", "value");
-		map5.put("name", "y1轴");
-		yAxis.add(map5);
+		Map<String,Object> mapsecond_yAxis = new HashMap<String,Object>();
+		mapsecond_yAxis.put("type", "value");
+		mapsecond_yAxis.put("name", "y1轴");
+		yAxis.add(mapsecond_yAxis);
 //		}
-		oe.setyAxis(yAxis);
+		barStackLineOptionEntity.setyAxis(yAxis);
 
-		List<Map> seriesList = new ArrayList();
+		List<Map<String,Object>> seriesList = new ArrayList<Map<String,Object>>();
+		
 		for (int i = 0; i < data.size(); i++) {
-			List tempList = new ArrayList();
+			List<String> tempList = new ArrayList<String>();
 			tempList = data.get(i);// 数据
 			String showT = (String) showType.get(i);// 展示类型
-			Map map6 = new HashMap();
+			Map<String,Object> mapSeriesList = new HashMap<String,Object>();
 			if (showT.equals("line")) {
-				map6.put("name", legendData.get(i));
-				map6.put("type", showT);
-				map6.put("data", tempList);
-				map6.put("yAxisIndex", 1);
+				mapSeriesList.put("name", legendData.get(i));
+				mapSeriesList.put("type", showT);
+				mapSeriesList.put("data", tempList);
+				mapSeriesList.put("yAxisIndex", 1);
 			} else {
-				map6.put("name", legendData.get(i));
-				map6.put("type", showT);
-				map6.put("stack", "广告");
-				map6.put("data", tempList);
+				mapSeriesList.put("name", legendData.get(i));
+				mapSeriesList.put("type", showT);
+				mapSeriesList.put("stack", "广告");
+				mapSeriesList.put("data", tempList);
 			}
-			seriesList.add(map6);
+			seriesList.add(mapSeriesList);
 		}
 
-		oe.setSeries(seriesList);
+		barStackLineOptionEntity.setSeries(seriesList);
 
-		BarStackLineEntity pe = new BarStackLineEntity(id, title, oe);
+		BarStackLineEntity barStackLineEntity = new BarStackLineEntity(id, title, barStackLineOptionEntity);
 
-		return pe;
+		return barStackLineEntity;
 	}
 
 }

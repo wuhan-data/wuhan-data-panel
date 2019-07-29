@@ -13,62 +13,62 @@ public class PointType {
 	String type="scatter";
 	//参数：id、名称、数据名称、
 	public PointEntity getOption(String id,String title,List<String> nameData,List<List<String>> data) {
-		PointOptionEntity oe = new PointOptionEntity();
-		Map map = new HashMap();
-		map.put("containLabel", true);
-		oe.setGrid(map);
+		PointOptionEntity pointOptionEntity = new PointOptionEntity();
+		Map<String,Object> gridMap = new HashMap<String,Object>();
+		gridMap.put("containLabel", true);
+		pointOptionEntity.setGrid(gridMap);
 		
-		Map map1 = new HashMap();
-		map1.put("show", true);
-		map1.put("trigger", "item");
-		map1.put("snap", true);
-		map1.put("formatter","({c0})");
-		oe.setTooltip(map1);
+		Map<String,Object> toolTipMap = new HashMap<String,Object>();
+		toolTipMap.put("show", true);
+		toolTipMap.put("trigger", "item");
+		toolTipMap.put("snap", true);
+		toolTipMap.put("formatter","({c0})");
+		pointOptionEntity.setTooltip(toolTipMap);
 		
-		Map map2 = new HashMap();
-		map2.put("top", "top");
-		oe.setLegend(map2);
+		Map<String,Object> legendMap = new HashMap<String,Object>();
+		legendMap.put("top", "top");
+		pointOptionEntity.setLegend(legendMap);
 		
-		Map map3 = new HashMap();
-		map3.put("name","x轴");
-		oe.setxAxis(map3);
+		Map<String,Object> xAxisMap = new HashMap<String,Object>();
+		xAxisMap.put("name","x轴");
+		pointOptionEntity.setxAxis(xAxisMap);
 		
-		Map map4 = new HashMap();
-		map4.put("name","y轴");
-		oe.setyAxis(map4);
+		Map<String,Object> yAxisMap = new HashMap<String,Object>();
+		yAxisMap.put("name","y轴");
+		pointOptionEntity.setyAxis(yAxisMap);
 		
-		List<Map> seriesList=new ArrayList();
+		List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 		for(int i=0;i<data.size();i++)
 		{
-			List tempList= new ArrayList();
-			List tempListSecond=new ArrayList();
-			List tempListDataX=new ArrayList();
+			List<String> tempList= new ArrayList<String>();
+			List<String> tempListSecond=new ArrayList<String>();
+//			List<String> tempListDataX=new ArrayList<String>();
 			tempList=data.get(i);//数据
 			i++;
 			tempListSecond=data.get(i);
 //			tempListDataX=dataX.get(i);
-			List dataTotal=new ArrayList();
+			List<List<String>> dataTotal=new ArrayList<List<String>>();
 			
-			Map map5 = new HashMap();
-			map5.put("symbolSize", 10);
-			map5.put("name", nameData.get(i));
-			map5.put("type", type);
+			Map<String,Object> seriesListMap = new HashMap<String,Object>();
+			seriesListMap.put("symbolSize", 10);
+			seriesListMap.put("name", nameData.get(i));
+			seriesListMap.put("type", type);
 			for(int j=0;j<tempList.size();j++) {
-				List data_each=new ArrayList();
+				List<String> data_each=new ArrayList<String>();
 //				data_each.add(tempListDataX.get(j));
 				data_each.add(tempList.get(j));
 				data_each.add(tempListSecond.get(j));
 				dataTotal.add(data_each);
 			}
-			map5.put("data", dataTotal);
+			seriesListMap.put("data", dataTotal);
 			
-			seriesList.add(map5);
+			seriesList.add(seriesListMap);
 		}
-		oe.setSeries(seriesList);
+		pointOptionEntity.setSeries(seriesList);
 		
-		PointEntity pe = new PointEntity(id, title, oe);		
+		PointEntity pointEntity = new PointEntity(id, title, pointOptionEntity);		
 
-		return pe;
+		return pointEntity;
 	}
 
 }

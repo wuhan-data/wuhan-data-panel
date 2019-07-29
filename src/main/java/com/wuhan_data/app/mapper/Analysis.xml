@@ -78,52 +78,53 @@
 		ORDER BY
 		indi_weight DESC
 	</select>
-
-	<!-- 获取指标的所有可取频度 -->
+	
+	<!-- 获取指标的所有可取频度(物化视图) -->
 	<select id="getFreqnameByIndicode" resultType="String"
 		parameterType="String">
 		SELECT DISTINCT
-		INDICATOR_GRP21_ITEM_NAME as freqName
+		FREQ_NAME as freqName
 		FROM
-		PLATFORM1."SRIT_DATA_INDICATOR_TJ"
+		"MIDUSER"."APP_ANALYSIS_INDI_TIME"
 		WHERE
-		INDEXDATAID = #{indiCode}
+		INDI_CODE = #{indiCode}
 	</select>
 
 	<!-- 获取指标指定频度的时间跨度 -->
 	<select id="getTimeByFreqname" resultType="String"
 		parameterType="java.util.Map">
+<!-- 		select "INDI_CODE","FREQ_NAME","INDI_TIME","TIME_POINT","INDI_VALUE","UNIT_NAME"
+from "MIDUSER"."APP_ANALYSIS_INDI_VALUE"; -->
 		SELECT
-		DATA_TIME_NAME as time
+		INDI_TIME as time
 		FROM
-		PLATFORM1."SRIT_DATA_INDICATOR_TJ"
+		"MIDUSER"."APP_ANALYSIS_INDI_VALUE"
 		WHERE
-		INDEXDATAID = #{indiCode} AND
-		INDICATOR_GRP21_ITEM_NAME = #{freqName}
+		INDI_CODE = #{indiCode} AND
+		FREQ_NAME = #{freqName}
 		ORDER BY
-		DATA_TIME_NAME DESC
-		LIMIT 0, #{showTerm}
+		INDI_TIME DESC
 	</select>
 	
 
 	<select id="getIndiValue" resultType="com.wuhan_data.pojo.AnalysisIndiValue"
 		parameterType="java.util.Map">
 		SELECT
-		INDEXDATAID as indiCode,
-		INDICATOR_GRP21_ITEM_NAME as freqName,
-		DATA_TIME_NAME as time,
-		INDICATOR_GRP22_ITEM_NAME as timePoint,
-		VALUE as indiValue,
+		INDI_CODE as indiCode,
+		FREQ_NAME as freqName,
+		INDI_TIME as time,
+		TIME_POINT as timePoint,
+		INDI_VALUE as indiValue,
 		UNIT_NAME as unitName
 		FROM
-		PLATFORM1."SRIT_DATA_INDICATOR_TJ"
+		"MIDUSER"."APP_ANALYSIS_INDI_VALUE"
 		WHERE
-		INDEXDATAID = #{indiCode} AND
-		INDICATOR_GRP21_ITEM_NAME = #{freqName} AND
-		DATA_TIME_NAME &gt;= #{startTime} AND
-		DATA_TIME_NAME &lt;= #{endTime}
+		INDI_CODE = #{indiCode} AND
+		FREQ_NAME = #{freqName} AND
+		INDI_TIME &gt;= #{startTime} AND
+		INDI_TIME &lt;= #{endTime}
 		ORDER BY
-		DATA_TIME_NAME DESC
+		INDI_TIME DESC
 	</select>
 	
 
