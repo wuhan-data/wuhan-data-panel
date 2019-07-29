@@ -16,42 +16,42 @@ public class TopicBarType {
 	//参数：指标或版块id、指标或版块名称、
 		public BarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<Float>> data) {
 			BarOptionEntity oe = new BarOptionEntity();
-			Map map = new HashMap();
+			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("containLabel", true);
 			oe.setGrid(map);
 			
-			Map map1 = new HashMap();
+			Map<String,Object> map1 = new HashMap<String,Object>();
 			map1.put("show", true);
 			map1.put("trigger", "axis");
 			map1.put("snap", true);
 			oe.setTooltip(map1);
 			
-			Map map2 = new HashMap();
+			Map<String,Object> map2 = new HashMap<String,Object>();
 			map2.put("top", "top");
 			map2.put("data", legendData);
 			oe.setLegend(map2);
 			
-			List<Map> xAxis = new ArrayList();
+			List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 
-				Map map3 = new HashMap();
+				Map<String,Object> map3 = new HashMap<String,Object>();
 				map3.put("type", "category");
 				map3.put("name","x轴");
 				map3.put("data",dataX );
 				xAxis.add(map3);
 			oe.setxAxis(xAxis);
 			
-			List<Map> yAxis = new ArrayList();
-				Map map4 = new HashMap();
+			List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
+				Map<String,Object> map4 = new HashMap<String,Object>();
 				map4.put("type", "value");
 				map4.put("name","y轴");
 				yAxis.add(map4);
 			oe.setyAxis(yAxis);
 			
 
-			List<Map> seriesList=new ArrayList();
+			List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 			for(int i=0;i<data.size();i++)
 			{
-				Map map6 = new HashMap();
+				Map<String,Object> map6 = new HashMap<String,Object>();
 				map6.put("name", legendData.get(i));
 				map6.put("type", type);
 				map6.put("data", data.get(i));

@@ -14,10 +14,10 @@ public class TopicLineAndBarType {
 	public LineAndBarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<Float>> data,List showType) {
 		
 		LineAndBarOptionEntity oe = new LineAndBarOptionEntity();
-		Map map11 = new HashMap();
+		Map<String,Object> map11 = new HashMap<String,Object>();
 		map11.put("type", "cross");
 		
-		Map map1 = new HashMap();
+		Map<String,Object> map1 = new HashMap<String,Object>();
 		map1.put("show", true);
 		map1.put("trigger", "axis");
 		map1.put("snap", true);
@@ -27,13 +27,13 @@ public class TopicLineAndBarType {
 		
 		if(legendData.size()>=2) {
 			
-			Map map = new HashMap();
+			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("containLabel", true);
 			map.put("height", "330");
 			map.put("bottom", "50");
 			oe.setGrid(map);
 			
-			Map map2 = new HashMap();
+			Map<String,Object> map2 = new HashMap<String,Object>();
 			map2.put("orient", "vertical");
 			if(legendData.size()==4||legendData.size()==2) {
 				map2.put("bottom", "420");
@@ -44,20 +44,20 @@ public class TopicLineAndBarType {
 			map2.put("data", legendData);
 			oe.setLegend(map2);
 		}else {
-			Map map = new HashMap();
+			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("containLabel", true);
 			oe.setGrid(map);
 			
-			Map map2 = new HashMap();
+			Map<String,Object> map2 = new HashMap<String,Object>();
 			map2.put("top", "top");
 			map2.put("data", legendData);
 			oe.setLegend(map2);
 		}
 		
 		
-		List<Map> xAxis = new ArrayList();
+		List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 
-			Map map3 = new HashMap();
+			Map<String,Object> map3 = new HashMap<String,Object>();
 			map3.put("type", "category");
 			map3.put("name","x轴");
 			map3.put("data",dataX );
@@ -65,27 +65,27 @@ public class TopicLineAndBarType {
 
 		oe.setxAxis(xAxis);
 		
-		List<Map> yAxis = new ArrayList();
+		List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 
-			Map map4 = new HashMap();
+			Map<String,Object> map4 = new HashMap<String,Object>();
 			map4.put("type", "value");
 			map4.put("name","y0轴");
 			yAxis.add(map4);
 			
-			Map map5 = new HashMap();
+			Map<String,Object> map5 = new HashMap<String,Object>();
 			map5.put("type", "value");
 			map5.put("name","y1轴");
 			yAxis.add(map5);
 
 		oe.setyAxis(yAxis);
 		
-		List<Map> seriesList=new ArrayList();
+		List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 		for(int i=0;i<data.size();i++)
 		{
-			List tempList= new ArrayList();
+			List<Float> tempList= new ArrayList<Float>();
 			tempList=data.get(i);//数据
 			String showT= (String) showType.get(i);//展示类型
-			Map map6 = new HashMap();
+			Map<String,Object> map6 = new HashMap<String,Object>();
 			if(showT.equals("bar"))
 			{
 				map6.put("name", legendData.get(i));

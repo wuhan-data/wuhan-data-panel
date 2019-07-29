@@ -4,33 +4,33 @@ import java.util.List;
 import java.util.Map;
 
 public class RadarOptionEntity {
-	Map grid;
-	Map legend;
-	Map radar;
-	List<Map> series;
-	public Map getGrid() {
+	Map<String,Object> grid;
+	Map<String,Object> legend;
+	Map<String,Object> radar;
+	List<Map<String,Object>> series;
+	public Map<String,Object> getGrid() {
 		return grid;
 	}
-	public void setGrid(Map grid) {
+	public void setGrid(Map<String,Object> grid) {
 		this.grid = grid;
 	}
-	public Map getLegend() {
+	public Map<String,Object> getLegend() {
 		return legend;
 	}
-	public void setLegend(Map legend) {
+	public void setLegend(Map<String,Object> legend) {
 		this.legend = legend;
 	}
-	public Map getRadar() {
+	public Map<String,Object> getRadar() {
 		return radar;
 	}
-	public void setRadar(Map radar) {
+	public void setRadar(Map<String,Object> radar) {
 		this.radar = radar;
 	}
-	public List<Map> getSeries() {
+	public List<Map<String,Object>> getSeries() {
 		return series;
 	}
-	public void setSeries(List<Map> series) {
-		this.series = series;
+	public void setSeries(List<Map<String, Object>> listSeries) {
+		this.series = listSeries;
 	}
 	
 	

@@ -18,21 +18,21 @@ String type="line";
 //	public LineEntity getOption(String id,String title,List dataX,List dataV) {
 	public LineEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<Float>> dataV,int min,int max) {
 		LineOptionEntity oe = new LineOptionEntity();
-		Map map = new HashMap();
+		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("containLabel", true);
 		oe.setGrid(map);
 
-		Map mapTool=new HashMap();
+		Map<String,Object> mapTool=new HashMap<String,Object>();
 		mapTool.put("show",true);
 		mapTool.put("trigger","axis");
 		oe.setTooltip(mapTool);	
 		
-		Map maplegend=new HashMap();
+		Map<String,Object> maplegend=new HashMap<String,Object>();
 		maplegend.put("data",legendData);
 		oe.setLegend(maplegend);
 		
-		Map map1 = new HashMap();
-		List<Map> xAxis = new ArrayList();
+		Map<String,Object> map1 = new HashMap<String,Object>();
+		List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 		map1.put("type", "category");
 		map1.put("name", "x轴");
 		map1.put("name","x轴");
@@ -40,9 +40,9 @@ String type="line";
 		xAxis.add(map1);
 		oe.setxAxis(xAxis);
 		
-		List<Map> yAxis = new ArrayList();
+		List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 
-			Map map2 = new HashMap();
+			Map<String,Object> map2 = new HashMap<String,Object>();
 			map2.put("type", "value");
 			map2.put("name","y轴");			
 //			map2.put("min", min);
@@ -66,10 +66,10 @@ String type="line";
 //		     
 //		     
 //		     
-				List<Map> seriesList=new ArrayList();
+				List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();
 				for(int i=0;i<dataV.size();i++)
 				{
-						Map map6 = new HashMap();
+						Map<String,Object> map6 = new HashMap<String,Object>();
 						map6.put("name", legendData.get(i));
 						map6.put("type", "line");
 						map6.put("data", dataV.get(i));

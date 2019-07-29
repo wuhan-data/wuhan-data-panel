@@ -1,54 +1,53 @@
 package com.wuhan_data.app.showType.pojo;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class LineOptionEntity {
-	Map grid;
-	Map legend;
-	Map tooltip;
+	Map<String,Object> grid;
+	Map<String,Object> legend;
+	Map<String,Object> tooltip;
 //	Map xAxis;
 //	Map yAxis;
 //	Map series;
-	List<Map> xAxis;
-	List<Map> yAxis;
-	List<Map> series;
+	List<Map<String,Object>> xAxis;
+	List<Map<String,Object>> yAxis;
+	List<Map<String,Object>> series;
 	
-	public Map getGrid() {
+	public Map<String,Object> getGrid() {
 		return grid;
 	}
-	public void setGrid(Map grid) {
+	public void setGrid(Map<String,Object> grid) {
 		this.grid = grid;
 	}
-	public Map getTooltip() {
+	public Map<String,Object> getTooltip() {
 		return tooltip;
 	}
-	public void setTooltip(Map tooltip) {
+	public void setTooltip(Map<String,Object> tooltip) {
 		this.tooltip = tooltip;
 	}
-	public Map getLegend() {
+	public Map<String,Object> getLegend() {
 		return legend;
 	}
-	public void setLegend(Map legend) {
+	public void setLegend(Map<String,Object> legend) {
 		this.legend = legend;
 	}
-	public List<Map> getxAxis() {
+	public List<Map<String,Object>> getxAxis() {
 		return xAxis;
 	}
-	public void setxAxis(List<Map> xAxis) {
-		this.xAxis = xAxis;
+	public void setxAxis(List<Map<String, Object>> xAxis2) {
+		this.xAxis = xAxis2;
 	}
-	public List<Map> getyAxis() {
+	public List<Map<String,Object>> getyAxis() {
 		return yAxis;
 	}
-	public void setyAxis(List<Map> yAxis) {
+	public void setyAxis(List<Map<String,Object>> yAxis) {
 		this.yAxis = yAxis;
 	}
-	public List<Map> getSeries() {
+	public List<Map<String,Object>> getSeries() {
 		return series;
 	}
-	public void setSeries(List<Map> series) {
+	public void setSeries(List<Map<String,Object>> series) {
 		this.series = series;
 	}
 	
