@@ -350,7 +350,7 @@ public class IndiSearchAppController {
 			System.out.println("timeRange:" + indiDateList);
 			
 			List<String> newindiDateList = new ArrayList<String>();
-			for(int k=indiDateList.size()-1;k>=0;k--)
+			for(int k=0;k<indiDateList.size();k++)
 			{
 				newindiDateList.add(indiDateList.get(k).substring(0, 4)+"/"+indiDateList.get(k).substring(4, 6));
 			}
