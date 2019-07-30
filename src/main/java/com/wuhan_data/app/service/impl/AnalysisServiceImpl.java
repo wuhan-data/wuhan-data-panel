@@ -450,8 +450,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 				// 记录以时间跨度的值
 				List<List<String>> dataByTime = new ArrayList<List<String>>();
 				RadarType radarType = new RadarType();
-				// 雷达图支取最近的三期数据进行展示
-				List<String> xAxisRadar = xAxis.subList(xAxis.size() - 3, xAxis.size());
+				// 雷达图支取最近的两期数据进行展示
+				List<String> xAxisRadar = xAxis.subList(xAxis.size() - 2, xAxis.size());
 //				xAxis = xAxis.subList(xAxis.size() - 3, xAxis.size());
 				for (int j = 0; j < indiList.size(); j++) {
 					// 时间不与时间选择器进行关联
