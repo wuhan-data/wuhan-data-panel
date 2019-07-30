@@ -12,7 +12,7 @@ import com.wuhan_data.app.showType.pojo.LineOptionEntity;
 public class LineType {
 	String type="line";
 	
-	//参数 板块id，板块名称，x轴数组,值的数组
+	//参数 板块id，板块名称，数组,值的数组
 	//y轴的最大最小值根据数据再计算
 //	public LineEntity getOption(String id,String title,List dataX,List dataV) {
 	public LineEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<String>> dataV) {
@@ -42,7 +42,7 @@ public class LineType {
 			temList =  dataX;
 			Map<String,Object> xAxisMap = new HashMap<String,Object>();
 			xAxisMap.put("type", "category");
-			xAxisMap.put("name","x轴");
+			xAxisMap.put("name","");
 			xAxisMap.put("data",temList );
 			xAxis.add(xAxisMap);
 //		}
@@ -71,7 +71,7 @@ public class LineType {
 //			}
 //			Map yAxisMap = new HashMap();
 //			yAxisMap.put("type", "value");
-//			yAxisMap.put("name","y轴");
+//			yAxisMap.put("name","");
 //			System.out.print("temList:"+temList1.size());
 //			double max= Collections.max(temListDouble);
 //			double min= Collections.min(temListDouble);
@@ -88,7 +88,7 @@ public class LineType {
 //		}
 		Map<String,Object> yAxisMap = new HashMap<String,Object>();
 		yAxisMap.put("type", "value");
-		yAxisMap.put("name","y轴");
+		yAxisMap.put("name","");
 		yAxis.add(yAxisMap);
 		   lineOptionEntity.setyAxis(yAxis);
 		

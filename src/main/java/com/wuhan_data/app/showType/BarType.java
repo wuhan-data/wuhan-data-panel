@@ -39,12 +39,12 @@ public class BarType {
 //				dataList.add(temList);
 //				Map xAxisMap = new HashMap();
 //				xAxisMap.put("type", "category");
-//				xAxisMap.put("name","x轴");
+//				xAxisMap.put("name","");
 //				xAxisMap.put("data",temList );
 //				xAxis.add(xAxisMap);
 //			}
 			xAxisMap.put("type", "category");
-			xAxisMap.put("name","x轴");
+			xAxisMap.put("name","");
 			xAxisMap.put("scale", "true");
 			xAxisMap.put("data",dataX);
 			xAxis.add(xAxisMap);
@@ -56,7 +56,7 @@ public class BarType {
 //			{
 				Map<String,Object> yAxisMap = new HashMap<String,Object>();
 				yAxisMap.put("type", "value");
-				yAxisMap.put("name","y轴");
+				yAxisMap.put("name","");
 				yAxis.add(yAxisMap);
 //			}
 			barOptionEntity.setyAxis(yAxis);

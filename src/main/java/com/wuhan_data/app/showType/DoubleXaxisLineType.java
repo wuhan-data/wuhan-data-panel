@@ -34,7 +34,7 @@ public class DoubleXaxisLineType {
 			temList =  dataX.get(i);
 			Map<String,Object> xAxisMap = new HashMap<String,Object>();
 			xAxisMap.put("type", "category");
-			xAxisMap.put("name","x0轴");
+			xAxisMap.put("name","");
 			xAxisMap.put("data",temList );
 			xAxis.add(xAxisMap);
 			i++;
@@ -42,7 +42,7 @@ public class DoubleXaxisLineType {
 			temList1 =  dataX.get(i);
 			Map<String,Object> xAxisSecondMap = new HashMap<String,Object>();
 			xAxisSecondMap.put("type", "category");
-			xAxisSecondMap.put("name","x1轴");
+			xAxisSecondMap.put("name","");
 			xAxisSecondMap.put("data",temList1);
 			xAxis.add(xAxisSecondMap);
 		}
@@ -51,7 +51,7 @@ public class DoubleXaxisLineType {
 		List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 		Map<String,Object> yAxisMap = new HashMap<String,Object>();
 		yAxisMap.put("type", "value");
-		yAxisMap.put("name","y轴");
+		yAxisMap.put("name","");
 		yAxis.add(yAxisMap);
 		doubleXaxisLineOptionEntity.setyAxis(yAxis);
 		

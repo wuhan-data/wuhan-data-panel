@@ -30,11 +30,11 @@ public class PointType {
 		pointOptionEntity.setLegend(legendMap);
 		
 		Map<String,Object> xAxisMap = new HashMap<String,Object>();
-		xAxisMap.put("name","x轴");
+		xAxisMap.put("name","");
 		pointOptionEntity.setxAxis(xAxisMap);
 		
 		Map<String,Object> yAxisMap = new HashMap<String,Object>();
-		yAxisMap.put("name","y轴");
+		yAxisMap.put("name","");
 		pointOptionEntity.setyAxis(yAxisMap);
 		
 		List<Map<String,Object>> seriesList=new ArrayList<Map<String,Object>>();

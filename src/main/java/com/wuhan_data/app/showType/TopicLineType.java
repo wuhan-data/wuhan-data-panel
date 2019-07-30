@@ -13,7 +13,7 @@ public class TopicLineType {
 	
 String type="line";
 	
-	//参数 板块id，板块名称，x轴数组,值的数组
+	//参数 板块id，板块名称，数组,值的数组
 	//y轴的最大最小值根据数据再计算
 //	public LineEntity getOption(String id,String title,List dataX,List dataV) {
 	public LineEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<Float>> dataV,int min,int max) {
@@ -34,8 +34,8 @@ String type="line";
 		Map<String,Object> map1 = new HashMap<String,Object>();
 		List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
 		map1.put("type", "category");
-		map1.put("name", "x轴");
-		map1.put("name","x轴");
+		map1.put("name", "");
+		map1.put("name","");
 		map1.put("data", dataX);
 		xAxis.add(map1);
 		oe.setxAxis(xAxis);
@@ -44,7 +44,7 @@ String type="line";
 
 			Map<String,Object> map2 = new HashMap<String,Object>();
 			map2.put("type", "value");
-			map2.put("name","y轴");			
+			map2.put("name","");			
 //			map2.put("min", min);
 //			map2.put("max", max);
 			yAxis.add(map2);

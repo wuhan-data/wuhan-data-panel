@@ -12,7 +12,7 @@ import com.wuhan_data.app.showType.pojo.BarStoreOptionEntity;
 public class BarStoreType {
 	String type = "bar";
 
-	// 参数：图例名称列表、x轴数据、数据
+	// 参数：图例名称列表、数据、数据
 	public BarStoreEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
 			List<List<String>> data) {
 		BarStoreOptionEntity barStoreOptionEntity = new BarStoreOptionEntity();
@@ -44,7 +44,7 @@ public class BarStoreType {
 		temList = dataX;
 		Map<String,Object> xAxisMap = new HashMap<String,Object>();
 		xAxisMap.put("type", "category");
-		xAxisMap.put("name", "x轴");
+		xAxisMap.put("name", "");
 		xAxisMap.put("data", temList);
 		xAxis.add(xAxisMap);
 //		}
@@ -55,7 +55,7 @@ public class BarStoreType {
 //		{
 		Map<String,Object> yAxisMap = new HashMap<String,Object>();
 		yAxisMap.put("type", "value");
-		yAxisMap.put("name", "y轴");
+		yAxisMap.put("name", "");
 		yAxis.add(yAxisMap);
 //		}
 		barStoreOptionEntity.setyAxis(yAxis);
