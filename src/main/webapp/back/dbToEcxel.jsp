@@ -59,7 +59,7 @@
 		
 <!-- 		表格 -->
 		 <div class="navbar-header">
-		 	<table style="width:100%;border:1px white solid" class="dd">
+		 	<table style="width:100%;border:1px white solid" class="dd" id="table">
     			<tr bgcolor="#4F81BD"style="color: #fff;">
 <%--     			<%=columns[0]%> --%>
         			<th style="text-align: center">indi_code</th>
@@ -72,15 +72,78 @@
         			<th style="text-align: center">time_point</th>
         			<th style="text-align: center">indi_value</th>
     			</tr>
-<!--     			<span class="dd"> -->
-       			
-<!--     			</span> -->
 			</table>
-		 
+			<button class="btn btn-success my-2 my-sm-0" id="exportE">导出到excel表格</button>
 		 
 		 </div>
+		 
+		 
+<script type="text/javascript">
+// 		function export1(){
+// 			var tableId = document.getElementById("table"); 
+// 			var str = ""; 
+// 			alert("我进方法了")
+			
+// 			for(var i=1;i<tableId.rows.length;i++) 
+// 			{ 
+// 				alert("我进循环了")
+// 				alert(tableId.rows[i].innerHTML);   //遍历table
+				
+// 			} 
+			
+// 		}
+	function export1(){
+		alert("进入")
+		var tr = $("#table tr"); // 获取table中每一行内容
+		var result = []; // 数组
+		for (var i = 0; i < tr.length; i++) {// 遍历表格中每一行的内容
+			var tds = $(tr[i]).find("td");
+			if (tds.length > 0) {
+				alert("js中的值"+$(tds[0]).val())
+				result.push({
+					"indi_code" : $(tds[0]).val(),
+					"indi_name" : $(tds[1]).val(),
+					"date_code" : $(tds[2]).val(),
+					"kjwdm" : $(tds[3]).val(),
+					"area_code" : $(tds[4]).val(),
+					"area_name" : $(tds[5]).val(),
+					"freq_code" : $(tds[6]).val(),
+					"time_point" : $(tds[7]).val(),
+					"indi_value" : $(tds[8]).val(),
+				})
+			}
+		}
+		var jsonData = { // json数据
+			"indiAll" : result
+		}
+		$.ajax({
+			type : "post",
+			url : "/ecxelTest.do",
+			contentType : "application/json;charset=UTF-8",
+			data : JSON.stringify(jsonData),// 将json数据转化为字符串
+			success : function(data) {
+	 
+			}
+		})
+	}
+
+			
+//         	var searcName=document.getElementById("searchKeyWord").value;
+//         	alert(searchName)
+//         	var keyWord=encodeURI(encodeURI(searchName));
+        	
+//         	var formSearch=document.getElementById("formSearch");
+//         	formSearch.action="IndiSearch?keyWord="+keyWord;
+//         	formSearch.submit();
+
+
+
+	
+
+        	
 		
 		
+</script>
 		
 		
 <script>
@@ -353,7 +416,6 @@ $(document).ready(function(){
 //	});
 
 })
-
 </script>
 </body>
 </html>

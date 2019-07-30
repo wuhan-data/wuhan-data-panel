@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,8 +34,6 @@ public class DbToExcelController {
 
 	@RequestMapping(value = "dbToEcxel", produces = "text/plain;charset=utf-8")
 	public ModelAndView toDbToExcel() {
-		// ModelAndView mav = new ModelAndView();1600020
-		// mav.setViewName("metaDataManage");
 		String keyword = "亏损";
 		List<IndexManage> indexList = dbToExcelService.getIndi(keyword);
 
@@ -172,6 +172,18 @@ public class DbToExcelController {
 				"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
 		response.addHeader("Content-Length", "" + data.length);
 		IOUtils.write(data, response.getOutputStream());
+	}
+	
+
+    @ResponseBody
+	@RequestMapping(value = "ecxelTest", method=RequestMethod.POST)
+	public void ecxelTest(@RequestBody List<IndiAll> indiAllList,HttpServletRequest request) {
+    	
+    	System.out.println("进入了这个controller!");
+		for(int i=0;i<indiAllList.size();i++)
+		{
+			System.out.println("输出组成的指标:" + indiAllList.get(0).getIndi_name());
+		}
 	}
 
 }
