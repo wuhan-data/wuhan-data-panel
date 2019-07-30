@@ -35,7 +35,7 @@ public class TopicBarType {
 
 				Map<String,Object> map3 = new HashMap<String,Object>();
 				map3.put("type", "category");
-				map3.put("name","x轴");
+				map3.put("name","");
 				map3.put("data",dataX );
 				xAxis.add(map3);
 			oe.setxAxis(xAxis);
@@ -43,7 +43,7 @@ public class TopicBarType {
 			List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
 				Map<String,Object> map4 = new HashMap<String,Object>();
 				map4.put("type", "value");
-				map4.put("name","y轴");
+				map4.put("name","");
 				yAxis.add(map4);
 			oe.setyAxis(yAxis);
 			

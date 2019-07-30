@@ -9,7 +9,7 @@ import com.wuhan_data.app.showType.pojo.BarStackLineEntity;
 import com.wuhan_data.app.showType.pojo.BarStackLineOptionEntity;
 
 public class BarStackLineType {
-	// 参数：图例名称列表、x轴数据、数据、展示类型
+	// 参数：图例名称列表、数据、数据、展示类型
 	public BarStackLineEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
 			List<List<String>> data, List<String> showType) {
 		BarStackLineOptionEntity barStackLineOptionEntity = new BarStackLineOptionEntity();
@@ -41,7 +41,7 @@ public class BarStackLineType {
 		temList = dataX;
 		Map<String,Object> mapxAis = new HashMap<String,Object>();
 		mapxAis.put("type", "category");
-		mapxAis.put("name", "x轴");
+		mapxAis.put("name", "");
 		mapxAis.put("data", temList);
 		xAxis.add(mapxAis);
 //		}
@@ -52,12 +52,12 @@ public class BarStackLineType {
 //		{
 		Map<String,Object> mapFirst_yAxis = new HashMap<String,Object>();
 		mapFirst_yAxis.put("type", "value");
-		mapFirst_yAxis.put("name", "y0轴");
+		mapFirst_yAxis.put("name", "");
 		yAxis.add(mapFirst_yAxis);
 
 		Map<String,Object> mapsecond_yAxis = new HashMap<String,Object>();
 		mapsecond_yAxis.put("type", "value");
-		mapsecond_yAxis.put("name", "y1轴");
+		mapsecond_yAxis.put("name", "");
 		yAxis.add(mapsecond_yAxis);
 //		}
 		barStackLineOptionEntity.setyAxis(yAxis);

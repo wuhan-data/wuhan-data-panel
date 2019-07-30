@@ -10,7 +10,7 @@ import com.wuhan_data.app.showType.pojo.LineAndBarOptionEntity;
 
 //折柱混搭
 public class TopicLineAndBarType {
-	//参数：图例名称、x轴数据、数据、显示类型
+	//参数：图例名称、数据、数据、显示类型
 	public LineAndBarEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<Float>> data,List showType) {
 		
 		LineAndBarOptionEntity oe = new LineAndBarOptionEntity();
@@ -59,7 +59,7 @@ public class TopicLineAndBarType {
 
 			Map<String,Object> map3 = new HashMap<String,Object>();
 			map3.put("type", "category");
-			map3.put("name","x轴");
+			map3.put("name","");
 			map3.put("data",dataX );
 			xAxis.add(map3);
 
@@ -69,12 +69,12 @@ public class TopicLineAndBarType {
 
 			Map<String,Object> map4 = new HashMap<String,Object>();
 			map4.put("type", "value");
-			map4.put("name","y0轴");
+			map4.put("name","");
 			yAxis.add(map4);
 			
 			Map<String,Object> map5 = new HashMap<String,Object>();
 			map5.put("type", "value");
-			map5.put("name","y1轴");
+			map5.put("name","");
 			yAxis.add(map5);
 
 		oe.setyAxis(yAxis);
