@@ -159,7 +159,8 @@ public class UserControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
-				return this.apiReturn("-1", "短信发送异常", data);
+				System.out.println("调试接受验证码："+e.toString());
+				return this.apiReturn("-2", "短信发送异常", data);
 			}
 			
 		}
