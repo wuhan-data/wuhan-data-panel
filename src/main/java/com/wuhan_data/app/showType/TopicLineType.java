@@ -16,7 +16,7 @@ String type="line";
 	//参数 板块id，板块名称，x轴数组,值的数组
 	//y轴的最大最小值根据数据再计算
 //	public LineEntity getOption(String id,String title,List dataX,List dataV) {
-	public LineEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<Float>> dataV,int min,int max) {
+	public LineEntity getOption(String id,String title,List<String> dataX,List<String> legendData,List<List<Float>> dataV,float min,float max) {
 		LineOptionEntity oe = new LineOptionEntity();
 		Map map = new HashMap();
 		map.put("containLabel", true);
@@ -45,8 +45,8 @@ String type="line";
 			Map map2 = new HashMap();
 			map2.put("type", "value");
 			map2.put("name","y轴");			
-//			map2.put("min", min);
-//			map2.put("max", max);
+			map2.put("min", min);
+			map2.put("max", max);
 			yAxis.add(map2);
 		   oe.setyAxis(yAxis);
 
