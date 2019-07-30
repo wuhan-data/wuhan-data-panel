@@ -15,19 +15,19 @@ public class RadarType {
 	public RadarEntity getOption(String id, String title, List<String> legendData, List<String> nameData,
 			List<List<String>> data, List<List<String>> dataByTime) {
 		RadarOptionEntity radarOptionEntity = new RadarOptionEntity();
-		Map<String,Object> gridMap = new HashMap<String,Object>();
+		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
 		radarOptionEntity.setGrid(gridMap);
 
-		Map<String,Object> legendMap = new HashMap<String,Object>();
+		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("data", legendData);
 		radarOptionEntity.setLegend(legendMap);
 
-		Map<String,Object> radarMap = new HashMap<String,Object>();
+		Map<String, Object> radarMap = new HashMap<String, Object>();
 
-		Map<String,Object> radarTextStyleMap = new HashMap<String,Object>();
-		Map<String,Object> radarNameMap = new HashMap<String,Object>();
-		List<Map<String,Object>> list1 = new ArrayList<Map<String,Object>>();
+		Map<String, Object> radarTextStyleMap = new HashMap<String, Object>();
+		Map<String, Object> radarNameMap = new HashMap<String, Object>();
+		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < nameData.size(); i++) {
 			List<String> temList = data.get(i);
 			List<Double> temListDouble = new ArrayList<Double>();
@@ -38,14 +38,14 @@ public class RadarType {
 					temListDouble.add(Double.parseDouble((String) temList.get(j)));
 				}
 			}
-			Map<String,Object> mapi = new HashMap<String,Object>();
+			Map<String, Object> mapi = new HashMap<String, Object>();
 			double max = Collections.max(temListDouble);
 			double maxd = max * 1.1;
 			mapi.put("name", nameData.get(i));
 			mapi.put("max", maxd);
 			list1.add(mapi);
 		}
-		radarMap.put("radius", "70%");
+		radarMap.put("radius", "50%");
 		radarMap.put("shape", "circle");
 		radarTextStyleMap.put("color", "#000000");
 		radarTextStyleMap.put("fontSize", 10);
@@ -55,18 +55,17 @@ public class RadarType {
 		radarMap.put("indicator", list1);
 		radarOptionEntity.setRadar(radarMap);
 
-		Map<String,Object> seriesListMap = new HashMap<String,Object>();
-		Map<String,Object> showMap = new HashMap<String,Object>();
-		Map<String,Object> normalMap = new HashMap<String,Object>();
-		List<Map<String,Object>> listTem = new ArrayList<Map<String,Object>>();
-		List<Map<String,Object>> listSeries = new ArrayList<Map<String,Object>>();
+		Map<String, Object> seriesListMap = new HashMap<String, Object>();
+		Map<String, Object> showMap = new HashMap<String, Object>();
+		Map<String, Object> normalMap = new HashMap<String, Object>();
+		List<Map<String, Object>> listTem = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> listSeries = new ArrayList<Map<String, Object>>();
 		showMap.put("show", true);
 		normalMap.put("normal", showMap);
 		for (int i = 0; i < legendData.size(); i++) {
-			Map<String,Object> seriesListDataMap = new HashMap<String,Object>();
+			Map<String, Object> seriesListDataMap = new HashMap<String, Object>();
 			seriesListDataMap.put("label", normalMap);
-			
-			
+
 			for (int j = 0; j < dataByTime.get(i).size(); j++) {
 				if (dataByTime.get(i).get(j) == null) {
 					dataByTime.get(i).set(j, "");
