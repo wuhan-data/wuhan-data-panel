@@ -73,7 +73,7 @@
         			<th style="text-align: center">indi_value</th>
     			</tr>
 			</table>
-			<button class="btn btn-success my-2 my-sm-0" id="exportE">导出到excel表格</button>
+			<button class="btn btn-success my-2 my-sm-0" id="exportE" onClick="exportE()">导出到excel表格</button>
 		 
 		 </div>
 		 
@@ -92,7 +92,7 @@
 // 			} 
 			
 // 		}
-	function export1(){
+	function exportE(){
 		alert("进入")
 		var tr = $("#table tr"); // 获取table中每一行内容
 		var result = []; // 数组
