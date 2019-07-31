@@ -159,13 +159,12 @@ public class UserControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
-				return this.apiReturn("-1", "短信发送异常", data);
+				return this.apiReturn("-2", "短信发送异常", data);
 			}
 			
 		}
 	}
-
-	// 接口登录
+	//跳过验证码直接登录
 	@RequestMapping(value = "loginaa", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
@@ -185,15 +184,15 @@ public class UserControllerApp {
 		}
 		
 		System.out.println("登录接口:获取的参数为" + "tel" + tel + "verCode" + verCode);
-		String sessioncode="";
-		try {
-			sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
-		} catch (Exception e) {
-			// TODO: handle exception
-			return this.apiReturn("-1", "session获取异常", data);
-		}
+//		String sessioncode="";
+//		try {
+//			sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return this.apiReturn("-1", "session获取异常", data);
+//		}
 		// 对比缓存是否相同+
-		if ((verCode).equals(sessioncode)) {
+		if (true) {
 			//获取用户信息
 			try {
 				// 判断是否为新用户
@@ -255,6 +254,100 @@ public class UserControllerApp {
 			return this.apiReturn("-2", "手机号或者验证码不正确", data);
 		}
 	}
+	
+	
+	
+
+	// 接口登录
+//	@RequestMapping(value = "loginaa", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
+//	@ResponseBody
+//	public String login(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
+//			throws Exception {
+//		Map data = new HashMap();
+//		JSONObject jsonObject = JSONObject.fromObject(json);
+//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+//		String tel="";
+//		String verCode="";
+//		//参数获取
+//		try {
+//			tel = mapget.get("tel").toString();
+//			verCode = mapget.get("verCode").toString();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return this.apiReturn("-2", "请求参数获取异常", data);
+//		}
+//		
+//		System.out.println("登录接口:获取的参数为" + "tel" + tel + "verCode" + verCode);
+//		String sessioncode="";
+//		try {
+//			sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			return this.apiReturn("-1", "session获取异常", data);
+//		}
+//		// 对比缓存是否相同+
+//		if ((verCode).equals(sessioncode)) {
+//			//获取用户信息
+//			try {
+//				// 判断是否为新用户
+//				String errMsg="";
+//				if (userServiceApp.getByTel(tel) == null) {
+//					User user=new User();
+//					user.setTel(tel);
+//					//设置头像路径
+//					String headString=ImageUtils.getURL(request);
+//					user.setHead(headString+"heads/default.jpg");
+//					userServiceApp.add(user);
+//					System.out.println(user.toString());
+//					errMsg="新用户登录成功";	
+//				} else {
+//					errMsg="用户登录成功";
+//					// 将用户的信息加到session中，以token为key，对应的职位
+//				}
+//				// 将对应用户的信息加到data中
+//				User user = userServiceApp.getByTel(tel);
+//				// 生成token令牌
+//				String tokenString = TokenUtil.getToken(tel + new Date().toString());
+//				String idString = String.valueOf(user.getId());
+//				String telString = user.getTel();
+//				String realNameString = user.getReal_name();
+//				String genderString = "女";
+//				if (user.getGender() == 0) {
+//					genderString = "女";
+//				} else {
+//					genderString = "男";
+//				}
+//				String headString = user.getHead();
+//				Date birth = user.getBirthday();
+//				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//				String birthdayString = formatter.format(birth);
+//				String cityString = user.getCity();
+//				String descriptionString = user.getDescription();
+//				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
+//				String roleNameString = user.getRole_id();
+//				data.put("token", tokenString);
+//				data.put("userId", idString);
+//				data.put("tel", telString);
+//				data.put("realName", realNameString);
+//				data.put("gender", genderString);
+//				data.put("head", headString);
+//				data.put("birthday", birthdayString);
+//				data.put("city", cityString);
+//				data.put("description", descriptionString);
+//				data.put("department", deparmentString);
+//				data.put("roleName", roleNameString);
+//				// 将用户的信息加到session中，以token为key，对应的职位
+//				sessionSQLServiceApp.set(tokenString, data.toString());
+//				return this.apiReturn("0", errMsg, data);
+//			} catch (Exception e) {
+//				// TODO: handle exception
+//				return this.apiReturn("-1", "数据库获取异常", data);
+//			}
+//			// 没有设置保存多长时间会不会有问题
+//		} else {
+//			return this.apiReturn("-2", "手机号或者验证码不正确", data);
+//		}
+//	}
 
 	
 	  //接口获取用户个人信息
