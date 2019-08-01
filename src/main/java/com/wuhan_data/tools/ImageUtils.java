@@ -56,7 +56,7 @@ public class ImageUtils {
 		return imgPath;
 	}
 	public static String getURL(HttpServletRequest request) throws IOException
-	  {
+	  {		
 		String contextPath = request.getContextPath();
 		String basePath = request.getScheme()+"://"+InetAddress.getLocalHost().getHostAddress()+":"+  
                 request.getServerPort()+contextPath+"/"; 

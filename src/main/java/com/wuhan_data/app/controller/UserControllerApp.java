@@ -71,9 +71,6 @@ public class UserControllerApp {
 		return param;
 	}
 	
-	
-	
-
 	// 接口获取验证码
 	@RequestMapping(value = "getVercodeApp2", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
@@ -201,8 +198,8 @@ public class UserControllerApp {
 					User user=new User();
 					user.setTel(tel);
 					//设置头像路径
-					String headString=ImageUtils.getURL(request);
-					user.setHead(headString+"heads/default.jpg");
+//					String headString=ImageUtils.getURL(request);
+//					user.setHead(headString+"heads/default.jpg");
 					userServiceApp.add(user);
 					System.out.println(user.toString());
 					errMsg="新用户登录成功";	
@@ -256,6 +253,50 @@ public class UserControllerApp {
 	}
 	
 	
+	// 退出接口
+		@RequestMapping(value = "loginout", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
+		@ResponseBody
+		public String loginout(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
+				throws Exception {
+			Map data=new HashMap(); 
+		  	JSONObject jsonObject =JSONObject.fromObject(json); 
+		  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
+		  	//获取数据
+		  	String tokenString="";
+		  	try {
+		  		 tokenString=mapget.get("token").toString();
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-2", "请求参数异常",data);
+			}
+		  	System.out.println("退出登录："+"token"+tokenString);
+		  	
+		  	//token令牌验证
+		  	Boolean tokenIsEmpty=true;
+		  	try {
+				tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+			} catch (Exception e) {
+				// TODO: handle exception
+				return this.apiReturn("-1", "数据库异常",data);
+			}
+		  	
+		  	if(tokenIsEmpty)
+		  	{
+		  		return this.apiReturn("-3", "token令牌错误",data);
+		  	}
+		  	else {
+		  		//获取用户数据
+		  		try {
+		  			sessionSQLServiceApp.delete(tokenString);
+					return this.apiReturn("0", "退出登录成功",data);			
+				} catch (Exception e) {
+					// TODO: handle exception
+					return this.apiReturn("-1", "数据库操作错误",data);
+				}
+		  		
+		  	}  
+			
+		}
 	
 
 	// 接口登录
@@ -614,6 +655,7 @@ public class UserControllerApp {
 			responseMap.put("errCode", errCode);
 			responseMap.put("errMsg", errMsg);
 			responseMap.put("data", data);
+			System.out.println(JSON.toJSONString(responseMap));
 			return JSON.toJSONString(responseMap);
 		}
 	  
