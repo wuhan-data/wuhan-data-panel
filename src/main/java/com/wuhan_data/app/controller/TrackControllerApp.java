@@ -188,6 +188,7 @@ public class TrackControllerApp {
 		responseMap.put("errCode", errCode);
 		responseMap.put("errMsg", errMsg);
 		responseMap.put("data", data);
+		System.out.println(JSON.toJSONString(responseMap));
 		return JSON.toJSONString(responseMap);
 	}
 	

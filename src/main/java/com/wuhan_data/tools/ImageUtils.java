@@ -56,11 +56,7 @@ public class ImageUtils {
 		return imgPath;
 	}
 	public static String getURL(HttpServletRequest request) throws IOException
-	  {
-		String url = request.getSession().getServletContext()
-				.getRealPath("/heads");
-		// 检验文件夹是否存在
-		isFolderExists(url);
+	  {		
 		String contextPath = request.getContextPath();
 		String basePath = request.getScheme()+"://"+InetAddress.getLocalHost().getHostAddress()+":"+  
                 request.getServerPort()+contextPath+"/"; 

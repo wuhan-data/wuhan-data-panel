@@ -1,6 +1,7 @@
 package com.wuhan_data.pojo;
 
 import java.util.Date;
+import java.util.Random;
 
 public class User {
     private Integer id;
@@ -21,21 +22,26 @@ public class User {
     private String description;
     public User() {
 		// TODO Auto-generated constructor stub
+    	String charValue = "";
+    	for (int i = 0; i < 4; i++) {
+    	char c = (char) (randomInt(0, 9) + '0');
+    	charValue += String.valueOf(c);
+    	}
     	username="undefined";
     	password="undefined";
     	status="0";
     	gender=0;
     	tel="888888888";
-    	real_name="undefined";
+    	real_name="用户#"+charValue;
     	role_list="undefined";
     	role_name="undefined";
     	create_time=new Date();
     	role_id="职员";
     	department_id="组织部";
     	birthday=new Date();
-    	city="undefined";
-    	head="E:\\project\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\wuhan-data-panel\\heads/default.jpg";
-    	description="undefined";
+    	city="";
+    	head="";
+    	description="天才是百分之一的灵感加百分之九十九的汗水。";
     	
     	
 	}
@@ -147,6 +153,9 @@ public class User {
 				+ ", department_id=" + department_id + ", birthday=" + birthday + ", city=" + city + ", head=" + head
 				+ ", description=" + description + "]";
 	}
-	
+	public static int randomInt(int from, int to) {
+		Random r = new Random();
+		return from + r.nextInt(to - from);
+		}
     
 }
