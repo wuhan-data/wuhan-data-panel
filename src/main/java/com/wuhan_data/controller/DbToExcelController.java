@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.IndiAll;
 import com.wuhan_data.service.DbToExcelService;
@@ -175,15 +176,17 @@ public class DbToExcelController {
 	}
 	
 
-    @ResponseBody
-	@RequestMapping(value = "ecxelTest", method=RequestMethod.POST)
-	public void ecxelTest(@RequestBody List<IndiAll> indiAllList,HttpServletRequest request) {
+    
+	@RequestMapping(value = "ecxelTest")
+	public void ecxelTest(String result,HttpServletRequest request) {
     	
     	System.out.println("进入了这个controller!");
-		for(int i=0;i<indiAllList.size();i++)
-		{
-			System.out.println("输出组成的指标:" + indiAllList.get(0).getIndi_name());
-		}
+    	
+//		for(int i=0;i<result.length;i++)
+//		{
+//			IndiAll indiAll=JSON.toJavaObject(result[0], IndiAll.class);
+//			System.out.println("输出组成的指标:" + (indiAll.getIndi_name()));
+//		}
 	}
 
 }
