@@ -409,6 +409,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
 				Integer classHeight = 350 + legend.size() * 35;
 				lineEntity.setClassHeight(classHeight.toString());
+				TotalList.add(lineEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
@@ -416,7 +417,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					dataXaisTable.add(xAxis);
 				}
 				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
-				TotalList.add(lineEntity);
 				TotalList.add(tableEntity);
 			}
 				break;
@@ -445,6 +445,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showType.add(indiList.get(j).getShowType());
 				}
 				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
+				Integer classHeight = 350 + legend.size() * 35;
+				barEntity.setClassHeight(classHeight.toString());
+				TotalList.add(barEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
@@ -452,7 +455,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					dataXaisTable.add(xAxis);
 				}
 				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
-				TotalList.add(barEntity);
 				TotalList.add(tableEntity);
 			}
 				break;
@@ -511,10 +513,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMapPie.put("endTime", queryMap.get("endTime"));
 					queryMapPie.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
-					String indiValue = "0";
-					if (indiInfoList.get(0) != null) {
-						indiValue = indiInfoList.get(0).getIndiValue();
-					}
+					String indiValue = indiInfoList.get(0).getIndiValue();
 					legend.add(j, indiName);
 					dataV.add(j, indiValue);
 				}
@@ -553,11 +552,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入折柱混搭图");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
 				LineAndBarType lineAndBarType = new LineAndBarType();
 				for (int j = 0; j < indiList.size(); j++) {
-					String sType = indiList.get(j).getShowType();
-					showType.add(sType);
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
 					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
@@ -570,16 +568,21 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue.add(dataIndiValue);
 					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
 				}
-				TableType tableType = new TableType();
 				LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
-						showType);
+						showColor, showType);
+				Integer classHeight = 350 + legend.size() * 35;
+				lineAndBarEntity.setClassHeight(classHeight.toString());
+				TotalList.add(lineAndBarEntity);
+				// 配置表格数据
+				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				for (int q = 0; q < indiList.size(); q++) {
 					dataXaisTable.add(xAxis);
 				}
 				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
-				TotalList.add(lineAndBarEntity);
 				TotalList.add(tableEntity);
 			}
 				break;
@@ -587,6 +590,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入柱状堆叠图");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
 				BarStoreType barStoreType = new BarStoreType();
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -600,11 +605,16 @@ public class AnalysisServiceImpl implements AnalysisService {
 						}
 					}
 					dataValue.add(dataIndiValue);
-					// 此处legend的值可能需要更改
 					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
 				}
-				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue);
+				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue, showColor,
+						showType);
+				Integer classHeight = 350 + legend.size() * 35;
+				barStoreEntity.setClassHeight(classHeight.toString());
 				TotalList.add(barStoreEntity);
+				// 配置表格数据
 				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				for (int q = 0; q < indiList.size(); q++) {

@@ -44,12 +44,17 @@ public class BarType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("bottom", "350");
 		legendMap.put("data", legendData);
-		// 控制初始展示图例个数
-		if (legendData.size() >= 2) {
-			// 默认展示前2个图例
+		// 控制初始展示图例个数,默认展示2个
+		int showNum = 2;
+		if (legendData.size() >= showNum) {
 			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
-			legendSelectedMap.put(legendData.get(0).toString(), true);
-			legendSelectedMap.put(legendData.get(1).toString(), false);
+			for (int i = 0; i < legendData.size(); i++) {
+				if (i < showNum) {
+					legendSelectedMap.put(legendData.get(i).toString(), true);
+				} else {
+					legendSelectedMap.put(legendData.get(i).toString(), false);
+				}
+			}
 			legendMap.put("selected", legendSelectedMap);
 		}
 		barOptionEntity.setLegend(legendMap);
