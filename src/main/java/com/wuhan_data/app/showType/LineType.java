@@ -17,15 +17,27 @@ public class LineType {
 	public LineEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
 			List<List<String>> dataV, List<String> showColor, List<String> showType) {
 		LineOptionEntity lineOptionEntity = new LineOptionEntity();
+
+		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
 		gridMap.put("bottom", "60");
 		gridMap.put("bottom", "250");
 		lineOptionEntity.setGrid(gridMap);
 
+		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
+		toolTipMap.put("position", "['10%', '50%']");
+		toolTipMap.put("snap", true);
+		Map<String, Object> axisPointerMap = new HashMap<String, Object>();
+		axisPointerMap.put("type", "line");
+		axisPointerMap.put("axis", "x");
+		Map<String, Object> axisPointerLabelMap = new HashMap<String, Object>();
+		axisPointerLabelMap.put("show", true);
+		axisPointerMap.put("label", axisPointerLabelMap);
+		toolTipMap.put("axisPointer", axisPointerMap);
 		lineOptionEntity.setTooltip(toolTipMap);
 
 		// 构建legend
