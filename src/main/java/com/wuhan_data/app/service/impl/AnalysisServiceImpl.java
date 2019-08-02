@@ -384,6 +384,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入折线图");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
 				LineType lineType = new LineType();
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -398,9 +400,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue.add(dataIndiValue);
 					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
 				}
+				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
+				Integer classHeight = 350 + legend.size() * 35;
+				lineEntity.setClassHeight(classHeight.toString());
+				// 配置表格数据
 				TableType tableType = new TableType();
-				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue);
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				for (int q = 0; q < indiList.size(); q++) {
 					dataXaisTable.add(xAxis);
