@@ -14,17 +14,28 @@ public class RadarType {
 	// 参数：图例名称列表、指标名称列表、数据
 	public RadarEntity getOption(String id, String title, List<String> legendData, List<String> nameData,
 			List<List<String>> data, List<List<String>> dataByTime) {
+
 		RadarOptionEntity radarOptionEntity = new RadarOptionEntity();
+
+		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
 		radarOptionEntity.setGrid(gridMap);
 
+		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("data", legendData);
+		// 控制初始展示图例个数
+		if (legendData.size() >= 1) {
+			// 默认展示前2个图例
+			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
+			legendSelectedMap.put(legendData.get(0).toString(), true);
+			legendMap.put("selected", legendSelectedMap);
+		}
 		radarOptionEntity.setLegend(legendMap);
 
+		// 构建radar
 		Map<String, Object> radarMap = new HashMap<String, Object>();
-
 		Map<String, Object> radarTextStyleMap = new HashMap<String, Object>();
 		Map<String, Object> radarNameMap = new HashMap<String, Object>();
 		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
@@ -55,6 +66,7 @@ public class RadarType {
 		radarMap.put("indicator", list1);
 		radarOptionEntity.setRadar(radarMap);
 
+		// 构建series
 		Map<String, Object> seriesListMap = new HashMap<String, Object>();
 		Map<String, Object> showMap = new HashMap<String, Object>();
 		Map<String, Object> normalMap = new HashMap<String, Object>();
@@ -65,7 +77,6 @@ public class RadarType {
 		for (int i = 0; i < legendData.size(); i++) {
 			Map<String, Object> seriesListDataMap = new HashMap<String, Object>();
 			seriesListDataMap.put("label", normalMap);
-
 			for (int j = 0; j < dataByTime.get(i).size(); j++) {
 				if (dataByTime.get(i).get(j) == null) {
 					dataByTime.get(i).set(j, "");
@@ -80,14 +91,7 @@ public class RadarType {
 		listSeries.add(seriesListMap);
 		radarOptionEntity.setSeries(listSeries);
 
-		/**
-		 * 
-		 * 
-		 * 
-		 */
-
 		RadarEntity radarEntity = new RadarEntity(id, title, radarOptionEntity);
-
 		return radarEntity;
 	}
 

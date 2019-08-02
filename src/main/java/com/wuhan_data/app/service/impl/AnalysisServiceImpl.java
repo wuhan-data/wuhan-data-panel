@@ -197,7 +197,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		String freqName = (String) freqObject.get("freqName");
 		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
 		String startTime = startTimeList.get(current.get(0)).toString();
-		String startTimeRadar = endTimeList.get(startTimeList.size() - 3).toString();
+		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String startTimePoint = endTimeList.get(0).toString();
 		String endTime = endTimeList.get(current.get(1)).toString();
 		String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
@@ -376,9 +376,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 		for (int i = 0; i < analysisPlate.size(); i++) {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 			System.out.println("正在处理第" + i + "个版块数据:" + df.format(new Date()));
+
 			String id = String.valueOf(analysisPlate.get(i).getPlateId());// 板块id
 			String title = analysisPlate.get(i).getPlateName();// 板块名
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
+
 			switch (analysisPlate.get(i).getShowType()) {
 			case "折线图": {
 				System.out.println("进入折线图");
@@ -387,6 +389,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
 				LineType lineType = new LineType();
+				// 配置指标图例
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
@@ -421,7 +424,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入柱状图");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
 				BarType barType = new BarType();
+				// 配置指标图例
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
@@ -435,9 +441,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue.add(dataIndiValue);
 					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
 				}
+				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
+				// 配置表格数据
 				TableType tableType = new TableType();
-				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue);
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				for (int q = 0; q < indiList.size(); q++) {
 					dataXaisTable.add(xAxis);
@@ -449,17 +458,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				break;
 			case "雷达图": {
 				System.out.println("进入雷达图");
-				// 记录图例，此处为时间
-				// 分指标记录值
 				List<List<String>> dataValue = new ArrayList<List<String>>();
-				// 记录指标名
 				List<String> dataName = new ArrayList<String>();
-				// 记录以时间跨度的值
 				List<List<String>> dataByTime = new ArrayList<List<String>>();
 				RadarType radarType = new RadarType();
-				// 雷达图支取最近的两期数据进行展示
-				List<String> xAxisRadar = xAxis.subList(xAxis.size() - 2, xAxis.size());
-//				xAxis = xAxis.subList(xAxis.size() - 3, xAxis.size());
+				// 雷达图取最近的两期数据进行展示
+				List<String> xAxisRadar = xAxis.subList(xAxis.size() - 3, xAxis.size());
+				// 配置指标图例
 				for (int j = 0; j < indiList.size(); j++) {
 					// 时间不与时间选择器进行关联
 					Map<String, Object> queryMap1 = new HashMap<String, Object>();

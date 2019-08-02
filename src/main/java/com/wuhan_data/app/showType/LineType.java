@@ -16,6 +16,33 @@ public class LineType {
 	// y轴的最大最小值根据数据再计算
 	public LineEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
 			List<List<String>> dataV, List<String> showColor, List<String> showType) {
+
+		// 预处理数据，合并1月及2月的数据
+		int ignoreX = -1;
+		for (int i = 0; i < dataX.size(); i++) {
+			if (dataX.get(i).length() != 7) {
+				continue;
+			}
+			String monthString = dataX.get(i).toString().substring(5, 7);
+			if (monthString.equals("01")) {
+				for (int j = 0; j < dataV.size(); j++) {
+					if (dataV.get(j).get(i) == null || dataV.get(j).get(i).toString().equals("")) {
+						// 存在一月无数据情况，需要进行合并
+						ignoreX = i;
+					}
+				}
+			}
+		}
+		// 删除1月的空数据
+		if (ignoreX != -1) {
+			// 处理x轴数据
+			dataX.remove(ignoreX);
+			// 处理数据值
+			for (int i = 0; i < dataV.size(); i++) {
+				dataV.get(i).remove(ignoreX);
+			}
+		}
+
 		LineOptionEntity lineOptionEntity = new LineOptionEntity();
 
 		// 构建grid
@@ -42,31 +69,29 @@ public class LineType {
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
-		System.out.println(legendMap);
-		legendMap.put("data", legendData);
 		legendMap.put("orient", "vertical");
 		legendMap.put("bottom", "350");
+		legendMap.put("data", legendData);
 		// 控制初始展示图例个数
-		if (legendMap.size() >= 2) {
+		if (legendData.size() >= 2) {
+			// 默认展示前2个图例
 			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
-			for (int i = 0; i < legendMap.size(); i++) {
-				if (i <= 2) {
-					legendSelectedMap.put(legendMap.get(i).toString(), true);
-				}
-				legendSelectedMap.put(legendMap.get(i).toString(), false);
-			}
+			legendSelectedMap.put(legendData.get(0).toString(), true);
+			legendSelectedMap.put(legendData.get(1).toString(), false);
+			legendMap.put("selected", legendSelectedMap);
 		}
 		lineOptionEntity.setLegend(legendMap);
 
 		// 构建调色盘
 		List<String> colorMap = new ArrayList<String>();
+		// 一期调色盘
 		colorMap.add("#f0855b");
 		colorMap.add("#96cdf6");
 		colorMap.add("#8ac583");
 		colorMap.add("#6d95e6");
 		colorMap.add("#738c36");
 		colorMap.add("#ee74b2");
-
+		// 默认调色盘
 		colorMap.add("#c23531");
 		colorMap.add("#2f4554");
 		colorMap.add("#61a0a8");
@@ -81,12 +106,10 @@ public class LineType {
 
 		// 构建x轴
 		List<Map<String, Object>> xAxis = new ArrayList<Map<String, Object>>();
-		List<String> temList = new ArrayList<String>();
-		temList = dataX;
 		Map<String, Object> xAxisMap = new HashMap<String, Object>();
 		xAxisMap.put("type", "category");
 		xAxisMap.put("name", ""); // 名称过长，不展示名称
-		xAxisMap.put("data", temList);
+		xAxisMap.put("data", dataX);
 		xAxis.add(xAxisMap);
 		lineOptionEntity.setxAxis(xAxis);
 
@@ -101,12 +124,12 @@ public class LineType {
 		// 构建series
 		List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
 		for (int i = 0; i < dataV.size(); i++) {
-			List<String> temList1 = new ArrayList<String>();
-			temList1 = dataV.get(i);
+			List<String> tempList = new ArrayList<String>();
+			tempList = dataV.get(i);
 			Map<String, Object> seriesListMap = new HashMap<String, Object>();
 			seriesListMap.put("name", legendData.get(i));
 			seriesListMap.put("type", type);
-			seriesListMap.put("data", temList1);
+			seriesListMap.put("data", tempList);
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
 			if (showColor.get(i) != null && showColor.get(i) != "") {
