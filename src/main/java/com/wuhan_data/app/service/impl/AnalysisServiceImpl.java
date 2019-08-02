@@ -388,8 +388,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
-				LineType lineType = new LineType();
 				// 配置指标图例
+				LineType lineType = new LineType();
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
@@ -426,8 +426,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
-				BarType barType = new BarType();
 				// 配置指标图例
+				BarType barType = new BarType();
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
@@ -463,10 +463,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> dataName = new ArrayList<String>();
 				List<List<String>> dataByTime = new ArrayList<List<String>>();
+				// 配置指标图例
 				RadarType radarType = new RadarType();
 				// 雷达图取最近的两期数据进行展示
 				List<String> xAxisRadar = xAxis.subList(xAxis.size() - 3, xAxis.size());
-				// 配置指标图例
 				for (int j = 0; j < indiList.size(); j++) {
 					// 时间不与时间选择器进行关联
 					Map<String, Object> queryMap1 = new HashMap<String, Object>();
@@ -503,6 +503,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入饼状图");
 				List<String> dataV = new ArrayList<String>();
 				List<String> legend = new ArrayList<String>();
+				// 配置指标图例
 				PieType pieType = new PieType();
 				for (int j = 0; j < indiList.size(); j++) {
 					String indiName = indiList.get(j).getIndiName().toString();
@@ -525,6 +526,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入散点图");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
+				// 配置指标图例
 				PointType pointType = new PointType();
 				for (int j = 0; j < indiList.size(); j++) {
 					Map<String, Object> queryMap1 = new HashMap<String, Object>();
@@ -554,6 +556,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				// 配置指标图例
 				LineAndBarType lineAndBarType = new LineAndBarType();
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -592,6 +595,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				// 配置指标图例
 				BarStoreType barStoreType = new BarStoreType();
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -628,7 +632,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入柱状堆叠折线图");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				// 配置指标图例
 				BarStackLineType barStackLineType = new BarStackLineType();
 				for (int j = 0; j < indiList.size(); j++) {
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -643,12 +649,15 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue.add(dataIndiValue);
 					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
 				}
 				BarStackLineEntity barStackLineEntity = barStackLineType.getOption(id, title, xAxis, legend, dataValue,
-						showType);
+						showColor, showType);
+				Integer classHeight = 350 + legend.size() * 35;
+				barStackLineEntity.setClassHeight(classHeight.toString());
 				TotalList.add(barStackLineEntity);
-
+				// 配置表格数据
 				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				for (int q = 0; q < indiList.size(); q++) {
@@ -659,6 +668,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 				break;
 			default:
+				System.out.println("未匹配到图例函数");
 				break;
 			}
 		}
