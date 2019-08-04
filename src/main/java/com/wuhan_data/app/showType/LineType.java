@@ -42,7 +42,9 @@ public class LineType {
 			// 处理数据值
 			List<List<String>> dataV1 = new ArrayList<List<String>>();
 			for (int i = 0; i < dataV.size(); i++) {
-				List<String> tempList = new ArrayList<String>();
+				List<String> tempList = new ArrayList<String>(dataV.get(i));
+				System.out.println(tempList.toString());
+				tempList.remove(ignoreX);
 				dataV1.add(tempList);
 				System.out.println(dataV1.toString());
 			}
