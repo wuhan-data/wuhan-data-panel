@@ -417,7 +417,7 @@ public class IndiSearchAppController {
 			System.out.println("timeRange:" + indiDateList);
 
 			List<String> newindiDateList = new ArrayList<String>();
-			for (int k = indiDateList.size() - 1; k >= 0; k--) {
+			for (int k = 0; k < indiDateList.size() - 1; k++) {
 				newindiDateList.add(indiDateList.get(k).substring(0, 4) + "/" + indiDateList.get(k).substring(4, 6));
 			}
 			timeMap.put("startArray", newindiDateList);// 开始时间范围
