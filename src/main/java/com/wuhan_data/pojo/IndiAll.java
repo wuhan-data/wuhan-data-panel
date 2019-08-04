@@ -12,9 +12,21 @@ public class IndiAll {
 	String time_point;
 	String indi_value;
 	//TODO 后期在添加
+	
+	
 	public String getIndi_code() {
 		return indi_code;
 	}
+	
+
+
+	public IndiAll() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public void setIndi_code(String indi_code) {
 		this.indi_code = indi_code;
 	}

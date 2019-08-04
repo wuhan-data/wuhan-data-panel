@@ -8,7 +8,7 @@ import com.wuhan_data.pojo.IndiAll;
 
 public interface DbToExcelService {
 	
-	public byte[] exportOrderData(String id);
+	public byte[] exportOrderData(List<IndiAll> indiAllList);
 
 	public List<IndexManage> getIndi(String keyword);
 

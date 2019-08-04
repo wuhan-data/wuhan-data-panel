@@ -28,7 +28,7 @@ public class DbToExcelServiceImpl implements DbToExcelService{
 	DbToExcelMapper dbToExcelMapper;
 
 	@Override
-	public byte[] exportOrderData(String id) {
+	public byte[] exportOrderData(List<IndiAll> indiAllList) {
 		ExcelWriter writer = ExcelUtil.getWriter(); // 通过工具类创建writer，默认创建xls格式
 		Map<String, String> map = MapUtil.newHashMap(true);
 	    map.put("indi_code", "指标代码");
@@ -44,7 +44,7 @@ public class DbToExcelServiceImpl implements DbToExcelService{
 	    writer.setHeaderAlias(map);
 	    List<IndiAll> exports = new ArrayList<>();// 一次性写出内容，使用默认样式
 	   
-	    List<IndiAll> indiAllList = dbToExcelMapper.selectIndi(id);
+	    //List<IndiAll> indiAllList = dbToExcelMapper.selectIndi(id);
 	    	
 	    	
 	    for (int j = 0; j < indiAllList.size(); j++) {

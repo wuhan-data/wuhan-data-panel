@@ -59,7 +59,7 @@ public class TopicController {
 			List<String> dataX = new ArrayList<String>();//X轴数据（时间轴）
 			List<List<Float>> dataV = new ArrayList<List<Float>>();//指标值
 			List<Float> dataVv = new ArrayList<Float>();//指标值
-			for(int i=0;i<list1_1.size();i++) {
+			for(int i=(list1_1.size()-1);i>=0;i--) {
 				dataX.add(list1_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 				dataVv.add(Float.parseFloat(list1_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 			}
@@ -67,7 +67,7 @@ public class TopicController {
 			List<String> legendData1 = new ArrayList<String>();//图例列表（指标名称）
 			legendData1.add(list1_1.get(0).getIndi_name());//
 			TopicLineType lineType = new TopicLineType();
-			LineEntity lineEntity1 = lineType.getOption("1", "湖北省高质量发展指数变化趋势", dataX, legendData1, dataV,60,140);
+			LineEntity lineEntity1 = lineType.getOption("1", "湖北省高质量发展指数变化趋势", dataX, legendData1, dataV,90,120);
 //第二部分			
 			String cardText = topicService.getTopic1Card1_1()+";"+topicService.getTopic1Card1_2()+";"+topicService.getTopic1Card1_3()+";"+topicService.getTopic1Card1_4()+"。";
 			CardEntity cardEntity = new CardEntity("2", "发展质效分析", "card", cardText);
@@ -89,17 +89,19 @@ public class TopicController {
 			List<Float> dataVV2_2 = new ArrayList<Float>();
 			List<Float> dataVV2_3 = new ArrayList<Float>();
 			List<Float> dataVV2_4 = new ArrayList<Float>();
-			for(int i=0;i<list2_1.size();i++) {
-				dataX2.add(list2_1.get(i).getDate_code());
+			for(int i=(list2_1.size()-1);i>0;i--) {
+				dataX2.add(list2_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
+			}
+			for(int i=(list2_1.size()-1);i>0;i--) {
 				dataVV2_1.add(Float.parseFloat(list2_1.get(i).getIndi_value()));	
 			}
-			for(int i=0;i<list2_2.size();i++) {
+			for(int i=(list2_2.size()-1);i>0;i--) {
 				dataVV2_2.add(Float.parseFloat(list2_2.get(i).getIndi_value()));	
 			}
-			for(int i=0;i<list2_3.size();i++) {
+			for(int i=(list2_3.size()-1);i>0;i--) {
 				dataVV2_3.add(Float.parseFloat(list2_3.get(i).getIndi_value()));	
 			}
-			for(int i=0;i<list2_4.size();i++) {
+			for(int i=(list2_4.size()-1);i>0;i--) {
 				dataVV2_4.add(Float.parseFloat(list2_4.get(i).getIndi_value()));	
 			}
 			dataV2.add(dataVV2_1);
@@ -123,7 +125,7 @@ public class TopicController {
 			List<String> dataX3 = new ArrayList<String>();
 			List<List<Float>> dataV3 = new ArrayList<List<Float>>();
 			List<Float> dataVv3 = new ArrayList<Float>();
-			for(int i=0;i<list3_1.size();i++) {
+			for(int i=(list3_1.size()-1);i>0;i--) {
 				dataX3.add(list3_1.get(i).getDate_code());
 				dataVv3.add(Float.parseFloat(list3_1.get(i).getIndi_value()));
 			}
@@ -131,7 +133,7 @@ public class TopicController {
 			List<String> legendData3 = new ArrayList<String>();
 			legendData3.add(list3_1.get(0).getIndi_name());
 			TopicLineType lineType3 = new TopicLineType();
-			LineEntity lineEntity3 = lineType3.getOption("5", "湖北省企业资产负债率趋势", dataX3, legendData3, dataV3,40,80);
+			LineEntity lineEntity3 = lineType3.getOption("5", "湖北省企业资产负债率趋势", dataX3, legendData3, dataV3,45,60);
 //第6部分		
 			String cardText3 = topicService.getTopic1Card3_1()+"。";
 			CardEntity cardEntity3 = new CardEntity("6", "风险防控", "card", cardText3);
@@ -141,7 +143,7 @@ public class TopicController {
 			List<String> dataX4 = new ArrayList<String>();
 			List<List<Float>> dataV4 = new ArrayList<List<Float>>();
 			List<Float> dataVv4 = new ArrayList<Float>();
-			for(int i=0;i<list4_1.size();i++) {
+			for(int i=(list4_1.size()-1);i>0;i--) {
 				dataX4.add(list4_1.get(i).getDate_code());
 				dataVv4.add(Float.parseFloat(list4_1.get(i).getIndi_value()));
 			}
@@ -149,7 +151,7 @@ public class TopicController {
 			List<String> legendData4 = new ArrayList<String>();
 			legendData4.add(list4_1.get(0).getIndi_name());
 			TopicLineType lineType4 = new TopicLineType();
-			LineEntity lineEntity4 = lineType4.getOption("7", "湖北省企业资产负债率趋势", dataX4, legendData4, dataV4,80,500);
+			LineEntity lineEntity4 = lineType4.getOption("7", "湖北省企业资产负债率趋势", dataX4, legendData4, dataV4,0,500);
 //第8部分		
 			String cardText4 = topicService.getTopic1Card4_1()+"。";
 			CardEntity cardEntity4 = new CardEntity("8", "产业转型升级分析", "card", cardText4);
@@ -158,7 +160,7 @@ public class TopicController {
 			List<String> dataX5 = new ArrayList<String>();
 			List<List<Float>> dataV5 = new ArrayList<List<Float>>();
 			List<Float> dataVv5 = new ArrayList<Float>();
-			for(int i=0;i<list5_1.size();i++) {
+			for(int i=(list5_1.size()-1);i>0;i--) {
 				dataX5.add(list5_1.get(i).getDate_code());
 				dataVv5.add(Float.parseFloat(list5_1.get(i).getIndi_value()));
 			}
@@ -166,16 +168,16 @@ public class TopicController {
 			List<String> legendData5 = new ArrayList<String>();
 			legendData5.add(list5_1.get(0).getIndi_name());
 			TopicLineType lineType5 = new TopicLineType();
-			LineEntity lineEntity5 = lineType5.getOption("9", "湖北产业转型升级", dataX5, legendData5, dataV5,30,70);
+			LineEntity lineEntity5 = lineType5.getOption("9", "湖北产业转型升级", dataX5, legendData5, dataV5,40,65);
 //第10部分
-			String cardText5 = topicService.getTopic1Card5_1()+"。";
+			String cardText5 = topicService.getTopic1Card5_1();
 			CardEntity cardEntity5 = new CardEntity("10", "新经济发展分析", "card", cardText5);
 //第11部分			
 			List<indi_TF> list6_1 = topicService.getValue6_1();
 			List<String> dataX6 = new ArrayList<String>();
 			List<List<Float>> dataV6 = new ArrayList<List<Float>>();
 			List<Float> dataVv6 = new ArrayList<Float>();
-			for(int i=0;i<list6_1.size();i++) {
+			for(int i=(list6_1.size()-1);i>0;i--) {
 				dataX6.add(list6_1.get(i).getDate_code());
 				dataVv6.add(Float.parseFloat(list6_1.get(i).getIndi_value()));
 			}
@@ -183,7 +185,7 @@ public class TopicController {
 			List<String> legendData6 = new ArrayList<String>();
 			legendData6.add(list6_1.get(0).getIndi_name());
 			TopicLineType lineType6 = new TopicLineType();
-			LineEntity lineEntity6 = lineType6.getOption("11", "湖北省新经济发展变化情况", dataX6, legendData6, dataV6,1000,8000);
+			LineEntity lineEntity6 = lineType6.getOption("11", "湖北省新经济发展变化情况", dataX6, legendData6, dataV6,0,7500);
 			
 			List<Object> classInfoList = new ArrayList<Object>();
 			classInfoList.add(lineEntity1);//图1
@@ -222,7 +224,7 @@ public class TopicController {
 				List<String> dataX = new ArrayList<String>();//X轴数据（时间轴）
 				List<List<Float>> dataV = new ArrayList<List<Float>>();//指标值
 				List<Float> dataV_1 = new ArrayList<Float>();//指标值
-				for(int i=0;i<list1_1.size();i++) {
+				for(int i=(list1_1.size()-1);i>0;i--) {
 					dataX.add(list1_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV_1.add(Float.parseFloat(list1_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
@@ -230,10 +232,10 @@ public class TopicController {
 				List<String> legendData1 = new ArrayList<String>();//图例列表（指标名称）
 				legendData1.add(list1_1.get(0).getIndi_name());//
 				TopicLineType lineType = new TopicLineType();
-				LineEntity lineEntity1 = lineType.getOption("1", "湖北省宏观预警指数变化趋势", dataX, legendData1, dataV,0,100);
+				LineEntity lineEntity1 = lineType.getOption("1", "湖北省宏观预警指数变化趋势", dataX, legendData1, dataV,35,70);
 	
 	//第二部分-文字1
-				String cardText1 = topicService.getTopic2Card1_1()+"。";
+				String cardText1 = topicService.getTopic2Card1_1();
 				CardEntity cardEntity1 = new CardEntity("2", "宏观经济分析", "card", cardText1);
 	
 	//第三部分-图表2				
@@ -243,11 +245,11 @@ public class TopicController {
 				List<List<Float>> dataV2 = new ArrayList<List<Float>>();//指标值
 				List<Float> dataV2_1 = new ArrayList<Float>();
 				List<Float> dataV2_2 = new ArrayList<Float>();
-				for(int i=0;i<list2_1.size();i++) {
+				for(int i=(list2_1.size()-1);i>0;i--) {
 					dataX2.add(list2_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV2_1.add(Float.parseFloat(list2_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=0;i<list2_2.size();i++) {
+				for(int i=(list2_2.size()-1);i>0;i--) {
 					dataV2_2.add(Float.parseFloat(list2_2.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
 				dataV2.add(dataV2_1);
@@ -256,7 +258,7 @@ public class TopicController {
 				legendData2.add(list2_1.get(0).getIndi_name()+"-湖北省");//
 				legendData2.add(list2_2.get(0).getIndi_name()+"-全国");//
 				TopicLineType lineType2 = new TopicLineType();
-				LineEntity lineEntity2 = lineType2.getOption("3", "地区生产总值运行趋势", dataX2, legendData2, dataV2,0,100);
+				LineEntity lineEntity2 = lineType2.getOption("3", "地区生产总值运行趋势", dataX2, legendData2, dataV2,0,15);
 				
 	//第四部分-文字2
 				String cardText2 = topicService.getTopic2Card2_1();
@@ -267,7 +269,7 @@ public class TopicController {
 				List<String> dataX3 = new ArrayList<String>();//X轴数据（时间轴）
 				List<List<Float>> dataV3 = new ArrayList<List<Float>>();//指标值
 				List<Float> dataV_3 = new ArrayList<Float>();//指标值
-				for(int i=0;i<list3_1.size();i++) {
+				for(int i=(list3_1.size()-1);i>0;i--) {
 					dataX3.add(list3_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV_3.add(Float.parseFloat(list3_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
@@ -275,7 +277,7 @@ public class TopicController {
 				List<String> legendData3 = new ArrayList<String>();//图例列表（指标名称）
 				legendData3.add(list3_1.get(0).getIndi_name());//
 				TopicLineType lineType3 = new TopicLineType();
-				LineEntity lineEntity3 = lineType3.getOption("5", "税收收入占地方一般公共预算收入比重变化", dataX3, legendData3, dataV3,0,100);
+				LineEntity lineEntity3 = lineType3.getOption("5", "税收收入占地方一般公共预算收入比重变化", dataX3, legendData3, dataV3,60,80);
 				
 	//第6部分-文字3
 				String cardText3 = topicService.getTopic2Card3_1()+topicService.getTopic2Card3_2()+topicService.getTopic2Card3_3();
@@ -291,14 +293,14 @@ public class TopicController {
 				List<Float> dataV4_1 = new ArrayList<Float>();//指标值
 				List<Float> dataV4_2 = new ArrayList<Float>();//指标值
 				List<Float> dataV4_3 = new ArrayList<Float>();//指标值
-				for(int i=0;i<list4_1.size();i++) {
+				for(int i=(list4_1.size()-1);i>0;i--) {
 					dataX4.add(list4_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV4_1.add(Float.parseFloat(list4_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=0;i<list4_2.size();i++) {
+				for(int i=(list4_2.size()-1);i>0;i--) {
 					dataV4_2.add(Float.parseFloat(list4_2.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=0;i<list4_3.size();i++) {
+				for(int i=(list4_3.size()-1);i>0;i--) {
 					dataV4_3.add(Float.parseFloat(list4_3.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
 				dataV4.add(dataV4_1);
@@ -309,7 +311,7 @@ public class TopicController {
 				legendData4.add(list4_2.get(0).getIndi_name());//
 				legendData4.add(list4_3.get(0).getIndi_name());//
 				TopicLineType lineType4 = new TopicLineType();
-				LineEntity lineEntity4 = lineType4.getOption("7", "湖北省三大需求增速走势变动", dataX4, legendData4, dataV4,0,100);
+				LineEntity lineEntity4 = lineType4.getOption("7", "湖北省三大需求增速走势变动", dataX4, legendData4, dataV4,-20,40);
 	
 	//第8部分-文字4
 				
@@ -323,11 +325,11 @@ public class TopicController {
 				List<List<Float>> dataV5 = new ArrayList<List<Float>>();//指标值				
 				List<Float> dataV5_1 = new ArrayList<Float>();//指标值
 				List<Float> dataV5_2 = new ArrayList<Float>();//指标值
-				for(int i=0;i<list5_1.size();i++) {
+				for(int i=(list5_1.size()-1);i>0;i--) {
 					dataX5.add(list5_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV5_1.add(Float.parseFloat(list5_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=0;i<list5_2.size();i++) {
+				for(int i=(list5_2.size()-1);i>0;i--) {
 					dataV5_2.add(Float.parseFloat(list5_2.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
 
@@ -337,7 +339,7 @@ public class TopicController {
 				legendData5.add(list5_1.get(0).getIndi_name());//
 				legendData5.add(list5_2.get(0).getIndi_name());//
 				TopicLineType lineType5 = new TopicLineType();
-				LineEntity lineEntity5 = lineType5.getOption("9", "湖北省三大需求增速走势变动", dataX5, legendData5, dataV5,0,100);
+				LineEntity lineEntity5 = lineType5.getOption("9", "湖北省三大需求增速走势变动", dataX5, legendData5, dataV5,20,100);
 	
 	 //第10部分-文字5
 				String cardText5 = topicService.getTopic2Card5_1()+topicService.getTopic2Card5_2();
@@ -350,11 +352,11 @@ public class TopicController {
 				List<List<Float>> dataV6 = new ArrayList<List<Float>>();//指标值				
 				List<Float> dataV6_1 = new ArrayList<Float>();//指标值
 				List<Float> dataV6_2 = new ArrayList<Float>();//指标值
-				for(int i=0;i<list6_1.size();i++) {
+				for(int i=(list6_1.size()-1);i>0;i--) {
 					dataX6.add(list6_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV6_1.add(Float.parseFloat(list6_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=0;i<list6_2.size();i++) {
+				for(int i=(list6_1.size()-1);i>0;i--) {
 					dataV6_2.add(Float.parseFloat(list6_2.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 				}
 
@@ -364,7 +366,7 @@ public class TopicController {
 				legendData6.add(list6_1.get(0).getIndi_name());//
 				legendData6.add(list6_2.get(0).getIndi_name());//
 				TopicLineType lineType6 = new TopicLineType();
-				LineEntity lineEntity6 = lineType6.getOption("11", "湖北省三大产业对GDP的拉动", dataX6, legendData6, dataV6,0,100);
+				LineEntity lineEntity6 = lineType6.getOption("11", "湖北省三大产业对GDP的拉动", dataX6, legendData6, dataV6,0,10);
 	
 	//第12部分-文字6		
 				String cardText6 = topicService.getTopic2Card6_1();
@@ -381,11 +383,11 @@ public class TopicController {
 				List<List<Float>> dataV7 = new ArrayList<List<Float>>();
 				List<Float> dataVV7_1 = new ArrayList<Float>();
 				List<Float> dataVV7_2 = new ArrayList<Float>();
-				for(int i=0;i<list7_1.size();i++) {
+				for(int i=(list7_1.size()-1);i>0;i--) {
 					dataX7.add(list7_1.get(i).getDate_code());
 					dataVV7_1.add(Float.parseFloat(list7_1.get(i).getIndi_value()));	
 				}
-				for(int i=0;i<list7_2.size();i++) {
+				for(int i=(list7_2.size()-1);i>0;i--) {
 					dataVV7_2.add(Float.parseFloat(list7_2.get(i).getIndi_value()));	
 				}
 			
@@ -416,11 +418,11 @@ public class TopicController {
 				List<List<Float>> dataV8 = new ArrayList<List<Float>>();
 				List<Float> dataVV8_1 = new ArrayList<Float>();
 				List<Float> dataVV8_2 = new ArrayList<Float>();
-				for(int i=0;i<list8_1.size();i++) {
+				for(int i=(list8_1.size()-1);i>0;i--) {
 					dataX8.add(list8_1.get(i).getDate_code());
 					dataVV8_1.add(Float.parseFloat(list8_1.get(i).getIndi_value()));	
 				}
-				for(int i=0;i<list8_2.size();i++) {
+				for(int i=(list8_1.size()-1);i>0;i--) {
 					dataVV8_2.add(Float.parseFloat(list8_2.get(i).getIndi_value()));	
 				}
 			
@@ -450,11 +452,11 @@ public class TopicController {
 				List<List<Float>> dataV9 = new ArrayList<List<Float>>();
 				List<Float> dataVV9_1 = new ArrayList<Float>();
 				List<Float> dataVV9_2 = new ArrayList<Float>();
-				for(int i=0;i<list9_1.size();i++) {
+				for(int i=(list9_1.size()-1);i>0;i--) {
 					dataX9.add(list9_1.get(i).getDate_code());
 					dataVV9_1.add(Float.parseFloat(list9_1.get(i).getIndi_value()));	
 				}
-				for(int i=0;i<list9_2.size();i++) {
+				for(int i=(list9_2.size()-1);i>0;i--) {
 					dataVV9_2.add(Float.parseFloat(list9_2.get(i).getIndi_value()));	
 				}
 			
@@ -514,7 +516,7 @@ public class TopicController {
 					List<String> dataX = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<Float>> dataV = new ArrayList<List<Float>>();//指标值
 					List<Float> dataV_1 = new ArrayList<Float>();//指标值
-					for(int i=0;i<list1_1.size();i++) {
+					for(int i=(list1_1.size()-1);i>0;i--) {
 						dataX.add(list1_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV_1.add(Float.parseFloat(list1_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 					}
@@ -522,7 +524,7 @@ public class TopicController {
 					List<String> legendData1 = new ArrayList<String>();//图例列表（指标名称）
 					legendData1.add(list1_1.get(0).getIndi_name());//
 					TopicLineType lineType = new TopicLineType();
-					LineEntity lineEntity1 = lineType.getOption("1", "湖北省工业预警指数变化趋势", dataX, legendData1, dataV,0,100);
+					LineEntity lineEntity1 = lineType.getOption("1", "湖北省工业预警指数变化趋势", dataX, legendData1, dataV,30,50);
 			
 		//第2部分-文字1
 					String cardText1 = topicService.getTopic3Card1_1();
@@ -533,7 +535,7 @@ public class TopicController {
 					List<String> dataX2 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<Float>> dataV2 = new ArrayList<List<Float>>();//指标值
 					List<Float> dataV2_1 = new ArrayList<Float>();//指标值
-					for(int i=0;i<list2_1.size();i++) {
+					for(int i=(list2_1.size()-1);i>0;i--) {
 						dataX2.add(list2_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV2_1.add(Float.parseFloat(list2_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 					}
@@ -541,7 +543,7 @@ public class TopicController {
 					List<String> legendData2 = new ArrayList<String>();//图例列表（指标名称）
 					legendData2.add(list2_1.get(0).getIndi_name());//
 					TopicLineType lineType2 = new TopicLineType();
-					LineEntity lineEntity2 = lineType2.getOption("3", "湖北省产业规模变化趋势", dataX2, legendData2, dataV2,0,100);
+					LineEntity lineEntity2 = lineType2.getOption("3", "湖北省产业规模变化趋势", dataX2, legendData2, dataV2,4,15);
 		
 		//第4部分-文字2
 					String cardText2 = topicService.getTopic3Card2_1()+topicService.getTopic3Card2_2();
@@ -571,23 +573,23 @@ public class TopicController {
 					List<Float> dataVV3_4 = new ArrayList<Float>();
 					List<Float> dataVV3_5 = new ArrayList<Float>();
 					List<Float> dataVV3_6 = new ArrayList<Float>();
-					for(int i=0;i<list3_1.size();i++) {
+					for(int i=(list3_1.size()-1);i>0;i--) {
 						dataX3.add(list3_1.get(i).getDate_code());
 						dataVV3_1.add(Float.parseFloat(list3_1.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list3_2.size();i++) {
+					for(int i=(list3_2.size()-1);i>0;i--) {
 						dataVV3_2.add(Float.parseFloat(list3_2.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list3_3.size();i++) {
+					for(int i=(list3_3.size()-1);i>0;i--) {
 						dataVV3_3.add(Float.parseFloat(list3_3.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list3_4.size();i++) {
+					for(int i=(list3_4.size()-1);i>0;i--) {
 						dataVV3_4.add(Float.parseFloat(list3_4.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list3_5.size();i++) {
+					for(int i=(list3_5.size()-1);i>0;i--) {
 						dataVV3_5.add(Float.parseFloat(list3_5.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list3_6.size();i++) {
+					for(int i=(list3_6.size()-1);i>0;i--) {
 						dataVV3_6.add(Float.parseFloat(list3_6.get(i).getIndi_value()));	
 					}
 				
@@ -619,7 +621,7 @@ public class TopicController {
 					List<String> dataX4 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<Float>> dataV4 = new ArrayList<List<Float>>();//指标值
 					List<Float> dataV4_1 = new ArrayList<Float>();//指标值
-					for(int i=0;i<list4_1.size();i++) {
+					for(int i=(list4_1.size()-1);i>0;i--) {
 						dataX4.add(list4_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV4_1.add(Float.parseFloat(list4_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 					}
@@ -636,7 +638,7 @@ public class TopicController {
 					List<String> dataX5 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<Float>> dataV5 = new ArrayList<List<Float>>();//指标值
 					List<Float> dataV5_1 = new ArrayList<Float>();//指标值
-					for(int i=0;i<list5_1.size();i++) {
+					for(int i=(list5_1.size()-1);i>0;i--) {
 						dataX5.add(list5_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV5_1.add(Float.parseFloat(list5_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 					}
@@ -683,7 +685,7 @@ public class TopicController {
 					List<String> dataX = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<Float>> dataV = new ArrayList<List<Float>>();//指标值
 					List<Float> dataV_1 = new ArrayList<Float>();//指标值
-					for(int i=0;i<list1_1.size();i++) {
+					for(int i=(list1_1.size()-1);i>0;i--) {
 						dataX.add(list1_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV_1.add(Float.parseFloat(list1_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 					}
@@ -691,7 +693,7 @@ public class TopicController {
 					List<String> legendData1 = new ArrayList<String>();//图例列表（指标名称）
 					legendData1.add(list1_1.get(0).getIndi_name());//
 					TopicLineType lineType = new TopicLineType();
-					LineEntity lineEntity1 = lineType.getOption("1", "湖北省投资先行指数变化趋势", dataX, legendData1, dataV,0,100);
+					LineEntity lineEntity1 = lineType.getOption("1", "湖北省投资先行指数变化趋势", dataX, legendData1, dataV,100,140);
 
 //第2部分-文字1	
 					String cardText1 = topicService.getTopic4Card1_1();
@@ -707,11 +709,11 @@ public class TopicController {
 					List<List<Float>> dataV2 = new ArrayList<List<Float>>();
 					List<Float> dataVV2_1 = new ArrayList<Float>();
 					List<Float> dataVV2_2 = new ArrayList<Float>();
-					for(int i=0;i<list2_1.size();i++) {
+					for(int i=(list2_1.size()-1);i>0;i--) {
 						dataX2.add(list2_1.get(i).getDate_code());
 						dataVV2_1.add(Float.parseFloat(list2_1.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list2_2.size();i++) {
+					for(int i=(list2_2.size()-1);i>0;i--) {
 						dataVV2_2.add(Float.parseFloat(list2_2.get(i).getIndi_value()));	
 					}
 				
@@ -747,18 +749,18 @@ public class TopicController {
 					List<Float> dataVV3_2 = new ArrayList<Float>();
 					List<Float> dataVV3_3 = new ArrayList<Float>();
 					List<Float> dataVV3_4 = new ArrayList<Float>();
-					for(int i=0;i<list3_1.size();i++) {
+					for(int i=(list3_1.size()-1);i>0;i--) {
 						dataX3.add(list3_1.get(i).getDate_code());
 						dataVV3_1.add(Float.parseFloat(list3_1.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list3_2.size();i++) {
+					for(int i=(list3_2.size()-1);i>0;i--) {
 						dataVV3_2.add(Float.parseFloat(list3_2.get(i).getIndi_value()));	
 					}
 					
-					for(int i=0;i<list3_3.size();i++) {
+					for(int i=(list3_3.size()-1);i>0;i--) {
 						dataVV3_3.add(Float.parseFloat(list3_3.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list3_4.size();i++) {
+					for(int i=(list3_4.size()-1);i>0;i--) {
 						dataVV3_4.add(Float.parseFloat(list3_4.get(i).getIndi_value()));	
 					}
 				
@@ -788,7 +790,7 @@ public class TopicController {
 					List<String> dataX4 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<Float>> dataV4 = new ArrayList<List<Float>>();//指标值
 					List<Float> dataV4_1 = new ArrayList<Float>();//指标值
-					for(int i=0;i<list4_1.size();i++) {
+					for(int i=(list4_1.size()-1);i>0;i--) {
 						dataX4.add(list4_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV4_1.add(Float.parseFloat(list4_1.get(i).getIndi_value()));//从指标列表获取指标值 并存入dataV
 					}
@@ -796,7 +798,7 @@ public class TopicController {
 					List<String> legendData4 = new ArrayList<String>();//图例列表（指标名称）
 					legendData4.add(list4_1.get(0).getIndi_name());//
 					TopicLineType lineType4 = new TopicLineType();
-					LineEntity lineEntity4 = lineType4.getOption("7", "湖北省投资效益系数变化趋势", dataX4, legendData4, dataV4,0,100);
+					LineEntity lineEntity4 = lineType4.getOption("7", "湖北省投资效益系数变化趋势", dataX4, legendData4, dataV4,0,(float) 1.2);
 
 //第8部分-文字4
 					String cardText4 = topicService.getTopic4Card4_1();
@@ -813,11 +815,11 @@ public class TopicController {
 					List<List<Float>> dataV5 = new ArrayList<List<Float>>();
 					List<Float> dataVV5_1 = new ArrayList<Float>();
 					List<Float> dataVV5_2 = new ArrayList<Float>();
-					for(int i=0;i<list5_1.size();i++) {
+					for(int i=(list5_1.size()-1);i>0;i--) {
 						dataX5.add(list5_1.get(i).getDate_code());
 						dataVV5_1.add(Float.parseFloat(list5_1.get(i).getIndi_value()));	
 					}
-					for(int i=0;i<list5_2.size();i++) {
+					for(int i=(list5_2.size()-1);i>0;i--) {
 						dataVV5_2.add(Float.parseFloat(list5_2.get(i).getIndi_value()));	
 					}
 

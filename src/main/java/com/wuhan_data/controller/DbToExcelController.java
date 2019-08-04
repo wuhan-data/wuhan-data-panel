@@ -2,6 +2,8 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.IndiAll;
 import com.wuhan_data.service.DbToExcelService;
@@ -32,8 +38,6 @@ public class DbToExcelController {
 
 	@RequestMapping(value = "dbToEcxel", produces = "text/plain;charset=utf-8")
 	public ModelAndView toDbToExcel() {
-		// ModelAndView mav = new ModelAndView();1600020
-		// mav.setViewName("metaDataManage");
 		String keyword = "亏损";
 		List<IndexManage> indexList = dbToExcelService.getIndi(keyword);
 
@@ -162,7 +166,8 @@ public class DbToExcelController {
 
 		System.out.println("开始导出！");
 		System.out.println("id:" + id);
-		byte[] data = dbToExcelService.exportOrderData(id);
+		List<IndiAll> indiAllList = new ArrayList();
+		byte[] data = dbToExcelService.exportOrderData(indiAllList);
 		response.reset();
 		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
 		System.out.println("fileName:" + fileName);
@@ -172,6 +177,48 @@ public class DbToExcelController {
 				"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
 		response.addHeader("Content-Length", "" + data.length);
 		IOUtils.write(data, response.getOutputStream());
+	}
+	
+
+	@ResponseBody
+	@RequestMapping(value = "ecxelTest")
+	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) throws IOException {
+    	
+    	System.out.println("进入了这个controller!");
+    	//下面是把拿到的json字符串转成 json对象
+    	JSONObject jsonx = JSON.parseObject(result);
+    	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
+    	List<IndiAll> indiAllList = new ArrayList<IndiAll>();
+    	 for (int i = 0; i < ja.size(); i++) {
+             JSONObject jo = ja.getJSONObject(i);
+             IndiAll indiAll = new IndiAll();
+             indiAll.setIndi_code(jo.getString("indi_code"));
+             indiAll.setIndi_name(jo.getString("indi_name"));
+             indiAll.setArea_code(jo.getString("area_code"));
+             indiAll.setArea_name(jo.getString("area_name"));
+             indiAll.setDate_code(jo.getString("date_code"));
+             indiAll.setFreq_code(jo.getString("freq_code"));
+             indiAll.setIndi_value(jo.getString("indi_value"));
+             indiAll.setKjwdm(jo.getString("kjwdm"));
+             indiAll.setTime_point(jo.getString("time_point"));
+             indiAllList.add(indiAll);
+         }
+    	 
+    	byte[] data = dbToExcelService.exportOrderData(indiAllList);
+    	
+ 		response.reset();
+ 		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
+ 		System.out.println("fileName:" + fileName);
+ 		response.setContentType("application/octet-stream; charset=UTF-8");
+ 	
+ 		
+			response.setHeader("content-disposition",
+					"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
+		
+ 		response.addHeader("Content-Length", "" + data.length);
+ 		
+			IOUtils.write(data, response.getOutputStream());
+
 	}
 
 }

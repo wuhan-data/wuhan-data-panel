@@ -59,7 +59,7 @@
 		
 <!-- 		表格 -->
 		 <div class="navbar-header">
-		 	<table style="width:100%;border:1px white solid" class="dd">
+		 	<table style="width:100%;border:1px white solid" class="dd" id="table">
     			<tr bgcolor="#4F81BD"style="color: #fff;">
 <%--     			<%=columns[0]%> --%>
         			<th style="text-align: center">indi_code</th>
@@ -72,15 +72,18 @@
         			<th style="text-align: center">time_point</th>
         			<th style="text-align: center">indi_value</th>
     			</tr>
-<!--     			<span class="dd"> -->
-       			
-<!--     			</span> -->
 			</table>
-		 
+			<button class="btn btn-success my-2 my-sm-0" id="exportE" onClick="exportE()">导出到excel表格</button>
 		 
 		 </div>
-		
-		
+		 
+		 
+
+	
+
+
+	
+
 		
 		
 <script>
@@ -336,24 +339,63 @@ $(document).ready(function(){
 		
 
 	})
-	//给数据装载中的节点定义ajax事件，实现动画提示效果
-//	$(".loading").ajaxStart(function(){
-//		$(this).css("visibility","visible");
-//		//animate：用于创建自定义动画的函数。
-//		//opacity:0看不见 1:看得见
-//		$(this).animate({
-//			opacity:1
-//		},0)
-//	
-//	}).ajaxStop(function(){
-//
-//		$(this).animate({
-//			opacity:0
-//		},500); //500毫秒逐渐淡出
-//	});
-
+	
 })
-
 </script>
+
+<script type="text/javascript">
+	function exportE(){
+		alert("进入")
+		var tr = $("#table tr"); // 获取table中每一行内容
+		var result = []; // 数组
+		for (var i = 0; i < tr.length; i++) {// 遍历表格中每一行的内容
+			var tds = $(tr[i]).find("td");
+			if (tds.length > 0) {
+				
+				result.push({
+					"indi_code" : $(tds)[0].innerHTML,
+					"indi_name" : $(tds)[1].innerHTML,
+					"date_code" : $(tds)[2].innerHTML,
+					"kjwdm" : $(tds)[3].innerHTML,
+					"area_code" : $(tds)[4].innerHTML,
+					"area_name" : $(tds)[5].innerHTML,
+					"freq_code" : $(tds)[6].innerHTML,
+					"time_point" : $(tds)[7].innerHTML,
+					"indi_value" : $(tds)[8].innerHTML,
+				})
+			}
+		}
+		
+		var jsonData = { // json数据
+			"indiAll" : result
+		}
+		
+		var result=JSON.stringify(jsonData);
+		
+		$.post("<%=basePath%>ecxelTest.action",{'result':result},function(data){
+			alert("不允许指标展示！");
+			//window.location.reload();
+		});
+		
+		
+// 		var jsonData = { // json数据
+// 			"indiAll" : result
+// 		}
+// 		$.ajax({
+// 			type : "post",
+// 			url : "ecxelTest",
+// 			dataType:"json",
+// 			contentType : "application/json;charset=UTF-8",
+// 			data : JSON.stringify(jsonData),// 将json数据转化为字符串
+// 			success : function(data) {
+	 
+// 			}
+// 		})
+	}
+</script>
+
+
+
+
 </body>
 </html>

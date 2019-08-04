@@ -83,6 +83,7 @@ public class VersionControllerApp {
 		responseMap.put("errCode", errCode);
 		responseMap.put("errMsg", errMsg);
 		responseMap.put("data", data);
+		System.out.println(JSON.toJSONString(responseMap));
 		return JSON.toJSONString(responseMap);
 	}
 //	@RequestMapping(value="checkVersion",produces="text/plain;charset=utf-8",method=RequestMethod.GET)

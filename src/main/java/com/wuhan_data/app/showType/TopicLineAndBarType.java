@@ -106,7 +106,7 @@ public class TopicLineAndBarType {
 		
 		LineAndBarEntity pe = new LineAndBarEntity(id, title, oe);
 		if(legendData.size()>4) {
-			pe.setClassHeight("630");
+			pe.setClassHeight("650");
 		}
 		if(legendData.size()==4){
 			pe.setClassHeight("560");
