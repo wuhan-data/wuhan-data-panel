@@ -33,6 +33,8 @@ public class LineType {
 				}
 			}
 		}
+		System.out.println(dataX.toString());
+		System.out.println(ignoreX);
 		// 删除1月的空数据
 		if (ignoreX != -1) {
 			// 处理x轴数据
@@ -42,6 +44,7 @@ public class LineType {
 				dataV.get(i).remove(ignoreX);
 			}
 		}
+		System.out.println(dataX.toString());
 
 		LineOptionEntity lineOptionEntity = new LineOptionEntity();
 
@@ -137,7 +140,12 @@ public class LineType {
 			seriesListMap.put("data", tempList);
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
+			System.out.println(showColor.toString());
+			if (showColor.get(i).isEmpty()) {
+				System.out.println(i + "no showColor");
+			}
 			if (showColor.get(i) != null && showColor.get(i) != "") {
+				System.out.println(i + "has showColor");
 				seriesItemStyleMap.put("color", showColor.get(i).toString());
 			}
 			seriesListMap.put("itemStyle", seriesItemStyleMap);
