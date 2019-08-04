@@ -165,8 +165,8 @@ public class IndiSearchAppController {
 			Map paraMap = new HashMap();
 			paraMap.put("indi_name", me.getKey());
 			paraMap.put("nowDate", nowDate);
-			calendar.set(calendar.DATE, calendar.get(calendar.DATE) - 8);
-			paraMap.put("beforeDate", calendar.getTime());
+//			calendar.set(calendar.DATE, calendar.get(calendar.DATE) - 8);
+//			paraMap.put("beforeDate", calendar.getTime());
 			String trendSource = indiSearchService.getTrendSource(paraMap);
 			switch (trendSource) {
 			case "湖北指数-统一模板数据入库工具下湖北指数入库":
@@ -417,7 +417,7 @@ public class IndiSearchAppController {
 			System.out.println("timeRange:" + indiDateList);
 
 			List<String> newindiDateList = new ArrayList<String>();
-			for (int k = 0; k < indiDateList.size() - 1; k++) {
+			for (int k = 0; k < indiDateList.size(); k++) {
 				newindiDateList.add(indiDateList.get(k).substring(0, 4) + "/" + indiDateList.get(k).substring(4, 6));
 			}
 			timeMap.put("startArray", newindiDateList);// 开始时间范围
