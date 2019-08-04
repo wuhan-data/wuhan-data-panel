@@ -488,12 +488,14 @@ public class IndiSearchAppController {
 			legendList.add(appIndiName+"-"+showName);
 			data.add(dataList);
 			dataX.add(dateList);
+			List<String> showColor = new ArrayList<String>();
+			List<String> showType = new ArrayList<String>();
 			if(legendData1.get(i).equals("104") || legendData1.get(i).equals("203") )
 			{
 				// 创建柱状图
 				BarType barType = new BarType();// 柱状图
 				System.out.println("legendList长度:"+legendList.size());
-				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data);
+				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data, showColor, showType);
 				classInfoList.add(barEntity);
 				
 				// 创建表格
@@ -506,7 +508,7 @@ public class IndiSearchAppController {
 				//TODO 其他情况
 				// 创建折线图
 				LineType lineType = new LineType();
-				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data);
+				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data, showColor, showType);
 	
 				// 创建表格
 				TableType tableType = new TableType();
@@ -690,13 +692,15 @@ public class IndiSearchAppController {
 			legendList.add(appIndiName+"-"+showName);
 			data.add(dataList);
 			dataX.add(dateList);
+			List<String> showColor = new ArrayList<String>();
+			List<String> showType = new ArrayList<String>();
 			System.out.println("legendList"+legendList);
 			System.out.println("dataList"+dataList);
 			System.out.println("dateList"+dateList);
 			if (legendData.get(i).equals("104") || legendData.get(i).equals("203")) {
 				// 创建柱状图
 				BarType barType = new BarType();// 柱状图
-				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data);
+				BarEntity barEntity = barType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data, showColor, showType);
 				System.out.println("barEntity"+barEntity.getEchartOption().getSeries());
 				// 创建表格
 
@@ -708,7 +712,7 @@ public class IndiSearchAppController {
 				// TODO 其他情况
 				// 创建折线图
 				LineType lineType = new LineType();
-				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data);
+				LineEntity lineEntity = lineType.getOption(Integer.toString(i+1), appIndiName+"-"+showName, dataX.get(0), legendList, data, showColor, showType);
 
 				// 创建表格
 				TableType tableType = new TableType();
