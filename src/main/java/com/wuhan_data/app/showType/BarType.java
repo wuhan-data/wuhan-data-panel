@@ -21,7 +21,7 @@ public class BarType {
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
 		gridMap.put("bottom", "60");
-		gridMap.put("bottom", "250");
+		gridMap.put("height", "250");
 		barOptionEntity.setGrid(gridMap);
 
 		// 构建toolTip
@@ -109,8 +109,11 @@ public class BarType {
 			seriesListMap.put("data", tempList);
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
-			if (showColor.get(i) != null && showColor.get(i) != "") {
-				seriesItemStyleMap.put("color", showColor.get(i).toString());
+			if (i < showColor.size()) {
+				if (showColor.get(i) != null && showColor.get(i) != "") {
+					System.out.println(i + "has showColor");
+					seriesItemStyleMap.put("color", showColor.get(i).toString());
+				}
 			}
 			seriesListMap.put("itemStyle", seriesItemStyleMap);
 			seriesList.add(seriesListMap);
