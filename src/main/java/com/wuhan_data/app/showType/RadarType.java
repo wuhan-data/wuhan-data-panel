@@ -26,10 +26,16 @@ public class RadarType {
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("data", legendData);
 		// 控制初始展示图例个数
-		if (legendData.size() >= 1) {
-			// 默认展示前2个图例
+		int showNum = 1;
+		if (legendData.size() >= showNum) {
 			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
-			legendSelectedMap.put(legendData.get(0).toString(), true);
+			for (int i = 0; i < legendData.size(); i++) {
+				if (i < showNum) {
+					legendSelectedMap.put(legendData.get(i).toString(), true);
+				} else {
+					legendSelectedMap.put(legendData.get(i).toString(), false);
+				}
+			}
 			legendMap.put("selected", legendSelectedMap);
 		}
 		radarOptionEntity.setLegend(legendMap);
