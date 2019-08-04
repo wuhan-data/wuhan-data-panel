@@ -188,13 +188,20 @@ public class DbToExcelController {
     	//下面是把拿到的json字符串转成 json对象
     	JSONObject jsonx = JSON.parseObject(result);
     	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
-    	List<IndiAll> indiAllList = new ArrayList();
+    	List<IndiAll> indiAllList = new ArrayList<IndiAll>();
     	 for (int i = 0; i < ja.size(); i++) {
              JSONObject jo = ja.getJSONObject(i);
              IndiAll indiAll = new IndiAll();
-             indiAll.setIndi_code(jo.getString("indi_name"));
-             String building_id = jo.getString("indi_name");
-             
+             indiAll.setIndi_code(jo.getString("indi_code"));
+             indiAll.setIndi_name(jo.getString("indi_name"));
+             indiAll.setArea_code(jo.getString("area_code"));
+             indiAll.setArea_name(jo.getString("area_name"));
+             indiAll.setDate_code(jo.getString("date_code"));
+             indiAll.setFreq_code(jo.getString("freq_code"));
+             indiAll.setIndi_value(jo.getString("indi_value"));
+             indiAll.setKjwdm(jo.getString("kjwdm"));
+             indiAll.setTime_point(jo.getString("time_point"));
+             indiAllList.add(indiAll);
          }
     	 
     	byte[] data = dbToExcelService.exportOrderData(indiAllList);
