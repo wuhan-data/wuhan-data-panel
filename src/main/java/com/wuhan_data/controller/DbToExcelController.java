@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.IndiAll;
 import com.wuhan_data.service.DbToExcelService;
@@ -181,6 +182,12 @@ public class DbToExcelController {
 	public void ecxelTest(String result,HttpServletRequest request) {
     	
     	System.out.println("进入了这个controller!");
+    	//下面是把拿到的json字符串转成 json对象
+    	JSONObject jsonx = JSON.parseObject(result);
+    	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
+
+//        JSONArray ja = jsonx.getJSONArray("data");
+//    	System.out.println(data);
     	
 //		for(int i=0;i<result.length;i++)
 //		{
