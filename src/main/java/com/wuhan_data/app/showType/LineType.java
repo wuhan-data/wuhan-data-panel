@@ -40,10 +40,13 @@ public class LineType {
 			// 处理x轴数据
 			dataX.remove(ignoreX);
 			// 处理数据值
+			List<List<String>> dataV1 = new ArrayList<List<String>>();
 			for (int i = 0; i < dataV.size(); i++) {
-				System.out.println(dataV.get(i).toString());
-				dataV.get(i).remove(ignoreX);
+				List<String> tempList = new ArrayList<String>();
+				dataV1.add(tempList);
+				System.out.println(dataV1.toString());
 			}
+			dataV = dataV1;
 		}
 		System.out.println(dataV.toString());
 
@@ -52,7 +55,7 @@ public class LineType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("bottom", "60");
+		gridMap.put("bottom", "50");
 		gridMap.put("height", "250");
 		lineOptionEntity.setGrid(gridMap);
 
@@ -74,7 +77,7 @@ public class LineType {
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
-		legendMap.put("bottom", "350");
+		legendMap.put("bottom", "340");
 		legendMap.put("data", legendData);
 		// 控制初始展示图例个数,默认展示2个
 		int showNum = 2;
@@ -112,6 +115,7 @@ public class LineType {
 		colorMap.add("#6e7074");
 		colorMap.add("#546570");
 		colorMap.add("#c4ccd3");
+		lineOptionEntity.setColor(colorMap);
 
 		// 构建x轴
 		List<Map<String, Object>> xAxis = new ArrayList<Map<String, Object>>();
