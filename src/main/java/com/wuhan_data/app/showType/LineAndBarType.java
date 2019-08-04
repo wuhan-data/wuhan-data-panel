@@ -12,14 +12,51 @@ import com.wuhan_data.app.showType.pojo.LineAndBarOptionEntity;
 public class LineAndBarType {
 	// 参数：图例名称、数据、数据、显示类型
 	public LineAndBarEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
-			List<List<String>> data, List<String> showColor, List<String> showType) {
-
+			List<List<String>> dataV, List<String> showColor, List<String> showType) {
+		// 预处理数据，合并1月及2月的数据
+		int ignoreX = -1;
+		for (int i = 0; i < dataX.size(); i++) {
+			if (dataX.get(i).length() != 7) {
+				continue;
+			}
+			String monthString = dataX.get(i).toString().substring(5, 7);
+			if (monthString.equals("01")) {
+				for (int j = 0; j < dataV.size(); j++) {
+					if (dataV.get(j).get(i) == null || dataV.get(j).get(i).toString().equals("")) {
+						// 存在一月无数据情况，需要进行合并
+						ignoreX = i;
+					}
+				}
+			}
+		}
+		System.out.println(dataV.toString());
+		System.out.println(ignoreX);
+		// 删除1月的空数据
+		if (ignoreX != -1) {
+			// 处理x轴数据
+			List<String> dataX1 = new ArrayList<String>(dataX);
+			dataX1.remove(ignoreX);
+			String dataXString = dataX1.get(ignoreX).substring(0, 5) + "1-2";
+			dataX1.set(ignoreX, dataXString);
+			dataX = dataX1;
+			// 处理数据值
+			List<List<String>> dataV1 = new ArrayList<List<String>>();
+			for (int i = 0; i < dataV.size(); i++) {
+				List<String> tempList = new ArrayList<String>(dataV.get(i));
+				System.out.println(tempList.toString());
+				tempList.remove(ignoreX);
+				dataV1.add(tempList);
+				System.out.println(dataV1.toString());
+			}
+			dataV = dataV1;
+		}
+		System.out.println(dataV.toString());
 		LineAndBarOptionEntity lineAndBarOptionEntity = new LineAndBarOptionEntity();
 
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("bottom", "50");
+		gridMap.put("bottom", "60");
 		gridMap.put("height", "250");
 		lineAndBarOptionEntity.setGrid(gridMap);
 
@@ -42,7 +79,7 @@ public class LineAndBarType {
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
-		legendMap.put("bottom", "340");
+		legendMap.put("bottom", "350");
 		legendMap.put("data", legendData);
 		// 控制初始展示图例个数,默认展示3个
 		int showNum = 3;
@@ -106,9 +143,9 @@ public class LineAndBarType {
 
 		// 构建series
 		List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
-		for (int i = 0; i < data.size(); i++) {
+		for (int i = 0; i < dataV.size(); i++) {
 			List<String> tempList = new ArrayList<String>();
-			tempList = data.get(i);
+			tempList = dataV.get(i);
 			// 配置展示类型
 			String showTypeString = showType.get(i).toString();
 			Map<String, Object> seriesListMap = new HashMap<String, Object>();
