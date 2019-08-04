@@ -38,7 +38,11 @@ public class LineType {
 		// 删除1月的空数据
 		if (ignoreX != -1) {
 			// 处理x轴数据
-			dataX.remove(ignoreX);
+			List<String> dataX1 = new ArrayList<String>(dataX);
+			dataX1.remove(ignoreX);
+			String dataXString = dataX1.get(ignoreX).substring(0, 5) + "1-2";
+			dataX1.set(ignoreX, dataXString);
+			dataX = dataX1;
 			// 处理数据值
 			List<List<String>> dataV1 = new ArrayList<List<String>>();
 			for (int i = 0; i < dataV.size(); i++) {
