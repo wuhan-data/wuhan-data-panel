@@ -180,9 +180,9 @@ public class DbToExcelController {
 	}
 	
 
-    
+	@ResponseBody
 	@RequestMapping(value = "ecxelTest")
-	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) {
+	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) throws IOException {
     	
     	System.out.println("进入了这个controller!");
     	//下面是把拿到的json字符串转成 json对象
@@ -205,25 +205,19 @@ public class DbToExcelController {
          }
     	 
     	byte[] data = dbToExcelService.exportOrderData(indiAllList);
+    	
  		response.reset();
  		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
  		System.out.println("fileName:" + fileName);
  		response.setContentType("application/octet-stream; charset=UTF-8");
  	
- 		try {
+ 		
 			response.setHeader("content-disposition",
 					"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
  		response.addHeader("Content-Length", "" + data.length);
- 		try {
+ 		
 			IOUtils.write(data, response.getOutputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 
