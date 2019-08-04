@@ -2,6 +2,8 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,7 +166,8 @@ public class DbToExcelController {
 
 		System.out.println("开始导出！");
 		System.out.println("id:" + id);
-		byte[] data = dbToExcelService.exportOrderData(id);
+		List<IndiAll> indiAllList = new ArrayList();
+		byte[] data = dbToExcelService.exportOrderData(indiAllList);
 		response.reset();
 		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
 		System.out.println("fileName:" + fileName);
@@ -179,21 +182,42 @@ public class DbToExcelController {
 
     
 	@RequestMapping(value = "ecxelTest")
-	public void ecxelTest(String result,HttpServletRequest request) {
+	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) {
     	
     	System.out.println("进入了这个controller!");
     	//下面是把拿到的json字符串转成 json对象
     	JSONObject jsonx = JSON.parseObject(result);
     	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
+    	List<IndiAll> indiAllList = new ArrayList();
+    	 for (int i = 0; i < ja.size(); i++) {
+             JSONObject jo = ja.getJSONObject(i);
+             IndiAll indiAll = new IndiAll();
+             indiAll.setIndi_code(jo.getString("indi_name"));
+             String building_id = jo.getString("indi_name");
+             
+         }
+    	 
+    	byte[] data = dbToExcelService.exportOrderData(indiAllList);
+ 		response.reset();
+ 		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
+ 		System.out.println("fileName:" + fileName);
+ 		response.setContentType("application/octet-stream; charset=UTF-8");
+ 	
+ 		try {
+			response.setHeader("content-disposition",
+					"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 		response.addHeader("Content-Length", "" + data.length);
+ 		try {
+			IOUtils.write(data, response.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-//        JSONArray ja = jsonx.getJSONArray("data");
-//    	System.out.println(data);
-    	
-//		for(int i=0;i<result.length;i++)
-//		{
-//			IndiAll indiAll=JSON.toJavaObject(result[0], IndiAll.class);
-//			System.out.println("输出组成的指标:" + (indiAll.getIndi_name()));
-//		}
 	}
 
 }
