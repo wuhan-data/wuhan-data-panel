@@ -20,7 +20,7 @@ public class BarType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("bottom", "50");
+		gridMap.put("bottom", "60");
 		gridMap.put("height", "250");
 		barOptionEntity.setGrid(gridMap);
 
@@ -42,7 +42,7 @@ public class BarType {
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
-		legendMap.put("bottom", "340");
+		legendMap.put("bottom", "350");
 		legendMap.put("data", legendData);
 		// 控制初始展示图例个数,默认展示2个
 		int showNum = 2;
