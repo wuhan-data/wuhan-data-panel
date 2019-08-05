@@ -132,6 +132,7 @@ public class BarType {
 		xAxisMap.put("name", "");
 		xAxisMap.put("data", dataX);
 		Map<String, Object> xAxisLabelMap = new HashMap<String, Object>();
+		xAxisLabelMap.put("interval", "0");
 		xAxisLabelMap.put("rotate", "45");
 		xAxisMap.put("axisLabel", xAxisLabelMap);
 		xAxis.add(xAxisMap);
