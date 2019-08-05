@@ -45,10 +45,8 @@ public class LineType {
 			List<List<String>> dataV1 = new ArrayList<List<String>>();
 			for (int i = 0; i < dataV.size(); i++) {
 				List<String> tempList = new ArrayList<String>(dataV.get(i));
-				System.out.println(tempList.toString());
 				tempList.remove(ignoreX);
 				dataV1.add(tempList);
-				System.out.println(dataV1.toString());
 			}
 			dataV = dataV1;
 		}
@@ -83,7 +81,7 @@ public class LineType {
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
-		legendMap.put("bottom", "320");
+		legendMap.put("bottom", "330");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = (legendData.size() > 5 ? 5 : legendData.size()) * 35;
@@ -170,6 +168,8 @@ public class LineType {
 
 		// 设置图例对象
 		LineEntity lineEntity = new LineEntity(id, title, lineOptionEntity);
+		int classHeight = 330 + (legendData.size() > 5 ? 5 : legendData.size()) * 35 + 10;
+		lineEntity.setClassHeight(String.valueOf(classHeight));
 		return lineEntity;
 	}
 
