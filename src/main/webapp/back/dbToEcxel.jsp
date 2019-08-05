@@ -388,7 +388,9 @@ $(document).ready(function(){
 	function AutomateExcel()
 	{
 		// Start Excel and get Application object.
+		alert("进入AutomateExcel的js");
 		var oXL = new ActiveXObject("Excel.Application");
+		alert(oXL);
 		// Get a new workbook.
 		var oWB = oXL.Workbooks.Add();
 		var oSheet = oWB.ActiveSheet;
@@ -410,6 +412,8 @@ $(document).ready(function(){
 		}catch(e){
 		alert('导出EXCEL表格失败，请确定已安装Excel2000(或更高版本),并且没打开同名xls文件');
 		}
+		
+		alert("完成")
 	}
 </script>
 
