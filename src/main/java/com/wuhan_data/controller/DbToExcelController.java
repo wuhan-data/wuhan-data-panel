@@ -162,10 +162,10 @@ public class DbToExcelController {
 
 	@ResponseBody
 	@RequestMapping("export")
-	public void export(HttpServletResponse response, @RequestParam("id") String id) throws Exception {
+	public void export(HttpServletResponse response) throws Exception {
 
 		System.out.println("开始导出！");
-		System.out.println("id:" + id);
+		//System.out.println("id:" + id);
 		List<IndiAll> indiAllList = new ArrayList();
 		byte[] data = dbToExcelService.exportOrderData(indiAllList);
 		response.reset();
@@ -205,19 +205,16 @@ public class DbToExcelController {
          }
     	 
     	byte[] data = dbToExcelService.exportOrderData(indiAllList);
-    	
+    	System.out.println("byte[] data :" + data.length);
  		response.reset();
  		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
  		System.out.println("fileName:" + fileName);
  		response.setContentType("application/octet-stream; charset=UTF-8");
- 	
- 		
-			response.setHeader("content-disposition",
+		response.setHeader("content-disposition",
 					"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
-		
  		response.addHeader("Content-Length", "" + data.length);
  		
-			IOUtils.write(data, response.getOutputStream());
+		IOUtils.write(data, response.getOutputStream());
 
 	}
 
