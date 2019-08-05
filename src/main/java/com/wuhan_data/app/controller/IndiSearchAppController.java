@@ -369,6 +369,7 @@ public class IndiSearchAppController {
 		Map baseInfoMap = new HashMap();
 		baseInfoMap.put("indexId", indiCode);
 		baseInfoMap.put("indexName", appIndiName);
+		baseInfoMap.put("source", source);
 		baseInfoMap.put("isFavorite", false);
 
 		// 记录历史搜索
