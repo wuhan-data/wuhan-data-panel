@@ -15,6 +15,42 @@ public class BarType {
 	public BarEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
 			List<List<String>> dataV, List<String> showColor, List<String> showType) {
 
+		// 预处理数据，合并1月及2月的数据
+		int ignoreX = -1;
+		for (int i = 0; i < dataX.size(); i++) {
+			if (dataX.get(i).length() != 7) {
+				continue;
+			}
+			String monthString = dataX.get(i).toString().substring(5, 7);
+			if (monthString.equals("01")) {
+				for (int j = 0; j < dataV.size(); j++) {
+					if (dataV.get(j).get(i) == null || dataV.get(j).get(i).toString().equals("")) {
+						// 存在一月无数据情况，需要进行合并
+						ignoreX = i;
+					}
+				}
+			}
+		}
+		// 删除1月的空数据
+		if (ignoreX != -1) {
+			// 处理x轴数据
+			List<String> dataX1 = new ArrayList<String>(dataX);
+			dataX1.remove(ignoreX);
+			String dataXString = dataX1.get(ignoreX).substring(0, 5) + "1-2";
+			dataX1.set(ignoreX, dataXString);
+			dataX = dataX1;
+			// 处理数据值
+			List<List<String>> dataV1 = new ArrayList<List<String>>();
+			for (int i = 0; i < dataV.size(); i++) {
+				List<String> tempList = new ArrayList<String>(dataV.get(i));
+				System.out.println(tempList.toString());
+				tempList.remove(ignoreX);
+				dataV1.add(tempList);
+				System.out.println(dataV1.toString());
+			}
+			dataV = dataV1;
+		}
+
 		BarOptionEntity barOptionEntity = new BarOptionEntity();
 
 		// 构建grid
@@ -28,7 +64,10 @@ public class BarType {
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
-		toolTipMap.put("position", "['10%', '50%']");
+		List<String> toolTipPosition = new ArrayList<String>();
+		toolTipPosition.add("10%");
+		toolTipPosition.add("50%");
+		toolTipMap.put("position", toolTipPosition);
 		toolTipMap.put("snap", true);
 		Map<String, Object> axisPointerMap = new HashMap<String, Object>();
 		axisPointerMap.put("type", "line");
@@ -44,6 +83,12 @@ public class BarType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("bottom", "350");
 		legendMap.put("data", legendData);
+		// 计算legend高度
+		int legendHeight = (legendData.size() > 5 ? 5 : legendData.size()) * 35;
+		legendMap.put("height", String.valueOf(legendHeight));
+		if (legendData.size() > 5) {
+			legendMap.put("type", "scroll");
+		}
 		// 控制初始展示图例个数,默认展示2个
 		int showNum = 2;
 		if (legendData.size() >= showNum) {
@@ -121,6 +166,7 @@ public class BarType {
 		}
 		barOptionEntity.setSeries(seriesList);
 
+		// 设置图例对象
 		BarEntity barEntity = new BarEntity(id, title, barOptionEntity);
 		return barEntity;
 	}

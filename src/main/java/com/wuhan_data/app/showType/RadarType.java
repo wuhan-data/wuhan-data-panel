@@ -31,7 +31,7 @@ public class RadarType {
 			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
 			// 雷达图展示最新的数据
 			for (int i = legendData.size() - 1; i >= 0; i--) {
-				if (legendData.size() - i < showNum) {
+				if (legendData.size() - i <= showNum) {
 					legendSelectedMap.put(legendData.get(i).toString(), true);
 				} else {
 					legendSelectedMap.put(legendData.get(i).toString(), false);
