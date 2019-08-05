@@ -398,7 +398,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							dataIndiValue.set(index,
+									indiInfoList.get(m).getIndiValue() + indiInfoList.get(m).getUnitName());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -434,7 +435,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							dataIndiValue.set(index,
+									indiInfoList.get(m).getIndiValue() + indiInfoList.get(m).getUnitName());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -476,8 +478,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxisRadar.contains(dataXTemp)) {
 							int index = xAxisRadar.indexOf(dataXTemp);
-							String indiValue = indiInfoList.get(m).getIndiValue();
-							dataIndiValue.set(index, indiValue);
+							dataIndiValue.set(index,
+									indiInfoList.get(m).getIndiValue() + indiInfoList.get(m).getUnitName());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -512,7 +514,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
 					String indiValue = indiInfoList.get(0).getIndiValue();
 					legend.add(j, indiName);
-					dataV.add(j, indiValue);
+					dataV.add(j, indiValue + indiInfoList.get(0).getUnitName());
 				}
 				PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
 				TotalList.add(pieEntity);
@@ -536,7 +538,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (timeList.contains(dataXTemp)) {
 							int index = timeList.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							dataIndiValue.set(index,
+									indiInfoList.get(m).getIndiValue() + indiInfoList.get(m).getUnitName());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -562,7 +565,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							dataIndiValue.set(index,
+									indiInfoList.get(m).getIndiValue() + indiInfoList.get(m).getUnitName());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -599,7 +603,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							dataIndiValue.set(index,
+									indiInfoList.get(m).getIndiValue() + indiInfoList.get(m).getUnitName());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -636,7 +641,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							dataIndiValue.set(index,
+									indiInfoList.get(m).getIndiValue() + indiInfoList.get(m).getUnitName());
 						}
 					}
 					dataValue.add(dataIndiValue);
