@@ -407,7 +407,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showType.add(indiList.get(j).getShowType());
 				}
 				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
-				Integer classHeight = 350 + legend.size() * 35;
+				Integer classHeight = 320 + (legend.size() > 5 ? 5 : legend.size()) * 35 + 15;
 				lineEntity.setClassHeight(classHeight.toString());
 				TotalList.add(lineEntity);
 				// 配置表格数据
@@ -445,7 +445,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showType.add(indiList.get(j).getShowType());
 				}
 				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
-				Integer classHeight = 350 + legend.size() * 35;
+				Integer classHeight = 320 + (legend.size() > 5 ? 5 : legend.size()) * 35 + 15;
 				barEntity.setClassHeight(classHeight.toString());
 				TotalList.add(barEntity);
 				// 配置表格数据
@@ -576,7 +576,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
 						showColor, showType);
-				Integer classHeight = 350 + legend.size() * 35;
+				Integer classHeight = 320 + (legend.size() > 5 ? 5 : legend.size()) * 35 + 15;
 				lineAndBarEntity.setClassHeight(classHeight.toString());
 				TotalList.add(lineAndBarEntity);
 				// 配置表格数据
@@ -615,7 +615,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue, showColor,
 						showType);
-				Integer classHeight = 350 + legend.size() * 35;
+				Integer classHeight = 320 + (legend.size() > 5 ? 5 : legend.size()) * 35 + 15;
 				barStoreEntity.setClassHeight(classHeight.toString());
 				TotalList.add(barStoreEntity);
 				// 配置表格数据
@@ -654,7 +654,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				BarStackLineEntity barStackLineEntity = barStackLineType.getOption(id, title, xAxis, legend, dataValue,
 						showColor, showType);
-				Integer classHeight = 350 + legend.size() * 35;
+				Integer classHeight = 320 + (legend.size() > 5 ? 5 : legend.size()) * 35 + 15;
 				barStackLineEntity.setClassHeight(classHeight.toString());
 				TotalList.add(barStackLineEntity);
 				// 配置表格数据
