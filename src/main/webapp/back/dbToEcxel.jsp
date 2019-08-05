@@ -75,7 +75,7 @@
 			</table>
 			
 	
-      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportE()">导出到excel表格</button>
+      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="AutomateExcel()">导出到excel表格</button>
 		 </div>
 		 
 		 
@@ -373,8 +373,8 @@ $(document).ready(function(){
 		}
 		var result=JSON.stringify(jsonData);
 		
-
-		location.href="<%=basePath%>ecxelTest?result="+result;
+		window.open("<c:url value='ecxelTest?"+result+"'/>");
+<%-- 		location.href="<%=basePath%>ecxelTest?result="+result; --%>
 
 <%-- 		$.post("<%=basePath%>ecxelTest.action",{'result':result},function(data){ --%>
 // // 			alert("不允许指标展示！");
@@ -382,6 +382,34 @@ $(document).ready(function(){
 // 		});
 		
 
+	}
+	
+	
+	function AutomateExcel()
+	{
+		// Start Excel and get Application object.
+		var oXL = new ActiveXObject("Excel.Application");
+		// Get a new workbook.
+		var oWB = oXL.Workbooks.Add();
+		var oSheet = oWB.ActiveSheet;
+		// tableid是表格的id。最好是规范的表格，不要出现合并单元格的情况
+		var table = document.all.table;
+		var hang = table.rows.length;
+		var lie = table.rows(0).cells.length;
+		// Add table headers going cell by cell.
+		try{
+		for (i=0;i<hang;i++)
+		{
+			for (j=0;j<lie;j++)
+			{
+				oSheet.Cells(i+1,j+1).value = table.rows(i).cells(j).innerText;
+			}
+		}
+		oXL.Visible = true;
+		oXL.UserControl = true;
+		}catch(e){
+		alert('导出EXCEL表格失败，请确定已安装Excel2000(或更高版本),并且没打开同名xls文件');
+		}
 	}
 </script>
 

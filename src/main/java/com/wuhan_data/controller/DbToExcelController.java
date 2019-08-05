@@ -185,11 +185,12 @@ public class DbToExcelController {
 	
 	@RequestMapping(value = "ecxelTest")
 	@ResponseBody
-	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	public void ecxelTest(HttpServletRequest request,HttpServletResponse response) throws Exception{
     	
     	System.out.println("进入了这个controller!");
-//    	String result=request.getParameter("result");
+    	String result=request.getParameter("result");
     	//下面是把拿到的json字符串转成 json对象
+    	
     	JSONObject jsonx = JSON.parseObject(result);
     	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
     	List<IndiAll> indiAllList = new ArrayList<IndiAll>();
