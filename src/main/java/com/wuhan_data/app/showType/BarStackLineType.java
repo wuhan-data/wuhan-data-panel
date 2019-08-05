@@ -129,6 +129,9 @@ public class BarStackLineType {
 		xAxisMap.put("type", "category");
 		xAxisMap.put("name", ""); // 名称过长，不展示名称
 		xAxisMap.put("data", dataX);
+		Map<String, Object> xAxisLabelMap = new HashMap<String, Object>();
+		xAxisLabelMap.put("rotate", "45");
+		xAxisMap.put("axisLabel", xAxisLabelMap);
 		xAxis.add(xAxisMap);
 		barStackLineOptionEntity.setxAxis(xAxis);
 
