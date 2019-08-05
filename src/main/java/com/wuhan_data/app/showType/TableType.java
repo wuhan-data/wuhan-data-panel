@@ -50,11 +50,11 @@ public class TableType {
 		// 加入table类型
 		if (dataX.size() == 0) {
 			List legendDATA = new ArrayList(legendData);
-			legendDATA.add(0, " ");
+			legendDATA.add(0, "指标/时间");
 
 		}
 		List legendDATA = new ArrayList(legendData);
-		legendDATA.add(0, " ");
+		legendDATA.add(0, "指标/时间");
 		List table = new ArrayList();
 		table.add(legendDATA);
 		for (int i = 0; i < dataX.get(0).size(); i++) {
