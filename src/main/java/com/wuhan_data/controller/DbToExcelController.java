@@ -35,7 +35,9 @@ import net.sf.json.JSONArray;
 public class DbToExcelController {
 	@Autowired
 	DbToExcelService dbToExcelService;
-
+	
+	
+	
 	@RequestMapping(value = "dbToEcxel", produces = "text/plain;charset=utf-8")
 	public ModelAndView toDbToExcel() {
 		String keyword = "亏损";
@@ -180,11 +182,13 @@ public class DbToExcelController {
 	}
 	
 
-	@ResponseBody
+	
 	@RequestMapping(value = "ecxelTest")
-	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) throws IOException {
+	@ResponseBody
+	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) throws Exception{
     	
     	System.out.println("进入了这个controller!");
+//    	String result=request.getParameter("result");
     	//下面是把拿到的json字符串转成 json对象
     	JSONObject jsonx = JSON.parseObject(result);
     	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
@@ -203,7 +207,6 @@ public class DbToExcelController {
              indiAll.setTime_point(jo.getString("time_point"));
              indiAllList.add(indiAll);
          }
-    	 
     	byte[] data = dbToExcelService.exportOrderData(indiAllList);
     	System.out.println("byte[] data :" + data.length);
  		response.reset();
@@ -215,7 +218,10 @@ public class DbToExcelController {
  		response.addHeader("Content-Length", "" + data.length);
  		
 		IOUtils.write(data, response.getOutputStream());
+		
+
 
 	}
+
 
 }

@@ -347,9 +347,11 @@ public class IndiSearchAppController {
 
 //		String indexCode = "2200309";
 //		source="湖统";//指标来源
-
+		
 		String appIndiName = indiDetailService.getIndexName(indexCode);
 		String area_name = null;
+		Map baseInfoMap = new HashMap();
+		baseInfoMap.put("source", source);
 		switch (source) {
 		case "大数据":
 			source = "湖北指数-统一模板数据入库工具下湖北指数入库";
@@ -366,10 +368,8 @@ public class IndiSearchAppController {
 		}
 
 		String indiCode = indiDetailService.getIndiCode(appIndiName);
-		Map baseInfoMap = new HashMap();
 		baseInfoMap.put("indexId", indiCode);
 		baseInfoMap.put("indexName", appIndiName);
-		baseInfoMap.put("source", source);
 		baseInfoMap.put("isFavorite", false);
 
 		// 记录历史搜索

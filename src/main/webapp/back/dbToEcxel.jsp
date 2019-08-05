@@ -73,8 +73,9 @@
         			<th style="text-align: center">indi_value</th>
     			</tr>
 			</table>
-			<button class="btn btn-success my-2 my-sm-0" id="exportE" onClick="exportE()">导出到excel表格</button>
-		 
+			
+	
+      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportE()">导出到excel表格</button>
 		 </div>
 		 
 		 
@@ -302,11 +303,9 @@ $(document).ready(function(){
 		var startTime = startTimeSelect.val();
 		var endTime = endTimeSelect.val();
 		var tableBody = $(".dd");
-		alert("开始获得全部指标0");
 		alert(tableBody);
 		if(indiSource != ""&&indiName != ""&&freqCode!=""&&startTime!=""&&endTime!="")
 		{
-			alert("开始获得全部指标");
 			$.post("getSelectIndex",{indiName:indiName,indiSource:indiSource,freqCode:freqCode,startTime:startTime,endTime:endTime},function(data){
 				if(data.length !=0) 
 				{
@@ -345,9 +344,12 @@ $(document).ready(function(){
 
 <script type="text/javascript">
 	function exportE(){
-		alert("进入")
+		alert("进入");
+		
 		var tr = $("#table tr"); // 获取table中每一行内容
+		
 		var result = []; // 数组
+		
 		for (var i = 0; i < tr.length; i++) {// 遍历表格中每一行的内容
 			var tds = $(tr[i]).find("td");
 			if (tds.length > 0) {
@@ -369,28 +371,17 @@ $(document).ready(function(){
 		var jsonData = { // json数据
 			"indiAll" : result
 		}
-		
 		var result=JSON.stringify(jsonData);
 		
-		$.post("<%=basePath%>ecxelTest.action",{'result':result},function(data){
-			alert("不允许指标展示！");
-			//window.location.reload();
-		});
+
+		location.href="<%=basePath%>ecxelTest?result="+result;
+
+<%-- 		$.post("<%=basePath%>ecxelTest.action",{'result':result},function(data){ --%>
+// // 			alert("不允许指标展示！");
+// 			//window.location.reload();
+// 		});
 		
-		
-// 		var jsonData = { // json数据
-// 			"indiAll" : result
-// 		}
-// 		$.ajax({
-// 			type : "post",
-// 			url : "ecxelTest",
-// 			dataType:"json",
-// 			contentType : "application/json;charset=UTF-8",
-// 			data : JSON.stringify(jsonData),// 将json数据转化为字符串
-// 			success : function(data) {
-	 
-// 			}
-// 		})
+
 	}
 </script>
 
