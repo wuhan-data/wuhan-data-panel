@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.IndiAll;
 import com.wuhan_data.service.DbToExcelService;
+import com.wuhan_data.tools.ExportExcel;
 
 import cn.hutool.core.date.DateTime;
 import net.sf.json.JSONArray;
@@ -162,66 +163,43 @@ public class DbToExcelController {
 	
 	
 
-	@ResponseBody
-	@RequestMapping("export")
-	public void export(HttpServletResponse response) throws Exception {
-
-		System.out.println("开始导出！");
-		//System.out.println("id:" + id);
-		List<IndiAll> indiAllList = new ArrayList();
-		byte[] data = dbToExcelService.exportOrderData(indiAllList);
-		response.reset();
-		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
-		System.out.println("fileName:" + fileName);
-		response.setContentType("application/octet-stream; charset=UTF-8");
-	
-		response.setHeader("content-disposition",
-				"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
-		response.addHeader("Content-Length", "" + data.length);
-		IOUtils.write(data, response.getOutputStream());
-	}
-	
-
-	
+//	@ResponseBody
+//	@RequestMapping("export")
+//	public void export(HttpServletResponse response) throws Exception {
+//
+//		System.out.println("开始导出！");
+//		//System.out.println("id:" + id);
+//		List<IndiAll> indiAllList = new ArrayList();
+//		byte[] data = dbToExcelService.exportOrderData(indiAllList);
+//		response.reset();
+//		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
+//		System.out.println("fileName:" + fileName);
+//		response.setContentType("application/octet-stream; charset=UTF-8");
+//	
+//		response.setHeader("content-disposition",
+//				"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
+//		response.addHeader("Content-Length", "" + data.length);
+//		IOUtils.write(data, response.getOutputStream());
+//	}
+//	
+//
+//	
 	@RequestMapping(value = "ecxelTest")
 	@ResponseBody
 	public void ecxelTest(HttpServletRequest request,HttpServletResponse response) throws Exception{
     	
     	System.out.println("进入了这个controller!");
-    	String result=request.getParameter("result");
-    	//下面是把拿到的json字符串转成 json对象
-    	
-    	JSONObject jsonx = JSON.parseObject(result);
-    	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
-    	List<IndiAll> indiAllList = new ArrayList<IndiAll>();
-    	 for (int i = 0; i < ja.size(); i++) {
-             JSONObject jo = ja.getJSONObject(i);
-             IndiAll indiAll = new IndiAll();
-             indiAll.setIndi_code(jo.getString("indi_code"));
-             indiAll.setIndi_name(jo.getString("indi_name"));
-             indiAll.setArea_code(jo.getString("area_code"));
-             indiAll.setArea_name(jo.getString("area_name"));
-             indiAll.setDate_code(jo.getString("date_code"));
-             indiAll.setFreq_code(jo.getString("freq_code"));
-             indiAll.setIndi_value(jo.getString("indi_value"));
-             indiAll.setKjwdm(jo.getString("kjwdm"));
-             indiAll.setTime_point(jo.getString("time_point"));
-             indiAllList.add(indiAll);
-         }
-    	byte[] data = dbToExcelService.exportOrderData(indiAllList);
-    	System.out.println("byte[] data :" + data.length);
- 		response.reset();
- 		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
- 		System.out.println("fileName:" + fileName);
- 		response.setContentType("application/octet-stream; charset=UTF-8");
-		response.setHeader("content-disposition",
-					"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
- 		response.addHeader("Content-Length", "" + data.length);
- 		
-		IOUtils.write(data, response.getOutputStream());
-		
-
-
+    	//json字符串
+    	String jsonStr = request.getParameter("json");
+		//表格表头
+		System.out.println("jsonStr："+jsonStr);
+		String sheaders = request.getParameter("headers");
+		//表格标题名
+		String title = request.getParameter("fileName");
+		//表格文件名
+		String fileName = request.getParameter("fileName")+".xls";
+		ExportExcel ex = new ExportExcel();
+		ex.export(jsonStr,sheaders,fileName,title, response, request);    			
 	}
 
 

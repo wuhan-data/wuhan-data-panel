@@ -23,7 +23,44 @@
    	<script src="back/assets/laydate/laydate.js"></script> 
    	<script src="back/assets/js/jquery-1.10.2.js"></script> 
 <!--    	<script language="javascript" src="back/assets/js/chainSelect.js"></script> -->
+	<script type="text/javascript" src="back/assets/js/jquery.tabletojson.js"></script>  
 	<title>指标数据导出到Excel</title>
+	<script type="text/javascript">  
+  
+    function exportExcel(fileName,tableId){  
+        var table = $("#"+tableId).tableToJSON();  
+        console.log(table);  
+        var json = JSON.stringify(table);  
+        var nodes = $("#"+tableId+" thead tr").children();  
+        var headers = "";  
+        $.each(nodes,function(i,item){  
+            headers += item.innerHTML+",";  
+        })  
+       //调用post方法       
+			post('<%=basePath%>ecxelTest.action', {fileName :fileName,headers:headers,json:json});
+        
+    }
+	function post(url, params) {
+		var temp = document.createElement("form");
+		temp.action = url;
+		temp.method = "post";
+		temp.style.display = "none";
+		for (var x in params) {
+			var opt = document.createElement("input");
+			opt.name = x;
+			opt.value = params[x];
+			temp.appendChild(opt);
+		}
+		document.body.appendChild(temp);
+		temp.submit();
+		return temp;
+	}        
+  
+</script> 
+
+	
+	
+	
 </head>
 
 
@@ -59,23 +96,25 @@
 		
 <!-- 		表格 -->
 		 <div class="navbar-header">
-		 	<table style="width:100%;border:1px white solid" class="dd" id="table">
+		 	<table style="width:100%;border:1px white solid" class="dd" id="toExcel">
+    			<thead>
     			<tr bgcolor="#4F81BD"style="color: #fff;">
 <%--     			<%=columns[0]%> --%>
-        			<th style="text-align: center">indi_code</th>
-        			<th style="text-align: center">indi_name</th>
-        			<th style="text-align: center">date_code</th>
-        			<th style="text-align: center">kjwdm</th>
-        			<th style="text-align: center">area_code</th>
-        			<th style="text-align: center">area_name</th>
-        			<th style="text-align: center">freq_code</th>
-        			<th style="text-align: center">time_point</th>
-        			<th style="text-align: center">indi_value</th>
+        			<td style="text-align: center" >indi_code</td>
+        			<td style="text-align: center" >indi_name</td>
+        			<td style="text-align: center" >date_code</td>
+        			<td style="text-align: center" >kjwdm</td>
+        			<td style="text-align: center" >area_code</td>
+        			<td style="text-align: center" >area_name</td>
+        			<td style="text-align: center" >freq_code</td>
+        			<td style="text-align: center" >time_point</td>
+        			<td style="text-align: center" >indi_value</td>
     			</tr>
+    			</thead>
 			</table>
 			
 	
-      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="AutomateExcel()">导出到excel表格</button>
+      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('ceshi','toExcel')">导出到excel表格</button>
 		 </div>
 		 
 		 
@@ -384,37 +423,6 @@ $(document).ready(function(){
 
 	}
 	
-	
-	function AutomateExcel()
-	{
-		// Start Excel and get Application object.
-		alert("进入AutomateExcel的js");
-		var oXL = new ActiveXObject("Excel.Application");
-		alert(oXL);
-		// Get a new workbook.
-		var oWB = oXL.Workbooks.Add();
-		var oSheet = oWB.ActiveSheet;
-		// tableid是表格的id。最好是规范的表格，不要出现合并单元格的情况
-		var table = document.all.table;
-		var hang = table.rows.length;
-		var lie = table.rows(0).cells.length;
-		// Add table headers going cell by cell.
-		try{
-		for (i=0;i<hang;i++)
-		{
-			for (j=0;j<lie;j++)
-			{
-				oSheet.Cells(i+1,j+1).value = table.rows(i).cells(j).innerText;
-			}
-		}
-		oXL.Visible = true;
-		oXL.UserControl = true;
-		}catch(e){
-		alert('导出EXCEL表格失败，请确定已安装Excel2000(或更高版本),并且没打开同名xls文件');
-		}
-		
-		alert("完成")
-	}
 </script>
 
 
