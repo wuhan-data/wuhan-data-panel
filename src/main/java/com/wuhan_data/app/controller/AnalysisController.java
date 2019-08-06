@@ -102,8 +102,8 @@ public class AnalysisController {
 		}
 
 //		try {
-		// 获取栏目下的版块信息
-		analysisPlate = analysisService.initAnalysisPlate(indexId, userId);
+			// 获取栏目下的版块信息
+			analysisPlate = analysisService.initAnalysisPlate(indexId, userId);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}
@@ -116,19 +116,22 @@ public class AnalysisController {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String token = "";
 		int indexId = 0;
+		String timeFreq = "";
 		String startTime = "";
 		String endTime = "";
-		String freqName = "";
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			System.out.println(requestObject.toString());
 			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
 			boolean hasIndexId = requestObject.containsKey("indexId");
+			boolean hasTimeFreq = requestObject.containsKey("timeFreq");
 			boolean hasStartTime = requestObject.containsKey("startTime");
 			boolean hasEndTime = requestObject.containsKey("endTime");
-			boolean hasFreqName = requestObject.containsKey("freqName");
 			if (!hasIndexId) {
 				return this.apiReturn("-1", "需要指定栏目id", data);
+			}
+			if (!hasTimeFreq) {
+				return this.apiReturn("-1", "需要选择时间频度", data);
 			}
 			if (!hasStartTime) {
 				return this.apiReturn("-1", "需要选择起始时间", data);
@@ -136,22 +139,20 @@ public class AnalysisController {
 			if (!hasEndTime) {
 				return this.apiReturn("-1", "需要选择结束时间", data);
 			}
-			if (!hasFreqName) {
-				return this.apiReturn("-1", "需要选择时间频度", data);
-			}
 			String indexIdString = requestObject.get("indexId").toString();
 			indexId = Integer.parseInt(indexIdString);
+			timeFreq = requestObject.get("timeFreq").toString();
 			startTime = requestObject.get("startTime").toString();
 			endTime = requestObject.get("endTime").toString();
-			freqName = requestObject.get("freqName").toString();
+
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
 
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
 //		try {
-		// 获取栏目下的版块信息
-		analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, freqName);
+			// 获取栏目下的版块信息
+			analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, timeFreq);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}
