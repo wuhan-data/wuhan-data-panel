@@ -133,7 +133,7 @@ end
         
         <!-- 文字部分 -->
           <select id="getTopic1Card1_1" resultType="String">
-        select concat('从财政收入看，',(
+        select concat('&lt;li&gt;','从财政收入看，',(
 case
 when right(left(c1,6),2)='03' then '一季度'
 when right(left(c1,6),2)='06' then '二季度'
@@ -141,18 +141,25 @@ when right(left(c1,6),2)='09' then '三季度'
 when right(left(c1,6),2)='12' then '四季度'
 END),
 '全省税收收入占地方一般公共预算收入比重达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，较上年同期提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%税收收入占地方一般公共预算收入比重%' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%税收收入占地方一般公共预算收入比重%' and right(left(c1,6),1) in (3,6,9,12)  limit 0,1)),4),left((
-			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%税收收入占地方一般公共预算收入比重%' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c4 like '%税收收入占地方一般公共预算收入比重%'))),'个百分点'
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%税收收入占地方一般公共预算收入比重%' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c4 like '%税收收入占地方一般公共预算收入比重%'))),
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4 like '%税收收入占地方一般公共预算收入比重%' and right(left(c1,6),2) in ('03','06','09','12') and c8=203 order by c1 desc limit 0,1
         </select>
         
         <select id="getTopic1Card1_2" resultType="String">
-        select concat('从金融对实体经济支持程度看，',(
+        select concat('&lt;li&gt;','从金融对实体经济支持程度看，',(
 case
 when right(left(c1,6),2)='03' then '一季度'
 when right(left(c1,6),2)='06' then '二季度'
@@ -160,18 +167,25 @@ when right(left(c1,6),2)='09' then '三季度'
 when right(left(c1,6),2)='12' then '四季度'
 END),
 '全省金融机构存贷比达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，较上年同期提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%金融机构存贷比%' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%金融机构存贷比%' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4),left((
-			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%金融机构存贷比%' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c4 like '%金融机构存贷比%'))),'个百分点'
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%金融机构存贷比%' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c4 like '%金融机构存贷比%'))),
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4 like '%金融机构存贷比%' and right(left(c1,6),2) in ('03','06','09','12') and c8=203 order by c1 desc limit 0,1
         </select>
         
         <select id="getTopic1Card1_3" resultType="String">
-        select concat('从企业生产效益看，',(
+        select concat('&lt;li&gt;','从企业生产效益看，',(
 case
 when right(left(c1,6),2)='03' then '一季度'
 when right(left(c1,6),2)='06' then '二季度'
@@ -179,18 +193,25 @@ when right(left(c1,6),2)='09' then '三季度'
 when right(left(c1,6),2)='12' then '四季度'
 END),
 '全省规模以上工业企业利润率达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，较上年同期下降',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%规模以上工业企业利润率%' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%规模以上工业企业利润率%' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
-			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%规模以上工业企业利润率%' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c4 like '%规模以上工业企业利润率%'))-TO_NUMBER(c9)),'个百分点'
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4 like '%规模以上工业企业利润率%' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c4 like '%规模以上工业企业利润率%'))-TO_NUMBER(c9)),
+            '&lt;/span&gt;',
+            '个百分点',
+            '&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4 like '%规模以上工业企业利润率%' and right(left(c1,6),2) in ('03','06','09','12') and c8=203 order by c1 desc limit 0,1
         </select>
         
         <select id="getTopic1Card1_4" resultType="String">
-        select concat('从人民生活水平看，',(
+        select concat('&lt;li&gt;','从人民生活水平看，',(
 case
 when right(left(c1,6),1)=1 then '一季度'
 when right(left(c1,6),1)=2 then '二季度'
@@ -198,19 +219,26 @@ when right(left(c1,6),1)=3 then '三季度'
 when right(left(c1,6),1)=4 then '四季度'
 END),
 '全省全体居民人均可支配收入达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，较上年同期提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='居民人均可支配收入' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='居民人均可支配收入' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
-			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='居民人均可支配收入' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c4='居民人均可支配收入' and c7='湖北省' and c2='SS' and c8='203'))),'元'
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='居民人均可支配收入' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c4='居民人均可支配收入' and c7='湖北省' and c2='SS' and c8='203'))),
+            '&lt;/span&gt;',
+            '元',
+             '&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4='居民人均可支配收入' and c8='203' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1
         </select>
         
         
         <select id="getTopic1Card2_1" resultType="String">
-       select concat('从产业风险防控看，',(
+       select concat('&lt;li&gt;','从产业风险防控看，',(
 case
 when right(left(c1,6),2)='03' then '一季度'
 when right(left(c1,6),2)='06' then '二季度'
@@ -218,18 +246,25 @@ when right(left(c1,6),2)='09' then '三季度'
 when right(left(c1,6),2)='12' then '四季度'
 END),
 '规模以上工业企业资产负债率为',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，较上年同期下降',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='规模以上工业企业资产负债率' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='规模以上工业企业资产负债率' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
-			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='规模以上工业企业资产负债率' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c4='规模以上工业企业资产负债率'))-TO_NUMBER(c9)),'个百分点'
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='规模以上工业企业资产负债率' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c4='规模以上工业企业资产负债率'))-TO_NUMBER(c9)),
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4='规模以上工业企业资产负债率' and right(left(c1,6),2) in ('03','06','09','12') and c8=203 order by c1 desc limit 0,1
         </select>
         
        <select id="getTopic1Card3_1" resultType="String">
-       select concat('从土地集约利用水平看，',(
+       select concat('&lt;li&gt;','从土地集约利用水平看，',(
 case
 when right(left(c1,6),1)=1 then '一季度'
 when right(left(c1,6),1)=2 then '二季度'
@@ -237,18 +272,25 @@ when right(left(c1,6),1)=3 then '三季度'
 when right(left(c1,6),1)=4 then '四季度'
 END),
 '全省单位GDP建设用地面积为',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，较上年同期降低',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='单位GDP建设用地面积' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='单位GDP建设用地面积' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
-			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='单位GDP建设用地面积' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c4='单位GDP建设用地面积' and c7='湖北省' and c2='SS' and c8='203'))-TO_NUMBER(c9)),c14
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='单位GDP建设用地面积' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c4='单位GDP建设用地面积' and c7='湖北省' and c2='SS' and c8='203'))-TO_NUMBER(c9)),
+            '&lt;/span&gt;',
+            c14,
+            '&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4='单位GDP建设用地面积' and c8='203' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1
        </select>
        
         <select id="getTopic1Card4_1" resultType="String">       
-        select concat('从三产结构看，',(
+        select concat('&lt;li&gt;','从三产结构看，',(
 case
 when right(left(c1,6),1)=1 then '一季度'
 when right(left(c1,6),1)=2 then '二季度'
@@ -256,18 +298,25 @@ when right(left(c1,6),1)=3 then '三季度'
 when right(left(c1,6),1)=4 then '四季度'
 END),
 '服务业增加值占地区生产总值比重为',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，较上年同期提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='服务业增加值占地区生产总值比重' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='服务业增加值占地区生产总值比重' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
-			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='服务业增加值占地区生产总值比重' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c4='服务业增加值占地区生产总值比重' and c7='湖北省' and c2='SS' and c8='104'))),'百分点'
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c4='服务业增加值占地区生产总值比重' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c4='服务业增加值占地区生产总值比重' and c7='湖北省' and c2='SS' and c8='104'))),
+'&lt;/span&gt;',
+'百分点',
+'&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4='服务业增加值占地区生产总值比重' and c8='104' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1
         </select>
         
          <select id="getTopic1Card5_1" resultType="String"> 
-select concat((
+select concat('&lt;li&gt;',(
 case
 when right(left(c1,6),1)=1 then '一季度'
 when right(left(c1,6),1)=2 then '二季度'
@@ -275,8 +324,12 @@ when right(left(c1,6),1)=3 then '三季度'
 when right(left(c1,6),1)=4 then '四季度'
 END),
 ',高新技术产业增加值达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (round(
 TO_NUMBER(
 (TO_NUMBER((
@@ -302,7 +355,10 @@ left((
 ))*100)),0)
 
 ),
-'个百分点。') as result
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
+) as result
 from SJJG."T1" where c4='高新技术产业增加值' and c8='203' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1   
          </select>
         
@@ -382,146 +438,224 @@ from SJJG."T1" where c4='高新技术产业增加值' and c8='203' and c7='湖�
          
          <!-- topic2-文字部分 -->
           <select id="getTopic2Card1_1" resultType="String"> 
-select concat(c18,
+select concat("&lt;li&gt;",c18,
 'GDP达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c4='地区生产总值' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c14 from SJJG."T1" where c4='地区生产总值' and c7 ='湖北省' and c2='YY' and c8='109' order by c1 desc limit 0,1)),
-'，增速与上年持平。'
+'，增速与上年持平',
+'&lt;/li&gt;'
 )as result
 from SJJG."T1" where c4='地区生产总值' and c7 ='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
           </select>
           
            <select id="getTopic2Card2_1" resultType="String"> 
-           select concat('从经济运行综合效益看，',c18,
+               select concat('&lt;li&gt;','从经济运行综合效益看，',c18,
 '税收收入占地方一般公共预算收入比重达到',
-a.c9,a.c14,
+'&lt;span style='color: #3A82CC'&gt;',
+a.c9,
+'&lt;/span&gt;',
+a.c14,
 '，同比提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER(a.c9)-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='税收收入占地方一般公共预算收入比重' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104'  limit 1,1) e))),
-'个百分点。一般公共预算收入占GDP比重为',
+'&lt;/span&gt;',
+'个百分点&lt;/li&gt;',
+'&lt;li&gt;一般公共预算收入占GDP比重为',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='地方一般公共预算收入占GDP比重' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='地方一般公共预算收入占GDP比重' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)),
 '，同比下降',
-(TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY h.C3 ORDER BY h.C1 DESC), h.c9 from SJJG.T1 h where h.c4='地方一般公共预算收入占GDP比重' and h.c7 ='湖北省' and h.c2='YY' and h.c8='104' limit 1,1) f))-TO_NUMBER((select g.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='地方一般公共预算收入占GDP比重' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) g))), 
-'个百分点。' 
+'&lt;span style='color: #3A82CC'&gt;',
+(TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY h.C3 ORDER BY h.C1 DESC), h.c9 from SJJG.T1 h where h.c4='地方一般公共预算收入占GDP比重' and h.c7 ='湖北省' and h.c2='YY' and h.c8='104' limit 1,1) f))-TO_NUMBER((select g.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='地方一般公共预算收入占GDP比重' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) g))),
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 a where a.c4='税收收入占地方一般公共预算收入比重' and a.c7 ='湖北省' and a.c2='YY' and a.c8='104' order by a.c1 desc limit 0,1
            </select>
            
              <select id="getTopic2Card3_1" resultType="String"> 
-            select concat('从投资动力看,',c18,
+            select concat('&lt;li&gt;','从投资动力看,',c18,
 ',全省完成固定资产投资',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (round((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7 ='湖北省' and c2='YY' and c8='109' limit 0,1)),1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7 ='湖北省' and c2='YY' and c8='109' limit 0,1)),
-'；'
+'&lt;/li&gt;'
+
 )as result
 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7 ='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
              </select>
              
              <select id="getTopic2Card3_2" resultType="String"> 
-             select concat('从消费动力看,',c18,
+             select concat('&lt;li&gt;','从消费动力看,',c18,
 ',全省社会消费品零售总额达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (round((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='社会消费品零售总额' and c7 ='湖北省' and c2='YY' and c8='109' limit 0,1)),1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='社会消费品零售总额' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1)),
-'；'
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 where c4='社会消费品零售总额' and c7 ='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
              </select>
              
              <select id="getTopic2Card3_3" resultType="String"> 
-             select concat('从外需动力看,',c18,
+             select concat('&lt;li&gt;','从外需动力看,',c18,
 ',出口达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (round((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='出口总额' and c7 ='湖北省' and c2='YY' and c8='109' limit 0,1)),1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='出口总额' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1)),
-'。'
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 where c4='出口总额' and c7 ='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
              </select>
              
               <select id="getTopic2Card4_1" resultType="String"> 
-              select concat('从投资贡献看，',c18,
+              select concat('&lt;li&gt;','从投资贡献看，',c18,
 '投资对GDP贡献率达到',
-a.c9,a.c14,
+'&lt;span style='color: #3A82CC'&gt;',
+a.c9,
+'&lt;/span&gt;',
+a.c14,
 '，同比下降',
-(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='投资贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='投资贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) e) )), 
-'个百分点。' 
+'&lt;span style='color: #3A82CC'&gt;',
+(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='投资贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='投资贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) e) )),
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 a where a.c4='投资贡献率' and a.c7 ='湖北省' and a.c2='YY' and a.c8='104' order by a.c1 desc limit 0,1
               </select>
                <select id="getTopic2Card4_2" resultType="String"> 
-               select concat('从消费贡献看，',c18,
+               select concat('&lt;li&gt;','从消费贡献看，',c18,
 '消费对GDP贡献率达到',
-a.c9,a.c14,
+'&lt;span style='color: #3A82CC'&gt;',
+a.c9,
+'&lt;/span&gt;',
+a.c14,
 '，同比提高',
-(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='消费贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='消费贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) e))), 
-'个百分点。' 
+'&lt;span style='color: #3A82CC'&gt;',
+(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='消费贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='消费贡献率' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) e))),
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 a where a.c4='消费贡献率' and a.c7 ='湖北省' and a.c2='YY' and a.c8='104' order by a.c1 desc limit 0,1
               </select>
               
               <select id="getTopic2Card5_1" resultType="String"> 
-              select concat('从工业拉动效果看，',c18,
+              select concat('&lt;li&gt;','从工业拉动效果看，',c18,
 '，全省第二产业增加值达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='第二产业增加值' and c7 ='湖北省' and c2='YY' and c8='109' and c1=(select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='第二产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1))  limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='第二产业增加值' and c7 ='湖北省' and c2='YY' and c8='109' and c1=(select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='第二产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104'  limit 0,1))  limit 0,1)),
 '，拉动GDP提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='第二产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104'  limit 0,1)),
-'个百分点；'
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 where c4='第二产业增加值' and c7 ='湖北省' and c2='YY' and c8='104' and c1=(select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='第二产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104'  limit 0,1)) order by c1 desc limit 0,1
               </select>
               <select id="getTopic2Card5_2" resultType="String">
-              select concat('从服务业拉动效果看，',c18,
+              select concat('&lt;li&gt;','从服务业拉动效果看，',c18,
 '，全省第二产业增加值达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='第三产业增加值' and c7 ='湖北省' and c2='YY' and c8='109' and c1=(select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='第三产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)) limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='第三产业增加值' and c7 ='湖北省' and c2='YY' and c8='109' and c1=(select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='第三产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)) limit 0,1)),
 '，拉动GDP提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='第三产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)),
-'个百分点。'
+三产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)) limit 0,1)),
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 where c4='第三产业增加值' and c7 ='湖北省' and c2='YY' and c8='104' and c1=(select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='第三产业拉动百分点' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)) order by c1 desc limit 0,1
               </select>
                <select id="getTopic2Card6_1" resultType="String">
-               select concat('从居民部门看,',c18,
+               select concat('&lt;li&gt;','从居民部门看,',c18,
 '，全省城乡居民人均可支配收入达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='居民人均可支配收入' and c7 ='湖北省' and c2='YY' and c8='109' limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='居民人均可支配收入' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1)),
-'。'
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 where c4='居民人均可支配收入' and c7 ='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
                </select>
                 <select id="getTopic2Card7_1" resultType="String">
-                select concat('从企业部门看,',c18,
+                select concat('&lt;li&gt;','从企业部门看,',c18,
 '，规模以上工业企业利润总额达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上工业企业利润' and c7 ='湖北省'  and c8='207' and right(left(c1,6),2)='12' limit 0,1)),
+and c2='YY' and c8='109' limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='规模以上工业企业利润' and c7 ='湖北省' and c8='207' and right(left(c1,6),2)='12'  limit 0,1)),
-'。'
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 where c4='规模以上工业企业利润' and c7 ='湖北省' and c8='203' and right(left(c1,6),2)='12' order by c1 desc limit 0,1
                 </select>
                  <select id="getTopic2Card8_1" resultType="String">
-                 select concat('从政府部门看,',c18,
+                 select concat('&lt;li&gt;','从政府部门看,',c18,
 '，全省地方一般公共预算收入为',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='地方一般公共预算收入' and c7 ='湖北省' and c2='YY' and c8='109' limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='地方一般公共预算收入' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1)),
-'。'
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 where c4='地方一般公共预算收入' and c7 ='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
                  </select>
@@ -574,7 +708,7 @@ from SJJG.T1 where c4='地方一般公共预算收入' and c7 ='湖北省' and c
          
          <!-- topic3-文字部分 -->
           <select id="getTopic3Card1_1" resultType="String">
-          select concat(c18,(
+          select concat('&lt;li&gt;',c18,(
 case
 when right(left(c1,6),2)='01' then '1月'
 when right(left(c1,6),2)='02' then '2月'
@@ -590,27 +724,45 @@ when right(left(c1,6),2)='11' then '11月'
 when right(left(c1,6),2)='12' then '12月'
 END),
 '湖北省规模以上工业增加值同比增长',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 ',增速同比减少',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上工业增加值' and c7='湖北省' and c2='MM' and c8='207' limit 1,1))-TO_NUMBER(c9))),
+'&lt;/span&gt;',
 '个百分点。从重点领域看，汽车制造业增加值同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业' limit 0,1)),
+'&lt;/span&gt;',
 '%；通信设备、计算机及其他电子设备制造业增加值同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 0,1)),
+'&lt;/span&gt;',
 '%；装备制造产业增加值同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 0,1)),
+'&lt;/span&gt;',
 '%，增速较上月分别放缓',
+'&lt;span style='color: #3A82CC'&gt;',
 (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 0,1)))),1)),
+'&lt;/span&gt;',
 '、放缓',
+'&lt;span style='color: #3A82CC'&gt;',
 (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 0,1)))),1)),
+'&lt;/span&gt;',
 '、放缓',
+'&lt;span style='color: #3A82CC'&gt;',
 (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 0,1)))),1)),
-'个百分点。'
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 )
 from SJJG.T1 where c4='规模以上工业增加值' and c7='湖北省' and c8='207' order by c1 desc limit 0,1
           </select>
            <select id="getTopic3Card2_1" resultType="String">
-           select concat('从工业经济效益变化看，',c18,(
+           select concat('&lt;li&gt;','从工业经济效益变化看，',c18,(
 case
 when right(left(c1,6),2)='01' then '1月'
 when right(left(c1,6),2)='02' then '2月'
@@ -626,21 +778,31 @@ when right(left(c1,6),2)='11' then '11月'
 when right(left(c1,6),2)='12' then '12月'
 END),
 '湖北省规模以上工业主营业务收入达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上工业主营业务收入' and c7='湖北省' and c8='207'  limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='规模以上工业主营业务收入' and c7='湖北省' and c8='207'  limit 0,1)),
 '；利润率达到',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上工业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='规模以上工业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)),
 '，同比上升',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上工业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上工业企业利润率' and c7='湖北省' and c8='203' and c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='规模以上工业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='规模以上工业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='规模以上工业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)),4)-1)  limit 0,1)))),
-'个百分点。'
+'&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4='规模以上工业主营业务收入' and c7='湖北省' and c8='203' order by c1 desc limit 0,1
            </select>
             <select id="getTopic3Card2_2" resultType="String">
-            select concat('从服务经济效益变化看，',c18,(
+            select concat('&lt;li&gt;','从服务经济效益变化看，',c18,(
 case
 when right(left(c1,6),2)='01' then '1月'
 when right(left(c1,6),2)='02' then '2月'
@@ -656,30 +818,44 @@ when right(left(c1,6),2)='11' then '11月'
 when right(left(c1,6),2)='12' then '12月'
 END),
 '湖北省限额以上服务业营业务收入达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上服务业企业营业收入' and c7='湖北省' and c8='207'  limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='规模以上服务业企业营业收入' and c7='湖北省' and c8='207' limit 0,1)),
 '；利润率达到',
+'&lt;span style='color: #3A82CC'&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上服务业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)),
+'&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='规模以上服务业企业利润率' and c7='湖北省' and c8='203'  limit 0,1)),
 '，同比下降',
+'&lt;span style='color: #3A82CC'&gt;',
 (TO_NUMBER(((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), 
 c9 from SJJG.T1 where c4='规模以上服务业企业利润率' and c7='湖北省' and c8='203' and 
 c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='规模以上服务业企业利润率' and c7='湖北省' and c8='203' limit 0,1)),
 left((select c1 from SJJG.T1 where c4='规模以上服务业企业利润率' and c7='湖北省' and c8='203' limit 0,1),4),
 left((select c1 from SJJG.T1 where c4='规模以上服务业企业利润率' and c7='湖北省' and c8='203' limit 0,1),4)-1)
   limit 0,1))))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上服务业企业利润率' and c7='湖北省' and c8='203' limit 0,1)))),
-'个百分点。'
+  '&lt;/span&gt;',
+'个百分点',
+'&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4='规模以上服务业企业营业收入' and c7='湖北省' and c8='203' order by c1 desc limit 0,1
             </select>
             <select id="getTopic3Card3_1" resultType="String">
-            select concat('从信息环境看',
+            select concat('&lt;li&gt;','从信息环境看',
 c18,
 '全省互联网宽带接入用户',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (
 round(
 (
@@ -687,12 +863,14 @@ round(
 TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),  c9 from SJJG.T1 where c4='互联网宽带接入用户数' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))*100
 ),1)
 ),
-'%。'
+'&lt;/span&gt;',
+'%。',
+'&lt;/li&gt;'
 )
 from SJJG.T1 where c4='互联网宽带接入用户数' and c7='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
             </select>
             <select id="getTopic3Card4_1" resultType="String">
-            select concat('从资金环境看',
+            select concat('&lt;li&gt;','从资金环境看',
 c18,(
 case
 when right(left(c1,6),2)='01' then '1月'
@@ -709,8 +887,12 @@ when right(left(c1,6),2)='11' then '11月'
 when right(left(c1,6),2)='12' then '12月'
 END),
 '全省人民币贷款余额达到',
-c9,c14,
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
 '，同比提高',
+'&lt;span style='color: #3A82CC'&gt;',
 (
 round(
 (
@@ -718,7 +900,9 @@ round(
 TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='金融机构本外币贷款余额' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))*100
 ),1)
 ),
-'%。'
+'&lt;/span&gt;',
+'%',
+'&lt;/li&gt;'
 )
 from SJJG.T1 where c4='金融机构本外币贷款余额' and c7='湖北省' and c2='MM' and c8='104' order by c1 desc limit 0,1
             </select>
@@ -848,7 +1032,7 @@ end
           
            <!-- topic4-文字部分 -->
             <select id="getTopic4Card1_1" resultType="String">
-select concat('从年内走势看，',(
+select concat('&lt;li&gt;','从年内走势看，',(
 case
 when right(left(c1,6),1)=1 then '一季度'
 when right(left(c1,6),1)=2 then '二季度'
@@ -856,12 +1040,21 @@ when right(left(c1,6),1)=3 then '三季度'
 when right(left(c1,6),1)=4 then '四季度'
 END),
 '全省固定资产投资达到',
-a.c9,a.c14,
+'&lt;span style='color: #3A82CC'&gt;',
+a.c9,
+'&lt;/span&gt;',
+a.c14,
 '，同比增速为',
+'&lt;span style='color: #3A82CC'&gt;',
 (select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='固定资产投资（不含农户）完成额' and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;= '201704SS'  limit 0,1) d),
+'&lt;/span&gt;',
 (select e.c14 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c14 from SJJG.T1 b where b.c4='固定资产投资（不含农户）完成额' and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;='201704SS'  limit 0,1) e),
 '，增速较去年同期下降',
-(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4)-1) and c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='207'))-TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='固定资产投资（不含农户）完成额' and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;= '201704SS' limit 0,1) f))),'百分点。'
+'&lt;span style='color: #3A82CC'&gt;',
+(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4)-1) and c4='固定资产投资（不含农户）完成额' and c7='湖北省' and c2='SS' and c8='207'))-TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='固定资产投资（不含农户）完成额' and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;= '201704SS' limit 0,1) f))),
+'&lt;/span&gt;',
+'百分点',
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 a where a.c4='固定资产投资（不含农户）完成额' and c8='203' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1
 
@@ -869,7 +1062,7 @@ from SJJG.T1 a where a.c4='固定资产投资（不含农户）完成额' and c8
             </select>
             
             <select id="getTopic4Card2_1" resultType="String">
-            select concat('从新开项目看，',(
+            select concat('&lt;li&gt;','从新开项目看，',(
 case
 when right(left(c1,6),1)=1 then '一季度'
 when right(left(c1,6),1)=2 then '二季度'
@@ -877,17 +1070,26 @@ when right(left(c1,6),1)=3 then '三季度'
 when right(left(c1,6),1)=4 then '四季度'
 END),
 '全省新开工项目',
-a.c9,a.c14,
+'&lt;span style='color: #3A82CC'&gt;',
+a.c9,
+'&lt;/span&gt;',
+a.c14,
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='本年新开工项目个数' and b.c8='207' and b.c7='湖北省' and b.c2='SS'   limit 0,1) d),
+'&lt;/span&gt;',
 (select e.c14 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c14 from SJJG.T1 b where b.c4='本年新开工项目个数' and b.c8='207' and b.c7='湖北省' and b.c2='SS' limit 0,1) e),
 '；施工项目个数达到',
+'&lt;span style='color: #3A82CC'&gt;',
 (select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='施工项目个数' and b.c8='203' and b.c7='湖北省' and b.c2='SS' limit 0,1) f),
+'&lt;/span&gt;',
 (select j.c14 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c14 from SJJG.T1 b where b.c4='施工项目个数' and b.c8='203' and b.c7='湖北省' and b.c2='SS'  limit 0,1) j),
 '，同比增长',
+'&lt;span style='color: #3A82CC'&gt;',
 (select g.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c4='施工项目个数' and b.c8='207' and b.c7='湖北省' and b.c2='SS' limit 0,1) g),
+'&lt;/span&gt;',
 (select h.c14 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c14 from SJJG.T1 b where b.c4='施工项目个数' and b.c8='207' and b.c7='湖北省' and b.c2='SS'  limit 0,1) h),
-'。'
+'&lt;/li&gt;'
 )as result
 from SJJG.T1 a where a.c4='本年新开工项目个数' and a.c8='203' and a.c7='湖北省' and a.c2='SS' order by a.c1 desc limit 0,1
 
@@ -895,7 +1097,7 @@ from SJJG.T1 a where a.c4='本年新开工项目个数' and a.c8='203' and a.c7=
                </select> 
                
               <select id="getTopic4Card3_1" resultType="String">
-              select concat(
+              select concat('&lt;li&gt;',
 (case
 when right(left(d.c1,6),1)=1 then '前一季度'
 when right(left(d.c1,6),1)=2 then '前二季度'
@@ -903,20 +1105,23 @@ when right(left(d.c1,6),1)=3 then '前三季度'
 when right(left(d.c1,6),1)=4 then '前四季度'
 END),
 '，投资效益系数为',
-d.c9,d.c14,
+'&lt;span style='color: #3A82CC'&gt;',
+d.c9,
+'&lt;/span&gt;',
+d.c14,
 (case
 when ( TO_NUMBER(d.c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='固定资产投资对GDP的拉动' and c3='0400006' and c7='湖北省' and c8='203'  limit 4,1))) ) &gt; 0 then '，较上期有所提升'
 when ( TO_NUMBER(d.c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='固定资产投资对GDP的拉动' and c3='0400006' and c7='湖北省' and c8='203' limit 4,1))) ) &lt; 0 then '，较上期有所下降'
 when ( TO_NUMBER(d.c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='固定资产投资对GDP的拉动' and c3='0400006' and c7='湖北省' and c8='203'  limit 4,1))) )=0 then '，与上期持平'
 END),
-'。'
+'&lt;/li&gt;'
 )
 from SJJG.T1 d where d.c4='固定资产投资对GDP的拉动' and d.c3='0400006' and d.c7='湖北省' and d.c8='203' order by d.c1 desc limit 0,1
 
 
               </select>
                 <select id="getTopic4Card4_1" resultType="String">
-select concat('从民间投资看，',c18,
+select concat('&lt;li&gt;','从民间投资看，',c18,
 (case
 when right(left(c1,6),2)='01' then '1月'
 when right(left(c1,6),2)='02' then '2月'
@@ -932,8 +1137,11 @@ when right(left(c1,6),2)='11' then '11月'
 when right(left(c1,6),2)='12' then '12月'
 end),
 '湖北省民间投资同比增长',
-c9,c14,
-'。'
+'&lt;span style='color: #3A82CC'&gt;',
+c9,
+'&lt;/span&gt;',
+c14,
+'&lt;/li&gt;'
 ) as result
 from SJJG.T1 where c4='民间投资' and c7='湖北省' and c8='207' and c2='MM'order by c1 desc limit 0,1
                 </select>
