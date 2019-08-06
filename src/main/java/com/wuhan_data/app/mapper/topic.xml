@@ -636,7 +636,7 @@ c14,
 '，同比增长',
 '&lt;span style="color: #3A82CC"&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c4='规模以上工业企业利润' and c7 ='湖北省'  and c8='207' and right(left(c1,6),2)='12' limit 0,1)),
-and c2='YY' and c8='109' limit 0,1)),
+<!-- and c2='YY' and c8='109' limit 0,1)), -->
 '&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c4='规模以上工业企业利润' and c7 ='湖北省' and c8='207' and right(left(c1,6),2)='12'  limit 0,1)),
 '&lt;/li&gt;'
