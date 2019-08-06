@@ -134,7 +134,7 @@ public class LineAndBarType {
 		xAxisMap.put("data", temList);
 		Map<String, Object> xAxisLabelMap = new HashMap<String, Object>();
 		xAxisLabelMap.put("interval", "0");
-		xAxisLabelMap.put("rotate", "45");
+		xAxisLabelMap.put("rotate", "50");
 		xAxisMap.put("axisLabel", xAxisLabelMap);
 		xAxis.add(xAxisMap);
 		lineAndBarOptionEntity.setxAxis(xAxis);
@@ -163,12 +163,12 @@ public class LineAndBarType {
 				seriesListMap.put("name", legendData.get(i));
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
-				seriesListMap.put("yAxisIndex", "1");
+				seriesListMap.put("yAxisIndex", "0");
 			} else {
 				seriesListMap.put("name", legendData.get(i));
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
-				seriesListMap.put("yAxisIndex", "0");
+				seriesListMap.put("yAxisIndex", "1");
 			}
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
