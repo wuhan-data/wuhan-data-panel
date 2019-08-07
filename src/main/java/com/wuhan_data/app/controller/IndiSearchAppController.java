@@ -55,7 +55,7 @@ public class IndiSearchAppController {
 	@Autowired
 	IndiDetailService indiDetailService;
 
-	String source = "统计局数据库-国研网";// 搜索来源
+//	String source = "统计局数据库-国研网";// 搜索来源
 
 	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -869,7 +869,7 @@ public class IndiSearchAppController {
 
 		int uid = 1;// TODO 从session中获得
 		String index_id = "0100001";
-
+		String source = null;
 		String type = "指标数据";
 		Date date = new Date();
 		String indi_source = source;

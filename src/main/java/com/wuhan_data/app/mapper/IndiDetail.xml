@@ -26,14 +26,14 @@
 
 
   		<select id="getFreqCodeByIndiName" resultType="String" parameterType="String">
-            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and sjly=#{source} and area_name=#{area_name} group by freq_code   
+            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and sjly=#{source} and area_name=#{area_name} and (time_point = '104' or time_point = '203') group by freq_code   
         </select>
 <!-- 		<select id="getFreqCodeByIndiName" resultType="String" parameterType="String"> -->
 <!--             select freq_code from  indi_all where indi_name= #{appIndiName} and sjly=#{source} group by freq_code    -->
 <!--         </select> -->
         
 		 <select id="indiDateByFreqName" resultType="String" parameterType="java.util.Map" >
-            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly=#{source} and area_name=#{area_name} group by date_code 
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly=#{source} and area_name=#{area_name} and (time_point = '104' or time_point = '203') group by date_code 
         </select> 
 <!--  		<select id="indiDateByFreqName" resultType="String" parameterType="java.util.Map" > -->
 <!--             select date_code from indi_all where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly=#{source} group by date_code  -->
