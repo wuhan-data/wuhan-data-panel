@@ -3,7 +3,7 @@ package com.wuhan_data.pojo;
 
 public class AnalysisIcon {
 	int id;
-	int iconWeight;
+//	int iconWeight;
 	String background;
 	String icon_name;
 	String icon_url;
@@ -13,12 +13,12 @@ public class AnalysisIcon {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getIconWeight() {
-		return iconWeight;
-	}
-	public void setIconweight(int iconWeight) {
-		this.iconWeight = iconWeight;
-	}
+//	public int getIconWeight() {
+//		return iconWeight;
+//	}
+//	public void setIconweight(int iconWeight) {
+//		this.iconWeight = iconWeight;
+//	}
 	public String getBackground() {
 		return background;
 	}
