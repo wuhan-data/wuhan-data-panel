@@ -30,6 +30,33 @@ public class ImageUtils {
 	 * @param pictureFile
 	 * @throws IOException
 	 */
+	//上传功能,上传到本地路径，不在项目中
+	public static String upload(HttpServletRequest request,
+			MultipartFile pictureFile,String url) throws IOException {
+		String imgPath = null;//装配后的图片地址
+		//上传图片
+		if(pictureFile!=null&&!pictureFile.isEmpty()){
+			// 使用UUID给图片重命名，并去掉四个“-”
+			String name = UUID.randomUUID().toString().replaceAll("-", "");
+			// 获取文件的扩展名
+			String ext = FilenameUtils.getExtension(pictureFile
+					.getOriginalFilename());
+			// 设置图片上传路径
+			/*
+			 * String url = request.getSession().getServletContext() .getRealPath("/heads");
+			 */
+			// 检验文件夹是否存在
+			isFolderExists(url);
+			// 以绝对路径保存重名命后的图片
+			pictureFile.transferTo(new File(url + "/" + name + "." + ext));
+			// 装配图片地址
+			imgPath = name + "." + ext;
+			//System.out.println("上传图片成功，路径为="+imgPath);
+		}
+		return imgPath;
+	}
+	
+	
 	//上传头像
 	public static String uploadHead(HttpServletRequest request,
 			MultipartFile pictureFile) throws IOException {

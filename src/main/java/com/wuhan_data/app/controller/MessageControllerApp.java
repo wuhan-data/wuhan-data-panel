@@ -38,10 +38,6 @@ import net.sf.json.JSONObject;
 public class MessageControllerApp {
 	
 	@Autowired
-	MessageServiceApp messageServiceApp;
-	@Autowired
-	NoticeServiceApp noticeServiceApp;
-	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
 	@Autowired
 	Message2ServiceApp message2ServiceApp;

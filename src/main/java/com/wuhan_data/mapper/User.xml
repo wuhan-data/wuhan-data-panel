@@ -43,14 +43,14 @@
 		<select id="search" parameterType="java.util.Map" resultType="User">
             select * from WUHAN_DATA.USER 
             <where>
-            username like concat(concat('%',#{username}),'%')  
+            tel like concat(concat('%',#{tel}),'%')  
             </where>
              order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.USER where username like concat(concat('%',#{username}),'%')  
+            select count(*) from WUHAN_DATA.USER where tel like concat(concat('%',#{tel}),'%')  
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="User" parameterType="java.util.Map">

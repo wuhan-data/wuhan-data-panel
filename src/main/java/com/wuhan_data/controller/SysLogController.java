@@ -28,18 +28,18 @@ public class SysLogController {
 	SysLogService sysLogService;
 	private String operate_user_name="";
 	@RequestMapping("sysLogInit")
-	public ModelAndView departmentInit(HttpServletRequest request, 
-            HttpServletResponse response) throws UnsupportedEncodingException {
+	public ModelAndView departmentInit(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         
     	ModelAndView maView=new ModelAndView();
+    	//参数获取
+    	String currentPage=request.getParameter("currentPage");
+    	
+    	//数据库操作
     	Page page=new Page();
-    	
     	int count=sysLogService.count();
-    	
     	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-        String currentPage=request.getParameter("currentPage");
         Pattern pattern = Pattern.compile("[0-9]{1,9}");
         if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
             page.setCurrentPage(1);
@@ -48,11 +48,8 @@ public class SysLogController {
         }
         page.setTotalNumber(count);
         page.count();
-        System.out.println(page.getDbIndex());
-        System.out.println(page.getDbNumber());
         map.put("page", page);
         List<SysLog> sysLogListByPage=sysLogService.listByPage(map);
-        
         maView.addObject("sysLogListByPage", sysLogListByPage);
         maView.addObject("controlURL", "sysLogListByPage");//控制页码传递URL
         maView.addObject("page", page); 
@@ -63,12 +60,12 @@ public class SysLogController {
 	public ModelAndView  departmentSelectAnalysisListByPage(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {
 		ModelAndView maView=new ModelAndView();
+		//参数获取
+		String currentPage=request.getParameter("currentPage");
+		//数据库操作
     	Page page=new Page();
-    	
     	int count=sysLogService.count();
-    	
     	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-        String currentPage=request.getParameter("currentPage");
         Pattern pattern = Pattern.compile("[0-9]{1,9}");
         if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
             page.setCurrentPage(1);
@@ -77,12 +74,8 @@ public class SysLogController {
         }
         page.setTotalNumber(count);
         page.count();
-        System.out.println(page.getDbIndex());
-        System.out.println(page.getDbNumber());
         map.put("page", page);
         List<SysLog> sysLogListByPage=sysLogService.listByPage(map);
-        
-        
         maView.addObject("sysLogListByPage", sysLogListByPage);
         maView.addObject("controlURL", "sysLogListByPage");//控制页码传递URL
         maView.addObject("page", page); 
@@ -94,7 +87,7 @@ public class SysLogController {
             HttpServletResponse response) throws IOException{
     	response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
-    	operate_user_name = java.net.URLDecoder.decode(request.getParameter(" operate_user_name"),"UTF-8");
+    	operate_user_name = java.net.URLDecoder.decode(request.getParameter("operate_user_name"),"UTF-8");
 
 //    	String theme_name="%"+search+"%";
     	   Page page=new Page(); //分页类

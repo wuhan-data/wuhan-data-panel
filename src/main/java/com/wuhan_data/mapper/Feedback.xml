@@ -30,13 +30,13 @@
 		<select id="search" parameterType="java.util.Map" resultType="Feedback">
             select * from WUHAN_DATA.Feedback 
             <where>
-           uid like concat(concat('%',#{uid}),'%')  
+           title like concat(concat('%',#{title}),'%')  
             </where>
              order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.Feedback where uid like concat(concat('%',#{uid}),'%')  
+            select count(*) from WUHAN_DATA.Feedback where title like concat(concat('%',#{title}),'%')  
         </select>
          
     </mapper>
