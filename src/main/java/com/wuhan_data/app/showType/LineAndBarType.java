@@ -153,6 +153,7 @@ public class LineAndBarType {
 
 		// 构建series
 		List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
+		int z = 3;
 		for (int i = 0; i < dataV.size(); i++) {
 			List<String> tempList = new ArrayList<String>();
 			tempList = dataV.get(i);
@@ -169,6 +170,7 @@ public class LineAndBarType {
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "1");
+				seriesListMap.put("z", z+i);
 			}
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
