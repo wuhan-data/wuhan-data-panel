@@ -9,18 +9,43 @@
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
-  	<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <!-- Bootstrap Styles-->
+    <title>WUHANDATA</title>
+    <!-- Bootstrap Styles-->
     <link href="back/assets/css/bootstrap.css" rel="stylesheet" />
-     <!-- FontAwesome Styles-->
+    <!-- FontAwesome Styles-->
     <link href="back/assets/css/font-awesome.css" rel="stylesheet" />
-        <!-- Custom Styles-->
+    <!-- Morris Chart Styles-->
+    <link href="back/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
     <link href="back/assets/css/custom-styles.css" rel="stylesheet" />
-     <!-- Google Fonts-->
+    
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-   	<script src="back/assets/laydate/laydate.js"></script> 
+    
+   
+    <!-- Bootstrap Js -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Js -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- Morris Chart Js -->
+    <script src="assets/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="assets/js/morris/morris.js"></script>
+    <!-- Custom Js -->
+    <script src="assets/js/custom-scripts.js"></script>
+    
+    
+    <script src="back/assets/laydate/laydate.js"></script> 
    	<script src="back/assets/js/jquery-1.10.2.js"></script> 
 <!--    	<script language="javascript" src="back/assets/js/chainSelect.js"></script> -->
 	<script type="text/javascript" src="back/assets/js/jquery.tabletojson.js"></script>  
@@ -59,24 +84,182 @@
   
 </script> 
 
+<style type="text/css">
+	.com-sel {
+    line-height: 2rem;
+    cursor: pointer;        /*鼠标上移变成小手*/
+}
+
+.com-opt {
+    padding-right: 1.8rem;
+    color: #afbac0;
+    font-size: 1.6rem;
+    border: none;
+    outline: none;
+    /*去掉默认的下拉三角*/
+    appearance:none;  
+    -moz-appearance:none;  
+    -webkit-appearance:none;
+    /*添加下拉三角图标*/
+/*     background: url("../img/task5-2_07.jpg") no-repeat right center transparent; */
+}
 	
-	
-	
+
+</style>
+    
 </head>
 
+<body >
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="back/index.jsp">WUHANDATA</a>
+            </div>
 
-<body>
-1600020
-	<form action="export" method="post"> 
-				<span class="text-info">输入指标代码</span><input type="text" class="form-control" id="IndiShowType" value="" name="id">
-					<button type="submit" class="btn btn-primary">
-						提交
-					</button>
-	</form> 
-	
-    <div class="indi">
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+<!--                     /.dropdown-user -->
+                </li>
+<!--                 /.dropdown -->
+            </ul>
+
+
+
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <!-- <li>
+                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
+                    </li> -->
+                    <li>
+                        <a class="active-menu" href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
+                    </li>
+<!--                     <li> -->
+<!--                         <a href="listIndiCorrelative"><i class="fa fa-list-alt"></i>元数据管理</a> -->
+                        <!-- <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">指标设计</a>
+                            </li>
+                            <li>
+                                <a href="#">指标关联关系维护</a>
+                            </li>
+                        </ul> -->
+<!--                     </li> -->
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="listIndexManage">指标数据维护</a>
+                            </li>
+<!--                             <li> -->
+<!--                                 <a href="dataReview.html">数据审核</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a href="reportDataManage.html">报告、报表数据管理</a> -->
+<!--                             </li> -->
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
+<!--                         <ul class="nav nav-second-level"> -->
+<!--                             <li> -->
+<!--                                 <a href="columnManage.html">栏目维护</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a href="columnPowerManage.html">栏目权限维护</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a href="columnContentManage.html">内容配置</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a href="columnContPowerManage.html">内容权限设置</a> -->
+<!--                             </li> -->
+<!--                         </ul> -->
+                    </li>
+                    <li>
+                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
+
+                    </li>
+<!--                     <li> -->
+<!--                         <a href="#"><i class="fa fa-laptop"></i>发布管理</a> -->
+<!--                         <ul class="nav nav-second-level"> -->
+<!--                             <li> -->
+<!--                                 <a href="columnPublish.html">栏目发布</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a href="publishedManage.html">已发布内容管理</a> -->
+<!--                             </li> -->
+<!--                         </ul> -->
+<!--                     </li> -->
+                    <li>
+                        <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="noticeInit">通知管理</a>
+                            </li>
+                            <li>
+                                <a href="sysLogInit">日志管理</a>
+                            </li>
+                            <li>
+                                <a href="messageManage.html">消息管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-cogs"></i>系统管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="departmentInit">组织结构管理</a>
+                            </li>
+                            <li>
+                                <a href="userInit">用户管理</a>
+                            </li>
+                            <li>
+                                <a href="roleInit">角色管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            Home <small>Summary of your App</small>
+                        </h1>
+                    </div>
+                </div>
+                
+                
+<!--                 导出到excel -->
+                
+         <div class="com-sel btn-group">
 			<span class="indiName"> 指标名称
-			   <select id="indiName">
+			   <select id="indiName" class="com-opt">
 					<option value="" >
 						请选择指标
 					</option>
@@ -86,18 +269,21 @@
 				</select> 
 			</span>
 			<span class="indiSource"> <img src="images/pfeil.gif" alt="" />
-				指标来源： <select></select> </span>
+				指标来源： <select class="com-opt"></select> </span>
 			<span class="freqCode"> <img src="images/pfeil.gif" alt="" />
-				月/季度： <select></select> </span>
+				月/季度： <select class="com-opt"></select> </span>
 			<span class="startTime"> <img src="images/pfeil.gif" alt="" />
-				开始日期： <select></select> </span>
+				开始日期： <select class="com-opt"></select> </span>
 			<span class="endTime"> <img src="images/pfeil.gif" alt="" />
-				结束日期： <select></select> </span>
+				结束日期： <select class="com-opt"></select> </span>
+				
+				
+				<input type="button" value="删除" id="delectBu">
 		</div>
 		
 <!-- 		表格 -->
-		 <div class="navbar-header">
-		 	<table style="width:100%;border:1px white solid" class="dd" id="toExcel">
+		 <div class="table-responsive">
+		 	<table style="width:100%;border:1px white solid" class="table table-striped table-bordered table-hover dd" id="toExcel">
     			<thead>
     			<tr bgcolor="#4F81BD"style="color: #fff;">
 <%--     			<%=columns[0]%> --%>
@@ -110,32 +296,45 @@
         			<td style="text-align: center" >freq_code</td>
         			<td style="text-align: center" >time_point</td>
         			<td style="text-align: center" >indi_value</td>
+        			<td style="text-align: center" >操作</td>
     			</tr>
     			</thead>
 			</table>
 			
-	
-      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('ceshi','toExcel')">导出到excel表格</button>
+
+      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('指标数据','toExcel')">导出到excel表格</button>
 		 </div>
-		 
-		 
+                
+                
+                
+                
+                <!-- /. ROW  -->
 
+                <!-- /. ROW  -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+   
 	
-
-
-	
-
-		
-		
-<script>
+	<script>
 $(document).ready(function(){
-	alert('进入js');
 	//找到五个下拉框
 	var indiNameSelect = $('.indiName').children('select');
 	var indiSourceSelect = $('.indiSource').children('select');
 	var freqCodeSelect = $(".freqCode").children("select");
 	var startTimeSelect = $(".startTime").children("select");
 	var endTimeSelect = $(".endTime").children("select");
+	var delectBu=$("#delectBu");
+	indiSourceSelect.parent().hide();
+	freqCodeSelect.parent().hide();
+	startTimeSelect.parent().hide();
+	endTimeSelect.parent().hide();
+	delectBu.hide();
 	//给五个下拉框注册事件
 	/**
 	 * 第一个下拉框change事件
@@ -146,6 +345,7 @@ $(document).ready(function(){
 		freqCodeSelect.parent().hide();
 		startTimeSelect.parent().hide();
 		endTimeSelect.parent().hide();
+		delectBu.hide();
 		//隐藏汽车图片 attr：先清空上次src图片路径避免下一次先显示一次
 //		carimg.hide().attr("src","");
 		//1、找到下拉框的值
@@ -361,8 +561,9 @@ $(document).ready(function(){
 				           " <td align='center'>"+data[i].freq_code+"</td>"+
 				           " <td align='center'>"+data[i].time_point+"</td>"+
 				           " <td align='center'>"+data[i].indi_value+"</td>"+
+				           " <td align='center'><input type='checkbox' name='test'>删除</td>"+
 			        	   "</tr>").appendTo(tableBody);
-						
+// 						<td><input type="checkbox" name="test"></td>
 					}
 					
 				}
@@ -375,59 +576,28 @@ $(document).ready(function(){
 		}
 		else
 			alert("完了！")
+			
+			
+			delectBu.show();
 		
 
 	})
 	
 })
-</script>
 
-<script type="text/javascript">
-	function exportE(){
-		alert("进入");
-		
-		var tr = $("#table tr"); // 获取table中每一行内容
-		
-		var result = []; // 数组
-		
-		for (var i = 0; i < tr.length; i++) {// 遍历表格中每一行的内容
-			var tds = $(tr[i]).find("td");
-			if (tds.length > 0) {
-				
-				result.push({
-					"indi_code" : $(tds)[0].innerHTML,
-					"indi_name" : $(tds)[1].innerHTML,
-					"date_code" : $(tds)[2].innerHTML,
-					"kjwdm" : $(tds)[3].innerHTML,
-					"area_code" : $(tds)[4].innerHTML,
-					"area_name" : $(tds)[5].innerHTML,
-					"freq_code" : $(tds)[6].innerHTML,
-					"time_point" : $(tds)[7].innerHTML,
-					"indi_value" : $(tds)[8].innerHTML,
-				})
-			}
-		}
-		
-		var jsonData = { // json数据
-			"indiAll" : result
-		}
-		var result=JSON.stringify(jsonData);
-		
-		window.open("<c:url value='ecxelTest?"+result+"'/>");
-<%-- 		location.href="<%=basePath%>ecxelTest?result="+result; --%>
 
-<%-- 		$.post("<%=basePath%>ecxelTest.action",{'result':result},function(data){ --%>
-// // 			alert("不允许指标展示！");
-// 			//window.location.reload();
-// 		});
-		
-
-	}
+$(function(){  
+    $("#delectBu").click(function() {
+        $("input[name='test']:checked").each(function() { // 遍历选中的checkbox
+            n = $(this).parents("tr").index()+1;  // 获取checkbox所在行的顺序
+            $("table#toExcel").find("tr:eq("+n+")").remove();
+        });
+    });
+});
 	
 </script>
-
-
-
-
+	
+	
 </body>
+
 </html>

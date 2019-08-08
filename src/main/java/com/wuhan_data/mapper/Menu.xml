@@ -35,11 +35,20 @@
      		</foreach>
         </select>
          <select id="searchByRoleGroupByOne" parameterType="java.util.ArrayList" resultType="Menu">
-        	select * from WUHAN_DATA.MENU  where role_name in  
+        	
+<!--         	select * from (select max(id),level_one,level_two,role_name,url,perm from WUHAN_DATA.MENU  where role_name in   -->
+<!--         	<foreach collection="array" index="index" item="item" open="(" separator="," close=")"> -->
+<!--           		#{item} -->
+<!--      		</foreach> -->
+<!--         	group by level_one  ORDER BY id -->
+        	
+        select * from WUHAN_DATA.MENU where id in (select max(id) from WUHAN_DATA.MENU where role_name in  
         	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
           		#{item}
      		</foreach>
-        	group by level_one  ORDER BY id
+        	group by level_one  ORDER BY id)
+        	
+        	
         </select>
         <select id="searchByRoleAndLevel_one" parameterType="java.util.Map" resultType="Menu">
         	select * from WUHAN_DATA.MENU  where role_name=#{role_name} and level_one=#{level_one}

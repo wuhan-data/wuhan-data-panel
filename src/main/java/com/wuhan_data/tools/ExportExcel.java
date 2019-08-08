@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +61,7 @@ public class ExportExcel{
 			// 将json字符串转换为json对象
        	JSONArray jsonArray = new JSONArray(jsonStr);    	
        	String[] headers= sheaders.substring(0,sheaders.length()-1).split(",");
+       	int headersLen= headers.length;
        	System.out.println(sheaders.substring(0,sheaders.length()-1));
        	int iSize = jsonArray.length();
 	        List<List> list = new ArrayList<List>();
@@ -74,7 +76,11 @@ public class ExportExcel{
 	   	        	iterator.next();
 	   	        	value = jsonObject.getString(headers[j]);
 	   	        	//表格内容
-	   	        	line.add(value);
+	   	        	if(j<headersLen-1)
+	   	        	{
+	   	        		line.add(value);
+	   	        	}
+	   	        	
 	   	        	j++;
 	   	        	System.out.println(value);
 	   	        }
@@ -93,11 +99,11 @@ public class ExportExcel{
 			//文件路径
 			String filePath = "E:\\" + fileName;
 			System.out.println(filePath);
-			
+			filePath=URLEncoder.encode(filePath, "UTF-8");
 			OutputStream out = new FileOutputStream(filePath);
 			exportExcel(title,headers, list, out);
 			out.close();
-			JOptionPane.showMessageDialog(null, "导出成功!");
+//			JOptionPane.showMessageDialog(null, "导出成功!");
 			System.out.println("excel导出成功！");
 			
 			//下载
@@ -177,7 +183,7 @@ public class ExportExcel{
 		comment.setAuthor("leno");
 		// 产生表格标题行
 		HSSFRow row = sheet.createRow(0);
-		for (short i = 0; i < headers.length; i++) {
+		for (short i = 0; i < headers.length-1; i++) {
 			HSSFCell cell = row.createCell(i);
 			cell.setCellStyle(style);
 			HSSFRichTextString text = new HSSFRichTextString(headers[i]);
