@@ -150,6 +150,7 @@ public class LineType {
 
 		// 构建series
 		List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
+		int z = 3;
 		for (int i = 0; i < dataV.size(); i++) {
 			List<String> tempList = new ArrayList<String>();
 			tempList = dataV.get(i);
@@ -157,6 +158,7 @@ public class LineType {
 			seriesListMap.put("name", legendData.get(i));
 			seriesListMap.put("type", type);
 			seriesListMap.put("data", tempList);
+			seriesListMap.put("z", z+i);
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
 			if (i < showColor.size()) {
