@@ -38,12 +38,18 @@ public class DbToExcelController {
 	DbToExcelService dbToExcelService;
 	
 	
+	@RequestMapping(value = "toEcxeljsp", produces = "text/plain;charset=utf-8")
+	public ModelAndView toEcxeljsp() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("dbToEcxel");
+		return mav;
+	}
 	
 	@RequestMapping(value = "dbToEcxel", produces = "text/plain;charset=utf-8")
-	public ModelAndView toDbToExcel() {
-		String keyword = "亏损";
+	public ModelAndView toDbToExcel(HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+		String keyword = java.net.URLDecoder.decode(request.getParameter("keyWord"),"UTF-8");
 		List<IndexManage> indexList = dbToExcelService.getIndi(keyword);
-
 		ModelAndView mav = new ModelAndView();
 		System.out.println("后台的指标代码：" + indexList.get(0).getIndi_code());
 		System.out.println("后台的指标名字：" + indexList.get(0).getIndi_name());

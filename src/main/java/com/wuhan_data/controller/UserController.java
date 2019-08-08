@@ -38,7 +38,6 @@ import com.wuhan_data.service.SysLogService;
 public class UserController {
 	@Autowired
     UserService userService;
-	
 	@Autowired
 	RoleService roleService;
 	@Autowired
@@ -46,15 +45,12 @@ public class UserController {
 	@Autowired
 	MenuService menuService;
 	
-	private static String username="";//用于模糊查询的名字
+	private static String tel="";//用于模糊查询的名字
     @RequestMapping("listUser")
     public ModelAndView listUser(){
         ModelAndView mav = new ModelAndView();
         List<User> cs= userService.list();
-         
-        // 
         mav.addObject("cs", cs);
-        // 
         mav.setViewName("userManage");
         return mav;
     }
@@ -66,35 +62,48 @@ public class UserController {
             HttpServletResponse response) throws UnsupportedEncodingException {
     	request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        
-    	ModelAndView maView=new ModelAndView();
-    	Page page=new Page();
+        ModelAndView maView=new ModelAndView();
+        //获取参数
+        String currentPage="";
+        try {
+        	currentPage=request.getParameter("currentPage");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userInit:获取数据"+e.toString());
+			maView.setViewName("login");
+			return maView;
+		}
+    	//数据库操作
+        try {
+        	Page page=new Page();
+        	int count=userService.count();
+        	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
+            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+                page.setCurrentPage(1);
+            } else {
+                page.setCurrentPage(Integer.valueOf(currentPage));
+            }
+            page.setTotalNumber(count);
+            page.count();
+            map.put("page", page);
+            List<User> userListByPage=userService.listByPage(map);
+            List<Role> roleList=roleService.List();
+            maView.addObject("roleList", roleList);
+            List<Department> departmentList=departmentService.list();
+            maView.addObject("departmentList",departmentList);
+            maView.addObject("userListByPage", userListByPage);
+            maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
+            maView.addObject("page", page); 
+        	maView.setViewName("user");
+        	return maView;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userInit:数据库操作"+e.toString());
+			maView.setViewName("login");
+			return maView;
+		}
     	
-    	int count=userService.count();
-    	
-    	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-        String currentPage=request.getParameter("currentPage");
-        Pattern pattern = Pattern.compile("[0-9]{1,9}");
-        if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-            page.setCurrentPage(1);
-        } else {
-            page.setCurrentPage(Integer.valueOf(currentPage));
-        }
-        page.setTotalNumber(count);
-        page.count();
-        System.out.println(page.getDbIndex());
-        System.out.println(page.getDbNumber());
-        map.put("page", page);
-        List<User> userListByPage=userService.listByPage(map);
-        List<Role> roleList=roleService.List();
-        maView.addObject("roleList", roleList);
-        List<Department> departmentList=departmentService.list();
-        maView.addObject("departmentList",departmentList);
-        maView.addObject("userListByPage", userListByPage);
-        maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
-        maView.addObject("page", page); 
-    	maView.setViewName("user");
-    	return maView;
     }
     
     @RequestMapping("userSelectAnalysisListByPage") 
@@ -102,35 +111,46 @@ public class UserController {
             HttpServletResponse response) throws UnsupportedEncodingException {
     	request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        
     	ModelAndView maView=new ModelAndView();
-    	Page page=new Page();
-    	
-    	int count=userService.count();
-    	
-    	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-        String currentPage=request.getParameter("currentPage");
-        Pattern pattern = Pattern.compile("[0-9]{1,9}");
-        if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-            page.setCurrentPage(1);
-        } else {
-            page.setCurrentPage(Integer.valueOf(currentPage));
-        }
-        page.setTotalNumber(count);
-        page.count();
-        System.out.println(page.getDbIndex());
-        System.out.println(page.getDbNumber());
-        map.put("page", page);
-        List<User> userListByPage=userService.listByPage(map);
-        List<Role> roleList=roleService.List();
-        maView.addObject("roleList", roleList);
-        List<Department> departmentList=departmentService.list();
-        maView.addObject("departmentList",departmentList);
-        maView.addObject("userListByPage", userListByPage);
-        maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
-        maView.addObject("page", page); 
-    	maView.setViewName("user");
-    	return maView;
+    	//参数获取
+    	 String currentPage="";
+         try {
+         	currentPage=request.getParameter("currentPage");
+ 		} catch (Exception e) {
+ 			// TODO: handle exception
+ 			System.out.println("userSelectAnalysisListByPage:获取数据"+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
+ 		}
+    	try {
+    		Page page=new Page();
+        	int count=userService.count();
+        	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
+            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+                page.setCurrentPage(1);
+            } else {
+                page.setCurrentPage(Integer.valueOf(currentPage));
+            }
+            page.setTotalNumber(count);
+            page.count();
+            map.put("page", page);
+            List<User> userListByPage=userService.listByPage(map);
+            List<Role> roleList=roleService.List();
+            maView.addObject("roleList", roleList);
+            List<Department> departmentList=departmentService.list();
+            maView.addObject("departmentList",departmentList);
+            maView.addObject("userListByPage", userListByPage);
+            maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
+            maView.addObject("page", page); 
+        	maView.setViewName("user");
+        	return maView;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userSelectAnalysisListByPage:数据库操作"+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
+		}
     }
 	 
     
@@ -139,75 +159,98 @@ public class UserController {
             HttpServletResponse response) throws IOException{
     	response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
-    	username = java.net.URLDecoder.decode(request.getParameter("username"),"UTF-8");
-    	System.out.println("username"+username);
-//    	String theme_name="%"+search+"%";
-    	   Page page=new Page(); //分页类
-           Map<String,Object> mapSearch = new HashMap<String, Object>();
-           mapSearch.put("username", username);
-           int count = userService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
-           System.out.println("count:"+count);
-           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
-           String currentPage=request.getParameter("currentPage");
-           Pattern pattern = Pattern.compile("[0-9]{1,9}");
-           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-               page.setCurrentPage(1);
-           } else {
-               page.setCurrentPage(Integer.valueOf(currentPage));
-           }
-           page.setTotalNumber(count);
-           page.count();
-           map.put("page", page);
-           map.put("username",username);
-           List<User> userListByPage= userService.search(map);//分页查询二极栏目
-           List<Role> roleList=roleService.List();
-           mav.addObject("roleList", roleList);
-           List<Department> departmentList=departmentService.list();
-           mav.addObject("departmentList",departmentList);
-           mav.addObject("userListByPage", userListByPage);  
-           mav.addObject("page", page);
-           mav.addObject("controlURL", "userSearchPage");//控制页码传递URL
-          
-           mav.setViewName("user");           
-           return mav;
-    	
+    	//参数获取
+    	 String currentPage="";
+    	try {
+    		tel = java.net.URLDecoder.decode(request.getParameter("tel"),"UTF-8");
+    		currentPage=request.getParameter("currentPage");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userSearchByName:获取数据"+e.toString());
+ 			mav.setViewName("login");
+ 			return mav;
+		}
+    	try {
+    		Page page=new Page(); //分页类
+            Map<String,Object> mapSearch = new HashMap<String, Object>();
+            mapSearch.put("tel", tel);
+            int count = userService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
+            Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
+            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+                page.setCurrentPage(1);
+            } else {
+                page.setCurrentPage(Integer.valueOf(currentPage));
+            }
+            page.setTotalNumber(count);
+            page.count();
+            map.put("page", page);
+            map.put("tel",tel);
+            List<User> userListByPage= userService.search(map);//分页查询二极栏目
+            List<Role> roleList=roleService.List();
+            mav.addObject("roleList", roleList);
+            List<Department> departmentList=departmentService.list();
+            mav.addObject("departmentList",departmentList);
+            mav.addObject("userListByPage", userListByPage);  
+            mav.addObject("page", page);
+            mav.addObject("controlURL", "userSearchPage");//控制页码传递URL
+            mav.setViewName("user");           
+            return mav;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userSearchByName:数据库操作"+e.toString());
+ 			mav.setViewName("login");
+ 			return mav;
+		}
     }
     @RequestMapping("userSearchPage")
     public ModelAndView searchPage(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-request.setCharacterEncoding("UTF-8");    	
+    	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
     	ModelAndView mav = new ModelAndView();
-//    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
-    	System.out.println("username"+username);
-//    	String theme_name="%"+search+"%";
-    	   Page page=new Page(); //分页类
-           Map<String,Object> mapSearch = new HashMap<String, Object>();
-           mapSearch.put("username", username);
-           int count = userService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
-           System.out.println("count:"+count);
-           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
-           String currentPage=request.getParameter("currentPage");
-           Pattern pattern = Pattern.compile("[0-9]{1,9}");
-           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-               page.setCurrentPage(1);
-           } else {
-               page.setCurrentPage(Integer.valueOf(currentPage));
-           }
-           page.setTotalNumber(count);
-           page.count();
-           map.put("page", page);
-           map.put("username",username);
-           List<User> userListByPage= userService.search(map);//分页查询二极栏目
-           List<Role> roleList=roleService.List();
-           mav.addObject("roleList", roleList);
-           List<Department> departmentList=departmentService.list();
-           mav.addObject("departmentList",departmentList);
-           mav.addObject("userListByPage", userListByPage);  
-           mav.addObject("page", page);
-           mav.addObject("controlURL", "userSearchPage");//控制页码传递URL
-           mav.setViewName("user");           
-           return mav;
+    	String currentPage="";
+    	try {
+    		currentPage=request.getParameter("currentPage");
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userSearchPage:获取数据"+e.toString());
+ 			mav.setViewName("login");
+ 			return mav;
+		}
+    	try {
+    		Page page=new Page(); //分页类
+            Map<String,Object> mapSearch = new HashMap<String, Object>();
+            mapSearch.put("tel", tel);
+            int count = userService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
+            System.out.println("count:"+count);
+            Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
+            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+                page.setCurrentPage(1);
+            } else {
+                page.setCurrentPage(Integer.valueOf(currentPage));
+            }
+            page.setTotalNumber(count);
+            page.count();
+            map.put("page", page);
+            map.put("tel",tel);
+            List<User> userListByPage= userService.search(map);//分页查询二极栏目
+            List<Role> roleList=roleService.List();
+            mav.addObject("roleList", roleList);
+            List<Department> departmentList=departmentService.list();
+            mav.addObject("departmentList",departmentList);
+            mav.addObject("userListByPage", userListByPage);  
+            mav.addObject("page", page);
+            mav.addObject("controlURL", "userSearchPage");//控制页码传递URL
+            mav.setViewName("user");           
+            return mav;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userSearchPage:数据库操作"+e.toString());
+ 			mav.setViewName("login");
+ 			return mav;
+		}
     }
     
     //添加user
@@ -217,68 +260,85 @@ request.setCharacterEncoding("UTF-8");
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
-//    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
- //   	System.out.println("theme_name"+theme_name);
-//    	String theme_name="%"+search+"%";
-    	User user=new User();
-		/* user.setId(Integer.valueOf(request.getParameter("addUserId"))); */
-    	user.setUsername(request.getParameter("addUserName"));
-    	user.setPassword(request.getParameter("addUserPassword"));
-    	user.setRole_id(request.getParameter("roleListSelect"));
-    	user.setDepartment_id(request.getParameter("departmentListSelect"));
-    	user.setStatus("0");
-    	String genderString=request.getParameter("genderSelect");
-    	if (genderString.equals("男"))
-    		user.setGender(0);//男0女1
-    	else {
-			user.setGender(1);
-		}
-    	user.setTel(request.getParameter("addUserTel"));
-    	user.setReal_name(request.getParameter("addUserReal_name"));
-    	user.setRole_list(request.getParameter("addUserRole_list"));
-    	user.setRole_name("1");
-    	user.setCreate_time(new Date());
+    	//获取数据
+    	String roleListSelect="";
+    	String departmentListSelect="";
+    	String genderSelect="男";
+    	String addUserTel="";
+    	String addUserReal_name="";
+    	String addUserRole_list="";
+    	String addBirthday="";
+    	String addCity="";
     	try {
-    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    	Date birthday=formatter.parse(request.getParameter("addBirthday"));
-    	System.out.println("birthday"+birthday);
-    	user.setBirthday(birthday);
+    		roleListSelect=request.getParameter("roleListSelect");
+    		departmentListSelect=request.getParameter("departmentListSelect");
+    		genderSelect=request.getParameter("genderSelect");
+    		addUserTel=request.getParameter("addUserTel");
+    		addUserReal_name=request.getParameter("addUserReal_name");
+    		addUserRole_list=request.getParameter("addUserRole_list");
+    		addBirthday=request.getParameter("addBirthday");
+    		addCity=request.getParameter("addCity");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			System.out.println("addUser:获取数据"+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
 		}
-    	user.setCity(request.getParameter("addCity"));
-    	
-    	
-    	userService.add(user);
-    	
-    	Page page=new Page();
-    	int count=userService.count();
-    	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-        String currentPage=request.getParameter("currentPage");
-        Pattern pattern = Pattern.compile("[0-9]{1,9}");
-        if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-            page.setCurrentPage(1);
-        } else {
-            page.setCurrentPage(Integer.valueOf(currentPage));
-        }
-        page.setTotalNumber(count);
-        page.count();
-        System.out.println(page.getDbIndex());
-        System.out.println(page.getDbNumber());
-        map.put("page", page);
-        List<User> userListByPage=userService.listByPage(map);
-        List<Role> roleList=roleService.List();
-        maView.addObject("roleList", roleList);
-        List<Department> departmentList=departmentService.list();
-        maView.addObject("departmentList",departmentList);
-        maView.addObject("userListByPage", userListByPage);
-        maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
-        maView.addObject("page", page); 
-        
-       
-    	maView.setViewName("user");
-    	return maView;
+ 
+    	//数据库操作
+    	try {
+    		User user=new User();
+        	user.setRole_id(roleListSelect);
+        	user.setDepartment_id(departmentListSelect);
+        	user.setStatus("0");
+        	String genderString=genderSelect;
+        	if (genderString.equals("男"))
+        		user.setGender(1);//男1女0
+        	else {
+    			user.setGender(0);
+    		}
+        	user.setTel(addUserTel);
+        	user.setReal_name(addUserReal_name);
+        	user.setRole_list(addUserRole_list);
+        	user.setRole_name("1");
+        	user.setCreate_time(new Date());
+        	Date birthday=new Date();
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        	birthday=formatter.parse(addBirthday);
+        	System.out.println("birthday"+birthday);
+        	user.setBirthday(birthday);
+        	user.setCity(addCity);
+        	userService.add(user);
+        	Page page=new Page();
+        	int count=userService.count();
+        	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
+            String currentPage=request.getParameter("currentPage");
+            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+                page.setCurrentPage(1);
+            } else {
+                page.setCurrentPage(Integer.valueOf(currentPage));
+            }
+            page.setTotalNumber(count);
+            page.count();
+            map.put("page", page);
+            List<User> userListByPage=userService.listByPage(map);
+            List<Role> roleList=roleService.List();
+            maView.addObject("roleList", roleList);
+            List<Department> departmentList=departmentService.list();
+            maView.addObject("departmentList",departmentList);
+            maView.addObject("userListByPage", userListByPage);
+            maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
+            maView.addObject("page", page); 
+        	maView.setViewName("user");
+        	return maView;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("addUser:数据库操作"+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
+		}
     }
     
     
@@ -290,66 +350,88 @@ request.setCharacterEncoding("UTF-8");
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
-//    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");   	
-//    	String theme_name="%"+search+"%";
-    	User user=new User();
-    	user.setId(Integer.parseInt(request.getParameter("editUserID")));
-    	user.setUsername(request.getParameter("editUserName"));
-    	user.setPassword(request.getParameter("editUserPassword"));
-    	user.setRole_id(request.getParameter("editroleListSelect"));
-    	user.setDepartment_id(request.getParameter("editdepartmentListSelect"));
-    	user.setStatus(request.getParameter("editstatus"));
-    	String genderString=request.getParameter("editgenderSelect");
-    	if (genderString.equals("男"))
-    		user.setGender(0);//男0女1
-    	else {
-			user.setGender(1);
-		}
-    	user.setTel(request.getParameter("editUserTel"));
-    	user.setReal_name(request.getParameter("editUserReal_name"));
-    	user.setRole_list(request.getParameter("editUserRole_list"));
-    	user.setRole_name("1");
-    	
+    	//数据获取
+    	int  editUserID=0;
+    	String editroleListSelect="";
+    	String editdepartmentListSelect="";
+    	String editstatus="";
+    	String editgenderSelect="";
+    	String editUserTel="";
+    	String editUserReal_name="";
+    	String editUserRole_list="";
+    	String editBirthday="";
+    	String editCity="";
     	try {
-        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        	Date birthday=formatter.parse(request.getParameter("editBirthday"));
-        	user.setBirthday(birthday);
-    		} catch (Exception e) {
-    			// TODO: handle exception
-    			e.printStackTrace();
+    		editUserID=Integer.parseInt(request.getParameter("editUserID"));
+        	editroleListSelect=request.getParameter("editroleListSelect");
+        	editdepartmentListSelect=request.getParameter("editdepartmentListSelect");
+        	editstatus=request.getParameter("editstatus");
+        	editgenderSelect=request.getParameter("editgenderSelect");
+        	editUserTel=request.getParameter("editUserTel");
+        	editUserReal_name=request.getParameter("editUserReal_name");
+        	editUserRole_list=request.getParameter("editUserRole_list");
+        	editBirthday=request.getParameter("editBirthday");
+        	editCity=request.getParameter("editCity");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("editUser:获取数据"+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
+		}
+
+    	try {
+    		User user=new User();
+        	user.setId(editUserID);
+
+        	user.setRole_id(editroleListSelect);
+        	user.setDepartment_id(editdepartmentListSelect);
+        	user.setStatus(editstatus);
+        	String genderString=editgenderSelect;
+        	if (genderString.equals("男"))
+        		user.setGender(0);//男0女1
+        	else {
+    			user.setGender(1);
     		}
-        	user.setCity(request.getParameter("editCity"));
+        	user.setTel(editUserTel);
+        	user.setReal_name(editUserReal_name);
+        	user.setRole_list(editUserRole_list);
+        	user.setRole_name("1");
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        	Date birthday=formatter.parse(editBirthday);
+            user.setBirthday(birthday);
+        	user.setCity(editCity);
+        	userService.updata(user);
+        	Page page=new Page();
+        	int count=userService.count();
+        	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
+            String currentPage=request.getParameter("currentPage");
+            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+                page.setCurrentPage(1);
+            } else {
+                page.setCurrentPage(Integer.valueOf(currentPage));
+            }
+            page.setTotalNumber(count);
+            page.count();
+            map.put("page", page);
+            List<User> userListByPage=userService.listByPage(map);
+            List<Role> roleList=roleService.List();
+            maView.addObject("roleList", roleList);
+            List<Department> departmentList=departmentService.list();
+            maView.addObject("departmentList",departmentList);
+            maView.addObject("userListByPage", userListByPage);
+            maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
+            maView.addObject("page", page); 
+        	maView.setViewName("user");
+        	return maView;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("editUser:数据库操作"+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
+		}
     	
-    	
-    	System.out.println(user.toString());
-    	userService.updata(user);
-    	Page page=new Page();
-    	int count=userService.count();
-    	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-        String currentPage=request.getParameter("currentPage");
-        Pattern pattern = Pattern.compile("[0-9]{1,9}");
-        if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-            page.setCurrentPage(1);
-        } else {
-            page.setCurrentPage(Integer.valueOf(currentPage));
-        }
-        page.setTotalNumber(count);
-        page.count();
-        System.out.println(page.getDbIndex());
-        System.out.println(page.getDbNumber());
-        map.put("page", page);
-        List<User> userListByPage=userService.listByPage(map);
-        List<Role> roleList=roleService.List();
-        maView.addObject("roleList", roleList);
-        List<Department> departmentList=departmentService.list();
-        maView.addObject("departmentList",departmentList);
-        maView.addObject("userListByPage", userListByPage);
-        maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
-        maView.addObject("page", page); 
-    	maView.setViewName("user");
-    	
-    	
-    	return maView;
     }
     
     //删除
@@ -357,42 +439,51 @@ request.setCharacterEncoding("UTF-8");
     public ModelAndView deleteUser(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
     	ModelAndView maView = new ModelAndView();
-    	int id = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("id"),"UTF-8"));
-    	System.out.print("id:"+id);
-    	userService.delete(id);
+    	//参数获取
     	
-    	Page page=new Page();
-    	int count=userService.count();
-    	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-        String currentPage=request.getParameter("currentPage");
-        Pattern pattern = Pattern.compile("[0-9]{1,9}");
-        if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-            page.setCurrentPage(1);
-        } else {
-            page.setCurrentPage(Integer.valueOf(currentPage));
-        }
-        page.setTotalNumber(count);
-        page.count();
-        System.out.println(page.getDbIndex());
-        System.out.println(page.getDbNumber());
-        map.put("page", page);
-        List<User> userListByPage=userService.listByPage(map);
-        List<Role> roleList=roleService.List();
-        maView.addObject("roleList", roleList);
-        List<Department> departmentList=departmentService.list();
-        maView.addObject("departmentList",departmentList);
-        maView.addObject("userListByPage", userListByPage);
-        maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
-        maView.addObject("page", page); 
-    	maView.setViewName("user");
-    	
-    	
-    	return maView;
+    	String currentPage="";
+    	int id=0;
+    	try {
+			currentPage=request.getParameter("currentPage");
+			id = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("id"),"UTF-8"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("deleteUser:获取数据"+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
+		}
+    	try {
+    		userService.delete(id);
+        	Page page=new Page();
+        	int count=userService.count();
+        	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
+            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+                page.setCurrentPage(1);
+            } else {
+                page.setCurrentPage(Integer.valueOf(currentPage));
+            }
+            page.setTotalNumber(count);
+            page.count();
+            map.put("page", page);
+            List<User> userListByPage=userService.listByPage(map);
+            List<Role> roleList=roleService.List();
+            maView.addObject("roleList", roleList);
+            List<Department> departmentList=departmentService.list();
+            maView.addObject("departmentList",departmentList);
+            maView.addObject("userListByPage", userListByPage);
+            maView.addObject("controlURL", "userSelectAnalysisListByPage");//控制页码传递URL
+            maView.addObject("page", page); 
+        	maView.setViewName("user");
+        	return maView;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("deleteUser:数据库操作 "+e.toString());
+ 			maView.setViewName("login");
+ 			return maView;
+		}
     }
-    
-    
-    
-    
+
     @RequestMapping("userManage")
     public ModelAndView userManage() {
     	ModelAndView mav=new ModelAndView();
@@ -439,8 +530,6 @@ request.setCharacterEncoding("UTF-8");
 		}
   		user.setUsername(username1);
   		user.setPassword(password);
-  		System.out.println("用户输入username:"+username1);
-  		System.out.println("用户输入password:"+password);
   		if(userService.logincheck(user) != null){
   			model.addAttribute("error",username1);
   			//日志

@@ -3,18 +3,16 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-    <mapper namespace="com.wuhan_data.app.mapper.Message2MapperApp">
+    <mapper namespace="com.wuhan_data.mapper.Message2Mapper">
         <insert id="add" parameterType="Message2" >
             insert into WUHAN_DATA.Message2 (sender_id,receiver_id,title,label,content,m_text,type,path,create_time) values (#{sender_id},#{receiver_id},#{title},#{label},#{content},#{m_text},#{type},#{path},#{create_time})   
-        </insert>
-           
+        </insert>        
         <delete id="delete" parameterType="Message2" >
             delete from WUHAN_DATA.Message2 where id= #{id}  
         </delete> 
         <select id="get" parameterType="_int" resultType="Message2">
             select * from   WUHAN_DATA.Message2  where id= #{id}   
         </select>
- 
         <update id="update" parameterType="Message2" >
             update WUHAN_DATA.Message2 set sender_id=#{sender_id},receiver_id=#{receiver_id},title=#{title},label=#{label},content=#{content},m_text=#{m_text},type=#{type},path=#{path},create_time=#{create_time} where id=#{id}   
         </update>
@@ -47,9 +45,11 @@
         </select>
         
         <select id="getByRid" resultType="Message2">
-            select * from WUHAN_DATA.Message2 where receiver_id like concat('%|',#{receiver_id},'|%')
+            select * from WUHAN_DATA.Message2 where receiver_id=#{receiver_id}
         </select>
          <select id="getByLabel" resultType="Message2">
             select * from WUHAN_DATA.Message2 where label=#{label}
         </select>
+    
+
     </mapper>

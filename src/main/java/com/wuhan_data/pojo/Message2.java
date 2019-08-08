@@ -5,7 +5,7 @@ import java.util.Date;
 public class Message2 {
 	private Integer id;
 	private Integer sender_id;
-	private Integer receiver_id;
+	private String receiver_id;
 	private String title;
 	private String label;
 	private String content;
@@ -25,12 +25,7 @@ public class Message2 {
 	public void setSender_id(Integer sender_id) {
 		this.sender_id = sender_id;
 	}
-	public Integer getReceiver_id() {
-		return receiver_id;
-	}
-	public void setReceiver_id(Integer receiver_id) {
-		this.receiver_id = receiver_id;
-	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -73,12 +68,18 @@ public class Message2 {
 	public void setCreate_time(Date create_time) {
 		this.create_time = create_time;
 	}
+	public String getReceiver_id() {
+		return receiver_id;
+	}
+	public void setReceiver_id(String receiver_id) {
+		this.receiver_id = receiver_id;
+	}
 	@Override
 	public String toString() {
-		return "message2 [id=" + id + ", sender_id=" + sender_id + ", receiver_id=" + receiver_id + ", title=" + title
+		return "Message2 [id=" + id + ", sender_id=" + sender_id + ", receiver_id=" + receiver_id + ", title=" + title
 				+ ", label=" + label + ", content=" + content + ", m_text=" + m_text + ", type=" + type + ", path="
 				+ path + ", create_time=" + create_time + "]";
 	}
-	
+
 
 }

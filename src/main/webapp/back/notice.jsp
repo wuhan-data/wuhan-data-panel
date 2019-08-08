@@ -435,7 +435,7 @@
                                 <a href="sysLogInit">日志管理</a>
                             </li>
                             <li>
-                                <a href="messageManage.html">消息管理</a>
+                                <a href="messageInit">消息管理</a>
                             </li>
                         </ul>
                     </li>

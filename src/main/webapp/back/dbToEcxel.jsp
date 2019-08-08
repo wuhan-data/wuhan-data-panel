@@ -256,6 +256,10 @@
                 
                 
 <!--                 导出到excel -->
+		  <form class="form-inline my-2 my-lg-0" style="float:right" method="post" id="formSearch">
+		      <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
+		      <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
+    	</form>
                 
          <div class="com-sel btn-group">
 			<span class="indiName"> 指标名称
@@ -594,6 +598,18 @@ $(function(){
         });
     });
 });
+
+
+function search(){
+	var searchName=document.getElementById("searchKeyWord").value;
+	alert(searchName)
+	var keyWord=encodeURI(encodeURI(searchName));
+	
+	var formSearch=document.getElementById("formSearch");
+	formSearch.action="dbToEcxel?keyWord="+keyWord;
+	formSearch.submit();
+	
+}
 	
 </script>
 	
