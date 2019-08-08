@@ -190,7 +190,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 		System.out.println("时间区间数据获取成功:" + df.format(new Date()));
 
 		// 构建查询条件
-		Map<String, Object> freqObject = timeCondition.get(0);
+		Map<String, Object> freqObject = new HashMap<String, Object>();
+		try {
+			freqObject = timeCondition.get(0);
+		} catch (Exception e) {
+			System.out.println("时间区间数据获取异常:" + timeCondition.toString());
+		}
 		ArrayList<Integer> current = (ArrayList<Integer>) freqObject.get("current");
 		List<String> startTimeList = (List<String>) freqObject.get("startArray");
 		List<String> endTimeList = (List<String>) freqObject.get("endArray");
