@@ -258,7 +258,7 @@ public class VersionController {
     	 	 }
     	 	 else 
     	 	 {
-    	 	    imgPath =ImageUtils.getURL(request)+"files/version/"+ ImageUtils.upload(request, files[0],"E:\\files\\version\\");
+    	 	    imgPath =ImageUtils.getURL(request)+"file_version/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\version");
     	 	    if(imgPath==null ||imgPath.equals(""))
     	 	    {
     	 	    	System.out.println("addVersion:上传文件失败");

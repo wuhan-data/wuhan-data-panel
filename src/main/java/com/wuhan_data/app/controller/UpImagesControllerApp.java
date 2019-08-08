@@ -99,7 +99,9 @@ public class UpImagesControllerApp {
 	  		 	    	System.out.println("oldHead"+oldHead);
 	  		 	    	//上传新的图片的地址
 	  		 	    	
-	  		 	    		String imgPath = ImageUtils.uploadHead(request, files[0]);
+	  		 	    		//String imgPath = ImageUtils.uploadHead(request, files[0]);
+	  		 	    	//改为上传到本地
+	  		 	    	String imgPath =ImageUtils.getURL(request)+"file_head/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\head");
 	  		 	    		if(imgPath==null ||imgPath.equals(""))
 	  		 	    		{
 	  		 	    			return this.apiReturn("-1", "头像上传失败", data);
@@ -188,7 +190,9 @@ public class UpImagesControllerApp {
 			        for (Map.Entry<String, MultipartFile> entry : map.entrySet()) 
 			        {
 			            // 自己的保存文件逻辑
-			            String imgpath=ImageUtils.uploadFeedback(request, entry.getValue());
+			            //String imgpath=ImageUtils.uploadFeedback(request, entry.getValue());
+			            //改为上传到本地
+			            String imgpath =ImageUtils.getURL(request)+"file_feedback/"+ ImageUtils.upload(request, entry.getValue(),"C:\\wuhan_data_file\\feedback");
 			            if(imgs.equals(""))
 			            {
 			            	imgs=imgs+imgpath;

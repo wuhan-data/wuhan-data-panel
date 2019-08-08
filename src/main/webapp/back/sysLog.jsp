@@ -125,7 +125,7 @@
                         </div>
                         <div class="panel-body">   
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="按操作者名字搜索" aria-label="Search" id="searchtname" value="">
+      <input class="form-control" type="search" placeholder="按操作者id搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
                             <div class="table-responsive">
@@ -144,7 +144,7 @@
      <c:forEach items="${sysLogListByPage}" var="c" varStatus="st">
         <tr>
             <td >${c.id}</td>
-            <td >${c.operate_user_name}</td>
+            <td >${c.operate_user_id}</td>
             <td >${c.operate}</td>
             <td >${c.method}</td>
             <td >${c.create_time}</td>
@@ -298,20 +298,13 @@
             function search(){
             	var searchName=document.getElementById("searchtname").value;
             	alert(searchName)
-            	var  operate_user_name=encodeURI(encodeURI(searchName));
+            	var  operate_user_id=encodeURI(encodeURI(searchName));
             	
             	var formSearch=document.getElementById("formSearch");
-            	formSearch.action="sysLogSearchByName? operate_user_name="+ operate_user_name;
+            	formSearch.action="sysLogSearchByName? operate_user_id="+ operate_user_id;
             	formSearch.submit();
             	
             }
-  
-         /*    function add(themename){
-            	alert(themename);
-            	var addForm=document.getElementById("");
-            	addForm.action="";
-            	addFrom.submit();
-            } */
             function edit(){
             	
                 	
@@ -343,9 +336,6 @@
                 var data = order.getData();
                 alert(JSON.stringify(data));
             }
-            
-                     
-            
     </script>
     
    

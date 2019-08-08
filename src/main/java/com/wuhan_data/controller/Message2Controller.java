@@ -181,7 +181,7 @@ public class Message2Controller {
 	    	 	 }
 	    	 	 else 
 	    	 	 {
-	    	 	    imgPath =ImageUtils.getURL(request)+"files/message/"+ ImageUtils.upload(request, files[0],"E:\\files\\message\\");
+	    	 	    imgPath =ImageUtils.getURL(request)+"file_message/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\message");
 	    	 	    if(imgPath==null ||imgPath.equals(""))
 	    	 	    {
 	    	 	    	System.out.println("addVersion:上传文件失败");
@@ -189,6 +189,7 @@ public class Message2Controller {
 	    	 	    	return maView;
 	    	 		 }
 	    	 	  }
+	    		 
 	    	Message2 message2=new Message2();
 	    	message2.setSender_id(addSender_id);
 	    	message2.setReceiver_id(addReceiver_id);
@@ -276,8 +277,9 @@ public class Message2Controller {
 		        userIdListString=userIdListString.replace(" ", "");
 		        userIdListString=userIdListString.replace("[", "|");
 		        userIdListString=userIdListString.replace("]", "|");
-		        userIdListString=userIdListString.replace("]", ",");
+		        userIdListString=userIdListString.replace(",", "|");
 		        addByRoleReceiver_id=userIdListString;
+		        System.out.println("userIdListString"+userIdListString);
 		        //上传文件
 			   		 if (files.length!=1)
 			   	 	 {
@@ -287,7 +289,7 @@ public class Message2Controller {
 			   	 	 }
 			   	 	 else 
 			   	 	 {
-			   	 	    imgPath =ImageUtils.getURL(request)+"files/message/"+ ImageUtils.upload(request, files[0],"E:\\files\\message\\");
+			   	 	    imgPath =ImageUtils.getURL(request)+"file_message/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\message");
 			   	 	    if(imgPath==null ||imgPath.equals(""))
 			   	 	    {
 			   	 	    	System.out.println("addVersion:上传文件失败");
