@@ -19,7 +19,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +45,7 @@ import com.wuhan_data.pojo.HistorySearch;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.TPIndiValue;
 import com.wuhan_data.tools.MapValueComparator;
+import com.wuhan_data.tools.StringToMap;
 
 @Controller
 @RequestMapping("")
@@ -54,7 +55,8 @@ public class IndiSearchAppController {
 	IndiSearchService indiSearchService;
 	@Autowired
 	IndiDetailService indiDetailService;
-
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
 //	String source = "统计局数据库-国研网";// 搜索来源
 
 	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
@@ -322,7 +324,9 @@ public class IndiSearchAppController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
-
+			String mapString = sessionSQLServiceApp.get(token).getSess_value();
+			Map map = StringToMap.stringToMap(mapString);
+			userId = Integer.valueOf((String) map.get("userId"));
 			boolean hasIndexCode = requestObject.containsKey("indexId");
 			if (!hasIndexCode) {
 				return this.apiReturn("-1", "需要指定栏目id", data);
@@ -349,6 +353,15 @@ public class IndiSearchAppController {
 //		source="湖统";//指标来源
 		
 		String appIndiName = indiDetailService.getIndexName(indexCode);
+		//添加是否收藏
+		Map favoriteMap = new HashMap();
+		favoriteMap.put("appIndiName", appIndiName);
+		favoriteMap.put("source", source);
+		favoriteMap.put("userId", userId);
+		int isFavorite = indiDetailService.getIsFavorite(favoriteMap);
+		boolean isF=false;
+		if(isFavorite>0)
+			isF=true;
 		String area_name = null;
 		Map baseInfoMap = new HashMap();
 		baseInfoMap.put("source", source);
@@ -366,11 +379,11 @@ public class IndiSearchAppController {
 			area_name = "湖北省";
 			break;
 		}
-
+		
 		String indiCode = indiDetailService.getIndiCode(appIndiName);
 		baseInfoMap.put("indexId", indiCode);
 		baseInfoMap.put("indexName", appIndiName);
-		baseInfoMap.put("isFavorite", false);
+		baseInfoMap.put("isFavorite", isF);
 
 		// 记录历史搜索
 		int uid = 1;// 从session中获得
@@ -873,12 +886,14 @@ public class IndiSearchAppController {
 		String type = "指标数据";
 		Date date = new Date();
 		String indi_source = source;
+		String index_name = source;
 		Collect collect = new Collect();
 		collect.setIndex_id(index_id);
 		collect.setCreate_time(date);
 		collect.setIndi_source(indi_source);
 		collect.setType(type);
 		collect.setUid(uid);
+		collect.setIndex_name(index_name);
 		indiDetailService.indiCollect(collect);
 
 		Map map = new HashMap();

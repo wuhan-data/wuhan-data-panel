@@ -48,7 +48,7 @@
       
       
        <insert id="indiCollect" parameterType="Collect" >
-            insert into WUHAN_DATA."COLLECT"(uid,type,index_id,create_time,indi_source)values (#{uid},#{type},#{index_id},#{create_time},#{indi_source})
+            insert into WUHAN_DATA."COLLECT"(uid,type,index_id,index_name,create_time,indi_source)values (#{uid},#{type},#{index_id},#{index_name},#{create_time},#{indi_source})
         </insert>
         
         <select id="getIndiShowType" resultType="String" parameterType="java.util.Map" >
@@ -59,6 +59,10 @@
         </select> 
          <select id="getIndexName" resultType="String" parameterType="String" >
             select indi_name from WUHAN_DATA."INDEX_MANAGE" where indi_code=#{indexCode} group by indi_name
+        </select>
+        
+         <select id="getIsFavorite" resultType="int" parameterType="java.util.Map" >
+            select count(*) from WUHAN_DATA."COLLECT" where index_name=#{appIndiName} and uid=#{userId} and type='指标数据'
         </select>
         
     </mapper>

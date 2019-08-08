@@ -96,6 +96,7 @@ public class TrackControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println(e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}
 	  		
