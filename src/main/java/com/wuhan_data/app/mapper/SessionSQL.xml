@@ -10,6 +10,9 @@
         <delete id="delete" parameterType="SessionSQL" >
             delete from WUHAN_DATA.SessionSQL where sess_key= #{sess_key}  
         </delete> 
+        <delete id="deleteTimeoutToken" parameterType="java.util.Date" >
+            delete from WUHAN_DATA.SessionSQL where create_date &lt; #{timeout}  
+        </delete> 
         <select id="get" parameterType="String" resultType="SessionSQL">
             select * from   WUHAN_DATA.SessionSQL  where sess_key= #{sess_key}   
         </select>

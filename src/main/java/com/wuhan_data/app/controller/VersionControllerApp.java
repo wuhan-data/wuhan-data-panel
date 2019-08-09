@@ -58,7 +58,6 @@ public class VersionControllerApp {
 			map1.put("description",iosVersion.getText());
 			map1.put("url", iosVersion.getUrl());
 			list1.add(map1);
-	
 			List list2 = new ArrayList();
 			Map map2 = new HashMap();
 			map2.put("appid", androidVersion.getAppid());
@@ -69,7 +68,6 @@ public class VersionControllerApp {
 			Map map3 = new HashMap();
 			map3.put("IOS", list1);
 			map3.put("Android", list2);
-
 			//mapReturn.put("data", map3);
 			mapReturn.put("IOS", map1);
 			mapReturn.put("Android", map2);

@@ -21,6 +21,9 @@
         <update id="update" parameterType="Track" >
             update WUHAN_DATA.Track set uid=#{uid},type=#{type},index_id=#{index_id},index_name=#{index_name},indi_source=#{indi_source},create_time=#{create_time} where id=#{id}   
         </update>
+        <update id="updateCreateTime" parameterType="Track" >
+            update WUHAN_DATA.Track set create_time=#{create_time} where uid= #{uid} and index_id=#{index_id} and type=#{type}    
+        </update>
         
         <select id="list" resultType="Track">
             select * from WUHAN_DATA.Track     
@@ -29,7 +32,9 @@
         <select id="count" resultType="int">
         	select count(*) from WUHAN_DATA.Track  
         </select>
-
+		 <select id="isExist" parameterType="Track" resultType="int">
+            select count(*) from   WUHAN_DATA.Track  where uid= #{uid} and index_id=#{index_id} and type=#{type}   
+        </select>
        
 
     </mapper>

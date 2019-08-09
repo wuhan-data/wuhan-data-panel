@@ -56,4 +56,16 @@ public class TrackServiceAppImpl implements TrackServiceApp {
 		return trackMapper.getByUid(uid);
 	}
 
+	@Override
+	public int isExist(Track track) {
+		// TODO Auto-generated method stub
+		return trackMapper.isExist(track);
+	}
+
+	@Override
+	public int updateCreateTime(Track track) {
+		// TODO Auto-generated method stub
+		return trackMapper.updateCreateTime(track);
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.wuhan_data.app.service;
 
+import java.util.Date;
 import java.util.List;
 import com.wuhan_data.pojo.SessionSQL;
 
@@ -11,4 +12,5 @@ public interface SessionSQLServiceApp {
 	public boolean isKeyExist(String sess_key);
 	public void set(String sess_key,String sess_value);
 	public boolean isTimeOut(String sess_key,int second);
+	public int deleteTimeoutToken(Date timeout);
 }

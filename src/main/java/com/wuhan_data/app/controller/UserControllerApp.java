@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -121,6 +122,7 @@ public class UserControllerApp {
 			tel=mapget.get("tel").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getVercodeApp"+e.toString());
 			return this.apiReturn("-2", "请求参数获取异常", data);
 		}		
 		System.out.println("获取验证码接口：sendSMS:" + "tel=" + tel);
@@ -131,6 +133,7 @@ public class UserControllerApp {
 			isTimeout=sessionSQLServiceApp.isTimeOut(tel+"verCode", 60);	
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getVercodeApp"+e.toString());
 			return this.apiReturn("-1", "数据库错误", data);
 		}
 
@@ -156,6 +159,7 @@ public class UserControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("getVercodeApp"+e.toString());
 				return this.apiReturn("-2", "短信发送异常", data);
 			}
 			
@@ -177,6 +181,7 @@ public class UserControllerApp {
 			verCode = mapget.get("verCode").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getVercodeApp"+e.toString());
 			return this.apiReturn("-2", "请求参数获取异常", data);
 		}
 		
@@ -207,6 +212,21 @@ public class UserControllerApp {
 					errMsg="用户登录成功";
 					// 将用户的信息加到session中，以token为key，对应的职位
 				}
+				
+				//0.1的概率删除过期session
+				//生成随机数
+				int max=100,min=1;
+				int ran2 = (int) (Math.random()*(max-min)+min);
+				if(ran2<10)
+				{
+					Date timeout=new Date();
+					Calendar calendar=Calendar.getInstance();
+					calendar.setTime(timeout);
+					calendar.add(Calendar.DATE, -15);
+					timeout=calendar.getTime();
+					System.out.println("删除过期session条数："+sessionSQLServiceApp.deleteTimeoutToken(timeout));
+				}
+
 				// 将对应用户的信息加到data中
 				User user = userServiceApp.getByTel(tel);
 				// 生成token令牌
@@ -244,6 +264,7 @@ public class UserControllerApp {
 				return this.apiReturn("0", errMsg, data);
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("getVercodeApp"+e.toString());
 				return this.apiReturn("-1", "数据库获取异常", data);
 			}
 			// 没有设置保存多长时间会不会有问题
@@ -267,6 +288,7 @@ public class UserControllerApp {
 		  		 tokenString=mapget.get("token").toString();
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("loginout"+e.toString());
 				return this.apiReturn("-2", "请求参数异常",data);
 			}
 		  	System.out.println("退出登录："+"token"+tokenString);
@@ -277,6 +299,7 @@ public class UserControllerApp {
 				tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("loginout"+e.toString());
 				return this.apiReturn("-1", "数据库异常",data);
 			}
 		  	
@@ -291,6 +314,7 @@ public class UserControllerApp {
 					return this.apiReturn("0", "退出登录成功",data);			
 				} catch (Exception e) {
 					// TODO: handle exception
+					System.out.println("loginout"+e.toString());
 					return this.apiReturn("-1", "数据库操作错误",data);
 				}
 		  		
@@ -405,6 +429,7 @@ public class UserControllerApp {
 	  		 tokenString=mapget.get("token").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getUserApp"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	  	System.out.println("获取用户个人信息接口："+"token"+tokenString);
@@ -415,6 +440,7 @@ public class UserControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getUserApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}
 	  	
@@ -459,6 +485,7 @@ public class UserControllerApp {
 				return this.apiReturn("0", "用户信息获取成功", data);			
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("getUserApp"+e.toString());
 				return this.apiReturn("-1", "数据库操作错误", data);
 			}
 	  		
@@ -494,6 +521,7 @@ public class UserControllerApp {
 				System.out.println("用户信息编辑接口:"+"realName"+realName+"description"+description);
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("editUserApp"+e.toString());
 				return this.apiReturn("-2", "请求参数错误", data);
 			}
 			//token令牌验证
@@ -502,6 +530,7 @@ public class UserControllerApp {
 				tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("editUserApp"+e.toString());
 				return this.apiReturn("-1", "数据库异常", data);
 			}
 			
@@ -538,6 +567,7 @@ public class UserControllerApp {
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
+					System.out.println("editUserApp"+e.toString());
 					return this.apiReturn("-1", "数据库操作异常", data);
 				}		
 			}	  
@@ -559,6 +589,7 @@ public class UserControllerApp {
 			verCode=mapget.get("verCode").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("changeTelApp"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 		//token令牌验证
@@ -567,6 +598,7 @@ public class UserControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("changeTelApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}
 		
@@ -603,6 +635,7 @@ public class UserControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("changeTelApp"+e.toString());
 				return this.apiReturn("-1", "数据获取异常", data);
 			}		
 		}  
