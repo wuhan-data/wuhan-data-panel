@@ -389,6 +389,106 @@ public class AnalysisServiceImpl implements AnalysisService {
 			// 对需要进行计算的特殊图例进行单独配置
 			int flagPlate = 0;
 			switch (id) {
+			case "29":
+			case "30": {
+				System.out.println("进入特殊图例——指标相减");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				for (int j = 0; j < indiList.size(); j++) {
+					// 处理配置表中配置数据
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
+				}
+				List<List<String>> dataValue1 = new ArrayList<List<String>>();
+				// 进行减法
+				if (id.equals("29")) {
+					if (indiList.get(0).getIndiCode().toString().equals("JG0301;400:101585152;363:706401;62:42")
+							&& indiList.get(1).getIndiCode().toString()
+									.equals("JG040101;400:101585152;363:706401;62:42")) {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(0).get(j))
+									- Double.parseDouble(dataValue.get(1).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					} else {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(1).get(j))
+									- Double.parseDouble(dataValue.get(0).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					}
+				}
+				if (id.equals("30")) {
+					if (indiList.get(0).getIndiCode().toString().equals("JG040101;400:101585152;363:706401;62:42")
+							&& indiList.get(1).getIndiCode().toString()
+									.equals("JG040102;400:101585152;363:706401;62:42")) {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(0).get(j))
+									- Double.parseDouble(dataValue.get(1).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					} else {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(1).get(j))
+									- Double.parseDouble(dataValue.get(0).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					}
+				}
+				// 配置指标图例
+				switch (analysisPlate.get(i).getShowType()) {
+				case "折线图": {
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
+							showType);
+					TotalList.add(lineEntity);
+					break;
+				}
+				case "柱状图": {
+					BarType barType = new BarType();
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType);
+					TotalList.add(barEntity);
+					break;
+				}
+				default:
+					System.out.println("未知图例无法求指标相减值" + analysisPlate.get(i).getShowType());
+					break;
+				}
+				// 配置表格数据
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				// 表格依然是展示指标原始数据
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(tableEntity);
+				flagPlate = 1;
+			}
+				break;
+
 			case "58":
 			case "59":
 			case "60":
@@ -406,7 +506,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 			case "135":
 			case "141":
 			case "146":
-			case "164":{
+			case "164": {
 				System.out.println("进入特殊图例——去年同期比较");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
@@ -483,14 +583,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
 				TotalList.add(tableEntity);
-
 				flagPlate = 1;
-				break;
 			}
-
+				break;
 			default:
 				break;
 			}
+			// 如果是特殊图例，就不进行常规图例的判断
 			if (flagPlate != 0) {
 				continue;
 			}
