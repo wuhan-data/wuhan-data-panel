@@ -5,34 +5,34 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.VersionMapperApp">
         <insert id="add" parameterType="Version" >
-            insert into WUHAN_DATA.Version (appid,platform,version,text,url,create_time)values (#{appid},#{platform},#{version},#{text},#{url},#{create_time})
+            insert into WUHAN_DATA.VERSION (appid,platform,version,text,url,create_time)values (#{appid},#{platform},#{version},#{text},#{url},#{create_time})
         </insert>
          
         <delete id="delete" parameterType="Version" >
-            delete from WUHAN_DATA.Version where id= #{id}  
+            delete from WUHAN_DATA.VERSION where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Version">
-            select * from   WUHAN_DATA.Version  where id= #{id}   
+            select * from   WUHAN_DATA.VERSION  where id= #{id}   
         </select>
  
         <update id="update" parameterType="Version" >
-            update WUHAN_DATA.Version set appid=#{appid}, platform=#{platform} , version=#{version}, text=#{text}, url=#{url}, create_time=#{create_time}   where id=#{id}   
+            update WUHAN_DATA.VERSION set appid=#{appid}, platform=#{platform} , version=#{version}, text=#{text}, url=#{url}, create_time=#{create_time}   where id=#{id}   
         </update>
         
         <select id="list" resultType="Version">
-            select * from WUHAN_DATA.Version    
+            select * from WUHAN_DATA.VERSION    
         </select>   
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.Version  
+        	select count(*) from WUHAN_DATA.VERSION  
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Version" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.Version   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA.VERSION   order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Version">
-            select * from WUHAN_DATA.Version 
+            select * from WUHAN_DATA.VERSION 
             <where>
             version like concat(concat('%',#{version}),'%')  
             </where>
@@ -40,12 +40,12 @@
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.Version where version like concat(concat('%',#{version}),'%')  
+            select count(*) from WUHAN_DATA.VERSION where version like concat(concat('%',#{version}),'%')  
         </select>
          
           <!--检测更新 -->
 		<select id="versionDetection" parameterType="java.util.Map" resultType="Version">
-            select * from WUHAN_DATA.Version  where platform=#{platform} order by create_time DESC
+            select * from WUHAN_DATA.VERSION  where platform=#{platform} order by create_time DESC
         </select>
          
          
