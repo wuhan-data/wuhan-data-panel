@@ -200,6 +200,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<String> startTimeList = (List<String>) freqObject.get("startArray");
 		List<String> endTimeList = (List<String>) freqObject.get("endArray");
 		String freqName = (String) freqObject.get("freqName");
+		System.out.println("TimeList:" + startTimeList + "\n current" + current);
 		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
 		String startTime = startTimeList.get(current.get(0)).toString();
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
@@ -310,7 +311,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 			}
 		}
-		System.out.println("时间频度数据获取成功:" + df.format(new Date()));
+		System.out.println("时间频度数据获取成功:" + timeFreq.toString() + df.format(new Date()));
 
 		// 获取时间选择器区间，取指标的并集
 		for (int i = 0; i < timeFreq.size(); i++) {
@@ -328,12 +329,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 					// TOOD 从app_analysis_indi_time视图中直接取出start_time/end_time并组成数组
 					// List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
 					List<AnalysisIndiTime> timeList1 = analysisMapper.getTimeByFreq(queryMap);
+					System.out.println("特定指标时间区间为:" + timeList1.toString());
 					String startTime = timeList1.get(0).getStartTime();
 					String endTime = timeList1.get(0).getEndTime();
 					List<String> timeList2 = this.fillTimeList(freqName, startTime, endTime);
 					Set<String> timeSpanSet = new HashSet<String>(timeList2);
 					timeSpanFinal.addAll(timeSpanSet);
 				}
+				System.out.println("版块" + pid + "的" + freqName + "区间插入后，时间选择器为:" + timeSpanFinal);
 			}
 			List<String> timeList = new ArrayList<String>(timeSpanFinal);
 			Collections.sort(timeList);
