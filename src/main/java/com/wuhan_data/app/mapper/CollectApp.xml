@@ -37,6 +37,11 @@
             select count(*) from   WUHAN_DATA.COLLECT  where uid= #{uid} and index_id=#{index_id} and type=#{type}   
         </select>
 
+       <select id="getTypeCollect" parameterType="Collect" resultType="int">
+		select id from WUHAN_DATA."COLLECT" where type=#{type} AND uid=
+		#{uid}
+		AND index_id = #{index_id}
+	</select>
        
 
     </mapper>

@@ -15,6 +15,6 @@ public interface SessionSQLMapperApp {
 	public SessionSQL get(String sess_key);
 	@DataSource(value="dataSource_dm")
 	public int update(SessionSQL sessionSQL);
-	@DataSource(value="dataSource_mysql")
+	@DataSource(value="dataSource_dm")
 	public int deleteTimeoutToken(Date timeout);
 }
