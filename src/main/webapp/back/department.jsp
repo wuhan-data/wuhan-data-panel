@@ -236,7 +236,8 @@
       <span id="edit_span_departmentcode">填4位代码</span><br> 
    部门名称：<input class="form-control" type="text" name="editDepartmentName" id="editDepartmentName">   
    <br>
-   部门描述：<input class="form-control" type="text" name="editDepartmentDescription" id="editDepartmentDescription">   
+   部门描述：<br><textarea class="form-control" type="text" name="editDepartmentDescription" id="editDepartmentDescription" style="width:500px;height:80px;">
+   </textarea>   
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -272,7 +273,8 @@
      部门代码：<input class="form-control" type="search" placeholder="部门代码" name="addDepartmentCode" id="addDepartmentCode" onblur="checkDepartmentCode()">
       <span id="span_departmentcode">填4位代码</span><br>   
      部门名称：<input class="form-control" type="search" placeholder="部门名称" name="addDepartmentName"><br>
-     部门描述：<input class="form-control" type="search" placeholder="部门描述" name="addDepartmentDescription">  
+     部门描述：<br><textarea class="form-control" type="search" placeholder="部门描述" name="addDepartmentDescription" style="width:500px;height:80px;">  
+     </textarea>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭

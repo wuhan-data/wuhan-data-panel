@@ -215,15 +215,17 @@
        		<option value="系统消息" >系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：<input class="form-control" type="text" name="lookContent" id="lookContent"readonly> <br>
- 正文：<input class="form-control" type="text" name="lookM_text" id="lookM_text"readonly>  <br>
+ 内容缩略：
+ <br><textarea class="form-control" type="text" name="lookContent" id="lookContent"readonly style="width:500px;height:80px;" ></textarea> <br>
+ 正文：
+ <br><textarea class="form-control" type="text" name="lookM_text" id="lookM_text"readonly style="width:500px;height:80px;">  </textarea><br>
  内容类型：
  	 <select class="form-control" id="lookType" name="lookType"readonly >	
        		<option value="message">message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
- 路径：<a><input class="form-control" type="text" name="lookPath" id="lookPath"> <br></a>
+ 路径：<a><input class="form-control" type="text" name="lookPath" id="lookPath" readonly> <br></a>
  	<div id=lookFileUrl></div>
 			</div>
 			<div class="modal-footer">
@@ -248,7 +250,7 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editMessage">
+	<form class="form-inline" id="editForm" method="post"   enctype="multipart/form-data" accept-charset="UTF-8" action="editMessage">
 			<div class="modal-body">		
 
 		<input class="form-control" type="hidden" name="editMessageID" id="editMessageID">
@@ -260,15 +262,19 @@
        		<option value="系统消息" >系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：<input class="form-control" type="text" name="editContent" id="editContent"> <br>
- 正文：<input class="form-control" type="text" name="editM_text" id="editM_text">  <br>
+ 内容缩略：
+ <br><textarea class="form-control" type="text" name="editContent" id="editContent" style="width:500px;height:80px;"> </textarea><br>
+ 正文：
+ <br><textarea class="form-control" type="text" name="editM_text" id="editM_text" style="width:500px;height:80px;">  </textarea><br>
  内容类型：
  	 <select class="form-control" id="editType" name="editType" >	
        		<option value="message">message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
- 路径：<input class="form-control" type="text" name="editPath" id="editPath"> <br>
+ 路径：<input class="form-control" type="text" name="editPath" id="editPath" readonly> <br>
+重新上传文件：<input type="file" name="messageEditFile" id="messageEditFile" value="请选择文件" /><br>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -304,22 +310,30 @@
 				
  		
  发送人id：<input class="form-control" type="text" name="addSender_id" id="addSender_id" readonly value=<%out.print(adminId);%> >  <br> 
- 接收人id：<input class="form-control" type="text" name="addReceiver_id" id="addReceiver_id"> <br>
+ 接收人id：<input class="form-control" type="text" name="addReceiver_id" id="addReceiver_id">多人请用，隔开 <br>
+  <input type="button" onclick="selectUser()" name="selectName" id="selectName" value="按真实姓名搜索">
+  <input class="form-control" type="text" name="realName" id="realName">
+ <br>
+ <textarea id="resultOfSelectName" style="width:400px;height:80px;">
+  	查询结果显示
+ </textarea>
+ <br>
+ 
  标题：<input class="form-control" type="text" name="addTitle" id="addTitle"> <br>
  消息类型：
   <select class="form-control" id="addLabel" name="addLabel" >	
        		<option value="系统消息" selected>系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：<input class="form-control" type="text" name="addContent" id="addContent"> <br>
- 正文：<input class="form-control" type="text" name="addM_text" id="addM_text">  <br>
+ 内容缩略：<br><textarea class="form-control" type="text" name="addContent" id="addContent" style="width:500px;height:80px;"> </textarea> <br>
+ 正文：<br><textarea class="form-control" type="text" name="addM_text" id="addM_text" style="width:500px;height:80px;">  </textarea><br>
  内容类型：
  <select class="form-control" id="addType" name="addType" >	
        		<option value="message" selected>message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
- 路径：<input class="form-control" type="text" name="addPath" id="addPath"> <br>
+ <!-- 路径：<input class="form-control" type="text" name="addPath" id="addPath"> <br> -->
   上传的文件：<input type="file" name="messageAddFile" id="messageAddFile" value="请选择文件" /><br>
     
 			</div>
@@ -362,21 +376,21 @@
     发送人名字：<input class="form-control" type="search" placeholder="发送人名字" name="addByRoleByRolesender_name" readonly value=<%out.print(username); %> ><br>
  发送人id：<input class="form-control" type="text" name="addByRoleSender_id" id="addByRoleSender_id" readonly value=<%out.print(adminId);%>>  <br> 
 <!--  接收人id：<input class="form-control" type="text" name="addByRoleReceiver_id" id="addByRoleReceiver_id"> --> <br>
- 标题：<input class="form-control" type="text" name="addByRoleTitle" id="addByRoleTitle"> <br>
+ 标题：<input class="form-control" type="text" name="addByRoleTitle" id="addByRoleTitle"><br>
  消息类型：
   <select class="form-control" id="addByRoleLabel" name="addByRoleLabel" >	
        		<option value="系统消息" selected>系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：<input class="form-control" type="text" name="addByRoleContent" id="addByRoleContent"> <br>
- 正文：<input class="form-control" type="text" name="addByRoleM_text" id="addByRoleM_text">  <br>
+ 内容缩略：<br><textarea class="form-control" type="text" name="addByRoleContent" id="addByRoleContent" style="width:500px;height:80px;"></textarea> <br>
+ 正文：<br><textarea class="form-control" type="text" name="addByRoleM_text" id="addByRoleM_text" style="width:500px;height:80px;"> </textarea> <br>
  内容类型：
  <select class="form-control" id="addByRoleType" name="addByRoleType" >	
        		<option value="message" selected>message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
- 路径：<input class="form-control" type="text" name="addByRolePath" id="addByRolePath"> <br>
+<!--  路径：<input class="form-control" type="text" name="addByRolePath" id="addByRolePath"> <br> -->
   上传的文件：<input type="file" name="messageAddByRoleFile" id="messageAddByRoleFile" value="请选择文件" /><br>
 			</div>
 			<div class="modal-footer">
@@ -493,27 +507,50 @@
             	//$("#lookPath").href(path)
                 	
             }
-            
-            $("#selectName").click((function){
+            function selectUser()
+            {
             	var realName=$("#realName").val();
+            	realName = encodeURI(realName);
             	$.ajax({
-            		url:"",
+            		url:"http://localhost:8080/wuhan_data1/selectByRealName",
             		data:{realName:realName},
-            		type:"POST",
-            		dataType:"TEXT",
+            		type:'post',
             		success:function(data){
-            			if(data.trim()="OK")
-            				{
-            				alert("OK");
-            				}
-            			else
-            				{
-            				alert("sorry")
-            				}
+            			var imgsUrl="";
+            			var users=data.data.split(';');
+            			for (var i=0;i<users.length;i++)
+            			{
+            				var sl=users[i]+"\r\n";
+            				imgsUrl+=sl;
+            			}
+            			alert(imgsUrl);
+                    	document.getElementById("resultOfSelectName").innerHTML=imgsUrl;
+            		},
+            		error:function(error){
+            			alert(error);
             		}
             	})
-            })
+            }
             
+            /* $("#selectName").click(function(){
+            	var realName=$("#realName").val();
+            	realName = encodeURI(realName);
+            	$.ajax({
+            		url:"http://localhost:8080/wuhan_data1/selectByRealName",
+            		data:{realName:realName},
+            		type:"GET",
+            		contentType:"application/json;charset=utf-8",
+            		dataType:"json",
+            		success:function(data){
+            			alert("sss");
+            		},
+            		error:function(xmlObj, msg, e){
+            			alert("xmlObj.status:"+xmlObj.status+"xmlObj.responseText:"+xmlObj.responseText);
+            			console.log
+            		}
+            	});
+            })
+             */
             
             
             function del(aid){

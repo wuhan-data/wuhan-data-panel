@@ -205,7 +205,7 @@
        		<option value="1" >不正常</option>
    </select>
    <br>
-    管理员权限：<input class="form-control" type="text" name="editAdminRole_list" id="editAdminRole_list">   
+    管理员权限：<!-- <input class="form-control" type="text" name="editAdminRole_list" id="editAdminRole_list">    -->
    <br>
     <c:forEach items="${allMenuList}" var="c" varStatus="st">
            		 <li>
@@ -260,7 +260,7 @@
        		<option value="1" >不正常</option>
    </select>
    <br>
-     管理员权限：<input class="form-control" type="search" placeholder="管理员权限 "name="addAdminRole_list"><br>
+  <!--    管理员权限：<input class="form-control" type="search" placeholder="管理员权限 "name="addAdminRole_list"><br> -->
   管理员权限：<br>
    <c:forEach items="${allMenuList}" var="c" varStatus="st">
            		 <li>
@@ -365,8 +365,14 @@
             	$("#editAdminPassword").val(password);
             	$("#editAdminStatus").val(status);
             	$("#editAdminRole_list").val(role_list);
+            	
+            	var boxes = document.getElementsByName("editMenuLevelTwo");
+        	   	for(i=0;i<boxes.length;i++){  	           
+        	                boxes[i].checked = false;
+        	    }
+            	
             	 var val = role_list.split(",");
-            	 var boxes = document.getElementsByName("editMenuLevelTwo");
+            	 //var boxes = document.getElementsByName("editMenuLevelTwo");
             	   	for(i=0;i<boxes.length;i++){
             	        for(j=0;j<val.length;j++){
             	            if(boxes[i].value == val[j]){

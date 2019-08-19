@@ -161,7 +161,7 @@ public class Message2Controller {
 	        String addContentString="";
 	        String addM_textString="";
 	        String addTypeString="";
-	        String addPathString="";
+	       // String addPathString="";
 	        String imgPath="";
 	        Date addCreate_time=new Date();
 	        try {
@@ -172,7 +172,7 @@ public class Message2Controller {
 	        	addContentString=request.getParameter("addContent");
 	        	addM_textString=request.getParameter("addM_text");
 	        	addTypeString=request.getParameter("addType");
-	        	addPathString=request.getParameter("addPath");
+	        	//addPathString=request.getParameter("addPath");
 	        	addReceiver_id="|"+addReceiver_id+"|";
 	        	addReceiver_id=addReceiver_id.replace(",", "|");
 				
@@ -261,7 +261,7 @@ public class Message2Controller {
 	        String addByRoleContentString="";
 	        String addByRoleM_textString="";
 	        String addByRoleTypeString="";
-	        String addByRolePathString="";
+	       // String addByRolePathString="";
 	        String imgPath="";
 	        Date addByRoleCreate_time=new Date();
 	        try {
@@ -272,7 +272,7 @@ public class Message2Controller {
 		        	addByRoleContentString=request.getParameter("addByRoleContent");
 		        	addByRoleM_textString=request.getParameter("addByRoleM_text");
 		        	addByRoleTypeString=request.getParameter("addByRoleType");
-		        	addByRolePathString=request.getParameter("addByRolePath");
+		        	//addByRolePathString=request.getParameter("addByRolePath");
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessageByRole:获取参数"+e.toString());
@@ -353,7 +353,8 @@ public class Message2Controller {
 	    }
 	//编辑消息
 	@RequestMapping("editMessage")
-	public ModelAndView editMessage(HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public ModelAndView editMessage(HttpServletRequest request,HttpServletResponse response
+			,@RequestParam("messageEditFile")MultipartFile [] files) throws IOException{
 			request.setCharacterEncoding("UTF-8");    	
 			response.setCharacterEncoding("UTF-8");
 			
@@ -366,10 +367,14 @@ public class Message2Controller {
 	        String editContentString="";
 	        String editM_textString="";
 	        String editTypeString="";
-	        String editPathString="";
+	        //String editPathString="";
+	        String imgPath="";
 	        Date editCreate_time=new Date();
 	        //获取数据
 	        try {
+	        	
+	        	
+	        	
 	        	editMessageId=Integer.valueOf(request.getParameter("editMessageID"));
 	        	editSender_id=Integer.valueOf(request.getParameter("editSender_id"));
 	        	editReceiver_id=request.getParameter("editReceiver_id");
@@ -378,7 +383,7 @@ public class Message2Controller {
 	        	editContentString=request.getParameter("editContent");
 	        	editM_textString=request.getParameter("editM_text");
 	        	editTypeString=request.getParameter("editType");
-	        	editPathString=request.getParameter("editPath");
+	        	//editPathString=request.getParameter("editPath");
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editMessage:获取参数"+e.toString());
@@ -388,7 +393,25 @@ public class Message2Controller {
 			}
 	        //数据库操作
 	        try {
-	        	 Message2 message2=new Message2();
+	        	//上传文件
+	        	 if (files.length!=1)
+		   	 	 {
+		       		 System.out.println("addVersion:上传文件数量不等于1");
+		       		 maView.setViewName("login");
+		       		 return maView;
+		   	 	 }
+		   	 	 else 
+		   	 	 {
+		   	 	    imgPath =ImageUtils.getURL(request)+"file_message/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\message");
+		   	 	    if(imgPath==null ||imgPath.equals(""))
+		   	 	    {
+		   	 	    	System.out.println("addVersion:上传文件失败");
+		   	 	    	maView.setViewName("login");
+		   	 	    	return maView;
+		   	 		 }
+		   	 	  }
+	        	
+	        	Message2 message2=new Message2();
 	 		    message2.setId(editMessageId);
 	 		    message2.setSender_id(editSender_id);
 	 		    message2.setReceiver_id(editReceiver_id);
@@ -397,7 +420,8 @@ public class Message2Controller {
 	 		    message2.setContent(editContentString);
 	 		    message2.setM_text(editM_textString);
 	 		    message2.setType(editTypeString);
-	 		    message2.setPath(editPathString);
+	 		   // message2.setPath(editPathString);
+	 		    message2.setPath(imgPath);
 	 		    message2.setCreate_time(editCreate_time);
 	 		    message2Service.update(message2);
 	 	        

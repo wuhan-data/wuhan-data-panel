@@ -198,9 +198,9 @@
    应用标识：<input class="form-control" type="text" readonly name="lookAppid" id="lookAppid" > <br> 
    操作系统：<input class="form-control" type="text" readonly name="lookPlatform" id="lookPlatform"> <br>
    版本号：<input class="form-control" type="text" readonly name="lookVersion" id="lookVersion"> <br>
-   更新内容：<input class="form-control" type="text" readonly  name="lookText" id="lookText"> <br>
+   更新内容：<br><textarea class="form-control" type="text" readonly  name="lookText" id="lookText" style="width:500px;height:80px;"></textarea> <br>
    url：<input class="form-control" type="text"  readonly name="lookUrl" id="lookUrl"> <br>
-   
+   <div id=lookFileUrl></div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -225,7 +225,7 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editVersion" >
+	<form class="form-inline" id="editForm" method="post" enctype="multipart/form-data" accept-charset="UTF-8" action="editVersion" >
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editID" id="editID" >
@@ -235,9 +235,9 @@
        		<option value="Android">Android</option> 
   	</select><br>
    版本号：<input class="form-control" type="text" name="editVersion" id="editVersion"> <br>
-   更新内容：<input class="form-control" type="text" name="editText" id="editText"> <br>
-   url：<input class="form-control" type="text" name="editUrl" id="editUrl"> <br>
-   
+   更新内容：<br><textarea class="form-control" type="text" name="editText" id="editText" style="width:500px;height:80px;"> </textarea><br>
+   url：<input class="form-control" type="text" name="editUrl" id="editUrl" realonly> <br>
+   重新上传的文件：<input type="file" name="editFile" id="editFile" value="请选择文件" /><br>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -277,8 +277,8 @@
        		<option value="Android" selected >Android</option> 
   	</select><br>
    版本号：<input class="form-control" type="text" name="addVersion" id="addVersion"> <br>
-   更新内容：<input class="form-control" type="text" name="addText" id="addText"> <br>
-   url：<input class="form-control" type="text" name="addUrl" id="addUrl"> <br>
+   更新内容：<br><textarea class="form-control" type="text" name="addText" id="addText" style="width:500px;height:80px;"> </textarea><br>
+  <!--  url：<input class="form-control" type="text" name="addUrl" id="addUrl"> <br> -->
    上传的文件：<input type="file" name="addFile" id="addFile" value="请选择最新的安装文件" /><br>
    
 			</div>
@@ -391,7 +391,14 @@
             	$("#lookPlatform").val(platform);
             	$("#lookVersion").val(version);
             	$("#lookText").val(text);
-            	$("#lookUrl").val(url);    	
+            	$("#lookUrl").val(url); 
+            	var path=url;
+            	var fileUrl="<a href=\"#\">没有下载链接</a>";
+            	if(path!="" && path!=null)
+            	{
+            		fileUrl="<a href=\""+path+"\">下载链接</a>";
+            	}
+            	document.getElementById("lookFileUrl").innerHTML=fileUrl;
             }
             
             function del(aid){

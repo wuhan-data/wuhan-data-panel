@@ -179,9 +179,9 @@
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editRoleID" id="editRoleID">
-   用户代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode">  <br> 
-   用户名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName"> <br>  
-   用户描述：<input class="form-control" type="text" name="editRoleDescription" id="editRoleDescription"> <br>  
+   角色代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode">  <br> 
+   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName"> <br>  
+   角色描述：<textarea class="form-control" type="text" name="editRoleDescription" id="editRoleDescription" style="width:500px;height:80px;"></textarea> <br>  
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -214,9 +214,9 @@
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     部门代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode"><br>
-     部门名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName"><br>
-     部门描述：<input class="form-control" type="search" placeholder="部门描述" name="addRoleDescription">  <br>
+     角色代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode"><br>
+     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName"><br>
+     角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭

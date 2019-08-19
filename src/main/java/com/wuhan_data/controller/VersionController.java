@@ -350,7 +350,7 @@ public class VersionController {
 	//edit version
 	@RequestMapping("editVersion")
     public ModelAndView editVersion(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException{
+            HttpServletResponse response ,@RequestParam("editFile")MultipartFile [] files) throws IOException{
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
@@ -360,6 +360,7 @@ public class VersionController {
     	String editVersionString="";
     	String editTextString="";
     	String editUrl="";
+    	String imgPath="";
     	//参数获取
     	try {
     		editEditID=Integer.valueOf(request.getParameter("editID"));
@@ -375,13 +376,32 @@ public class VersionController {
 			return maView;
 		}
     	try {
+    		 if (files.length!=1)
+    	 	 {
+        		 System.out.println("addVersion:上传文件数量不等于1");
+        		 maView.setViewName("login");
+        		 return maView;
+    	 	 }
+    	 	 else 
+    	 	 {
+    	 	    imgPath =ImageUtils.getURL(request)+"file_version/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\version");
+    	 	    if(imgPath==null ||imgPath.equals(""))
+    	 	    {
+    	 	    	System.out.println("addVersion:上传文件失败");
+    	 	    	maView.setViewName("login");
+    	 	    	return maView;
+    	 		 }
+    	 	  }
+    		
     		Version version=new Version();
         	version.setId(editEditID);
         	version.setAppid(editAppidString);
         	version.setPlatform(editPlatformString);
         	version.setVersion(editVersionString);
         	version.setText(editTextString);
-        	version.setUrl(editUrl);
+        	//version.setUrl(editUrl);
+        	version.setUrl(imgPath);
+        	version.setCreate_time(new Date());
         	versionService.update(version);
         	Page page=new Page();
         	int count=versionService.count();

@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,15 +14,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wuhan_data.tools.MenuList;
 import com.wuhan_data.tools.Page;
+import com.alibaba.fastjson.JSON;
 import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.AnalysisManage;
 import com.wuhan_data.pojo.Department;
@@ -55,7 +59,31 @@ public class UserController {
         return mav;
     }
     
-    
+    @RequestMapping(value="selectByRealName",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String selectByRealName(HttpServletRequest request, 
+            HttpServletResponse response){
+    	JSONObject jsonObject = new JSONObject();
+    	String realName="";
+    	try {
+			realName=URLDecoder.decode(request.getParameter("realName"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	Map map=new HashMap();
+    	map.put("real_name", realName);
+    	List<User> users=userService.searchByRealname(map);
+    	String resultString="";
+    	for (int i=0;i<users.size();i++)
+    	{
+    		User user=users.get(i);
+    		resultString+=user.getReal_name()+"(角色："+user.getRole_id()+")|id="+user.getId()+"|;";
+    	}
+		jsonObject.put("data", resultString);
+		jsonObject.put("msg","success");
+		return jsonObject.toString();
+    }
     
     @RequestMapping("userInit")
     public ModelAndView userInit(HttpServletRequest request, 
