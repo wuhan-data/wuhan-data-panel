@@ -4,6 +4,7 @@ public class IndexPic {
 	String id;
 	String title;
 	String image;
+	int is_show;
 	
 	
 	public String getId() {
@@ -24,6 +25,13 @@ public class IndexPic {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	public int getIs_show() {
+		return is_show;
+	}
+	public void setIs_show(int is_show) {
+		this.is_show = is_show;
+	}
+	
 	
 
 }

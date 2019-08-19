@@ -14,11 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.wuhan_data.pojo.AnalysisManage;
+import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.pojo.IndiCorrelative;
 import com.wuhan_data.pojo.SpecialDetail;
 import com.wuhan_data.service.IndiColumnService;
 import com.wuhan_data.service.SpecialService;
 import com.wuhan_data.tools.Page;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("")
@@ -49,8 +54,39 @@ public class SpecialController {
         System.out.println(page.getDbIndex());
         System.out.println(page.getDbNumber());
         map.put("page", page);
-        List<SpecialDetail> specialByPage=specialService.getlist(map);
+        List<IndexSpecial> specialByPage=specialService.getlist(map);
+
+        JSONArray json = new JSONArray();
+        for(IndexSpecial a : specialByPage){
+            JSONObject jo = new JSONObject();
+            jo.put("id", a.getTopic_weight());
+            jo.put("name", a.getTitle());
+            jo.put("num", a.getTopic_weight());
+            json.add(jo);
+        }
+        
+        String jsondata = request.getParameter("jsondata");
+        if(jsondata!=null) {
+        	System.out.println("************************************");
+        	System.out.println(jsondata);
+        	System.out.println("************************************");
+        	 JSONArray jsonArray = JSONArray.fromObject(jsondata);
+             Object[] os = jsonArray .toArray();
+             for(int i=0; i<os.length; i++) {
+            	 IndexSpecial o = new IndexSpecial();
+                 JSONObject jsonObj = JSONObject.fromObject(os[i]);
+                 System.out.println("解析后："+jsonObj.get("name").toString()+":"+(jsonObj.getInt("num")));
+                 o.setTitle(jsonObj.get("name").toString());
+                 o.setTopic_weight(jsonObj.get("num").toString());
+                 specialService.reOrderByTitle(o);             
+             } 
+             specialByPage=specialService.getlist(map);
+        }else {
+        	System.out.print("无法获取jsondata");
+        }
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:"+specialByPage.size());
+        
+        mav.addObject("json", json);
         mav.addObject("specialByPage", specialByPage);
         mav.addObject("page", page);    
         
@@ -66,11 +102,11 @@ public class SpecialController {
         response.setCharacterEncoding("UTF-8");
         ModelAndView mav = new ModelAndView();
         Page page=new Page(); //分页类      
-        String special_name=request.getParameter("special_name");
-        int special_id=specialService.maxSpecialId();
-        SpecialDetail sd = new SpecialDetail();
-        sd.setSpecial_id(special_id);
-        sd.setSpecial_name(special_name);
+        String title=request.getParameter("special_name");
+
+        IndexSpecial sd = new IndexSpecial();
+        sd.setTitle(title);
+        
         specialService.add(sd);
         
         int count = specialService.total();//每一个一级栏目下面二极栏目的数量
@@ -89,7 +125,7 @@ public class SpecialController {
         System.out.println(page.getDbIndex());
         System.out.println(page.getDbNumber());
         map.put("page", page);
-        List<SpecialDetail> specialByPage=specialService.getlist(map);
+        List<IndexSpecial> specialByPage=specialService.getlist(map);
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:"+specialByPage.size());
         mav.addObject("specialByPage", specialByPage);
         mav.addObject("page", page);    
@@ -129,7 +165,7 @@ public class SpecialController {
         System.out.println(page.getDbIndex());
         System.out.println(page.getDbNumber());
         map.put("page", page);
-        List<SpecialDetail> specialByPage=specialService.getlist(map);
+        List<IndexSpecial> specialByPage=specialService.getlist(map);
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:"+specialByPage.size());
         mav.addObject("specialByPage", specialByPage);
         mav.addObject("page", page);    
@@ -149,11 +185,15 @@ public class SpecialController {
 
         int special_id=Integer.parseInt(request.getParameter("special_id"));
         int is_show=Integer.parseInt(request.getParameter("is_show"));
-        SpecialDetail sd = new SpecialDetail();
-        sd.setSpecial_id(special_id);
+        
+        
+        IndexSpecial sd = new IndexSpecial();
+        sd.setId(special_id);
         sd.setIs_show(is_show);
         specialService.updateShow(sd);
         int count = specialService.total();
+        
+        
         System.out.print("每一个一级栏目下面二极栏目的数量"+count);
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数      
         String currentPage=request.getParameter("currentPage");
@@ -168,7 +208,7 @@ public class SpecialController {
         System.out.println(page.getDbIndex());
         System.out.println(page.getDbNumber());
         map.put("page", page);
-        List<SpecialDetail> specialByPage=specialService.getlist(map);
+        List<IndexSpecial> specialByPage=specialService.getlist(map);
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:"+specialByPage.size());
         mav.addObject("specialByPage", specialByPage);
         mav.addObject("page", page);       
@@ -188,10 +228,12 @@ public class SpecialController {
         String special_name=request.getParameter("special_name");      
         int special_id=Integer.parseInt(request.getParameter("special_id"));
       
-        SpecialDetail sd = new SpecialDetail();
-        sd.setSpecial_id(special_id);
-        sd.setSpecial_name(special_name);
+        IndexSpecial sd = new IndexSpecial();
+        sd.setId(special_id);
+        sd.setTitle(special_name);
         specialService.update(sd);
+        
+        
         int count = specialService.total();
         System.out.print("每一个一级栏目下面二极栏目的数量"+count);
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数      
@@ -207,7 +249,7 @@ public class SpecialController {
         System.out.println(page.getDbIndex());
         System.out.println(page.getDbNumber());
         map.put("page", page);
-        List<SpecialDetail> specialByPage=specialService.getlist(map);
+        List<IndexSpecial> specialByPage=specialService.getlist(map);
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:"+specialByPage.size());
         mav.addObject("specialByPage", specialByPage);
         mav.addObject("page", page);    
