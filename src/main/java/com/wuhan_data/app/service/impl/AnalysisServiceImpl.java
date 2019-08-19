@@ -200,6 +200,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<String> startTimeList = (List<String>) freqObject.get("startArray");
 		List<String> endTimeList = (List<String>) freqObject.get("endArray");
 		String freqName = (String) freqObject.get("freqName");
+		System.out.println("TimeList:" + startTimeList + "\n current" + current);
 		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
 		String startTime = startTimeList.get(current.get(0)).toString();
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
@@ -310,7 +311,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 			}
 		}
-		System.out.println("时间频度数据获取成功:" + df.format(new Date()));
+		System.out.println("时间频度数据获取成功:" + timeFreq.toString() + df.format(new Date()));
 
 		// 获取时间选择器区间，取指标的并集
 		for (int i = 0; i < timeFreq.size(); i++) {
@@ -328,12 +329,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 					// TOOD 从app_analysis_indi_time视图中直接取出start_time/end_time并组成数组
 					// List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
 					List<AnalysisIndiTime> timeList1 = analysisMapper.getTimeByFreq(queryMap);
+					System.out.println("特定指标时间区间为:" + timeList1.toString());
 					String startTime = timeList1.get(0).getStartTime();
 					String endTime = timeList1.get(0).getEndTime();
 					List<String> timeList2 = this.fillTimeList(freqName, startTime, endTime);
 					Set<String> timeSpanSet = new HashSet<String>(timeList2);
 					timeSpanFinal.addAll(timeSpanSet);
 				}
+				System.out.println("版块" + pid + "的" + freqName + "区间插入后，时间选择器为:" + timeSpanFinal);
 			}
 			List<String> timeList = new ArrayList<String>(timeSpanFinal);
 			Collections.sort(timeList);
@@ -386,6 +389,215 @@ public class AnalysisServiceImpl implements AnalysisService {
 			String title = analysisPlate.get(i).getPlateName();// 板块名
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(analysisPlate.get(i).getPlateId());
 
+			// 对需要进行计算的特殊图例进行单独配置
+			int flagPlate = 0;
+			switch (id) {
+			case "29":
+			case "30": {
+				System.out.println("进入特殊图例——指标相减");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				for (int j = 0; j < indiList.size(); j++) {
+					// 处理配置表中配置数据
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
+				}
+				List<List<String>> dataValue1 = new ArrayList<List<String>>();
+				// 进行减法
+				if (id.equals("29")) {
+					if (indiList.get(0).getIndiCode().toString().equals("JG0301;400:101585152;363:706401;62:42")
+							&& indiList.get(1).getIndiCode().toString()
+									.equals("JG040101;400:101585152;363:706401;62:42")) {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(0).get(j))
+									- Double.parseDouble(dataValue.get(1).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					} else {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(1).get(j))
+									- Double.parseDouble(dataValue.get(0).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					}
+				}
+				if (id.equals("30")) {
+					if (indiList.get(0).getIndiCode().toString().equals("JG040101;400:101585152;363:706401;62:42")
+							&& indiList.get(1).getIndiCode().toString()
+									.equals("JG040102;400:101585152;363:706401;62:42")) {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(0).get(j))
+									- Double.parseDouble(dataValue.get(1).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					} else {
+						List<String> dataIndiValue = new ArrayList<String>();
+						for (int j = 0; j < xAxis.size(); j++) {
+							Double dataValueDouble = Double.parseDouble(dataValue.get(1).get(j))
+									- Double.parseDouble(dataValue.get(0).get(j));
+							dataIndiValue.set(j, dataValueDouble.toString());
+						}
+						dataValue1.add(dataIndiValue);
+					}
+				}
+				// 配置指标图例
+				switch (analysisPlate.get(i).getShowType()) {
+				case "折线图": {
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
+							showType);
+					TotalList.add(lineEntity);
+					break;
+				}
+				case "柱状图": {
+					BarType barType = new BarType();
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType);
+					TotalList.add(barEntity);
+					break;
+				}
+				default:
+					System.out.println("未知图例无法求指标相减值" + analysisPlate.get(i).getShowType());
+					break;
+				}
+				// 配置表格数据
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				// 表格依然是展示指标原始数据
+				for (int q = 0; q < indiList.size(); q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(tableEntity);
+				flagPlate = 1;
+			}
+				break;
+
+			case "58":
+			case "59":
+			case "60":
+			case "61":
+			case "62":
+			case "63":
+			case "64":
+			case "65":
+			case "66":
+			case "67":
+			case "131":
+			case "132":
+			case "133":
+			case "134":
+			case "135":
+			case "141":
+			case "146":
+			case "164": {
+				System.out.println("进入特殊图例——去年同期比较");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+
+				for (int j = 0; j < indiList.size(); j++) {
+					// 处理配置表中配置数据
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
+
+					// 获取上年同期数据
+					// 配置新的queryMap查询条件
+					String freqName = queryMap.get("freqName").toString();
+					String startTime = queryMap.get("startTime").toString();
+					String endTime = queryMap.get("endTime").toString();
+					Map<String, Object> queryMap1 = this.calTimeQueryMap(freqName, startTime, endTime);
+					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
+					System.out.println("特殊图例同期配置项：" + queryMap1.toString());
+					// 处理上年同期数据
+					List<AnalysisIndiValue> indiInfoList1 = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue1 = Arrays.asList(new String[xAxis.size()]);
+					List<String> xAxis1 = this.fillTimeList(queryMap1.get("freqName").toString(),
+							queryMap1.get("startTime").toString(), queryMap1.get("endTime").toString());
+					for (int m = 0; m < indiInfoList1.size(); m++) {
+						String dataXTemp = indiInfoList1.get(m).getTime();
+						if (xAxis1.contains(dataXTemp)) {
+							int index = xAxis1.indexOf(dataXTemp);
+							dataIndiValue1.set(index, indiInfoList1.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue1);
+					legend.add(indiList.get(j).getIndiName() + "去年同期");
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
+				}
+				// 配置指标图例——柱状
+				switch (analysisPlate.get(i).getShowType()) {
+				case "折线图": {
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
+							showType);
+					TotalList.add(lineEntity);
+					break;
+				}
+				case "柱状图": {
+					BarType barType = new BarType();
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
+					TotalList.add(barEntity);
+					break;
+				}
+				default:
+					System.out.println("未知图例无法求上年同期值" + analysisPlate.get(i).getShowType());
+					break;
+				}
+				// 配置表格数据
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				// 需要多循环去年同期的数据
+				for (int q = 0; q < indiList.size() * 2; q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TotalList.add(tableEntity);
+				flagPlate = 1;
+			}
+				break;
+			default:
+				break;
+			}
+			// 如果是特殊图例，就不进行常规图例的判断
+			if (flagPlate != 0) {
+				continue;
+			}
+
+			// 对常规图例类型进行配置
 			switch (analysisPlate.get(i).getShowType()) {
 			case "折线图": {
 				System.out.println("进入折线图");
@@ -748,6 +960,42 @@ public class AnalysisServiceImpl implements AnalysisService {
 			break;
 		}
 		return timeList;
+	}
+
+	public Map<String, Object> calTimeQueryMap(String freqName, String startTime, String endTime) {
+		Map<String, Object> queryMap1 = new HashMap<String, Object>();
+		String startTime1 = "";
+		String endTime1 = "";
+		switch (freqName) {
+		case "月度":
+			int startYear1 = Integer.parseInt(startTime.substring(0, 4));
+			int startMonth1 = Integer.parseInt(startTime.substring(5, 7));
+			int endYear1 = Integer.parseInt(endTime.substring(0, 4));
+			int endMonth1 = Integer.parseInt(endTime.substring(5, 7));
+			startTime1 = String.valueOf(startYear1 - 1) + '/' + String.format("%02d", Integer.valueOf(startMonth1));
+			endTime1 = String.valueOf(endYear1 - 1) + '/' + String.format("%02d", Integer.valueOf(endMonth1));
+			break;
+		case "季度":
+			int startYear2 = Integer.parseInt(startTime.substring(0, 4));
+			int startQuarter2 = Integer.parseInt(startTime.substring(6, 7));
+			int endYear2 = Integer.parseInt(endTime.substring(0, 4));
+			int endQuarter2 = Integer.parseInt(endTime.substring(6, 7));
+			startTime1 = String.valueOf(startYear2 - 1) + "/Q" + String.valueOf(startQuarter2);
+			endTime1 = String.valueOf(endYear2 - 1) + "/Q" + String.valueOf(endQuarter2);
+			break;
+		case "年度":
+			int startYear3 = Integer.parseInt(startTime.substring(0, 4));
+			int endYear3 = Integer.parseInt(endTime.substring(0, 4));
+			startTime1 = String.valueOf(startYear3 - 1);
+			endTime1 = String.valueOf(endYear3 - 1);
+			break;
+		default:
+			break;
+		}
+		queryMap1.put("freqName", freqName);
+		queryMap1.put("startTime", startTime1);
+		queryMap1.put("endTime", endTime1);
+		return queryMap1;
 	}
 
 }
