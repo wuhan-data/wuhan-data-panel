@@ -323,10 +323,23 @@ public class IndiSearchAppController {
 		Integer userId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
-			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
-			String mapString = sessionSQLServiceApp.get(token).getSess_value();
-			Map map = StringToMap.stringToMap(mapString);
-			userId = Integer.valueOf((String) map.get("userId"));
+			try {
+				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+			} catch (Exception e) {
+				return this.apiReturn("-1", "参数获取异常", data);
+			}
+
+			try {
+				if (!token.equals("")) {
+					String mapString = sessionSQLServiceApp.get(token).getSess_value();
+					Map mapS = StringToMap.stringToMap(mapString);
+					userId = Integer.valueOf((String) mapS.get("userId"));
+				}
+			} catch (Exception e) {
+				System.out.println("无效的token令牌");
+			}
+			
+			
 			boolean hasIndexCode = requestObject.containsKey("indexId");
 			if (!hasIndexCode) {
 				return this.apiReturn("-1", "需要指定栏目id", data);

@@ -398,7 +398,7 @@ public class IndexManageController {
    	        System.out.println(indi_TFList.get(i).getIndi_name());
    	        
    	        indexManage.setStatus(0);
-   	        
+   	        indexManage.setSjly_name2(indi_TFList.get(i).getSjly_name2());
    	        System.out.println("插入0");
    		 
    	        indexManageService.add(indexManage);

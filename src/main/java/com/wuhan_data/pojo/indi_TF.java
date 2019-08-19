@@ -8,7 +8,7 @@ public class indi_TF {
 	String indi_value;//指标值
 	Integer time_point;//时点
 	String unitname;//单位
-	String sjly;//数据来源
+	String sjly_name2;//数据来源
 	//饼状图
 	String group1_name;
 	public String getIndi_code() {
@@ -47,11 +47,18 @@ public class indi_TF {
 	public void setTime_point(Integer time_point) {
 		this.time_point = time_point;
 	}
-	public String getSjly() {
-		return sjly;
+	
+	public String getSjly_name2() {
+		return sjly_name2;
 	}
-	public void setSjly(String sjly) {
-		this.sjly = sjly;
+	public void setSjly_name2(String sjly_name2) {
+		this.sjly_name2 = sjly_name2;
+	}
+	public String getGroup1_name() {
+		return group1_name;
+	}
+	public void setGroup1_name(String group1_name) {
+		this.group1_name = group1_name;
 	}
 	public String getUnitname() {
 		return unitname;

@@ -14,7 +14,7 @@ select b.type_weight id,a.background,a.icon_name,a.icon_url from WUHAN_DATA."IND
 left join WUHAN_DATA.ANALYSIS_THEME b 
 on a.icon_name=b.type_name
 group by b.type_weight,a.background,a.icon_name,a.icon_url
-order by b.type_weight
+order by b.type_weight desc
 
         </select>
         
