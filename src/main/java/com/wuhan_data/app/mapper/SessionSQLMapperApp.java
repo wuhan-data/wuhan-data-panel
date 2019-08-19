@@ -1,5 +1,6 @@
 package com.wuhan_data.app.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import com.wuhan_data.pojo.SessionSQL;
@@ -14,4 +15,6 @@ public interface SessionSQLMapperApp {
 	public SessionSQL get(String sess_key);
 	@DataSource(value="dataSource_dm")
 	public int update(SessionSQL sessionSQL);
+	@DataSource(value="dataSource_mysql")
+	public int deleteTimeoutToken(Date timeout);
 }

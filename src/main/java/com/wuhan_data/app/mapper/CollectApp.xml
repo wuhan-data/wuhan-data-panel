@@ -2,59 +2,41 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.app.mapper.CollectMapperApp">
+        <insert id="add" parameterType="Collect" >
+            insert into WUHAN_DATA.COLLECT (uid,type,index_id,index_name,indi_source,create_time) values (#{uid},#{type},#{index_id},#{index_name},#{indi_source},#{create_time})   
+        </insert>
+        <delete id="delete" parameterType="Collect" >
+            delete from WUHAN_DATA.COLLECT where id= #{id}  
+        </delete>
+         <delete id="deleteByUidTypeIndex" parameterType="Collect" >
+            delete from WUHAN_DATA.COLLECT where uid= #{uid} and   index_id=#{index_id} and type=#{type}
+        </delete>
+        
+         
+        <select id="get" parameterType="_int" resultType="Collect">
+            select * from   WUHAN_DATA.COLLECT  where id= #{id}   
+        </select>
+         <select id="getByUid" parameterType="_int" resultType="Collect">
+            select * from   WUHAN_DATA.COLLECT  where uid= #{uid}   
+        </select>
+ 
+        <update id="update" parameterType="Collect" >
+            update WUHAN_DATA.COLLECT set uid=#{uid},type=#{type},index_id=#{index_id},index_name=#{index_name},indi_source=#{indi_source},create_time=#{create_time} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="Collect">
+            select * from WUHAN_DATA.COLLECT     
+        </select> 
+        
+        <select id="count" resultType="int">
+        	select count(*) from WUHAN_DATA.COLLECT  
+        </select>
+         <select id="IsExist" parameterType="Collect" resultType="int">
+            select count(*) from   WUHAN_DATA.COLLECT  where uid= #{uid} and index_id=#{index_id} and type=#{type}   
+        </select>
 
-<mapper namespace="com.wuhan_data.app.mapper.CollectMapperApp">
-	<delete id="deleteByUidTypeIndex" parameterType="Collect">
-		delete from
-		WUHAN_DATA."COLLECT" where uid= #{uid} and
-		index_id=#{index_id} and
-		type=#{type}
-	</delete>
+       
 
-	<insert id="add" parameterType="Collect">
-		insert into WUHAN_DATA."COLLECT"
-		(uid,type,index_id,index_name,indi_source,create_time) values
-		(#{uid},#{type},#{index_id},#{index_name},#{indi_source},#{create_time})
-	</insert>
-	<delete id="delete" parameterType="Collect">
-		delete from WUHAN_DATA."COLLECT"
-		where id= #{id}
-	</delete>
-
-	<select id="get" parameterType="_int" resultType="Collect">
-		select * from
-		WUHAN_DATA."COLLECT" where id= #{id}
-	</select>
-	<select id="getByUid" parameterType="_int" resultType="Collect">
-		select *
-		from WUHAN_DATA."COLLECT" where uid= #{uid}
-	</select>
-	<select id="getTypeCollect" parameterType="Collect" resultType="int">
-		select id from WUHAN_DATA."COLLECT" where type=#{type} AND uid=
-		#{uid}
-		AND index_id = #{index_id}
-	</select>
-	<update id="update" parameterType="Collect">
-		update WUHAN_DATA."COLLECT" set
-		uid=#{uid}, type=#{type}, index_id=#{index_id},
-		index_name=#{index_name}, indi_source=#{indi_source},
-		create_time=#{create_time}
-		where id=#{id}
-	</update>
-
-	<select id="list" resultType="Collect">
-		select * from WUHAN_DATA."COLLECT"
-	</select>
-
-	<select id="count" resultType="int">
-		select count(*) from
-		WUHAN_DATA."COLLECT"
-	</select>
-	<select id="IsExist" parameterType="Collect" resultType="int">
-		select
-		count(*) from WUHAN_DATA."COLLECT" where uid= #{uid} and
-		index_id=#{index_id} and type=#{type}
-	</select>
-
-
-</mapper>
+    </mapper>

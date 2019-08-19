@@ -66,6 +66,7 @@ public class UpImagesControllerApp {
 			tokenString =request.getParameter("token");
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setHeadApp"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	    System.out.println("图片上传接口："+"token"+tokenString);
@@ -76,6 +77,7 @@ public class UpImagesControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setHeadApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 	  	if(tokenIsEmpty)
@@ -131,6 +133,7 @@ public class UpImagesControllerApp {
 	  		 	    }
 	  			} catch (Exception e) {
 	  				// TODO: handle exception
+	  				System.out.println("setHeadApp"+e.toString());
 	  				return this.apiReturn("-1", "数据库操作异常", data);
 	  		}
 	 	}
@@ -154,6 +157,7 @@ public class UpImagesControllerApp {
 			contact=request.getParameter("contact");
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback"+e.toString());
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 		
@@ -165,6 +169,7 @@ public class UpImagesControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 		
@@ -230,6 +235,7 @@ public class UpImagesControllerApp {
 				
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("uploadFeedback"+e.toString());
 				return this.apiReturn("-1", "数据库操作错误", data);
 			}		
 		}
@@ -252,6 +258,7 @@ public class UpImagesControllerApp {
 			System.out.println("反馈接口1"+"token"+tokenString+"text"+textString+"contact"+contactString);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback1"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 		//token令牌验证
@@ -260,6 +267,7 @@ public class UpImagesControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback1"+e.toString());
 			return this.apiReturn("-1", "数据库操作异常", data);
 		}  
 		if(tokenIsEmpty)
@@ -288,6 +296,7 @@ public class UpImagesControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("uploadFeedback1"+e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}	
 		}

@@ -86,4 +86,10 @@ public class SessionSQLServiceAppImpl implements SessionSQLServiceApp {
 		
 	}
 
+	@Override
+	public int deleteTimeoutToken(Date timeout) {
+		// TODO Auto-generated method stub
+		return sessionSQLMapperApp.deleteTimeoutToken(timeout);
+	}
+
 }
