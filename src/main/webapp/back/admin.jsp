@@ -164,7 +164,7 @@
            <%--  ${c.status} --%>
             </td>
             <td >${c.role_list}</td>
-            <td >${c.create_date}</td>
+            <td >${c.timeString}</td>
             <td >
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="editAdminhh('${c.id}','${c.username}','${c.password}','${c.status}','${c.role_list}')">
 <i class="fa fa-edit"></i>修改
@@ -207,6 +207,18 @@
    <br>
     管理员权限：<input class="form-control" type="text" name="editAdminRole_list" id="editAdminRole_list">   
    <br>
+    <c:forEach items="${allMenuList}" var="c" varStatus="st">
+           		 <li>
+                        ${c.level_one}
+                        <ul >
+                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
+                            		<input type="checkbox" name="editMenuLevelTwo" value="${cc.role_name}">${cc.level_two}  
+                        	 </c:forEach>
+                        </ul>
+                  </li>
+            </c:forEach> 
+   
+   
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -249,12 +261,17 @@
    </select>
    <br>
      管理员权限：<input class="form-control" type="search" placeholder="管理员权限 "name="addAdminRole_list"><br>
-  管理员权限：
-   <c:forEach items="${allMenuLevelTwo}" var="c" varStatus="st">
-           	<li>
-           	<input type="checkbox" name="addMenuLevelTwo" value="${c}" checked>${c}  
-            </li>
-  </c:forEach> 
+  管理员权限：<br>
+   <c:forEach items="${allMenuList}" var="c" varStatus="st">
+           		 <li>
+                        ${c.level_one}
+                        <ul >
+                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
+                            		<input type="checkbox" name="addMenuLevelTwo" value="${cc.role_name}" checked>${cc.level_two}  
+                        	 </c:forEach>
+                        </ul>
+                  </li>
+            </c:forEach> 
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -342,11 +359,26 @@
             	formSearch.submit();	
             }
             function editAdminhh(id,username,password,status,role_list){
+            	
             	$("#editAdminID").val(id);
             	$("#editAdminUsername").val(username);
             	$("#editAdminPassword").val(password);
             	$("#editAdminStatus").val(status);
-            	$("#editAdminRole_list").val(role_list);	
+            	$("#editAdminRole_list").val(role_list);
+            	 var val = role_list.split(",");
+            	 var boxes = document.getElementsByName("editMenuLevelTwo");
+            	   	for(i=0;i<boxes.length;i++){
+            	        for(j=0;j<val.length;j++){
+            	            if(boxes[i].value == val[j]){
+            	                boxes[i].checked = true;
+            	                break
+            	            }
+            	        }
+            	    }
+            	
+            	
+            	
+            	
             }
             function del(aid){
             	alert("sss")

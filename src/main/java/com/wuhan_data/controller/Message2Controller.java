@@ -1,7 +1,9 @@
 package com.wuhan_data.controller;
 
 import java.io.IOException;
+
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +44,9 @@ public class Message2Controller {
 	@Autowired
 	UserService userService;
 	private static String title="";//用于模糊查询的名字
+	 String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	 SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+     
 	//message界面初始化需要的数据
 	@RequestMapping("messageInit")
 	public ModelAndView messageInit(HttpServletRequest request, 
@@ -73,6 +79,13 @@ public class Message2Controller {
             map.put("page", page);
             List<Message2> messagesListByPage=message2Service.listByPage(map);
             List<Role> roleList=roleService.List();
+            
+            
+            for (Message2 message2 : messagesListByPage) {
+            	
+				message2.setCreate_time(sdf.parse(sdf.format(message2.getCreate_time())));
+			}
+            //System.out.println("mess"+messagesListByPage);
             maView.addObject("roleList", roleList);
             maView.addObject("messagesListByPage",  messagesListByPage);
             maView.addObject("controlURL", "messagesListByPage");//控制页码传递URL
@@ -161,6 +174,7 @@ public class Message2Controller {
 	        	addTypeString=request.getParameter("addType");
 	        	addPathString=request.getParameter("addPath");
 	        	addReceiver_id="|"+addReceiver_id+"|";
+	        	addReceiver_id=addReceiver_id.replace(",", "|");
 				
 			} catch (Exception e) {
 				// TODO: handle exception

@@ -212,7 +212,7 @@
             <td>${c.role_id}</td>
             <td>${c.department_id}</td>
             <td>${c.real_name}</td>
-            <td>${c.birthday}</td>
+            <td>${c.birthString}</td>
             <td>${c.city}
             <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">

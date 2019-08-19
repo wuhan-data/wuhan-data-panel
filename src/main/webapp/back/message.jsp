@@ -1,10 +1,12 @@
 <%@page import="com.wuhan_data.pojo.Admin"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     Admin ad=(Admin)session.getAttribute("user");
     String username=ad.getUsername();
     int adminId=ad.getId();
@@ -150,10 +152,9 @@
                                             <th>接收人id</th>
                                             <th>标题</th>
                                             <th>消息类型</th>
-                                           
                                             <th>内容类型</th>
-
                                             <th>创建时间</th>
+                                            <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -165,7 +166,7 @@
             <td >${c.title}</td>
             <td >${c.label}</td>
             <td >${c.type}</td>
-            <td >${c.create_time}</td>
+            <td >${c.timeString}</td>
             <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
@@ -444,7 +445,6 @@
     <script>
             $(document).ready(function () {
                 $('#dataTables-example').dataTable();
-               
             });
             function f1(){
             	var select = document.getElementById("FormControlSelect1");
@@ -493,6 +493,29 @@
             	//$("#lookPath").href(path)
                 	
             }
+            
+            $("#selectName").click((function){
+            	var realName=$("#realName").val();
+            	$.ajax({
+            		url:"",
+            		data:{realName:realName},
+            		type:"POST",
+            		dataType:"TEXT",
+            		success:function(data){
+            			if(data.trim()="OK")
+            				{
+            				alert("OK");
+            				}
+            			else
+            				{
+            				alert("sorry")
+            				}
+            		}
+            	})
+            })
+            
+            
+            
             function del(aid){
             	alert("sss")
             	/* var aid=document.getElementById("aid").value; */

@@ -28,6 +28,12 @@ public interface MenuMapper {
 		public List<Menu> searchByRoleAndLevel_one(Map<String, Object> parameter);
 		 @DataSource(value="dataSource_mysql")
 		public List<Menu> getRole_nameBy(Map<String, Object> parameter);
+		 //获取第一级目录
+		 @DataSource(value="dataSource_mysql")
+		public List<Menu> getLevelOne();
+		 //获取第一级目录对应的第二级目录
+		 @DataSource(value="dataSource_mysql")
+		public List<Menu> getLevelTwoByLevelOne(Map<String, Object> parameter);
 		 
 
 }

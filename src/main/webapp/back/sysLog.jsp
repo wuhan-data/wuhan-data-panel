@@ -147,7 +147,7 @@
             <td >${c.operate_user_id}</td>
             <td >${c.operate}</td>
             <td >${c.method}</td>
-            <td >${c.create_time}</td>
+            <td >${c.timeString}</td>
             <td>
 <a href="">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除

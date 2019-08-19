@@ -150,7 +150,7 @@
             <td >${c.title}</td>
             <td >${c.contact}</td>
             <td >${c.state}</td>
-            <td >${c.create_time}</td>
+            <td >${c.timeString}</td>
             <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
@@ -349,7 +349,7 @@
             	var imgsUrl="";
             	for(var i=0;i<array.length;i++)
             	{	
-            		var img="\"<img src=\""+array[i]+"\" height=\"200\" width=\"200\">\"";
+            		var img="<img src=\""+array[i]+"\" height=\"200\" width=\"200\">";
             		imgsUrl=imgsUrl+img;
             	}
             	document.getElementById("lookImgs").innerHTML=imgsUrl;

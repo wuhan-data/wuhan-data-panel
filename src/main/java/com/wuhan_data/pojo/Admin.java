@@ -1,5 +1,6 @@
 package com.wuhan_data.pojo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Admin {
@@ -10,6 +11,17 @@ public class Admin {
 	private Integer status;
 	private String role_list;
 	private Date create_date;
+	private String timeString;
+	public String getTimeString() {
+		String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		return sdf.format(create_date);
+	}
+	public void setTimeString() {
+		String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		this.timeString = sdf.format(create_date);
+	}
 	public Integer getId() {
 		return id;
 	}

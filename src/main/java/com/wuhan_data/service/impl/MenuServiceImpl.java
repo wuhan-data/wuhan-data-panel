@@ -23,6 +23,39 @@ public class MenuServiceImpl implements MenuService {
 	private List<Menu> listByRole;
 	private List<Menu> level_oneList;
 	
+	
+	@Override
+	public List<MenuList> getAllMenu() {
+		// TODO Auto-generated method stub
+		List<Menu> allList=menuMapper.list();
+		String []strings =new String[allList.size()];
+		for(int i=0;i<allList.size();i++)
+		{	
+			strings[i]=allList.get(i).getRole_name();
+		}
+		String [] arrayStrings=strings;
+		listByRole=menuMapper.searchByRole(arrayStrings);
+		  
+		  level_oneList=menuMapper.searchByRoleGroupByOne(arrayStrings);
+		  
+		  List<MenuList> menuLists=new ArrayList<MenuList>();
+		  for(int i=0;i<level_oneList.size();i++)
+		  {
+			  MenuList menuList=new MenuList();
+			  String level_one=level_oneList.get(i).getLevel_one();
+			  menuList.setLevel_one(level_one);
+			  List<Menu> menus=new ArrayList<Menu>();
+			  for(int j=0;j<listByRole.size();j++)
+			  {
+				  if (level_one.equals(listByRole.get(j).getLevel_one())  )
+					  menus.add(listByRole.get(j));			  
+			  }
+			  menuList.setLevel_twoInOneList(menus);
+			  menuLists.add(menuList);
+		  }
+		  return menuLists;
+	}
+	
 	//@Override
 	
 	  public List<MenuList> getMenu(String role_name) {
@@ -108,6 +141,23 @@ public class MenuServiceImpl implements MenuService {
 		// TODO Auto-generated method stub
 		return menuMapper.searchByRole(parameter);
 	}
+
+
+	@Override
+	public List<Menu> getLevelOne() {
+		// TODO Auto-generated method stub
+		return menuMapper.getLevelOne();
+	}
+
+
+	@Override
+	public List<Menu> getLevelTwoByLevelOne(Map<String, Object> parameter) {
+		// TODO Auto-generated method stub
+		return menuMapper.getLevelTwoByLevelOne(parameter);
+	}
+
+
+	
 
 
 

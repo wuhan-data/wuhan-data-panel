@@ -143,6 +143,7 @@
                                             <th>应用标识</th>
                                             <th>操作系统</th>
                                             <th>版本号</th>
+                                            <th>发布时间</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -153,6 +154,7 @@
             <td >${c.appid}</td>
             <td >${c.platform}</td>
             <td >${c.version}</td>
+            <td>${c.timeString}</td>
             <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改

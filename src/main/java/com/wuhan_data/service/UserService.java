@@ -28,16 +28,13 @@ public interface UserService {
 	  public int searchCount(Map<String,Object> parameter);
 	  // 列表，可分页
 	  public List<User> listByPage(Map<String,Object> parameter);
-	  
-	  
-
+	  //模糊查询真实姓名，不可分页
+	  public List<User> searchByRealname(Map<String,Object> parameter);
 	  //登录验证
 	  public User logincheck(User user);
 	  //用户注册
 	  public void regist(User user);
 
-
-	  
 	  public int count();
      
 

@@ -1,5 +1,6 @@
 package com.wuhan_data.pojo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -20,6 +21,28 @@ public class User {
     private String city;
     private String head;
     private String description;
+    private String birthString;
+    public String getBirthString() {
+		String strDateFormat = "yyyy-MM-dd";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		return sdf.format(birthday);
+	}
+	public void setBirthString() {
+		String strDateFormat = "yyyy-MM-dd";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		this.timeString = sdf.format(birthday);
+	}
+    private String timeString;
+	public String getTimeString() {
+		String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		return sdf.format(create_time);
+	}
+	public void setTimeString() {
+		String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		this.timeString = sdf.format(create_time);
+	}
     public User() {
 		// TODO Auto-generated constructor stub
     	String charValue = "";
@@ -42,6 +65,9 @@ public class User {
     	city="";
     	head="";
     	description="天才是百分之一的灵感加百分之九十九的汗水。";	
+    	String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+    	timeString=sdf.format(create_time);
 	}
     public String getHead() {
 		return head;
