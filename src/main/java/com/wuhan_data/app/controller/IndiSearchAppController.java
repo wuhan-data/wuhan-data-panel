@@ -171,13 +171,13 @@ public class IndiSearchAppController {
 //			paraMap.put("beforeDate", calendar.getTime());
 			String trendSource = indiSearchService.getTrendSource(paraMap);
 			switch (trendSource) {
-			case "湖北指数-统一模板数据入库工具下湖北指数入库":
+			case "大数据":
 				trendSource = "大数据";
 				break;
-			case "国家统计局-":
+			case "国家统计局":
 				trendSource = "国统";
 				break;
-			case "湖北省统计局-":
+			case "湖北省统计局":
 				trendSource = "湖统";
 				break;
 			default:
@@ -252,13 +252,13 @@ public class IndiSearchAppController {
 //		source="湖统";//指标来源
 		switch (source) {
 		case "大数据":
-			source = "湖北指数-统一模板数据入库工具下湖北指数入库";
+			source = "大数据";
 			break;
 		case "国统":
-			source = "国家统计局-";
+			source = "国家统计局";
 			break;
 		case "湖统":
-			source = "湖北省统计局-";
+			source = "湖北省统计局";
 			break;
 		default:
 			source = "全部";
@@ -283,14 +283,14 @@ public class IndiSearchAppController {
 			String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
 			teMap.put("id", indexCode);
 			teMap.put("name", searchIndiList.get(i).getIndi_name());
-			switch (searchIndiList.get(i).getSjly()) {
-			case "湖北指数-统一模板数据入库工具下湖北指数入库":
+			switch (searchIndiList.get(i).getSjly_name2()) {
+			case "大数据":
 				teMap.put("source", "大数据");
 				break;
-			case "国家统计局-":
+			case "国家统计局":
 				teMap.put("source", "国统");
 				break;
-			case "湖北省统计局-":
+			case "湖北省统计局":
 				teMap.put("source", "湖统");
 				break;
 			default:
@@ -367,15 +367,15 @@ public class IndiSearchAppController {
 		baseInfoMap.put("source", source);
 		switch (source) {
 		case "大数据":
-			source = "湖北指数-统一模板数据入库工具下湖北指数入库";
+			source = "大数据";
 			area_name = "湖北省";
 			break;
 		case "国统":
-			source = "国家统计局-";
+			source = "国家统计局";
 			area_name = "全国";
 			break;
 		case "湖统":
-			source = "湖北省统计局-";
+			source = "湖北省统计局";
 			area_name = "湖北省";
 			break;
 		}
@@ -675,15 +675,15 @@ public class IndiSearchAppController {
 		String area_name = null;
 		switch (source) {
 		case "大数据":
-			source = "湖北指数-统一模板数据入库工具下湖北指数入库";
+			source = "大数据";
 			area_name = "湖北省";
 			break;
 		case "国统":
-			source = "国家统计局-";
+			source = "国家统计局";
 			area_name = "全国";
 			break;
 		case "湖统":
-			source = "湖北省统计局-";
+			source = "湖北省统计局";
 			area_name = "湖北省";
 			break;
 		}
