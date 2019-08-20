@@ -6,37 +6,37 @@
     <mapper namespace="com.wuhan_data.mapper.AdminMapper">
     
         <insert id="add" parameterType="Admin" >
-        	insert into WUHAN_DATA.ADMIN (username,password,status,role_list,create_date) values (#{username},#{password},#{status},#{role_list},#{create_date}) 
+        	insert into WUHAN_DATA."ADMIN" (username,password,status,role_list,create_date) values (#{username},#{password},#{status},#{role_list},#{create_date}) 
         </insert>
          
         <delete id="delete" parameterType="Admin" >
-            delete from WUHAN_DATA.ADMIN where id= #{id}  
+            delete from WUHAN_DATA."ADMIN" where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Admin">
-            select * from   WUHAN_DATA.ADMIN  where id= #{id}   
+            select * from   WUHAN_DATA."ADMIN"  where id= #{id}   
         </select>
         <select id="getByName" parameterType="String" resultType="Admin">
-            select * from   WUHAN_DATA.ADMIN  where username= #{username}   
+            select * from   WUHAN_DATA."ADMIN"  where username= #{username}   
         </select>
  
          <update id="update" parameterType="Admin" >
-            update WUHAN_DATA.ADMIN set username=#{username} , password=#{password} , status=#{status},role_list=#{role_list} where id=#{id}   
+            update WUHAN_DATA."ADMIN" set username=#{username} , password=#{password} , status=#{status},role_list=#{role_list} where id=#{id}   
         </update>
         
         <select id="list" resultType="Admin">
-            select * from WUHAN_DATA.ADMIN     
+            select * from WUHAN_DATA."ADMIN"     
         </select>  
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.ADMIN  
+        	select count(*) from WUHAN_DATA."ADMIN"  
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Admin" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.ADMIN   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA."ADMIN"   order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Admin">
-            select * from WUHAN_DATA.ADMIN 
+            select * from WUHAN_DATA."ADMIN" 
             <where>
             username like concat(concat('%',#{adminname}),'%')  
             </where>
@@ -44,10 +44,10 @@
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.ADMIN where username like concat(concat('%',#{adminname}),'%')  
+            select count(*) from WUHAN_DATA."ADMIN" where username like concat(concat('%',#{adminname}),'%')  
         </select>
      <!--    管理员登录 -->
          <select id="adminLogin" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.ADMIN where username=#{username} and password=#{password} 
+            select count(*) from WUHAN_DATA."ADMIN" where username=#{username} and password=#{password} 
         </select>
     </mapper>
