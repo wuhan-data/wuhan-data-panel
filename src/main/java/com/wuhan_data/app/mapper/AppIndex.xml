@@ -6,19 +6,20 @@
     <mapper namespace="com.wuhan_data.app.mapper.AppIndexMapper">  
          
         <select id="getlist" resultType="com.wuhan_data.pojo.IndexPic">
-            select * from index_pic 
+            <!-- select * from index_pic  -->
+            select id,title,image from index_pic where is_show=0 limit 0,4
         </select>
         
          <select id="getIconList" resultType="com.wuhan_data.pojo.AnalysisIcon">
-select b.type_weight iconWeight,a.background,a.icon_name,a.icon_url from index_analysis_icon a
+select b.type_weight id,a.background,a.icon_name,a.icon_url from index_analysis_icon a
 left join analysis_theme b 
 on a.icon_name=b.type_name
 group by b.type_weight,a.background,a.icon_name,a.icon_url
-order by b.type_weight
+order by b.type_weight desc
         </select>
         
          <select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">
-            select * from index_special
+            select id,title,image from index_special
         </select>
         
         <select id="getDesc" resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
