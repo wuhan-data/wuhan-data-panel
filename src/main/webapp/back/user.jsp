@@ -53,14 +53,33 @@
      <script type="text/javascript">
     function checkUserTel(){
      	 var rolecode = document.getElementById("addUserTel").value;
+     	 var flag=false;
      	 var reg = /^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/;
           if (!reg.test(rolecode)) {
         	  span_userTel.innerHTML = "请填写正确的手机号码";
               return false;
           }
           else {
-        	  span_userTel.innerHTML = "格式正确";
-              return true;
+        	//判断tel是否存在
+				roleCode=encodeURI(rolecode);
+		    	$.ajax({
+		    		url:"telIsExist",
+		    		data:{tel:roleCode},
+		    		async:false,
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				 span_userTel.innerHTML = "tel已经存在";
+		    				 flag=false;
+		          		  	return false;	
+		    			}
+		    			else{
+		    				 span_userTel.innerHTML = "格式正确";
+		    				 flag=true;
+		              		return true;
+		    			}	
+		    		}
+		    	}) 
+		    	return flag;
           }
      }
       function checkForm(){
@@ -75,12 +94,28 @@
       	 var rolecode = document.getElementById("editUserTel").value;
       	 var reg = /^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/;
            if (!reg.test(rolecode)) {
-         	  span_userTel.innerHTML = "请填写正确的手机号码";
+        	   edit_span_userTel.innerHTML = "请填写正确的手机号码";
                return false;
            }
            else {
-         	  span_userTel.innerHTML = "格式正确";
-               return true;
+        	/*  //判断tel是否存在
+				roleCode=encodeURI(rolecode);
+		    	$.ajax({
+		    		url:"telIsExist",
+		    		data:{tel:roleCode},
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				edit_span_userTel.innerHTML = "tel已经存在";
+		          		  	return false;	
+		    			}
+		    			else{
+		    				edit_span_userTel.innerHTML = "格式正确";
+		              		return true;
+		    			}	
+		    		}
+		    	})  */
+        	   edit_span_userTel.innerHTML = "格式正确";
+         	   return true;
            }
       }
        function edit_checkForm(){
@@ -253,8 +288,8 @@
    <br> 
    用户密码：<input class="form-control" type="text" name="editUserPassword" id="editUserPassword"> 
    <br> -->
-      手机:<input class="form-control"  name="editUserTel" id="editUserTel" onblur="edit_checkUserTel()">
-     <span id="edit_span_userTel">填11位数字</span><br> 
+      手机:<input class="form-control"  name="editUserTel" id="editUserTel" readonly onblur="edit_checkUserTel()">
+    <!--  <span id="edit_span_userTel">填11位数字</span> --><br> 
    用户状态：<select class="form-control" type="text" name="editstatus" id="editstatus"> 
    			<option value="0" >正常</option>    
        		<option value="1" >封禁</option>

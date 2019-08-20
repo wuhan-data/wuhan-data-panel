@@ -24,6 +24,10 @@
             select * from   WUHAN_DATA.USER  where role_id= #{role_id}   
         </select>
         
+        <select id="getByTel" parameterType="java.util.Map" resultType="User">
+            select * from   WUHAN_DATA.USER  where tel= #{tel}   
+        </select>
+        
         <update id="update" parameterType="User" >
             update WUHAN_DATA.USER set  username= #{username}, password=#{password} , status=#{status},gender=#{gender},
             tel=#{tel},real_name=#{real_name},role_list=#{role_list},role_name=#{role_name},
@@ -45,7 +49,7 @@
             <where>
             tel like concat(concat('%',#{tel}),'%')  
             </where>
-             order by id limit #{page.dbIndex},#{page.dbNumber}
+             order by id desc limit #{page.dbIndex},#{page.dbNumber}
         </select>
         
         	<!--模糊查询真实姓名 -->
@@ -63,7 +67,7 @@
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="User" parameterType="java.util.Map">
-            select * from WUHAN_DATA.USER   order by id limit #{page.dbIndex},#{page.dbNumber}
+            select * from WUHAN_DATA.USER   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
         </select> 
         
         <!-- 后台用户登陆 -->

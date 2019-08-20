@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wuhan_data.pojo.Admin;
@@ -42,7 +45,39 @@ public class DepartmentController {
 		mav.setViewName("listDepartment");
 		return mav;
 		
+		
 	}
+	
+	 @RequestMapping(value="departmentCodeIsExist",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String codeIsExist(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 	JSONObject jsonObject = new JSONObject();
+	    	String code="";
+	    	try {
+				code=URLDecoder.decode(request.getParameter("roleCode"),"utf-8");
+				System.out.println("code"+code);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+			}
+	    	try {
+	    		Map map=new HashMap();
+	    		map.put("department_code", code);
+	    		List<Department> departments=departmentService.getByCode(map);
+	    		if (departments.size()>0) {
+					jsonObject.put("data", "exist");
+				}
+	    		else {
+					jsonObject.put("data", "notExist");
+				}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    	}
+	    	return jsonObject.toString();
+	    }
+	
 	
 	@RequestMapping("departmentInit")
 	public ModelAndView departmentInit(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {

@@ -50,6 +50,90 @@
         .page b{ color:#2979b4}
 
     </style>
+    
+    <script type="text/javascript">
+    function checkRoleCode(){
+     	 var rolecode = document.getElementById("addRoleCode").value;
+     	 var flag=false;
+     	 var reg = /^[\d]{4}$/;
+          if (!reg.test(rolecode)) {
+          	span_rolecode.innerHTML = "请输入4位数字";
+              return false;
+          }
+          else {
+        	  //判断code是否存在
+				 roleCode=encodeURI(rolecode);
+		    	$.ajax({
+		    		url:"roleCodeIsExist",
+		    		data:{roleCode:roleCode},
+		    		async:false,
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				span_rolecode.innerHTML = "code已经存在";
+		    				flag=false;
+		          		  	return false;	
+		    			}
+		    			else{
+		    				span_rolecode.innerHTML = "格式正确";
+		    				flag=true;
+		              		return true;
+		    			}	
+		    		}
+		    	}) 
+				return flag;
+          }
+     }
+       
+       function checkForm(){
+       	var roleCode=checkRoleCode();
+       	if (roleCode){
+       		return true;
+       	}
+       	else
+       		{
+       		return false;
+       		}
+       }
+       function edit_checkForm(){
+         	var roleCode=edit_checkRoleCode();
+         	if (roleCode)
+         		return true;
+         	else
+         		return false;
+         }
+               
+         function edit_checkRoleCode(){
+         	 var rolecode = document.getElementById("editRoleCode").value;
+         	 var flag=false;
+         	 var reg = /^[\d]{4}$/;
+              if (!reg.test(rolecode)) {
+              	edit_span_rolecode.innerHTML = "请输入4位数字";
+                  return false;
+              }
+              else {
+            	roleCode=encodeURI(rolecode);
+  		    	$.ajax({
+  		    		url:"roleCodeIsExist",
+  		    		data:{roleCode:roleCode},
+  		    		success:function(data){
+  		    			if(data.data=="exist"){
+  		    				edit_span_rolecode.innerHTML = "code已经存在";
+  		    				flag=false;
+  		          		  	return false;	
+  		    			}
+  		    			else{
+  		    				edit_span_rolecode.innerHTML = "格式正确";
+  		    				flag=true;
+  		              		return true;
+  		    			}	
+  		    		}
+  		    	}) 
+  		    	return flag;
+              }
+         }
+      </script>
+    
+    
 </head>
 <body>
     <div id="wrapper">
@@ -175,11 +259,12 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editRole">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editRole" >
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editRoleID" id="editRoleID">
-   角色代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode">  <br> 
+   角色代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode" readonly > 
+    <br>  
    角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName"> <br>  
    角色描述：<textarea class="form-control" type="text" name="editRoleDescription" id="editRoleDescription" style="width:500px;height:80px;"></textarea> <br>  
 			</div>
@@ -210,13 +295,14 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addRole">
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addRole" onsubmit="return checkForm()">
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     角色代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode"><br>
-     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName"><br>
-     角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
+     角色代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode" id="addRoleCode" onblur="checkRoleCode()">
+     <span id="span_rolecode">填4位代码</span> <br>
+     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName"><br>
+     角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" id="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭

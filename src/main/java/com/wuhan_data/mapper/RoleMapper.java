@@ -13,6 +13,8 @@ public interface RoleMapper {
 	 @DataSource(value="dataSource_mysql")
 	public void delete(int id);
 	 @DataSource(value="dataSource_mysql")
+	public List<Role> getByCode(Map<String,Object> parameter);
+	 @DataSource(value="dataSource_mysql")
 	public Role get(int id);
 	 @DataSource(value="dataSource_mysql")
 	public Role getByName(String name);

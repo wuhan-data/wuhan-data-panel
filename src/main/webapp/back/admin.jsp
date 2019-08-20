@@ -51,6 +51,46 @@
 
     </style>
     
+      <script type="text/javascript">
+    function checkRoleCode(){
+     	 var rolecode = document.getElementById("addAdminUsername").value;
+        	  //判断name是否存在
+			  roleCode=encodeURI(rolecode);
+        	  var flag=false;
+		    	$.ajax({
+		    		url:"nameIsExist",
+		    		data:{username:roleCode},
+		    		async:false,
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				span_rolecode.innerHTML = "name已经存在";
+		    				flag=false;
+		          		  	return false;	
+		    			}
+		    			else{
+		    				span_rolecode.innerHTML = "格式正确";
+		    				flag=true;
+		              		return true;
+		    			}	
+		    		}
+		    	}) 
+		    	return flag;
+     }
+       
+       function checkForm(){
+       	var roleCode=checkRoleCode();
+       	if (roleCode){
+       		return true;
+       	}
+       	else
+       		{
+       		return false;
+       		}
+       }
+
+      </script>
+    
+    
 </head>
 <body>
     <div id="wrapper">
@@ -195,7 +235,7 @@
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editAdminID" id="editAdminID">
-   管理员账号：<input class="form-control" type="text" name="editAdminUsername" id="editAdminUsername" onblur="edit_checkAdminCode()">  
+   管理员账号：<input class="form-control" type="text" name="editAdminUsername" id="editAdminUsername" readonly onblur="edit_checkAdminCode()">  
       <br>
    管理员密码：<input class="form-control" type="text" name="editAdminPassword" id="editAdminPassword">   
    <br>
@@ -251,8 +291,8 @@
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     管理员账号：<input class="form-control" type="search" placeholder="管理员账号" name="addAdminUsername" id="addAdminUsername" onblur="checkAdminCode()">
-       <br>
+     管理员账号：<input class="form-control" type="search" placeholder="管理员账号" name="addAdminUsername" id="addAdminUsername" onblur="checkRoleCode()">
+     <span id="span_rolecode">填输入用户名</span>  <br>
      管理员密码：<input class="form-control" type="search" placeholder="管理员密码 "name="addAdminPassword"><br>
     <!--  管理员状态：<input class="form-control" type="search" placeholder="管理员状态 "name="addAdminStatus">  <br> -->
      管理员状态：<select class="form-control" type="text" name="addAdminStatus" id="addAdminStatus"> 

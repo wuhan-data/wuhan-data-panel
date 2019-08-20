@@ -15,6 +15,9 @@
         <select id="get" parameterType="_int" resultType="Department">
             select * from   WUHAN_DATA.DEPARTMENT  where id= #{id}   
         </select>
+        <select id="getByCode" parameterType="java.util.Map" resultType="Department">
+            select * from   WUHAN_DATA.DEPARTMENT  where department_code= #{department_code}   
+        </select>
  
         <update id="update" parameterType="Department" >
             update WUHAN_DATA.DEPARTMENT set department_code=#{department_code} , department_name=#{department_name} , department_description=#{department_description} where id=#{id}   
@@ -28,7 +31,7 @@
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Department" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.DEPARTMENT   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA.DEPARTMENT   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Department">
@@ -36,7 +39,7 @@
             <where>
             department_name like concat(concat('%',#{departmentname}),'%')  
             </where>
-             order by id limit #{page.dbIndex},#{page.dbNumber}
+             order by id desc limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >

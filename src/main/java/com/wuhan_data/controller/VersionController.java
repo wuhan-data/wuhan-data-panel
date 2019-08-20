@@ -392,6 +392,12 @@ public class VersionController {
     	 	    	return maView;
     	 		 }
     	 	  }
+    		//加入没有提价文件
+    		 if(files[0].isEmpty()==true)
+        	 {
+        		 imgPath=editUrl;
+        		 
+        	 }
     		
     		Version version=new Version();
         	version.setId(editEditID);

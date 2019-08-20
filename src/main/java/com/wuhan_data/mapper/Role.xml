@@ -15,6 +15,10 @@
         <select id="get" parameterType="_int" resultType="Role">
             select * from   WUHAN_DATA.ROLE  where id= #{id}   
         </select>
+        <select id="getByCode" parameterType="java.util.Map" resultType="Role">
+            select * from   WUHAN_DATA.ROLE  where role_code= #{role_code}   
+        </select>
+        
         <select id="getByName" parameterType="String" resultType="Role">
             select * from   WUHAN_DATA.ROLE  where role_name= #{role_name}   
         </select>
@@ -31,7 +35,7 @@
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Role" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.ROLE   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA.ROLE   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Role">
@@ -39,7 +43,7 @@
             <where>
             role_name like concat(concat('%',#{role_name}),'%')  
             </where>
-             order by id limit #{page.dbIndex},#{page.dbNumber}
+             order by id desc limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >

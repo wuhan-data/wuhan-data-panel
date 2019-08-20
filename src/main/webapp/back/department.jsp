@@ -53,17 +53,37 @@
     <script type="text/javascript">
     function checkDepartmentCode(){
      	 var rolecode = document.getElementById("addDepartmentCode").value;
+     	 var flag=false;
      	 var reg = /^[\d]{4}$/;
           if (!reg.test(rolecode)) {
           	span_departmentcode.innerHTML = "请输入4位数字";
               return false;
           }
           else {
-          	span_departmentcode.innerHTML = "格式正确";
-              return true;
+        	  //判断code是否存在
+				 roleCode=encodeURI(rolecode);
+		    	$.ajax({
+		    		url:"departmentCodeIsExist",
+		    		data:{roleCode:roleCode},
+		    		async:false,
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				span_departmentcode.innerHTML = "code已经存在";
+		    				flag=false;
+		          		  	return false;	
+		    			}
+		    			else{
+		    				span_departmentcode.innerHTML = "格式正确";
+		    				flag=true;
+		              		return true;
+		    			}	
+		    		}
+		    	}) 
+		    	return flag;
+
           }
      }
-     
+       
        function checkForm(){
        	var roleCode=checkDepartmentCode();
        	if (roleCode){
@@ -84,14 +104,32 @@
                
          function edit_checkDepartmentCode(){
          	 var rolecode = document.getElementById("editDepartmentCode").value;
+         	 var flag=false;
          	 var reg = /^[\d]{4}$/;
               if (!reg.test(rolecode)) {
               	edit_span_departmentcode.innerHTML = "请输入4位数字";
                   return false;
               }
               else {
-              	edit_span_departmentcode.innerHTML = "格式正确";
-                  return true;
+            	roleCode=encodeURI(rolecode);
+  		    	$.ajax({
+  		    		url:"departmentCodeIsExist",
+  		    		data:{roleCode:roleCode},
+  		    		async:false,
+  		    		success:function(data){
+  		    			if(data.data=="exist"){
+  		    				edit_span_departmentcode.innerHTML = "code已经存在";
+  		    				flag=false;
+  		          		  	return false;	
+  		    			}
+  		    			else{
+  		    				edit_span_departmentcode.innerHTML = "格式正确";
+  		    				flag=true;
+  		              		return true;
+  		    			}	
+  		    		}
+  		    	}) 
+  		    	return flag;
               }
          }
       </script>
@@ -228,12 +266,12 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editDepartment" onsubmit="return edit_checkForm()">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editDepartment" >
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editDepartmentID" id="editDepartmentID">
-   部门代码：<input class="form-control" type="text" name="editDepartmentCode" id="editDepartmentCode" onblur="edit_checkDepartmentCode()">  
-      <span id="edit_span_departmentcode">填4位代码</span><br> 
+   部门代码：<input class="form-control" type="text" name="editDepartmentCode" id="editDepartmentCode" readonly>  
+      <br> 
    部门名称：<input class="form-control" type="text" name="editDepartmentName" id="editDepartmentName">   
    <br>
    部门描述：<br><textarea class="form-control" type="text" name="editDepartmentDescription" id="editDepartmentDescription" style="width:500px;height:80px;">

@@ -87,10 +87,10 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userMapper.searchByRealname(parameter);
 	}
-	
 
-	
-	
-	
-
+	@Override
+	public List<User> getByTel(Map<String, Object> parameter) {
+		// TODO Auto-generated method stub
+		return userMapper.getByTel(parameter);
+	}
 }

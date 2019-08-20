@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.page.PageParams;
@@ -52,6 +55,37 @@ public class AdminController {
 		mav.setViewName("listAdmin");
 		return mav;
 	}	
+	
+	@RequestMapping(value="nameIsExist",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String nameIsExist(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	JSONObject jsonObject = new JSONObject();
+    	String username="";
+    	try {
+			username=URLDecoder.decode(request.getParameter("username"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			System.out.println("相应的额接口为telIsExist");
+			e.printStackTrace();
+		}
+    	try {
+    		Admin admin= adminService.getByName(username);
+    		if (admin!=null) {
+				jsonObject.put("data", "exist");
+			}
+    		else {
+				jsonObject.put("data", "notExist");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return jsonObject.toString();
+    }
+	
+	
+	
+	
 	@RequestMapping("adminInit")
 	public ModelAndView adminInit(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {

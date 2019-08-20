@@ -254,7 +254,7 @@
 			<div class="modal-body">		
 
 		<input class="form-control" type="hidden" name="editMessageID" id="editMessageID">
- 发送人id：<input class="form-control" type="text" name="editSender_id" id="editSender_id" >  <br> 
+ 发送人id：<input class="form-control" type="text" name="editSender_id" id="editSender_id" readonly>  <br> 
  接收人id：<input class="form-control" type="text" name="editReceiver_id" id="editReceiver_id"> <br>
  标题：<input class="form-control" type="text" name="editTitle" id="editTitle"> <br>
  消息类型：
@@ -523,7 +523,6 @@
             				var sl=users[i]+"\r\n";
             				imgsUrl+=sl;
             			}
-            			alert(imgsUrl);
                     	document.getElementById("resultOfSelectName").innerHTML=imgsUrl;
             		},
             		error:function(error){
@@ -531,27 +530,20 @@
             		}
             	})
             }
-            
-            /* $("#selectName").click(function(){
-            	var realName=$("#realName").val();
-            	realName = encodeURI(realName);
+            function testF()
+            {
             	$.ajax({
-            		url:"http://localhost:8080/wuhan_data1/selectByRealName",
-            		data:{realName:realName},
-            		type:"GET",
-            		contentType:"application/json;charset=utf-8",
-            		dataType:"json",
+            		url:"test.do",
+            		type:'post',
             		success:function(data){
-            			alert("sss");
+            			//alert(JSON.stringify(data));
+            			alert(data);
             		},
-            		error:function(xmlObj, msg, e){
-            			alert("xmlObj.status:"+xmlObj.status+"xmlObj.responseText:"+xmlObj.responseText);
-            			console.log
+            		error:function(error){
+            			alert(error);
             		}
-            	});
-            })
-             */
-            
+            	})
+            }
             
             function del(aid){
             	alert("sss")

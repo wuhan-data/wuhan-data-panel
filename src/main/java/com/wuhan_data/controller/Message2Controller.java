@@ -367,14 +367,11 @@ public class Message2Controller {
 	        String editContentString="";
 	        String editM_textString="";
 	        String editTypeString="";
-	        //String editPathString="";
+	        String editPathString="";
 	        String imgPath="";
 	        Date editCreate_time=new Date();
 	        //获取数据
 	        try {
-	        	
-	        	
-	        	
 	        	editMessageId=Integer.valueOf(request.getParameter("editMessageID"));
 	        	editSender_id=Integer.valueOf(request.getParameter("editSender_id"));
 	        	editReceiver_id=request.getParameter("editReceiver_id");
@@ -383,7 +380,7 @@ public class Message2Controller {
 	        	editContentString=request.getParameter("editContent");
 	        	editM_textString=request.getParameter("editM_text");
 	        	editTypeString=request.getParameter("editType");
-	        	//editPathString=request.getParameter("editPath");
+	        	editPathString=request.getParameter("editPath");
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editMessage:获取参数"+e.toString());
@@ -410,7 +407,12 @@ public class Message2Controller {
 		   	 	    	return maView;
 		   	 		 }
 		   	 	  }
-	        	
+	        	 //如果没有上传文件
+	        	 if(files[0].isEmpty()==true)
+	        	 {
+	        		 imgPath=editPathString;
+	        		 
+	        	 }
 	        	Message2 message2=new Message2();
 	 		    message2.setId(editMessageId);
 	 		    message2.setSender_id(editSender_id);

@@ -236,7 +236,7 @@
   	</select><br>
    版本号：<input class="form-control" type="text" name="editVersion" id="editVersion"> <br>
    更新内容：<br><textarea class="form-control" type="text" name="editText" id="editText" style="width:500px;height:80px;"> </textarea><br>
-   url：<input class="form-control" type="text" name="editUrl" id="editUrl" realonly> <br>
+   url：<input class="form-control" type="text" name="editUrl" id="editUrl" readonly> <br>
    重新上传的文件：<input type="file" name="editFile" id="editFile" value="请选择文件" /><br>
 			</div>
 			<div class="modal-footer">

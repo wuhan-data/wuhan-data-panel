@@ -25,6 +25,9 @@ public interface UserMapper {
 	//通过角色获得用户
 	@DataSource(value="dataSource_mysql")  
     public List<User> getByRole(String role_id); 
+	//通过tel获得用户
+	@DataSource(value="dataSource_mysql")  
+	public List<User> getByTel(Map<String,Object> parameter); 
 	//模糊查询，可分页
 	@DataSource(value="dataSource_mysql")
 	public List<User> search(Map<String,Object> parameter);

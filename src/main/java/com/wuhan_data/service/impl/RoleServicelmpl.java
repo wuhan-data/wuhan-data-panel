@@ -75,5 +75,11 @@ public class RoleServicelmpl implements RoleService {
 		return roleMapper.searchCount(parameter);
 	}
 
+	@Override
+	public java.util.List<Role> getByCode(Map<String, Object> parameter) {
+		// TODO Auto-generated method stub
+		return roleMapper.getByCode(parameter);
+	}
+
 
 }
