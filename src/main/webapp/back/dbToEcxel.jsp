@@ -255,15 +255,17 @@
                 </div>
                 
                 
-<!--                 导出到excel -->
-		  <form class="form-inline my-2 my-lg-0" style="float:right" method="post" id="formSearch">
-		      <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
+<!--                 导出到excel style="float:right"-->
+		 <div style="margin:10px">
+		  <form class="form-inline my-2 my-lg-0"  method="post" id="formSearch">
+		      <input class="form-control mr-sm-2" type="search" placeholder="请输入指标搜索关键字" value="${keyword}" aria-label="Search" id="searchKeyWord">
 		      <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
     	</form>
+    	</div>
                 
-         <div class="com-sel btn-group">
-			<span class="indiName"> 指标名称
-			   <select id="indiName" class="com-opt">
+         <div style="margin:10px">
+			<span class="indiName" style="margin-right:5px">指标名称：
+			   <select id="indiName" class="com-opt"  style="width:150px">
 					<option value="" >
 						请选择指标
 					</option>
@@ -334,6 +336,7 @@ $(document).ready(function(){
 	var startTimeSelect = $(".startTime").children("select");
 	var endTimeSelect = $(".endTime").children("select");
 	var delectBu=$("#delectBu");
+	
 	indiSourceSelect.parent().hide();
 	freqCodeSelect.parent().hide();
 	startTimeSelect.parent().hide();
@@ -602,13 +605,12 @@ $(function(){
 
 function search(){
 	var searchName=document.getElementById("searchKeyWord").value;
-	alert(searchName)
 	var keyWord=encodeURI(encodeURI(searchName));
 	
 	var formSearch=document.getElementById("formSearch");
 	formSearch.action="dbToEcxel?keyWord="+keyWord;
 	formSearch.submit();
-	
+	alert("搜索成功，请选择要导出的指标名字！")
 }
 	
 </script>

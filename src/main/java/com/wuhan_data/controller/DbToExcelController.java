@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ public class DbToExcelController {
 		System.out.println("后台的指标代码：" + indexList.get(0).getIndi_code());
 		System.out.println("后台的指标名字：" + indexList.get(0).getIndi_name());
 		mav.addObject("indexList", indexList);
+		mav.addObject("keyword", keyword);
 		mav.setViewName("dbToEcxel");
 		return mav;
 	}
@@ -108,6 +110,7 @@ public class DbToExcelController {
 		indiNameSourceFreqMap.put("indiSource", indiSource);
 		indiNameSourceFreqMap.put("freqCode", freqCode);
 		List<String> indexStartTimeList = dbToExcelService.getIndiStartTime(indiNameSourceFreqMap);
+		Collections.sort(indexStartTimeList);
 		System.out.println("indexStartTimeList：" + indexStartTimeList);
 		JSONArray json = JSONArray.fromObject(indexStartTimeList);
 		out.print(json.toString());
@@ -131,6 +134,7 @@ public class DbToExcelController {
 		indiNameSourceFreqSTimeMap.put("freqCode", freqCode);
 		indiNameSourceFreqSTimeMap.put("startTime", startTime);
 		List<String> indexEndTimeList = dbToExcelService.getIndiEndTime(indiNameSourceFreqSTimeMap);
+		Collections.sort(indexEndTimeList);
 		System.out.println("indexEndTimeList：" + indexEndTimeList);
 		JSONArray json = JSONArray.fromObject(indexEndTimeList);
 		out.print(json.toString());
