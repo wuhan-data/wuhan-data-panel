@@ -23,6 +23,8 @@
     <link href="<%=path %>/assets/css/my.css" rel="stylesheet" />
     
     <link href="<%=path %>/assets/css/bootstrap-order.min.css" rel="stylesheet" />
+      <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
+    
     
    
 
@@ -189,9 +191,10 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>专题id</th>
-                                            <th>专题名称</th>
-                                            <!-- <th>权重</th> -->
+                                            <th>id</th>
+                                            <th>名称</th>
+                                            <th>路径</th>
+                                            <th>图片</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -200,17 +203,18 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.title}</td>
+            <td >${c.image}</td>
+            <td ><img src="${c.image}" width="80" height="42"></td>
            <%--  <td>${c.topic_weight}</td> --%>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
-<a href="#">
-<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看大图
+<div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')">
+<i class="fa fa-search"></i>查看大图
 </div>
-</a>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}','${c.image}')">
 <i class="fa fa-edit"></i>修改
 </div>
 <a href="specialDel?special_id=${c.id }">
@@ -247,6 +251,21 @@
 
                                 </table>
                                 
+                                
+                                  <!-- 查看大图 模态框（Modal） -->
+<div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	<div class="modal-dialog">
+		<div class="modal-content">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#">
+			<div class="modal-body">		
+<img src="" width="550" height="257" id="image">
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+                                
                                 <!--修改 模态框（Modal） -->
 <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -258,17 +277,35 @@
 				<h4 class="modal-title" id="myModalLabel">
 					修改
 				</h4>
-			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="specialUpdate">
-			<div class="modal-body">		
-
-	<input class="form-control" type="hidden" name="special_id" id="special_id">
-   专题名称：<input class="form-control" type="text" name="special_name" id="special_name">   
+			</div>			
+			
+		<form  id="editForm" method="post" accept-charset="UTF-8" action="specialUpdate" enctype="multipart/form-data">
+			<div class="modal-body">
+			<input class="form-control" type="hidden" name="id" id="topicid">
+			 <div class="form-group">
+                   <label>名称</label>                  
+                   <input class="form-control" type="text" name="title" id="topictitle">
+             </div>
+             <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择图片</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="" alt="" id="showTopic"/></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+    <!--   轮播图名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title"> -->
+    
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="add()">
 					提交
 				</button>
 			</div>
@@ -291,10 +328,41 @@
 					添加
 				</h4>
 			</div>
-			
+		<!-- 	
 			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="specialAdd">
 			<div class="modal-body">
-      专题名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="special_name">
+      专题名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title">
+    
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="submit" class="btn btn-primary" onclick="add()">
+					提交
+				</button>
+			</div>
+			</form> -->
+			
+			<form  id="addForm" method="post" accept-charset="UTF-8" action="specialAdd" enctype="multipart/form-data">
+			<div class="modal-body">
+			 <div class="form-group">
+                   <label>专题名称</label>
+                   <input class="form-control" type="text" placeholder="请输入专题名称" name="title">
+             </div>
+             <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择图片</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="assets/img/demoUpload.jpg" alt="" /></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+    <!--   轮播图名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title"> -->
     
 			</div>
 			<div class="modal-footer">
@@ -305,6 +373,9 @@
 				</button>
 			</div>
 			</form>
+			
+			
+			
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
@@ -364,6 +435,7 @@
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
             $(document).ready(function () {
                 $('#dataTables-example').dataTable();
@@ -395,9 +467,12 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(ID,sname){
-            	$("#special_id").val(ID);
-            	$("#special_name").val(sname);
+  	
+            
+            function edit(ID,title,image){
+            	$("#topicid").val(ID);
+            	$("#topictitle").val(title);
+            	$("#showTopic").attr('src',image);
                 	
             }
             function del(aid){
@@ -434,6 +509,10 @@
             function getData(){
             	var data = order.getData();
                 alert(JSON.stringify(data)); 
+            }
+            function imageShow(image){
+            	$("#image").attr('src',image);
+                	
             }
             
         

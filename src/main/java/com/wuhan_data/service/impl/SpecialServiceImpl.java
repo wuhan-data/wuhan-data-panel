@@ -65,6 +65,12 @@ public class SpecialServiceImpl implements SpecialService {
 		// TODO Auto-generated method stub
 		return specialMapper.reOrderByTitle(indexSpecial);
 	}
+
+	@Override
+	public int updateTitle(IndexSpecial indexSpecial) {
+		// TODO Auto-generated method stub
+		return specialMapper.updateTitle(indexSpecial);
+	}
 	
 	
 	
