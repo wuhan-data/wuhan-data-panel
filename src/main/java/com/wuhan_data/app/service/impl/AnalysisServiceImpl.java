@@ -169,14 +169,18 @@ public class AnalysisServiceImpl implements AnalysisService {
 		baseInfo.put("indexName", indexName);
 		baseInfo.put("source", source);
 		// 根据userId/type/indexId查询收藏信息
-		Collect collect = new Collect();
-		collect.setType("经济分析");
-		collect.setIndex_id(String.valueOf(themeId));
-		collect.setUid(userId);
-		List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
-		if (collectInfo.size() != 0) {
-			baseInfo.put("isFavorite", true);
-		} else {
+		try {
+			Collect collect = new Collect();
+			collect.setType("经济分析");
+			collect.setIndex_id(String.valueOf(themeId));
+			collect.setUid(userId);
+			List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
+			if (collectInfo.size() != 0) {
+				baseInfo.put("isFavorite", true);
+			} else {
+				baseInfo.put("isFavorite", false);
+			}
+		} catch (Exception e) {
 			baseInfo.put("isFavorite", false);
 		}
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
@@ -201,7 +205,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<String> endTimeList = (List<String>) freqObject.get("endArray");
 		String freqName = (String) freqObject.get("freqName");
 		System.out.println("TimeList:" + startTimeList + "\n current" + current);
-		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
+		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1) + 1);
 		String startTime = startTimeList.get(current.get(0)).toString();
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String startTimePoint = endTimeList.get(0).toString();
@@ -252,7 +256,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				endFlag = i;
 			}
 		}
-		List<String> xAxis = startTimeList.subList(startFlag, endFlag);
+		List<String> xAxis = startTimeList.subList(startFlag, endFlag + 1);
 
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String startTimePoint = endTimeList.get(0).toString();
