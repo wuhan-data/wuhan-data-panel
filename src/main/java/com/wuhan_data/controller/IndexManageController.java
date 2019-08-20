@@ -183,7 +183,7 @@ public class IndexManageController {
     
     @RequestMapping("addIndiData")
     public String addIndiData(
-  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") int status,
+  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") int status,@RequestParam("addSource") String source,
   			Model model){
         //ModelAndView mav = new ModelAndView();
         IndexManage indexManage= new IndexManage();
@@ -197,6 +197,7 @@ public class IndexManageController {
 //        indexManage.setTime_point(timePoint);
 //        indexManage.setEnd_time(endTime);
 //        indexManage.setIndi_value(value);
+        indexManage.setSjly_name2(source);
         indexManageService.add(indexManage);
         model.addAttribute("addSuccess", "添加成功");
         System.out.println("sssssss");

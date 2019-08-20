@@ -461,13 +461,14 @@
 <!--   </div> -->
   
   
-   <div class="btns col-md-2">
+   <div class="btns col-md-2" style="margin:5px">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal">添加</div>
-    </div>  
+   </div>
     <form class="form-inline my-2 my-lg-0" style="float:right" method="post" id="formSearch">
       <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
       <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
     </form>
+
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -593,7 +594,7 @@
 <!-- 				<span class="text-info">指标值</span><input type="text" class="form-control" id="addIndiValue" value="" name="addValue"> -->
 <!-- 				<span class="text-info">时点</span><input type="text" class="form-control" id="addIndiTimePoint" value="" name="addTimePoint"> -->
 				<span class="text-info">状态</span><input type="text" class="form-control" id="addIndiStatus" value="" name="addStatus">
-<!-- 				<span class="text-info">来源</span><input type="text" class="form-control" id="addIndiSource" value="" name="addSource"> -->
+				<span class="text-info">来源</span><input type="text" class="form-control" id="addIndiSource" value="" name="addSource">
 				
 			</div>
 			<div class="modal-footer">
