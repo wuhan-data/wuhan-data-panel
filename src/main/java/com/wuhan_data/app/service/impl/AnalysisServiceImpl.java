@@ -42,6 +42,8 @@ import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 import com.wuhan_data.pojo.Collect;
 
+import cn.hutool.core.lang.Console;
+
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
 
@@ -523,12 +525,17 @@ public class AnalysisServiceImpl implements AnalysisService {
 				// 第一产业
 				List<String> dataIndiValue1 = new ArrayList<String>();
 				for (int j = 0; j < xAxis.size(); j++) {
-					Double dataValueDouble = Double.parseDouble(indexFirstSpeedList.get(j))
-							* (Double.parseDouble(indexFirstValueList.get(j))
-									/ (Double.parseDouble(indexFirstValueList.get(j))
-											+ Double.parseDouble(indexSecondValueList.get(j))
-											+ Double.parseDouble(indexThirdValueList.get(j))));
-					dataIndiValue1.add(j, dataValueDouble.toString());
+					try {
+						Double dataValueDouble = Double.parseDouble(indexFirstSpeedList.get(j))
+								* (Double.parseDouble(indexFirstValueList.get(j))
+										/ (Double.parseDouble(indexFirstValueList.get(j))
+												+ Double.parseDouble(indexSecondValueList.get(j))
+												+ Double.parseDouble(indexThirdValueList.get(j))));
+						dataIndiValue1.add(j, dataValueDouble.toString());
+					} catch (IndexOutOfBoundsException e) {
+						System.out.println("double数据转换计算越界:" + indexFirstSpeedList.get(j) + indexSecondValueList.get(j)
+								+ indexThirdValueList.get(j));
+					}
 				}
 				// 第二产业
 				List<String> dataIndiValue2 = new ArrayList<String>();
@@ -599,6 +606,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showColor.add("#6DB2E3");
 					showType.add("line");
 					dataValue1.add(indexGDPSpeedList);
+					System.out.println("17版块:" + dataValue1.toString());
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
 							showType);
@@ -712,48 +720,54 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showType.add(indiList.get(j).getShowType());
 				}
 				List<List<String>> dataValue1 = new ArrayList<List<String>>();
-				// 进行减法
-				if (id.equals("29")) {
-					if (indiList.get(0).getIndiCode().toString().equals("JG0301;400:101585152;363:706401;62:42")
-							&& indiList.get(1).getIndiCode().toString()
-									.equals("JG040101;400:101585152;363:706401;62:42")) {
-						List<String> dataIndiValue = new ArrayList<String>();
-						for (int j = 0; j < xAxis.size(); j++) {
-							Double dataValueDouble = Double.parseDouble(dataValue.get(0).get(j))
-									- Double.parseDouble(dataValue.get(1).get(j));
-							dataIndiValue.set(j, dataValueDouble.toString());
-						}
-						dataValue1.add(dataIndiValue);
-					} else {
-						List<String> dataIndiValue = new ArrayList<String>();
-						for (int j = 0; j < xAxis.size(); j++) {
-							Double dataValueDouble = Double.parseDouble(dataValue.get(1).get(j))
-									- Double.parseDouble(dataValue.get(0).get(j));
-							dataIndiValue.set(j, dataValueDouble.toString());
-						}
-						dataValue1.add(dataIndiValue);
+				// 获取CPI/PPI/IPI
+				List<String> indexCPIList = new ArrayList<String>();
+				List<String> indexPPIList = new ArrayList<String>();
+				List<String> indexIPIList = new ArrayList<String>();
+				for (int j = 0; j < indiList.size(); j++) {
+					String indexCode = indiList.get(j).getIndiCode().toString();
+					// CPI
+					if (indexCode.equals("JG0301;400:101585152;363:706401;62:42")) {
+						indexCPIList = dataValue.get(j);
+					}
+					// PPI
+					if (indexCode.equals("JG040101;400:101585152;363:706401;62:42")) {
+						indexPPIList = dataValue.get(j);
+					}
+					// IPI
+					if (indexCode.equals("JG040102;400:101585152;363:706401;62:42")) {
+						indexIPIList = dataValue.get(j);
 					}
 				}
-				if (id.equals("30")) {
-					if (indiList.get(0).getIndiCode().toString().equals("JG040101;400:101585152;363:706401;62:42")
-							&& indiList.get(1).getIndiCode().toString()
-									.equals("JG040102;400:101585152;363:706401;62:42")) {
-						List<String> dataIndiValue = new ArrayList<String>();
-						for (int j = 0; j < xAxis.size(); j++) {
-							Double dataValueDouble = Double.parseDouble(dataValue.get(0).get(j))
-									- Double.parseDouble(dataValue.get(1).get(j));
+				// 进行减法
+				if (id.equals("29")) {
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < xAxis.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexCPIList.get(j))
+									- Double.parseDouble(indexPPIList.get(j));
 							dataIndiValue.add(j, dataValueDouble.toString());
+						} catch (NullPointerException e) {
+							System.out.println("double数据转换计算null错误:" + indexCPIList.get(j).toString()
+									+ indexPPIList.get(j).toString());
 						}
-						dataValue1.add(dataIndiValue);
-					} else {
-						List<String> dataIndiValue = new ArrayList<String>();
-						for (int j = 0; j < xAxis.size(); j++) {
-							Double dataValueDouble = Double.parseDouble(dataValue.get(1).get(j))
-									- Double.parseDouble(dataValue.get(0).get(j));
-							dataIndiValue.add(j, dataValueDouble.toString());
-						}
-						dataValue1.add(dataIndiValue);
+
 					}
+					dataValue1.add(dataIndiValue);
+				}
+				if (id.equals("30")) {
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < xAxis.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexPPIList.get(j))
+									- Double.parseDouble(indexIPIList.get(j));
+							dataIndiValue.add(j, dataValueDouble.toString());
+						} catch (NullPointerException e) {
+							System.out.println("double数据转换计算null错误:" + indexPPIList.get(j).toString()
+									+ indexIPIList.get(j).toString());
+						}
+					}
+					dataValue1.add(dataIndiValue);
 				}
 				// 配置指标图例
 				switch (analysisPlate.get(i).getShowType()) {
