@@ -328,9 +328,7 @@
             editClick = function(Url) {
          	   $('.modal-backdrop').remove();
          	    $('body').removeClass('modal-open');
-                alert(Url);
               var data = new FormData(document.getElementById("editForm"));                	
-              console.log(data.get("title"));
               $.ajax({
                          type: 'POST',
                          url:  Url,
@@ -341,7 +339,6 @@
                     	    processData: false,
                          cache:false,
                          success: function(data){
-                    	 	alert(data);
                              $('#getNewData').html(data);
                          },
                          error : function(data){
@@ -352,9 +349,7 @@
             addClick = function(Url) {
          	   $('.modal-backdrop').remove();
          	    $('body').removeClass('modal-open');
-                	alert(Url);
               	var data = new FormData(document.getElementById("addForm"));
-              	console.log(data.get("title"));
               	 $.ajax({
                          type: 'POST',
                          url:  Url,
@@ -365,7 +360,6 @@
                     	    processData: false,
                          cache:false,
                          success: function(data){
-                    	 	alert(data);
                              $('#getNewData').html(data);
                          },
                          error : function(data){
@@ -375,7 +369,6 @@
               
               
               delClick = function(s_id,Url) {
-                   alert(s_id);
                  $.ajax({
                             type: 'GET',
                             url:  Url+"?special_id="+s_id,
@@ -395,7 +388,6 @@
               
               
                  updateShowClick = function(special_id,is_show,Url) {
-                	 alert("updateShow")
                    $.ajax({
                               type: 'GET',
                               url:  Url+"?special_id="+special_id+"&is_show="+is_show,
@@ -405,7 +397,6 @@
                          	    processData: false,
                               cache:false,
                               success: function(data){
-                         	 	alert(data);
                                   $('#getNewData').html(data);
                               },
                               error : function(data){
@@ -423,7 +414,6 @@
                            	    processData: false,
                                 cache:false,
                                 success: function(data){
-                           	 	alert(data);
                                     $('#getNewData').html(data);
                                 },
                                 error : function(data){
@@ -432,9 +422,7 @@
                      };
               
                      pageGoClick = function(Url) {
-                    	 alert(Url);
                     	var currentPage = document.getElementById("currentPageText").value;
-                    	 alert(currentPage);
                          $.ajax({
                                     type: 'GET',
                                     url:  Url+"?currentPage="+currentPage,
@@ -444,7 +432,6 @@
                                	    processData: false,
                                     cache:false,
                                     success: function(data){
-                               	 	alert(data);
                                         $('#getNewData').html(data);
                                     },
                                     error : function(data){

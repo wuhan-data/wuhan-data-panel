@@ -176,8 +176,8 @@
    
    
    menuClick = function(menuUrl) {
+	   $(".active-menu").removeClass('active-menu');
 	   $("#"+menuUrl).addClass('active-menu');
-   	/* $("#welcome").style.display="none" */
    	 $.ajax({
                 type: 'GET',
                 url:  menuUrl,
