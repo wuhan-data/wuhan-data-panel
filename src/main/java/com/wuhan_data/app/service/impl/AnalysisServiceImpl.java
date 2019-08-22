@@ -422,7 +422,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									if (dataValueDouble > 100) {
 										dataValueDouble -= 100;
 									}
-									dataIndiValue.set(index, dataValueDouble.toString());
+									dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
 								} else {
 									dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 								}
@@ -533,8 +533,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 												+ Double.parseDouble(indexThirdValueList.get(j))));
 						dataIndiValue1.add(j, dataValueDouble.toString());
 					} catch (IndexOutOfBoundsException e) {
-						System.out.println("double数据转换计算越界:" + indexFirstSpeedList.get(j) + indexSecondValueList.get(j)
-								+ indexThirdValueList.get(j));
+						System.out.println("第" + j + "列" + "double数据转换计算越界:" + indexFirstSpeedList.toString()
+								+ indexSecondValueList.toString() + indexThirdValueList.toString());
 					}
 				}
 				// 第二产业
@@ -614,7 +614,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					// 配置表格数据
 					TableType tableType = new TableType();
 					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
-					for (int q = 0; q < indiList.size(); q++) {
+					for (int q = 0; q < 4; q++) {
 						dataXaisTable.add(xAxis);
 					}
 					TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue1);
@@ -655,7 +655,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					// 配置表格数据
 					TableType tableType = new TableType();
 					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
-					for (int q = 0; q < indiList.size(); q++) {
+					for (int q = 0; q < 3; q++) {
 						dataXaisTable.add(xAxis);
 					}
 					TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue1);
@@ -748,8 +748,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 									- Double.parseDouble(indexPPIList.get(j));
 							dataIndiValue.add(j, dataValueDouble.toString());
 						} catch (NullPointerException e) {
-							System.out.println("double数据转换计算null错误:" + indexCPIList.get(j).toString()
-									+ indexPPIList.get(j).toString());
+							System.out.println("第" + j + "列" + "double数据转换计算null错误:" + indexCPIList.toString()
+									+ indexPPIList.toString());
 						}
 
 					}
@@ -763,8 +763,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 									- Double.parseDouble(indexIPIList.get(j));
 							dataIndiValue.add(j, dataValueDouble.toString());
 						} catch (NullPointerException e) {
-							System.out.println("double数据转换计算null错误:" + indexPPIList.get(j).toString()
-									+ indexIPIList.get(j).toString());
+							System.out.println("第" + j + "列" + "double数据转换计算null错误:" + indexPPIList.toString()
+									+ indexIPIList.toString());
 						}
 					}
 					dataValue1.add(dataIndiValue);
