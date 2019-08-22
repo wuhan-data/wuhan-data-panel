@@ -21,9 +21,7 @@
     <%-- <link href="<%=path %>/assets/css/my.css" rel="stylesheet" /> --%>
    
       <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
-    
-
-
+      
     <style type="text/css" rel="stylesheet">
 
 		a{
@@ -49,8 +47,6 @@
         #addElement{
         margin-bottom:10px;
         }
-       
-
     </style>
 </head>
 <body>  
@@ -140,14 +136,14 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>  
-         <%-- a href="#" id="noPerShow" onclick="updateShowClick('${c.id }','1','specialUpdateShow')">不展示</a>        --%>     
+       <%--   <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>   --%>
+        <a href="#" id="noPerShow" onclick="updateShowClick('${c.id }','1','specialUpdateShow')">不展示</a>        
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-      <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>  
-         <%--  <a href="#" id="perShow" onclick="updateShowClick('${c.id }','0','specialUpdateShow')">展示</a>  --%>            
+      <%-- <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>   --%>
+           <a href="#" id="perShow" onclick="updateShowClick('${c.id }','0','specialUpdateShow')">展示</a>    
       </li>
     </c:if>
     </ul>
@@ -284,10 +280,7 @@
 					提交
 				</button>
 			</div>
-			</form>
-			
-			
-			
+			</form>			
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>

@@ -20,7 +20,7 @@
     
      <link href="assets/css/bootstrap-switch.min.css" rel="stylesheet" />
     
-    <link href="assets/css/my.css" rel="stylesheet" />
+   <!--  <link href="assets/css/my.css" rel="stylesheet" /> -->
     
     <link href="assets/css/bootstrap-order.min.css" rel="stylesheet" />
      <!-- Google Fonts-->
@@ -64,9 +64,7 @@
                     </div>
                 </div> 
                  <!-- /. ROW  -->
-                 
-                 
-                                
+                                                
             <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
@@ -78,10 +76,9 @@
                      
 <div class="form-group col-md-2">
 <form method="post" id="form1" accept-charset="UTF-8">
-<select class="form-control" id="FormControlSelect1" name="parentListName" onchange="f1()"> 
-   
+<select class="form-control" id="FormControlSelect1" name="parentListName" onchange="f1()">   
 <c:forEach items="${analysisListParent}" var="c" varStatus="st">
-<c:choose>
+ <c:choose>
 
     <c:when test="${c.type_name==tname}">
         <option value="${c.type_name}" selected>${c.type_name}</option>    
@@ -105,7 +102,7 @@
  
      <form class="form-inline col-md-4" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
       <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="${placeholder }">
-      <button class="btn btn-success" onclick="search()">搜索</button>
+      <button class="btn btn-success" onclick="searchClick()">搜索</button>
     </form>
     
                             <div class="table-responsive">
@@ -131,14 +128,14 @@
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
- <a href="colPlateInit?id=${c.id }">
+ <a href="#" onclick="showPlateClick('${c.id }','colPlateInit')">
 <div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看板块
 </div>
 </a>
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.theme_name}',${c.id})">
 <i class="fa fa-edit"></i>修改
 </div>
-<a href="deleteCol?id=${c.id }">
+<a href="#" onclick="delClick('${c.id }','deleteCol')">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除
 </div>
 </a>
@@ -156,12 +153,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="updateIsShow?id=${c.id }&is_show=1" id="noPerShow" onclick="noPerShow(${c.id})">不展示</a>             
+         <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.id }','updateIsShow')">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="updateIsShow?id=${c.id }&is_show=0" id="perShow" onclick="perShow(${c.id})">展示</a>            
+         <a href="#" id="perShow" onclick="updateShowClick('0','${c.id }','updateIsShow')">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -188,7 +185,7 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editTheme">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#">
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editThemeID" id="editThemeID">
@@ -197,7 +194,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="editClick('editTheme')">
 					提交
 				</button>
 			</div>
@@ -221,7 +218,7 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addTheme">
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="#">
 			<div class="modal-body">
 				
      栏目名称：<input class="form-control" type="search" placeholder="请输入栏目名称" name="addThemeName">
@@ -230,7 +227,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
+				<button type="submit" class="btn btn-primary" onclick="addClick('addTheme')">
 					提交
 				</button>
 			</div>
@@ -260,22 +257,22 @@
 									</ul> --%>
 									
 									 <div class='page fix'>
-                    <form method="post" action="${controlURL}" id="pageForm">
+                    <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="${controlURL}?currentPage=1" class='first'>首页</a>
-                           <a href="${controlURL}?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
+                           <a href="#" class='first' onclick="pageClick('1','${controlURL}')">首页</a>
+                           <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','${controlURL}')">上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="${controlURL}?currentPage=${page.currentPage+1}" class='next'>下一页</a>
-                            <a href="${controlURL}?currentPage=${page.totalPage}" class='last'>末页</a>
+                            <a href="#" class='next' onclick="pageClick('${page.currentPage+1}','${controlURL}')">下一页</a>
+                            <a href="#" class='last' onclick="pageClick('${page.totalPage}','${controlURL}')">末页</a>
                         </c:if>
                         跳至&nbsp;
 
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
-                        <input type="submit" value="GO" class="btn-primary btn-sm">
+                        <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('${controlURL}')">
                     </form>
                 </div>
                 
@@ -313,28 +310,208 @@
     <script src="assets/js/bootstrap-order.min.js"></script>
     <script>
             $(document).ready(function () {
-                $('#dataTables-example').dataTable();
+              
                
             });
+            
+ 
+            
+            editClick = function(Url) {
+           	   $('.modal-backdrop').remove();
+           	    $('body').removeClass('modal-open');
+                var data = new FormData(document.getElementById("editForm"));                	
+                $.ajax({
+                           type: 'POST',
+                           url:  Url,
+                           dataType: "html",
+                      	    data: data,
+                      	    async : false,
+                       	contentType: false, //不设置内容类型
+                      	    processData: false,
+                           cache:false,
+                           success: function(data){
+                               $('#getNewData').html(data);
+                           },
+                           error : function(data){
+                           }
+                       });    
+                };
+           	            
+              addClick = function(Url) {
+           	   $('.modal-backdrop').remove();
+           	    $('body').removeClass('modal-open');
+                	var data = new FormData(document.getElementById("addForm"));
+                	 $.ajax({
+                           type: 'POST',
+                           url:  Url,
+                           dataType: "html",
+                      	    data: data,
+                      	    async : false,
+                       	contentType: false, //不设置内容类型
+                      	    processData: false,
+                           cache:false,
+                           success: function(data){
+                               $('#getNewData').html(data);
+                           },
+                           error : function(data){
+                           }
+                       });    
+                };
+                
+                
+                delClick = function(id,Url) {
+                   $.ajax({
+                              type: 'GET',
+                              url:  Url+"?id="+id,
+                              dataType: "html",
+                         	    async : false,
+                          	contentType: false, //不设置内容类型
+                         	    processData: false,
+                              cache:false,
+                              success: function(data){
+                                  $('#getNewData').html(data);
+                              },
+                              error : function(data){
+                              }
+                          });    
+                   };
+                
+                
+                   updateShowClick = function(is_show,id,Url) {
+                     $.ajax({
+                                type: 'GET',
+                                url:  Url+"?special_id="+special_id+"&is_show="+is_show,
+                                dataType: "html",
+                           	    async : false,
+                            	  contentType: false, //不设置内容类型
+                           	    processData: false,
+                                cache:false,
+                                success: function(data){
+                                    $('#getNewData').html(data);
+                                },
+                                error : function(data){
+                                }
+                            });    
+                     };
+                     
+                     pageClick = function(currentPage,Url) {
+                    	 alert(currentPage)
+                       $.ajax({
+                                  type: 'GET',
+                                  url:  Url+"?currentPage="+currentPage,
+                                  dataType: "html",
+                             	    async : false,
+                              	contentType: false, //不设置内容类型
+                             	    processData: false,
+                                  cache:false,
+                                  success: function(data){
+                                      $('#getNewData').html(data);
+                                  },
+                                  error : function(data){
+                                  }
+                              });    
+                       };
+                
+                       pageGoClick = function(Url) {
+                      	var currentPage = document.getElementById("currentPageText").value;
+                           $.ajax({
+                                      type: 'GET',
+                                      url:  Url+"?currentPage="+currentPage,
+                                      dataType: "html",
+                                 	    async : false,
+                                  	contentType: false, //不设置内容类型
+                                 	    processData: false,
+                                      cache:false,
+                                      success: function(data){
+                                          $('#getNewData').html(data);
+                                      },
+                                      error : function(data){
+                                      }
+                                  });    
+                           };
+                           
+                            searchClick = function(){
+                           	var searchName=document.getElementById("searchtname").value;
+                           	var theme_name=encodeURI(encodeURI(searchName));           	                   	
+                            $.ajax({
+                                    type: 'GET',
+                                    url:  "searchCol?theme="+theme_name,
+                                    dataType: "html",
+                               	    async : false,
+                                	contentType: false, //不设置内容类型
+                               	    processData: false,
+                                    cache:false,
+                                    success: function(data){
+                                        $('#getNewData').html(data);
+                                    },
+                                    error : function(data){
+                                    }
+                                }); 
+                           	
+                           }
+                            
+                            
+                            showPlateClick = function(id,Url) {                                 
+                                 $.ajax({
+                                            type: 'GET',
+                                            url:  Url+"?id="+id,
+                                            dataType: "html",
+                                       	    async : false,
+                                        	contentType: false, //不设置内容类型
+                                       	    processData: false,
+                                            cache:false,
+                                            success: function(data){
+                                                $('#getNewData').html(data);
+                                            },
+                                            error : function(data){
+                                            }
+                                        });    
+                                 };
+                                 
+                              /*    changeAnalysisClick = function(){
+           
+                                	 var select = document.getElementById("FormControlSelect1");
+                                     var op = select.value;
+                   
+                                  $.ajax({
+                                             type: 'GET',
+                                             url:  "initAnalysisList?op="+op,
+                                             dataType: "html",        
+                                        	    async : false,
+                                         	contentType: false, //不设置内容类型
+                                        	    processData: false,
+                                             cache:false,
+                                             success: function(data){
+                                                 $('#getNewData').html(data);
+                                             },
+                                             error : function(data){
+                                             }
+                                         });    
+                                  };  */
        	
-            function f1(){
+          function f1(){
             	var select = document.getElementById("FormControlSelect1");
-            	var op = select.value;
-            	var form1=document.getElementById("form1");
-            	var title=encodeURI(encodeURI(op));
-            	form1.action="initAnalysisList?op="+title;
-            	form1.submit();
-            }
-            function search(){
-            	var searchName=document.getElementById("searchtname").value;
-            	alert(searchName)
-            	var theme_name=encodeURI(encodeURI(searchName));
-            	
-            	var formSearch=document.getElementById("formSearch");
-            	formSearch.action="searchCol?theme="+theme_name;
-            	formSearch.submit();
-            	
-            }
+            	var o = select.value;
+            	var form1=document.getElementById("form1");           	
+            	var op=encodeURI(encodeURI(o)); 
+                 $.ajax({
+                        type: 'GET',
+                        url:  'initAnalysisList?op='+op,
+                        dataType: "html", 
+                   	    async : false,
+                    	contentType: false, 
+                   	    processData: false,
+                        cache:false,
+                        success: function(data){
+                            $('#getNewData').html(data);
+                        },
+                        error : function(data){
+                        }
+                    });    
+           /*  	form1.action="initAnalysisList?op="+op;
+            	form1.submit();  */
+             }  
+           
   
          /*    function add(themename){
             	alert(themename);

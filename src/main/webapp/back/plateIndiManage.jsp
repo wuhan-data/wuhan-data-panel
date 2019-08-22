@@ -48,117 +48,15 @@
        /*  .page .go { display:inline-block; width:25px; height:23px; line-height:23px; text-align:center; border:1px solid #ccc;} */
         .page b{ color:#2979b4}
         
-        #dataTables-example{
-        margin-top:10px;
+      #addElement{
+        margin-bottom:10px;
         }
        
 
     </style>
 </head>
 <body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">WUHANDATA</a>
-            </div>
-
-            <ul class="nav navbar-top-links navbar-right">
-
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-<!--                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a> -->
-<!--                         </li> -->
-<!--                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> -->
-<!--                         </li> -->
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-        </nav>
-        <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-
-                    <!-- <li>
-                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
-                    </li> -->
-                    <li>
-                        <a href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
-                    </li>
-                    <li>
-                        <a href="toMetaDataManage"><i class="fa fa-list-alt"></i>元数据管理</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="listIndexManage">指标数据维护</a>
-                            </li>
-<!--                             <li> -->
-<!--                                 <a href="dataReview.html">数据审核</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="reportDataManage.html">报告、报表数据管理</a> -->
-<!--                             </li> -->
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
-
-                    </li>
-                    <li>
-                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
-
-                    </li>
-
-                    <li>
-                        <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="noticeInit">通知管理</a>
-                            </li>
-                            <li>
-                                <a href="sysLogInit">日志管理</a>
-                            </li>
-                            <li>
-                                <a href="messageManage.html">消息管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-cogs"></i>系统管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="departmentInit">组织结构管理</a>
-                            </li>
-                            <li>
-                                <a href="userInit">用户管理</a>
-                            </li>
-                            <li>
-                                <a href="roleInit">角色管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
-        <!-- /. NAV SIDE  -->
+   
         <div id="page-wrapper" >
             <div id="page-inner">
 			 <div class="row">
@@ -182,7 +80,7 @@
                         <div class="panel-body">
 
    <input type="hidden" value="${cid}" name="cid"/>
-  <div class="row">
+  <div class="row" id="addElement">
      <div class="btns col-md-2">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
     </div>  
@@ -220,7 +118,7 @@
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_name}')">
 <i class="fa fa-edit"></i>修改
 </div> --%>
-<a href="plateIndiDel?pid=${c.plate_id }&id=${c.indi_id}">
+<a href="#" onclick="delClick('${c.plate_id }','${c.indi_id}','plateIndiDel')">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
@@ -237,12 +135,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="plateIndiUpdateShow?id=${c.indi_id }&is_show=1&pid=${c.plate_id}" id="noPerShow">不展示</a>             
+         <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.indi_id }','${c.plate_id}','plateIndiUpdateShow')">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="plateIndiUpdateShow?id=${c.indi_id }&is_show=0&pid=${c.plate_id}" id="perShow">展示</a>            
+         <a href="plateIndiUpdateShow?id=${c.indi_id }&is_show=0&pid=${c.plate_id}" id="perShow" onclick="updateShowClick('0','${c.indi_id }','${c.plate_id}','plateIndiUpdateShow')">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -300,7 +198,7 @@
 				</h4>
 			</div>
 			
-			<form class="" id="addForm" method="post" accept-charset="UTF-8" action="plateIndiAdd">
+			<form class="" id="addForm" method="post" accept-charset="UTF-8" action="#">
 			<div class="modal-body">
 			
 			 <div class="form-group">
@@ -331,7 +229,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="addClick('plateIndiAdd')">
 					提交
 				</button>
 			</div>
@@ -342,42 +240,24 @@
 
 
                                 <div class="row">
-                                
-                                	  <!-- <ul class="col-lg-4"></ul> -->
-                                	<%--   <ul class="pagination col-lg-4">
-                                	      <form method="post" action="#">
-                                	       <c:if test="${page.current!=1 }">
-                                	        <li><a href="#">首页</a></li>
-                                	        <li></li>
-                                	       </c:if>
-                                	      </form>
-										  <li><a href="#">«</a></li>
-										  <li class="active"><a href="#">1</a></li>
-										  <li><a href="#">2</a></li>
-										  <li><a href="#">3</a></li>
-										  <li><a href="#">4</a></li>
-										  <li><a href="#">5</a></li>
-										  <li><a href="#">»</a></li>
-									</ul> --%>
-									
 									 <div class='page fix'>
-                    <form method="post" action="plateIndiInit" id="pageForm">
+                    <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="plateIndiInit?currentPage=1&id=${cid }" class='first'>首页</a>
-                           <a href="plateIndiInit?currentPage=${page.currentPage-1}&id=${cid }" class='pre'>上一页</a>
+                           <a href="#" class='first' onclick="pageClick('1','${cid }','plateIndiInit')">首页</a>
+                           <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','${cid }','plateIndiInit')">上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="plateIndiInit?currentPage=${page.currentPage+1}&id=${cid }" class='next'>下一页</a>
-                            <a href="plateIndiInit?currentPage=${page.totalPage}&id=${cid }" class='last'>末页</a>
+                            <a href="#" class='next' onclick="pageClick('${page.currentPage+1}','${cid }','plateIndiInit')">下一页</a>
+                            <a href="#" class='last' onclick="pageClick('${page.totalPage}','${cid }','plateIndiInit')">末页</a>
                         </c:if>
                         跳至&nbsp;
 
-<input type="hidden" value="${cid }" name="id">
+<input type="hidden" value="${cid }" name="id" id="pageCid">
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
-                        <input type="submit" value="GO" class="btn-primary btn-sm">
+                        <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('plateIndiInit')">
                     </form>
                 </div>
                 
@@ -398,8 +278,6 @@
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
-        </div>
-     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
@@ -416,56 +294,130 @@
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
     <script>
             $(document).ready(function () {
-                $('#dataTables-example').dataTable();
+              
                
             });
+            editClick = function(Url) {
+            	   $('.modal-backdrop').remove();
+            	    $('body').removeClass('modal-open');
+                 var data = new FormData(document.getElementById("editForm"));                	
+                 $.ajax({
+                            type: 'POST',
+                            url:  Url,
+                            dataType: "html",
+                       	    data: data,
+                       	    async : false,
+                        	contentType: false, //不设置内容类型
+                       	    processData: false,
+                            cache:false,
+                            success: function(data){
+                                $('#getNewData').html(data);
+                            },
+                            error : function(data){
+                            }
+                        });    
+                 };
+            	            
+               addClick = function(Url) {
+            	   $('.modal-backdrop').remove();
+            	    $('body').removeClass('modal-open');
+                 	var data = new FormData(document.getElementById("addForm"));
+                 	 $.ajax({
+                            type: 'POST',
+                            url:  Url,
+                            dataType: "html",
+                       	    data: data,
+                       	    async : false,
+                        	contentType: false, //不设置内容类型
+                       	    processData: false,
+                            cache:false,
+                            success: function(data){
+                                $('#getNewData').html(data);
+                            },
+                            error : function(data){
+                            }
+                        });    
+                 };
+                 
+                 
+                 delClick = function(pid,id,Url) {
+                    $.ajax({
+                               type: 'GET',
+                               url:  Url+"?pid="+pid+"&id="+id,
+                               dataType: "html",
+                          	    async : false,
+                           	contentType: false, //不设置内容类型
+                          	    processData: false,
+                               cache:false,
+                               success: function(data){
+                                   $('#getNewData').html(data);
+                               },
+                               error : function(data){
+                               }
+                           });    
+                    };
+                 
+                 
+                    updateShowClick = function(is_show,id,pid,Url) {
+                      $.ajax({
+                                 type: 'GET',
+                                 url:  Url+"?id="+id+"&is_show="+is_show+"&pid="+pid,
+                                 dataType: "html",
+                            	    async : false,
+                             	  contentType: false, //不设置内容类型
+                            	    processData: false,
+                                 cache:false,
+                                 success: function(data){
+                                     $('#getNewData').html(data);
+                                 },
+                                 error : function(data){
+                                 }
+                             });    
+                      };
+                      
+                      pageClick = function(currentPage,id,Url) {
+                        $.ajax({
+                                   type: 'GET',
+                                   url:  Url+"?currentPage="+currentPage+"&id="+id,
+                                   dataType: "html",
+                              	    async : false,
+                               	contentType: false, //不设置内容类型
+                              	    processData: false,
+                                   cache:false,
+                                   success: function(data){
+                                       $('#getNewData').html(data);
+                                   },
+                                   error : function(data){
+                                   }
+                               });    
+                        };
+                 
+                        pageGoClick = function(Url) {
+                       	var currentPage = document.getElementById("currentPageText").value;
+                       	var id = document.getElementById("pageCid").value;
+                            $.ajax({
+                                       type: 'GET',
+                                       url:  Url+"?currentPage="+currentPage+"&id="+id,
+                                       dataType: "html",
+                                  	    async : false,
+                                   	contentType: false, //不设置内容类型
+                                  	    processData: false,
+                                       cache:false,
+                                       success: function(data){
+                                           $('#getNewData').html(data);
+                                       },
+                                       error : function(data){
+                                       }
+                                   });    
+                            };
        	
-            function f1(){
-            	var select = document.getElementById("FormControlSelect1");
-            	var op = select.value;
-            	var form1=document.getElementById("form1");
-            	var title=encodeURI(encodeURI(op));
-            	form1.action="?op="+title;
-            	form1.submit();
-            }
-            function search(){
-            	var searchName=document.getElementById("searchtname").value;
-            	alert(searchName)
-            	var theme_name=encodeURI(encodeURI(searchName));
-            	
-            	var formSearch=document.getElementById("formSearch");
-            	formSearch.action="searchCol?theme="+theme_name;
-            	formSearch.submit();
-            	
-            }
-  
-         /*    function add(themename){
-            	alert(themename);
-            	var addForm=document.getElementById("");
-            	addForm.action="";
-            	addFrom.submit();
-            } */
+         
             function edit(ID,indiname){
             	$("#indi_id").val(ID);
             	$("#indi_name").val(indiname);
                 	
             }
-            function del(aid){
-            	alert("sss")
-            	/* var aid=document.getElementById("aid").value; */
-            	alert(aid);
-            	var id=encodeURI(encodeURI(aid));
-          	    window.location.href="http://localhost:8089/wuhan_data1/delCol?id="+id;  
-            /* 	$.ajax({
-                    type: "POST",
-                    data: {"id":id},
-                    url: "deleteCol", 
-                    success:function(){
-                    	alert("删除成功！");
-                    }
-            	})  */
-            	
-            }
+          
             
         
     </script>

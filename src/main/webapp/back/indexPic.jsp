@@ -143,12 +143,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="indexPicUpdateShow?is_show=1&id=${c.id }" id="noPerShow">不展示</a>             
+         <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.id }','indexPicUpdateShow')">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="indexPicUpdateShow?is_show=0&id=${c.id }" id="perShow">展示</a>            
+         <a href="#" id="perShow" onclick="updateShowClick('0','${c.id }','indexPicUpdateShow')">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -410,22 +410,22 @@
                   };
                
                
-                  updateShowClick = function(special_id,is_show,Url) {
-                    $.ajax({
-                               type: 'GET',
-                               url:  Url+"?special_id="+special_id+"&is_show="+is_show,
-                               dataType: "html",
-                          	    async : false,
-                           	  contentType: false, //不设置内容类型
-                          	    processData: false,
-                               cache:false,
-                               success: function(data){
-                                   $('#getNewData').html(data);
-                               },
-                               error : function(data){
-                               }
-                           });    
-                    };
+                  updateShowClick = function(is_show,id,Url) {
+                      $.ajax({
+                                 type: 'GET',
+                                 url:  Url+"?special_id="+special_id+"&is_show="+is_show,
+                                 dataType: "html",
+                            	    async : false,
+                             	  contentType: false, //不设置内容类型
+                            	    processData: false,
+                                 cache:false,
+                                 success: function(data){
+                                     $('#getNewData').html(data);
+                                 },
+                                 error : function(data){
+                                 }
+                             });    
+                      };
                     
                     pageClick = function(currentPage,Url) {
                       $.ajax({
