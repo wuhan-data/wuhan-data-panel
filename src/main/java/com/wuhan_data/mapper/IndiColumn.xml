@@ -32,23 +32,23 @@
         
         
         <insert id="add" parameterType="IndiCorrelative" >
-            insert into CORRELATIVE_INDI (column_id,indi_id,indi_name) values(#{column_id},#{indi_id},#{indi_name})
+            insert into WUHAN_DATA.CORRELATIVE_INDI (column_id,indi_id,indi_name) values(#{column_id},#{indi_id},#{indi_name})
         </insert>
          
         <delete id="delete" parameterType="int" >
-            delete from CORRELATIVE_INDI  where id=#{id}  
+            delete from WUHAN_DATA.CORRELATIVE_INDI  where id=#{id}  
         </delete>        
          
         <select id="getlist" parameterType="java.util.Map" resultType="IndiCorrelative">
-            select * from CORRELATIVE_INDI  where column_id=#{id} order by id limit #{page.dbIndex},#{page.dbNumber}   
+            select * from WUHAN_DATA.CORRELATIVE_INDI  where column_id=#{id} order by id limit #{page.dbIndex},#{page.dbNumber}   
         </select>
  
         <update id="update" parameterType="IndiCorrelative" >
-            update CORRELATIVE_INDI  set indi_name=#{indi_name} where id=#{id}
+            update WUHAN_DATA.CORRELATIVE_INDI  set indi_name=#{indi_name} where id=#{id}
         </update>
         
          <update id="updateShow" parameterType="IndiCorrelative" >
-            update CORRELATIVE_INDI
+            update WUHAN_DATA.CORRELATIVE_INDI
             <set>
             is_show=#{is_show}
             </set>

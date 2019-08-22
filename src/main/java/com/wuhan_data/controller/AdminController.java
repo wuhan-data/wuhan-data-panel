@@ -41,8 +41,6 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 	@Autowired
-	SysLogService sysLogService;
-	@Autowired
 	MenuService menuService;
 	private static String adminname="";//用于模糊查询的名字
 	@RequestMapping("listAdmin")
@@ -52,17 +50,7 @@ public class AdminController {
 		mav.addObject("adminList",adminList);
 		mav.setViewName("listAdmin");
 		return mav;
-	}
-	/*
-	 * @RequestMapping("test") public ModelAndView test() { ModelAndView mav=new
-	 * ModelAndView();
-	 * 
-	 * mav.setViewName("test"); return mav;
-	 * 
-	 * }
-	 */
-	
-	
+	}	
 	@RequestMapping("adminInit")
 	public ModelAndView adminInit(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {
@@ -78,9 +66,7 @@ public class AdminController {
 			System.out.println("adminInit,参数获取失败"+e.toString());
 			maView.setViewName("login");
 			return maView;
-		}
-    	
-    	 
+		} 
     	//读取数据库
     	try {
     		Page page=new Page();

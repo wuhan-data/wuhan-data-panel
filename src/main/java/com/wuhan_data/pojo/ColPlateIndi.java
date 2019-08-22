@@ -1,44 +1,27 @@
 package com.wuhan_data.pojo;
 
 public class ColPlateIndi {
-	int id;
-	int pid;
-	String pname;
-	String indi_id;
-	String indi_name;
+	int indi_id;
+	int plate_id;
+	String search_indi_id;
+	String indi_new_name;
+	String indi_old_name;
 	String show_type;
+	String show_color;
 	int is_show;
-	int time_point;
-	String sjly;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getPid() {
-		return pid;
-	}
-	public void setPid(int pid) {
-		this.pid = pid;
-	}
-	public String getPname() {
-		return pname;
-	}
-	public void setPname(String pname) {
-		this.pname = pname;
-	}
-	public String getIndi_id() {
+	
+	
+	public int getIndi_id() {
 		return indi_id;
 	}
-	public void setIndi_id(String indi_id) {
+	public void setIndi_id(int indi_id) {
 		this.indi_id = indi_id;
 	}
-	public String getIndi_name() {
-		return indi_name;
+	public int getPlate_id() {
+		return plate_id;
 	}
-	public void setIndi_name(String indi_name) {
-		this.indi_name = indi_name;
+	public void setPlate_id(int plate_id) {
+		this.plate_id = plate_id;
 	}
 	public String getShow_type() {
 		return show_type;
@@ -52,17 +35,29 @@ public class ColPlateIndi {
 	public void setIs_show(int is_show) {
 		this.is_show = is_show;
 	}
-	public int getTime_point() {
-		return time_point;
+	public String getSearch_indi_id() {
+		return search_indi_id;
 	}
-	public void setTime_point(int time_point) {
-		this.time_point = time_point;
+	public void setSearch_indi_id(String search_indi_id) {
+		this.search_indi_id = search_indi_id;
 	}
-	public String getSjly() {
-		return sjly;
+	public String getIndi_new_name() {
+		return indi_new_name;
 	}
-	public void setSjly(String sjly) {
-		this.sjly = sjly;
+	public void setIndi_new_name(String indi_new_name) {
+		this.indi_new_name = indi_new_name;
+	}
+	public String getIndi_old_name() {
+		return indi_old_name;
+	}
+	public void setIndi_old_name(String indi_old_name) {
+		this.indi_old_name = indi_old_name;
+	}
+	public String getShow_color() {
+		return show_color;
+	}
+	public void setShow_color(String show_color) {
+		this.show_color = show_color;
 	}
 	
 	

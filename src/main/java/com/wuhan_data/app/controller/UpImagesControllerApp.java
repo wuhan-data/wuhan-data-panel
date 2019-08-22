@@ -66,6 +66,7 @@ public class UpImagesControllerApp {
 			tokenString =request.getParameter("token");
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setHeadApp"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	    System.out.println("图片上传接口："+"token"+tokenString);
@@ -76,6 +77,7 @@ public class UpImagesControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setHeadApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 	  	if(tokenIsEmpty)
@@ -99,7 +101,9 @@ public class UpImagesControllerApp {
 	  		 	    	System.out.println("oldHead"+oldHead);
 	  		 	    	//上传新的图片的地址
 	  		 	    	
-	  		 	    		String imgPath = ImageUtils.uploadHead(request, files[0]);
+	  		 	    		//String imgPath = ImageUtils.uploadHead(request, files[0]);
+	  		 	    	//改为上传到本地
+	  		 	    	String imgPath =ImageUtils.getURL(request)+"file_head/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\head");
 	  		 	    		if(imgPath==null ||imgPath.equals(""))
 	  		 	    		{
 	  		 	    			return this.apiReturn("-1", "头像上传失败", data);
@@ -129,6 +133,7 @@ public class UpImagesControllerApp {
 	  		 	    }
 	  			} catch (Exception e) {
 	  				// TODO: handle exception
+	  				System.out.println("setHeadApp"+e.toString());
 	  				return this.apiReturn("-1", "数据库操作异常", data);
 	  		}
 	 	}
@@ -152,6 +157,7 @@ public class UpImagesControllerApp {
 			contact=request.getParameter("contact");
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback"+e.toString());
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 		
@@ -163,6 +169,7 @@ public class UpImagesControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 		
@@ -188,7 +195,9 @@ public class UpImagesControllerApp {
 			        for (Map.Entry<String, MultipartFile> entry : map.entrySet()) 
 			        {
 			            // 自己的保存文件逻辑
-			            String imgpath=ImageUtils.uploadFeedback(request, entry.getValue());
+			            //String imgpath=ImageUtils.uploadFeedback(request, entry.getValue());
+			            //改为上传到本地
+			            String imgpath =ImageUtils.getURL(request)+"file_feedback/"+ ImageUtils.upload(request, entry.getValue(),"C:\\wuhan_data_file\\feedback");
 			            if(imgs.equals(""))
 			            {
 			            	imgs=imgs+imgpath;
@@ -226,6 +235,7 @@ public class UpImagesControllerApp {
 				
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("uploadFeedback"+e.toString());
 				return this.apiReturn("-1", "数据库操作错误", data);
 			}		
 		}
@@ -248,6 +258,7 @@ public class UpImagesControllerApp {
 			System.out.println("反馈接口1"+"token"+tokenString+"text"+textString+"contact"+contactString);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback1"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 		//token令牌验证
@@ -256,6 +267,7 @@ public class UpImagesControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("uploadFeedback1"+e.toString());
 			return this.apiReturn("-1", "数据库操作异常", data);
 		}  
 		if(tokenIsEmpty)
@@ -284,6 +296,7 @@ public class UpImagesControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("uploadFeedback1"+e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}	
 		}

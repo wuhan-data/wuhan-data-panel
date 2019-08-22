@@ -53,6 +53,7 @@ public class CollectControllerApp {
 		  	indexIdString=mapget.get("indexId").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("delCollectApp"+e.toString());
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 		 //token令牌验证
@@ -61,6 +62,7 @@ public class CollectControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("delCollectApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -86,6 +88,7 @@ public class CollectControllerApp {
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("delCollectApp"+e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}		
 	  		
@@ -116,6 +119,7 @@ public class CollectControllerApp {
 		  	sourceString=mapget.get("source").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setCollectApp"+e.toString());
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 	  	
@@ -125,7 +129,7 @@ public class CollectControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
-			
+			System.out.println("setCollectApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -160,6 +164,7 @@ public class CollectControllerApp {
 				
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("setCollectApp"+e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}		
 		}
@@ -181,6 +186,7 @@ public class CollectControllerApp {
 	  		tokenString=mapget.get("token").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setCollectApp"+e.toString());
 			return this.apiReturn("-2", "参数请求异常", data);
 		}
 	  	
@@ -190,6 +196,7 @@ public class CollectControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setCollectApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -243,6 +250,7 @@ public class CollectControllerApp {
 				return this.apiReturn("0", "获取收藏成功", data);
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("setCollectApp"+e.toString());
 				return this.apiReturn("-1", "数据库错误", data);
 			}
 		}

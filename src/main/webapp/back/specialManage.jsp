@@ -23,6 +23,9 @@
     <link href="<%=path %>/assets/css/my.css" rel="stylesheet" />
     
     <link href="<%=path %>/assets/css/bootstrap-order.min.css" rel="stylesheet" />
+      <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
+    
+    
    
 
 
@@ -69,205 +72,11 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
-<!--                 <li class="dropdown"> -->
-<!--                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> -->
-<!--                         <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i> -->
-<!--                     </a> -->
-<!--                     <ul class="dropdown-menu dropdown-messages"> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <strong>John Doe</strong> -->
-<!--                                     <span class="pull-right text-muted"> -->
-<!--                                         <em>Today</em> -->
-<!--                                     </span> -->
-<!--                                 </div> -->
-<!--                                 <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <strong>John Smith</strong> -->
-<!--                                     <span class="pull-right text-muted"> -->
-<!--                                         <em>Yesterday</em> -->
-<!--                                     </span> -->
-<!--                                 </div> -->
-<!--                                 <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <strong>John Smith</strong> -->
-<!--                                     <span class="pull-right text-muted"> -->
-<!--                                         <em>Yesterday</em> -->
-<!--                                     </span> -->
-<!--                                 </div> -->
-<!--                                 <div>Lorem Ipsum has been the industry's standard dummy text ever since the...</div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a class="text-center" href="#"> -->
-<!--                                 <strong>Read All Messages</strong> -->
-<!--                                 <i class="fa fa-angle-right"></i> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                     /.dropdown-messages -->
-<!--                 </li> -->
-<!--                 /.dropdown -->
-<!--                 <li class="dropdown"> -->
-<!--                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> -->
-<!--                         <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i> -->
-<!--                     </a> -->
-<!--                     <ul class="dropdown-menu dropdown-tasks"> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 1</strong> -->
-<!--                                         <span class="pull-right text-muted">60% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> -->
-<!--                                             <span class="sr-only">60% Complete (success)</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 2</strong> -->
-<!--                                         <span class="pull-right text-muted">28% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%"> -->
-<!--                                             <span class="sr-only">28% Complete</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 3</strong> -->
-<!--                                         <span class="pull-right text-muted">60% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> -->
-<!--                                             <span class="sr-only">60% Complete (warning)</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <p> -->
-<!--                                         <strong>Task 4</strong> -->
-<!--                                         <span class="pull-right text-muted">85% Complete</span> -->
-<!--                                     </p> -->
-<!--                                     <div class="progress progress-striped active"> -->
-<!--                                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%"> -->
-<!--                                             <span class="sr-only">85% Complete (danger)</span> -->
-<!--                                         </div> -->
-<!--                                     </div> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a class="text-center" href="#"> -->
-<!--                                 <strong>See All Tasks</strong> -->
-<!--                                 <i class="fa fa-angle-right"></i> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                     /.dropdown-tasks -->
-<!--                 </li> -->
-<!--                 /.dropdown -->
-<!--                 <li class="dropdown"> -->
-<!--                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> -->
-<!--                         <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i> -->
-<!--                     </a> -->
-<!--                     <ul class="dropdown-menu dropdown-alerts"> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-comment fa-fw"></i> New Comment -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-twitter fa-fw"></i> 3 New Followers -->
-<!--                                     <span class="pull-right text-muted small">12 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-envelope fa-fw"></i> Message Sent -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-tasks fa-fw"></i> New Task -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a href="#"> -->
-<!--                                 <div> -->
-<!--                                     <i class="fa fa-upload fa-fw"></i> Server Rebooted -->
-<!--                                     <span class="pull-right text-muted small">4 min</span> -->
-<!--                                 </div> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li class="divider"></li> -->
-<!--                         <li> -->
-<!--                             <a class="text-center" href="#"> -->
-<!--                                 <strong>See All Alerts</strong> -->
-<!--                                 <i class="fa fa-angle-right"></i> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                     /.dropdown-alerts -->
-<!--                 </li> -->
-<!--                 /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-<!--                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a> -->
-<!--                         </li> -->
-<!--                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> -->
-<!--                         </li> -->
                         <li class="divider"></li>
                         <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
@@ -297,59 +106,16 @@
                             <li>
                                 <a href="listIndexManage">指标数据维护</a>
                             </li>
-<!--                             <li> -->
-<!--                                 <a href="dataReview.html">数据审核</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="reportDataManage.html">报告、报表数据管理</a> -->
-<!--                             </li> -->
+
                         </ul>
                     </li>
                     <li>
                          <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li class="active-menu"> -->
-<!--                                 <a href="columnManage.html">栏目维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPowerManage.html">栏目权限维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContentManage.html">内容配置</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContPowerManage.html">内容权限设置</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
+
                     </li>
                     <li>
                         <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="specialManage.html">专题维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="specialPowerManage.html">专题权限维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="specialContentManage.html">内容配置</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="specialContPowerManage.html">内容权限设置</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
                     </li>
-<!--                     <li> -->
-<!--                         <a href="#"><i class="fa fa-laptop"></i>发布管理<span class="fa arrow"></span></a> -->
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPublish.html">栏目发布</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="publishedManage.html">已发布内容管理</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-<!--                     </li> -->
                     <li>
                         <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -407,15 +173,16 @@
                         <div class="panel-body">
 
   <div class="row">
-     <div class="btns col-md-2">
+     <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
+     <%--  <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>排序</button> --%>
     </div>  
  
-     <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
+    <!--  <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
       <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
-  
+   -->
   </div>
 
     
@@ -424,35 +191,33 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>专题id</th>
-                                            <th>专题名称</th>
-                                            <th>其他1</th>
-                                            <th>其他2</th>
-                                            <th>其他3</th>
+                                            <th>id</th>
+                                            <th>名称</th>
+                                            <th>路径</th>
+                                            <th>图片</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${specialByPage}" var="c" varStatus="st">
         <tr>
-            <td >${c.special_id}</td>
-            <td >${c.special_name}</td>
-            <td>其他数据1</td>
-            <td>其他数据2</td>
-            <td>其他数据3</td>
+            <td >${c.id}</td>
+            <td >${c.title}</td>
+            <td >${c.image}</td>
+            <td ><img src="${c.image}" width="80" height="42"></td>
+           <%--  <td>${c.topic_weight}</td> --%>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
-<a href="indiSpecial/indiSpecialInit?special_id=${c.special_id }">
-<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看指标
+<div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')">
+<i class="fa fa-search"></i>查看大图
 </div>
-</a>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.special_id}','${c.special_name}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}','${c.image}')">
 <i class="fa fa-edit"></i>修改
 </div>
-<a href="specialDel?special_id=${c.special_id }">
+<a href="specialDel?special_id=${c.id }">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
@@ -469,12 +234,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="specialUpdateShow?is_show=1&special_id=${c.special_id }" id="noPerShow">不展示</a>             
+         <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="specialUpdateShow?is_show=0&special_id=${c.special_id }" id="perShow">展示</a>            
+         <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -485,6 +250,21 @@
 </tbody>
 
                                 </table>
+                                
+                                
+                                  <!-- 查看大图 模态框（Modal） -->
+<div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+	<div class="modal-dialog">
+		<div class="modal-content">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#">
+			<div class="modal-body">		
+<img src="" width="550" height="257" id="image">
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
                                 
                                 <!--修改 模态框（Modal） -->
 <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -497,17 +277,35 @@
 				<h4 class="modal-title" id="myModalLabel">
 					修改
 				</h4>
-			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="specialUpdate">
-			<div class="modal-body">		
-
-	<input class="form-control" type="hidden" name="special_id" id="special_id">
-   专题名称：<input class="form-control" type="text" name="special_name" id="special_name">   
+			</div>			
+			
+		<form  id="editForm" method="post" accept-charset="UTF-8" action="specialUpdate" enctype="multipart/form-data">
+			<div class="modal-body">
+			<input class="form-control" type="hidden" name="id" id="topicid">
+			 <div class="form-group">
+                   <label>名称</label>                  
+                   <input class="form-control" type="text" name="title" id="topictitle">
+             </div>
+             <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择图片</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="" alt="" id="showTopic"/></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+    <!--   轮播图名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title"> -->
+    
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="add()">
 					提交
 				</button>
 			</div>
@@ -530,10 +328,41 @@
 					添加
 				</h4>
 			</div>
-			
+		<!-- 	
 			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="specialAdd">
 			<div class="modal-body">
-      专题名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="special_name">
+      专题名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title">
+    
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="submit" class="btn btn-primary" onclick="add()">
+					提交
+				</button>
+			</div>
+			</form> -->
+			
+			<form  id="addForm" method="post" accept-charset="UTF-8" action="specialAdd" enctype="multipart/form-data">
+			<div class="modal-body">
+			 <div class="form-group">
+                   <label>专题名称</label>
+                   <input class="form-control" type="text" placeholder="请输入专题名称" name="title">
+             </div>
+             <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择图片</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="assets/img/demoUpload.jpg" alt="" /></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+    <!--   轮播图名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title"> -->
     
 			</div>
 			<div class="modal-footer">
@@ -544,30 +373,15 @@
 				</button>
 			</div>
 			</form>
+			
+			
+			
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
 
 
-                                <div class="row">
-                                
-                                	  <!-- <ul class="col-lg-4"></ul> -->
-                                	<%--   <ul class="pagination col-lg-4">
-                                	      <form method="post" action="#">
-                                	       <c:if test="${page.current!=1 }">
-                                	        <li><a href="#">首页</a></li>
-                                	        <li></li>
-                                	       </c:if>
-                                	      </form>
-										  <li><a href="#">«</a></li>
-										  <li class="active"><a href="#">1</a></li>
-										  <li><a href="#">2</a></li>
-										  <li><a href="#">3</a></li>
-										  <li><a href="#">4</a></li>
-										  <li><a href="#">5</a></li>
-										  <li><a href="#">»</a></li>
-									</ul> --%>
-									
+                                <div class="row">									
 									 <div class='page fix'>
                     <form method="post" action="specialInit" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
@@ -621,6 +435,7 @@
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
             $(document).ready(function () {
                 $('#dataTables-example').dataTable();
@@ -652,9 +467,12 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(ID,sname){
-            	$("#special_id").val(ID);
-            	$("#special_name").val(sname);
+  	
+            
+            function edit(ID,title,image){
+            	$("#topicid").val(ID);
+            	$("#topictitle").val(title);
+            	$("#showTopic").attr('src',image);
                 	
             }
             function del(aid){
@@ -672,6 +490,29 @@
                     }
             	})  */
             	
+            }
+            
+            var order =  new BootstrapOrder();
+            
+            
+            function showS(json) {             	
+            	for(var i=0,l=json.length;i<l;i++){
+            		order.addItem(json[i]);
+            		}
+            	order.toggleShow();         	
+            }
+        
+            function addSort(item) {
+            	order.addItem(item);
+            }
+        
+            function getData(){
+            	var data = order.getData();
+                alert(JSON.stringify(data)); 
+            }
+            function imageShow(image){
+            	$("#image").attr('src',image);
+                	
             }
             
         

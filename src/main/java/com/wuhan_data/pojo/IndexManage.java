@@ -12,12 +12,13 @@ public class IndexManage {
 //	String indi_value;//指标值
 //	Integer time_point;//时点
 	Integer status;//指示状态 0正常 1不展示
-	String sjly;
-	public String getSjly() {
-		return sjly;
+	String sjly_name2;
+	
+	public String getSjly_name2() {
+		return sjly_name2;
 	}
-	public void setSjly(String sjly) {
-		this.sjly = sjly;
+	public void setSjly_name2(String sjly_name2) {
+		this.sjly_name2 = sjly_name2;
 	}
 	public String getSource() {
 		return source;

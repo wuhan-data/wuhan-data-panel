@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.IndiAll;
 import com.wuhan_data.service.DbToExcelService;
+import com.wuhan_data.tools.ExportExcel;
 
 import cn.hutool.core.date.DateTime;
 import net.sf.json.JSONArray;
@@ -35,16 +37,25 @@ import net.sf.json.JSONArray;
 public class DbToExcelController {
 	@Autowired
 	DbToExcelService dbToExcelService;
-
+	
+	
+	@RequestMapping(value = "toEcxeljsp", produces = "text/plain;charset=utf-8")
+	public ModelAndView toEcxeljsp() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("dbToEcxel");
+		return mav;
+	}
+	
 	@RequestMapping(value = "dbToEcxel", produces = "text/plain;charset=utf-8")
-	public ModelAndView toDbToExcel() {
-		String keyword = "亏损";
+	public ModelAndView toDbToExcel(HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+		String keyword = java.net.URLDecoder.decode(request.getParameter("keyWord"),"UTF-8");
 		List<IndexManage> indexList = dbToExcelService.getIndi(keyword);
-
 		ModelAndView mav = new ModelAndView();
 		System.out.println("后台的指标代码：" + indexList.get(0).getIndi_code());
 		System.out.println("后台的指标名字：" + indexList.get(0).getIndi_name());
 		mav.addObject("indexList", indexList);
+		mav.addObject("keyword", keyword);
 		mav.setViewName("dbToEcxel");
 		return mav;
 	}
@@ -99,6 +110,7 @@ public class DbToExcelController {
 		indiNameSourceFreqMap.put("indiSource", indiSource);
 		indiNameSourceFreqMap.put("freqCode", freqCode);
 		List<String> indexStartTimeList = dbToExcelService.getIndiStartTime(indiNameSourceFreqMap);
+		Collections.sort(indexStartTimeList);
 		System.out.println("indexStartTimeList：" + indexStartTimeList);
 		JSONArray json = JSONArray.fromObject(indexStartTimeList);
 		out.print(json.toString());
@@ -122,6 +134,7 @@ public class DbToExcelController {
 		indiNameSourceFreqSTimeMap.put("freqCode", freqCode);
 		indiNameSourceFreqSTimeMap.put("startTime", startTime);
 		List<String> indexEndTimeList = dbToExcelService.getIndiEndTime(indiNameSourceFreqSTimeMap);
+		Collections.sort(indexEndTimeList);
 		System.out.println("indexEndTimeList：" + indexEndTimeList);
 		JSONArray json = JSONArray.fromObject(indexEndTimeList);
 		out.print(json.toString());
@@ -160,65 +173,44 @@ public class DbToExcelController {
 	
 	
 
-	@ResponseBody
-	@RequestMapping("export")
-	public void export(HttpServletResponse response, @RequestParam("id") String id) throws Exception {
-
-		System.out.println("开始导出！");
-		System.out.println("id:" + id);
-		List<IndiAll> indiAllList = new ArrayList();
-		byte[] data = dbToExcelService.exportOrderData(indiAllList);
-		response.reset();
-		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
-		System.out.println("fileName:" + fileName);
-		response.setContentType("application/octet-stream; charset=UTF-8");
-	
-		response.setHeader("content-disposition",
-				"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
-		response.addHeader("Content-Length", "" + data.length);
-		IOUtils.write(data, response.getOutputStream());
-	}
-	
-
-	@ResponseBody
+//	@ResponseBody
+//	@RequestMapping("export")
+//	public void export(HttpServletResponse response) throws Exception {
+//
+//		System.out.println("开始导出！");
+//		//System.out.println("id:" + id);
+//		List<IndiAll> indiAllList = new ArrayList();
+//		byte[] data = dbToExcelService.exportOrderData(indiAllList);
+//		response.reset();
+//		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
+//		System.out.println("fileName:" + fileName);
+//		response.setContentType("application/octet-stream; charset=UTF-8");
+//	
+//		response.setHeader("content-disposition",
+//				"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
+//		response.addHeader("Content-Length", "" + data.length);
+//		IOUtils.write(data, response.getOutputStream());
+//	}
+//	
+//
+//	
 	@RequestMapping(value = "ecxelTest")
-	public void ecxelTest(String result,HttpServletRequest request,HttpServletResponse response) throws IOException {
+	@ResponseBody
+	public void ecxelTest(HttpServletRequest request,HttpServletResponse response) throws Exception{
     	
     	System.out.println("进入了这个controller!");
-    	//下面是把拿到的json字符串转成 json对象
-    	JSONObject jsonx = JSON.parseObject(result);
-    	com.alibaba.fastjson.JSONArray ja = jsonx.getJSONArray("indiAll");
-    	List<IndiAll> indiAllList = new ArrayList<IndiAll>();
-    	 for (int i = 0; i < ja.size(); i++) {
-             JSONObject jo = ja.getJSONObject(i);
-             IndiAll indiAll = new IndiAll();
-             indiAll.setIndi_code(jo.getString("indi_code"));
-             indiAll.setIndi_name(jo.getString("indi_name"));
-             indiAll.setArea_code(jo.getString("area_code"));
-             indiAll.setArea_name(jo.getString("area_name"));
-             indiAll.setDate_code(jo.getString("date_code"));
-             indiAll.setFreq_code(jo.getString("freq_code"));
-             indiAll.setIndi_value(jo.getString("indi_value"));
-             indiAll.setKjwdm(jo.getString("kjwdm"));
-             indiAll.setTime_point(jo.getString("time_point"));
-             indiAllList.add(indiAll);
-         }
-    	 
-    	byte[] data = dbToExcelService.exportOrderData(indiAllList);
-    	
- 		response.reset();
- 		String fileName = new DateTime().toString("yyyyMMddHHmm") + "指标数据" + ".xls";
- 		System.out.println("fileName:" + fileName);
- 		response.setContentType("application/octet-stream; charset=UTF-8");
- 	
- 		
-			response.setHeader("content-disposition",
-					"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
-		
- 		response.addHeader("Content-Length", "" + data.length);
- 		
-			IOUtils.write(data, response.getOutputStream());
-
+    	//json字符串
+    	String jsonStr = request.getParameter("json");
+		//表格表头
+		System.out.println("jsonStr："+jsonStr);
+		String sheaders = request.getParameter("headers");
+		//表格标题名
+		String title = request.getParameter("fileName");
+		//表格文件名
+		String fileName = request.getParameter("fileName")+".xls";
+		ExportExcel ex = new ExportExcel();
+		ex.export(jsonStr,sheaders,fileName,title, response, request);    			
 	}
+
 
 }

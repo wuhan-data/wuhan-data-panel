@@ -163,14 +163,18 @@ public class IndexManageController {
     
     
     @RequestMapping("delete")
-	public String questionDelete(int id) {
-    	indexManageService.delete(id);
+	public String questionDelete(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+    	indexManageService.delete(indi_id);
 		return "redirect:listIndexManage";
 	}
     
     @RequestMapping("per_show")
-	public String per_show(int id) {
-    	indexManageService.per_show(id);
+	public String per_show(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+    	indexManageService.per_show(indi_id);
 		return "redirect:listIndexManage";
 	}
     
@@ -183,7 +187,7 @@ public class IndexManageController {
     
     @RequestMapping("addIndiData")
     public String addIndiData(
-  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") int status,
+  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") int status,@RequestParam("addSource") String source,
   			Model model){
         //ModelAndView mav = new ModelAndView();
         IndexManage indexManage= new IndexManage();
@@ -197,6 +201,7 @@ public class IndexManageController {
 //        indexManage.setTime_point(timePoint);
 //        indexManage.setEnd_time(endTime);
 //        indexManage.setIndi_value(value);
+        indexManage.setSjly_name2(source);
         indexManageService.add(indexManage);
         model.addAttribute("addSuccess", "添加成功");
         System.out.println("sssssss");
@@ -398,7 +403,7 @@ public class IndexManageController {
    	        System.out.println(indi_TFList.get(i).getIndi_name());
    	        
    	        indexManage.setStatus(0);
-   	        
+   	        indexManage.setSjly_name2(indi_TFList.get(i).getSjly_name2());
    	        System.out.println("插入0");
    		 
    	        indexManageService.add(indexManage);

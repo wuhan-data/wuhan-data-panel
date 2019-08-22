@@ -4,107 +4,65 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.wuhan_data.mapper.SpecialMapper">
-       <!--  <insert id="add" parameterType="IndiCorrelative" >
-            insert into WUHAN_DATA."CORRELATIVE_INDI"(column_id,indi_id,indi_name)values (#{column_id},#{indi_id},#{indi_name})
-        </insert>
-         
-        <delete id="delete" parameterType="_int" >
-            delete from WUHAN_DATA."CORRELATIVE_INDI" where id= #{id}  
-        </delete>
-         
-        <select id="get" parameterType="_int" resultType="IndiCorrelative">
-            select * from   WUHAN_DATA."CORRELATIVE_INDI"  where id= #{id}   
-        </select>
- 
-        <update id="update" parameterType="IndiCorrelative" >
-            update WUHAN_DATA."CORRELATIVE_INDI" set column_id=#{column_id},indi_id=#{indi_id},indi_name=#{indi_name} where id=#{id}   
-        </update>
-        
-        <select id="list" resultType="IndiCorrelative">
-            select * from WUHAN_DATA."CORRELATIVE_INDI"
-             <if test="start!=null and count!=null">
-                    limit #{start},#{count}
-            </if>     
-        </select>
-        <select id="total" resultType="int">
-            select count(*) from  WUHAN_DATA."CORRELATIVE_INDI"    
-        </select>     -->
-        
+   
         <!-- 添加专题 -->
-        <insert id="add" parameterType="SpecialDetail" >
-            insert into WUHAN_DATA."SPECIAL_DETAIL"(special_id,special_name) values(#{special_id},#{special_name})
+        <insert id="add" parameterType="IndexSpecial" >
+            insert into WUHAN_DATA."INDEX_SPECIAL"(title,image) values(#{title},#{image})
         </insert>
         
-         <insert id="addIndi" parameterType="SpecialDetail" >
-            insert into WUHAN_DATA."SPECIAL_DETAIL"(indi_id,indi_name,special_id,special_name) values(#{indi_id},#{indi_name},#{special_id},#{special_name})
-        </insert>
          
          <!-- 删除一个专题 -->
         <delete id="delete" parameterType="int" >
-            delete from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id}  
+            delete from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}  
         </delete>    
         
-         <!-- 删除一个专题下一个指标 -->
-        <delete id="deleteIndi" parameterType="int" >
-            delete from WUHAN_DATA.SPECIAL_DETAIL where id=#{id}  
-        </delete>     
          
          <!-- 得到专题列表 -->
-        <select id="getlist" parameterType="java.util.Map" resultType="SpecialDetail">
-            select special_id,special_name,is_show from WUHAN_DATA.SPECIAL_DETAIL group by special_id,special_name,is_show order by special_id limit #{page.dbIndex},#{page.dbNumber}   
+        <select id="getlist" parameterType="java.util.Map" resultType="IndexSpecial">
+            select id,title,topic_weight,image,is_show from WUHAN_DATA."INDEX_SPECIAL" order by topic_weight limit #{page.dbIndex},#{page.dbNumber}   
         </select>  
 
- <select id="getSname" parameterType="int" resultType="String">
-            select distinct special_name from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id}
+ 		<select id="getSname" parameterType="int" resultType="String">
+            select distinct title from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
         </select>  
  
         <!--修改专题名称  -->
-        <update id="update" parameterType="SpecialDetail" >
-            update WUHAN_DATA.SPECIAL_DETAIL set special_name=#{special_name} where special_id=#{special_id}
+        <update id="updateTitle" parameterType="IndexSpecial" >
+            update WUHAN_DATA."INDEX_SPECIAL" set title=#{title} where id=#{id}
         </update>
         
-        <update id="updateIndi" parameterType="SpecialDetail" >
-            update WUHAN_DATA.SPECIAL_DETAIL set indi_name=#{indi_name} where id=#{id}
+        <update id="update" parameterType="IndexSpecial" >
+            update WUHAN_DATA."INDEX_SPECIAL" 
+            <set>
+            <if test="title!=null">title=#{title}</if>
+            <if test="image!=null">image=#{image}</if>
+            </set>
+              where id=#{id}
         </update>
                
         <!-- 修改专题是否显示 -->
-         <update id="updateShow" parameterType="SpecialDetail" >
-            update WUHAN_DATA.SPECIAL_DETAIL
+         <update id="updateShow" parameterType="IndexSpecial" >
+            update WUHAN_DATA."INDEX_SPECIAL"
             <set>
             is_show=#{is_show}
             </set>
-             where special_id=#{special_id}   
+             where id=#{id}   
         </update>
         
         
-         <!-- 修改专题是否显示 -->
-         <update id="updateIndiShow" parameterType="SpecialDetail" >
-            update WUHAN_DATA.SPECIAL_DETAIL
+        
+          <update id="reOrderByTitle" parameterType="IndexSpecial" >
+            update WUHAN_DATA."INDEX_SPECIAL"
             <set>
-            is_show=#{is_show}
+            topic_weight=#{topic_weight}
             </set>
-             where id=#{id}
+             where title=#{title}   
         </update>
+        
         
       <!-- 统计专题数量 -->
         <select id="total" resultType="int">
-            select count(*) from (select special_id from WUHAN_DATA.SPECIAL_DETAIL group by special_id) a
-        </select>
-        
-        <!-- 统计专题下指标数量 -->
-         <select id="totalIndi" resultType="int">
-            select count(*) from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id}
-        </select>
-        
-        
-        
-        <!-- 统计专题数量 -->
-        <select id="maxSpecialId" resultType="int">
-           select max(special_id)+1 from WUHAN_DATA.SPECIAL_DETAIL
-        </select>
-        
-      <!-- 得到专题下指标列表 -->
-        <select id="getIndiList" parameterType="java.util.Map" resultType="SpecialDetail">
-            select * from WUHAN_DATA.SPECIAL_DETAIL where special_id=#{special_id} limit #{page.dbIndex},#{page.dbNumber}            
-        </select>  
+            select count(*) from WUHAN_DATA."INDEX_SPECIAL"
+        </select>     
+
     </mapper>

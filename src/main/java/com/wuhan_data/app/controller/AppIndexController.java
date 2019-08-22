@@ -61,13 +61,26 @@ public class AppIndexController {
 	
 	
 	//首页的专题
-	@RequestMapping(value="initIndexSpecial",produces = "text/plain;charset=utf-8")
+	@RequestMapping(value="initIndexTopic",produces = "text/plain;charset=utf-8")
 	@ResponseBody
-    public String initIndexSpecial(HttpServletRequest request, 
-            HttpServletResponse response) throws UnsupportedEncodingException{
-		
+    public String initIndexTopic(HttpServletRequest request, 
+            HttpServletResponse response) throws UnsupportedEncodingException, UnknownHostException{
+		Map map = new HashMap();
+		map.put("errCode", "0");
+		map.put("errMsg", "success");
+		String ip = InetAddress.getLocalHost().getHostAddress()+":"+request.getLocalPort();
 		List<IndexSpecial> indexList = appIndexService.getIndexSpecialList();
-        String  param= JSON.toJSONString(indexList); 
+		for(int i=0;i<indexList.size();i++) {
+			String hostIP = indexList.get(i).getImage();
+			hostIP = hostIP.replace("http://","");//去除http和https前缀
+			String [] arr = hostIP.split("/");//按‘/’分隔，取第一个
+			hostIP = arr[0];
+			indexList.get(i).setImage(indexList.get(i).getImage().replace(hostIP,ip));
+		}      
+        Map map1 = new HashMap();
+        map1.put("topic", indexList);
+		map.put("data", map1);
+		 String  param= JSON.toJSONString(map); 
         return param;
     }
 	
@@ -78,6 +91,7 @@ public class AppIndexController {
             HttpServletResponse response){		
 		int id = Integer.parseInt(request.getParameter("topicId"));
 		List<IndexSpecial> indexList = appIndexService.getDesc(id);
+		
         String  param= JSON.toJSONString(indexList); 
         return param;
     }

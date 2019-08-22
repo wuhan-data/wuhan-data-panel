@@ -5,7 +5,7 @@
  
     <mapper namespace="com.wuhan_data.mapper.IndexManageMapper">
         <insert id="add" parameterType="IndexManage" >
-            insert into WUHAN_DATA."INDEX_MANAGE"(indi_code,indi_name,status,show_type,source)values (#{indi_code},#{indi_name},#{status},#{show_type},#{source})   
+            insert into WUHAN_DATA."INDEX_MANAGE"(indi_code,indi_name,status,show_type,source)values (#{indi_code},#{indi_name},#{status},#{show_type},#{sjly_name2})   
         </insert>
         
          <insert id="add_init" parameterType="IndexManage" >
@@ -80,7 +80,7 @@
         
 <!--         模拟同方数据库   -->
 		  <select id="listTF" resultType="indi_TF">
-            select indi_code,indi_name,sjly from MIDUSER."DT_EXP_ALL_SJLY" group by indi_code,indi_name ,sjly            
+            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" group by indi_code,indi_name ,sjly_name2            
         </select>  
         
 <!--          <select id="listTF" resultType="indi_TF"> -->

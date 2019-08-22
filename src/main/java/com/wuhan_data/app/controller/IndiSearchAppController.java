@@ -19,7 +19,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +45,7 @@ import com.wuhan_data.pojo.HistorySearch;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.TPIndiValue;
 import com.wuhan_data.tools.MapValueComparator;
+import com.wuhan_data.tools.StringToMap;
 
 @Controller
 @RequestMapping("")
@@ -54,8 +55,9 @@ public class IndiSearchAppController {
 	IndiSearchService indiSearchService;
 	@Autowired
 	IndiDetailService indiDetailService;
-
-	String source = "统计局数据库-国研网";// 搜索来源
+	@Autowired
+	SessionSQLServiceApp sessionSQLServiceApp;
+//	String source = "统计局数据库-国研网";// 搜索来源
 
 	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -169,13 +171,13 @@ public class IndiSearchAppController {
 //			paraMap.put("beforeDate", calendar.getTime());
 			String trendSource = indiSearchService.getTrendSource(paraMap);
 			switch (trendSource) {
-			case "湖北指数-统一模板数据入库工具下湖北指数入库":
+			case "大数据":
 				trendSource = "大数据";
 				break;
-			case "国家统计局-":
+			case "国家统计局":
 				trendSource = "国统";
 				break;
-			case "湖北省统计局-":
+			case "湖北省统计局":
 				trendSource = "湖统";
 				break;
 			default:
@@ -250,13 +252,13 @@ public class IndiSearchAppController {
 //		source="湖统";//指标来源
 		switch (source) {
 		case "大数据":
-			source = "湖北指数-统一模板数据入库工具下湖北指数入库";
+			source = "大数据";
 			break;
 		case "国统":
-			source = "国家统计局-";
+			source = "国家统计局";
 			break;
 		case "湖统":
-			source = "湖北省统计局-";
+			source = "湖北省统计局";
 			break;
 		default:
 			source = "全部";
@@ -281,14 +283,14 @@ public class IndiSearchAppController {
 			String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
 			teMap.put("id", indexCode);
 			teMap.put("name", searchIndiList.get(i).getIndi_name());
-			switch (searchIndiList.get(i).getSjly()) {
-			case "湖北指数-统一模板数据入库工具下湖北指数入库":
+			switch (searchIndiList.get(i).getSjly_name2()) {
+			case "大数据":
 				teMap.put("source", "大数据");
 				break;
-			case "国家统计局-":
+			case "国家统计局":
 				teMap.put("source", "国统");
 				break;
-			case "湖北省统计局-":
+			case "湖北省统计局":
 				teMap.put("source", "湖统");
 				break;
 			default:
@@ -321,8 +323,23 @@ public class IndiSearchAppController {
 		Integer userId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
-			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+			try {
+				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+			} catch (Exception e) {
+				return this.apiReturn("-1", "参数获取异常", data);
+			}
 
+			try {
+				if (!token.equals("")) {
+					String mapString = sessionSQLServiceApp.get(token).getSess_value();
+					Map mapS = StringToMap.stringToMap(mapString);
+					userId = Integer.valueOf((String) mapS.get("userId"));
+				}
+			} catch (Exception e) {
+				System.out.println("无效的token令牌");
+			}
+			
+			
 			boolean hasIndexCode = requestObject.containsKey("indexId");
 			if (!hasIndexCode) {
 				return this.apiReturn("-1", "需要指定栏目id", data);
@@ -347,29 +364,39 @@ public class IndiSearchAppController {
 
 //		String indexCode = "2200309";
 //		source="湖统";//指标来源
-
+		
 		String appIndiName = indiDetailService.getIndexName(indexCode);
+		//添加是否收藏
+		Map favoriteMap = new HashMap();
+		favoriteMap.put("appIndiName", appIndiName);
+		favoriteMap.put("source", source);
+		favoriteMap.put("userId", userId);
+		int isFavorite = indiDetailService.getIsFavorite(favoriteMap);
+		boolean isF=false;
+		if(isFavorite>0)
+			isF=true;
 		String area_name = null;
+		Map baseInfoMap = new HashMap();
+		baseInfoMap.put("source", source);
 		switch (source) {
 		case "大数据":
-			source = "湖北指数-统一模板数据入库工具下湖北指数入库";
+			source = "大数据";
 			area_name = "湖北省";
 			break;
 		case "国统":
-			source = "国家统计局-";
+			source = "国家统计局";
 			area_name = "全国";
 			break;
 		case "湖统":
-			source = "湖北省统计局-";
+			source = "湖北省统计局";
 			area_name = "湖北省";
 			break;
 		}
-
+		
 		String indiCode = indiDetailService.getIndiCode(appIndiName);
-		Map baseInfoMap = new HashMap();
 		baseInfoMap.put("indexId", indiCode);
 		baseInfoMap.put("indexName", appIndiName);
-		baseInfoMap.put("isFavorite", false);
+		baseInfoMap.put("isFavorite", isF);
 
 		// 记录历史搜索
 		int uid = 1;// 从session中获得
@@ -544,22 +571,8 @@ public class IndiSearchAppController {
 			dataX.add(dateList);
 			List<String> showColor = new ArrayList<String>();
 			List<String> showType = new ArrayList<String>();
-			if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
-				// 创建柱状图
-				BarType barType = new BarType();// 柱状图
-				System.out.println("legendList长度:" + legendList.size());
-				BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
-						dataX.get(0), legendList, dataV, showColor, showType);
-				classInfoList.add(barEntity);
-
-				// 创建表格
-				TableType tableType = new TableType();
-				TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
-						dataX, legendList, dataV);// 表格
-				System.out.println("yes or no:" + tableEntity.getTableBody());
-				classInfoList.add(tableEntity);
-			} else {
-				// TODO 其他情况
+			if(appIndiName.equals("湖北PMI"))
+			{
 				// 创建折线图
 				LineType lineType = new LineType();
 				LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
@@ -571,8 +584,40 @@ public class IndiSearchAppController {
 						dataX, legendList, dataV);// 表格
 				classInfoList.add(lineEntity);
 				classInfoList.add(tableEntity);
-
 			}
+			else
+			{
+				if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
+					// 创建柱状图
+					BarType barType = new BarType();// 柱状图
+					System.out.println("legendList长度:" + legendList.size());
+					BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+							dataX.get(0), legendList, dataV, showColor, showType);
+					classInfoList.add(barEntity);
+
+					// 创建表格
+					TableType tableType = new TableType();
+					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+							dataX, legendList, dataV);// 表格
+					System.out.println("yes or no:" + tableEntity.getTableBody());
+					classInfoList.add(tableEntity);
+				} else {
+					// TODO 其他情况
+					// 创建折线图
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+							dataX.get(0), legendList, dataV, showColor, showType);
+
+					// 创建表格
+					TableType tableType = new TableType();
+					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+							dataX, legendList, dataV);// 表格
+					classInfoList.add(lineEntity);
+					classInfoList.add(tableEntity);
+
+				}
+			}
+			
 		}
 
 		Map finData = new HashMap();
@@ -643,15 +688,15 @@ public class IndiSearchAppController {
 		String area_name = null;
 		switch (source) {
 		case "大数据":
-			source = "湖北指数-统一模板数据入库工具下湖北指数入库";
+			source = "大数据";
 			area_name = "湖北省";
 			break;
 		case "国统":
-			source = "国家统计局-";
+			source = "国家统计局";
 			area_name = "全国";
 			break;
 		case "湖统":
-			source = "湖北省统计局-";
+			source = "湖北省统计局";
 			area_name = "湖北省";
 			break;
 		}
@@ -850,16 +895,18 @@ public class IndiSearchAppController {
 
 		int uid = 1;// TODO 从session中获得
 		String index_id = "0100001";
-
+		String source = null;
 		String type = "指标数据";
 		Date date = new Date();
 		String indi_source = source;
+		String index_name = source;
 		Collect collect = new Collect();
 		collect.setIndex_id(index_id);
 		collect.setCreate_time(date);
 		collect.setIndi_source(indi_source);
 		collect.setType(type);
 		collect.setUid(uid);
+		collect.setIndex_name(index_name);
 		indiDetailService.indiCollect(collect);
 
 		Map map = new HashMap();

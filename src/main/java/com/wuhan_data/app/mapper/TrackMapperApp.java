@@ -15,10 +15,14 @@ public interface TrackMapperApp {
 	@DataSource(value="dataSource_dm")
 	public int update(Track track);
 	@DataSource(value="dataSource_dm")
+	public int updateCreateTime(Track track);
+	@DataSource(value="dataSource_dm")
 	public List<Track> list();
 	@DataSource(value="dataSource_dm")
 	public int count();
 	@DataSource(value="dataSource_dm")
 	public List<Track> getByUid(int uid);
+	@DataSource(value="dataSource_dm")
+	public int isExist(Track track);
 
 }

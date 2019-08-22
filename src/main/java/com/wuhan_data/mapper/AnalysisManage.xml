@@ -99,103 +99,99 @@
             order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>  -->
         
-                <insert id="add" parameterType="AnalysisManage" >
+       <!--  <insert id="add" parameterType="AnalysisManage" >
             insert into ANALYSIS_LIST(type_name,indi_name,is_show) values(#{type_name},#{indi_name},#{is_show})
-        </insert>
+        </insert> -->
         
         <insert id="addTheme" parameterType="AnalysisManage" >
-            insert into ANALYSIS_LIST(type_name,theme_name,weight) values(#{type_name},#{theme_name},#{weight})
+            insert into  WUHAN_DATA."ANALYSIS_THEME"(type_name,theme_name,type_weight) values(#{type_name},#{theme_name},#{weight})
         </insert>
         
         <update id="editTheme" parameterType="AnalysisManage">
-        update ANALYSIS_LIST
+        update WUHAN_DATA."ANALYSIS_THEME"
         <set>
             <if test="theme_name!=null">theme_name=#{theme_name}</if>
         </set>
-        where id=#{id}
+        where theme_id=#{id}
         </update>
         
          <update id="reOrderByTypename" parameterType="AnalysisManage">
-        update ANALYSIS_LIST
+        update WUHAN_DATA."ANALYSIS_THEME"
         <set>
-            <if test="weight!=null">weight=#{weight}</if>
+            <if test="weight!=null">type_weight=#{weight}</if>
         </set>
         where type_name=#{type_name}
         </update>        
          
         <delete id="delete" parameterType="int" >
-            delete from ANALYSIS_LIST where id=#{id}  
+            delete from WUHAN_DATA."ANALYSIS_THEME" where theme_id=#{id}  
         </delete>
          
         <select id="get" parameterType="int" resultType="AnalysisManage">
-            select * from ANALYSIS_LIST where id=#{id}   
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME" where theme_id=#{id}   
         </select>
         
          <select id="weight" parameterType="String" resultType="int">
-            select distinct weight from ANALYSIS_LIST where type_name=#{tname}   
+            select distinct type_weight from WUHAN_DATA."ANALYSIS_THEME" where type_name=#{tname}   
         </select>
         
        <select id="getOrderByTypename"  resultType="AnalysisManage">
-            select type_name,weight from ANALYSIS_LIST where weight&lt;11 group by type_name,weight order by weight
+            select type_name,type_weight weight from WUHAN_DATA."ANALYSIS_THEME" where type_weight&lt;11 group by type_name,type_weight order by type_weight desc
         </select>
  
   		<select id="search" parameterType="java.util.Map" resultType="AnalysisManage">
-            select * from ANALYSIS_LIST 
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME" 
             <where>
             theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name} 
             </where>
-             order by id limit #{page.dbIndex},#{page.dbNumber}
+             order by theme_id limit #{page.dbIndex},#{page.dbNumber}
         </select>
  
-        <update id="update" parameterType="AnalysisManage" >
-            update ANALYSIS_LIST set type_name=#{type_name} where id=#{id}   
-        </update>
+<!--         <update id="update" parameterType="AnalysisManage" >
+            update analysis_theme set type_name=#{type_name} where type_id=#{id}   
+        </update> -->
         
         <update id="updateShow" parameterType="AnalysisManage">
-        update ANALYSIS_LIST
+        update WUHAN_DATA."ANALYSIS_THEME"
         <set>
             <if test="is_show!=null">is_show=#{is_show}</if>
         </set>
-        where id=#{id}
+        where theme_id=#{id}
         </update>
         
         <select id="list" resultType="AnalysisManage">
-            select * from ANALYSIS_LIST   
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME"   
         </select> 
         
         <select id="parentList" resultType="AnalysisManage" >
-            select type_name,weight from ANALYSIS_LIST group by type_name,weight order by weight
+            select type_name,type_weight weight from WUHAN_DATA."ANALYSIS_THEME" group by type_name,weight order by weight desc
         </select> 
         <select id="countByGroup" resultType="int" parameterType="String" >
-            select count(*) from ANALYSIS_LIST where type_name=#{type_name}
+            select count(*) from WUHAN_DATA."ANALYSIS_THEME" where type_name=#{type_name}
         </select>
         
         <select id="getFirstWeight" resultType="AnalysisManage" >
-            select type_name from ANALYSIS_LIST where weight=1 group by type_name
+            select type_name from WUHAN_DATA."ANALYSIS_THEME" where type_weight=10 group by type_name
         </select>  
        
          <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from ANALYSIS_LIST where theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name} 
+            select count(*) from WUHAN_DATA."ANALYSIS_THEME" where theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name} 
         </select>
       
         <select id="groupList" resultType="AnalysisManage" parameterType="java.util.Map" >
-            select * from ANALYSIS_LIST
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME"
             <where>
             	type_name=#{type_name}
             </where>
-            order by id limit #{page.dbIndex},#{page.dbNumber}
+            order by theme_id limit #{page.dbIndex},#{page.dbNumber}
         </select>         
          <select id="searchGroupList" resultType="AnalysisManage" parameterType="java.util.Map" >
-            select * from ANALYSIS_LIST
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME"
             <where>
             theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name}
             </where>
-            order by id limit #{page.dbIndex},#{page.dbNumber}
+            order by theme_id limit #{page.dbIndex},#{page.dbNumber}
         </select> 
-        
-        <select id="getBaseInfo" resultType="Map" parameterType="Integer">
-        select type_name,theme_name from analysis_theme where theme_id=#{themeId}
-        </select>
 
        
     </mapper>

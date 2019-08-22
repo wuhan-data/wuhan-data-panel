@@ -22,4 +22,6 @@ public interface IndiDetailService {
 
 	String getIndexName(String indexCode);
 
+	int getIsFavorite(Map favoriteMap);
+
 }

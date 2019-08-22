@@ -37,13 +37,11 @@ public class User {
     	role_name="undefined";
     	create_time=new Date();
     	role_id="职员";
-    	department_id="组织部";
+    	department_id="组织";
     	birthday=new Date();
     	city="";
     	head="";
-    	description="天才是百分之一的灵感加百分之九十九的汗水。";
-    	
-    	
+    	description="天才是百分之一的灵感加百分之九十九的汗水。";	
 	}
     public String getHead() {
 		return head;

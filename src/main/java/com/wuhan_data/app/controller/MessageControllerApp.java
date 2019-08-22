@@ -38,10 +38,6 @@ import net.sf.json.JSONObject;
 public class MessageControllerApp {
 	
 	@Autowired
-	MessageServiceApp messageServiceApp;
-	@Autowired
-	NoticeServiceApp noticeServiceApp;
-	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
 	@Autowired
 	Message2ServiceApp message2ServiceApp;
@@ -61,6 +57,7 @@ public class MessageControllerApp {
 	  		tokenString=mapget.get("token").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getMessageApp"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	  	 //token令牌验证
@@ -69,6 +66,7 @@ public class MessageControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getMessageApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -111,6 +109,7 @@ public class MessageControllerApp {
 				return this.apiReturn("0", "消息获取成功", data);
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("getMessageApp"+e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}
 		}

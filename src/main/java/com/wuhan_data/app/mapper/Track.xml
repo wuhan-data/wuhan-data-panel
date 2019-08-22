@@ -5,31 +5,36 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.TrackMapperApp">
         <insert id="add" parameterType="Track" >
-            insert into WUHAN_DATA."TRACK" (uid,type,index_id,index_name,indi_source,create_time) values (#{uid},#{type},#{index_id},#{index_name},#{indi_source},#{create_time})   
+            insert into WUHAN_DATA.TRACK (uid,type,index_id,index_name,indi_source,create_time) values (#{uid},#{type},#{index_id},#{index_name},#{indi_source},#{create_time})   
         </insert>
         <delete id="delete" parameterType="Track" >
-            delete from WUHAN_DATA."TRACK" where id= #{id}  
+            delete from WUHAN_DATA.TRACK where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Track">
-            select * from   WUHAN_DATA."TRACK"  where id= #{id}   
+            select * from   WUHAN_DATA.TRACK  where id= #{id}   
         </select>
          <select id="getByUid" parameterType="_int" resultType="Track">
-            select * from   WUHAN_DATA."TRACK"  where uid= #{uid}   
+            select * from   WUHAN_DATA.TRACK  where uid= #{uid}   
         </select>
  
         <update id="update" parameterType="Track" >
-            update WUHAN_DATA."TRACK" set uid=#{uid},type=#{type},index_id=#{index_id},index_name=#{index_name},indi_source=#{indi_source},create_time=#{create_time} where id=#{id}   
+            update WUHAN_DATA.TRACK set uid=#{uid},type=#{type},index_id=#{index_id},index_name=#{index_name},indi_source=#{indi_source},create_time=#{create_time} where id=#{id}   
+        </update>
+        <update id="updateCreateTime" parameterType="Track" >
+            update WUHAN_DATA.TRACK set create_time=#{create_time} where uid= #{uid} and index_id=#{index_id} and type=#{type}    
         </update>
         
         <select id="list" resultType="Track">
-            select * from WUHAN_DATA."TRACK"     
+            select * from WUHAN_DATA.TRACK     
         </select> 
         
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA."TRACK"  
+        	select count(*) from WUHAN_DATA.TRACK  
         </select>
-
+		 <select id="isExist" parameterType="Track" resultType="int">
+            select count(*) from   WUHAN_DATA.TRACK  where uid= #{uid} and index_id=#{index_id} and type=#{type}   
+        </select>
        
 
     </mapper>

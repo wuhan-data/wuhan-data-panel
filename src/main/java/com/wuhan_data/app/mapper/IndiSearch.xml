@@ -17,11 +17,11 @@
       
      
       <select id="searchIndi" resultType="IndexManage" parameterType="java.util.Map">
-            select indi_code,indi_name,sjly from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and sjly=#{source} and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly
+            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and sjly_name2=#{source} and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly_name2
         </select> 
         
          <select id="searchIndiAll" resultType="IndexManage" parameterType="String">
-            select indi_code,indi_name,sjly from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and (sjly='湖北指数-统一模板数据入库工具下湖北指数入库' or sjly='国家统计局-' or sjly='湖北省统计局-') and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly
+            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and (sjly_name2='大数据' or sjly_name2='国家统计局' or sjly_name2='湖北省统计局') and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly_name2
         </select> 
         
 <!--        获得前十四天的搜索趋势 -->

@@ -58,6 +58,7 @@ public class TrackControllerApp {
 		  	sourceString=mapget.get("source").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setTrackApp"+e.toString());
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	  	//token令牌验证
@@ -66,6 +67,7 @@ public class TrackControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("setTrackApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 	  	if(tokenIsEmpty)
@@ -86,19 +88,29 @@ public class TrackControllerApp {
 				track.setIndex_name(indexNameString);
 				track.setIndi_source(sourceString);
 				track.setCreate_time(create_time);
-				if (trackServiceApp.add(track)!=0)
+				//足迹存在
+				if (trackServiceApp.isExist(track)!=0)
 				{
+					trackServiceApp.updateCreateTime(track);
 					return this.apiReturn("0", "足迹记录成功", data);
 				}
+				//足迹不存在
 				else {
-					return this.apiReturn("-2", "足迹记录失败", data);
-	
+					if (trackServiceApp.add(track)!=0)
+					{
+						return this.apiReturn("0", "足迹记录成功", data);
+					}
+					else {
+						return this.apiReturn("-2", "足迹记录失败", data);
+					}
 				}
+				
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("setTrackApp"+e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}
-	  		
+
 		}
 	}
 	
@@ -118,6 +130,7 @@ public class TrackControllerApp {
 	  		tokenString=mapget.get("token").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getTrackApp"+e.toString());
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 	  	
@@ -127,6 +140,7 @@ public class TrackControllerApp {
 			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("getTrackApp"+e.toString());
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 
@@ -179,6 +193,7 @@ public class TrackControllerApp {
 				return this.apiReturn("0", "足迹获取成功", data);
 			} catch (Exception e) {
 				// TODO: handle exception
+				System.out.println("getTrackApp"+e.toString());
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}		
 		}
