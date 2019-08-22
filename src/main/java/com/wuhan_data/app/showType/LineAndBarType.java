@@ -86,8 +86,8 @@ public class LineAndBarType {
 		if (legendData.size() > 5) {
 			legendMap.put("type", "scroll");
 		}
-		// 控制初始展示图例个数,默认展示3个
-		int showNum = 3;
+		// 控制初始展示图例个数,默认展示4个
+		int showNum = 4;
 		if (legendData.size() >= showNum) {
 			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
 			for (int i = 0; i < legendData.size(); i++) {

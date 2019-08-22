@@ -90,7 +90,7 @@ public class LineType {
 			legendMap.put("type", "scroll");
 		}
 		// 控制初始展示图例个数,默认展示2个
-		int showNum = 2;
+		int showNum = 4;
 		if (legendData.size() >= showNum) {
 			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
 			for (int i = 0; i < legendData.size(); i++) {
