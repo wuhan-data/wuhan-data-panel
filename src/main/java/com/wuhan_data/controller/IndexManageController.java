@@ -163,14 +163,18 @@ public class IndexManageController {
     
     
     @RequestMapping("delete")
-	public String questionDelete(int id) {
-    	indexManageService.delete(id);
+	public String questionDelete(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+    	indexManageService.delete(indi_id);
 		return "redirect:listIndexManage";
 	}
     
     @RequestMapping("per_show")
-	public String per_show(int id) {
-    	indexManageService.per_show(id);
+	public String per_show(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+    	indexManageService.per_show(indi_id);
 		return "redirect:listIndexManage";
 	}
     

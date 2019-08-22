@@ -76,12 +76,12 @@
                        <!--  <a class="active-menu" href="toIndex"><i class="fa fa-dashboard"></i>首页</a> -->
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+<!--                         <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a> -->
+<!--                         <ul class="nav nav-second-level"> -->
                             <li>
-                                <a href="listIndexManage">指标数据维护</a>
+                                <a a href="#" onclick="menuClick('listIndexManage')" id="listIndexManage"><i class="fa fa-quote-left"></i>指标数据维护</a>
                             </li>
-                        </ul>
+<!--                         </ul> -->
                     </li>
                     <li>
                         <!-- <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a> -->
