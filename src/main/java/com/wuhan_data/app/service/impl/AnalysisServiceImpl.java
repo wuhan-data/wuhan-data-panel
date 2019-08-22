@@ -1068,6 +1068,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					String indiValue = indiInfoList.get(0).getIndiValue();
 					legend.add(j, indiName);
 					dataV.add(j, indiValue);
+					showColor.add(indiList.get(j).getShowColor());
 				}
 				PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
 				TotalList.add(pieEntity);

@@ -32,6 +32,8 @@
 		#{type_id} AND
 		(is_show = 0 OR
 		is_show = 9)
+		ORDER BY
+		theme_id ASC
 	</select>
 
 	<select id="getThemeBaseInfo"

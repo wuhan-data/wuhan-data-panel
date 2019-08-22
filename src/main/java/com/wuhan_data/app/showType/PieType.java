@@ -31,17 +31,17 @@ public class PieType {
 		pieOptionEntity.setTooltip(toolTipMap);
 
 		// 构建legend
-		Map<String, Object> legendMap = new HashMap<String, Object>();
-		legendMap.put("orient", "vertical");
-		legendMap.put("bottom", "330");
-		legendMap.put("data", legend);
-		// 计算legend高度
-		int legendHeight = (legend.size() > 5 ? 5 : legend.size()) * 35;
-		legendMap.put("height", String.valueOf(legendHeight));
-		if (legend.size() > 5) {
-			legendMap.put("type", "scroll");
-		}
-		pieOptionEntity.setLegend(legendMap);
+//		Map<String, Object> legendMap = new HashMap<String, Object>();
+//		legendMap.put("orient", "vertical");
+//		legendMap.put("bottom", "330");
+//		legendMap.put("data", legend);
+//		// 计算legend高度
+//		int legendHeight = (legend.size() > 5 ? 5 : legend.size()) * 35;
+//		legendMap.put("height", String.valueOf(legendHeight));
+//		if (legend.size() > 5) {
+//			legendMap.put("type", "scroll");
+//		}
+//		pieOptionEntity.setLegend(legendMap);
 
 		// 构建调色盘
 		List<String> colorMap = new ArrayList<String>();
