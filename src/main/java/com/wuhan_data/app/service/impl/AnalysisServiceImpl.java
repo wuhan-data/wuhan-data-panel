@@ -528,7 +528,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ (Double.parseDouble(indexFirstValueList.get(j))
 											+ Double.parseDouble(indexSecondValueList.get(j))
 											+ Double.parseDouble(indexThirdValueList.get(j))));
-					dataIndiValue1.set(j, dataValueDouble.toString());
+					dataIndiValue1.add(j, dataValueDouble.toString());
 				}
 				// 第二产业
 				List<String> dataIndiValue2 = new ArrayList<String>();
@@ -538,7 +538,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ (Double.parseDouble(indexFirstValueList.get(j))
 											+ Double.parseDouble(indexSecondValueList.get(j))
 											+ Double.parseDouble(indexThirdValueList.get(j))));
-					dataIndiValue2.set(j, dataValueDouble.toString());
+					dataIndiValue2.add(j, dataValueDouble.toString());
 				}
 				// 第三产业
 				List<String> dataIndiValue3 = new ArrayList<String>();
@@ -547,7 +547,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 							/ (Double.parseDouble(indexFirstValueList.get(j))
 									+ Double.parseDouble(indexSecondValueList.get(j))
 									+ Double.parseDouble(indexThirdValueList.get(j)));
-					dataIndiValue3.set(j, dataValueDouble.toString());
+					dataIndiValue3.add(j, dataValueDouble.toString());
 				}
 
 				// 计算三产占GDP的比重
@@ -560,7 +560,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ (Double.parseDouble(indexFirstValueList.get(j))
 											+ Double.parseDouble(indexSecondValueList.get(j))
 											+ Double.parseDouble(indexThirdValueList.get(j))));
-					dataIndiValue11.set(j, dataValueDouble.toString());
+					dataIndiValue11.add(j, dataValueDouble.toString());
 				}
 				// 第二产业
 				List<String> dataIndiValue22 = new ArrayList<String>();
@@ -569,7 +569,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 							/ (Double.parseDouble(indexFirstValueList.get(j))
 									+ Double.parseDouble(indexSecondValueList.get(j))
 									+ Double.parseDouble(indexThirdValueList.get(j)));
-					dataIndiValue22.set(j, dataValueDouble.toString());
+					dataIndiValue22.add(j, dataValueDouble.toString());
 				}
 				// 第三产业
 				List<String> dataIndiValue33 = new ArrayList<String>();
@@ -578,7 +578,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 							/ (Double.parseDouble(indexFirstValueList.get(j))
 									+ Double.parseDouble(indexSecondValueList.get(j))
 									+ Double.parseDouble(indexThirdValueList.get(j)));
-					dataIndiValue33.set(j, dataValueDouble.toString());
+					dataIndiValue33.add(j, dataValueDouble.toString());
 				}
 
 				// 配置指标图例
@@ -742,7 +742,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						for (int j = 0; j < xAxis.size(); j++) {
 							Double dataValueDouble = Double.parseDouble(dataValue.get(0).get(j))
 									- Double.parseDouble(dataValue.get(1).get(j));
-							dataIndiValue.set(j, dataValueDouble.toString());
+							dataIndiValue.add(j, dataValueDouble.toString());
 						}
 						dataValue1.add(dataIndiValue);
 					} else {
@@ -750,7 +750,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						for (int j = 0; j < xAxis.size(); j++) {
 							Double dataValueDouble = Double.parseDouble(dataValue.get(1).get(j))
 									- Double.parseDouble(dataValue.get(0).get(j));
-							dataIndiValue.set(j, dataValueDouble.toString());
+							dataIndiValue.add(j, dataValueDouble.toString());
 						}
 						dataValue1.add(dataIndiValue);
 					}
