@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,16 +40,17 @@ public class SpecialController {
 	SpecialService specialService;
 	
 	@RequestMapping("specialInit")
-    public ModelAndView specialInit(HttpServletRequest request, 
+    public String specialInit(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
+		HttpSession session = request.getSession(true);
     	request.setCharacterEncoding("UTF-8");  	
-        response.setCharacterEncoding("UTF-8");
-        ModelAndView mav = new ModelAndView();     
+        response.setCharacterEncoding("UTF-8");   
         Page page=new Page(); //分页类
         int count = specialService.total();//每一个一级栏目下面二极栏目的数量
         System.out.print("每一个一级栏目下面二极栏目的数量"+count);
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数      
         String currentPage=request.getParameter("currentPage");
+        System.out.println("currentPage:"+currentPage);
         Pattern pattern = Pattern.compile("[0-9]{1,9}");
         if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
             page.setCurrentPage(1);
@@ -68,8 +71,7 @@ public class SpecialController {
             jo.put("name", a.getTitle());
             jo.put("num", a.getTopic_weight());
             json.add(jo);
-        }
-        
+        }        
         String jsondata = request.getParameter("jsondata");
         if(jsondata!=null) {
         	System.out.println("************************************");
@@ -91,25 +93,26 @@ public class SpecialController {
         }
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:"+specialByPage.size());
         
-        mav.addObject("json", json);
-        mav.addObject("specialByPage", specialByPage);
-        mav.addObject("page", page);    
-        
-        mav.setViewName("specialManage");
-        return mav;
+        session.setAttribute("json", json);
+        session.setAttribute("specialByPage", specialByPage);
+        session.setAttribute("page", page);
+//        mav.setViewName("specialManage");
+      return "specialFrame";
+//        return mav;
     }
 	
 	
 
 	@RequestMapping(value="specialAdd",produces = "text/plain;charset=utf-8",method = RequestMethod.POST)
 	 public String specialAdd(IndexSpecial indexSpecial,MultipartFile pic1,HttpServletRequest request, HttpServletResponse response) throws IOException {
+System.out.println("zhaodaole");		
 //       存到数据库的路径
        String sqlPath=null;
 //       存到本地的路径
        String localPath="/Users/in/uploads/";
 //       文件名
        String filename=null;
-       System.out.print(pic1);
+       System.out.println("pic1:"+pic1);
        if(!pic1.isEmpty()){  //判断获取到的图片是否为空 不为空 进入到if
            //生成uuid作为文件名的一部分
            String uuid = UUID.randomUUID().toString().replaceAll("-","");
@@ -139,6 +142,7 @@ public class SpecialController {
             HttpServletResponse response) throws IOException{
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
+        System.out.print("进入del");
         int special_id=Integer.parseInt(request.getParameter("special_id"));
         specialService.delete(special_id);
         return "redirect:specialInit";
@@ -149,14 +153,8 @@ public class SpecialController {
             HttpServletResponse response) throws IOException{
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
-        ModelAndView mav = new ModelAndView();
-      
-        Page page=new Page(); //分页类
-
         int special_id=Integer.parseInt(request.getParameter("special_id"));
-        int is_show=Integer.parseInt(request.getParameter("is_show"));
-        
-        
+        int is_show=Integer.parseInt(request.getParameter("is_show"));        
         IndexSpecial sd = new IndexSpecial();
         sd.setId(special_id);
         sd.setIs_show(is_show);
@@ -168,8 +166,8 @@ public class SpecialController {
 	@RequestMapping(value="specialUpdate",produces = "text/plain;charset=utf-8",method = RequestMethod.POST)
 	 public String specialUpdate(IndexSpecial indexSpecial,MultipartFile pic1,HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		request.setCharacterEncoding("UTF-8");
-       response.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
+    response.setCharacterEncoding("UTF-8");
 		//      存到数据库的路径
      String sqlPath=null;
 //     存到本地的路径
@@ -197,12 +195,12 @@ public class SpecialController {
 
      }else {
    	  int id=Integer.parseInt(request.getParameter("id"));
-   	  	indexSpecial.setId(id);
+   	 indexSpecial.setId(id);
    	 specialService.updateTitle(indexSpecial);  
  	  
      }
      //数据库中保存的是图片的相对路径
-       
+     System.out.print("到这里了");      
      return "redirect:specialInit";
  }
 
