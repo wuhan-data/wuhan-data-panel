@@ -418,7 +418,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 								// 对数据源异常的处理
 								if (indiList.get(j).getIndiCode().toString()
 										.equals("GM0201;400:101585152;363:102387482;62:42")) {
-									Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+									Double dataValueDouble = 0.0;
+									try {
+										dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+									} catch (Exception e) {
+										dataValueDouble = 0.0;
+									}
 									if (dataValueDouble > 100) {
 										dataValueDouble -= 100;
 									}
@@ -522,70 +527,90 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 				// 计算三产对GDP的拉动率
 				// 计算方法(以第一产业为例): 当期第一产业增长率*(当期第一产业累计值/当期GDP累计值)
-				// 第一产业
 				List<String> dataIndiValue1 = new ArrayList<String>();
-				for (int j = 0; j < xAxis.size(); j++) {
-					try {
-						Double dataValueDouble = Double.parseDouble(indexFirstSpeedList.get(j))
-								* (Double.parseDouble(indexFirstValueList.get(j))
-										/ (Double.parseDouble(indexFirstValueList.get(j))
-												+ Double.parseDouble(indexSecondValueList.get(j))
-												+ Double.parseDouble(indexThirdValueList.get(j))));
-						dataIndiValue1.add(j, dataValueDouble.toString());
-					} catch (IndexOutOfBoundsException e) {
-						System.out.println("第" + j + "列" + "double数据转换计算越界:" + indexFirstSpeedList.toString()
-								+ indexSecondValueList.toString() + indexThirdValueList.toString());
-					}
-				}
-				// 第二产业
 				List<String> dataIndiValue2 = new ArrayList<String>();
-				for (int j = 0; j < xAxis.size(); j++) {
-					Double dataValueDouble = Double.parseDouble(indexSecondSpeedList.get(j))
-							* (Double.parseDouble(indexSecondValueList.get(j))
-									/ (Double.parseDouble(indexFirstValueList.get(j))
-											+ Double.parseDouble(indexSecondValueList.get(j))
-											+ Double.parseDouble(indexThirdValueList.get(j))));
-					dataIndiValue2.add(j, dataValueDouble.toString());
-				}
-				// 第三产业
 				List<String> dataIndiValue3 = new ArrayList<String>();
-				for (int j = 0; j < xAxis.size(); j++) {
-					Double dataValueDouble = Double.parseDouble(indexThirdValueList.get(j))
-							/ (Double.parseDouble(indexFirstValueList.get(j))
-									+ Double.parseDouble(indexSecondValueList.get(j))
-									+ Double.parseDouble(indexThirdValueList.get(j)));
-					dataIndiValue3.add(j, dataValueDouble.toString());
+				for (int j = 0; j < indexFirstSpeedList.size(); j++) {
+					Double indexFirstSpeedDouble = 0.0;
+					Double indexFirstValueDouble = 0.0;
+					Double indexSecondSpeedDouble = 0.0;
+					Double indexSecondValueDouble = 0.0;
+					Double indexThirdSpeedDouble = 0.0;
+					Double indexThirdValueDouble = 0.0;
+					try {
+						indexFirstSpeedDouble = Double.parseDouble(indexFirstSpeedList.get(j));
+						indexSecondSpeedDouble = Double.parseDouble(indexSecondSpeedList.get(j));
+						indexThirdSpeedDouble = Double.parseDouble(indexThirdSpeedList.get(j));
+						indexFirstValueDouble = Double.parseDouble(indexFirstValueList.get(j));
+						indexSecondValueDouble = Double.parseDouble(indexSecondValueList.get(j));
+						indexThirdValueDouble = Double.parseDouble(indexThirdValueList.get(j));
+					} catch (Exception e) {
+						System.out.println("第" + j + "列" + "double转换错误:" + indexFirstSpeedList.toString()
+								+ indexSecondSpeedList.toString() + indexThirdSpeedList.toString()
+								+ indexFirstValueList.toString() + indexSecondValueList.toString()
+								+ indexThirdValueList.toString());
+					}
+					try {
+						// 第一产业
+						Double dataValueDouble1 = indexFirstSpeedDouble * (indexFirstValueDouble
+								/ (indexFirstValueDouble + indexSecondValueDouble + indexThirdValueDouble));
+						dataIndiValue1.add(j, String.format("%.2f", dataValueDouble1));
+						// 第二产业
+						Double dataValueDouble2 = indexSecondSpeedDouble * (indexSecondValueDouble
+								/ (indexFirstValueDouble + indexSecondValueDouble + indexThirdValueDouble));
+						dataIndiValue2.add(j, String.format("%.2f", dataValueDouble2));
+						// 第三产业
+						Double dataValueDouble3 = indexThirdSpeedDouble * (indexThirdValueDouble
+								/ (indexFirstValueDouble + indexSecondValueDouble + indexThirdValueDouble));
+						dataIndiValue3.add(j, String.format("%.2f", dataValueDouble3));
+					} catch (Exception e) {
+						dataIndiValue1.add(j, "0.0");
+						dataIndiValue2.add(j, "0.0");
+						dataIndiValue3.add(j, "0.0");
+						System.out.println("第" + j + "列" + "double计算错误:" + indexFirstSpeedList.toString()
+								+ indexSecondSpeedList.toString() + indexThirdSpeedList.toString()
+								+ indexFirstValueList.toString() + indexSecondValueList.toString()
+								+ indexThirdValueList.toString());
+					}
 				}
 
 				// 计算三产占GDP的比重
 				// 计算方法(以第一产业为例): 当期第一产业累计值/(当期第一产业累计值+当期第二产业累计值+当期第三产业累计值)
-				// 第一产业
 				List<String> dataIndiValue11 = new ArrayList<String>();
-				for (int j = 0; j < xAxis.size(); j++) {
-					Double dataValueDouble = Double.parseDouble(indexFirstSpeedList.get(j))
-							* (Double.parseDouble(indexFirstValueList.get(j))
-									/ (Double.parseDouble(indexFirstValueList.get(j))
-											+ Double.parseDouble(indexSecondValueList.get(j))
-											+ Double.parseDouble(indexThirdValueList.get(j))));
-					dataIndiValue11.add(j, dataValueDouble.toString());
-				}
-				// 第二产业
 				List<String> dataIndiValue22 = new ArrayList<String>();
-				for (int j = 0; j < xAxis.size(); j++) {
-					Double dataValueDouble = Double.parseDouble(indexSecondValueList.get(j))
-							/ (Double.parseDouble(indexFirstValueList.get(j))
-									+ Double.parseDouble(indexSecondValueList.get(j))
-									+ Double.parseDouble(indexThirdValueList.get(j)));
-					dataIndiValue22.add(j, dataValueDouble.toString());
-				}
-				// 第三产业
 				List<String> dataIndiValue33 = new ArrayList<String>();
-				for (int j = 0; j < xAxis.size(); j++) {
-					Double dataValueDouble = Double.parseDouble(indexThirdValueList.get(j))
-							/ (Double.parseDouble(indexFirstValueList.get(j))
-									+ Double.parseDouble(indexSecondValueList.get(j))
-									+ Double.parseDouble(indexThirdValueList.get(j)));
-					dataIndiValue33.add(j, dataValueDouble.toString());
+				for (int j = 0; j < indexFirstValueList.size(); j++) {
+					Double indexFirstValueDouble = 0.0;
+					Double indexSecondValueDouble = 0.0;
+					Double indexThirdValueDouble = 0.0;
+					try {
+						indexFirstValueDouble = Double.parseDouble(indexFirstValueList.get(j));
+						indexSecondValueDouble = Double.parseDouble(indexSecondValueList.get(j));
+						indexThirdValueDouble = Double.parseDouble(indexSecondValueList.get(j));
+					} catch (Exception e) {
+						System.out.println("第" + j + "列" + "double转换错误:" + indexFirstValueDouble.toString()
+								+ indexSecondValueList.toString() + indexThirdValueList.toString());
+					}
+					try {
+						// 第一产业
+						Double dataValueDouble11 = indexFirstValueDouble
+								/ (indexFirstValueDouble + indexSecondValueDouble + indexThirdValueDouble);
+						dataIndiValue11.add(j, String.format("%.2f", dataValueDouble11));
+						// 第二产业
+						Double dataValueDouble22 = indexSecondValueDouble
+								/ (indexFirstValueDouble + indexSecondValueDouble + indexThirdValueDouble);
+						dataIndiValue22.add(j, String.format("%.2f", dataValueDouble22));
+						// 第三产业
+						Double dataValueDouble33 = indexThirdValueDouble
+								/ (indexFirstValueDouble + indexSecondValueDouble + indexThirdValueDouble);
+						dataIndiValue33.add(j, String.format("%.2f", dataValueDouble33));
+					} catch (Exception e) {
+						dataIndiValue11.add(j, "0.0");
+						dataIndiValue22.add(j, "0.0");
+						dataIndiValue33.add(j, "0.0");
+						System.out.println("第" + j + "列" + "double计算错误:" + indexFirstValueDouble.toString()
+								+ indexSecondValueList.toString() + indexThirdValueList.toString());
+					}
 				}
 
 				// 配置指标图例
@@ -622,15 +647,30 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				if (id.equals("18")) {
 					List<String> dataV = new ArrayList<String>();
+					Double dataFirstValueDouble = 0.0;
+					Double dataSecondValueDouble = 0.0;
+					Double dataThirdValueDouble = 0.0;
+					try {
+						Double dataGDPDouble = Double.parseDouble(indexGDPSpeedList.get(indexGDPSpeedList.size() - 1));
+						Double dataFirstDouble = Double.parseDouble(dataIndiValue1.get(dataIndiValue1.size() - 1));
+						Double dataSecondDouble = Double.parseDouble(dataIndiValue2.get(dataIndiValue2.size() - 1));
+						Double dataThirdDouble = Double.parseDouble(dataIndiValue3.get(dataIndiValue3.size() - 1));
+
+						dataFirstValueDouble = (dataFirstDouble / dataGDPDouble) * 100;
+						dataSecondValueDouble = (dataSecondDouble / dataGDPDouble) * 100;
+						dataThirdValueDouble = (dataThirdDouble / dataGDPDouble) * 100;
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 					legend.add(xAxis.get(xAxis.size() - 1) + "第一产业");
 					showColor.add("#77C87B");
-					dataV.add(dataIndiValue1.get(dataIndiValue1.size() - 1));
+					dataV.add(String.format("%.2f", dataFirstValueDouble));
 					legend.add(xAxis.get(xAxis.size() - 1) + "第二产业");
 					showColor.add("#545657");
-					dataV.add(dataIndiValue2.get(dataIndiValue2.size() - 1));
+					dataV.add(String.format("%.2f", dataSecondValueDouble));
 					legend.add(xAxis.get(xAxis.size() - 1) + "第三产业");
 					showColor.add("#F0805F");
-					dataV.add(dataIndiValue3.get(dataIndiValue3.size() - 1));
+					dataV.add(String.format("%.2f", dataThirdValueDouble));
 					PieType pieType = new PieType();
 					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
 					TotalList.add(pieEntity);
@@ -742,12 +782,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				// 进行减法
 				if (id.equals("29")) {
 					List<String> dataIndiValue = new ArrayList<String>();
-					for (int j = 0; j < xAxis.size(); j++) {
+					for (int j = 0; j < indexCPIList.size(); j++) {
 						try {
 							Double dataValueDouble = Double.parseDouble(indexCPIList.get(j))
 									- Double.parseDouble(indexPPIList.get(j));
-							dataIndiValue.add(j, dataValueDouble.toString());
-						} catch (NullPointerException e) {
+							dataIndiValue.add(dataValueDouble.toString());
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
 							System.out.println("第" + j + "列" + "double数据转换计算null错误:" + indexCPIList.toString()
 									+ indexPPIList.toString());
 						}
@@ -757,12 +798,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				if (id.equals("30")) {
 					List<String> dataIndiValue = new ArrayList<String>();
-					for (int j = 0; j < xAxis.size(); j++) {
+					for (int j = 0; j < indexPPIList.size(); j++) {
 						try {
 							Double dataValueDouble = Double.parseDouble(indexPPIList.get(j))
 									- Double.parseDouble(indexIPIList.get(j));
-							dataIndiValue.add(j, dataValueDouble.toString());
+							dataIndiValue.add(dataValueDouble.toString());
 						} catch (NullPointerException e) {
+							dataIndiValue.add("0.00");
 							System.out.println("第" + j + "列" + "double数据转换计算null错误:" + indexPPIList.toString()
 									+ indexIPIList.toString());
 						}
