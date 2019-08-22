@@ -169,14 +169,18 @@ public class AnalysisServiceImpl implements AnalysisService {
 		baseInfo.put("indexName", indexName);
 		baseInfo.put("source", source);
 		// 根据userId/type/indexId查询收藏信息
-		Collect collect = new Collect();
-		collect.setType("经济分析");
-		collect.setIndex_id(String.valueOf(themeId));
-		collect.setUid(userId);
-		List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
-		if (collectInfo.size() != 0) {
-			baseInfo.put("isFavorite", true);
-		} else {
+		try {
+			Collect collect = new Collect();
+			collect.setType("经济分析");
+			collect.setIndex_id(String.valueOf(themeId));
+			collect.setUid(userId);
+			List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
+			if (collectInfo.size() != 0) {
+				baseInfo.put("isFavorite", true);
+			} else {
+				baseInfo.put("isFavorite", false);
+			}
+		} catch (Exception e) {
 			baseInfo.put("isFavorite", false);
 		}
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
@@ -201,7 +205,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<String> endTimeList = (List<String>) freqObject.get("endArray");
 		String freqName = (String) freqObject.get("freqName");
 		System.out.println("TimeList:" + startTimeList + "\n current" + current);
-		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1));
+		List<String> xAxis = startTimeList.subList(current.get(0), current.get(1) + 1);
 		String startTime = startTimeList.get(current.get(0)).toString();
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String startTimePoint = endTimeList.get(0).toString();
@@ -252,7 +256,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				endFlag = i;
 			}
 		}
-		List<String> xAxis = startTimeList.subList(startFlag, endFlag);
+		List<String> xAxis = startTimeList.subList(startFlag, endFlag + 1);
 
 		String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
 		String startTimePoint = endTimeList.get(0).toString();
@@ -392,6 +396,297 @@ public class AnalysisServiceImpl implements AnalysisService {
 			// 对需要进行计算的特殊图例进行单独配置
 			int flagPlate = 0;
 			switch (id) {
+			case "203": {
+				System.out.println("进入特殊图例——异常数据源特殊处理");
+				if (id.equals("203")) {
+					List<List<String>> dataValue = new ArrayList<List<String>>();
+					List<String> legend = new ArrayList<String>();
+					List<String> showColor = new ArrayList<String>();
+					List<String> showType = new ArrayList<String>();
+					// 配置指标图例
+					LineType lineType = new LineType();
+					for (int j = 0; j < indiList.size(); j++) {
+						queryMap.put("indiCode", indiList.get(j).getIndiCode());
+						List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+						List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+						for (int m = 0; m < indiInfoList.size(); m++) {
+							String dataXTemp = indiInfoList.get(m).getTime();
+							if (xAxis.contains(dataXTemp)) {
+								int index = xAxis.indexOf(dataXTemp);
+								// 对数据源异常的处理
+								if (indiList.get(j).getIndiCode().toString()
+										.equals("GM0201;400:101585152;363:102387482;62:42")) {
+									Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+									if (dataValueDouble > 100) {
+										dataValueDouble -= 100;
+									}
+									dataIndiValue.set(index, dataValueDouble.toString());
+								} else {
+									dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+								}
+							}
+						}
+						dataValue.add(dataIndiValue);
+						legend.add(indiList.get(j).getIndiName());
+						showColor.add(indiList.get(j).getShowColor());
+						showType.add(indiList.get(j).getShowType());
+					}
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
+							showType);
+					TotalList.add(lineEntity);
+					// 配置表格数据
+					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < indiList.size(); q++) {
+						dataXaisTable.add(xAxis);
+					}
+					TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+					TotalList.add(tableEntity);
+				}
+				flagPlate = 1;
+			}
+				break;
+			case "17":
+			case "18":
+			case "23":
+			case "208":
+			case "211": {
+				System.out.println("进入特殊图例——拉动率计算");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				for (int j = 0; j < indiList.size(); j++) {
+					// 处理配置表中配置数据
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+				}
+
+				// 构建新的数据值集合
+				List<List<String>> dataValue1 = new ArrayList<List<String>>();
+				// 取出GDP总量数据及增速数据(第一二三产业)
+				List<String> indexGDPValueList = new ArrayList<String>();
+				List<String> indexGDPSpeedList = new ArrayList<String>();
+				List<String> indexFirstValueList = new ArrayList<String>();
+				List<String> indexFirstSpeedList = new ArrayList<String>();
+				List<String> indexSecondValueList = new ArrayList<String>();
+				List<String> indexSecondSpeedList = new ArrayList<String>();
+				List<String> indexThirdValueList = new ArrayList<String>();
+				List<String> indexThirdSpeedList = new ArrayList<String>();
+				for (int j = 0; j < indiList.size(); j++) {
+					String indexCode = indiList.get(j).getIndiCode().toString();
+					// GDP_累计值
+					if (indexCode.equals("GM0101;400:101585152;363:706403;62:42")) {
+						indexGDPValueList = dataValue.get(j);
+					}
+					// GDP_累计增长
+					if (indexCode.equals("GM0101;400:101585152;363:706404;62:42")) {
+						indexGDPSpeedList = dataValue.get(j);
+					}
+					// 第一产业_累计值
+					if (indexCode.equals("GM0101;400:101585152;363:706403;62:42;100:700101")) {
+						indexFirstValueList = dataValue.get(j);
+					}
+					// 第一产业_增长率
+					if (indexCode.equals("GM0101;400:101585152;363:706404;62:42;100:700101")) {
+						indexFirstSpeedList = dataValue.get(j);
+					}
+					// 第二产业_累计值
+					if (indexCode.equals("GM0101;400:101585152;363:706403;62:42;100:700102")) {
+						indexSecondValueList = dataValue.get(j);
+					}
+					// 第二产业_增长率
+					if (indexCode.equals("GM0101;400:101585152;363:706404;62:42;100:700102")) {
+						indexSecondSpeedList = dataValue.get(j);
+					}
+					// 第三产业_累计值
+					if (indexCode.equals("GM0101;400:101585152;363:706403;62:42;100:700103")) {
+						indexThirdValueList = dataValue.get(j);
+					}
+					// 第三产业_增长率
+					if (indexCode.equals("GM0101;400:101585152;363:706404;62:42;100:700103")) {
+						indexThirdSpeedList = dataValue.get(j);
+					}
+				}
+
+				// 计算三产对GDP的拉动率
+				// 计算方法(以第一产业为例): 当期第一产业增长率*(当期第一产业累计值/当期GDP累计值)
+				// 第一产业
+				List<String> dataIndiValue1 = new ArrayList<String>();
+				for (int j = 0; j < xAxis.size(); j++) {
+					Double dataValueDouble = Double.parseDouble(indexFirstSpeedList.get(j))
+							* (Double.parseDouble(indexFirstValueList.get(j))
+									/ (Double.parseDouble(indexFirstValueList.get(j))
+											+ Double.parseDouble(indexSecondValueList.get(j))
+											+ Double.parseDouble(indexThirdValueList.get(j))));
+					dataIndiValue1.set(j, dataValueDouble.toString());
+				}
+				// 第二产业
+				List<String> dataIndiValue2 = new ArrayList<String>();
+				for (int j = 0; j < xAxis.size(); j++) {
+					Double dataValueDouble = Double.parseDouble(indexSecondSpeedList.get(j))
+							* (Double.parseDouble(indexSecondValueList.get(j))
+									/ (Double.parseDouble(indexFirstValueList.get(j))
+											+ Double.parseDouble(indexSecondValueList.get(j))
+											+ Double.parseDouble(indexThirdValueList.get(j))));
+					dataIndiValue2.set(j, dataValueDouble.toString());
+				}
+				// 第三产业
+				List<String> dataIndiValue3 = new ArrayList<String>();
+				for (int j = 0; j < xAxis.size(); j++) {
+					Double dataValueDouble = Double.parseDouble(indexThirdValueList.get(j))
+							/ (Double.parseDouble(indexFirstValueList.get(j))
+									+ Double.parseDouble(indexSecondValueList.get(j))
+									+ Double.parseDouble(indexThirdValueList.get(j)));
+					dataIndiValue3.set(j, dataValueDouble.toString());
+				}
+
+				// 计算三产占GDP的比重
+				// 计算方法(以第一产业为例): 当期第一产业累计值/(当期第一产业累计值+当期第二产业累计值+当期第三产业累计值)
+				// 第一产业
+				List<String> dataIndiValue11 = new ArrayList<String>();
+				for (int j = 0; j < xAxis.size(); j++) {
+					Double dataValueDouble = Double.parseDouble(indexFirstSpeedList.get(j))
+							* (Double.parseDouble(indexFirstValueList.get(j))
+									/ (Double.parseDouble(indexFirstValueList.get(j))
+											+ Double.parseDouble(indexSecondValueList.get(j))
+											+ Double.parseDouble(indexThirdValueList.get(j))));
+					dataIndiValue11.set(j, dataValueDouble.toString());
+				}
+				// 第二产业
+				List<String> dataIndiValue22 = new ArrayList<String>();
+				for (int j = 0; j < xAxis.size(); j++) {
+					Double dataValueDouble = Double.parseDouble(indexSecondValueList.get(j))
+							/ (Double.parseDouble(indexFirstValueList.get(j))
+									+ Double.parseDouble(indexSecondValueList.get(j))
+									+ Double.parseDouble(indexThirdValueList.get(j)));
+					dataIndiValue22.set(j, dataValueDouble.toString());
+				}
+				// 第三产业
+				List<String> dataIndiValue33 = new ArrayList<String>();
+				for (int j = 0; j < xAxis.size(); j++) {
+					Double dataValueDouble = Double.parseDouble(indexThirdValueList.get(j))
+							/ (Double.parseDouble(indexFirstValueList.get(j))
+									+ Double.parseDouble(indexSecondValueList.get(j))
+									+ Double.parseDouble(indexThirdValueList.get(j)));
+					dataIndiValue33.set(j, dataValueDouble.toString());
+				}
+
+				// 配置指标图例
+				if (id.equals("17")) {
+					legend.add("第一产业");
+					showColor.add("#77C87B");
+					showType.add("line");
+					dataValue1.add(dataIndiValue1);
+					legend.add("第二产业");
+					showColor.add("#545657");
+					showType.add("line");
+					dataValue1.add(dataIndiValue2);
+					legend.add("第三产业");
+					showColor.add("#F0805F");
+					showType.add("line");
+					dataValue1.add(dataIndiValue3);
+					legend.add("GDP_累计增长");
+					showColor.add("#6DB2E3");
+					showType.add("line");
+					dataValue1.add(indexGDPSpeedList);
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
+							showType);
+					TotalList.add(lineEntity);
+					// 配置表格数据
+					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < indiList.size(); q++) {
+						dataXaisTable.add(xAxis);
+					}
+					TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue1);
+					TotalList.add(tableEntity);
+				}
+				if (id.equals("18")) {
+					List<String> dataV = new ArrayList<String>();
+					legend.add(xAxis.get(xAxis.size() - 1) + "第一产业");
+					showColor.add("#77C87B");
+					dataV.add(dataIndiValue1.get(dataIndiValue1.size() - 1));
+					legend.add(xAxis.get(xAxis.size() - 1) + "第二产业");
+					showColor.add("#545657");
+					dataV.add(dataIndiValue2.get(dataIndiValue2.size() - 1));
+					legend.add(xAxis.get(xAxis.size() - 1) + "第三产业");
+					showColor.add("#F0805F");
+					dataV.add(dataIndiValue3.get(dataIndiValue3.size() - 1));
+					PieType pieType = new PieType();
+					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+					TotalList.add(pieEntity);
+				}
+				if (id.equals("23")) {
+					legend.add("第一产业");
+					showColor.add("#77C87B");
+					showType.add("line");
+					dataValue1.add(dataIndiValue11);
+					legend.add("第二产业");
+					showColor.add("#545657");
+					showType.add("line");
+					dataValue1.add(dataIndiValue22);
+					legend.add("第三产业");
+					showColor.add("#F0805F");
+					showType.add("line");
+					dataValue1.add(dataIndiValue33);
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
+							showType);
+					TotalList.add(lineEntity);
+					// 配置表格数据
+					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < indiList.size(); q++) {
+						dataXaisTable.add(xAxis);
+					}
+					TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue1);
+					TotalList.add(tableEntity);
+				}
+				if (id.equals("208")) {
+					List<String> dataV = new ArrayList<String>();
+					legend.add(xAxis.get(xAxis.size() - 1) + "第一产业");
+					showColor.add("#77C87B");
+					dataV.add(dataIndiValue11.get(dataIndiValue11.size() - 1));
+					legend.add(xAxis.get(xAxis.size() - 1) + "第二产业");
+					showColor.add("#545657");
+					dataV.add(dataIndiValue22.get(dataIndiValue22.size() - 1));
+					legend.add(xAxis.get(xAxis.size() - 1) + "第三产业");
+					showColor.add("#F0805F");
+					dataV.add(dataIndiValue33.get(dataIndiValue33.size() - 1));
+					PieType pieType = new PieType();
+					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+					TotalList.add(pieEntity);
+				}
+				if (id.equals("211")) {
+					List<String> dataV = new ArrayList<String>();
+					legend.add(xAxis.get(xAxis.size() - 1) + "第一产业");
+					showColor.add("#77C87B");
+					dataV.add(dataIndiValue11.get(dataIndiValue11.size() - 1));
+					legend.add(xAxis.get(xAxis.size() - 1) + "第二产业");
+					showColor.add("#545657");
+					dataV.add(dataIndiValue22.get(dataIndiValue22.size() - 1));
+					legend.add(xAxis.get(xAxis.size() - 1) + "第三产业");
+					showColor.add("#F0805F");
+					dataV.add(dataIndiValue33.get(dataIndiValue33.size() - 1));
+					PieType pieType = new PieType();
+					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+					TotalList.add(pieEntity);
+				}
+				flagPlate = 1;
+			}
+				break;
+
 			case "29":
 			case "30": {
 				System.out.println("进入特殊图例——指标相减");

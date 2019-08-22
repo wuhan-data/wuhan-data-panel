@@ -53,7 +53,7 @@ public class BarStackLineType {
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
 		gridMap.put("bottom", "60");
-		gridMap.put("bottom", "250");
+		gridMap.put("height", "250");
 		barStackLineOptionEntity.setGrid(gridMap);
 
 		// 构建toolTip
@@ -160,6 +160,7 @@ public class BarStackLineType {
 			if (showTypeString.equals("bar")) {
 				seriesListMap.put("name", legendData.get(i));
 				seriesListMap.put("type", showTypeString);
+				seriesListMap.put("stack", "堆叠图");
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "0");
 			} else {
