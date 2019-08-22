@@ -440,25 +440,25 @@
                                         <tr>
                                             <th>一级栏目</th>
                                             <th>栏目名称</th>
-                                            <th>指标id</th>
-                                            <th>指标名称</th>
+                                        <!--     <th>指标id</th>
+                                            <th>指标名称</th> -->
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${analysisListByPage}" var="c" varStatus="st">
         <tr>
-            <td>${c.id}</td>
+            <td>${c.type_name}</td>
             <td>${c.theme_name}</td>
-            <td>1300048</td>
-            <td>工业生产排放量</td>
+<!--             <td>1300048</td>
+            <td>工业生产排放量</td> -->
             <td>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
- <a href="indiColumnInit?id=${c.id }">
-<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看指标
+ <a href="colPlateInit?id=${c.id }">
+<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看板块
 </div>
 </a>
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.theme_name}',${c.id})">

@@ -389,7 +389,7 @@
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            栏目管理 <small>内容配置</small>
+                            栏目管理 <small>板块配置</small>
                         </h1>
                     </div>
                 </div> 
@@ -412,10 +412,10 @@
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
     </div>  
  
-     <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
+<!--      <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
       <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
-    </form>
+    </form> -->
   
   </div>
 
@@ -425,31 +425,34 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>指标id</th>
-                                            <th>指标名称</th>
-                                            <th>其他1</th>
-                                            <th>其他2</th>
-                                            <th>其他3</th>
+                                            <th>栏目</th>
+                                            <th>板块</th>
+                                            <th>展现形式</th>
+                                            <th>期数</th>
+                                   
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${indicolumnByPage}" var="c" varStatus="st">
         <tr>
-            <td >${c.indi_id}</td>
-            <td >${c.indi_name}</td>
-            <td>其他数据1</td>
-            <td>其他数据2</td>
-            <td>其他数据3</td>
+            <td >${c.cname}</td>
+            <td >${c.pname}</td>
+            <td>${c.show_type }</td>
+            <td>${c.term }</td>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.indi_name}')">
+  <a href="plateIndiInit?id=${c.pid }">
+<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看指标
+</div>
+</a>
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.pid}','${c.pname}','${c.show_type }','${cid }','${c.term }')">
 <i class="fa fa-edit"></i>修改
 </div>
-<a href="indiColumnDel?id=${c.id }&column_id=${c.column_id}">
+<a href="colPlateDel?id=${c.id }&cid=${cid}">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
@@ -466,12 +469,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="indiColumnUpdate?id=${c.id }&is_show=1&column_id=${c.column_id}" id="noPerShow">不展示</a>             
+         <a href="colPlateUpdateShow?id=${c.id }&is_show=1&cid=${cid}" id="noPerShow">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="indiColumnUpdate?id=${c.id }&is_show=0&column_id=${c.column_id}" id="perShow">展示</a>            
+         <a href="colPlateUpdateShow?id=${c.id }&is_show=0&cid=${cid}" id="perShow">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -495,12 +498,16 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="indiColumnUpdateOther">
+	<form class="" id="editForm" method="post" accept-charset="UTF-8" action="colPlateUpdate">
 			<div class="modal-body">		
 
-	<input class="form-control" type="hidden" name="indi_id" id="indi_id">
-   指标名称：<input class="form-control" type="text" name="indi_name" id="indi_name">   
-   <input type="hidden" value="${cid}" name="cid2"/>
+	<input class="form-control" type="hidden" name="indi_id" id="indi_id">  
+     板块名称：<input class="form-control" type="search"  name="pname" id="pnameEdit"> 
+      展示形式：<input class="form-control" type="search" name="show_type" id="show_typeEdit"> 
+      显示期数：<input class="form-control" type="search" name="term" id="termEdit"> 
+     		 <input class="form-control"  type="hidden" value="${cid}" name="cid" id="cidEdit"/>
+     		 <input class="form-control"  type="hidden" value="${pid}" name="pid" id="pidEdit"/>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -529,33 +536,34 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="indiColumnAdd">
+			<form class="" id="addForm" method="post" accept-charset="UTF-8" action="colPlateAdd">
 			<div class="modal-body">
 				
-<!--      指标  id：<input class="form-control" type="search" placeholder="请输入指标id" name="indi_id"> -->
-<!--       指标名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="indi_name"> -->
+<!-- <!--      指标  id：<input class="form-control" type="search" placeholder="请输入指标id" name="indi_id"> -->
+      板块名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="pname"> 
+      展示形式：<input class="form-control" type="search" placeholder="请输入展示形式" name="show_type"> 
+      显示期数：<input class="form-control" type="search" placeholder="请输入显示期数" name="term"> 
+     		  <input class="form-control"  type="hidden" value="${cid}" name="cid"/>
+     		  <input class="form-control"  type="hidden" value="${id}" name="id"/>
 
-			<select class="form-control" id="SelectIndi1" name="indi"> 
+<%-- 			<select class="form-control" id="SelectIndi1" name="indi"> 
 						<c:forEach items="${InitIndexManageList}" var="c1" varStatus="st">
 							        <option value="${c1.indi_code}-${c1.indi_name}" selected>${c1.indi_code}-${c1.indi_name}</option>       
 						</c:forEach>
-			</select>
+			</select> --%>
 			
 <!-- 			<select class="form-control" id="SelectIndi2" name="indi_name">  -->
 <%-- 						<c:forEach items="${InitIndexManageList}" var="c1" varStatus="st"> --%>
 <%-- 							        <option value="${c1.indi_name}" selected>${c1.indi_name}</option>        --%>
 <%-- 						</c:forEach> --%>
 <!-- 			</select> -->
-				
-
-
-         <input type="hidden" value="${cid}" name="cid1"/>
+         
     
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
+				<button type="submit" class="btn btn-primary">
 					提交
 				</button>
 			</div>
@@ -585,20 +593,21 @@
 									</ul> --%>
 									
 									 <div class='page fix'>
-                    <form method="post" action="indiColumnInit" id="pageForm">
+                    <form method="post" action="colPlateInit" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="indiColumnInit?currentPage=1&id=${cid }" class='first'>首页</a>
-                           <a href="indiColumnInit?currentPage=${page.currentPage-1}&id=${cid }" class='pre'>上一页</a>
+                           <a href="colPlateInit?currentPage=1&id=${cid }" class='first'>首页</a>
+                           <a href="colPlateInit?currentPage=${page.currentPage-1}&id=${cid }" class='pre'>上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="indiColumnInit?currentPage=${page.currentPage+1}&id=${cid }" class='next'>下一页</a>
-                            <a href="indiColumnInit?currentPage=${page.totalPage}&id=${cid }" class='last'>末页</a>
+                            <a href="colPlateInit?currentPage=${page.currentPage+1}&id=${cid }" class='next'>下一页</a>
+                            <a href="colPlateInit?currentPage=${page.totalPage}&id=${cid }" class='last'>末页</a>
                         </c:if>
                         跳至&nbsp;
 
+ 						<input type="hidden" value="${cid }" name="id">
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
                         <input type="submit" value="GO" class="btn-primary btn-sm">
                     </form>
@@ -668,9 +677,14 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(ID,indiname){
-            	$("#indi_id").val(ID);
-            	$("#indi_name").val(indiname);
+            
+
+            function edit(pid,pname,show_type,cid,term){
+            	$("#pidEdit").val(pid);
+            	$("#pnameEdit").val(pname);
+            	$("#show_typeEdit").val(show_type);
+            	$("#cidEdit").val(cid);
+            	$("#termEdit").val(term);
                 	
             }
             function del(aid){

@@ -1,16 +1,16 @@
 package com.wuhan_data.pojo;
 
 public class IndexPic {
-	String id;
+	int id;
 	String title;
 	String image;
 	int is_show;
 	
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getTitle() {

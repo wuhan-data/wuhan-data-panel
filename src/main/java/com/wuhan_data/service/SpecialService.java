@@ -25,4 +25,6 @@ public interface SpecialService {
    	public String getSname(int id);//得到专题名称
    	
    	public int reOrderByTitle(IndexSpecial indexSpecial);//重置一级标题排序
+   	
+   	public int updateTitle(IndexSpecial indexSpecial); //更新专题名称
 }

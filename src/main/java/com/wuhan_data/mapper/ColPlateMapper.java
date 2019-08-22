@@ -19,5 +19,9 @@ public interface ColPlateMapper {
 	public int total(int cid);//查询数量
 	
 	public int updateShow(ColPlate colPlate);  //管理显示与否
+	
+	public int getAddPid(int cid); //得到需要添加的板块的id值
+	
+	public String getAddCname(int cid); //得到需要添加的板块所属栏目的名称
 
 }

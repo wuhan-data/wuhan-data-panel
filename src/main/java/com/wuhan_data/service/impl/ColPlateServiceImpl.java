@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.wuhan_data.mapper.ColPlateMapper;
 import com.wuhan_data.pojo.ColPlate;
 import com.wuhan_data.service.ColPlateService;
 
+@Service
 public class ColPlateServiceImpl implements ColPlateService {
 	
 	@Autowired
@@ -48,6 +50,18 @@ public class ColPlateServiceImpl implements ColPlateService {
 	public int updateShow(ColPlate colPlate) {
 		// TODO Auto-generated method stub
 		return colPlateMapper.updateShow(colPlate);
+	}
+
+	@Override
+	public int getAddPid(int cid) {
+		// TODO Auto-generated method stub
+		return colPlateMapper.getAddPid(cid);
+	}
+
+	@Override
+	public String getAddCname(int cid) {
+		// TODO Auto-generated method stub
+		return colPlateMapper.getAddCname(cid);
 	}
 
 }

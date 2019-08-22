@@ -23,10 +23,7 @@
     <link href="<%=path %>/assets/css/my.css" rel="stylesheet" />
     
     <link href="<%=path %>/assets/css/bootstrap-order.min.css" rel="stylesheet" />
-      <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
-    
-    
-   
+    <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
 
 
     <style type="text/css" rel="stylesheet">
@@ -50,112 +47,24 @@
         .page .num:hover { background:#4c8ccc; border:1px solid #4c8ccc; color:#fff; text-decoration:none;}
        /*  .page .go { display:inline-block; width:25px; height:23px; line-height:23px; text-align:center; border:1px solid #ccc;} */
         .page b{ color:#2979b4}
-        
-        #dataTables-example{
-        margin-top:10px;
+              
+        #addElement{
+        margin-bottom:10px;
         }
+        
        
 
     </style>
 </head>
 <body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">WUHANDATA</a>
-            </div>
 
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-<!--                     /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-        </nav>
-        <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-
-                    <!-- <li>
-                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
-                    </li> -->
-                    <li>
-                        <a href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
-                    </li>
-                    <li>
-                        <a href="toMetaDataManage"><i class="fa fa-list-alt"></i>元数据管理</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="listIndexManage">指标数据维护</a>
-                            </li>
-
-                        </ul>
-                    </li>
-                    <li>
-                         <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
-
-                    </li>
-                    <li>
-                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="noticeInit">通知管理</a>
-                            </li>
-                            <li>
-                                <a href="sysLogInit">日志管理</a>
-                            </li>
-                            <li>
-                                <a href="messageManage.html">消息管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-cogs"></i>系统管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="departmentInit">组织结构管理</a>
-                            </li>
-                            <li>
-                                <a href="userInit">用户管理</a>
-                            </li>
-                            <li>
-                                <a href="roleInit">角色管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            专题管理 <small>专题维护</small>
+                            首页管理 <small>轮播图维护</small>
                         </h1>
                     </div>
                 </div> 
@@ -168,21 +77,20 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                             专题
+                             轮播图
                         </div>
                         <div class="panel-body">
 
-  <div class="row">
-     <div class="btns col-md-6">
+  <div class="row" id="addElement">
+     <div class="btns col-md-2">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
-     <%--  <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>排序</button> --%>
     </div>  
  
-    <!--  <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
+<!--      <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
       <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
-    </form>
-   -->
+    </form> -->
+  
   </div>
 
     
@@ -191,11 +99,11 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>名称</th>
-                                            <th>路径</th>
-                                            <th>图片</th>
-                                            <th>操作</th>
+                                            <th width="3%">id</th>
+                                            <th width="22%">名称</th>
+                                            <th width="15%">路径</th>
+                                            <th width="10%">图片</th>
+                                            <th width="50%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -203,21 +111,22 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.title}</td>
-            <td >${c.image}</td>
+            <td>${c.image}</td>
             <td ><img src="${c.image}" width="80" height="42"></td>
-           <%--  <td>${c.topic_weight}</td> --%>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
+
 <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')">
 <i class="fa fa-search"></i>查看大图
 </div>
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}','${c.image}')">
 <i class="fa fa-edit"></i>修改
 </div>
-<a href="specialDel?special_id=${c.id }">
+<%-- <a href="indexPicDel?id=${c.id }"> --%>
+<a  href="#" onclick="delClick('${c.id }','indexPicDel')">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
@@ -234,12 +143,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>             
+         <a href="indexPicUpdateShow?is_show=1&id=${c.id }" id="noPerShow">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>            
+         <a href="indexPicUpdateShow?is_show=0&id=${c.id }" id="perShow">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -250,21 +159,6 @@
 </tbody>
 
                                 </table>
-                                
-                                
-                                  <!-- 查看大图 模态框（Modal） -->
-<div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-	<div class="modal-dialog">
-		<div class="modal-content">
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#">
-			<div class="modal-body">		
-<img src="" width="550" height="257" id="image">
-			</div>
-			</form>
-		</div>
-	</div>
-</div>
                                 
                                 <!--修改 模态框（Modal） -->
 <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -277,20 +171,21 @@
 				<h4 class="modal-title" id="myModalLabel">
 					修改
 				</h4>
-			</div>			
+			</div>
 			
-		<form  id="editForm" method="post" accept-charset="UTF-8" action="specialUpdate" enctype="multipart/form-data">
+			
+			<form  id="editForm" method="post" accept-charset="UTF-8" action="#" enctype="multipart/form-data">
 			<div class="modal-body">
-			<input class="form-control" type="hidden" name="id" id="topicid">
+			<input class="form-control" type="hidden" name="picid" id="picid">
 			 <div class="form-group">
                    <label>名称</label>                  
-                   <input class="form-control" type="text" name="title" id="topictitle">
+                   <input class="form-control" type="text" placeholder="请输入轮播图名称" name="title" id="pictitle">
              </div>
              <div class="form-group">
                  <label class="control-label col-lg-pull-4">选择图片</label>
                     <div class="">
                      <div class="fileupload fileupload-new" data-provides="fileupload">
-                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="" alt="" id="showTopic"/></div>
+                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="" alt="" id="showPic"/></div>
                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                      <div>
                   <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
@@ -305,13 +200,42 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
+				<button type="submit" class="btn btn-primary" onclick="editClick('indexPicUpdate')">
 					提交
 				</button>
 			</div>
 			</form>
+			
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
+</div>
+
+  <!-- 查看大图 模态框（Modal） -->
+<div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<!-- <div class="modal-dialog modal-lg" style="display: inline-block; width: auto;">
+            <div class="modal-content">
+             <img  id="imgInModalID" src="" >
+            </div>
+</div> -->
+
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					大图
+				</h4>
+			</div> -->
+	<form class="form-inline" id="" method="post" accept-charset="UTF-8" action="specialUpdate">
+			<div class="modal-body">		
+<img src="" width="550" height="257" id="image">
+			</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 
@@ -328,26 +252,12 @@
 					添加
 				</h4>
 			</div>
-		<!-- 	
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="specialAdd">
-			<div class="modal-body">
-      专题名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title">
-    
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
-					提交
-				</button>
-			</div>
-			</form> -->
 			
-			<form  id="addForm" method="post" accept-charset="UTF-8" action="specialAdd" enctype="multipart/form-data">
+			<form  id="addForm" method="post" accept-charset="UTF-8" action="#" enctype="multipart/form-data">
 			<div class="modal-body">
 			 <div class="form-group">
-                   <label>专题名称</label>
-                   <input class="form-control" type="text" placeholder="请输入专题名称" name="title">
+                   <label>名称</label>
+                   <input class="form-control" type="text" placeholder="请输入轮播图名称" name="title">
              </div>
              <div class="form-group">
                  <label class="control-label col-lg-pull-4">选择图片</label>
@@ -368,37 +278,36 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
+				<button type="submit" class="btn btn-primary" onclick="addClick('indexPicAdd')">
 					提交
 				</button>
 			</div>
 			</form>
-			
-			
-			
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
 
 
-                                <div class="row">									
+                                <div class="row">
+                               
+									
 									 <div class='page fix'>
-                    <form method="post" action="specialInit" id="pageForm">
+                    <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="specialInit?currentPage=1" class='first'>首页</a>
-                           <a href="specialInit?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
+                           <a href="#" class='first' onclick="pageClick('1','indexPicInit')">首页</a>
+                           <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','indexPicInit')">上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="specialInit?currentPage=${page.currentPage+1}" class='next'>下一页</a>
-                            <a href="specialInit?currentPage=${page.totalPage}" class='last'>末页</a>
+                            <a href="#" class='next' onclick="pageClick('${page.currentPage+1}','indexPicInit')">下一页</a>
+                            <a href="#" class='last' onclick="pageClick('${page.totalPage}','indexPicInit')">末页</a>
                         </c:if>
                         跳至&nbsp;
 
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
-                        <input type="submit" value="GO" class="btn-primary btn-sm">
+                        <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('indexPicInit')">
                     </form>
                 </div>
                 
@@ -419,8 +328,6 @@
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
-        </div>
-     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
@@ -438,10 +345,138 @@
     <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
             $(document).ready(function () {
-                $('#dataTables-example').dataTable();
+              
                
             });
-       	
+           
+            editClick = function(Url) {
+          	   $('.modal-backdrop').remove();
+          	    $('body').removeClass('modal-open');
+                 alert(Url);
+               var data = new FormData(document.getElementById("editForm"));                	
+               console.log(data.get("title"));
+               $.ajax({
+                          type: 'POST',
+                          url:  Url,
+                          dataType: "html",
+                     	    data: data,
+                     	    async : false,
+                      	contentType: false, //不设置内容类型
+                     	    processData: false,
+                          cache:false,
+                          success: function(data){
+                     	 	alert(data);
+                              $('#getNewData').html(data);
+                          },
+                          error : function(data){
+                          }
+                      });    
+               };
+          	            
+             addClick = function(Url) {
+          	   $('.modal-backdrop').remove();
+          	    $('body').removeClass('modal-open');
+                 	alert(Url);
+               	var data = new FormData(document.getElementById("addForm"));
+               	 $.ajax({
+                          type: 'POST',
+                          url:  Url,
+                          dataType: "html",
+                     	    data: data,
+                     	    async : false,
+                      	contentType: false, //不设置内容类型
+                     	    processData: false,
+                          cache:false,
+                          success: function(data){
+                     	 	alert(data);
+                              $('#getNewData').html(data);
+                          },
+                          error : function(data){
+                          }
+                      });    
+               };
+               
+               
+               delClick = function(id,Url) {
+                  $.ajax({
+                             type: 'GET',
+                             url:  Url+"?id="+id,
+                             dataType: "html",
+                        	    async : false,
+                         	contentType: false, //不设置内容类型
+                        	    processData: false,
+                             cache:false,
+                             success: function(data){
+                        	 	alert(data);
+                                 $('#getNewData').html(data);
+                             },
+                             error : function(data){
+                             }
+                         });    
+                  };
+               
+               
+                  updateShowClick = function(special_id,is_show,Url) {
+                 	 alert("updateShow")
+                    $.ajax({
+                               type: 'GET',
+                               url:  Url+"?special_id="+special_id+"&is_show="+is_show,
+                               dataType: "html",
+                          	    async : false,
+                           	  contentType: false, //不设置内容类型
+                          	    processData: false,
+                               cache:false,
+                               success: function(data){
+                          	 	alert(data);
+                                   $('#getNewData').html(data);
+                               },
+                               error : function(data){
+                               }
+                           });    
+                    };
+                    
+                    pageClick = function(currentPage,Url) {
+                      $.ajax({
+                                 type: 'GET',
+                                 url:  Url+"?currentPage="+currentPage,
+                                 dataType: "html",
+                            	    async : false,
+                             	contentType: false, //不设置内容类型
+                            	    processData: false,
+                                 cache:false,
+                                 success: function(data){
+                            	 	alert(data);
+                                     $('#getNewData').html(data);
+                                 },
+                                 error : function(data){
+                                 }
+                             });    
+                      };
+               
+                      pageGoClick = function(Url) {
+                     	 alert(Url);
+                     	var currentPage = document.getElementById("currentPageText").value;
+                     	 alert(currentPage);
+                          $.ajax({
+                                     type: 'GET',
+                                     url:  Url+"?currentPage="+currentPage,
+                                     dataType: "html",
+                                	    async : false,
+                                 	contentType: false, //不设置内容类型
+                                	    processData: false,
+                                     cache:false,
+                                     success: function(data){
+                                	 	alert(data);
+                                         $('#getNewData').html(data);
+                                     },
+                                     error : function(data){
+                                     }
+                                 });    
+                          };
+                    
+            
+            
+            
             function f1(){
             	var select = document.getElementById("FormControlSelect1");
             	var op = select.value;
@@ -461,54 +496,11 @@
             	
             }
   
-         /*    function add(themename){
-            	alert(themename);
-            	var addForm=document.getElementById("");
-            	addForm.action="";
-            	addFrom.submit();
-            } */
-  	
-            
             function edit(ID,title,image){
-            	$("#topicid").val(ID);
-            	$("#topictitle").val(title);
-            	$("#showTopic").attr('src',image);
+            	$("#picid").val(ID);
+            	$("#pictitle").val(title);
+            	$("#showPic").attr('src',image);
                 	
-            }
-            function del(aid){
-            	alert("sss")
-            	/* var aid=document.getElementById("aid").value; */
-            	alert(aid);
-            	var id=encodeURI(encodeURI(aid));
-          	    window.location.href="http://localhost:8089/wuhan_data1/delCol?id="+id;  
-            /* 	$.ajax({
-                    type: "POST",
-                    data: {"id":id},
-                    url: "deleteCol", 
-                    success:function(){
-                    	alert("删除成功！");
-                    }
-            	})  */
-            	
-            }
-            
-            var order =  new BootstrapOrder();
-            
-            
-            function showS(json) {             	
-            	for(var i=0,l=json.length;i<l;i++){
-            		order.addItem(json[i]);
-            		}
-            	order.toggleShow();         	
-            }
-        
-            function addSort(item) {
-            	order.addItem(item);
-            }
-        
-            function getData(){
-            	var data = order.getData();
-                alert(JSON.stringify(data)); 
             }
             function imageShow(image){
             	$("#image").attr('src',image);
