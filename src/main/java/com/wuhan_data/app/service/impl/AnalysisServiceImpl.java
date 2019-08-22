@@ -771,7 +771,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						try {
 							Double dataValueDouble = Double.parseDouble(indexCPIList.get(j))
 									- Double.parseDouble(indexPPIList.get(j));
-							dataIndiValue.add(dataValueDouble.toString());
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
 							dataIndiValue.add("0.00");
 							System.out.println("第" + j + "列" + "double数据转换计算null错误:" + indexCPIList.toString()
@@ -788,7 +788,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						try {
 							Double dataValueDouble = Double.parseDouble(indexPPIList.get(j))
 									- Double.parseDouble(indexIPIList.get(j));
-							dataIndiValue.add(dataValueDouble.toString());
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (NullPointerException e) {
 							dataIndiValue.add("0.00");
 							System.out.println("第" + j + "列" + "double数据转换计算null错误:" + indexPPIList.toString()
