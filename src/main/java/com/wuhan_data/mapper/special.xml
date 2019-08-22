@@ -7,32 +7,32 @@
    
         <!-- 添加专题 -->
         <insert id="add" parameterType="IndexSpecial" >
-            insert into index_special(title,image) values(#{title},#{image})
+            insert into WUHAN_DATA."INDEX_SPECIAL"(title,image) values(#{title},#{image})
         </insert>
         
          
          <!-- 删除一个专题 -->
         <delete id="delete" parameterType="int" >
-            delete from index_special where id=#{id}  
+            delete from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}  
         </delete>    
         
          
          <!-- 得到专题列表 -->
         <select id="getlist" parameterType="java.util.Map" resultType="IndexSpecial">
-            select id,title,topic_weight,image,is_show from index_special order by topic_weight limit #{page.dbIndex},#{page.dbNumber}   
+            select id,title,topic_weight,image,is_show from WUHAN_DATA."INDEX_SPECIAL" order by topic_weight limit #{page.dbIndex},#{page.dbNumber}   
         </select>  
 
  		<select id="getSname" parameterType="int" resultType="String">
-            select distinct title from index_special where id=#{id}
+            select distinct title from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
         </select>  
  
         <!--修改专题名称  -->
         <update id="updateTitle" parameterType="IndexSpecial" >
-            update index_special set title=#{title} where id=#{id}
+            update WUHAN_DATA."INDEX_SPECIAL" set title=#{title} where id=#{id}
         </update>
         
         <update id="update" parameterType="IndexSpecial" >
-            update index_special 
+            update WUHAN_DATA."INDEX_SPECIAL" 
             <set>
             <if test="title!=null">title=#{title}</if>
             <if test="image!=null">image=#{image}</if>
@@ -42,7 +42,7 @@
                
         <!-- 修改专题是否显示 -->
          <update id="updateShow" parameterType="IndexSpecial" >
-            update index_special
+            update WUHAN_DATA."INDEX_SPECIAL"
             <set>
             is_show=#{is_show}
             </set>
@@ -52,7 +52,7 @@
         
         
           <update id="reOrderByTitle" parameterType="IndexSpecial" >
-            update index_special
+            update WUHAN_DATA."INDEX_SPECIAL"
             <set>
             topic_weight=#{topic_weight}
             </set>
@@ -62,7 +62,7 @@
         
       <!-- 统计专题数量 -->
         <select id="total" resultType="int">
-            select count(*) from index_special
+            select count(*) from WUHAN_DATA."INDEX_SPECIAL"
         </select>     
 
     </mapper>

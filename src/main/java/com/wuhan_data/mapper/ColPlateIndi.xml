@@ -6,19 +6,19 @@
     <mapper namespace="com.wuhan_data.mapper.ColPlateIndiMapper">
         
         <insert id="add" parameterType="ColPlateIndi" >
-           insert into analysis_indi(plate_id,search_indi_id,indi_new_name,indi_old_name,show_type,show_color,is_show) values(#{plate_id},#{search_indi_id},#{indi_new_name},#{indi_old_name},#{show_type},#{show_color},#{is_show})
+           insert into WUHAN_DATA."ANALYSIS_INDI"(plate_id,search_indi_id,indi_new_name,indi_old_name,show_type,show_color,is_show) values(#{plate_id},#{search_indi_id},#{indi_new_name},#{indi_old_name},#{show_type},#{show_color},#{is_show})
         </insert>
          
         <delete id="delete" parameterType="int" >
-          delete from analysis_indi where indi_id=#{indi_id}
+          delete from WUHAN_DATA."ANALYSIS_INDI" where indi_id=#{indi_id}
         </delete>        
          
         <select id="getlist" parameterType="java.util.Map" resultType="ColPlateIndi">
-            select * from analysis_indi where plate_id=#{plate_id} order by indi_id limit #{page.dbIndex},#{page.dbNumber}   
+            select * from WUHAN_DATA."ANALYSIS_INDI" where plate_id=#{plate_id} order by indi_id limit #{page.dbIndex},#{page.dbNumber}   
         </select>
  
         <update id="update" parameterType="ColPlateIndi" >
-            update analysis_indi 
+            update WUHAN_DATA."ANALYSIS_INDI" 
             <set>
             <if test="search_indi_id!=null">search_indi_id=#{search_indi_id}</if>
             <if test="indi_new_name!=null">indi_new_name=#{indi_new_name}</if>
@@ -30,7 +30,7 @@
         </update>
         
          <update id="updateShow" parameterType="ColPlateIndi" >
-            update analysis_indi
+            update WUHAN_DATA."ANALYSIS_INDI"
             <set>
             is_show=#{is_show}
             </set>
@@ -39,7 +39,7 @@
                 
       <!-- 查询某栏目下的板块总数  用于分页 -->
         <select id="total" resultType="int" parameterType="int">
-            select count(*) from  analysis_indi  where plate_id=#{pid}
+            select count(*) from  WUHAN_DATA."ANALYSIS_INDI"  where plate_id=#{pid}
         </select>
         
     </mapper>

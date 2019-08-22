@@ -7,23 +7,23 @@
     
         <!-- 添加轮播图 -->
         <insert id="add" parameterType="IndexPic" >
-            insert into index_pic(title,image) values(#{title},#{image})
+            insert into WUHAN_DATA."INDEX_PIC"(title,image) values(#{title},#{image})
         </insert>
         
          <!-- 删除一个轮播图 -->
         <delete id="delete" parameterType="int" >
-            delete from index_pic where id=#{id}  
+            delete from WUHAN_DATA."INDEX_PIC" where id=#{id}  
         </delete>    
 
          <!-- 得到轮播图列表 -->
         <select id="getlist" parameterType="java.util.Map" resultType="IndexPic">
-            select id,title,image,is_show from index_pic order by id limit #{page.dbIndex},#{page.dbNumber}   
+            select id,title,image,is_show from WUHAN_DATA."INDEX_PIC" order by id limit #{page.dbIndex},#{page.dbNumber}   
         </select>  
 
 
  <!--修改轮播图名称  -->
         <update id="updateTitle" parameterType="IndexPic" >
-            update index_pic
+            update WUHAN_DATA."INDEX_PIC"
              <set> 
                <if test="title!=null">
                title=#{title}
@@ -33,7 +33,7 @@
 
         <!--修改轮播图  -->
         <update id="update" parameterType="IndexPic" >
-            update index_pic
+            update WUHAN_DATA."INDEX_PIC"
              <set> 
                <if test="title!=null">
                title=#{title},
@@ -46,7 +46,7 @@
 
         <!-- 修改轮播图是否显示 -->
          <update id="updateShow" parameterType="IndexPic" >
-            update index_pic
+            update WUHAN_DATA."INDEX_PIC"
             <set>
             is_show=#{is_show}
             </set>
@@ -55,6 +55,6 @@
         
       <!-- 统计轮播图数量 -->
         <select id="total" resultType="int">
-            select count(*) from index_pic
+            select count(*) from WUHAN_DATA."INDEX_PIC"
         </select>
     </mapper>
