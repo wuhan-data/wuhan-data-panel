@@ -586,7 +586,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					try {
 						indexFirstValueDouble = Double.parseDouble(indexFirstValueList.get(j));
 						indexSecondValueDouble = Double.parseDouble(indexSecondValueList.get(j));
-						indexThirdValueDouble = Double.parseDouble(indexSecondValueList.get(j));
+						indexThirdValueDouble = Double.parseDouble(indexThirdValueList.get(j));
 					} catch (Exception e) {
 						System.out.println("第" + j + "列" + "double转换错误:" + indexFirstValueDouble.toString()
 								+ indexSecondValueList.toString() + indexThirdValueList.toString());
@@ -672,7 +672,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showColor.add("#F0805F");
 					dataV.add(String.format("%.2f", dataThirdValueDouble));
 					PieType pieType = new PieType();
-					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
 					TotalList.add(pieEntity);
 				}
 				if (id.equals("23")) {
@@ -713,22 +713,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showColor.add("#F0805F");
 					dataV.add(dataIndiValue33.get(dataIndiValue33.size() - 1));
 					PieType pieType = new PieType();
-					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
-					TotalList.add(pieEntity);
-				}
-				if (id.equals("211")) {
-					List<String> dataV = new ArrayList<String>();
-					legend.add(xAxis.get(xAxis.size() - 1) + "第一产业");
-					showColor.add("#77C87B");
-					dataV.add(dataIndiValue11.get(dataIndiValue11.size() - 1));
-					legend.add(xAxis.get(xAxis.size() - 1) + "第二产业");
-					showColor.add("#545657");
-					dataV.add(dataIndiValue22.get(dataIndiValue22.size() - 1));
-					legend.add(xAxis.get(xAxis.size() - 1) + "第三产业");
-					showColor.add("#F0805F");
-					dataV.add(dataIndiValue33.get(dataIndiValue33.size() - 1));
-					PieType pieType = new PieType();
-					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
 					TotalList.add(pieEntity);
 				}
 				flagPlate = 1;
@@ -755,7 +740,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						}
 					}
 					dataValue.add(dataIndiValue);
-					legend.add(indiList.get(j).getIndiName());
+
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
 				}
@@ -795,6 +780,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 					}
 					dataValue1.add(dataIndiValue);
+					legend.add("CPI-PPI_同比剪刀差");
 				}
 				if (id.equals("30")) {
 					List<String> dataIndiValue = new ArrayList<String>();
@@ -810,6 +796,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						}
 					}
 					dataValue1.add(dataIndiValue);
+					legend.add("PPI-IPI_同比剪刀差");
 				}
 				// 配置指标图例
 				switch (analysisPlate.get(i).getShowType()) {
@@ -1066,6 +1053,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入饼状图");
 				List<String> dataV = new ArrayList<String>();
 				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
 				// 配置指标图例
 				PieType pieType = new PieType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -1081,7 +1069,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(j, indiName);
 					dataV.add(j, indiValue);
 				}
-				PieEntity pieEntity = pieType.getOption(id, title, dataV, legend);
+				PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
 				TotalList.add(pieEntity);
 			}
 				break;
