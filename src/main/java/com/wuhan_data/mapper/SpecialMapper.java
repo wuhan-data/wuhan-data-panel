@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.wuhan_data.pojo.AnalysisManage;
+import com.wuhan_data.pojo.IndexPic;
 import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.pojo.IndiCorrelative;
 import com.wuhan_data.pojo.SpecialDetail;
@@ -15,6 +16,8 @@ public interface SpecialMapper {
 	public void delete(int id); //删除一个专题
 	
 	public int update(IndexSpecial indexSpecial); //更新专题名称
+	
+	public int updateTitle(IndexSpecial indexSpecial); //更新专题名称
 	
 	public List<IndexSpecial> getlist(Map map);//分页查找所有专题
 	

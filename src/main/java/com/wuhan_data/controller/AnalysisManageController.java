@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,13 +60,14 @@ public class AnalysisManageController {
         // 
         mav.addObject("analysisManageList", analysisManageList);
         // 
-        mav.setViewName("columnManage");
+        mav.setViewName("columnManageFrame");
         return mav;
     }
     
     @RequestMapping("init")
-    public ModelAndView init(HttpServletRequest request, 
+    public String init(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
+    	HttpSession session = request.getSession(true);
     	request.setCharacterEncoding("UTF-8");
     	
         response.setCharacterEncoding("UTF-8");
@@ -116,7 +118,8 @@ public class AnalysisManageController {
 
         
         List<AnalysisManage> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
-        mav.addObject("typenameOrder", typenameOrder);
+        session.setAttribute("typenameOrder", typenameOrder);
+//        mav.addObject("typenameOrder", typenameOrder);
         for(AnalysisManage a : typenameOrder){
             System.out.println(a.getType_name()+":"+(a.getWeight()+1));
         }
@@ -135,31 +138,42 @@ public class AnalysisManageController {
         out.print(json);
         
         System.out.print(analysisListByPage.size());
-        mav.addObject("analysisListByPage", analysisListByPage);
-        mav.addObject("analysisListParent", analysisListParent);
-        mav.addObject("analysisManageList", analysisManageList);
+//        mav.addObject("analysisListByPage", analysisListByPage);
+//        mav.addObject("analysisListParent", analysisListParent);
+//        mav.addObject("analysisManageList", analysisManageList);
+        session.setAttribute("analysisListByPage", analysisListByPage);
+        session.setAttribute("analysisListParent", analysisListParent);
+        session.setAttribute("analysisManageList", analysisManageList);
         
-        mav.addObject("tname", tname);
-        mav.addObject("controlURL", "selectAnalysisListByPage");//控制页码传递URL
-        mav.addObject("page", page); 
-        mav.addObject("placeholder", theme_name);
+        session.setAttribute("tname", tname);
+        session.setAttribute("controlURL", "selectAnalysisListByPage");
+        session.setAttribute("page", page);
+        session.setAttribute("placeholder", theme_name);
+        
+        
+//        mav.addObject("tname", tname);
+//        mav.addObject("controlURL", "selectAnalysisListByPage");//控制页码传递URL
+//        mav.addObject("page", page); 
+//        mav.addObject("placeholder", theme_name);
        
         // placeholder
-        mav.setViewName("columnManage");
+//        mav.setViewName("columnManage");
         
-        return mav;
+        return "columnManageFrame";
     }
     
     @RequestMapping("initAnalysisList")
     public ModelAndView initAnalysisList(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException{
-//    	request.setCharacterEncoding("UTF-8");
+     	request.setCharacterEncoding("UTF-8");
 //    	
-//        response.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         ModelAndView mav = new ModelAndView();
               
         Page page=new Page(); //分页类
         tname= java.net.URLDecoder.decode(request.getParameter("op"),"UTF-8");
+//        tname= request.getParameter("op");
+        System.out.print("tname:"+tname);
         List<AnalysisManage> analysisListParent=analysisManageService.parentList();
         List<AnalysisManage> analysisManageList= analysisManageService.list();
         int count = analysisManageService.countByGroup(tname);//每一个一级栏目下面二极栏目的数量
@@ -208,7 +222,7 @@ public class AnalysisManageController {
         mav.addObject("page", page);
         mav.addObject("placeholder", theme_name);
         // 
-        mav.setViewName("columnManage");
+        mav.setViewName("columnManageFrame");
         return mav;
     }
 
@@ -258,7 +272,7 @@ public class AnalysisManageController {
         mav.addObject("page", page);
         mav.addObject("controlURL", "selectAnalysisListByPage");//控制页码传递URL
         mav.addObject("placeholder", theme_name);
-        mav.setViewName("columnManage");
+        mav.setViewName("columnManageFrame");
         
         return mav;
     }
@@ -309,7 +323,7 @@ public class AnalysisManageController {
            mav.addObject("page", page);
            mav.addObject("placeholder", theme_name);
            mav.addObject("controlURL", "selectAnalysisListByPage");//控制页码传递URL
-           mav.setViewName("columnManage");
+           mav.setViewName("columnManageFrame");
            return mav;
     	
     }
@@ -366,7 +380,7 @@ public class AnalysisManageController {
            mav.addObject("page", page);
            mav.addObject("placeholder", theme_name);
            mav.addObject("controlURL", "searchPage");//控制页码传递URL
-           mav.setViewName("columnManage");           
+           mav.setViewName("columnManageFrame");           
            return mav;
     }
     
@@ -423,7 +437,7 @@ public class AnalysisManageController {
            mav.addObject("page", page);
            mav.addObject("placeholder", theme_name);
            mav.addObject("controlURL", "searchPage");//控制页码传递URL
-           mav.setViewName("columnManage");           
+           mav.setViewName("columnManageFrame");           
            return mav;
     }
     
@@ -482,7 +496,7 @@ public class AnalysisManageController {
           mav.addObject("page", page);
           mav.addObject("placeholder", theme_name);
           mav.addObject("controlURL", "selectAnalysisListByPage");//控制页码传递URL
-          mav.setViewName("columnManage");           
+          mav.setViewName("columnManageFrame");           
           return mav;
     }
     
@@ -542,7 +556,7 @@ public class AnalysisManageController {
            mav.addObject("page", page);
            mav.addObject("placeholder", theme_name);
            mav.addObject("controlURL", "selectAnalysisListByPage");//控制页码传递URL
-           mav.setViewName("columnManage");           
+           mav.setViewName("columnManageFrame");           
            return mav;
     }
     
@@ -603,7 +617,7 @@ public class AnalysisManageController {
            mav.addObject("page", page);
            mav.addObject("placeholder", theme_name);
            mav.addObject("controlURL", "selectAnalysisListByPage");//控制页码传递URL
-           mav.setViewName("columnManage");           
+           mav.setViewName("columnManageFrame");           
            return mav;
     }
     

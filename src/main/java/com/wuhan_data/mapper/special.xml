@@ -7,7 +7,7 @@
    
         <!-- 添加专题 -->
         <insert id="add" parameterType="IndexSpecial" >
-            insert into index_special(title) values(#{title})
+            insert into index_special(title,image) values(#{title},#{image})
         </insert>
         
          
@@ -27,8 +27,17 @@
         </select>  
  
         <!--修改专题名称  -->
-        <update id="update" parameterType="IndexSpecial" >
+        <update id="updateTitle" parameterType="IndexSpecial" >
             update index_special set title=#{title} where id=#{id}
+        </update>
+        
+        <update id="update" parameterType="IndexSpecial" >
+            update index_special 
+            <set>
+            <if test="title!=null">title=#{title}</if>
+            <if test="image!=null">image=#{image}</if>
+            </set>
+              where id=#{id}
         </update>
                
         <!-- 修改专题是否显示 -->
