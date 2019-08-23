@@ -23,7 +23,7 @@
     <link href="<%=path %>/assets/css/my.css" rel="stylesheet" />
     
     <link href="<%=path %>/assets/css/bootstrap-order.min.css" rel="stylesheet" />
-   
+    <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
 
 
     <style type="text/css" rel="stylesheet">
@@ -51,6 +51,7 @@
         #dataTables-example{
         margin-top:10px;
         }
+        
        
 
     </style>
@@ -258,7 +259,7 @@
 <!--                     </ul> -->
 <!--                     /.dropdown-alerts -->
 <!--                 </li> -->
-                <!-- /.dropdown -->
+<!--                 /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -272,7 +273,7 @@
                         <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
-                    <!-- /.dropdown-user -->
+<!--                     /.dropdown-user -->
                 </li>
                 <!-- /.dropdown -->
             </ul>
@@ -306,7 +307,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
+                         <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
 <!--                         <ul class="nav nav-second-level"> -->
 <!--                             <li class="active-menu"> -->
 <!--                                 <a href="columnManage.html">栏目维护</a> -->
@@ -389,7 +390,7 @@
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            栏目管理 <small>板块配置</small>
+                            首页管理 <small>轮播图维护</small>
                         </h1>
                     </div>
                 </div> 
@@ -402,11 +403,10 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                             栏目
+                             轮播图
                         </div>
                         <div class="panel-body">
 
-   <input type="hidden" value="${cid}" name="cid"/>
   <div class="row">
      <div class="btns col-md-2">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
@@ -425,34 +425,33 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>栏目</th>
-                                            <th>板块</th>
-                                            <th>展现形式</th>
-                                            <th>期数</th>
-                                   
-                                            <th>操作</th>
+                                            <th width="3%">id</th>
+                                            <th width="22%">名称</th>
+                                            <th width="15%">路径</th>
+                                            <th width="10%">图片</th>
+                                            <th width="50%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-     <c:forEach items="${indicolumnByPage}" var="c" varStatus="st">
+     <c:forEach items="${specialByPage}" var="c" varStatus="st">
         <tr>
-            <td >${c.cname}</td>
-            <td >${c.pname}</td>
-            <td>${c.show_type }</td>
-            <td>${c.term }</td>
+            <td >${c.id}</td>
+            <td >${c.title}</td>
+            <td>${c.image}</td>
+            <td ><img src="${c.image}" width="80" height="42"></td>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
-  <a href="plateIndiInit?id=${c.pid }">
-<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看指标
+
+<div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')">
+<i class="fa fa-search"></i>查看大图
 </div>
-</a>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.pid}','${c.pname}','${c.show_type }','${cid }','${c.term }')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}','${c.image}')">
 <i class="fa fa-edit"></i>修改
 </div>
-<a href="colPlateDel?id=${c.id }&cid=${cid}">
+<a href="indexPicDel?id=${c.id }">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
@@ -469,12 +468,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="colPlateUpdateShow?id=${c.id }&is_show=1&cid=${cid}" id="noPerShow">不展示</a>             
+         <a href="indexPicUpdateShow?is_show=1&id=${c.id }" id="noPerShow">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="colPlateUpdateShow?id=${c.id }&is_show=0&cid=${cid}" id="perShow">展示</a>            
+         <a href="indexPicUpdateShow?is_show=0&id=${c.id }" id="perShow">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -498,27 +497,70 @@
 					修改
 				</h4>
 			</div>
-	<form class="" id="editForm" method="post" accept-charset="UTF-8" action="colPlateUpdate">
-			<div class="modal-body">		
-
-	<input class="form-control" type="hidden" name="indi_id" id="indi_id">  
-     板块名称：<input class="form-control" type="search"  name="pname" id="pnameEdit"> 
-      展示形式：<input class="form-control" type="search" name="show_type" id="show_typeEdit"> 
-      显示期数：<input class="form-control" type="search" name="term" id="termEdit"> 
-     		 <input class="form-control"  type="hidden" value="${cid}" name="cid" id="cidEdit"/>
-     		 <input class="form-control"  type="hidden" value="${pid}" name="pid" id="pidEdit"/>
-
+			
+			
+			<form  id="editForm" method="post" accept-charset="UTF-8" action="indexPicUpdate" enctype="multipart/form-data">
+			<div class="modal-body">
+			<input class="form-control" type="hidden" name="picid" id="picid">
+			 <div class="form-group">
+                   <label>名称</label>                  
+                   <input class="form-control" type="text" placeholder="请输入轮播图名称" name="title" id="pictitle">
+             </div>
+             <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择图片</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="" alt="" id="showPic"/></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+    <!--   轮播图名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title"> -->
+    
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="add()">
 					提交
 				</button>
 			</div>
 			</form>
+			
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
+</div>
+
+  <!-- 查看大图 模态框（Modal） -->
+<div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<!-- <div class="modal-dialog modal-lg" style="display: inline-block; width: auto;">
+            <div class="modal-content">
+             <img  id="imgInModalID" src="" >
+            </div>
+</div> -->
+
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					大图
+				</h4>
+			</div> -->
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="specialUpdate">
+			<div class="modal-body">		
+<img src="" width="550" height="257" id="image">
+			</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 
@@ -536,34 +578,32 @@
 				</h4>
 			</div>
 			
-			<form class="" id="addForm" method="post" accept-charset="UTF-8" action="colPlateAdd">
+			<form  id="addForm" method="post" accept-charset="UTF-8" action="indexPicAdd" enctype="multipart/form-data">
 			<div class="modal-body">
-				
-<!-- <!--      指标  id：<input class="form-control" type="search" placeholder="请输入指标id" name="indi_id"> -->
-      板块名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="pname"> 
-      展示形式：<input class="form-control" type="search" placeholder="请输入展示形式" name="show_type"> 
-      显示期数：<input class="form-control" type="search" placeholder="请输入显示期数" name="term"> 
-     		  <input class="form-control"  type="hidden" value="${cid}" name="cid"/>
-     		  <input class="form-control"  type="hidden" value="${id}" name="id"/>
-
-<%-- 			<select class="form-control" id="SelectIndi1" name="indi"> 
-						<c:forEach items="${InitIndexManageList}" var="c1" varStatus="st">
-							        <option value="${c1.indi_code}-${c1.indi_name}" selected>${c1.indi_code}-${c1.indi_name}</option>       
-						</c:forEach>
-			</select> --%>
-			
-<!-- 			<select class="form-control" id="SelectIndi2" name="indi_name">  -->
-<%-- 						<c:forEach items="${InitIndexManageList}" var="c1" varStatus="st"> --%>
-<%-- 							        <option value="${c1.indi_name}" selected>${c1.indi_name}</option>        --%>
-<%-- 						</c:forEach> --%>
-<!-- 			</select> -->
-         
+			 <div class="form-group">
+                   <label>名称</label>
+                   <input class="form-control" type="text" placeholder="请输入轮播图名称" name="title">
+             </div>
+             <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择图片</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="assets/img/demoUpload.jpg" alt="" /></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+    <!--   轮播图名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title"> -->
     
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="add()">
 					提交
 				</button>
 			</div>
@@ -593,21 +633,20 @@
 									</ul> --%>
 									
 									 <div class='page fix'>
-                    <form method="post" action="colPlateInit" id="pageForm">
+                    <form method="post" action="indexPicInit" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="colPlateInit?currentPage=1&id=${cid }" class='first'>首页</a>
-                           <a href="colPlateInit?currentPage=${page.currentPage-1}&id=${cid }" class='pre'>上一页</a>
+                           <a href="indexPicInit?currentPage=1" class='first'>首页</a>
+                           <a href="indexPicInit?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="colPlateInit?currentPage=${page.currentPage+1}&id=${cid }" class='next'>下一页</a>
-                            <a href="colPlateInit?currentPage=${page.totalPage}&id=${cid }" class='last'>末页</a>
+                            <a href="indexPicInit?currentPage=${page.currentPage+1}" class='next'>下一页</a>
+                            <a href="indexPicInit?currentPage=${page.totalPage}" class='last'>末页</a>
                         </c:if>
                         跳至&nbsp;
 
- 						<input type="hidden" value="${cid }" name="id">
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
                         <input type="submit" value="GO" class="btn-primary btn-sm">
                     </form>
@@ -646,6 +685,7 @@
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
             $(document).ready(function () {
                 $('#dataTables-example').dataTable();
@@ -677,14 +717,14 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            
-
-            function edit(pid,pname,show_type,cid,term){
-            	$("#pidEdit").val(pid);
-            	$("#pnameEdit").val(pname);
-            	$("#show_typeEdit").val(show_type);
-            	$("#cidEdit").val(cid);
-            	$("#termEdit").val(term);
+            function edit(ID,title,image){
+            	$("#picid").val(ID);
+            	$("#pictitle").val(title);
+            	$("#showPic").attr('src',image);
+                	
+            }
+            function imageShow(image){
+            	$("#image").attr('src',image);
                 	
             }
             function del(aid){

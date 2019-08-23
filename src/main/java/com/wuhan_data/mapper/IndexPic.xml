@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.IndexPicManage">
+    
+        <!-- 添加轮播图 -->
+        <insert id="add" parameterType="IndexPic" >
+            insert into index_pic(title,image) values(#{title},#{image})
+        </insert>
+        
+         <!-- 删除一个轮播图 -->
+        <delete id="delete" parameterType="int" >
+            delete from index_pic where id=#{id}  
+        </delete>    
+
+         <!-- 得到轮播图列表 -->
+        <select id="getlist" parameterType="java.util.Map" resultType="IndexPic">
+            select id,title,image,is_show from index_pic order by id limit #{page.dbIndex},#{page.dbNumber}   
+        </select>  
+
+
+ <!--修改轮播图名称  -->
+        <update id="updateTitle" parameterType="IndexPic" >
+            update index_pic
+             <set> 
+               <if test="title!=null">
+               title=#{title}
+               </if>          
+             </set> where id=#{id}
+        </update>
+
+        <!--修改轮播图  -->
+        <update id="update" parameterType="IndexPic" >
+            update index_pic
+             <set> 
+               <if test="title!=null">
+               title=#{title},
+               </if>
+               <if test="image!=null">
+               image=#{image}
+               </if>           
+             </set> where id=#{id}
+        </update>
+
+        <!-- 修改轮播图是否显示 -->
+         <update id="updateShow" parameterType="IndexPic" >
+            update index_pic
+            <set>
+            is_show=#{is_show}
+            </set>
+             where id=#{id}   
+        </update>       
+        
+      <!-- 统计轮播图数量 -->
+        <select id="total" resultType="int">
+            select count(*) from index_pic
+        </select>
+    </mapper>

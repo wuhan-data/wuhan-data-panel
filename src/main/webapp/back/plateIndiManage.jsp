@@ -23,7 +23,6 @@
     <link href="<%=path %>/assets/css/my.css" rel="stylesheet" />
     
     <link href="<%=path %>/assets/css/bootstrap-order.min.css" rel="stylesheet" />
-    
    
 
 
@@ -70,16 +69,21 @@
             </div>
 
             <ul class="nav navbar-top-links navbar-right">
+
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+<!--                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a> -->
+<!--                         </li> -->
+<!--                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a> -->
+<!--                         </li> -->
                         <li class="divider"></li>
                         <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
-<!--                     /.dropdown-user -->
+                    <!-- /.dropdown-user -->
                 </li>
                 <!-- /.dropdown -->
             </ul>
@@ -104,16 +108,23 @@
                             <li>
                                 <a href="listIndexManage">指标数据维护</a>
                             </li>
-
+<!--                             <li> -->
+<!--                                 <a href="dataReview.html">数据审核</a> -->
+<!--                             </li> -->
+<!--                             <li> -->
+<!--                                 <a href="reportDataManage.html">报告、报表数据管理</a> -->
+<!--                             </li> -->
                         </ul>
                     </li>
                     <li>
-                         <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
+                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
 
                     </li>
                     <li>
                         <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
+
                     </li>
+
                     <li>
                         <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -153,7 +164,7 @@
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            专题管理 <small>专题维护</small>
+                            栏目管理 <small>指标配置</small>
                         </h1>
                     </div>
                 </div> 
@@ -166,21 +177,16 @@
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                             专题
+                             栏目
                         </div>
                         <div class="panel-body">
 
+   <input type="hidden" value="${cid}" name="cid"/>
   <div class="row">
-     <div class="btns col-md-6">
+     <div class="btns col-md-2">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
-     <%--  <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>排序</button> --%>
     </div>  
- 
-    <!--  <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="">
-      <button class="btn btn-success" onclick="search()">搜索</button>
-    </form>
-   -->
+  
   </div>
 
     
@@ -189,31 +195,32 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>专题id</th>
-                                            <th>专题名称</th>
-                                            <!-- <th>权重</th> -->
-                                            <th>操作</th>
+                                            <th width="10%">板块</th>
+                                            <th width="15%">指标id</th>
+                                            <th width="20%">指标名称</th>
+                                            <th width="20%">指标别名</th>
+                                            <th width="10%">展现形式</th>
+                                            <th width="35%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-     <c:forEach items="${specialByPage}" var="c" varStatus="st">
+     <c:forEach items="${indicolumnByPage}" var="c" varStatus="st">
         <tr>
-            <td >${c.id}</td>
-            <td >${c.title}</td>
-           <%--  <td>${c.topic_weight}</td> --%>
+            <td >${c.plate_id}</td>
+            <td>${c.search_indi_id }</td>
+            <td >${c.indi_old_name}</td>
+            <td >${c.indi_new_name}</td>
+            <td>${c.show_type }</td>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
-<a href="#">
-<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看大图
-</div>
-</a>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}')">
+
+<%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_name}')">
 <i class="fa fa-edit"></i>修改
-</div>
-<a href="specialDel?special_id=${c.id }">
+</div> --%>
+<a href="plateIndiDel?pid=${c.plate_id }&id=${c.indi_id}">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
@@ -230,12 +237,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>             
+         <a href="plateIndiUpdateShow?id=${c.indi_id }&is_show=1&pid=${c.plate_id}" id="noPerShow">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>            
+         <a href="plateIndiUpdateShow?id=${c.indi_id }&is_show=0&pid=${c.plate_id}" id="perShow">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -246,7 +253,7 @@
 </tbody>
 
                                 </table>
-                                
+                                <input type="hidden" value="${cid}" name="cid_"/>
                                 <!--修改 模态框（Modal） -->
 <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -259,11 +266,12 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="specialUpdate">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="indiColumnUpdateOther">
 			<div class="modal-body">		
 
-	<input class="form-control" type="hidden" name="special_id" id="special_id">
-   专题名称：<input class="form-control" type="text" name="special_name" id="special_name">   
+	<input class="form-control" type="hidden" name="indi_id" id="indi_id">
+   板块名称：<input class="form-control" type="text" name="pname" id="indi_name">   
+   <input type="hidden" value="${pid}" name="cid2"/>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -292,15 +300,38 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="specialAdd">
+			<form class="" id="addForm" method="post" accept-charset="UTF-8" action="plateIndiAdd">
 			<div class="modal-body">
-      专题名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="special_name">
+			
+			 <div class="form-group">
+                   <label>指标id</label>                  
+                   <input class="form-control" type="text" placeholder="请输入指标id" name="indi_id">
+             </div>
+              <div class="form-group">
+                   <label>指标名称</label>                  
+                   <input class="form-control" type="text" placeholder="请输入指标名称" name="indi_old_name">
+             </div>
+             <div class="form-group">
+                   <label>指标别名</label>                  
+                   <input class="form-control" type="text" placeholder="请输入指标别名" name="indi_new_name">
+             </div>
+              <div class="form-group">
+                   <label>展示类型</label>                  
+                   <input class="form-control" type="text" placeholder="请输入展示类型" name="show_type">
+             </div>
+              <div class="form-group">
+                   <label>展示颜色</label>                  
+                   <input class="form-control" type="text" placeholder="请输入展示颜色" name="show_color">
+             </div>
+      
+   
+         <input type="hidden" value="${cid}" name="cid"/>
     
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
+				<button type="submit" class="btn btn-primary">
 					提交
 				</button>
 			</div>
@@ -310,22 +341,41 @@
 </div>
 
 
-                                <div class="row">									
+                                <div class="row">
+                                
+                                	  <!-- <ul class="col-lg-4"></ul> -->
+                                	<%--   <ul class="pagination col-lg-4">
+                                	      <form method="post" action="#">
+                                	       <c:if test="${page.current!=1 }">
+                                	        <li><a href="#">首页</a></li>
+                                	        <li></li>
+                                	       </c:if>
+                                	      </form>
+										  <li><a href="#">«</a></li>
+										  <li class="active"><a href="#">1</a></li>
+										  <li><a href="#">2</a></li>
+										  <li><a href="#">3</a></li>
+										  <li><a href="#">4</a></li>
+										  <li><a href="#">5</a></li>
+										  <li><a href="#">»</a></li>
+									</ul> --%>
+									
 									 <div class='page fix'>
-                    <form method="post" action="specialInit" id="pageForm">
+                    <form method="post" action="plateIndiInit" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="specialInit?currentPage=1" class='first'>首页</a>
-                           <a href="specialInit?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
+                           <a href="plateIndiInit?currentPage=1&id=${cid }" class='first'>首页</a>
+                           <a href="plateIndiInit?currentPage=${page.currentPage-1}&id=${cid }" class='pre'>上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="specialInit?currentPage=${page.currentPage+1}" class='next'>下一页</a>
-                            <a href="specialInit?currentPage=${page.totalPage}" class='last'>末页</a>
+                            <a href="plateIndiInit?currentPage=${page.currentPage+1}&id=${cid }" class='next'>下一页</a>
+                            <a href="plateIndiInit?currentPage=${page.totalPage}&id=${cid }" class='last'>末页</a>
                         </c:if>
                         跳至&nbsp;
 
+<input type="hidden" value="${cid }" name="id">
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
                         <input type="submit" value="GO" class="btn-primary btn-sm">
                     </form>
@@ -375,7 +425,7 @@
             	var op = select.value;
             	var form1=document.getElementById("form1");
             	var title=encodeURI(encodeURI(op));
-            	form1.action="initAnalysisList?op="+title;
+            	form1.action="?op="+title;
             	form1.submit();
             }
             function search(){
@@ -395,9 +445,9 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(ID,sname){
-            	$("#special_id").val(ID);
-            	$("#special_name").val(sname);
+            function edit(ID,indiname){
+            	$("#indi_id").val(ID);
+            	$("#indi_name").val(indiname);
                 	
             }
             function del(aid){
@@ -415,25 +465,6 @@
                     }
             	})  */
             	
-            }
-            
-            var order =  new BootstrapOrder();
-            
-            
-            function showS(json) {             	
-            	for(var i=0,l=json.length;i<l;i++){
-            		order.addItem(json[i]);
-            		}
-            	order.toggleShow();         	
-            }
-        
-            function addSort(item) {
-            	order.addItem(item);
-            }
-        
-            function getData(){
-            	var data = order.getData();
-                alert(JSON.stringify(data)); 
             }
             
         

@@ -10,7 +10,11 @@
         </select>
         
          <select id="getIconList" resultType="com.wuhan_data.pojo.AnalysisIcon">
-            select iconWeight,background,icon_name,icon_url from index_analysis_icon order by iconweight
+select b.type_weight iconWeight,a.background,a.icon_name,a.icon_url from index_analysis_icon a
+left join analysis_theme b 
+on a.icon_name=b.type_name
+group by b.type_weight,a.background,a.icon_name,a.icon_url
+order by b.type_weight
         </select>
         
          <select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">
