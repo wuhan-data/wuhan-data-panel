@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8" />
 	<!-- Bootstrap Styles-->
-    <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" />
+    <%-- <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" /> --%>
      <!-- FontAwesome Styles-->
     <link href="<%=path %>/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
@@ -21,9 +21,7 @@
     <%-- <link href="<%=path %>/assets/css/my.css" rel="stylesheet" /> --%>
    
       <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
-    
-
-
+      
     <style type="text/css" rel="stylesheet">
 
 		a{
@@ -49,8 +47,6 @@
         #addElement{
         margin-bottom:10px;
         }
-       
-
     </style>
 </head>
 <body>  
@@ -75,22 +71,12 @@
                         </div>
                         <div class="panel-body">
 
-
-     <div class="btns col-md-6" id="addElement">
+  <div class="row" id="addElement">
+     <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
-     <%--  <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>排序</button> --%>
     </div>  
- 
-    <!--  <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="">
-      <button class="btn btn-success" onclick="search()">搜索</button>
-    </form>
-   -->
- 
-<!-- 
-<div id="getNewData" width="100%" height="100%">
-</div> -->
-
+    
+</div>
 
  <div class="table-responsive" id="tableshow">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -127,7 +113,7 @@
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
-    <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" data-target=".dropdown-menu">
+    <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown">
      <c:if test="${c.is_show==0 }">
      展示
      </c:if>
@@ -140,14 +126,14 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>  
-         <%-- a href="#" id="noPerShow" onclick="updateShowClick('${c.id }','1','specialUpdateShow')">不展示</a>        --%>     
+       <%--   <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>   --%>
+        <a href="#" id="noPerShow" onclick="updateShowClick('${c.id }','1','specialUpdateShow')">不展示</a>        
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-      <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>  
-         <%--  <a href="#" id="perShow" onclick="updateShowClick('${c.id }','0','specialUpdateShow')">展示</a>  --%>            
+      <%-- <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>   --%>
+           <a href="#" id="perShow" onclick="updateShowClick('${c.id }','0','specialUpdateShow')">展示</a>    
       </li>
     </c:if>
     </ul>
@@ -284,10 +270,7 @@
 					提交
 				</button>
 			</div>
-			</form>
-			
-			
-			
+			</form>			
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
@@ -304,9 +287,9 @@
                             </body>
                             
                              <!-- jQuery Js -->
-    <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+<%--     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
       <!-- Bootstrap Js -->
-    <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap.min.js"></script> --%>
     <!-- Metis Menu Js -->
     <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
@@ -328,9 +311,7 @@
             editClick = function(Url) {
          	   $('.modal-backdrop').remove();
          	    $('body').removeClass('modal-open');
-                alert(Url);
               var data = new FormData(document.getElementById("editForm"));                	
-              console.log(data.get("title"));
               $.ajax({
                          type: 'POST',
                          url:  Url,
@@ -341,7 +322,6 @@
                     	    processData: false,
                          cache:false,
                          success: function(data){
-                    	 	alert(data);
                              $('#getNewData').html(data);
                          },
                          error : function(data){
@@ -352,9 +332,7 @@
             addClick = function(Url) {
          	   $('.modal-backdrop').remove();
          	    $('body').removeClass('modal-open');
-                	alert(Url);
               	var data = new FormData(document.getElementById("addForm"));
-              	console.log(data.get("title"));
               	 $.ajax({
                          type: 'POST',
                          url:  Url,
@@ -365,7 +343,6 @@
                     	    processData: false,
                          cache:false,
                          success: function(data){
-                    	 	alert(data);
                              $('#getNewData').html(data);
                          },
                          error : function(data){
@@ -375,7 +352,6 @@
               
               
               delClick = function(s_id,Url) {
-                   alert(s_id);
                  $.ajax({
                             type: 'GET',
                             url:  Url+"?special_id="+s_id,
@@ -395,7 +371,6 @@
               
               
                  updateShowClick = function(special_id,is_show,Url) {
-                	 alert("updateShow")
                    $.ajax({
                               type: 'GET',
                               url:  Url+"?special_id="+special_id+"&is_show="+is_show,
@@ -405,7 +380,6 @@
                          	    processData: false,
                               cache:false,
                               success: function(data){
-                         	 	alert(data);
                                   $('#getNewData').html(data);
                               },
                               error : function(data){
@@ -423,7 +397,6 @@
                            	    processData: false,
                                 cache:false,
                                 success: function(data){
-                           	 	alert(data);
                                     $('#getNewData').html(data);
                                 },
                                 error : function(data){
@@ -432,9 +405,7 @@
                      };
               
                      pageGoClick = function(Url) {
-                    	 alert(Url);
                     	var currentPage = document.getElementById("currentPageText").value;
-                    	 alert(currentPage);
                          $.ajax({
                                     type: 'GET',
                                     url:  Url+"?currentPage="+currentPage,
@@ -444,7 +415,6 @@
                                	    processData: false,
                                     cache:false,
                                     success: function(data){
-                               	 	alert(data);
                                         $('#getNewData').html(data);
                                     },
                                     error : function(data){

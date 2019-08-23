@@ -31,7 +31,7 @@
     <!-- Morris Chart Styles-->
    <!--  <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" /> -->
     <!-- Custom Styles-->
-    <link href="<%=path %>/assets/css/custom-styles.css" rel="stylesheet" />
+   <link href="<%=path %>/assets/css/custom-styles.css" rel="stylesheet" /> 
     
     
     <!-- Google Fonts-->
@@ -132,8 +132,7 @@
         </nav>
         <!-- /. NAV SIDE  -->
         <div id="getNewData" width="100%" height="100%">
-</div>
-        <div id="page-wrapper">
+         <div id="page-wrapper">
             <div id="page-inner">
             
 
@@ -155,16 +154,19 @@
             </div>
             <!-- /. PAGE INNER  -->
         </div>
+</div>
+       
         <!-- /. PAGE WRAPPER  -->
     </div>
     <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+      <!-- Metis Menu Js -->
+    <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
     <!-- Bootstrap Js -->
     <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
-    <!-- Metis Menu Js -->
-    <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
+  
     <!-- Morris Chart Js -->
     <script src="<%=path %>/assets/js/morris/raphael-2.1.0.min.js"></script>
     <script src="<%=path %>/assets/js/morris/morris.js"></script> 
@@ -176,15 +178,14 @@
    
    
    menuClick = function(menuUrl) {
+	   $(".active-menu").removeClass('active-menu');
 	   $("#"+menuUrl).addClass('active-menu');
-   	/* $("#welcome").style.display="none" */
    	 $.ajax({
                 type: 'GET',
                 url:  menuUrl,
                 dataType: "html",
                 cache:false,
                 success: function(data){
-           	 	alert(data);
                     $('#getNewData').html(data);
                 },
                 error : function(data){

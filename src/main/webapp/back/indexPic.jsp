@@ -94,7 +94,6 @@
   </div>
 
     
-    <div width="10px"></div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -143,12 +142,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="indexPicUpdateShow?is_show=1&id=${c.id }" id="noPerShow">不展示</a>             
+         <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.id }','indexPicUpdateShow')">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="indexPicUpdateShow?is_show=0&id=${c.id }" id="perShow">展示</a>            
+         <a href="#" id="perShow" onclick="updateShowClick('0','${c.id }','indexPicUpdateShow')">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -330,9 +329,9 @@
          <!-- /. PAGE WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+  <%--   <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
       <!-- Bootstrap Js -->
-    <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap.min.js"></script> --%>
     <!-- Metis Menu Js -->
     <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
@@ -352,9 +351,7 @@
             editClick = function(Url) {
           	   $('.modal-backdrop').remove();
           	    $('body').removeClass('modal-open');
-                 alert(Url);
                var data = new FormData(document.getElementById("editForm"));                	
-               console.log(data.get("title"));
                $.ajax({
                           type: 'POST',
                           url:  Url,
@@ -365,7 +362,6 @@
                      	    processData: false,
                           cache:false,
                           success: function(data){
-                     	 	alert(data);
                               $('#getNewData').html(data);
                           },
                           error : function(data){
@@ -376,7 +372,6 @@
              addClick = function(Url) {
           	   $('.modal-backdrop').remove();
           	    $('body').removeClass('modal-open');
-                 	alert(Url);
                	var data = new FormData(document.getElementById("addForm"));
                	 $.ajax({
                           type: 'POST',
@@ -388,7 +383,6 @@
                      	    processData: false,
                           cache:false,
                           success: function(data){
-                     	 	alert(data);
                               $('#getNewData').html(data);
                           },
                           error : function(data){
@@ -407,7 +401,6 @@
                         	    processData: false,
                              cache:false,
                              success: function(data){
-                        	 	alert(data);
                                  $('#getNewData').html(data);
                              },
                              error : function(data){
@@ -416,24 +409,22 @@
                   };
                
                
-                  updateShowClick = function(special_id,is_show,Url) {
-                 	 alert("updateShow")
-                    $.ajax({
-                               type: 'GET',
-                               url:  Url+"?special_id="+special_id+"&is_show="+is_show,
-                               dataType: "html",
-                          	    async : false,
-                           	  contentType: false, //不设置内容类型
-                          	    processData: false,
-                               cache:false,
-                               success: function(data){
-                          	 	alert(data);
-                                   $('#getNewData').html(data);
-                               },
-                               error : function(data){
-                               }
-                           });    
-                    };
+                  updateShowClick = function(is_show,id,Url) {
+                      $.ajax({
+                                 type: 'GET',
+                                 url:  Url+"?id="+id+"&is_show="+is_show,
+                                 dataType: "html",
+                            	    async : false,
+                             	  contentType: false, //不设置内容类型
+                            	    processData: false,
+                                 cache:false,
+                                 success: function(data){
+                                     $('#getNewData').html(data);
+                                 },
+                                 error : function(data){
+                                 }
+                             });    
+                      };
                     
                     pageClick = function(currentPage,Url) {
                       $.ajax({
@@ -445,7 +436,6 @@
                             	    processData: false,
                                  cache:false,
                                  success: function(data){
-                            	 	alert(data);
                                      $('#getNewData').html(data);
                                  },
                                  error : function(data){
@@ -454,9 +444,7 @@
                       };
                
                       pageGoClick = function(Url) {
-                     	 alert(Url);
                      	var currentPage = document.getElementById("currentPageText").value;
-                     	 alert(currentPage);
                           $.ajax({
                                      type: 'GET',
                                      url:  Url+"?currentPage="+currentPage,
@@ -466,7 +454,6 @@
                                 	    processData: false,
                                      cache:false,
                                      success: function(data){
-                                	 	alert(data);
                                          $('#getNewData').html(data);
                                      },
                                      error : function(data){
