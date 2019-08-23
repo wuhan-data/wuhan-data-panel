@@ -142,7 +142,7 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="colPlateUpdateShow?id=${c.id }&is_show=1&cid=${cid}" id="noPerShow" onclick="updateShowClick('1','${c.id }','${cid}','colPlateUpdateShow')">不展示</a>             
+         <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.id }','${cid}','colPlateUpdateShow')">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
@@ -305,9 +305,9 @@
          <!-- /. PAGE WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+<%--     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
       <!-- Bootstrap Js -->
-    <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap.min.js"></script> --%>
     <!-- Metis Menu Js -->
     <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->

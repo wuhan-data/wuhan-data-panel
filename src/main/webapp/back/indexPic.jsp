@@ -94,7 +94,6 @@
   </div>
 
     
-    <div width="10px"></div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -330,9 +329,9 @@
          <!-- /. PAGE WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+  <%--   <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
       <!-- Bootstrap Js -->
-    <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap.min.js"></script> --%>
     <!-- Metis Menu Js -->
     <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
@@ -413,7 +412,7 @@
                   updateShowClick = function(is_show,id,Url) {
                       $.ajax({
                                  type: 'GET',
-                                 url:  Url+"?special_id="+special_id+"&is_show="+is_show,
+                                 url:  Url+"?id="+id+"&is_show="+is_show,
                                  dataType: "html",
                             	    async : false,
                              	  contentType: false, //不设置内容类型

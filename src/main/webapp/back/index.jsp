@@ -162,10 +162,11 @@
     <!-- JS Scripts-->
     <!-- jQuery Js -->
     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+      <!-- Metis Menu Js -->
+    <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
     <!-- Bootstrap Js -->
     <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
-    <!-- Metis Menu Js -->
-    <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
+  
     <!-- Morris Chart Js -->
     <script src="<%=path %>/assets/js/morris/raphael-2.1.0.min.js"></script>
     <script src="<%=path %>/assets/js/morris/morris.js"></script> 
@@ -185,7 +186,6 @@
                 dataType: "html",
                 cache:false,
                 success: function(data){
-           	 	alert(data);
                     $('#getNewData').html(data);
                 },
                 error : function(data){
