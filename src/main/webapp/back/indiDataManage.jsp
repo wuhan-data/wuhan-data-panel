@@ -116,7 +116,7 @@
    </div>
     <form class="form-inline my-2 my-lg-0" style="float:right" method="post" id="formSearch">
       <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
-      <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
+      <button class="btn btn-success my-2 my-sm-0" onclick="search('IndiSearch')">搜索</button>
     </form>
 
                             <div class="table-responsive">
@@ -160,7 +160,7 @@
     </c:if>
     <c:if test="${c.status==0 }">
       <li role="presentation">
-         <a href="#" id="noPerShow" onclick="noPerShow(${c.id})">不展示</a>             
+         <a href="#" id="noPerShow" onclick="noPerShow('${c.id}','no_per_show')">不展示</a>             
       </li>
   	</c:if>
     </ul>
@@ -463,9 +463,47 @@
                                     }
                                 });    
                          };
+                         
+                         noPerShow = function(indi_id,Url) {
+                             alert(indi_id);
+                             $.ajax({
+                                        type: 'GET',
+                                        url:  Url+"?indi_id="+indi_id,
+                                        dataType: "html",
+                                   	    async : false,
+                                    	contentType: false, //不设置内容类型
+                                   	    processData: false,
+                                        cache:false,
+                                        success: function(data){
+                                   	 	alert(data);
+                                            $('#getNewData').html(data);
+                                        },
+                                        error : function(data){
+                                        }
+                                    });    
+                             };
              
              
-             
+                             search = function(Url) {
+                            	 var searchName=document.getElementById("searchKeyWord").value;
+                             	alert(searchName)
+                             	var keyWord=encodeURI(encodeURI(searchName));
+                               $.ajax({
+                                          type: 'GET',
+                                          url:  Url+"?keyword="+keyWord,
+                                          dataType: "html",
+                                     	    async : false,
+                                      	contentType: false, //不设置内容类型
+                                     	    processData: false,
+                                          cache:false,
+                                          success: function(data){
+                                     	 	alert(data);
+                                              $('#getNewData').html(data);
+                                          },
+                                          error : function(data){
+                                          }
+                                      });    
+                               };
              
              
 	
@@ -499,30 +537,30 @@
 // 		}
 		
 		/* 展示指标*/
-		function perShow(id){
+// 		function perShow(id){
 			
-				$.post("<%=basePath%>per_show.action",{"id":id},function(data){
-					alert("允许指标展示！");
-					window.location.reload();
-				});
+<%-- 				$.post("<%=basePath%>per_show.action",{"id":id},function(data){ --%>
+// 					alert("允许指标展示！");
+// 					window.location.reload();
+// 				});
 			
-		}
+// 		}
 		
-		function noPerShow(id){
+// 		function noPerShow(id){
 			
-			$.post("<%=basePath%>no_per_show.action",{"id":id},function(data){
-				alert("不允许指标展示！");
-				window.location.reload();
-			});
+<%-- 			$.post("<%=basePath%>no_per_show.action",{"id":id},function(data){ --%>
+// 				alert("不允许指标展示！");
+// 				window.location.reload();
+// 			});
 		
-	}
-		function search(){
+// 	}
+		function search1(){
         	var searchName=document.getElementById("searchKeyWord").value;
         	alert(searchName)
         	var keyWord=encodeURI(encodeURI(searchName));
         	
         	var formSearch=document.getElementById("formSearch");
-        	formSearch.action="IndiSearch?keyWord="+keyWord;
+        	formSearch.action="IndiSearch?keyword="+keyWord;
         	formSearch.submit();
         	
         }
