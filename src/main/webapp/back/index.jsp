@@ -31,7 +31,7 @@
     <!-- Morris Chart Styles-->
    <!--  <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" /> -->
     <!-- Custom Styles-->
-    <link href="<%=path %>/assets/css/custom-styles.css" rel="stylesheet" />
+   <link href="<%=path %>/assets/css/custom-styles.css" rel="stylesheet" /> 
     
     
     <!-- Google Fonts-->
@@ -132,8 +132,7 @@
         </nav>
         <!-- /. NAV SIDE  -->
         <div id="getNewData" width="100%" height="100%">
-</div>
-        <div id="page-wrapper">
+         <div id="page-wrapper">
             <div id="page-inner">
             
 
@@ -155,6 +154,8 @@
             </div>
             <!-- /. PAGE INNER  -->
         </div>
+</div>
+       
         <!-- /. PAGE WRAPPER  -->
     </div>
     <!-- /. WRAPPER  -->
