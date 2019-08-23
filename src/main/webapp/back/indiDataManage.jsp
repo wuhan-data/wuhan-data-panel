@@ -323,9 +323,7 @@
     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="assets/js/bootstrap-order.min.js"></script>
 <!--        <script> -->
-//             $(document).ready(function () {
-//                 $("#dataTables-example").dataTable();
-//             });
+
             
 <!--     </script>  -->
     

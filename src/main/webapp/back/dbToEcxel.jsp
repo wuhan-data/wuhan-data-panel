@@ -130,7 +130,7 @@
 		 <div style="margin:10px">
 		  <form class="form-inline my-2 my-lg-0"  method="post" id="formSearch">
 		      <input class="form-control mr-sm-2" type="search" placeholder="请输入指标搜索关键字" value="${keyword}" aria-label="Search" id="searchKeyWord">
-		      <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
+		      <button class="btn btn-success my-2 my-sm-0" onclick="search('dbToEcxel')">搜索</button>
     	</form>
     	</div>
                 
@@ -474,15 +474,38 @@ $(function(){
 });
 
 
-function search(){
-	var searchName=document.getElementById("searchKeyWord").value;
-	var keyWord=encodeURI(encodeURI(searchName));
+// function search(){
+// 	var searchName=document.getElementById("searchKeyWord").value;
+// 	var keyWord=encodeURI(encodeURI(searchName));
 	
-	var formSearch=document.getElementById("formSearch");
-	formSearch.action="dbToEcxel?keyWord="+keyWord;
-	formSearch.submit();
-	alert("搜索成功，请选择要导出的指标名字！")
-}
+// 	var formSearch=document.getElementById("formSearch");
+// 	formSearch.action="dbToEcxel?keyWord="+keyWord;
+// 	formSearch.submit();
+// 	alert("搜索成功，请选择要导出的指标名字！")
+// }
+
+search = function(Url) {
+	 var searchName=document.getElementById("searchKeyWord").value;
+	alert(searchName)
+	var keyWord=encodeURI(encodeURI(searchName));
+  $.ajax({
+             type: 'GET',
+             url:  Url+"?keyword="+keyWord,
+             dataType: "html",
+        	    async : false,
+         	contentType: false, //不设置内容类型
+        	    processData: false,
+             cache:false,
+             success: function(data){
+        	 	alert(data);
+                 $('#getNewData').html(data);
+             },
+             error : function(data){
+             }
+         });  
+  
+  alert("搜索成功，请选择要导出的指标名字！");
+  };
 	
 </script>
 	

@@ -96,6 +96,11 @@
                         <!-- <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a> -->
                         <a href="#" onclick="menuClick('indexPicInit')" id="indexPicInit"><i class="fa fa-quote-left"></i>轮播图管理</a>
                     </li>
+                    
+                     <li>
+                        <!-- <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a> -->
+                        <a href="#" onclick="menuClick('indexExport')" id="indexExport"><i class="fa fa-quote-left"></i>指标数据导出</a>
+                    </li>
 
                     <li>
                         <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
