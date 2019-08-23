@@ -111,136 +111,7 @@
 
 <body >
     <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="back/index.jsp">WUHANDATA</a>
-            </div>
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-<!--                     /.dropdown-user -->
-                </li>
-<!--                 /.dropdown -->
-            </ul>
-
-
-
-        </nav>
-        <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-
-                    <!-- <li>
-                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
-                    </li> -->
-                    <li>
-                        <a class="active-menu" href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
-                    </li>
-<!--                     <li> -->
-<!--                         <a href="listIndiCorrelative"><i class="fa fa-list-alt"></i>元数据管理</a> -->
-                        <!-- <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">指标设计</a>
-                            </li>
-                            <li>
-                                <a href="#">指标关联关系维护</a>
-                            </li>
-                        </ul> -->
-<!--                     </li> -->
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="listIndexManage">指标数据维护</a>
-                            </li>
-<!--                             <li> -->
-<!--                                 <a href="dataReview.html">数据审核</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="reportDataManage.html">报告、报表数据管理</a> -->
-<!--                             </li> -->
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="columnManage.html">栏目维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPowerManage.html">栏目权限维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContentManage.html">内容配置</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContPowerManage.html">内容权限设置</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-                    </li>
-                    <li>
-                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
-
-                    </li>
-<!--                     <li> -->
-<!--                         <a href="#"><i class="fa fa-laptop"></i>发布管理</a> -->
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPublish.html">栏目发布</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="publishedManage.html">已发布内容管理</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-<!--                     </li> -->
-                    <li>
-                        <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="noticeInit">通知管理</a>
-                            </li>
-                            <li>
-                                <a href="sysLogInit">日志管理</a>
-                            </li>
-                            <li>
-                                <a href="messageManage.html">消息管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-cogs"></i>系统管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="departmentInit">组织结构管理</a>
-                            </li>
-                            <li>
-                                <a href="userInit">用户管理</a>
-                            </li>
-                            <li>
-                                <a href="roleInit">角色管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
+       
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
@@ -275,13 +146,13 @@
 				</select> 
 			</span>
 			<span class="indiSource"> <img src="images/pfeil.gif" alt="" />
-				指标来源： <select class="com-opt"></select> </span>
+				指标来源： <select text-align-last:center style="width:100px"></select> </span>
 			<span class="freqCode"> <img src="images/pfeil.gif" alt="" />
-				月/季度： <select class="com-opt"></select> </span>
+				月/季度： <select style="width:50px" text-align-last:center></select> </span>
 			<span class="startTime"> <img src="images/pfeil.gif" alt="" />
-				开始日期： <select class="com-opt"></select> </span>
+				开始日期： <select  style="width:80px" text-align-last:center></select> </span>
 			<span class="endTime"> <img src="images/pfeil.gif" alt="" />
-				结束日期： <select class="com-opt"></select> </span>
+				结束日期： <select style="width:80px" text-align-last:center></select> </span>
 				
 				
 				<input type="button" value="删除" id="delectBu">
