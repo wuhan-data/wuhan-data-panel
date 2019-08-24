@@ -44,7 +44,7 @@
      		</foreach>
         </select>
          <select id="searchByRoleGroupByOne" parameterType="java.util.ArrayList" resultType="Menu">
-        	select * from WUHAN_DATA.MENU  where role_name in  
+        	select max(id) id,level_one,max(level_two) level_two,max(role_name) role_name,max(url) url,max(perm) perm from WUHAN_DATA.MENU  where role_name in  
         	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
           		#{item}
      		</foreach>

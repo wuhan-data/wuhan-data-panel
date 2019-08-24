@@ -5,47 +5,47 @@
  
     <mapper namespace="com.wuhan_data.mapper.UserMapper">
         <insert id="add" parameterType="User" >
-            insert into WUHAN_DATA.USER ( username,password,status,gender,tel,real_name,role_list,role_name,create_time,role_id,department_id,birthday,city ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id},#{birthday},#{city})   
+            insert into WUHAN_DATA."USER" ( username,password,status,gender,tel,real_name,role_list,role_name,create_time,role_id,department_id,birthday,city ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time},#{role_id},#{department_id},#{birthday},#{city})   
         </insert>
          
         <delete id="delete" parameterType="User" >
-            delete from WUHAN_DATA.USER where id= #{id}  
+            delete from WUHAN_DATA."USER" where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="User">
-            select * from   WUHAN_DATA.USER  where id= #{id}   
+            select * from   WUHAN_DATA."USER"  where id= #{id}   
         </select>
         
         <select id="getByName" parameterType="String" resultType="User">
-            select * from   WUHAN_DATA.USER  where username= #{username}   
+            select * from   WUHAN_DATA."USER"  where username= #{username}   
         </select>
         
         <select id="getByRole" parameterType="String" resultType="User">
-            select * from   WUHAN_DATA.USER  where role_id= #{role_id}   
+            select * from   WUHAN_DATA."USER"  where role_id= #{role_id}   
         </select>
         
         <select id="getByTel" parameterType="java.util.Map" resultType="User">
-            select * from   WUHAN_DATA.USER  where tel= #{tel}   
+            select * from   WUHAN_DATA."USER"  where tel= #{tel}   
         </select>
         
         <update id="update" parameterType="User" >
-            update WUHAN_DATA.USER set  username= #{username}, password=#{password} , status=#{status},gender=#{gender},
+            update WUHAN_DATA."USER" set  username= #{username}, password=#{password} , status=#{status},gender=#{gender},
             tel=#{tel},real_name=#{real_name},role_list=#{role_list},role_name=#{role_name},
             role_id=#{role_id},department_id=#{department_id},birthday=#{birthday},city=#{city}
              where id=#{id}   
         </update>
         
         <select id="list" resultType="User">
-            select * from WUHAN_DATA.USER     
+            select * from WUHAN_DATA."USER"     
         </select> 
         
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.USER  
+        	select count(*) from WUHAN_DATA."USER"  
         </select>
         
 		<!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="User">
-            select * from WUHAN_DATA.USER 
+            select * from WUHAN_DATA."USER" 
             <where>
             tel like concat(concat('%',#{tel}),'%')  
             </where>
@@ -54,7 +54,7 @@
         
         	<!--模糊查询真实姓名 -->
 		<select id="searchByRealname" parameterType="java.util.Map" resultType="User">
-            select * from WUHAN_DATA.USER 
+            select * from WUHAN_DATA."USER" 
             <where>
             real_name like concat(concat('%',#{real_name}),'%')  
             </where>
@@ -63,20 +63,20 @@
         
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.USER where tel like concat(concat('%',#{tel}),'%')  
+            select count(*) from WUHAN_DATA."USER" where tel like concat(concat('%',#{tel}),'%')  
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="User" parameterType="java.util.Map">
-            select * from WUHAN_DATA.USER   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
+            select * from WUHAN_DATA."USER"   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
         </select> 
         
         <!-- 后台用户登陆 -->
         <select id="logincheck" parameterType="User" resultType="User">
-        	select * from WUHAN_DATA.USER where	username = #{username} AND password = #{password}
+        	select * from WUHAN_DATA."USER" where	username = #{username} AND password = #{password}
    		</select>
    		<!-- 用户注册 -->
    		<insert id="register" parameterType="User">
-			insert into WUHAN_DATA.USER ( username,password,status,gender,tel,real_name,role_list,role_name,create_time ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time})   
+			insert into WUHAN_DATA."USER" ( username,password,status,gender,tel,real_name,role_list,role_name,create_time ) values (#{username},#{password},#{status},#{gender},#{tel},#{real_name},#{role_list},#{role_name},#{create_time})   
 	</insert>
     
 

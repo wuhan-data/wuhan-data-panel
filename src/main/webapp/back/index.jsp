@@ -58,7 +58,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li class="divider"></li>
-                         <%out.print(((Admin)session.getAttribute("user")).getUsername()); %>你好   
+						<%out.print(((Admin)session.getAttribute("user")).getUsername()); %>你好   
 
                         <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
@@ -71,78 +71,48 @@
         <!--/. NAV TOP  -->
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
-            <ul class="nav" id="main-menu">
-            <li>
-                 <a class="" href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
-            </li>
-            <c:forEach items="${menuList}" var="c" varStatus="st">
-           		 <li>
-           		 
-                        <a href="#" ><i class="${c.level_twoInOneList.get(0).perm}"></i>${c.level_one}<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
-                        
-                            	<li>
-                                	<a href="#" onclick="menuClick('${cc.url}')" id="${cc.url}" ><i class="fa fa-quote-left"></i>${cc.level_two}</a>
-                            	</li>
-                        	 </c:forEach>
-                        </ul>
-                  </li>
-            </c:forEach> 
-            </ul>
-            </div>
-        </nav>
-        
-        
-        
-        
-       <!--  <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
->>>>>>> origin/sunzhaoyang
                 <ul class="nav" id="main-menu">
 
                     <li>
                         <a class="" href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
-                        <a class="active-menu" href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
+                       <!--  <a class="active-menu" href="toIndex"><i class="fa fa-dashboard"></i>首页</a> -->
                     </li>
                     <li>
-<!--                         <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a> -->
-<!--                         <ul class="nav nav-second-level"> -->
+                        <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
                             <li>
                                 <a a href="#" onclick="menuClick('listIndexManage')" id="listIndexManage"><i class="fa fa-quote-left"></i>指标数据维护</a>
                             </li>
-<!--                         </ul> -->
+							<li>
+                                <a href="#" onclick="menuClick('indexExport')" id="indexExport"><i class="fa fa-quote-left"></i>指标数据导出</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
+                        <!-- <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a> -->
                         <a href="#" onclick="menuClick('init')" id="init"><i class="fa fa-quote-left"></i>栏目管理</a>
                     </li>
                     <li>
-                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
+                        <!-- <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a> -->
                         <a href="#" onclick="menuClick('specialInit')" id="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
                     </li>
                     
                     <li>
-                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
-                        <a href="#" onclick="menuClick('indexPicInit')" id="indexPicInit"><i class="fa fa-quote-left"></i>轮播图管理</a>
-                    </li>
-                    
-                     <li>
                         <!-- <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a> -->
-                        <a href="#" onclick="menuClick('indexExport')" id="indexExport"><i class="fa fa-quote-left"></i>指标数据导出</a>
+                        <a href="#" onclick="menuClick('indexPicInit')" id="indexPicInit"><i class="fa fa-quote-left"></i>轮播图管理</a>
                     </li>
 
                     <li>
                         <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            
                             <li>
-                                <a href="noticeInit">通知管理</a>
+                            <a href="#" onclick="menuClick('sysLogInit')" id="sysLogInit"><i class="fa fa-quote-left"></i>日志管理</a>
+                                
                             </li>
                             <li>
-                                <a href="sysLogInit">日志管理</a>
-                            </li>
-                            <li>
-                                <a href="messageManage.html">消息管理</a>
+                            <a href="#" onclick="menuClick('messageInit')" id="messageInit"><i class="fa fa-quote-left"></i>消息管理</a>
+          
                             </li>
                         </ul>
                     </li>
@@ -150,20 +120,28 @@
                         <a href="#"><i class="fa fa-cogs"></i>系统管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-
-                                <a href="departmentInit">组织结构管理</a>
-                            </li>
-                            <li>
-                                <a href="userInit">用户管理</a>
-
                             <a href="#" onclick="menuClick('departmentInit')" id="departmentInit"><i class="fa fa-quote-left"></i>组织架构管理</a>
+                              
                             </li>
                             <li>
                             <a href="#" onclick="menuClick('userInit')" id="userInit"><i class="fa fa-quote-left"></i>用户管理</a>
-
+                               
                             </li>
                             <li>
-                                <a href="roleInit">角色管理</a>
+                            <a href="#" onclick="menuClick('roleInit')" id="roleInit"><i class="fa fa-quote-left"></i>角色管理</a>
+                                
+                            </li>
+                            <li>
+                            <a href="#" onclick="menuClick('adminInit')" id="adminInit"><i class="fa fa-quote-left"></i>管理员管理</a>
+                                
+                            </li>
+                            <li>
+                            <a href="#" onclick="menuClick('feedbackInit')" id="feedbackInit"><i class="fa fa-quote-left"></i>用户反馈</a>
+                               
+                            </li>
+                            <li>
+                            <a href="#" onclick="menuClick('versionInit')" id="versionInit"><i class="fa fa-quote-left"></i>版本更新</a>
+                               
                             </li>
                         </ul>
                     </li>
@@ -171,11 +149,7 @@
 
             </div>
 
-
         </nav>
-
-        </nav>
-
         <!-- /. NAV SIDE  -->
         <div id="getNewData" width="100%" height="100%">
          <div id="page-wrapper">
@@ -232,9 +206,6 @@
                 dataType: "html",
                 cache:false,
                 success: function(data){
-
-           	
-           	 	console.log(data);
                     $('#getNewData').html(data);
                 },
                 error : function(data){
