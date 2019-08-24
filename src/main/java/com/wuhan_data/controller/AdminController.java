@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,9 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.page.PageParams;
@@ -51,6 +55,37 @@ public class AdminController {
 		mav.setViewName("listAdmin");
 		return mav;
 	}	
+	
+	@RequestMapping(value="nameIsExist",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String nameIsExist(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	JSONObject jsonObject = new JSONObject();
+    	String username="";
+    	try {
+			username=URLDecoder.decode(request.getParameter("username"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			System.out.println("相应的额接口为telIsExist");
+			e.printStackTrace();
+		}
+    	try {
+    		Admin admin= adminService.getByName(username);
+    		if (admin!=null) {
+				jsonObject.put("data", "exist");
+			}
+    		else {
+				jsonObject.put("data", "notExist");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return jsonObject.toString();
+    }
+	
+	
+	
+	
 	@RequestMapping("adminInit")
 	public ModelAndView adminInit(HttpServletRequest request, 
             HttpServletResponse response) throws UnsupportedEncodingException {
@@ -81,17 +116,18 @@ public class AdminController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
-            List<Admin> adminListByPage=adminService.listByPage(map);
-        	List<Menu> menus=menuService.list();
-        	List<String> allMenuLevelTwo=new ArrayList<String>();
-        	for (int i=0;i<menus.size();i++)
-        		allMenuLevelTwo.add(menus.get(i).getLevel_two());
-            maView.addObject("allMenuLevelTwo",allMenuLevelTwo);
+            
+        	
+            
+            List<MenuList> allMenuList=menuService.getAllMenu();
+    		maView.addObject("allMenuList",allMenuList);
+            
+    		List<Admin> adminListByPage=adminService.listByPage(map);
             maView.addObject("adminListByPage", adminListByPage);
             maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
             maView.addObject("page", page); 
         	maView.setViewName("admin");
-        	System.out.println(allMenuLevelTwo);
+        	System.out.println(allMenuList);
         	return maView;
 			
 		} catch (Exception e) {
@@ -131,6 +167,9 @@ public class AdminController {
 	        page.setTotalNumber(count);
 	        page.count();
 	        map.put("page", page);
+	        List<MenuList> allMenuList=menuService.getAllMenu();
+    		maView.addObject("allMenuList",allMenuList);
+    		
 	        List<Admin> adminListByPage=adminService.listByPage(map);
 	        maView.addObject("adminListByPage", adminListByPage);
 	        maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
@@ -180,6 +219,8 @@ public class AdminController {
             page.count();
             map.put("page", page);
             map.put("adminname",adminname);
+            List<MenuList> allMenuList=menuService.getAllMenu();
+    		mav.addObject("allMenuList",allMenuList);
             List<Admin> adminListByPage= adminService.search(map);//分页查询二极栏目
             mav.addObject("adminListByPage", adminListByPage);  
             mav.addObject("page", page);
@@ -225,6 +266,8 @@ public class AdminController {
              page.count();
              map.put("page", page);
              map.put("adminname",adminname);
+             List<MenuList> allMenuList=menuService.getAllMenu();
+     		 mav.addObject("allMenuList",allMenuList);
              List<Admin> adminListByPage= adminService.search(map);//分页查询二极栏目
              mav.addObject("adminListByPage", adminListByPage);  
              mav.addObject("page", page);
@@ -255,8 +298,10 @@ public class AdminController {
     		usernameString=request.getParameter("addAdminUsername");
     		passwordString=request.getParameter("addAdminPassword");
     		status=Integer.valueOf(request.getParameter("addAdminStatus"));
-    		role_listString=request.getParameter("addAdminRole_list");
-    		
+//    		role_listString=request.getParameter("addAdminRole_list");
+//    		String le[]=request.getParameterValues("addMenuLevelTwo");
+//    		System.out.println(StringUtils.join(le));
+    		role_listString=StringUtils.join(request.getParameterValues("addMenuLevelTwo"),",");
     		currentPage=request.getParameter("currentPage");	
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -285,6 +330,8 @@ public class AdminController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
+            List<MenuList> allMenuList=menuService.getAllMenu();
+    		maView.addObject("allMenuList",allMenuList);
             List<Admin> adminListByPage=adminService.listByPage(map);
             maView.addObject("adminListByPage", adminListByPage);
             maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
@@ -319,7 +366,9 @@ public class AdminController {
     		usernameString=request.getParameter("editAdminUsername");
     		passwordString=request.getParameter("editAdminPassword");
     		status=Integer.valueOf(request.getParameter("editAdminStatus"));
-    		role_listString=request.getParameter("editAdminRole_list");
+    		//role_listString=request.getParameter("editAdminRole_list");
+    		role_listString=StringUtils.join(request.getParameterValues("editMenuLevelTwo"),",");
+    		
     		currentPage=request.getParameter("currentPage");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -348,6 +397,8 @@ public class AdminController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
+            List<MenuList> allMenuList=menuService.getAllMenu();
+    		maView.addObject("allMenuList",allMenuList);
             List<Admin> adminListByPage=adminService.listByPage(map);    
             maView.addObject("adminListByPage", adminListByPage);
             maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
@@ -394,6 +445,8 @@ public class AdminController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
+            List<MenuList> allMenuList=menuService.getAllMenu();
+    		maView.addObject("allMenuList",allMenuList);
             List<Admin> adminListByPage=adminService.listByPage(map);
             maView.addObject("adminListByPage", adminListByPage);
             maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
@@ -440,6 +493,7 @@ public class AdminController {
 	    		Admin adminLL=adminService.getByName(username) ;
 	    		session.setAttribute("user", adminLL);
 	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
+	  			System.out.println(menuList);
 	  			session.setAttribute("menuList",menuList);
 			}
 	    	return maView;

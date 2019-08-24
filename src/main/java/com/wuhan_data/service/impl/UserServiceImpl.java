@@ -81,10 +81,16 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userMapper.getByRole(role_id);
 	}
-	
 
-	
-	
-	
+	@Override
+	public List<User> searchByRealname(Map<String, Object> parameter) {
+		// TODO Auto-generated method stub
+		return userMapper.searchByRealname(parameter);
+	}
 
+	@Override
+	public List<User> getByTel(Map<String, Object> parameter) {
+		// TODO Auto-generated method stub
+		return userMapper.getByTel(parameter);
+	}
 }
