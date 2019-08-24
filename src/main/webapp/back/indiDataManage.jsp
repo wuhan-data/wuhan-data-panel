@@ -108,16 +108,17 @@
                              指标
                         </div>
                         <div class="panel-body">
-                     
-  
-  
-   <div class="btns col-md-2" style="margin:5px">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal">添加</div>
+           
+  <div class="row" style="margin-bottom:7px;margin-right:2px">
+   <div class="btns col-md-6" >
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" ><i class="fa fa-plus"></i>添加</div>
    </div>
-    <form class="form-inline my-2 my-lg-0" style="float:right" method="post" id="formSearch">
+   
+    <form class="form-inline" style="float:right" method="post" id="formSearch">
       <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
       <button class="btn btn-success my-2 my-sm-0" onclick="search('IndiSearch')">搜索</button>
     </form>
+ </div>
 
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -337,7 +338,7 @@
 	addbutton = function(Url) {
    	   $('.modal-backdrop').remove();
    	    $('body').removeClass('modal-open');
-          	alert(Url);
+          	
         	var data = new FormData(document.getElementById("addForm"));
         	console.log(data.get("title"));
         	 $.ajax({
@@ -350,7 +351,7 @@
               	    processData: false,
                    cache:false,
                    success: function(data){
-              	 	alert(data);
+              	 	
                        $('#getNewData').html(data);
                    },
                    error : function(data){
@@ -360,7 +361,7 @@
         
         
         deleteIndi = function(indi_id,Url) {
-            alert(indi_id);
+            
           $.ajax({
                      type: 'GET',
                      url:  Url+"?indi_id="+indi_id,
@@ -370,7 +371,7 @@
                 	    processData: false,
                      cache:false,
                      success: function(data){
-                	 	alert(data);
+                	 	
                          $('#getNewData').html(data);
                      },
                      error : function(data){
@@ -381,7 +382,7 @@
           updatebutton = function(Url) {
         	   $('.modal-backdrop').remove();
         	    $('body').removeClass('modal-open');
-               alert(Url);
+               
              var data = new FormData(document.getElementById("editForm"));                	
              
              $.ajax({
@@ -394,7 +395,7 @@
                    	    processData: false,
                         cache:false,
                         success: function(data){
-                   	 	alert(data);
+                   	 	
                             $('#getNewData').html(data);
                         },
                         error : function(data){
@@ -414,7 +415,7 @@
                        	    processData: false,
                             cache:false,
                             success: function(data){
-                       	 	alert(data);
+                       	 	
                                 $('#getNewData').html(data);
                             },
                             error : function(data){
@@ -423,9 +424,9 @@
                  };
           
                  pageGoClick = function(Url) {
-                	 alert(Url);
+                	 
                 	var currentPage = document.getElementById("currentPageText").value;
-                	 alert(currentPage);
+                	
                      $.ajax({
                                 type: 'GET',
                                 url:  Url+"?currentPage="+currentPage,
@@ -435,7 +436,7 @@
                            	    processData: false,
                                 cache:false,
                                 success: function(data){
-                           	 	alert(data);
+                           	 	
                                     $('#getNewData').html(data);
                                 },
                                 error : function(data){
@@ -444,7 +445,7 @@
                      };
              
                      perShow = function(indi_id,Url) {
-                         alert(indi_id);
+                        
                          $.ajax({
                                     type: 'GET',
                                     url:  Url+"?indi_id="+indi_id,
@@ -454,7 +455,7 @@
                                	    processData: false,
                                     cache:false,
                                     success: function(data){
-                               	 	alert(data);
+                               	 	
                                         $('#getNewData').html(data);
                                     },
                                     error : function(data){
@@ -463,7 +464,7 @@
                          };
                          
                          noPerShow = function(indi_id,Url) {
-                             alert(indi_id);
+                             
                              $.ajax({
                                         type: 'GET',
                                         url:  Url+"?indi_id="+indi_id,
@@ -473,7 +474,7 @@
                                    	    processData: false,
                                         cache:false,
                                         success: function(data){
-                                   	 	alert(data);
+                                   	 	
                                             $('#getNewData').html(data);
                                         },
                                         error : function(data){
@@ -484,7 +485,7 @@
              
                              search = function(Url) {
                             	 var searchName=document.getElementById("searchKeyWord").value;
-                             	alert(searchName)
+                             
                              	var keyWord=encodeURI(encodeURI(searchName));
                                $.ajax({
                                           type: 'GET',
@@ -495,7 +496,7 @@
                                      	    processData: false,
                                           cache:false,
                                           success: function(data){
-                                     	 	alert(data);
+                                
                                               $('#getNewData').html(data);
                                           },
                                           error : function(data){
@@ -554,7 +555,6 @@
 // 	}
 		function search1(){
         	var searchName=document.getElementById("searchKeyWord").value;
-        	alert(searchName)
         	var keyWord=encodeURI(encodeURI(searchName));
         	
         	var formSearch=document.getElementById("formSearch");

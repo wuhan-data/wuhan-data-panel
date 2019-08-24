@@ -110,15 +110,15 @@
                         <div class="panel-body">
                      
   
-  
-   <div class="btns col-md-2" style="margin:5px">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal">添加</div>
+  <div class="row" style="margin-bottom:7px;margin-right:2px">
+   <div class="btns col-md-6">
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
    </div>
     <form class="form-inline my-2 my-lg-0" style="float:right" method="post" id="formSearch" accept-charset="UTF-8">
       <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
       <button class="btn btn-success my-2 my-sm-0" onclick="search('IndiSearch')">搜索</button>
     </form>
-
+	</div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -323,9 +323,7 @@
     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="assets/js/bootstrap-order.min.js"></script>
 <!--        <script> -->
-//             $(document).ready(function () {
-//                 $("#dataTables-example").dataTable();
-//             });
+
             
 <!--     </script>  -->
     
@@ -339,9 +337,9 @@
 	addbutton = function(Url) {
    	   $('.modal-backdrop').remove();
    	    $('body').removeClass('modal-open');
-          	alert(Url);
+          	
         	var data = new FormData(document.getElementById("addForm"));
-        	console.log(data.get("title"));
+        	
         	 $.ajax({
                    type: 'POST',
                    url:  Url,
@@ -352,7 +350,7 @@
               	    processData: false,
                    cache:false,
                    success: function(data){
-              	 	alert(data);
+              	 	
                        $('#getNewData').html(data);
                    },
                    error : function(data){
@@ -362,7 +360,7 @@
         
         
         deleteIndi = function(indi_id,Url) {
-            alert(indi_id);
+            
           $.ajax({
                      type: 'GET',
                      url:  Url+"?indi_id="+indi_id,
@@ -372,7 +370,7 @@
                 	    processData: false,
                      cache:false,
                      success: function(data){
-                	 	alert(data);
+                	
                          $('#getNewData').html(data);
                      },
                      error : function(data){
@@ -383,7 +381,7 @@
           updatebutton = function(Url) {
         	   $('.modal-backdrop').remove();
         	    $('body').removeClass('modal-open');
-               alert(Url);
+               
              var data = new FormData(document.getElementById("editForm"));                	
              
              $.ajax({
@@ -396,7 +394,7 @@
                    	    processData: false,
                         cache:false,
                         success: function(data){
-                   	 	alert(data);
+                   	 
                             $('#getNewData').html(data);
                         },
                         error : function(data){
@@ -416,7 +414,7 @@
                        	    processData: false,
                             cache:false,
                             success: function(data){
-                       	 	alert(data);
+                       	 	
                                 $('#getNewData').html(data);
                             },
                             error : function(data){
@@ -427,7 +425,7 @@
                  pageGoClick = function(Url) {
                 	 alert(Url);
                 	var currentPage = document.getElementById("currentPageText").value;
-                	 alert(currentPage);
+                	 
                      $.ajax({
                                 type: 'GET',
                                 url:  Url+"?currentPage="+currentPage,
@@ -437,7 +435,7 @@
                            	    processData: false,
                                 cache:false,
                                 success: function(data){
-                           	 	alert(data);
+                           	 	
                                     $('#getNewData').html(data);
                                 },
                                 error : function(data){
@@ -446,7 +444,7 @@
                      };
              
                      perShow = function(indi_id,Url) {
-                         alert(indi_id);
+                         
                          $.ajax({
                                     type: 'GET',
                                     url:  Url+"?indi_id="+indi_id,
@@ -456,7 +454,7 @@
                                	    processData: false,
                                     cache:false,
                                     success: function(data){
-                               	 	alert(data);
+                               	 	
                                         $('#getNewData').html(data);
                                     },
                                     error : function(data){
@@ -465,7 +463,7 @@
                          };
                          
                          noPerShow = function(indi_id,Url) {
-                             alert(indi_id);
+                           
                              $.ajax({
                                         type: 'GET',
                                         url:  Url+"?indi_id="+indi_id,
@@ -475,7 +473,7 @@
                                    	    processData: false,
                                         cache:false,
                                         success: function(data){
-                                   	 	alert(data);
+                                   	 	
                                             $('#getNewData').html(data);
                                         },
                                         error : function(data){
@@ -496,7 +494,7 @@
                                      	    processData: false,
                                           cache:false,
                                           success: function(data){
-                                     	 	alert(data);
+                                   
                                               $('#getNewData').html(data);
                                           },
                                           error : function(data){
@@ -522,41 +520,10 @@
 				alert("更新成功！");
 			}
 		
-// 		function addbutton(){
-// 			alert("添加成功！");
-// 		}
-		
-		/* 删除指标 */
-// 		function deleteIndi(id){
-// 			if(confirm('确实要删除该指标吗?')) {
-<%-- 				$.post("<%=basePath%>delete.action",{"id":id},function(data){ --%>
-// 					alert("指标删除成功！");
-// 					window.location.reload();
-// 				});
-// 			}
-// 		}
-		
-		/* 展示指标*/
-// 		function perShow(id){
-			
-<%-- 				$.post("<%=basePath%>per_show.action",{"id":id},function(data){ --%>
-// 					alert("允许指标展示！");
-// 					window.location.reload();
-// 				});
-			
-// 		}
-		
-// 		function noPerShow(id){
-			
-<%-- 			$.post("<%=basePath%>no_per_show.action",{"id":id},function(data){ --%>
-// 				alert("不允许指标展示！");
-// 				window.location.reload();
-// 			});
-		
-// 	}
+
 		function search1(){
         	var searchName=document.getElementById("searchKeyWord").value;
-        	alert(searchName)
+        	
         	var keyWord=encodeURI(encodeURI(searchName));
         	
         	var formSearch=document.getElementById("formSearch");

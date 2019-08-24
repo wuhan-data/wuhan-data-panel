@@ -117,17 +117,26 @@
             <div id="page-inner">
 
 
-                <div class="row">
+                <div class="row"  style="margin-bottom:10px">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Home <small>Summary of your App</small>
+                            指标<small>数据导出</small>
                         </h1>
                     </div>
                 </div>
                 
+                 <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+			   <div class="panel panel-default">
+                        <div class="panel-heading">
+                             指标
+                        </div>
+                        <div class="panel-body">
+                
                 
 <!--                 导出到excel style="float:right"-->
-		 <div style="margin:10px">
+		 <div>
 		  <form class="form-inline my-2 my-lg-0"  method="post" id="formSearch">
 		      <input class="form-control mr-sm-2" type="search" placeholder="请输入指标搜索关键字" value="${keyword}" aria-label="Search" id="searchKeyWord">
 		      <button class="btn btn-success my-2 my-sm-0" onclick="search('dbToEcxel')">搜索</button>
@@ -136,9 +145,9 @@
                 
          <div style="margin:10px">
 			<span class="indiName" style="margin-right:5px">指标名称：
-			   <select id="indiName" class="com-opt"  style="width:150px">
+			   <select id="indiName" style="width:130px">
 					<option value="" >
-						请选择指标
+						请选择指标名称
 					</option>
 					<c:forEach items="${indexList}" var="in">
 						<option value="${in.indi_name}">${in.indi_name}</option>
@@ -146,16 +155,16 @@
 				</select> 
 			</span>
 			<span class="indiSource"> <img src="images/pfeil.gif" alt="" />
-				指标来源： <select text-align-last:center style="width:100px"></select> </span>
+				指标来源： <select text-align-last:center style="width:110px"></select> </span>
 			<span class="freqCode"> <img src="images/pfeil.gif" alt="" />
-				月/季度： <select style="width:50px" text-align-last:center></select> </span>
+				月/季度： <select style="width:70px" text-align-last:center></select> </span>
 			<span class="startTime"> <img src="images/pfeil.gif" alt="" />
-				开始日期： <select  style="width:80px" text-align-last:center></select> </span>
+				开始日期： <select  style="width:100px" text-align-last:center></select> </span>
 			<span class="endTime"> <img src="images/pfeil.gif" alt="" />
-				结束日期： <select style="width:80px" text-align-last:center></select> </span>
+				结束日期： <select style="width:100px" text-align-last:center></select> </span>
 				
 				
-				<input type="button" value="删除" id="delectBu">
+				<input type="button" value="删除" id="delectBu" style="float:right">
 		</div>
 		
 <!-- 		表格 -->
@@ -179,10 +188,16 @@
 			</table>
 			
 
-      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('指标数据','toExcel')">导出到excel表格</button>
+      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('指标数据','toExcel')" style="float:right">导出到excel表格</button>
 		 </div>
                 
-                
+                  </div>
+                              
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
                 
                 
                 <!-- /. ROW  -->
@@ -245,7 +260,7 @@ $(document).ready(function(){
 						freqCodeSelect.html("");
 						startTimeSelect.html("");
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标来源"+ "</option>").appendTo(indiSourceSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(indiSourceSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i]+ "</option>").appendTo(indiSourceSelect);
@@ -298,7 +313,7 @@ $(document).ready(function(){
 						freqCodeSelect.html("");
 						startTimeSelect.html("");
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标频度"+ "</option>").appendTo(freqCodeSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(freqCodeSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(freqCodeSelect);
@@ -339,7 +354,7 @@ $(document).ready(function(){
 					{
 						startTimeSelect.html("");
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标频度"+ "</option>").appendTo(startTimeSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(startTimeSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(startTimeSelect);
@@ -381,7 +396,7 @@ $(document).ready(function(){
 					if(data.length !=0) 
 					{
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标频度"+ "</option>").appendTo(endTimeSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(endTimeSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(endTimeSelect);
