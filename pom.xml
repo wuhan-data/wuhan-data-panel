@@ -146,6 +146,35 @@
       <artifactId>commons-io</artifactId>
       <version>${commons-io.version}</version>
     </dependency>
+    
+    <dependency>
+	   <groupId>cn.hutool</groupId>
+	   <artifactId>hutool-all</artifactId>
+	   <version>4.0.12</version>
+	</dependency>
+	
+	 <dependency>
+    	<groupId>dm.jdbc</groupId>
+    	<artifactId>dmjdbcdriver</artifactId>
+    	<version>1.0</version>
+    </dependency>
+    
+    <dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi</artifactId>
+		<version>3.15</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi-ooxml-schemas</artifactId>
+		<version>3.15</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi-ooxml</artifactId>
+		<version>3.15</version>
+	</dependency>
+
  
     <dependency>
       <groupId>commons-lang</groupId>
@@ -242,6 +271,8 @@
     <version>1.2</version>
   </dependency>
 
+<!-- https://mvnrepository.com/artifact/org.openanzo.dependencies/org.apache.commons.httpclient -->
+
 
   <dependency>
     <groupId>junit</groupId>
@@ -256,6 +287,8 @@
     <artifactId>commons-io</artifactId>
     <version>2.4</version>
   </dependency>
+  
+  
   </dependencies>
   <build>
     <finalName>wuhan_data1</finalName>

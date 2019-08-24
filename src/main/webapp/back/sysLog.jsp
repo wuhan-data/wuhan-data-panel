@@ -10,23 +10,20 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WUHANDATA</title>
 	<!-- Bootstrap Styles-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" />
      <!-- FontAwesome Styles-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
-    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/custom-styles.css" rel="stylesheet" />
     
-     <link href="assets/css/bootstrap-switch.min.css" rel="stylesheet" />
+     <link href="<%=path %>/assets/css/bootstrap-switch.min.css" rel="stylesheet" />
     
-    <link href="assets/css/my.css" rel="stylesheet" />
+    <%-- <link href="<%=path %>/assets/css/my.css" rel="stylesheet" /> --%>
+   
+      <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
+      
     
-    <link href="assets/css/bootstrap-order.min.css" rel="stylesheet" />
-     <!-- Google Fonts-->
-   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
 
     <style type="text/css" rel="stylesheet">
 
@@ -53,56 +50,6 @@
 </head>
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">WUHANDATA</a>
-            </div>
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <%out.print(((Admin)session.getAttribute("user")).getUsername()); %>你好         
-                        <li><a href="adminLogout"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-        </nav>
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-            <ul class="nav" id="main-menu">
-            <li>
-                <a class="active-menu" href="back/index.jsp"><i class="fa fa-dashboard"></i>首页</a>
-            </li>
-            <c:forEach items="${menuList}" var="c" varStatus="st">
-           		 <li>
-                        <a href="#"><i class="${c.level_twoInOneList.get(0).perm}"></i>${c.level_one}<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
-                        
-                            	<li>
-                                	<a href="${cc.url}">${cc.level_two}</a>
-                            	</li>
-                        	 </c:forEach>
-                        </ul>
-                  </li>
-            </c:forEach> 
-            </ul>
-            </div>
-            </nav>
-       
         <div id="page-wrapper" >
             <div id="page-inner">
 			 <div class="row">
@@ -185,7 +132,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="editClick('editDepartment')">
 					提交
 				</button>
 			</div>
@@ -231,23 +178,22 @@
 
 
                                 <div class="row">
-									 <div class='page fix'>
-                    <form method="post" action="${controlURL}" id="pageForm">
+									<div class='page fix'>
+                    <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="${controlURL}?currentPage=1" class='first'>首页</a>
-                           <a href="${controlURL}?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
+                           <a href="#" class='first' onclick="pageClick('1','${controlURL}')">首页</a>
+                           <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','${controlURL}')">上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="${controlURL}?currentPage=${page.currentPage+1}" class='next'>下一页</a>
-                            <a href="${controlURL}?currentPage=${page.totalPage}" class='last'>末页</a>
+                            <a href="#" class='next' onclick="pageClick('${page.currentPage+1}','${controlURL}')">下一页</a>
+                            <a href="#" class='last' onclick="pageClick('${page.totalPage}','${controlURL}')">末页</a>
                         </c:if>
                         跳至&nbsp;
-
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
-                        <input type="submit" value="GO" class="btn-primary btn-sm">
+                        <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('${controlURL}')">
                     </form>
                 </div>
 								<!-- 	<ul class="col-lg-4"></ul> -->
@@ -284,9 +230,67 @@
     <script src="assets/js/bootstrap-order.min.js"></script>
     <script>
             $(document).ready(function () {
-                $('#dataTables-example').dataTable();
-               
             });
+            
+            pageClick = function(currentPage,Url) {
+                $.ajax({
+                           type: 'GET',
+                           url:  Url+"?currentPage="+currentPage,
+                           dataType: "html",
+                      	    async : false,
+                       	contentType: false, //不设置内容类型
+                      	    processData: false,
+                           cache:false,
+                           success: function(data){
+                               $('#getNewData').html(data);
+                           },
+                           error : function(data){
+                           }
+                       });    
+                };
+         
+                pageGoClick = function(Url) {
+               	var currentPage = document.getElementById("currentPageText").value;
+                    $.ajax({
+                               type: 'GET',
+                               url:  Url+"?currentPage="+currentPage,
+                               dataType: "html",
+                          	    async : false,
+                           	contentType: false, //不设置内容类型
+                          	    processData: false,
+                               cache:false,
+                               success: function(data){
+                                   $('#getNewData').html(data);
+                               },
+                               error : function(data){
+                               }
+                           });    
+                    };
+         
+                    search= function(){
+                    	
+                    	var searchName=document.getElementById("searchtname").value;
+                    	alert(searchName)
+                    	var  operate_user_id=encodeURI(encodeURI(searchName));
+                    	$.ajax({
+                               type: 'GET',
+                               url:  "sysLogSearchByName? operate_user_id="+ operate_user_id,
+                               dataType: "html",
+                          	    async : false,
+                           	contentType: false, //不设置内容类型
+                          	    processData: false,
+                               cache:false,
+                               success: function(data){
+                                   $('#getNewData').html(data);
+                               },
+                               error : function(data){
+                               }
+                           });    
+                    };
+                    	
+            
+            
+            
             function f1(){
             	var select = document.getElementById("FormControlSelect1");
             	var op = select.value;
@@ -294,16 +298,6 @@
             	var title=encodeURI(encodeURI(op));
             	form1.action="initAnalysisList?op="+title;
             	form1.submit();
-            }
-            function search(){
-            	var searchName=document.getElementById("searchtname").value;
-            	alert(searchName)
-            	var  operate_user_id=encodeURI(encodeURI(searchName));
-            	
-            	var formSearch=document.getElementById("formSearch");
-            	formSearch.action="sysLogSearchByName? operate_user_id="+ operate_user_id;
-            	formSearch.submit();
-            	
             }
             function edit(){
             	

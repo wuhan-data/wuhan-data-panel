@@ -493,6 +493,7 @@ public class AdminController {
 	    		Admin adminLL=adminService.getByName(username) ;
 	    		session.setAttribute("user", adminLL);
 	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
+	  			System.out.println(menuList);
 	  			session.setAttribute("menuList",menuList);
 			}
 	    	return maView;
