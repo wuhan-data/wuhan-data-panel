@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WUHANDATA</title>
 	<!-- Bootstrap Styles-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- <link href="assets/css/bootstrap.css" rel="stylesheet" /> -->
      <!-- FontAwesome Styles-->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
@@ -96,7 +96,7 @@
   
   
    <div class="btns col-md-6">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
       <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>设置</button>
     </div>  
  
@@ -296,9 +296,9 @@
      <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
+    <!-- <script src="assets/js/jquery-1.10.2.js"></script> -->
       <!-- Bootstrap Js -->
-    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- <script src="assets/js/bootstrap.min.js"></script> -->
     <!-- Metis Menu Js -->
     <script src="assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
@@ -380,7 +380,7 @@
                    updateShowClick = function(is_show,id,Url) {
                      $.ajax({
                                 type: 'GET',
-                                url:  Url+"?special_id="+special_id+"&is_show="+is_show,
+                                url:  Url+"?id="+id+"&is_show="+is_show,
                                 dataType: "html",
                            	    async : false,
                             	  contentType: false, //不设置内容类型
@@ -507,7 +507,10 @@
                         },
                         error : function(data){
                         }
-                    });    
+                    });  
+                 
+                 
+               
            /*  	form1.action="initAnalysisList?op="+op;
             	form1.submit();  */
              }  

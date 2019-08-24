@@ -140,7 +140,7 @@
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="plateIndiUpdateShow?id=${c.indi_id }&is_show=0&pid=${c.plate_id}" id="perShow" onclick="updateShowClick('0','${c.indi_id }','${c.plate_id}','plateIndiUpdateShow')">展示</a>            
+         <a href="#" id="perShow" onclick="updateShowClick('0','${c.indi_id }','${c.plate_id}','plateIndiUpdateShow')">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -280,9 +280,9 @@
          <!-- /. PAGE WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+<%--     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
       <!-- Bootstrap Js -->
-    <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap.min.js"></script> --%>
     <!-- Metis Menu Js -->
     <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->

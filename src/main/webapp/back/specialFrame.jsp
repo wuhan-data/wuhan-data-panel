@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8" />
 	<!-- Bootstrap Styles-->
-    <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" />
+    <%-- <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" /> --%>
      <!-- FontAwesome Styles-->
     <link href="<%=path %>/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
@@ -71,22 +71,12 @@
                         </div>
                         <div class="panel-body">
 
-
-     <div class="btns col-md-6" id="addElement">
+  <div class="row" id="addElement">
+     <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
-     <%--  <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>排序</button> --%>
     </div>  
- 
-    <!--  <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="">
-      <button class="btn btn-success" onclick="search()">搜索</button>
-    </form>
-   -->
- 
-<!-- 
-<div id="getNewData" width="100%" height="100%">
-</div> -->
-
+    
+</div>
 
  <div class="table-responsive" id="tableshow">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -123,7 +113,7 @@
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
 <div class="btn-group">
-    <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown" data-target=".dropdown-menu">
+    <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown">
      <c:if test="${c.is_show==0 }">
      展示
      </c:if>
@@ -297,9 +287,9 @@
                             </body>
                             
                              <!-- jQuery Js -->
-    <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
+<%--     <script src="<%=path %>/assets/js/jquery-1.10.2.js"></script>
       <!-- Bootstrap Js -->
-    <script src="<%=path %>/assets/js/bootstrap.min.js"></script>
+    <script src="<%=path %>/assets/js/bootstrap.min.js"></script> --%>
     <!-- Metis Menu Js -->
     <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
