@@ -48,6 +48,9 @@
         .page .num:hover { background:#4c8ccc; border:1px solid #4c8ccc; color:#fff; text-decoration:none;}
        /*  .page .go { display:inline-block; width:25px; height:23px; line-height:23px; text-align:center; border:1px solid #ccc;} */
         .page b{ color:#2979b4}
+        .clear{
+       both:clear; 
+        }
        
 
     </style>
@@ -73,7 +76,7 @@
                              栏目
                         </div>
                         <div class="panel-body">
-                     
+    <div class="row">                 
 <div class="form-group col-md-2">
 <form method="post" id="form1" accept-charset="UTF-8">
 <select class="form-control" id="FormControlSelect1" name="parentListName" onchange="f1()">   
@@ -93,17 +96,22 @@
 </select>
 </form>
 </div>
+
   
   
    <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
       <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>设置</button>
     </div>  
- 
-     <form class="form-inline col-md-4" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="${placeholder }">
+ <div class="form-group col-md-4">
+   <form class="form-inline" style="float:right;" id="formSearch" method="post" accept-charset="UTF-8">
+      <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="${placeholder }" style="width:200px;">
       <button class="btn btn-success" onclick="searchClick()">搜索</button>
     </form>
+    <div class="clear"></div>
+ </div>
+ </div>
+   
     
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
