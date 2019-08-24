@@ -5,41 +5,41 @@
  
     <mapper namespace="com.wuhan_data.mapper.RoleMapper">
         <insert id="add" parameterType="Role" >
-            insert into WUHAN_DATA.ROLE (role_code,role_name,role_description)values (#{role_code},#{role_name},#{role_description})
+            insert into WUHAN_DATA."ROLE" (role_code,role_name,role_description)values (#{role_code},#{role_name},#{role_description})
         </insert>
          
         <delete id="delete" parameterType="Role" >
-            delete from WUHAN_DATA.ROLE where id= #{id}  
+            delete from WUHAN_DATA."ROLE" where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="Role">
-            select * from   WUHAN_DATA.ROLE  where id= #{id}   
+            select * from   WUHAN_DATA."ROLE"  where id= #{id}   
         </select>
         <select id="getByCode" parameterType="java.util.Map" resultType="Role">
-            select * from   WUHAN_DATA.ROLE  where role_code= #{role_code}   
+            select * from   WUHAN_DATA."ROLE"  where role_code= #{role_code}   
         </select>
         
         <select id="getByName" parameterType="String" resultType="Role">
-            select * from   WUHAN_DATA.ROLE  where role_name= #{role_name}   
+            select * from   WUHAN_DATA."ROLE"  where role_name= #{role_name}   
         </select>
  
         <update id="update" parameterType="Role" >
-            update WUHAN_DATA.ROLE set role_name=#{role_name}  , role_code=#{role_code} , role_description=#{role_description}   where id=#{id}   
+            update WUHAN_DATA."ROLE" set role_name=#{role_name}  , role_code=#{role_code} , role_description=#{role_description}   where id=#{id}   
         </update>
         
         <select id="list" resultType="Role">
-            select * from WUHAN_DATA.ROLE    
+            select * from WUHAN_DATA."ROLE"    
         </select>   
         <select id="count" resultType="int">
-        	select count(*) from WUHAN_DATA.ROLE  
+        	select count(*) from WUHAN_DATA."ROLE"  
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Role" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.ROLE   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA."ROLE"   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Role">
-            select * from WUHAN_DATA.ROLE 
+            select * from WUHAN_DATA."ROLE" 
             <where>
             role_name like concat(concat('%',#{role_name}),'%')  
             </where>
@@ -47,7 +47,7 @@
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
-            select count(*) from WUHAN_DATA.ROLE where role_name like concat(concat('%',#{role_name}),'%')  
+            select count(*) from WUHAN_DATA."ROLE" where role_name like concat(concat('%',#{role_name}),'%')  
         </select>
          
     </mapper>

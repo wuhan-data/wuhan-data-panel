@@ -233,7 +233,7 @@
                 cache:false,
                 success: function(data){
 
-           	 	alert(data);
+           	
            	 	console.log(data);
                     $('#getNewData').html(data);
                 },
