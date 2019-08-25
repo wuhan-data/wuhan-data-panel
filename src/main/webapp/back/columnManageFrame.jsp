@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WUHANDATA</title>
 	<!-- Bootstrap Styles-->
-    <!-- <link href="assets/css/bootstrap.css" rel="stylesheet" /> -->
+    <!--  <link href="assets/css/bootstrap.css" rel="stylesheet" />  -->
      <!-- FontAwesome Styles-->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
@@ -22,7 +22,7 @@
     
    <!--  <link href="assets/css/my.css" rel="stylesheet" /> -->
     
-    <link href="assets/css/bootstrap-order.min.css" rel="stylesheet" />
+  
      <!-- Google Fonts-->
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
@@ -315,12 +315,14 @@
     <script src="assets/js/bootstrap-switch.min.js"></script>
    <script src="assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>   
-    <script src="assets/js/bootstrap-order.min.js"></script>
+        <script src="assets/js/bootstrap-order.min.js"></script>
+    
     <script>
             $(document).ready(function () {
               
                
             });
+            
             
  
             
@@ -568,10 +570,10 @@
                      });           	
             }; */
             
-           var order =  new BootstrapOrder();
+          var order =  new BootstrapOrder();
            
            
-            function showS(json) {             	
+           function showS(json) {
             	for(var i=0,l=json.length;i<l;i++){
             		order.addItem(json[i]);
             		}
@@ -585,7 +587,7 @@
             function getData(){
             	var data = order.getData();
                 alert(JSON.stringify(data)); 
-            }
+            } 
             
     </script>
     
