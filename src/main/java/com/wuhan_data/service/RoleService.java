@@ -17,6 +17,7 @@ public interface RoleService {
 	
 	public List<Role> getByCode(Map<String,Object> parameter);
 	
+	
 	public int update(Role role);
 	
 	public List<Role> List();

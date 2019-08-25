@@ -112,7 +112,7 @@
                              栏目
                         </div>
                         <div class="panel-body">
-
+<div class="row"  style="margin-bottom:7px;margin-right:2px">
    <div class="btns col-md-4">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
       </div>  
@@ -120,17 +120,17 @@
       <input class="form-control" type="search" placeholder="按名称搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
-                            <div class="table-responsive">
+ </div>                           <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>管理员名称</th>
-                                            <th>管理员密码</th>
-                                            <th>管理员状态</th>
-                                            <th>管理员权限</th>
-                                            <th>创建时间</th>
-                                            <th>操作</th>
+                                            <th width="5%">id</th>
+                                            <th width="10%">管理员名称</th>
+                                            <th width="10%">管理员密码</th>
+                                            <th width="5%">状态</th>
+                                            <th width="20%">管理员权限</th>
+                                            <th width="20%">创建时间</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>

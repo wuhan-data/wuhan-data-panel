@@ -70,21 +70,22 @@
                         <div class="panel-heading">
                              栏目
                         </div>
-                        <div class="panel-body">   
+                        <div class="panel-body">  
+   <div class="row" style="margin-bottom:7px;margin-right:2px">
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
       <input class="form-control" type="search" placeholder="按操作者id搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
+    </div> 
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>日志id</th>
-                                            <th>操作者id</th>
-                                            <th>操作</th>
-                                            <th>调用的接口</th>
-                                            <th>操作的时间</th>
-                                            <th>操作</th>
+                                            <th width="10%">日志id</th>
+                                            <th width="10%">操作者id</th>
+                                            <th width="10%">操作</th>
+                                            <th width="30%">调用的接口</th>
+                                            <th width="20%">操作的时间</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,12 +96,6 @@
             <td >${c.operate}</td>
             <td >${c.method}</td>
             <td >${c.timeString}</td>
-            <td>
-<a href="">
-<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除
-</div>
-</a>
-</td>
         </tr>
     </c:forEach>
                                     </tbody>
@@ -274,7 +269,7 @@
                     	var  operate_user_id=encodeURI(encodeURI(searchName));
                     	$.ajax({
                                type: 'GET',
-                               url:  "sysLogSearchByName? operate_user_id="+ operate_user_id,
+                               url:  "sysLogSearchByName?operate_user_id="+ operate_user_id,
                                dataType: "html",
                           	    async : false,
                            	contentType: false, //不设置内容类型

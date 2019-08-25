@@ -18,6 +18,10 @@
         <select id="getByCode" parameterType="java.util.Map" resultType="Department">
             select * from   WUHAN_DATA.DEPARTMENT  where department_code= #{department_code}   
         </select>
+        
+        <select id="getByName" parameterType="java.util.Map" resultType="Department">
+            select * from   WUHAN_DATA.DEPARTMENT  where department_name= #{department_name}   
+        </select>
  
         <update id="update" parameterType="Department" >
             update WUHAN_DATA.DEPARTMENT set department_code=#{department_code} , department_name=#{department_name} , department_description=#{department_description} where id=#{id}   

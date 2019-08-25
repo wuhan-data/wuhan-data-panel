@@ -71,24 +71,25 @@
                              栏目
                         </div>
                         <div class="panel-body">
-                     
+  <div class="row" style="margin-bottom:7px;margin-right:2px">          
    <div class="btns col-md-4">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
     </div>  
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="按名称搜索" aria-label="Search" id="searchtname" value="">
+      <input class="form-control" type="search" placeholder="按版本号搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
+    </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>应用标识</th>
-                                            <th>操作系统</th>
-                                            <th>版本号</th>
-                                            <th>发布时间</th>
-                                            <th>操作</th>
+                                            <th width="10%">id</th>
+                                            <th width="15%">应用标识</th>
+                                            <th width="10%">操作系统</th>
+                                            <th width="10%">版本号</th>
+                                            <th width="15%">发布时间</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -104,7 +105,7 @@
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="look(${c.id},'${c.appid}','${c.platform}','${c.version}','${c.text}','${c.url}')">
+ <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="look(${c.id},'${c.appid}','${c.platform}','${c.version}','${c.text}','${c.url}')">
 <i class="fa fa-edit"></i>查看
 </div>
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.id},'${c.appid}','${c.platform}','${c.version}','${c.text}','${c.url}')">
@@ -131,7 +132,7 @@
 					&times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					修改
+					查看
 				</h4>
 			</div>
 	<form class="form-inline" id="lookForm" method="post" accept-charset="UTF-8" action="#" >
