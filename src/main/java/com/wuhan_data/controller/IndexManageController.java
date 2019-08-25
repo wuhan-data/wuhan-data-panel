@@ -135,7 +135,7 @@ public class IndexManageController {
     @RequestMapping("updateIndiData")
     public String updateIndiData(@RequestParam("Id") int id,
   			@RequestParam("Code") String code,@RequestParam("Name") String name,@RequestParam("Status") int status,
-  			@RequestParam("ShowType") String showType,Model model){
+  			Model model){
         //ModelAndView mav = new ModelAndView();
         IndexManage indexManage= new IndexManage();
         indexManage.setId(id);
@@ -148,7 +148,7 @@ public class IndexManageController {
 //        indexManage.setTime_point(timePoint);
 //        indexManage.setEnd_time(endTime);
 //        indexManage.setIndi_value(value);
-        indexManage.setShow_type(showType);
+        //indexManage.setShow_type(showType);
         indexManage.setStatus(status);
         indexManageService.update(indexManage);
         model.addAttribute("updateSuccess", "更新成功");
@@ -164,12 +164,12 @@ public class IndexManageController {
     @RequestMapping("searchUpdateIndiData")
     public String searchUpdateIndiData(@RequestParam("Id") int id,
   			@RequestParam("Code") String code,@RequestParam("Name") String name,@RequestParam("Status") int status,
-  			@RequestParam("ShowType") String showType,Model model){
+  			Model model){
         IndexManage indexManage= new IndexManage();
         indexManage.setId(id);
         indexManage.setIndi_code(code);
         indexManage.setIndi_name(name);
-        indexManage.setShow_type(showType);
+//        indexManage.setShow_type(showType);
         indexManage.setStatus(status);
         indexManageService.update(indexManage);
         model.addAttribute("updateSuccess", "更新成功");

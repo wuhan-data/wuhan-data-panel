@@ -128,7 +128,7 @@
                                             <th>指标代码</th>
                                             <th>指标名称</th>
                                             <th>状态</th>
-                                            <th>展示类型</th>
+<!--                                             <th>展示类型</th> -->
                                             <th>来源</th>
                                             <th>操作</th>
                                         </tr>
@@ -140,11 +140,11 @@
             <td>${c.indi_code}</td>
             <td>${c.indi_name}</td>
             <td>${c.status}</td>
-            <td>${c.show_type}</td>
+<%--             <td>${c.show_type}</td> --%>
             <td>${c.source}</td>
 
             <td >
-            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.indi_name}","${c.show_type}","${c.status}")'><i class="fa fa-edit"></i> 修改</div>
+            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.indi_name}","${c.status}")'><i class="fa fa-edit"></i> 修改</div>
             	<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> <a href="#" id="deleteIndi" onclick="deleteIndi('${c.id}','delete')">删除</a></div>
 
 	<div class="btn-group">
@@ -199,7 +199,7 @@
 				
 				
 <!-- 				<span class="text-info">指标值</span><input type="text" class="form-control" id="IndiValue" value="" name="Value"> -->
-				<span class="text-info">展示类型</span><input type="text" class="form-control" id="IndiShowType" value="" name="ShowType">
+<!-- 				<span class="text-info">展示类型</span><input type="text" class="form-control" id="IndiShowType" value="" name="ShowType"> -->
 				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status">
 <!-- 				<span class="text-info">来源</span><input type="text" class="form-control" id="IndiSource" value="" name="Source"> -->
 				
@@ -506,13 +506,13 @@
              
              
 	
-		function updateIndi(id,indi_code,indi_name,show_type,status){
+		function updateIndi(id,indi_code,indi_name,status){
 			
  			 $("#IndiId").val(id);
 			$("#IndiCode").val(indi_code);
 			$("#IndiName").val(indi_name);
 			
-			$("#IndiShowType").val(show_type);
+			
 			$("#IndiStatus").val(status);
 			
 }
@@ -525,16 +525,7 @@
 // 			alert("添加成功！");
 // 		}
 		
-		/* 删除指标 */
-// 		function deleteIndi(id){
-// 			if(confirm('确实要删除该指标吗?')) {
-<%-- 				$.post("<%=basePath%>delete.action",{"id":id},function(data){ --%>
-// 					alert("指标删除成功！");
-// 					window.location.reload();
-// 				});
-// 			}
-// 		}
-		
+
 		/* 展示指标*/
 // 		function perShow(id){
 			
