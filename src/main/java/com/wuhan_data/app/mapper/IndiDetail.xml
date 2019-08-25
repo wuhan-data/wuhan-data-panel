@@ -65,4 +65,8 @@
             select count(*) from WUHAN_DATA."COLLECT" where index_name=#{appIndiName} and uid=#{userId} and type='指标数据'
         </select>
         
+         <select id="getIndexStatus" resultType="int" parameterType="java.util.Map" >
+            select status from WUHAN_DATA."INDEX_MANAGE" where index_name=#{indi_name} and source=#{source}
+        </select>
+        
     </mapper>

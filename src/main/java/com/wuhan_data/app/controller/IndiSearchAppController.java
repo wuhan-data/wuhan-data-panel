@@ -280,26 +280,34 @@ public class IndiSearchAppController {
 		List resultList = new ArrayList();
 		for (int i = 0; i < searchIndiList.size(); i++) {
 			Map teMap = new HashMap();
-			String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
-			teMap.put("id", indexCode);
-			teMap.put("name", searchIndiList.get(i).getIndi_name());
-			switch (searchIndiList.get(i).getSjly_name2()) {
-			case "大数据":
-				teMap.put("source", "大数据");
-				break;
-			case "国家统计局":
-				teMap.put("source", "国统");
-				break;
-			case "湖北省统计局":
-				teMap.put("source", "湖统");
-				break;
-			default:
-				teMap.put("source", "其他");
-				break;
+			/*判断该指标是否允许展示*/
+			Map indiNameAndSourceMap = new HashMap();
+			indiNameAndSourceMap.put("indi_name", searchIndiList.get(i).getIndi_name());
+			indiNameAndSourceMap.put("source", searchIndiList.get(i).getSjly_name2());
+			int is_show = indiDetailService.getIndexStatus(indiNameAndSourceMap);
+			if(is_show==0)
+			{
+				switch (searchIndiList.get(i).getSjly_name2()) {
+				case "大数据":
+					teMap.put("source", "大数据");
+					break;
+				case "国家统计局":
+					teMap.put("source", "国统");
+					break;
+				case "湖北省统计局":
+					teMap.put("source", "湖统");
+					break;
+				default:
+					teMap.put("source", "其他");
+					break;
+				}
+				String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
+				teMap.put("id", indexCode);
+				teMap.put("name", searchIndiList.get(i).getIndi_name());
+				resultList.add(teMap);
+				System.out.println(searchIndiList.get(i));
 			}
-
-			resultList.add(teMap);
-			System.out.println(searchIndiList.get(i));
+			
 		}
 
 		Map dataMap = new HashMap();

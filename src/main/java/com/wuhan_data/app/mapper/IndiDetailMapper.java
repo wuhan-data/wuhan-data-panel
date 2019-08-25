@@ -25,5 +25,7 @@ public interface IndiDetailMapper {
 	String getIndexName(String indexCode);
 	@DataSource(value="dataSource_dm")
 	int getIsFavorite(Map favoriteMap);
+	@DataSource(value="dataSource_dm")
+	int getIndexStatus(Map indiNameAndSourceMap);
 
 }
