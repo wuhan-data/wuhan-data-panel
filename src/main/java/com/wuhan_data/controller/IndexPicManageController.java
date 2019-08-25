@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,8 +65,14 @@ public class IndexPicManageController {
 	 public String indexPicAdd(IndexPic indexPic,MultipartFile pic1,HttpServletRequest request, HttpServletResponse response) throws IOException {
 //       存到数据库的路径
        String sqlPath=null;
+       
+       String contextPath = request.getContextPath();
+       String basePath = request.getScheme()+"://"+InetAddress.getLocalHost().getHostAddress()+":"+  
+                     request.getServerPort()+contextPath+"/"; 
+       
 //       存到本地的路径
-       String localPath="/Users/in/uploads/";
+//       String localPath="/Users/in/uploads/";
+       String localPath="C:\\wuhan_data_file\\head";      
 //       文件名
        String filename=null;
        System.out.print(pic1);
@@ -84,7 +91,7 @@ public class IndexPicManageController {
 
        }
        //数据库中保存的是图片的相对路径
-       sqlPath = "/uploads/"+filename;
+       sqlPath = basePath+"uploads/"+filename;
        System.out.println(sqlPath);
        indexPic.setImage(sqlPath);
        indexPicService.add(indexPic);      
@@ -96,10 +103,19 @@ public class IndexPicManageController {
 
 		request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+        
 		//      存到数据库的路径
       String sqlPath=null;
+      String contextPath = request.getContextPath();
+      String basePath = request.getScheme()+"://"+InetAddress.getLocalHost().getHostAddress()+":"+  
+                    request.getServerPort()+contextPath+"/"; 
+      
 //      存到本地的路径
-      String localPath="/Users/in/uploads/";
+//      String localPath="/Users/in/uploads/";
+      String localPath="C:\\wuhan_data_file\\head";     
+      
+//      存到本地的路径
+//      String localPath="/Users/in/uploads/";
 //      文件名
       String filename=null;
       if(!pic1.isEmpty()){  //判断获取到的图片是否为空 不为空 进入到if
@@ -114,7 +130,8 @@ public class IndexPicManageController {
           System.out.println(filename);
           //文件保存路径
           pic1.transferTo(new File(localPath+filename));
-          sqlPath = "/uploads/"+filename;
+          
+          sqlPath = basePath+"uploads/"+filename;
           System.out.println(sqlPath);
           int id=Integer.parseInt(request.getParameter("picid"));
           indexPic.setId(id);
