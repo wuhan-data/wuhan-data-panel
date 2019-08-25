@@ -143,8 +143,8 @@
     	</form>
     	</div>
                 
-         <div style="margin:10px">
-			<span class="indiName" style="margin-right:5px">指标名称：
+         <div style="margin-top:10px;margin-bottom:10px">
+			<span class="indiName" style="margin-right:5px"><img src="assets/img/pfeil.gif" alt="" />指标名称：
 			   <select id="indiName" style="width:130px">
 					<option value="" >
 						请选择指标名称
@@ -154,13 +154,13 @@
 					</c:forEach>
 				</select> 
 			</span>
-			<span class="indiSource"> <img src="images/pfeil.gif" alt="" />
+			<span class="indiSource"> <img src="assets/img/pfeil.gif" alt="" />
 				指标来源： <select text-align-last:center style="width:110px"></select> </span>
-			<span class="freqCode"> <img src="images/pfeil.gif" alt="" />
+			<span class="freqCode"> <img src="assets/img/pfeil.gif" alt="" />
 				月/季度： <select style="width:70px" text-align-last:center></select> </span>
-			<span class="startTime"> <img src="images/pfeil.gif" alt="" />
+			<span class="startTime"> <img src="assets/img/pfeil.gif" alt="" />
 				开始日期： <select  style="width:100px" text-align-last:center></select> </span>
-			<span class="endTime"> <img src="images/pfeil.gif" alt="" />
+			<span class="endTime"> <img src="assets/img/pfeil.gif" alt="" />
 				结束日期： <select style="width:100px" text-align-last:center></select> </span>
 				
 				
@@ -188,7 +188,7 @@
 			</table>
 			
 
-      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('指标数据','toExcel')" style="float:right">导出到excel表格</button>
+      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('指标数据','toExcel')" style="float:right;margin-top:10px">导出到excel表格</button>
 		 </div>
                 
                   </div>
@@ -233,7 +233,7 @@ $(document).ready(function(){
 	 * 第一个下拉框change事件
 	 */
 	indiNameSelect.change(function(){
-		alert("进入indiNameSelect");
+// 		alert("进入indiNameSelect");
 		//只要第一个下拉框有变化则隐藏第三个和第四个下拉框
 		freqCodeSelect.parent().hide();
 		startTimeSelect.parent().hide();
@@ -436,7 +436,7 @@ $(document).ready(function(){
 		var startTime = startTimeSelect.val();
 		var endTime = endTimeSelect.val();
 		var tableBody = $(".dd");
-		alert(tableBody);
+// 		alert(tableBody);
 		if(indiSource != ""&&indiName != ""&&freqCode!=""&&startTime!=""&&endTime!="")
 		{
 			$.post("getSelectIndex",{indiName:indiName,indiSource:indiSource,freqCode:freqCode,startTime:startTime,endTime:endTime},function(data){
@@ -468,7 +468,7 @@ $(document).ready(function(){
 			
 		}
 		else
-			alert("完了！")
+// 			alert("完了！")
 			
 			
 			delectBu.show();
@@ -501,7 +501,7 @@ $(function(){
 
 search = function(Url) {
 	 var searchName=document.getElementById("searchKeyWord").value;
-	alert(searchName)
+// 	alert(searchName)
 	var keyWord=encodeURI(encodeURI(searchName));
   $.ajax({
              type: 'GET',
@@ -512,7 +512,7 @@ search = function(Url) {
         	    processData: false,
              cache:false,
              success: function(data){
-        	 	alert(data);
+//         	 	alert(data);
                  $('#getNewData').html(data);
              },
              error : function(data){
