@@ -91,7 +91,7 @@ public class IndexPicManageController {
 
        }
        //数据库中保存的是图片的相对路径
-       sqlPath = basePath+"uploads/"+filename;
+       sqlPath = basePath+"file_head/"+filename;
        System.out.println(sqlPath);
        indexPic.setImage(sqlPath);
        indexPicService.add(indexPic);      
@@ -131,7 +131,7 @@ public class IndexPicManageController {
           //文件保存路径
           pic1.transferTo(new File(localPath+filename));
           
-          sqlPath = basePath+"uploads/"+filename;
+          sqlPath = basePath+"file_head/"+filename;
           System.out.println(sqlPath);
           int id=Integer.parseInt(request.getParameter("picid"));
           indexPic.setId(id);
