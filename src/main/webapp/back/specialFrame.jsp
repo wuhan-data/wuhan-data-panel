@@ -361,7 +361,6 @@
                        	    processData: false,
                             cache:false,
                             success: function(data){
-                       	 	alert(data);
                                 $('#getNewData').html(data);
                             },
                             error : function(data){
