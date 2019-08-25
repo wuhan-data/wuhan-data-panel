@@ -38,9 +38,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
 
-<body >
+<body>
     <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
+    
+        <nav class="navbar navbar-default top-navbar" role="navigation" style="background:url('assets/img/bimg.png');background-size:100%;height:auto;">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -69,6 +70,8 @@
             </ul>
         </nav>
         <!--/. NAV TOP  -->
+        
+        
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
@@ -79,7 +82,7 @@
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-reorder"></i>数据管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
+                        <ul class="nav nav-second-level" >
                             <li>
                                 <a a href="#" onclick="menuClick('listIndexManage')" id="listIndexManage"><i class="fa fa-bar-chart-o"></i>指标数据维护</a>
                             </li>
@@ -152,21 +155,27 @@
         </nav>
         <!-- /. NAV SIDE  -->
         <div id="getNewData" width="100%" height="100%">
-         <div id="page-wrapper">
-            <div id="page-inner">
+        
+        
+         <div id="page-wrapper" >
+            <div id="page-inner" >
             
 
 			
-<div id="welcome" width="100%" height="100%">
+<div id="welcome" width="100%" height="100%" >
 
 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Home <small>Summary of your App</small>
+                            Home <small>Summary of the App</small>
                         </h1>
                     </div>
                 </div>
-                <h1>欢迎登录湖北省宏观经济APP服务端</h1>
+                
+                <div style="width:auto;height:300px">
+                	 <h1 style="">欢迎登录湖北省宏观经济APP服务端</h1>
+                </div>
+               
 </div>
                 
                 
@@ -175,6 +184,8 @@
             <!-- /. PAGE INNER  -->
         </div>
 </div>
+
+
        
         <!-- /. PAGE WRAPPER  -->
     </div>
