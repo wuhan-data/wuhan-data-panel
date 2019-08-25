@@ -141,6 +141,7 @@ public class AnalysisManageController {
 //        mav.addObject("analysisListByPage", analysisListByPage);
 //        mav.addObject("analysisListParent", analysisListParent);
 //        mav.addObject("analysisManageList", analysisManageList);
+        session.setAttribute("json", json);
         session.setAttribute("analysisListByPage", analysisListByPage);
         session.setAttribute("analysisListParent", analysisListParent);
         session.setAttribute("analysisManageList", analysisManageList);
