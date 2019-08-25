@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSON;
 import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.Department;
 import com.wuhan_data.pojo.User;
@@ -37,17 +38,24 @@ public class DepartmentController {
 	
 	private static String departmentname="";//用于模糊查询的名字
 	
+	 public String apiReturn(String errCode, String errMsg, Map<String, Object> data) {
+			Map<String, Object> responseMap = new HashMap<String, Object>();
+			responseMap.put("errCode", errCode);
+			responseMap.put("errMsg", errMsg);
+			responseMap.put("data", data);
+			System.out.println(JSON.toJSONString(responseMap));
+			return JSON.toJSONString(responseMap);
+		}
+	
 	@RequestMapping("listDepartment")
 	public ModelAndView listDepartment() {
 		ModelAndView mav=new ModelAndView();
 		List<Department> departmentList=departmentService.list();
 		mav.addObject("departmentList",departmentList);
 		mav.setViewName("listDepartment");
-		return mav;
-		
-		
+		return mav;	
 	}
-	
+	//code是否存在
 	 @RequestMapping(value="departmentCodeIsExist",produces="application/json;charset=utf-8")
 	 @ResponseBody
 	 public String codeIsExist(HttpServletRequest request, 
@@ -56,7 +64,6 @@ public class DepartmentController {
 	    	String code="";
 	    	try {
 				code=URLDecoder.decode(request.getParameter("roleCode"),"utf-8");
-				System.out.println("code"+code);
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
@@ -77,7 +84,35 @@ public class DepartmentController {
 	    	}
 	    	return jsonObject.toString();
 	    }
-	
+	//name是否存在
+	 @RequestMapping(value="departmentNameIsExist",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String nameIsExist(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 	JSONObject jsonObject = new JSONObject();
+	    	String name="";
+	    	try {
+				name=URLDecoder.decode(request.getParameter("roleName"),"utf-8");
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+			}
+	    	try {
+	    		Map map=new HashMap();
+	    		map.put("department_name", name);
+	    		List<Department> departments=departmentService.getByName(map);
+	    		if (departments.size()>0) {
+					jsonObject.put("data", "exist");
+				}
+	    		else {
+					jsonObject.put("data", "notExist");
+				}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    	}
+	    	return jsonObject.toString();
+	    }
 	
 	@RequestMapping("departmentInit")
 	public ModelAndView departmentInit(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -91,7 +126,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentInit:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 
@@ -119,7 +154,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -135,7 +170,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSelectAnalysisListByPage:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 		//数据库操作
@@ -161,7 +196,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSelectAnalysisListByPage:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -178,7 +213,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchByName:获取数据"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
@@ -207,7 +242,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchByName:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	   
@@ -224,7 +259,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchPage:参数获取"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
@@ -253,7 +288,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchPage:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	   
@@ -277,7 +312,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addDepartment:获取参数"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -308,7 +343,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addDepartment:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -334,7 +369,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editDepartment:获取参数"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -366,7 +401,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editDepartment:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -383,7 +418,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteDepartment:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -410,7 +445,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteDepartment:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }

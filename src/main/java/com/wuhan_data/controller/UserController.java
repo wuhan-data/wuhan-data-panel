@@ -135,7 +135,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userInit:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -165,7 +165,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -184,7 +184,7 @@ public class UserController {
  		} catch (Exception e) {
  			// TODO: handle exception
  			System.out.println("userSelectAnalysisListByPage:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
  		}
     	try {
@@ -213,7 +213,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSelectAnalysisListByPage:数据库操作"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     }
@@ -232,7 +232,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchByName:获取数据"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     	try {
@@ -264,7 +264,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchByName:数据库操作"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     }
@@ -280,7 +280,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchPage:获取数据"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     	try {
@@ -313,7 +313,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchPage:数据库操作"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     }
@@ -347,7 +347,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addUser:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
  
@@ -401,7 +401,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addUser:数据库操作"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     }
@@ -441,7 +441,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
 
@@ -493,7 +493,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:数据库操作"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     	
@@ -514,7 +514,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteUser:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     	try {
@@ -544,7 +544,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteUser:数据库操作 "+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     }
@@ -592,6 +592,7 @@ public class UserController {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "login";
 		}
   		user.setUsername(username1);
   		user.setPassword(password);

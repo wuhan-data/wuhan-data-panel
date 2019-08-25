@@ -61,7 +61,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messageInit:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	try {
@@ -95,7 +95,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messageInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -112,7 +112,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messagesListByPage:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -140,7 +140,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messagesListByPage:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -179,7 +179,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessage:获取参数"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 	        //数据库操作
@@ -240,7 +240,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessage:数据库操作"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 
@@ -276,7 +276,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessageByRole:获取参数"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 		      //数据库操作 
@@ -298,7 +298,7 @@ public class Message2Controller {
 			   		 if (files.length!=1)
 			   	 	 {
 			       		 System.out.println("addVersion:上传文件数量不等于1");
-			       		 maView.setViewName("login");
+			       		 maView.setViewName("error");
 			       		 return maView;
 			   	 	 }
 			   	 	 else 
@@ -307,7 +307,7 @@ public class Message2Controller {
 			   	 	    if(imgPath==null ||imgPath.equals(""))
 			   	 	    {
 			   	 	    	System.out.println("addVersion:上传文件失败");
-			   	 	    	maView.setViewName("login");
+			   	 	    	maView.setViewName("error");
 			   	 	    	return maView;
 			   	 		 }
 			   	 	  }
@@ -347,7 +347,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessageByRole:数据库操作"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 	    }
@@ -384,7 +384,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editMessage:获取参数"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 				
 			}
@@ -394,7 +394,7 @@ public class Message2Controller {
 	        	 if (files.length!=1)
 		   	 	 {
 		       		 System.out.println("addVersion:上传文件数量不等于1");
-		       		 maView.setViewName("login");
+		       		 maView.setViewName("error");
 		       		 return maView;
 		   	 	 }
 		   	 	 else 
@@ -403,7 +403,7 @@ public class Message2Controller {
 		   	 	    if(imgPath==null ||imgPath.equals(""))
 		   	 	    {
 		   	 	    	System.out.println("addVersion:上传文件失败");
-		   	 	    	maView.setViewName("login");
+		   	 	    	maView.setViewName("error");
 		   	 	    	return maView;
 		   	 		 }
 		   	 	  }
@@ -452,7 +452,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editMessage:数据库操作"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 
@@ -471,7 +471,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteMessage:获取参数"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 			try {
@@ -501,7 +501,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteMessage:数据库操作"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 			
@@ -520,7 +520,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchByTitle:获取参数"+e.toString());
-				mav.setViewName("login");
+				mav.setViewName("error");
 				return mav;
 			}
 	   		//数据库操作
@@ -552,7 +552,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchByTitle:数据库操作"+e.toString());
-				mav.setViewName("login");
+				mav.setViewName("error");
 				return mav;
 			}
 	   		
@@ -570,7 +570,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchListByPage:获取参数"+e.toString());
-				mav.setViewName("login");
+				mav.setViewName("error");
 				return mav;
 			}
 			//数据库操作
@@ -602,7 +602,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchListByPage:数据库操作"+e.toString());
-				mav.setViewName("login");
+				mav.setViewName("error");
 				return mav;
 			}
 	       	

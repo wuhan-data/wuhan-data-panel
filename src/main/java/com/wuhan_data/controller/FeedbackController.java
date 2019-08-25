@@ -45,7 +45,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackInit:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -71,7 +71,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -87,7 +87,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackListByPage:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
         //数据库操作
@@ -113,7 +113,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackListByPage:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -132,7 +132,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchByUid:获取数据"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	  //数据库操作
@@ -161,7 +161,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchByUid:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}  
     }
@@ -177,7 +177,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchPage:获取数据"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
@@ -206,7 +206,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchPage:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}   
     }
@@ -238,7 +238,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editFeedback:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 //    	Feedback feedback=new Feedback();
@@ -276,7 +276,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editFeedback:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -293,7 +293,7 @@ public class FeedbackController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteFeedback:参数获取"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 	    	//数据库操作
@@ -320,7 +320,7 @@ public class FeedbackController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteDepartment:数据库操作"+e.toString());
-				maView.setViewName("login");
+				maView.setViewName("error");
 				return maView;
 			}
 	    }

@@ -100,14 +100,14 @@
                     <li>
                         <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            
                             <li>
-                                <a href="noticeInit">通知管理</a>
+                            <a href="#" onclick="menuClick('sysLogInit')" id="sysLogInit"><i class="fa fa-quote-left"></i>日志管理</a>
+                                
                             </li>
                             <li>
-                                <a href="sysLogInit">日志管理</a>
-                            </li>
-                            <li>
-                                <a href="messageManage.html">消息管理</a>
+                            <a href="#" onclick="menuClick('messageInit')" id="messageInit"><i class="fa fa-quote-left"></i>消息管理</a>
+          
                             </li>
                         </ul>
                     </li>
@@ -115,13 +115,28 @@
                         <a href="#"><i class="fa fa-cogs"></i>系统管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="departmentInit">组织结构管理</a>
+                            <a href="#" onclick="menuClick('departmentInit')" id="departmentInit"><i class="fa fa-quote-left"></i>组织架构管理</a>
+                              
                             </li>
                             <li>
-                                <a href="userInit">用户管理</a>
+                            <a href="#" onclick="menuClick('userInit')" id="userInit"><i class="fa fa-quote-left"></i>用户管理</a>
+                               
                             </li>
                             <li>
-                                <a href="roleInit">角色管理</a>
+                            <a href="#" onclick="menuClick('roleInit')" id="roleInit"><i class="fa fa-quote-left"></i>角色管理</a>
+                                
+                            </li>
+                            <li>
+                            <a href="#" onclick="menuClick('adminInit')" id="adminInit"><i class="fa fa-quote-left"></i>管理员管理</a>
+                                
+                            </li>
+                            <li>
+                            <a href="#" onclick="menuClick('feedbackInit')" id="feedbackInit"><i class="fa fa-quote-left"></i>用户反馈</a>
+                               
+                            </li>
+                            <li>
+                            <a href="#" onclick="menuClick('versionInit')" id="versionInit"><i class="fa fa-quote-left"></i>版本更新</a>
+                               
                             </li>
                         </ul>
                     </li>

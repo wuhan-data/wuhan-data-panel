@@ -99,7 +99,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminInit,参数获取失败"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		} 
     	//读取数据库
@@ -133,7 +133,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminInit：读取数据库错误"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -149,7 +149,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSelectAnalysisListByPage：参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 		
@@ -180,7 +180,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSelectAnalysisListByPage：数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -198,7 +198,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchByName:参数获取"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
@@ -230,7 +230,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchByName:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}	   
     }
@@ -247,7 +247,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchPage:参数获取"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	try {
@@ -277,7 +277,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchPage:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}  
     }
@@ -306,7 +306,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addAdmin:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -341,7 +341,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addAdmin:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -373,7 +373,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editAdmin:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -408,7 +408,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editAdmin:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -427,7 +427,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteAdmin:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -456,7 +456,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteAdmin:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -475,7 +475,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("login:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -500,7 +500,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("login:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	

@@ -143,29 +143,30 @@
                              栏目
                         </div>
                         <div class="panel-body">
-
-   <div class="btns col-md-4">
+<div  class="row" style="margin-bottom:7px;margin-right:2px">
+   <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
     </div>  
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="按tel搜索" aria-label="Search" id="searchtname" value="">
-      <button class="btn btn-success" onclick="search()">搜索</button>
+      <input class="form-control mr-sm-2" type="search" placeholder="按tel搜索" aria-label="Search" id="searchtname" value="">
+      <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
     </form>
+    </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>用户id</th>
-                                            <th>联系方式</th>
-                                            <th>用户状态</th>
-                                            <th>用户性别</th>
-                                            <th>用户权限</th>
-                                            <th>角色</th>
-                                            <th>部门</th>
-                                            <th>真实姓名</th>
-                                            <th>出生日期</th>
-                                            <th>地区</th>
-                                            <th>操作</th>
+                                            <th width="5%">用户id</th>
+                                            <th width="10%">联系方式</th>
+                                            <th width="5%">用户状态</th>
+                                            <th width="5%">用户性别</th>
+                                            <th width="10%">用户权限</th>
+                                            <th width="5%">角色</th>
+                                            <th width="5%">部门</th>
+                                            <th width="10%">真实姓名</th>
+                                            <th width="10%">出生日期</th>
+                                            <th width="10%">地区</th>
+                                            <th width="20%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -387,18 +388,22 @@
      <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
-    <script src="assets/js/jquery-1.10.2.js"></script>
-      <!-- Bootstrap Js -->
-    <script src="assets/js/bootstrap.min.js"></script>
+<!--     <script src="assets/js/jquery-1.10.2.js"></script>
+      Bootstrap Js
+    <script src="assets/js/bootstrap.min.js"></script> -->
     <!-- Metis Menu Js -->
-    <script src="assets/js/jquery.metisMenu.js"></script>
+    <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
-    <script src="assets/js/custom-scripts.js"></script>
+    <script src="<%=path %>/assets/js/custom-scripts.js"></script>
     
-    <script src="assets/js/bootstrap-switch.min.js"></script>
-   <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>   
-    <script src="assets/js/bootstrap-order.min.js"></script>
+      <!-- Morris Chart Js -->
+<!--     <script src="assets/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="assets/js/morris/morris.js"></script>  -->
+    
+    <script src="<%=path %>/assets/js/bootstrap-switch.min.js"></script>
+   <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
+    <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
+    <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
             $(document).ready(function () {   
             });

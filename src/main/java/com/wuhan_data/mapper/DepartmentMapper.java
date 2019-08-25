@@ -16,6 +16,8 @@ public interface DepartmentMapper {
 	 @DataSource(value="dataSource_mysql")
 	public List<Department> getByCode(Map<String,Object> parameter);
 	 @DataSource(value="dataSource_mysql")
+	public List<Department> getByName(Map<String,Object> parameter);
+	 @DataSource(value="dataSource_mysql")
 	public int update(Department department);
 	 @DataSource(value="dataSource_mysql")
 	public List<Department> list();

@@ -75,22 +75,23 @@
                              栏目
                         </div>
                         <div class="panel-body">
-
+<div class="row" style="margin-bottom:7px;margin-right:2px">
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
       <input class="form-control" type="search" placeholder="按标题搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
+    </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>反馈id</th>
-                                            <th>反馈用户id</th>
-                                            <th>标题</th>
-                                            <th>联系方式</th>
-                                            <th>状态</th>
-                                            <th>创建时间</th>
-                                            <th>操作</th>
+                                            <th width="8%">反馈id</th>
+                                            <th width="8%">用户id</th>
+                                            <th width="19%">标题</th>
+                                            <th width="10%">联系方式</th>
+                                            <th width="10%">状态</th>
+                                            <th width="15%">创建时间</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -108,7 +109,7 @@
 </div>
  --%>
  
- <div class="btn btn-danger btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="look('${c.id}','${c.uid}','${c.title}','${c.text}','${c.img}','${c.contact}','${c.state}','${c.timeString}')">
+ <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="look('${c.id}','${c.uid}','${c.title}','${c.text}','${c.img}','${c.contact}','${c.state}','${c.timeString}')">
 <i class="fa fa-edit"></i>查看
 </div>
  
@@ -175,7 +176,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
 				</button>
-			<h4 class="modal-title" id="myModalLabel">修改</h4>
+			<h4 class="modal-title" id="myModalLabel">查看</h4>
 			</div>
 	<form class="form-inline" id="lookForm" method="post" accept-charset="UTF-8" action="#" onsubmit="return look_checkForm()">
 			<div class="modal-body" id="chakan">		

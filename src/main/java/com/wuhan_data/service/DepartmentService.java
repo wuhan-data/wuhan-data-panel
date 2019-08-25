@@ -16,6 +16,8 @@ public interface DepartmentService {
 	
 	public List<Department> getByCode(Map<String,Object> parameter);
 	
+	public List<Department> getByName(Map<String,Object> parameter);
+	
 	public int update(Department department);
 	
 	public List<Department> list();

@@ -80,9 +80,41 @@
           }
      }
        
+    function checkRoleName(){
+    	 var roleName = document.getElementById("addRoleName").value;
+    	 var flag=false;
+    	 if(roleName==null || roleName==""){
+    		 span_roleName.innerHTML = "name不能为空";
+    		 return false;
+    	 }
+       	  //判断code是否存在
+       	  else{
+				 roleName=encodeURI(roleName);
+		    	$.ajax({
+		    		url:"roleNameIsExist",
+		    		data:{roleName:roleName},
+		    		async:false,
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				span_roleName.innerHTML = "name已经存在";
+		    				flag=false;
+		          		  	return false;	
+		    			}
+		    			else{
+		    				span_roleName.innerHTML = "格式正确";
+		    				flag=true;
+		              		return true;
+		    			}	
+		    		}
+		    	}) 
+				return flag;
+       	  }
+    }
        function checkForm(){
        	var roleCode=checkRoleCode();
-       	if (roleCode){
+    	var roleName=checkRoleName();
+       	if (roleCode && roleName){
+       		alert(roleCode && roleName);
        		return true;
        	}
        	else
@@ -118,7 +150,7 @@
   		          		  	return false;	
   		    			}
   		    			else{
-  		    				edit_span_rolecode.innerHTML = "格式正确";
+  		    				edit_span_rolecode.innerHTML = "";
   		    				flag=true;
   		              		return true;
   		    			}	
@@ -154,23 +186,24 @@
                              角色
                         </div>
                         <div class="panel-body">
-                     
-   <div class="btns col-md-4">
+        <div class="row" style="margin-bottom:7px;margin-right:2px">            
+   <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
     </div>    
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="搜索" aria-label="Search" id="searchtname" value="">
+      <input class="form-control" type="search" placeholder="按角色名称搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
+    </div> 
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>角色id</th>
-                                            <th>角色代码</th>
-                                            <th>角色名称</th>
-                                            <th>角色描述</th>
-                                            <th>操作</th>
+                                            <th width="10%">角色id</th>
+                                            <th width="20%">角色代码</th>
+                                            <th width="20%">角色名称</th>
+                                            <th width="20%">角色描述</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -181,7 +214,7 @@
             <td >${c.role_name}</td>
             <td >${c.role_description}</td>
             <td >
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.id},${c.role_code},'${c.role_name}','${c.role_description}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.role_code}','${c.role_name}','${c.role_description}')">
 <i class="fa fa-edit"></i>修改
 </div>
 <a href="#" onclick="delClick('${c.id }','deleteRole')">
@@ -212,7 +245,7 @@
 	<input class="form-control" type="hidden" name="editRoleID" id="editRoleID">
    角色代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode" readonly > 
     <br>  
-   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName"> <br>  
+   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName" readonly> <br>  
    角色描述：<textarea class="form-control" type="text" name="editRoleDescription" id="editRoleDescription" style="width:500px;height:80px;"></textarea> <br>  
 			</div>
 			<div class="modal-footer">
@@ -248,7 +281,8 @@
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
      角色代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode" id="addRoleCode" onblur="checkRoleCode()">
      <span id="span_rolecode">填4位代码</span> <br>
-     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName"><br>
+     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName" onblur="checkRoleName()">
+      <span id="span_roleName"></span> <br>
      角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" id="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
 			</div>
 			<div class="modal-footer">
@@ -323,6 +357,7 @@
             addClick = function(Url) {
           	   $('.modal-backdrop').remove();
           	    $('body').removeClass('modal-open');
+          	  if( checkForm()){
                	var data = new FormData(document.getElementById("addForm"));
                	 $.ajax({
                           type: 'POST',
@@ -338,8 +373,12 @@
                           },
                           error : function(data){
                           }
-                      });    
-               };
+                      }); 
+          	  	}
+          	  else{
+          		  
+          	  }
+              };
                editClick = function(Url) {
              	   $('.modal-backdrop').remove();
              	    $('body').removeClass('modal-open');

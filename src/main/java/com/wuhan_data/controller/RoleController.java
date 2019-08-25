@@ -43,7 +43,7 @@ public class RoleController {
 		mav.setViewName("listRole");
 		return mav;
 	}
-	
+	//code是否存在
 	 @RequestMapping(value="roleCodeIsExist",produces="application/json;charset=utf-8")
 	 @ResponseBody
 	 public String codeIsExist(HttpServletRequest request, 
@@ -73,7 +73,34 @@ public class RoleController {
 	    	}
 	    	return jsonObject.toString();
 	    }
-	
+	//name是否存在
+	 @RequestMapping(value="roleNameIsExist",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String nameIsExist(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 	JSONObject jsonObject = new JSONObject();
+	    	String name="";
+	    	try {
+				name=URLDecoder.decode(request.getParameter("roleName"),"utf-8");
+				System.out.println("name"+name);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+			}
+	    	try {
+	    		Role role=roleService.getByName(name);
+	    		if (role!=null) {
+					jsonObject.put("data", "exist");
+				}
+	    		else {
+					jsonObject.put("data", "notExist");
+				}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    	}
+	    	return jsonObject.toString();
+	    }
 	
 	
 	
@@ -89,7 +116,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleInit:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -116,7 +143,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -132,7 +159,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleListByPage:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -158,7 +185,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleListByPage:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 	}
@@ -174,7 +201,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchByName:获取数据"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	try {
@@ -202,7 +229,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchByName:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	  
@@ -219,7 +246,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchPage:获取数据"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
         //数据库操作
@@ -248,7 +275,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchPage:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}   
     }
@@ -273,7 +300,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -305,7 +332,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -322,7 +349,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteRole:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -349,7 +376,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteRole:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -374,7 +401,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -406,7 +433,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	

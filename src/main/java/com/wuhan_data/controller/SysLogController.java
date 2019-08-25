@@ -39,7 +39,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogInit:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -65,7 +65,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -81,7 +81,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogListByPage:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 		//数据库操作
@@ -107,7 +107,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogListByPage:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 	}
@@ -124,7 +124,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchByName:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -153,7 +153,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchByName:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		} 
     }
@@ -170,7 +170,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchPage:参数获取"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
@@ -200,7 +200,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchPage:参数获取"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     }

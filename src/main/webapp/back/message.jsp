@@ -72,7 +72,8 @@
                              栏目
                         </div>
                         <div class="panel-body">
-                     
+                 
+  <div class="row" style="margin-bottom:7px;margin-right:2px">   
   <div class="btns col-md-2">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModalByRole" onclick="add()"><i class="fa fa-plus"></i>批量添加</div>
       <!-- <button class="btn btn-primary" onclick="showSort()"><i class="fa fa-cog"></i>设置</button> -->
@@ -82,21 +83,22 @@
       <!-- <button class="btn btn-primary" onclick="showSort()"><i class="fa fa-cog"></i>设置</button> -->
     </div>  
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="按照标题搜索" aria-label="Search" id="searchtname" value="">
+      <input class="form-control" type="search" placeholder="按标题搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
+    </div> 
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>通知id</th>
-                                            <th>发送人id</th>
-                                            <th>接收人id</th>
-                                            <th>标题</th>
-                                            <th>消息类型</th>
-                                            <th>内容类型</th>
-                                            <th>创建时间</th>
-                                            <th>操作</th>
+                                            <th width="7%">通知id</th>
+                                            <th width="8%">发送人id</th>
+                                            <th width="15%">接收人id</th>
+                                            <th width="20%">标题</th>
+                                            <th width="8%">消息类型</th>
+                                            <th width="7%">内容类型</th>
+                                            <th width="15%">创建时间</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -114,7 +116,7 @@
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="lookrole('${c.id}','${c.sender_id}','${c.receiver_id}','${c.title}','${c.label}','${c.content}','${c.m_text}','${c.type}','${c.path}')">
+ <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="lookrole('${c.id}','${c.sender_id}','${c.receiver_id}','${c.title}','${c.label}','${c.content}','${c.m_text}','${c.type}','${c.path}')">
 <i class="fa fa-edit"></i>查看
 </div>
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="editrole('${c.id}','${c.sender_id}','${c.receiver_id}','${c.title}','${c.label}','${c.content}','${c.m_text}','${c.type}','${c.path}')">
@@ -141,7 +143,7 @@
 					&times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					修改
+					查看
 				</h4>
 			</div>
 	<form class="form-inline" id="lookForm" method="post" accept-charset="UTF-8" >
