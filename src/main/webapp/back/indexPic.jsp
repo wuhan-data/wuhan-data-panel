@@ -13,6 +13,7 @@
     <title>WUHANDATA</title>
 	<!-- Bootstrap Styles-->
     <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/bootstrapValidator.css" rel="stylesheet" />
      <!-- FontAwesome Styles-->
     <link href="<%=path %>/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
@@ -337,17 +338,18 @@
       <!-- Custom Js -->
     <script src="<%=path %>/assets/js/custom-scripts.js"></script>
     
+   
+    
     <script src="<%=path %>/assets/js/bootstrap-switch.min.js"></script>
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
     <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
-            $(document).ready(function () {
-              
-               
-            });
            
+            
+
+            
             editClick = function(Url) {
           	   $('.modal-backdrop').remove();
           	    $('body').removeClass('modal-open');
@@ -371,7 +373,7 @@
           	            
              addClick = function(Url) {
           	   $('.modal-backdrop').remove();
-          	    $('body').removeClass('modal-open');
+          	    $('body').removeClass('modal-open');          	    
                	var data = new FormData(document.getElementById("addForm"));
                	 $.ajax({
                           type: 'POST',
