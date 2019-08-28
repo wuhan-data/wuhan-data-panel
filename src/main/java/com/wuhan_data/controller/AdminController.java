@@ -492,9 +492,9 @@ public class AdminController {
 	    		HttpSession session=request.getSession();
 	    		Admin adminLL=adminService.getByName(username) ;
 	    		session.setAttribute("user", adminLL);
-//	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
-//	  			System.out.println(menuList);
-//	  			session.setAttribute("menuList",menuList);
+	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
+	  			System.out.println(menuList);
+	  			session.setAttribute("menuList",menuList);
 			}
 	    	return maView;
 		} catch (Exception e) {

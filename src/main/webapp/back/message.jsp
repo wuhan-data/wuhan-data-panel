@@ -584,7 +584,7 @@
             	var realName=$("#realName").val();
             	realName = encodeURI(realName);
             	$.ajax({
-            		url:"http://localhost:8080/wuhan_data1/selectByRealName",
+            		url:"selectByRealName",
             		data:{realName:realName},
             		type:'post',
             		success:function(data){
