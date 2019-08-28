@@ -185,7 +185,7 @@ System.out.println("zhaodaole");
      
 //     存到本地的路径
 //     String localPath="/Users/in/uploads/";
-     String localPath="C:\\wuhan_data_file\\head";    
+     String localPath="C:\\wuhan_data_file\\head\\";    
 //     存到本地的路径
 //     String localPath="/Users/in/uploads/";
 //     文件名
