@@ -145,9 +145,9 @@
                 
          <div style="margin-top:10px;margin-bottom:10px">
 			<span class="indiName" style="margin-right:5px"><img src="assets/img/pfeil.gif" alt="" />指标名称：
-			   <select id="indiName" style="width:130px">
+			   <select id="indiName" style="width:100px">
 					<option value="" >
-						请选择指标名称
+						请选择指标
 					</option>
 					<c:forEach items="${indexList}" var="in">
 						<option value="${in.indi_name}">${in.indi_name}</option>
@@ -173,15 +173,15 @@
     			<thead>
     			<tr bgcolor="#4F81BD"style="color: #fff;">
 <%--     			<%=columns[0]%> --%>
-        			<td style="text-align: center" >indi_code</td>
-        			<td style="text-align: center" >indi_name</td>
-        			<td style="text-align: center" >date_code</td>
-        			<td style="text-align: center" >kjwdm</td>
-        			<td style="text-align: center" >area_code</td>
-        			<td style="text-align: center" >area_name</td>
-        			<td style="text-align: center" >freq_code</td>
-        			<td style="text-align: center" >time_point</td>
-        			<td style="text-align: center" >indi_value</td>
+        			<td style="text-align: center" >指标代码</td>
+        			<td style="text-align: center" >指标名称</td>
+        			<td style="text-align: center" >日期代码</td>
+        			<td style="text-align: center" >空间维度码</td>
+        			<td style="text-align: center" >区域代码</td>
+        			<td style="text-align: center" >区域名称</td>
+        			<td style="text-align: center" >频度代码</td>
+        			<td style="text-align: center" >时点</td>
+        			<td style="text-align: center" >指标值</td>
         			<td style="text-align: center" >操作</td>
     			</tr>
     			</thead>
@@ -468,7 +468,7 @@ $(document).ready(function(){
 			
 		}
 		else
-// 			alert("完了！")
+			alert("选择条件不对！")
 			
 			
 			delectBu.show();
