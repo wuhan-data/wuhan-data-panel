@@ -84,8 +84,9 @@
 
    <input type="hidden" value="${cid}" name="cid" />
   <div class="row" id="addElement">
-     <div class="btns col-md-2">
+     <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
+      <button class="btn btn-primary" id="" onclick="dosaveSeq('colPlateUpdateWeight','${cid}')"><i class="fa fa-cog"></i>保存顺序</button>
     </div>  
  
 <!--      <form class="form-inline col-md-5" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
@@ -105,17 +106,18 @@
                                             <th>板块</th>
                                             <th>展现形式</th>
                                             <th>期数</th>
-                                   
+                                   			<th>权重</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${indicolumnByPage}" var="c" varStatus="st">
-        <tr>
+        <tr id="${c.plate_weight }">
             <td >${c.cname}</td>
             <td >${c.pname}</td>
             <td>${c.show_type }</td>
             <td>${c.term }</td>
+            <td>${c.plate_weight }</td>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
@@ -289,11 +291,67 @@
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
+    <script src="<%=path %>/assets/js/table.js"></script>
     <script>
-            $(document).ready(function () {
+           /*  $(document).ready(function () {
                
             });
-       	
+            
+            $("#dataTables-example").tableDnD({
+                onDragClass:'highlight',
+                onDrop:function(table,row){
+                	alert(table)
+                	alert(row)
+                    console.log('AAA');
+                }
+          });
+             */
+            
+            
+            
+            
+            var initSeqArray = new Array();
+    		var fieIdSeqArray;	
+    		$(document).ready(function(){
+    			//为table绑定排序事件
+    			 $("#dataTables-example").tableDnD({
+    		         onDragClass:"myDragClass",
+    		         onDrop:function(table,row) {
+    		             var rows = table.tBodies[0].rows;
+    		             fieIdSeqArray = new Array();
+    		             flag = 1;
+    		             for (var i=0; i<rows.length; i++) {
+    		                fieIdSeqArray.push(rows[i].id);
+    		             }
+    		             
+    	             }
+    	   		 });
+    		});
+    		    		
+    		
+    		dosaveSeq = function(Url,cid){
+    	    /* 	if(fieIdSeqArray != undefined){ */   		    	
+    		    		$.ajax({ 
+    						 type: "GET",
+    						 url: Url+"?cid="+cid+"&sort="+fieIdSeqArray,
+    						 dataType: "html",
+    						 success: function(data) {
+    							 $('#getNewData').html(data);
+    							/* if(msg == initSeqArray.length) {
+    								alert("字段序列修改成功！");
+    							}else {
+    								alert("字段序列修改失败");
+    							} */
+    						 }
+    					 });
+    		    	/* 
+    		    }
+    	    	else {
+    		    	alert("未发现变更记录");
+    		    } */
+    	    }
+  
+    		
             editClick = function(Url) {
            	   $('.modal-backdrop').remove();
            	    $('body').removeClass('modal-open');
