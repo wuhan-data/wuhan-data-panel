@@ -72,7 +72,7 @@ public class IndexPicManageController {
        
 //       存到本地的路径
 //       String localPath="/Users/in/uploads/";
-       String localPath="C:\\wuhan_data_file\\head";      
+       String localPath="C:\\wuhan_data_file\\head\\";      
 //       文件名
        String filename=null;
        System.out.print(pic1);
@@ -112,7 +112,7 @@ public class IndexPicManageController {
       
 //      存到本地的路径
 //      String localPath="/Users/in/uploads/";
-      String localPath="C:\\wuhan_data_file\\head";     
+      String localPath="C:\\wuhan_data_file\\head\\";     
       
 //      存到本地的路径
 //      String localPath="/Users/in/uploads/";
