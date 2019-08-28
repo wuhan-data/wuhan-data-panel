@@ -52,6 +52,9 @@
        both:clear; 
         }
        
+         td,th{
+        text-align:center;
+        }
 
     </style>
 </head>
@@ -405,7 +408,6 @@
                      };
                      
                      pageClick = function(currentPage,Url) {
-                    	 alert(currentPage)
                        $.ajax({
                                   type: 'GET',
                                   url:  Url+"?currentPage="+currentPage,

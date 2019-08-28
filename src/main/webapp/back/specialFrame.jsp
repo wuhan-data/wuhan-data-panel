@@ -47,6 +47,21 @@
         #addElement{
         margin-bottom:10px;
         }
+        
+       .tdiamge div{
+        width:300px;
+        text-align:center;
+        margin:auto;
+        word-wrap:break-word;  
+    	word-break:break-all;
+    	overflow: hidden; 
+        }
+        
+        td,th{
+        text-align:center;
+        }
+        
+        
     </style>
 </head>
 <body>  
@@ -94,10 +109,10 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.title}</td>
-            <td >${c.image}</td>
+            <td class="tdiamge"><div>${c.image}</div></td>
             <td ><img src="${c.image}" width="80" height="42"></td>
            <%--  <td>${c.topic_weight}</td> --%>
-            <td width=40%>
+            <td>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
