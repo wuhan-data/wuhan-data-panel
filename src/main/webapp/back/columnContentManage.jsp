@@ -52,6 +52,9 @@
         margin-bottom:10px;
         }
        
+         td,th{
+        text-align:center;
+        }
 
     </style>
 </head>
@@ -218,19 +221,7 @@
       显示期数：<input class="form-control" type="search" placeholder="请输入显示期数" name="term"> 
      		  <input class="form-control"  type="hidden" value="${cid}" name="cid"/>
      		  <input class="form-control"  type="hidden" value="${id}" name="id"/>
-
-<%-- 			<select class="form-control" id="SelectIndi1" name="indi"> 
-						<c:forEach items="${InitIndexManageList}" var="c1" varStatus="st">
-							        <option value="${c1.indi_code}-${c1.indi_name}" selected>${c1.indi_code}-${c1.indi_name}</option>       
-						</c:forEach>
-			</select> --%>
-			
-<!-- 			<select class="form-control" id="SelectIndi2" name="indi_name">  -->
-<%-- 						<c:forEach items="${InitIndexManageList}" var="c1" varStatus="st"> --%>
-<%-- 							        <option value="${c1.indi_name}" selected>${c1.indi_name}</option>        --%>
-<%-- 						</c:forEach> --%>
-<!-- 			</select> -->
-         
+  
     
 			</div>
 			<div class="modal-footer">
@@ -247,24 +238,7 @@
 
 
                                 <div class="row">
-                                
-                                	  <!-- <ul class="col-lg-4"></ul> -->
-                                	<%--   <ul class="pagination col-lg-4">
-                                	      <form method="post" action="#">
-                                	       <c:if test="${page.current!=1 }">
-                                	        <li><a href="#">首页</a></li>
-                                	        <li></li>
-                                	       </c:if>
-                                	      </form>
-										  <li><a href="#">«</a></li>
-										  <li class="active"><a href="#">1</a></li>
-										  <li><a href="#">2</a></li>
-										  <li><a href="#">3</a></li>
-										  <li><a href="#">4</a></li>
-										  <li><a href="#">5</a></li>
-										  <li><a href="#">»</a></li>
-									</ul> --%>
-									
+
 									 <div class='page fix'>
                     <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
@@ -286,8 +260,6 @@
                     </form>
                 </div>
                 
-      
-								<!-- 	<ul class="col-lg-4"></ul> -->
                                 </div>
                               
                                 
