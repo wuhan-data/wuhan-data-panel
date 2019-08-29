@@ -9,6 +9,7 @@ public class ColPlate {
 	String show_type;
 	int term;
 	int is_show;
+	int plate_weight;
 	public int getId() {
 		return id;
 	}
@@ -56,6 +57,12 @@ public class ColPlate {
 	}
 	public void setIs_show(int is_show) {
 		this.is_show = is_show;
+	}
+	public int getPlate_weight() {
+		return plate_weight;
+	}
+	public void setPlate_weight(int plate_weight) {
+		this.plate_weight = plate_weight;
 	}
 	
 	
