@@ -234,6 +234,65 @@ public class ColPlateController { //栏目下的板块管理
         return mav;
     }
 	
+	
+	@RequestMapping("colPlateUpdateWeight")//更新板块权重
+    public ModelAndView colPlateUpdateWeight(HttpServletRequest request, 
+            HttpServletResponse response) throws IOException{
+    	request.setCharacterEncoding("UTF-8"); //防止乱码   	
+        response.setCharacterEncoding("UTF-8");//防止乱码  
+        
+        ModelAndView mav = new ModelAndView();//返回视图类    
+        Page page=new Page(); //分页类
+        
+        System.out.println("colPlateUpdateWeight");
+        
+        int theme_id = Integer.parseInt(request.getParameter("cid"));
+        String sort = request.getParameter("sort");
+
+        String[] array = sort.split(",");
+        int []pidArray= new int[array.length];
+        
+        System.out.println(array.length);
+        
+       
+        for(int i=1;i<=array.length;i++) {
+        	Map map = new HashMap();
+        	map.put("theme_id", theme_id);
+        	map.put("oldWeight", array[i-1]);
+        	int plate_id = colPlateService.getPid(map);
+        	pidArray[i-1]=plate_id;       	
+        }
+        
+        for(int i=1;i<=pidArray.length;i++) {
+        	Map map = new HashMap();
+        	map.put("plate_id", pidArray[i-1]);
+        	map.put("newWeight", i);
+        	colPlateService.updateWeight(map);
+        }
+                
+        int count = colPlateService.total(theme_id);//每一个二级栏目下的板块数量
+        Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数     
+        String currentPage=request.getParameter("currentPage");//获取jsp页面的当前页的页码
+        Pattern pattern = Pattern.compile("[0-9]{1,9}");//对跳转框内容的限制
+        if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+            page.setCurrentPage(1);//首次进入，初始化页码
+        } else {
+            page.setCurrentPage(Integer.valueOf(currentPage));//设置页码
+        }
+        page.setTotalNumber(count);//设置总条数
+        page.count();//执行分页类设置分页参数，为sql查询做准备
+        map.put("page", page);//设置page参数
+        map.put("cid",theme_id);//设置二级栏目id参数，where条件
+        List<ColPlate> indicolumnByPage=colPlateService.getlist(map);//获取分页
+//        List<IndexManage> InitIndexManageList = colPlateService.listIndi();
+//        mav.addObject("InitIndexManageList", InitIndexManageList);     
+        mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
+        mav.addObject("page", page);    //前端获取参数
+        mav.addObject("cid", theme_id); //前端获取二级栏目id，以便多次传参        
+        mav.setViewName("columnContentManage"); //返回到jsp页面
+        return mav;
+    }
+	
 
 	
 }
