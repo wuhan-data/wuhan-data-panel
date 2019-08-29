@@ -48,5 +48,18 @@
             select distinct theme_name from WUHAN_DATA."ANALYSIS_PLATE"  where theme_id=#{cid}
         </select>
         
+        <update id="updateWeight" parameterType="Map" >
+            update WUHAN_DATA."ANALYSIS_PLATE"
+            <set>
+            plate_weight=#{newWeight}
+            </set>
+             where plate_id=#{plate_id}
+        </update>
+               
+        <select id="getPid" resultType="int" parameterType="Map">
+     
+           select plate_id from  WUHAN_DATA."ANALYSIS_PLATE"  where theme_id=#{theme_id} and plate_weight=#{oldWeight}
+        </select>
+        
         
     </mapper>

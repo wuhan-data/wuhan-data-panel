@@ -24,8 +24,8 @@ public interface ColPlateMapper {
 	public int getAddPid(int cid); //得到需要添加的板块的id值
 	@DataSource(value="dataSource_dm")
 	public String getAddCname(int cid); //得到需要添加的板块所属栏目的名称
-
+	@DataSource(value="dataSource_dm")
 	public int updateWeight(Map map); //更新权重
-	
+	@DataSource(value="dataSource_dm")
 	public int getPid(Map map); //得到pid
 }

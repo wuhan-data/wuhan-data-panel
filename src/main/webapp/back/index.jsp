@@ -37,6 +37,12 @@
     <!-- Google Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link href="assets/css/bootstrap-order.min.css" rel="stylesheet" />
+    
+    <style>
+   html, body {
+  height: 100%;
+   }
+    </style>
 </head>
 
 <body>
