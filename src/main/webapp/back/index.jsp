@@ -81,7 +81,7 @@
             <div class="sidebar-collapse">
             <ul class="nav" id="main-menu">
             <li>
-                 <a class="" href=" "><i class="fa fa-dashboard"></i>首页</a>
+                 <a class="" href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
             </li>
             <c:forEach items="${menuList}" var="c" varStatus="st">
               <li>
@@ -185,15 +185,11 @@
 <!--         </nav> -->
         <!-- /. NAV SIDE  -->
         <div id="getNewData" width="100%" height="100%">
-        
-        
          <div id="page-wrapper" >
             <div id="page-inner" >
             
 
-			
 <div id="welcome" width="100%" height="100%" >
-
 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
@@ -201,11 +197,9 @@
                         </h1>
                     </div>
                 </div>
-                
-                <div style="width:auto;height:300px">
+
                 	 <h1 style="">欢迎登录湖北省宏观经济APP服务端</h1>
-                </div>
-               
+
 </div>
                 
                 
