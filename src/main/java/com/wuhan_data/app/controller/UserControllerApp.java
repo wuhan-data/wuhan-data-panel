@@ -8,13 +8,17 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +44,10 @@ import com.alibaba.druid.sql.parser.Token;
 import com.alibaba.fastjson.JSON;
 import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.app.service.UserServiceApp;
+import com.wuhan_data.pojo.Role;
 import com.wuhan_data.pojo.User;
+import com.wuhan_data.service.RoleService;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.service.UserService;
 import com.wuhan_data.tools.ImageUtils;
 import com.wuhan_data.tools.SendMessage;
@@ -56,7 +63,11 @@ public class UserControllerApp {
 	@Autowired
 	UserServiceApp userServiceApp;
 	@Autowired
+	RoleService roleService;
+	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
+	@Autowired
+	SysLogService sysLogService;
 	@RequestMapping(value = "loginTest", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
 	public String loginTest(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
@@ -413,6 +424,115 @@ public class UserControllerApp {
 //			return this.apiReturn("-2", "手机号或者验证码不正确", data);
 //		}
 //	}
+		
+		 //接口获取用户权限
+		  
+		  @RequestMapping(value="getAllPower",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+		  @ResponseBody public String getAllPower(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
+		  { 
+			Map data=new HashMap(); 
+		  	JSONObject jsonObject =JSONObject.fromObject(json); 
+		  	Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class); 
+		  	//获取数据
+		  	String tokenString="";
+		  	try {
+		  		 tokenString=mapget.get("token").toString();
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("getUserApp"+e.toString());
+				return this.apiReturn("-2", "请求参数异常", data);
+			}
+		  	System.out.println("获取用户权限接口："+"token"+tokenString);
+		  	
+		  	//token令牌验证
+		  	Boolean tokenIsEmpty=true;
+		  	try {
+				tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("getUserApp"+e.toString());
+				return this.apiReturn("-1", "数据库异常", data);
+			}
+		  	
+		  	if(tokenIsEmpty)
+		  	{
+		  		return this.apiReturn("-3", "token令牌错误", data);
+		  	}
+		  	else {
+		  		//获取用户数据
+		  		try {
+		  			String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
+		  			System.out.println("String map"+mapString);
+			  		Map map=StringToMap.stringToMap(mapString);
+			  		String tel=(String)map.get("tel");
+			  		User user = userServiceApp.getByTel(tel);//通过电话号码获取用户
+			  		System.out.println("user"+user.toString());
+			  		String roles=user.getRole_id();
+			  		System.out.println("role"+roles);
+			  		String[] roleList=roles.split("\\|");
+			  		System.out.println("roleList"+roleList[0]+"nihao"+roleList[1]);
+			  		List<String> power_1String=new ArrayList<String>();
+			  		List<String> power_2String=new ArrayList<String>();
+			  		List<String> power_3String=new ArrayList<String>();
+			  		//遍历每一个角色的权限
+			  		for(int i=0;i<roleList.length;i++)
+			  		{
+			  			String role_nameString=roleList[i];
+			  			Role role=roleService.getByName(role_nameString);
+			  			if(role==null)
+			  				continue;
+			  			power_1String.add(role.getRole_power_1());
+			  			power_2String.add(role.getRole_power_2());
+			  			power_3String.add(role.getRole_power_3());		
+			  		}
+			  		System.out.println("power_1String"+power_1String);
+			  		Set <String> power_1=new HashSet<String>();
+			  		for (int i=0;i<power_1String.size();i++)
+			  		{
+			  			String a=power_1String.get(i);
+			  			String[] alist=a.split("\\|");
+			  			Set<String> set=new HashSet<String>(Arrays.asList(alist));
+			  			power_1.addAll(set);	
+			  		}
+			  		System.out.println("power_1"+power_1.toString());
+			  		Set <String> power_2=new HashSet<String>();
+			  		for (int i=0;i<power_2String.size();i++)
+			  		{
+			  			String a=power_2String.get(i);
+			  			String[] alist=a.split("\\|");
+			  			Set<String> set=new HashSet<String>(Arrays.asList(alist));
+			  			power_2.addAll(set);	
+			  		}
+			  		Set <String> power_3=new HashSet<String>();
+			  		for (int i=0;i<power_3String.size();i++)
+			  		{
+			  			String a=power_3String.get(i);
+			  			String[] alist=a.split("\\|");
+			  			Set<String> set=new HashSet<String>(Arrays.asList(alist));
+			  			power_3.addAll(set);	
+			  		}
+			  		List<String> powerThemes=new ArrayList<String>(power_1);
+			  		List<String> powerIndexSpecials=new ArrayList<String>(power_2);
+			  		List<String> powerIndexManages=new ArrayList<String>(power_3);
+			  		System.out.println("powerThemes"+powerThemes);
+			  		data.put("powerThemes", powerThemes);
+			  		data.put("powerIndexSpecials", powerIndexSpecials);
+			  		data.put("powerIndexManages", powerIndexManages);
+					return this.apiReturn("0", "用户权限获取成功", data);			
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println("getUserApp"+e.toString());
+					return this.apiReturn("-1", "数据库操作错误", data);
+				}
+		  		
+		  	}  
+		  }
+		
+		
+		
+		
+		
+		
 
 	
 	  //接口获取用户个人信息
@@ -429,7 +549,7 @@ public class UserControllerApp {
 	  		 tokenString=mapget.get("token").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("getUserApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	  	System.out.println("获取用户个人信息接口："+"token"+tokenString);

@@ -30,7 +30,7 @@
       
 
     <style type="text/css" rel="stylesheet">
-
+		.tabel-div{width:190px; height:40px; overflow-y:scroll; border:0px solid #F00} 
 		a{
 		hover:text-decoration:none;}
         .page { float:right; margin:10px 40px; line-height:25px;}
@@ -91,14 +91,14 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="7%">通知id</th>
+                                            <th width="2%">id</th>
                                             <th width="8%">发送人id</th>
-                                            <th width="15%">接收人id</th>
+                                            <th width="20%">接收人id</th>
                                             <th width="20%">标题</th>
                                             <th width="8%">消息类型</th>
                                             <th width="7%">内容类型</th>
-                                            <th width="15%">创建时间</th>
-                                            <th width="30%">操作</th>
+                                            <th width="10%">创建时间</th>
+                                            <th width="35%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -106,8 +106,8 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.sender_id}</td>
-            <td >${c.receiver_id}</td>
-            <td >${c.title}</td>
+            <td ><div class="tabel-div">${c.receiver_id}</div></td>
+            <td ><div class="tabel-div">${c.title}</div></td>
             <td >${c.label}</td>
             <td >${c.type}</td>
             <td >${c.timeString}</td>
@@ -152,22 +152,25 @@
 		<input class="form-control" type="hidden" name="lookMessageID" id="lookMessageID">
  发送人id：<input class="form-control" type="text" name="lookSender_id" id="lookSender_id"  readonly>  <br> 
  接收人id：<input class="form-control" type="text" name="lookReceiver_id" id="lookReceiver_id"readonly> <br>
- 标题：<input class="form-control" type="text" name="lookTitle" id="lookTitle"readonly> <br>
- 消息类型：
+  消息类型：
  <select class="form-control" id="lookLabel" name="lookLabel" readonly>	
        		<option value="系统消息" >系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：
- <br><textarea class="form-control" type="text" name="lookContent" id="lookContent"readonly style="width:500px;height:80px;" ></textarea> <br>
- 正文：
- <br><textarea class="form-control" type="text" name="lookM_text" id="lookM_text"readonly style="width:500px;height:80px;">  </textarea><br>
  内容类型：
  	 <select class="form-control" id="lookType" name="lookType"readonly >	
        		<option value="message">message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
+ 标题：<br>
+ <textarea class="form-control" type="text" name="lookTitle" id="lookTitle" style="width:500px;height:80px;"readonly></textarea> <br>
+ 内容缩略：
+ <br>
+ <textarea class="form-control" type="text" name="lookContent" id="lookContent"readonly style="width:500px;height:80px;" ></textarea> <br>
+ 正文：
+ <br>
+ <textarea class="form-control" type="text" name="lookM_text" id="lookM_text"readonly style="width:500px;height:80px;">  </textarea><br>
  路径：<a><input class="form-control" type="text" name="lookPath" id="lookPath" readonly> <br></a>
  	<div id=lookFileUrl></div>
 			</div>
@@ -199,22 +202,23 @@
 		<input class="form-control" type="hidden" name="editMessageID" id="editMessageID">
  发送人id：<input class="form-control" type="text" name="editSender_id" id="editSender_id" readonly>  <br> 
  接收人id：<input class="form-control" type="text" name="editReceiver_id" id="editReceiver_id"> <br>
- 标题：<input class="form-control" type="text" name="editTitle" id="editTitle"> <br>
- 消息类型：
+  消息类型：
  <select class="form-control" id="editLabel" name="editLabel" >	
        		<option value="系统消息" >系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：
- <br><textarea class="form-control" type="text" name="editContent" id="editContent" style="width:500px;height:80px;"> </textarea><br>
- 正文：
- <br><textarea class="form-control" type="text" name="editM_text" id="editM_text" style="width:500px;height:80px;">  </textarea><br>
  内容类型：
  	 <select class="form-control" id="editType" name="editType" >	
        		<option value="message">message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
+ 标题：<br>
+ <textarea class="form-control" type="text" name="editTitle" id="editTitle" style="width:500px;height:80px;"> </textarea><br>
+ 内容缩略：
+ <br><textarea class="form-control" type="text" name="editContent" id="editContent" style="width:500px;height:80px;"> </textarea><br>
+ 正文：
+ <br><textarea class="form-control" type="text" name="editM_text" id="editM_text" style="width:500px;height:80px;">  </textarea><br>
  路径：<input class="form-control" type="text" name="editPath" id="editPath" readonly> <br>
 重新上传文件：<input type="file" name="messageEditFile" id="messageEditFile" value="请选择文件" /><br>
 
@@ -251,31 +255,33 @@
 			<form class="form-inline" id="addForm" method="post"  enctype="multipart/form-data" accept-charset="UTF-8" action="#">
 			<div class="modal-body">
 				
+ <input type="button" onclick="selectUser()" name="selectName" id="selectName" value="按真实姓名搜索">
+  <input class="form-control" type="text" name="realName" id="realName">
+ <br>
+ <div id="resultOfSelectName" style="width:400px;height:80px;" overflow-y="scroll"; border="1px solid #000">
+ 查询结果显示
+ </div>
+ <br>
  		
  发送人id：<input class="form-control" type="text" name="addSender_id" id="addSender_id" readonly value=<%out.print(adminId);%> >  <br> 
  接收人id：<input class="form-control" type="text" name="addReceiver_id" id="addReceiver_id">多人请用，隔开 <br>
-  <input type="button" onclick="selectUser()" name="selectName" id="selectName" value="按真实姓名搜索">
-  <input class="form-control" type="text" name="realName" id="realName">
- <br>
- <textarea id="resultOfSelectName" style="width:400px;height:80px;">
-  	查询结果显示
- </textarea>
- <br>
- 
- 标题：<input class="form-control" type="text" name="addTitle" id="addTitle"> <br>
  消息类型：
   <select class="form-control" id="addLabel" name="addLabel" >	
        		<option value="系统消息" selected>系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：<br><textarea class="form-control" type="text" name="addContent" id="addContent" style="width:500px;height:80px;"> </textarea> <br>
- 正文：<br><textarea class="form-control" type="text" name="addM_text" id="addM_text" style="width:500px;height:80px;">  </textarea><br>
- 内容类型：
+  内容类型：
  <select class="form-control" id="addType" name="addType" >	
        		<option value="message" selected>message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
+ 标题：<br>
+ <textarea class="form-control" type="text" name="addTitle" id="addTitle" style="width:500px;height:80px;"></textarea> <br>
+
+ 内容缩略：<br><textarea class="form-control" type="text" name="addContent" id="addContent" style="width:500px;height:80px;"> </textarea> <br>
+ 正文：<br><textarea class="form-control" type="text" name="addM_text" id="addM_text" style="width:500px;height:80px;">  </textarea><br>
+
  <!-- 路径：<input class="form-control" type="text" name="addPath" id="addPath"> <br> -->
   上传的文件：<input type="file" name="messageAddFile" id="messageAddFile" value="请选择文件" /><br>
     
@@ -309,30 +315,30 @@
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
   
-     接收人角色名字：<!-- <input class="form-control" type="search" placeholder="接收人角色名字" name="addByRoleid"><br> -->
-     
-  <select class="form-control" id="addByRoleReceiver_id" name="addByRoleReceiver_id" onchange="">
+     接收人角色：<select class="form-control" id="addByRoleReceiver_id" name="addByRoleReceiver_id" onchange="">
   	<c:forEach items="${roleList}" var="c" varStatus="st">
         <option value="${c.role_name}" >${c.role_name}</option>    
 	</c:forEach>
   </select> <br>
-    发送人名字：<input class="form-control" type="search" placeholder="发送人名字" name="addByRoleByRolesender_name" readonly value=<%out.print(username); %> ><br>
- 发送人id：<input class="form-control" type="text" name="addByRoleSender_id" id="addByRoleSender_id" readonly value=<%out.print(adminId);%>>  <br> 
-<!--  接收人id：<input class="form-control" type="text" name="addByRoleReceiver_id" id="addByRoleReceiver_id"> --> <br>
- 标题：<input class="form-control" type="text" name="addByRoleTitle" id="addByRoleTitle"><br>
- 消息类型：
+ 发送人名字：<input class="form-control" type="search" placeholder="发送人名字" name="addByRoleByRolesender_name" readonly value=<%out.print(username); %> ><br>
+ 发送人id：&nbsp<input class="form-control" type="text" name="addByRoleSender_id" id="addByRoleSender_id" readonly value=<%out.print(adminId);%>>  <br> 
+消息类型：
   <select class="form-control" id="addByRoleLabel" name="addByRoleLabel" >	
        		<option value="系统消息" selected>系统消息</option>    
        		<option value="核心推送">核心推送</option> 
   	</select><br>
- 内容缩略：<br><textarea class="form-control" type="text" name="addByRoleContent" id="addByRoleContent" style="width:500px;height:80px;"></textarea> <br>
- 正文：<br><textarea class="form-control" type="text" name="addByRoleM_text" id="addByRoleM_text" style="width:500px;height:80px;"> </textarea> <br>
  内容类型：
  <select class="form-control" id="addByRoleType" name="addByRoleType" >	
        		<option value="message" selected>message</option>    
        		<option value="pdf">pdf</option> 
        		<option value="excel">excel</option> 
   	</select><br>
+ 标题：<br>
+ <textarea class="form-control" type="text" name="addByRoleTitle" id="addByRoleTitle" style="width:500px;height:80px;"></textarea><br>
+ 
+ 内容缩略：<br><textarea class="form-control" type="text" name="addByRoleContent" id="addByRoleContent" style="width:500px;height:80px;"></textarea> <br>
+ 正文：<br><textarea class="form-control" type="text" name="addByRoleM_text" id="addByRoleM_text" style="width:500px;height:80px;"> </textarea> <br>
+
 <!--  路径：<input class="form-control" type="text" name="addByRolePath" id="addByRolePath"> <br> -->
   上传的文件：<input type="file" name="messageAddByRoleFile" id="messageAddByRoleFile" value="请选择文件" /><br>
 			</div>
@@ -579,29 +585,46 @@
             	//$("#lookPath").href(path)
                 	
             }
+            
+            function isCheck(checkbox){
+            	alert("nihao");
+				}
+            
+            
             function selectUser()
             {
             	var realName=$("#realName").val();
             	realName = encodeURI(realName);
             	$.ajax({
-            		url:"http://localhost:8080/wuhan_data1/selectByRealName",
+            		url:"http://localhost:8080/wuhan_data1/selectByRealName2",
             		data:{realName:realName},
             		type:'post',
             		success:function(data){
+            			
             			var imgsUrl="";
-            			var users=data.data.split(';');
+            			var users=data.data;
             			for (var i=0;i<users.length;i++)
             			{
-            				var sl=users[i]+"\r\n";
+            				var sl="<input type=\"checkbox\"  id=\"selectname\" name=\"selectname\" οnclick=\"isCheck(this)\"  value=\""+users[i].realname+"\" />"+users[i].realname+"(角色："+users[i].role+")"+"|id："+users[i].id+"|";
+            				
+            				/* var sl=users[i]+"\r\n"; */
             				imgsUrl+=sl;
             			}
+            			
                     	document.getElementById("resultOfSelectName").innerHTML=imgsUrl;
             		},
             		error:function(error){
-            			alert(error);
+            			alert("e"+error);
             		}
             	})
             }
+            
+
+           
+
+            
+            
+            
             function testF()
             {
             	$.ajax({

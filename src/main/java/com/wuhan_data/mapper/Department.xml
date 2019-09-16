@@ -5,7 +5,7 @@
  
     <mapper namespace="com.wuhan_data.mapper.DepartmentMapper">
         <insert id="add" parameterType="Department" >
-        	insert into WUHAN_DATA.DEPARTMENT (id,department_code,department_name,department_description) values (#{id},#{department_code},#{department_name},#{department_description}) 
+        	insert into WUHAN_DATA.DEPARTMENT (department_code,department_name,department_description) values (#{department_code},#{department_name},#{department_description}) 
         </insert>
          
         <delete id="delete" parameterType="Department" >

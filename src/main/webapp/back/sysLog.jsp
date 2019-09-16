@@ -27,6 +27,7 @@
 
     <style type="text/css" rel="stylesheet">
 
+		
 		a{
 		hover:text-decoration:none;}
         .page { float:right; margin:10px 40px; line-height:25px;}
@@ -55,6 +56,7 @@
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
+                            
                             辅助管理 <small>日志管理</small>
                         </h1>
                     </div>
@@ -72,30 +74,44 @@
                         </div>
                         <div class="panel-body">  
    <div class="row" style="margin-bottom:7px;margin-right:2px">
+   <div class="btns col-md-6">
+     
+    </div>  
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="按操作者id搜索" aria-label="Search" id="searchtname" value="">
-      <button class="btn btn-success" onclick="search()">搜索</button>
+    <!--   <input class="form-control" type="search" placeholder="按操作者id搜索" aria-label="Search" id="searchtname" value="">
+      <button class="btn btn-success" onclick="search()">搜索</button> -->
+     <select class="form-control"  name="searchtname" id="searchtname" onchange="search()">
+     		<option value="#" > </option> 
+      		<option value="" >全部错误日志 </option> 	
+       		<option value="user"> 前端错误日志</option>    
+       		<option value="admin">后台错误日志</option> 
+  	</select>
     </form>
     </div> 
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
+                                            
                                             <th width="10%">日志id</th>
-                                            <th width="10%">操作者id</th>
-                                            <th width="10%">操作</th>
+                                            <th width="10%">身份</th>
                                             <th width="30%">调用的接口</th>
-                                            <th width="20%">操作的时间</th>
+                                            <th width="20%">时间</th>
+                                            <th width="10%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${sysLogListByPage}" var="c" varStatus="st">
         <tr>
             <td >${c.id}</td>
-            <td >${c.operate_user_id}</td>
-            <td >${c.operate}</td>
-            <td >${c.method}</td>
+            <td >${c.e_type}</td>
+            <td >${c.e_interface}</td>
             <td >${c.timeString}</td>
+            <td>
+             <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="lookLog('${c.operate_user_id}','${c.e_type}','${c.e_interface}','${c.e_parameter}','${c.e_msg}','${c.e_error}','${c.timeString}')">
+<i class="fa fa-edit"></i>查看
+</div>
+</td>
         </tr>
     </c:forEach>
                                     </tbody>
@@ -104,8 +120,8 @@
        <%--   <input type="hidden" value="${tname}" name="ctname"/> --%>
                                 </table>
                                 
-                                <!--修改 模态框（Modal） -->
-<div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <!--查看 模态框（Modal） -->
+<div class="modal fade" id="myLookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -113,22 +129,32 @@
 					&times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					修改
+					查看
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editDepartment">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" >
 			<div class="modal-body">		
 
-	<input class="form-control" type="hidden" name="editDepartmentID" id="editDepartmentID">
-   用户代码：<input class="form-control" type="text" name="editDepartmentCode" id="editDepartmentCode">   
-   用户名称：<input class="form-control" type="text" name="editDepartmentName" id="editDepartmentName">   
-   用户描述：<input class="form-control" type="text" name="editDepartmentDescription" id="editDepartmentDescription">   
+	
+<!--  操作者id：<input class="form-control" type="text" name="lookUserId" id="lookUserId" readonly>   <br> -->
+ 身份：<input class="form-control" type="text" name="lookE_type" id="lookE_type" readonly>   <br>
+ 接口：<input class="form-control" type="text" name="lookE_interface" id="lookE_interface" readonly> <br>   
+ 时间：<input class="form-control" type="text" name="lookCreate_time" id="lookCreate_time" readonly><br>
+ 参数信息：<br>
+ <textarea class="form-control" type="text" name="lookE_parameter" id="lookE_parameter"readonly style="width:500px;height:80px;">  
+ </textarea><br>
+返回信息：
+<br>
+<textarea class="form-control" type="text" name="lookE_msg" id="lookE_msg"readonly style="width:500px;height:80px;">  
+</textarea><br>
+系统错误信息：
+<br>
+<textarea class="form-control" type="text" name="lookE_error" id="lookE_error"readonly style="width:500px;height:80px;">  
+</textarea><br>
+
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="submit" class="btn btn-primary" onclick="editClick('editDepartment')">
-					提交
 				</button>
 			</div>
 			</form>
@@ -265,14 +291,13 @@
                     search= function(){
                     	
                     	var searchName=document.getElementById("searchtname").value;
-                    	alert(searchName)
-                    	var  operate_user_id=encodeURI(encodeURI(searchName));
+                    	var  e_type=encodeURI(searchName);
                     	$.ajax({
-                               type: 'GET',
-                               url:  "sysLogSearchByName?operate_user_id="+ operate_user_id,
+                               type:'GET',
+                               url:  "sysLogSearchByName?e_type="+e_type,
                                dataType: "html",
                           	    async : false,
-                           	contentType: false, //不设置内容类型
+                           		contentType: false, //不设置内容类型
                           	    processData: false,
                                cache:false,
                                success: function(data){
@@ -316,6 +341,16 @@
             
            var order =  new BootstrapOrder();
            
+           function lookLog(operate_user_id,e_type,e_interface,e_parameter,e_msg,e_error,create_time){
+        	 
+           	$("#lookUserId").val(operate_user_id);
+           	$("#lookE_type").val(e_type);
+           	$("#lookE_interface").val(e_interface);
+           	$("#lookCreate_time").val(create_time);
+           	$("#lookE_parameter").val(e_parameter);
+           	$("#lookE_msg").val(e_msg);
+           	$("#lookE_error").val(e_error);    	
+           }
         
             function addSort(item) {
             	order.addItem(item);

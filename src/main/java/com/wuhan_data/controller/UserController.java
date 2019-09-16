@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,6 +97,43 @@ public class UserController {
 		}
     	return jsonObject.toString();
     }
+    
+    
+    @RequestMapping(value="selectByRealName2",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String selectByRealName2(HttpServletRequest request, 
+            HttpServletResponse response){
+    	JSONObject jsonObject = new JSONObject();
+    	String realName="";
+    	try {
+			realName=URLDecoder.decode(request.getParameter("realName"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	Map map=new HashMap();
+    	map.put("real_name", realName);
+    	List<User> users=userService.searchByRealname(map);
+    	
+    	List data=new ArrayList();
+    	for(int i=0;i<users.size();i++) {
+    		Map map1=new HashMap();
+    		User user=users.get(i);
+    		map1.put("realname", user.getReal_name());
+    		map1.put("role", user.getRole_id());
+    		map1.put("id", user.getId());
+    		data.add(map1);
+    	}
+
+    	jsonObject.put("errCode", "0");
+    	jsonObject.put("errMsg", "success");
+    	jsonObject.put("data", data);
+    	System.out.println(jsonObject.toString());
+		return jsonObject.toString();
+    }
+    
+    
+    
     
     @RequestMapping(value="selectByRealName",produces="application/json;charset=utf-8")
     @ResponseBody
@@ -335,7 +374,8 @@ public class UserController {
     	String addBirthday="";
     	String addCity="";
     	try {
-    		roleListSelect=request.getParameter("roleListSelect");
+    		roleListSelect=StringUtils.join(request.getParameterValues("roleListSelect"),"|");
+    		
     		departmentListSelect=request.getParameter("departmentListSelect");
     		genderSelect=request.getParameter("genderSelect");
     		addUserTel=request.getParameter("addUserTel");
@@ -428,7 +468,7 @@ public class UserController {
     	String editCity="";
     	try {
     		editUserID=Integer.parseInt(request.getParameter("editUserID"));
-        	editroleListSelect=request.getParameter("editroleListSelect");
+        	editroleListSelect=StringUtils.join(request.getParameterValues("editroleListSelect"),"|");;
         	editdepartmentListSelect=request.getParameter("editdepartmentListSelect");
         	editstatus=request.getParameter("editstatus");
         	editgenderSelect=request.getParameter("editgenderSelect");
@@ -448,7 +488,6 @@ public class UserController {
     	try {
     		User user=new User();
         	user.setId(editUserID);
-
         	user.setRole_id(editroleListSelect);
         	user.setDepartment_id(editdepartmentListSelect);
         	user.setStatus(editstatus);
@@ -607,6 +646,8 @@ public class UserController {
   			System.out.println("role_list="+newUser.getRole_list());
   			List<MenuList> menuList=menuService.getMenu(newUser.getRole_list());
   			session.setAttribute("menuList",menuList);
+  			
+  			
   			
   			return "index";
   		}

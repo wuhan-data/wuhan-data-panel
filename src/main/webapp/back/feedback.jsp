@@ -29,7 +29,7 @@
 
 
     <style type="text/css" rel="stylesheet">
-
+		.tabel-div{width:190px; height:20px; overflow-y:scroll; border:0px solid #F00} 
 		a{
 		hover:text-decoration:none;}
         .page { float:right; margin:10px 40px; line-height:25px;}
@@ -99,7 +99,7 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.uid}</td>
-            <td >${c.title}</td>
+            <td ><div class="tabel-div">${c.title}</div></td>
             <td >${c.contact}</td>
             <td >${c.state}</td>
             <td >${c.timeString}</td>

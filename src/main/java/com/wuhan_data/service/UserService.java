@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.wuhan_data.pojo.User;
+import com.wuhan_data.tools.ThemeList;
 
 
 
@@ -38,6 +39,8 @@ public interface UserService {
 	  public void regist(User user);
 
 	  public int count();
+	  
+	 
      
 
 
