@@ -25,7 +25,7 @@
       
 
     <style type="text/css" rel="stylesheet">
-
+		.tabel-div{width:190px; height:20px; overflow-y:scroll; border:0px solid #F00} 
 		a{
 		hover:text-decoration:none;}
         .page { float:right; margin:10px 40px; line-height:25px;}
@@ -213,7 +213,7 @@
             <td >${c.id}</td>
             <td >${c.department_code}</td>
             <td >${c.department_name}</td>
-            <td >${c.department_description}</td>
+            <td ><div class="tabel-div">${c.department_description}</div></td>
             <td >
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.department_code}','${c.department_name}','${c.department_description}')">
 <i class="fa fa-edit"></i>修改

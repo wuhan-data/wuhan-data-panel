@@ -124,13 +124,13 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="5%">id</th>
-                                            <th width="10%">管理员名称</th>
-                                            <th width="10%">管理员密码</th>
-                                            <th width="5%">状态</th>
-                                            <th width="20%">管理员权限</th>
-                                            <th width="20%">创建时间</th>
-                                            <th width="30%">操作</th>
+                                            <th >id</th>
+                                            <th >管理员名称</th>
+                                            <th >管理员密码</th>
+                                            <th >状态</th>
+                                            <th >管理员权限</th>
+                                            <th >创建时间</th>
+                                            <th >操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -471,7 +471,7 @@
             	        for(j=0;j<val.length;j++){
             	            if(boxes[i].value == val[j]){
             	                boxes[i].checked = true;
-            	                break
+            	                break;
             	            }
             	        }
             	    }

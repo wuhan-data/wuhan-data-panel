@@ -1,4 +1,4 @@
-<%@page import="com.wuhan_data.pojo.Admin"%>
+<%@page import="com.wuhan_data.pojo.AnalysisTheme"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -25,7 +25,7 @@
       
 
     <style type="text/css" rel="stylesheet">
-
+		.tabel-div{width:190px; height:20px; overflow-y:scroll; border:0px solid #F00} 
 		a{
 		hover:text-decoration:none;}
         .page { float:right; margin:10px 40px; line-height:25px;}
@@ -212,9 +212,10 @@
             <td >${c.id}</td>
             <td >${c.role_code}</td>
             <td >${c.role_name}</td>
-            <td >${c.role_description}</td>
+            <td ><div class="tabel-div">${c.role_description}</div></td>
+            <%--  <td >${c.role_power_1}</td> --%>
             <td >
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.role_code}','${c.role_name}','${c.role_description}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.role_code}','${c.role_name}','${c.role_description}','${c.role_power_1}','${c.role_power_2}','${c.role_power_3}')">
 <i class="fa fa-edit"></i>修改
 </div>
 <a href="#" onclick="delClick('${c.id }','deleteRole')">
@@ -247,6 +248,33 @@
     <br>  
    角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName" readonly> <br>  
    角色描述：<textarea class="form-control" type="text" name="editRoleDescription" id="editRoleDescription" style="width:500px;height:80px;"></textarea> <br>  
+ 经济分析权限：<br>
+ <c:forEach items="${power_1}" var="c" varStatus="st">
+           		 <li>
+                        ${c.level_one}
+                        <ul >
+                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
+                            		<input type="checkbox" name="editPower_1" value="${cc.themeId}">${cc.themeName}  
+                        	 </c:forEach>
+                        </ul>
+                  </li>
+            </c:forEach> 
+            <br>
+ 专题权限：<br>
+ <c:forEach items="${power_2}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="editPower_2" value="${c.id}">${c.title}          	
+           </ul>
+ </c:forEach> 
+            <br>
+ 搜索指标权限：<br>
+ <c:forEach items="${power_3}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="editPower_3" value="${c.id}">${c.indi_name}(${c.source})     	
+           </ul>
+ </c:forEach> 
+            <br>
+			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -284,6 +312,33 @@
      角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName" onblur="checkRoleName()">
       <span id="span_roleName"></span> <br>
      角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" id="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
+    经济分析权限：<br>
+      <c:forEach items="${power_1}" var="c" varStatus="st">
+           		 <li>
+                        ${c.level_one}
+                        <ul >
+                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
+                            		<input type="checkbox" name="addPower_1" value="${cc.themeId}" checked>${cc.themeName}  
+                        	 </c:forEach>
+                        </ul>
+                  </li>
+            </c:forEach> 
+            <br>
+  专题权限：<br>
+ <c:forEach items="${power_2}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="addPower_2" value="${c.id}" checked>${c.title}          	
+           </ul>
+ </c:forEach> 
+            <br>
+ 搜索指标权限：<br>
+ <c:forEach items="${power_3}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="addPower_3" value="${c.id}" checked>${c.indi_name}(${c.source})    	
+           </ul>
+ </c:forEach> 
+            <br>
+			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -487,11 +542,58 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(id,code,name,dep){
+            function edit(id,code,name,dep,power_1,power_2,power_3){
             	$("#editRoleID").val(id);
+            	
             	$("#editRoleCode").val(code);
             	$("#editRoleName").val(name);
             	$("#editRoleDescription").val(dep);
+            	var boxes = document.getElementsByName("editPower_1");
+        	   	for(i=0;i<boxes.length;i++){  	           
+        	                boxes[i].checked = false;
+        	    }
+            	
+            	 var val = power_1.split("|");
+            	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+            	   	for(i=0;i<boxes.length;i++){
+            	        for(j=0;j<val.length;j++){
+            	            if(boxes[i].value == val[j]){
+            	                boxes[i].checked = true;
+            	                break
+            	            }
+            	        }
+            	    }
+            	   	
+            	 var boxes2 = document.getElementsByName("editPower_2");
+         	   	for(i=0;i<boxes2.length;i++){  	           
+         	                boxes2[i].checked = false;
+         	    }
+             	
+             	 var val2 = power_2.split("|");
+             	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+             	   	for(i=0;i<boxes2.length;i++){
+             	        for(j=0;j<val2.length;j++){
+             	            if(boxes2[i].value == val2[j]){
+             	                boxes2[i].checked = true;
+             	                break
+             	            }
+             	        }
+             	    }
+             	var boxes3 = document.getElementsByName("editPower_3");
+        	   	for(i=0;i<boxes3.length;i++){  	           
+        	                boxes3[i].checked = false;
+        	    }
+            	
+            	 var val3 = power_3.split("|");
+            	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+            	   	for(i=0;i<boxes3.length;i++){
+            	        for(j=0;j<val3.length;j++){
+            	            if(boxes3[i].value == val3[j]){
+            	                boxes3[i].checked = true;
+            	                break
+            	            }
+            	        }
+            	    }
                 	
             }
             function del(aid){

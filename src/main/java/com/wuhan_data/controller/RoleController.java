@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -135,6 +136,11 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
+
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -177,6 +183,9 @@ public class RoleController {
 	        page.count();
 	        map.put("page", page);
 	        List<Role> roleListByPage=roleService.listByPage(map);
+	        maView.addObject("power_1",roleService.getThemeLists());
+	        maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
 	        maView.addObject("roleListByPage", roleListByPage);
 	        maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
 	        maView.addObject("page", page); 
@@ -221,6 +230,9 @@ public class RoleController {
              map.put("page", page);
              map.put("role_name",role_name);
              List<Role> roleListByPage= roleService.search(map);//分页查询二极栏目
+             mav.addObject("power_1",roleService.getThemeLists());
+             mav.addObject("power_2",roleService.getIndexSpecials());
+             mav.addObject("power_3",roleService.getIndexManages());
              mav.addObject("roleListByPage", roleListByPage);  
              mav.addObject("page", page);
              mav.addObject("controlURL", "roleSearchPage");//控制页码传递URL
@@ -267,6 +279,9 @@ public class RoleController {
             map.put("page", page);
             map.put("role_name",role_name);
             List<Role> roleListByPage= roleService.search(map);//分页查询二极栏目
+            mav.addObject("power_1",roleService.getThemeLists());
+            mav.addObject("power_2",roleService.getIndexSpecials());
+            mav.addObject("power_3",roleService.getIndexManages());
             mav.addObject("roleListByPage", roleListByPage);  
             mav.addObject("page", page);
             mav.addObject("controlURL", "roleSearchPage");//控制页码传递URL
@@ -291,12 +306,17 @@ public class RoleController {
     	String addRoleNameString="";
     	String addRoleDescriptionString="";
     	String currentPage="";
+    	String power_1="";
+    	String power_2="";
+    	String power_3="";
     	try {
     		addRoleCodeString=request.getParameter("addRoleCode");
     		addRoleNameString=request.getParameter("addRoleName");
     		addRoleDescriptionString=request.getParameter("addRoleDescription");
     		currentPage=request.getParameter("currentPage");
-			
+    		power_1=StringUtils.join(request.getParameterValues("addPower_1"),"|");
+    		power_2=StringUtils.join(request.getParameterValues("addPower_2"),"|");
+    		power_3=StringUtils.join(request.getParameterValues("addPower_3"),"|");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:获取数据"+e.toString());
@@ -309,6 +329,9 @@ public class RoleController {
         	role.setRole_code(addRoleCodeString);
         	role.setRole_name(addRoleNameString);
         	role.setRole_description(addRoleDescriptionString);
+        	role.setRole_power_1(power_1);
+        	role.setRole_power_2(power_2);
+        	role.setRole_power_3(power_3);
         	
         	roleService.add(role);
         	Page page=new Page();
@@ -324,6 +347,9 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -368,6 +394,9 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -392,12 +421,18 @@ public class RoleController {
     	String editRoleCodeString="";
     	String editRoleNameString="";
     	String editRoleDescriptionString="";
+    	String power_1="";
+    	String power_2="";
+    	String power_3="";
     	try {
     		editRoleID=Integer.valueOf(request.getParameter("editRoleID"));
     		editRoleCodeString=request.getParameter("editRoleCode");
     		editRoleNameString=request.getParameter("editRoleName");
     		editRoleDescriptionString=request.getParameter("editRoleDescription");
     		currentPage=request.getParameter("currentPage");
+    		power_1=StringUtils.join(request.getParameterValues("editPower_1"),"|");
+    		power_2=StringUtils.join(request.getParameterValues("editPower_2"),"|");
+    		power_3=StringUtils.join(request.getParameterValues("editPower_3"),"|");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:获取数据"+e.toString());
@@ -411,6 +446,9 @@ public class RoleController {
         	role.setRole_code(editRoleCodeString);
         	role.setRole_name(editRoleNameString);
         	role.setRole_description(editRoleDescriptionString);
+        	role.setRole_power_1(power_1);
+        	role.setRole_power_2(power_2);
+        	role.setRole_power_3(power_3);
         	roleService.update(role);
         	Page page=new Page();
         	int count=roleService.count();
@@ -425,6 +463,9 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 

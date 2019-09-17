@@ -24,7 +24,6 @@
       <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
 
     <style type="text/css" rel="stylesheet">
-
 		a{
 		hover:text-decoration:none;}
         .page { float:right; margin:10px 40px; line-height:25px;}
@@ -153,20 +152,17 @@
     </form>
     </div>
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <table table-layout="fixed;" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="5%">用户id</th>
-                                            <th width="10%">联系方式</th>
-                                            <th width="5%">用户状态</th>
-                                            <th width="5%">用户性别</th>
-                                            <th width="10%">用户权限</th>
-                                            <th width="5%">角色</th>
-                                            <th width="5%">部门</th>
-                                            <th width="10%">真实姓名</th>
-                                            <th width="10%">出生日期</th>
-                                            <th width="10%">地区</th>
-                                            <th width="20%">操作</th>
+                                            <th>用户id</th>
+                                            <th>联系方式</th>
+                                            <th>用户状态</th>
+                                            <th>用户性别</th>
+                                            <th>角色</th>
+                                            <th>部门</th>
+                                            <th>真实姓名</th>
+                                            <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -189,12 +185,11 @@
             	<c:out value="男"></c:out>
             	</c:if>
             </td>
-            <td>${c.role_list}</td>
+           
             <td>${c.role_id}</td>
             <td>${c.department_id}</td>
             <td>${c.real_name}</td>
-            <td>${c.birthString}</td>
-            <td>${c.city}
+           
             <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改</div>--%>
@@ -233,9 +228,9 @@
    <br> 
    用户密码：<input class="form-control" type="text" name="editUserPassword" id="editUserPassword"> 
    <br> -->
-      手机:<input class="form-control"  name="editUserTel" id="editUserTel" readonly onblur="edit_checkUserTel()">
+    手机：<input class="form-control"  name="editUserTel" id="editUserTel" readonly onblur="edit_checkUserTel()">
     <!--  <span id="edit_span_userTel">填11位数字</span> --><br> 
-   用户状态：<select class="form-control" type="text" name="editstatus" id="editstatus"> 
+   状态：<select class="form-control" type="text" name="editstatus" id="editstatus"> 
    			<option value="0" >正常</option>    
        		<option value="1" >封禁</option>
    </select>
@@ -246,27 +241,26 @@
        		<option value="女" >女</option> 
   	</select>
   	<br>
-    用户权限:<input class="form-control" type="search"  name="editUserRole_list" id="editUserRole_list">
-     <br>
-    用户角色：
-  <select class="form-control" name="editroleListSelect" id="editroleListSelect">
-  	<c:forEach items="${roleList}" var="c" varStatus="st">
-        <option value="${c.role_name}" >${c.role_name}</option>    
-	</c:forEach>
-  </select>
-  <br>
-   用户部门：
+  部门：
   <select class="form-control"  name="editdepartmentListSelect" id="editdepartmentListSelect">
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
         <option value="${c.department_name}" >${c.department_name}</option>    
 	</c:forEach>
   </select>
   <br>
-   真实姓名:<input class="form-control"  name="editUserReal_name" id="editUserReal_name">
+    角色：<br>
+  	<c:forEach items="${roleList}" var="c" varStatus="st">
+  		<input type="checkbox" id="editroleListSelect" name="editroleListSelect" value="${c.role_name}">${c.role_name}
+	</c:forEach>
+  <br>
+ 
+   真实姓名：<input class="form-control"  name="editUserReal_name" id="editUserReal_name">
      <br>
  
       出生日期：<input class="form-control" type="date" value=""name="editBirthday" id="editBirthday"/><br>
-     地区:<input class="form-control" type="search" placeholder="地区" name="editCity" id="editCity">
+     所在地区：<input class="form-control" type="search" placeholder="地区" name="editCity" id="editCity">
+     <br>
+      <input class="form-control" type="hidden"  name="editUserRole_list" id="editUserRole_list">
      <br>
 </div>
 			<div class="modal-footer">
@@ -312,29 +306,26 @@
        		<option value="女" >女</option> 
   	</select>
   	<br>
-    用户权限:<input class="form-control" type="search" placeholder="用户权限" name="addUserRole_list" id="addUserRole_list">
-     <br>
-    用户角色：
-  <select class="form-control" id="roleListSelect" name="roleListSelect" id="roleListSelect">
-  	<c:forEach items="${roleList}" var="c" varStatus="st">
-        <option value="${c.role_name}" >${c.role_name}</option>    
-	</c:forEach>
-  </select>
-  <br>
-   用户部门：
+   部门：
   <select class="form-control" id="departmentListSelect" name="departmentListSelect" id="departmentListSelect">
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
         <option value="${c.department_name}" >${c.department_name}</option>    
 	</c:forEach>
   </select>
   <br>
-   真实姓名:<input class="form-control" type="search" placeholder="真实姓名" name="addUserReal_name" id="addUserReal_name">
+    角色：<br>
+    <c:forEach items="${roleList}" var="c" varStatus="st">
+  		<input type="checkbox" id="roleListSelect" name="roleListSelect" value="${c.role_name}">${c.role_name}
+	</c:forEach>
+  <br>
+   真实姓名：<input class="form-control" type="search" placeholder="真实姓名" name="addUserReal_name" id="addUserReal_name">
      <br>
    
      出生日期：<input class="form-control" type="date" value="2019-01-01"name="addBirthday" id="addBirthday"/><br>
-     地区:<input class="form-control" type="search" placeholder="地区" name="addCity" id="addCity">
+     所在地区：<input class="form-control" type="search" placeholder="地区" name="addCity" id="addCity">
      <br>
-  
+      <input class="form-control" type="hidden" placeholder="用户权限" name="addUserRole_list" id="addUserRole_list">
+     <br>
 </div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -610,8 +601,23 @@
             	
             	$("#editUserTel").val(tel);
             	$("#editUserReal_name").val(real_name);
-            	$("#editUserRole_list").val(role_list);
-            	$("#editroleListSelect").val(role_id);
+            	/* $("#editUserRole_list").val(role_list); */
+            	
+            	var boxes = document.getElementsByName("editroleListSelect");
+        	   	for(i=0;i<boxes.length;i++){  	           
+        	                boxes[i].checked = false;
+        	    }
+            	
+            	 var val =role_id.split("\|");
+            	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+            	   	for(i=0;i<boxes.length;i++){
+            	        for(j=0;j<val.length;j++){
+            	            if(boxes[i].value == val[j]){
+            	                boxes[i].checked = true;
+            	                break;
+            	            }
+            	        }
+            	    }
             	$("#editdepartmentListSelect").val(department_id);
             	$("#editBirthday").val(Format(birthday,"yyyy-MM-dd"));
             	$("#editCity").val(city)

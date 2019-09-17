@@ -31,6 +31,7 @@ import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.AdminService;
 import com.wuhan_data.service.AdminService;
 import com.wuhan_data.service.MenuService;
+import com.wuhan_data.service.RoleService;
 import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.service.impl.SysLogServiceImpl;
 import com.wuhan_data.tools.MenuList;
@@ -43,9 +44,14 @@ import sun.print.PSPrinterJob.PluginPrinter;;
 public class AdminController {
 	
 	@Autowired
+	RoleService roleService;
+	@Autowired
 	AdminService adminService;
 	@Autowired
 	MenuService menuService;
+	@Autowired
+	SysLogService sysLogService;
+	
 	private static String adminname="";//用于模糊查询的名字
 	@RequestMapping("listAdmin")
 	public ModelAndView listAdmin() {
@@ -378,6 +384,8 @@ public class AdminController {
 		}
     	//数据库操作
     	try {
+    		//测试日志	
+    		System.out.println(role_listString);
     		Admin admin=new Admin();
         	admin.setId(id);
         	admin.setUsername(usernameString);
@@ -432,27 +440,37 @@ public class AdminController {
 		}
     	//数据库操作
     	try {
-    		adminService.delete(id);
-        	int count=adminService.count();
-        	Page page=new Page();
-        	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
-            Pattern pattern = Pattern.compile("[0-9]{1,9}");
-            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-                page.setCurrentPage(1);
-            } else {
-                page.setCurrentPage(Integer.valueOf(currentPage));
-            }
-            page.setTotalNumber(count);
-            page.count();
-            map.put("page", page);
-            List<MenuList> allMenuList=menuService.getAllMenu();
-    		maView.addObject("allMenuList",allMenuList);
-            List<Admin> adminListByPage=adminService.listByPage(map);
-            maView.addObject("adminListByPage", adminListByPage);
-            maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
-            maView.addObject("page", page); 
-        	maView.setViewName("admin");
-        	return maView;
+    		if(id!=1) //id为1的管理员不能删除
+    		{
+	    		adminService.delete(id);
+	        	int count=adminService.count();
+	        	Page page=new Page();
+	        	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    
+	            Pattern pattern = Pattern.compile("[0-9]{1,9}");
+	            if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+	                page.setCurrentPage(1);
+	            } else {
+	                page.setCurrentPage(Integer.valueOf(currentPage));
+	            }
+	            page.setTotalNumber(count);
+	            page.count();
+	            map.put("page", page);
+	            List<MenuList> allMenuList=menuService.getAllMenu();
+	    		maView.addObject("allMenuList",allMenuList);
+	            List<Admin> adminListByPage=adminService.listByPage(map);
+	            maView.addObject("adminListByPage", adminListByPage);
+	            maView.addObject("controlURL", "adminSelectAnalysisListByPage");//控制页码传递URL
+	            maView.addObject("page", page); 
+	        	maView.setViewName("admin");
+	        	return maView;
+    		}
+    		else {
+    			maView.setViewName("error");
+    			return maView;
+    			
+    		}
+        	
+    		
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteAdmin:数据库操作"+e.toString());
@@ -495,6 +513,7 @@ public class AdminController {
 	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
 	  			System.out.println(menuList);
 	  			session.setAttribute("menuList",menuList);
+	  			
 			}
 	    	return maView;
 		} catch (Exception e) {

@@ -5,6 +5,27 @@ public class Role {
 	String role_code;
 	String  role_name;
 	String  role_description;
+	String role_power_1;
+	String role_power_2;
+	String role_power_3;
+	public String getRole_power_1() {
+		return role_power_1;
+	}
+	public void setRole_power_1(String role_power_1) {
+		this.role_power_1 = role_power_1;
+	}
+	public String getRole_power_2() {
+		return role_power_2;
+	}
+	public void setRole_power_2(String role_power_2) {
+		this.role_power_2 = role_power_2;
+	}
+	public String getRole_power_3() {
+		return role_power_3;
+	}
+	public void setRole_power_3(String role_power_3) {
+		this.role_power_3 = role_power_3;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -31,9 +52,11 @@ public class Role {
 	}
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", role_code=" + role_code + ", role_name=" + role_name +
-				", role_description=" + role_description + "]";
+		return "Role [id=" + id + ", role_code=" + role_code + ", role_name=" + role_name + ", role_description="
+				+ role_description + ", role_power_1=" + role_power_1 + ", role_power_2=" + role_power_2
+				+ ", role_power_3=" + role_power_3 + "]";
 	}
+
 	
 
 }

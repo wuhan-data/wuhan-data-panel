@@ -15,7 +15,7 @@ public class User {
     private String role_list;//权限列表
     private String role_name;//权限名称
     private Date create_time;//创建时间
-    private String role_id;
+    private String role_id;//可以有多个角色
     private String department_id;
     private Date birthday;
     private String city;

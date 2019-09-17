@@ -84,12 +84,12 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="10%">id</th>
-                                            <th width="15%">应用标识</th>
-                                            <th width="10%">操作系统</th>
-                                            <th width="10%">版本号</th>
-                                            <th width="15%">发布时间</th>
-                                            <th width="30%">操作</th>
+                                            <th >id</th>
+                                            <th >应用标识</th>
+                                            <th >操作系统</th>
+                                            <th >版本号</th>
+                                            <th >发布时间</th>
+                                            <th >操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
