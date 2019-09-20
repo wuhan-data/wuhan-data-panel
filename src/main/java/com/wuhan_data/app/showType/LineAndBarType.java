@@ -144,10 +144,38 @@ public class LineAndBarType {
 		Map<String, Object> yAxisFirstMap = new HashMap<String, Object>();
 		yAxisFirstMap.put("type", "value");
 		yAxisFirstMap.put("name", "");
-		yAxis.add(yAxisFirstMap);
 		Map<String, Object> yAxisSecondMap = new HashMap<String, Object>();
 		yAxisSecondMap.put("type", "value");
 		yAxisSecondMap.put("name", "");
+		// 配置经济分析特殊图表的y轴样式
+		List<String> boundaryGap = new ArrayList<String>();
+		switch (id) {
+		case "9":
+			yAxisFirstMap.put("scale", "true");
+			boundaryGap.add("0.1");
+			boundaryGap.add("0.1");
+			yAxisFirstMap.put("boundaryGap", boundaryGap);
+			break;
+		case "31":
+			yAxisFirstMap.put("scale", "true");
+			boundaryGap.add("0.3");
+			boundaryGap.add("0.2");
+			yAxisFirstMap.put("boundaryGap", boundaryGap);
+			break;
+		case "98":
+		case "99":
+			yAxisFirstMap.put("scale", "true");
+			break;
+		case "192":
+			yAxisFirstMap.put("scale", "true");
+			boundaryGap.add("0.00001");
+			boundaryGap.add("0");
+			yAxisFirstMap.put("boundaryGap", boundaryGap);
+			break;
+		default:
+			break;
+		}
+		yAxis.add(yAxisFirstMap);
 		yAxis.add(yAxisSecondMap);
 		lineAndBarOptionEntity.setyAxis(yAxis);
 

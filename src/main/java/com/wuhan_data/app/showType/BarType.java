@@ -143,6 +143,35 @@ public class BarType {
 		Map<String, Object> yAxisMap = new HashMap<String, Object>();
 		yAxisMap.put("type", "value");
 		yAxisMap.put("name", "");
+		// 配置经济分析特殊图表的y轴样式
+		List<String> boundaryGap = new ArrayList<String>();
+		switch (id) {
+		case "10":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.1");
+			boundaryGap.add("0.1");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		case "34":
+		case "191":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.001");
+			boundaryGap.add("0.001");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		case "119":
+		case "193":
+			yAxisMap.put("scale", "true");
+			break;
+		case "136":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.6");
+			boundaryGap.add("0.5");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		default:
+			break;
+		}
 		yAxis.add(yAxisMap);
 		barOptionEntity.setyAxis(yAxis);
 

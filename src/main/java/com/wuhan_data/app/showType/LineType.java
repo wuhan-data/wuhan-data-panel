@@ -145,6 +145,60 @@ public class LineType {
 		Map<String, Object> yAxisMap = new HashMap<String, Object>();
 		yAxisMap.put("type", "value");
 		yAxisMap.put("name", "");
+		// 配置经济分析特殊图表的y轴样式
+		List<String> boundaryGap = new ArrayList<String>();
+		switch (id) {
+		case "1":
+		case "27":
+		case "43":
+		case "45":
+		case "122":
+		case "227":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.6");
+			boundaryGap.add("0.1");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		case "209":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.3");
+			boundaryGap.add("0.3");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		case "33":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.2");
+			boundaryGap.add("0.2");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		case "46":
+		case "82":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.8");
+			boundaryGap.add("0.4");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		case "120":
+		case "123":
+		case "124":
+		case "194":
+			yAxisMap.put("scale", "true");
+			break;
+		case "167":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.9");
+			boundaryGap.add("1.1");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		case "171":
+			yAxisMap.put("scale", "true");
+			boundaryGap.add("0.001");
+			boundaryGap.add("0.001");
+			yAxisMap.put("boundaryGap", boundaryGap);
+			break;
+		default:
+			break;
+		}
 		yAxis.add(yAxisMap);
 		lineOptionEntity.setyAxis(yAxis);
 
