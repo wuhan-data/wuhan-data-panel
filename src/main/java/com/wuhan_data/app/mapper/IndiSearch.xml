@@ -17,11 +17,11 @@
       
      
       <select id="searchIndi" resultType="IndexManage" parameterType="java.util.Map">
-            select INDI_SEQ_ID as indi_code,INDI_NAME_CH as indi_name,INDICATOR_GRP20_ITEM_NAME as sjly_name2 from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where INDI_NAME_CH like CONCAT('%',#{keyWord},'%')  and INDICATOR_GRP20_ITEM_NAME=#{source} group by  indi_seq_id,INDI_NAME_CH, INDICATOR_GRP20_ITEM_NAME
+            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and sjly_name2=#{source} and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly_name2
         </select> 
         
          <select id="searchIndiAll" resultType="IndexManage" parameterType="String">
-            select INDI_SEQ_ID as indi_code,INDI_NAME_CH as indi_name,INDICATOR_GRP20_ITEM_NAME as sjly_name2 from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where INDI_NAME_CH like CONCAT('%',#{keyWord},'%') and (INDICATOR_GRP20_ITEM_NAME='湖北指数' or INDICATOR_GRP20_ITEM_NAME='国家统计局' or INDICATOR_GRP20_ITEM_NAME='湖北省统计局') group by  indi_seq_id,INDI_NAME_CH, INDICATOR_GRP20_ITEM_NAME
+            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and (sjly_name2='大数据' or sjly_name2='国家统计局' or sjly_name2='湖北省统计局') and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly_name2
         </select> 
         
 <!--        获得前十四天的搜索趋势 -->

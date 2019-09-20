@@ -78,7 +78,7 @@
         
 <!--         模拟同方数据库   -->
 		  <select id="listTF" resultType="indi_TF">
-            select indi_seq_id as indi_code,INDI_NAME_CH as indi_name,INDICATOR_GRP20_ITEM_NAME as sjly_name2 from PLATFORM1."SRIT_DATA_INDICATOR_TJ" group by  indi_seq_id,INDI_NAME_CH, INDICATOR_GRP20_ITEM_NAME  
+            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" group by indi_code,indi_name ,sjly_name2            
         </select>  
         
 <!--          <select id="listTF" resultType="indi_TF"> -->

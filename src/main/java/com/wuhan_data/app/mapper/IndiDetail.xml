@@ -26,21 +26,21 @@
 
 
   		<select id="getFreqCodeByIndiName" resultType="String" parameterType="String">
-            select INDICATOR_GRP21_ITEM_NAME as freq_code from  PLATFORM1."SRIT_DATA_INDICATOR_TJ" where INDI_NAME_CH= #{appIndiName} and INDICATOR_GRP20_ITEM_NAME=#{source} and INDICATOR_GRP23_ITEM_NAME=#{area_name} group by INDICATOR_GRP21_ITEM_NAME   
+            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and sjly_name2=#{source} and area_name=#{area_name} and group_count=0 and (time_point = '104' or time_point = '203') group by freq_code   
         </select>
 <!-- 		<select id="getFreqCodeByIndiName" resultType="String" parameterType="String"> -->
 <!--             select freq_code from  indi_all where indi_name= #{appIndiName} and sjly=#{source} group by freq_code    -->
 <!--         </select> -->
         
 		 <select id="indiDateByFreqName" resultType="String" parameterType="java.util.Map" >
-            select DATA_TIME_NAME as date_code from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where INDI_NAME_CH= #{appIndiName} and INDICATOR_GRP21_ITEM_NAME=#{freqCode} and INDICATOR_GRP20_ITEM_NAME=#{source} and INDICATOR_GRP23_ITEM_NAME=#{area_name} group by DATA_TIME_NAME 
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly_name2=#{source} and group_count=0 and area_name=#{area_name} and (time_point = '104' or time_point = '203') group by date_code 
         </select> 
 <!--  		<select id="indiDateByFreqName" resultType="String" parameterType="java.util.Map" > -->
 <!--             select date_code from indi_all where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly=#{source} group by date_code  -->
 <!--         </select>  -->
         
          <select id="getIndiValue" resultType="TPIndiValue" parameterType="java.util.Map" >
-            select VALUE as indi_value,DATA_TIME_NAME as date_code from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where INDI_NAME_CH= #{appIndiName} and INDICATOR_GRP23_ITEM_NAME=#{area_name} and INDICATOR_GRP21_ITEM_NAME=#{freqCode} and DATA_TIME_NAME &lt;= #{endTime} and DATA_TIME_NAME &gt;= #{startTime} and INDICATOR_GRP20_ITEM_NAME=#{source}
+            select indi_value,time_point,date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and area_name=#{area_name} and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_name2=#{source} and (time_point = '104' or time_point = '203') and group_count=0
         </select> 
 <!--  		<select id="getIndiValue" resultType="TPIndiValue" parameterType="java.util.Map" > -->
 <!--             select indi_value,time_point,date_code from indi_all where indi_name= #{appIndiName} and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly=#{source} -->

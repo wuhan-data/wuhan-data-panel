@@ -171,7 +171,7 @@ public class IndiSearchAppController {
 //			paraMap.put("beforeDate", calendar.getTime());
 			String trendSource = indiSearchService.getTrendSource(paraMap);
 			switch (trendSource) {
-			case "湖北指数":
+			case "大数据":
 				trendSource = "大数据";
 				break;
 			case "国家统计局":
@@ -241,11 +241,11 @@ public class IndiSearchAppController {
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
-		
+
 		// 获得搜索的所有来源（如湖北统计局，国家统计局等）
 		switch (source) {
 		case "大数据":
-			source = "湖北指数";
+			source = "大数据";
 			break;
 		case "国统":
 			source = "国家统计局";
@@ -283,7 +283,7 @@ public class IndiSearchAppController {
 			if(is_show==0)
 			{
 				switch (searchIndiList.get(i).getSjly_name2()) {
-				case "湖北指数":
+				case "大数据":
 					teMap.put("source", "大数据");
 					break;
 				case "国家统计局":
@@ -315,49 +315,47 @@ public class IndiSearchAppController {
 		return param;
 	}
 
-	
-	
 	@RequestMapping(value = "searchDetail", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String indiDetail() {
-//		JSONObject requestObject = JSONObject.parseObject(resquestParams);@RequestBody String resquestParams
+	public String indiDetail(@RequestBody String resquestParams) {
+		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String token = "";
-		String indexCode = "ACMR343309010101";
-		String source = "国家统计局";
+		String indexCode = "";
+		String source = "";
 		Integer userId = 0;
-//		Map<String, Object> data = new HashMap<String, Object>();
-//		try {
-//			try {
-//				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
-//			} catch (Exception e) {
-//				return this.apiReturn("-1", "参数获取异常", data);
-//			}
-//
-//			try {
-//				if (!token.equals("")) {
-//					String mapString = sessionSQLServiceApp.get(token).getSess_value();
-//					Map mapS = StringToMap.stringToMap(mapString);
-//					userId = Integer.valueOf((String) mapS.get("userId"));
-//				}
-//			} catch (Exception e) {
-//				System.out.println("无效的token令牌");
-//			}
-//			
-//			
-//			boolean hasIndexCode = requestObject.containsKey("indexId");
-//			if (!hasIndexCode) {
-//				return this.apiReturn("-1", "需要指定栏目id", data);
-//			}
-//			indexCode = requestObject.get("indexId").toString();
-//
-//			boolean hasSource = requestObject.containsKey("source");
-//			if (!hasSource) {
-//				return this.apiReturn("-1", "需要指定数据来源", data);
-//			}
-//			source = requestObject.get("source").toString();
-//		} catch (Exception e) {
-//			return this.apiReturn("-1", "参数获取异常", data);
-//		}
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			try {
+				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+			} catch (Exception e) {
+				return this.apiReturn("-1", "参数获取异常", data);
+			}
+
+			try {
+				if (!token.equals("")) {
+					String mapString = sessionSQLServiceApp.get(token).getSess_value();
+					Map mapS = StringToMap.stringToMap(mapString);
+					userId = Integer.valueOf((String) mapS.get("userId"));
+				}
+			} catch (Exception e) {
+				System.out.println("无效的token令牌");
+			}
+			
+			
+			boolean hasIndexCode = requestObject.containsKey("indexId");
+			if (!hasIndexCode) {
+				return this.apiReturn("-1", "需要指定栏目id", data);
+			}
+			indexCode = requestObject.get("indexId").toString();
+
+			boolean hasSource = requestObject.containsKey("source");
+			if (!hasSource) {
+				return this.apiReturn("-1", "需要指定数据来源", data);
+			}
+			source = requestObject.get("source").toString();
+		} catch (Exception e) {
+			return this.apiReturn("-1", "参数获取异常", data);
+		}
 
 		// 获得指标的年季度范围@RequestBody String json
 //		JSONObject jsonObject = JSONObject.fromObject(json);
@@ -384,7 +382,7 @@ public class IndiSearchAppController {
 		baseInfoMap.put("source", source);
 		switch (source) {
 		case "大数据":
-			source = "湖北指数";
+			source = "大数据";
 			area_name = "湖北省";
 			break;
 		case "国统":
@@ -425,18 +423,17 @@ public class IndiSearchAppController {
 		List<Map> timeCondition = new ArrayList();
 		for (int i = 0; i < freqCodeList.size(); i++) {
 			Map timeMap = new HashMap();
-			timeMap.put("freqName", freqCodeList.get(i));
-//			switch (freqCodeList.get(i)) {
-//			case "MM":
-//				timeMap.put("freqName", "月度");
-//				break;
-//			case "SS":
-//				timeMap.put("freqName", "季度");
-//				break;
-//			default:
-//				timeMap.put("freqName", "年度");
-//				break;
-//			}
+			switch (freqCodeList.get(i)) {
+			case "MM":
+				timeMap.put("freqName", "月度");
+				break;
+			case "SS":
+				timeMap.put("freqName", "季度");
+				break;
+			default:
+				timeMap.put("freqName", "年度");
+				break;
+			}
 
 			// 查询日期范围
 			Map ParaMap = new HashMap();// 获取日期参数范围的参数map
@@ -448,12 +445,12 @@ public class IndiSearchAppController {
 			Collections.sort(indiDateList);
 			System.out.println("timeRange:" + indiDateList);
 
-//			List<String> newindiDateList = new ArrayList<String>();
-//			for (int k = 0; k < indiDateList.size(); k++) {
-//				newindiDateList.add(indiDateList.get(k).substring(0, 4) + "/" + indiDateList.get(k).substring(4, 6));
-//			}
-			timeMap.put("startArray", indiDateList);// 开始时间范围
-			timeMap.put("endArray", indiDateList);// 结束时间范围
+			List<String> newindiDateList = new ArrayList<String>();
+			for (int k = 0; k < indiDateList.size(); k++) {
+				newindiDateList.add(indiDateList.get(k).substring(0, 4) + "/" + indiDateList.get(k).substring(4, 6));
+			}
+			timeMap.put("startArray", newindiDateList);// 开始时间范围
+			timeMap.put("endArray", newindiDateList);// 结束时间范围
 			if (i == 0) {
 				List currentList = new ArrayList();
 				if (indiDateList.size() >= 8) {
@@ -524,54 +521,54 @@ public class IndiSearchAppController {
 		System.out.println("defaultIndiValueList:" + defaultIndiValueList);
 		System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
 		// 对查询出的指标值根据不同的时点分类
-//		TreeMap<String, ArrayList<TPIndiValue>> tm = new TreeMap<String, ArrayList<TPIndiValue>>();
-//		for (int i = 0; i < defaultIndiValueList.size(); i++) {
-//			TPIndiValue tv = defaultIndiValueList.get(i);
-//			if (tm.containsKey(tv.getTime_point())) {
-//				ArrayList<TPIndiValue> l11 = (ArrayList<TPIndiValue>) tm.get(tv.getTime_point());
-//				l11.add(tv);
-//			} else {
-//				ArrayList tem = new ArrayList();
-//				tem.add(tv);
-//				tm.put(tv.getTime_point(), tem);
-//			}
-//		}
-//		Set<String> set = tm.keySet();
-//		legendData1.addAll(set);
+		TreeMap<String, ArrayList<TPIndiValue>> tm = new TreeMap<String, ArrayList<TPIndiValue>>();
+		for (int i = 0; i < defaultIndiValueList.size(); i++) {
+			TPIndiValue tv = defaultIndiValueList.get(i);
+			if (tm.containsKey(tv.getTime_point())) {
+				ArrayList<TPIndiValue> l11 = (ArrayList<TPIndiValue>) tm.get(tv.getTime_point());
+				l11.add(tv);
+			} else {
+				ArrayList tem = new ArrayList();
+				tem.add(tv);
+				tm.put(tv.getTime_point(), tem);
+			}
+		}
+		Set<String> set = tm.keySet();
+		legendData1.addAll(set);
 
 		// 创建数据列表
 
-//		for (int i = 0; i < legendData1.size(); i++) {
+		for (int i = 0; i < legendData1.size(); i++) {
 			List<List<String>> dataV = new ArrayList();
 			List<List<String>> dataX = new ArrayList();
-//			List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData1.get(i));
-			List<TPIndiValue> tempList = defaultIndiValueList;
+			List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData1.get(i));
 			List<String> dataList = new ArrayList();
 			List<String> dateList = new ArrayList();
 			List<String> legendList = new ArrayList();
 			if (tempList.size() >= 8) {
 				for (int j = 0; j < 8; j++) {// tempList.size()
 
-					dateList.add(tempList.get(j).getDate_code());
+					dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+							+ tempList.get(j).getDate_code().substring(4, 6));
 					dataList.add(tempList.get(j).getIndi_value());
 				}
 			} else {
 				for (int j = 0; j < tempList.size(); j++) {// tempList.size()
 
-					dateList.add(tempList.get(j).getDate_code());
+					dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+							+ tempList.get(j).getDate_code().substring(4, 6));
 					dataList.add(tempList.get(j).getIndi_value());
 				}
 			}
-//			String showName;
-//			if (legendData1.get(i).equals("104")) {
-//				showName = "本期";
-//			} else if (legendData1.get(i).equals("203")) {
-//				showName = "自年初累计";
-//			} else {
-//				showName = "其他";
-//			}
-//			legendList.add(appIndiName + "-" + showName);
-			legendList.add(appIndiName);
+			String showName;
+			if (legendData1.get(i).equals("104")) {
+				showName = "本期";
+			} else if (legendData1.get(i).equals("203")) {
+				showName = "自年初累计";
+			} else {
+				showName = "其他";
+			}
+			legendList.add(appIndiName + "-" + showName);
 			dataV.add(dataList);
 			dataX.add(dateList);
 			List<String> showColor = new ArrayList<String>();
@@ -580,29 +577,29 @@ public class IndiSearchAppController {
 			{
 				// 创建折线图
 				LineType lineType = new LineType();
-				LineEntity lineEntity = lineType.getOption(Integer.toString(1), appIndiName ,
+				LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
 						dataX.get(0), legendList, dataV, showColor, showType);
 
 				// 创建表格
 				TableType tableType = new TableType();
-				TableEntity tableEntity = tableType.getTable(Integer.toString(2), appIndiName,
+				TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
 						dataX, legendList, dataV);// 表格
 				classInfoList.add(lineEntity);
 				classInfoList.add(tableEntity);
 			}
 			else
 			{
-				if (1==1) {
+				if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
 					// 创建柱状图
 					BarType barType = new BarType();// 柱状图
 					System.out.println("legendList长度:" + legendList.size());
-					BarEntity barEntity = barType.getOption(Integer.toString(1), appIndiName ,
+					BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
 							dataX.get(0), legendList, dataV, showColor, showType);
 					classInfoList.add(barEntity);
 
 					// 创建表格
 					TableType tableType = new TableType();
-					TableEntity tableEntity = tableType.getTable(Integer.toString(2), appIndiName,
+					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
 							dataX, legendList, dataV);// 表格
 					System.out.println("yes or no:" + tableEntity.getTableBody());
 					classInfoList.add(tableEntity);
@@ -610,12 +607,12 @@ public class IndiSearchAppController {
 					// TODO 其他情况
 					// 创建折线图
 					LineType lineType = new LineType();
-					LineEntity lineEntity = lineType.getOption(Integer.toString(1), appIndiName,
+					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
 							dataX.get(0), legendList, dataV, showColor, showType);
 
 					// 创建表格
 					TableType tableType = new TableType();
-					TableEntity tableEntity = tableType.getTable(Integer.toString(2), appIndiName,
+					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
 							dataX, legendList, dataV);// 表格
 					classInfoList.add(lineEntity);
 					classInfoList.add(tableEntity);
@@ -623,7 +620,7 @@ public class IndiSearchAppController {
 				}
 			}
 			
-//		}
+		}
 
 		Map finData = new HashMap();
 		finData.put("baseInfo", baseInfoMap);
