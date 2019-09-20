@@ -38,8 +38,10 @@ import com.wuhan_data.app.showType.pojo.TableEntity;
 import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiTime;
 import com.wuhan_data.pojo.AnalysisIndiValue;
+import com.wuhan_data.pojo.AnalysisLabel;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
+import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.Collect;
 
 import cn.hutool.core.lang.Console;
@@ -54,53 +56,59 @@ public class AnalysisServiceImpl implements AnalysisService {
 	CollectMapperApp collectMapperApp;
 
 	@Override
-	public ArrayList<Object> getAnalysisList(int userId) {
+	public ArrayList<Object> getAnalysisList(int userId, int typeId) {
+		System.out.println("用户Id:" + userId + "一级栏目Id:" + typeId);
 		// 处理经济分析栏目列表
 		ArrayList<Object> result = new ArrayList<Object>();
-		List<AnalysisTheme> typeList = analysisMapper.getAnalysisList();
+		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList(typeId);
 		for (int i = 0; i < typeList.size(); i++) {
-			Map<String, Object> subListMap = new HashMap<String, Object>();
-			subListMap.put("listId", typeList.get(i).getListId());
-			subListMap.put("listName", typeList.get(i).getListName());
-			ArrayList<Object> subList = this.getAnalysisSubList(typeList.get(i).getListId(), userId);
-			subListMap.put("subList", subList);
-			result.add(subListMap);
+			Map<String, Object> typeListMap = new HashMap<String, Object>();
+			typeListMap.put("typeId", typeList.get(i).getTypeId());
+			typeListMap.put("typeName", typeList.get(i).getTypeName());
+			ArrayList<Object> labelList = this.getAnalysisLabelList(userId, typeList.get(i).getTypeId());
+			typeListMap.put("labelList", labelList);
+			result.add(typeListMap);
 		}
 		return result;
 	}
 
 	@Override
-	public ArrayList<Object> getAnalysisSubList(int typeId, int userId) {
+	public ArrayList<Object> getAnalysisLabelList(int userId, int typeId) {
+		ArrayList<Object> result = new ArrayList<Object>();
+		// 从数据库获取分类标签数据
+		List<AnalysisLabel> labelList = analysisMapper.getAnalysisLabelList(typeId);
+		for (int i = 0; i < labelList.size(); i++) {
+			Map<String, Object> labelListMap = new HashMap<String, Object>();
+			String labelName = labelList.get(i).getLabelName().toString();
+			ArrayList<Object> themeList = this.getAnalysisThemeList(userId, labelList.get(i).getLabelId());
+			labelListMap.put("themeList", themeList);
+			result.add(labelListMap);
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<Object> getAnalysisThemeList(int userId, int labelId) {
 		ArrayList<Object> result = new ArrayList<Object>();
 		// 从数据库获取二级栏目数据
-		List<AnalysisTheme> subListTemp = analysisMapper.getAnalysisSubList(typeId);
+		List<AnalysisTheme> themeListTemp = analysisMapper.getAnalysisThemeList(labelId);
 		// 根据roleList 选择性的给栏目数据
 		ArrayList<String> roleList = new ArrayList<String>();
 		if (userId != 0) {
 			// TODO 根据用户userId获取对应的role_list
-//			roleList.add("analysis_zonghe");
+			roleList.add("1");
+			roleList.add("2");
 		}
 		// 根据权限列表筛选二级栏目数据
-		List<AnalysisTheme> subList = this.getAnalysisRoleList(subListTemp, roleList);
+		List<AnalysisTheme> themeList = this.getAnalysisRoleList(themeListTemp, roleList);
 		// 获取收藏信息，构建二级栏目数据集
-		for (int i = 0; i < subList.size(); i++) {
-			Map<String, Object> subListMap = new HashMap<String, Object>();
-			String indexId = subList.get(i).getThemeId().toString();
-			String indexName = subList.get(i).getThemeName().toString();
-			subListMap.put("indexId", indexId);
-			subListMap.put("indexName", indexName);
-			// 从用户收藏表获取指标收藏信息
-			Collect collect = new Collect();
-			collect.setType("经济分析");
-			collect.setIndex_id(indexId);
-			collect.setUid(userId);
-			List<Integer> collectInfo = collectMapperApp.getTypeCollect(collect);
-			if (collectInfo.size() != 0) {
-				subListMap.put("isFavorite", true);
-			} else {
-				subListMap.put("isFavorite", false);
-			}
-			result.add(subListMap);
+		for (int i = 0; i < themeList.size(); i++) {
+			Map<String, Object> themeListMap = new HashMap<String, Object>();
+			String indexId = themeList.get(i).getThemeId().toString();
+			String indexName = themeList.get(i).getThemeName().toString();
+			themeListMap.put("indexId", indexId);
+			themeListMap.put("indexName", indexName);
+			result.add(themeListMap);
 		}
 		return result;
 	}
@@ -111,40 +119,22 @@ public class AnalysisServiceImpl implements AnalysisService {
 	 * @return
 	 */
 	@Override
-	public List<AnalysisTheme> getAnalysisRoleList(List<AnalysisTheme> subList, ArrayList<String> roleList) {
+	public List<AnalysisTheme> getAnalysisRoleList(List<AnalysisTheme> themeList, ArrayList<String> roleList) {
 		List<AnalysisTheme> result = new ArrayList<AnalysisTheme>();
 		if (roleList.isEmpty()) {
-			return subList;
+			return themeList;
 		}
-		for (int i = 0; i < roleList.size(); i++) {
-			String roleName = roleList.get(i);
-			switch (roleName) {
-			case "analysis_zonghe":
-				for (int j = 0; j < subList.size(); j++) {
-					String isShow = subList.get(j).getIsShow().toString();
-					String listName = subList.get(j).getListName().toString();
-					if (listName.equals("综合")) {
-						if (isShow.equals("0") || isShow.equals("9")) {
-							result.add(subList.get(j));
-						}
-					} else {
-						if (isShow.equals("0")) {
-							result.add(subList.get(j));
-						}
-					}
+		for (int j = 0; j < themeList.size(); j++) {
+			String themeId = themeList.get(j).getThemeId().toString();
+			String isShow = themeList.get(j).getIsShow().toString();
+			if (Arrays.asList(roleList).contains(themeId)) {
+				if (isShow.equals("0") || isShow.equals("9")) {
+					result.add(themeList.get(j));
 				}
-				break;
-
-			// TODO 对更多权限的判断和处理
-
-			default:
-				for (int j = 0; j < subList.size(); j++) {
-					String isShow = subList.get(j).getIsShow().toString();
-					if (isShow.equals("0")) {
-						result.add(subList.get(j));
-					}
+			} else {
+				if (isShow.equals("0")) {
+					result.add(themeList.get(j));
 				}
-				break;
 			}
 		}
 		return result;
@@ -165,11 +155,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 		// 根据themeId查询analysis_theme表中的信息
 		List<AnalysisTheme> baseInfoList = analysisMapper.getThemeBaseInfo(themeId);
 		String indexName = baseInfoList.get(0).getThemeName();
-		String source = baseInfoList.get(0).getListName();
 		Map<String, Object> baseInfo = new HashMap<String, Object>();
 		baseInfo.put("indexId", themeId);
 		baseInfo.put("indexName", indexName);
-		baseInfo.put("source", source);
 		// 根据userId/type/indexId查询收藏信息
 		try {
 			Collect collect = new Collect();

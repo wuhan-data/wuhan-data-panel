@@ -9,9 +9,11 @@ import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 
 public interface AnalysisService {
-	public ArrayList<Object> getAnalysisList(int userId); // 经济分析一级栏目列表接口
+	public ArrayList<Object> getAnalysisList(int userId, int typeId); // 经济分析一级栏目列表接口
+	
+	public ArrayList<Object> getAnalysisLabelList(int userId, int typeId); // 经济分析分类标签列表接口
 
-	public ArrayList<Object> getAnalysisSubList(int typeId, int userId); // 经济分析二级栏目列表接口
+	public ArrayList<Object> getAnalysisThemeList(int userId, int labelId); // 经济分析二级栏目列表接口
 
 	public List<AnalysisTheme> getAnalysisRoleList(List<AnalysisTheme> subList, ArrayList<String> roleList);
 
