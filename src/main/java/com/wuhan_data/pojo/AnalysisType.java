@@ -5,7 +5,7 @@ public class AnalysisType {
 	String typeName; // 一级栏目名称
 	Integer typeWeight; // 一级栏目权重
 	String background; // icon背景颜色
-	String icon_url; // icon图片路径
+	String iconUrl; // icon图片路径
 	Integer isShow; // 是否展示 0-正常 1-不展示 9-权限限制
 
 	public Integer getTypeId() {
@@ -25,7 +25,7 @@ public class AnalysisType {
 	}
 	
 	public String getIconUrl() {
-		return icon_url;
+		return iconUrl;
 	}
 	
 	public Integer getIsShow() {
