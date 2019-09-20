@@ -46,7 +46,7 @@
 		is_show as isShow
 		FROM WUHAN_DATA."ANALYSIS_THEME"
 		WHERE
-		type_id = #{label_id} AND
+		label_id = #{label_id} AND
 		(is_show = 0 OR is_show = 9)
 		ORDER BY theme_weight ASC
 	</select>
