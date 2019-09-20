@@ -57,6 +57,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 	@Override
 	public ArrayList<Object> getAnalysisList(int userId, int typeId) {
+		System.out.println("用户Id:" + userId + "一级栏目Id:" + typeId);
 		// 处理经济分析栏目列表
 		ArrayList<Object> result = new ArrayList<Object>();
 		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList(typeId);
@@ -70,7 +71,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public ArrayList<Object> getAnalysisLabelList(int userId, int typeId) {
 		ArrayList<Object> result = new ArrayList<Object>();
