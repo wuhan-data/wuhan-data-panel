@@ -37,10 +37,12 @@ public class AnalysisController {
 	public String getAnalysisList(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String token = "";
+		String typeId = "";
 		Integer userId = 0;
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+			typeId = requestObject.containsKey("typeId") == false ? "1" : requestObject.get("typeId").toString();
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
@@ -59,7 +61,7 @@ public class AnalysisController {
 		ArrayList<Object> analysisList = new ArrayList<Object>();
 
 //		try {
-		analysisList = analysisService.getAnalysisList(userId);
+		analysisList = analysisService.getAnalysisList(userId, Integer.parseInt(typeId));
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}

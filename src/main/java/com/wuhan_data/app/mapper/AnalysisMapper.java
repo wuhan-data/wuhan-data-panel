@@ -6,17 +6,22 @@ import java.util.Map;
 import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisIndiTime;
 import com.wuhan_data.pojo.AnalysisIndiValue;
+import com.wuhan_data.pojo.AnalysisLabel;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
+import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.Collect;
 import com.wuhan_data.tools.DataSource;
 
 public interface AnalysisMapper {
 	@DataSource(value = "dataSource_dm")
-	public List<AnalysisTheme> getAnalysisList(); // 查询经济分析一级栏目列表
+	public List<AnalysisType> getAnalysisTypeList(int typeId); // 查询经济分析一级栏目列表
+	
+	@DataSource(value = "dataSource_dm")
+	public List<AnalysisLabel> getAnalysisLabelList(int typeId); // 查询经济分析标签分类列表
 
 	@DataSource(value = "dataSource_dm")
-	public List<AnalysisTheme> getAnalysisSubList(int typeId); // 查询经济分析二级栏目列表
+	public List<AnalysisTheme> getAnalysisThemeList(int labelId); // 查询经济分析二级栏目列表
 
 	@DataSource(value = "dataSource_dm")
 	public List<AnalysisPlate> getAnalysisPlate(int themeId); // 查询指定经济分析栏目下所有版块

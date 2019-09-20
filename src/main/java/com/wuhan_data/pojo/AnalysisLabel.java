@@ -7,7 +7,7 @@ public class AnalysisLabel {
 	Integer labelWeight; // 分类标签权重
 	Integer isShow; // 是否展示 0-正常 1-不展示 9-权限限制
 
-	public Integer geLabelId() {
+	public Integer getLabelId() {
 		return labelId;
 	}
 	
