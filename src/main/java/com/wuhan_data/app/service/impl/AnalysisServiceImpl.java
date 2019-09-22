@@ -56,11 +56,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 	CollectMapperApp collectMapperApp;
 
 	@Override
-	public ArrayList<Object> getAnalysisList(int userId, int typeId) {
-		System.out.println("用户Id:" + userId + "一级栏目Id:" + typeId);
+	public ArrayList<Object> getAnalysisList(int userId) {
+		System.out.println("用户Id:" + userId);
 		// 处理经济分析栏目列表
 		ArrayList<Object> result = new ArrayList<Object>();
-		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList(typeId);
+		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList();
 		for (int i = 0; i < typeList.size(); i++) {
 			Map<String, Object> typeListMap = new HashMap<String, Object>();
 			typeListMap.put("typeId", typeList.get(i).getTypeId());
@@ -80,6 +80,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		for (int i = 0; i < labelList.size(); i++) {
 			Map<String, Object> labelListMap = new HashMap<String, Object>();
 			String labelName = labelList.get(i).getLabelName().toString();
+			labelListMap.put("labelName", labelName);
 			ArrayList<Object> themeList = this.getAnalysisThemeList(userId, labelList.get(i).getLabelId());
 			labelListMap.put("themeList", themeList);
 			result.add(labelListMap);

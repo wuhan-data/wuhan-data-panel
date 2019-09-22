@@ -15,7 +15,7 @@ import com.wuhan_data.tools.DataSource;
 
 public interface AnalysisMapper {
 	@DataSource(value = "dataSource_dm")
-	public List<AnalysisType> getAnalysisTypeList(int typeId); // 查询经济分析一级栏目列表
+	public List<AnalysisType> getAnalysisTypeList(); // 查询经济分析一级栏目列表
 	
 	@DataSource(value = "dataSource_dm")
 	public List<AnalysisLabel> getAnalysisLabelList(int typeId); // 查询经济分析标签分类列表
