@@ -229,7 +229,6 @@ public class IndiSearchAppController {
 				return this.apiReturn("-1", "需要指定关键词", data);
 			}
 			keyWord = requestObject.get("keyword").toString();
-
 			boolean hasSource = requestObject.containsKey("source");
 			if (!hasSource) {
 				return this.apiReturn("-1", "需要指定数据来源", data);
@@ -258,56 +257,56 @@ public class IndiSearchAppController {
 		System.out.println("转换前："+keyWord);
 		keyWord = keyWord.toUpperCase();
 		System.out.println("转换后："+keyWord);
-		//List<IndexManage> searchIndiList;
+		List<IndexManage> searchIndiListG = new ArrayList();
+		List<IndexManage> searchIndiListH = new ArrayList();
 		if (source.equals("全部")) {
 			//来自国统的数据
-			List<IndexManage> searchIndiListG;
 			searchIndiListG = indiSearchService.searchIndiG(keyWord);
 			//查询来自湖统的数据
-			List<IndexManage> searchIndiListH;
+			searchIndiListH = indiSearchService.searchIndiH(keyWord);	
+		}
+		else if(source.equals("湖统")){
 			searchIndiListH = indiSearchService.searchIndiH(keyWord);
-			
 		}
-		else {
-			Map paraMap = new HashMap();
-			paraMap.put("keyWord", keyWord);
-			paraMap.put("source", source);
-			searchIndiList = indiSearchService.searchIndi(paraMap);
-		}
-
+		else
+			searchIndiListG = indiSearchService.searchIndiG(keyWord);
+		
 		List resultList = new ArrayList();
-		for (int i = 0; i < searchIndiList.size(); i++) {
-			Map teMap = new HashMap();
-			/*判断该指标是否允许展示*/
-			Map indiNameAndSourceMap = new HashMap();
-			indiNameAndSourceMap.put("indi_name", searchIndiList.get(i).getIndi_name());
-			indiNameAndSourceMap.put("source", searchIndiList.get(i).getSjly_name2());
-			int is_show = indiDetailService.getIndexStatus(indiNameAndSourceMap);
-			if(is_show==0)
+		//放入来自国统的指标数据
+		for(int i=0;i<searchIndiListG.size();i++)
+		{
+			if(searchIndiListG.get(i).getIs_show().equals("0"))
 			{
-				switch (searchIndiList.get(i).getSjly_name2()) {
-				case "大数据":
-					teMap.put("source", "大数据");
-					break;
-				case "国家统计局":
-					teMap.put("source", "国统");
-					break;
-				case "湖北省统计局":
-					teMap.put("source", "湖统");
-					break;
-				default:
-					teMap.put("source", "其他");
-					break;
-				}
-				String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
-				teMap.put("id", indexCode);
-				teMap.put("name", searchIndiList.get(i).getIndi_name());
+				Map teMap = new HashMap();
+				teMap.put("id", i);
+				teMap.put("name", searchIndiListG.get(i).getIndi_name());
+				teMap.put("path", searchIndiListG.get(i).getLj());
+				teMap.put("isArea", 0);
+				teMap.put("source", "国统");
 				resultList.add(teMap);
-				System.out.println(searchIndiList.get(i));
 			}
-			
 		}
-
+		//放入来自湖统的数据
+		for(int i=0;i<searchIndiListH.size();i++)
+		{
+			if(searchIndiListH.get(i).getIs_show().equals("0"))
+			{
+				Map teMap = new HashMap();
+				teMap.put("id", i+searchIndiListG.size());
+				teMap.put("name", searchIndiListH.get(i).getIndi_name());
+				teMap.put("path", searchIndiListH.get(i).getLj());
+				//判断是否有地市级数据
+				int is_Area = indiSearchService.getIsArea(searchIndiListH.get(i));
+				if(is_Area>0)
+				{
+					teMap.put("isArea", 1);
+				}
+				else
+					teMap.put("isArea", 0);
+				teMap.put("source", "湖统");
+				resultList.add(teMap);
+			}
+		}
 		Map dataMap = new HashMap();
 		dataMap.put("result", resultList);
 		Map map = new HashMap();
