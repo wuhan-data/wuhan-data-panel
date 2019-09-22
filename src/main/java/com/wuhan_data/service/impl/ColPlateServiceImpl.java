@@ -64,4 +64,16 @@ public class ColPlateServiceImpl implements ColPlateService {
 		return colPlateMapper.getAddCname(cid);
 	}
 
+	@Override
+	public int updateWeight(Map map) {
+		// TODO Auto-generated method stub
+		return colPlateMapper.updateWeight(map);
+	}
+
+	@Override
+	public int getPid(Map map) {
+		// TODO Auto-generated method stub
+		return colPlateMapper.getPid(map);
+	}
+
 }

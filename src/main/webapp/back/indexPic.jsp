@@ -13,6 +13,7 @@
     <title>WUHANDATA</title>
 	<!-- Bootstrap Styles-->
     <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/bootstrapValidator.css" rel="stylesheet" />
      <!-- FontAwesome Styles-->
     <link href="<%=path %>/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
@@ -51,8 +52,18 @@
         #addElement{
         margin-bottom:10px;
         }
-        
-       
+        .tdiamge div{
+        width:300px;
+        text-align:center;
+        margin:auto;
+        word-wrap:break-word;  
+    	word-break:break-all;
+    	overflow: hidden; 
+        }
+        td,th{
+        text-align:center;
+        }
+              
 
     </style>
 </head>
@@ -91,18 +102,16 @@
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form> -->
   
-  </div>
-
-    
+  </div>   
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="3%">id</th>
-                                            <th width="22%">名称</th>
-                                            <th width="15%">路径</th>
-                                            <th width="10%">图片</th>
-                                            <th width="50%">操作</th>
+                                            <th>id</th>
+                                            <th>名称</th>
+                                            <th>路径</th>
+                                            <th>图片</th>
+                                            <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -110,9 +119,9 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.title}</td>
-            <td>${c.image}</td>
+            <td class="tdiamge"><div>${c.image}</div></td>
             <td ><img src="${c.image}" width="80" height="42"></td>
-            <td width=40%>
+            <td>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
@@ -337,17 +346,18 @@
       <!-- Custom Js -->
     <script src="<%=path %>/assets/js/custom-scripts.js"></script>
     
+   
+    
     <script src="<%=path %>/assets/js/bootstrap-switch.min.js"></script>
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
     <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
-            $(document).ready(function () {
-              
-               
-            });
            
+            
+
+            
             editClick = function(Url) {
           	   $('.modal-backdrop').remove();
           	    $('body').removeClass('modal-open');
@@ -371,7 +381,7 @@
           	            
              addClick = function(Url) {
           	   $('.modal-backdrop').remove();
-          	    $('body').removeClass('modal-open');
+          	    $('body').removeClass('modal-open');          	    
                	var data = new FormData(document.getElementById("addForm"));
                	 $.ajax({
                           type: 'POST',

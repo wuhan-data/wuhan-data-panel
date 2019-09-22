@@ -19,15 +19,24 @@ public interface SpecialMapper {
 	
 	public int updateTitle(IndexSpecial indexSpecial); //更新专题名称
 	
-	public List<IndexSpecial> getlist(Map map);//分页查找所有专题
+	public List<IndexSpecial> getlist(Map<String,Object> map);//分页查找所有专题
 	
 	public int total();//查询专题数量
 	
 	public int updateShow(IndexSpecial indexSpecial);  //管理专题显示与否
 	
+	public int updateShowType(IndexSpecial indexSpecial);  //管理专题显示方式
+	
 	public String getSname(int id);//得到专题名称
 	
 	public int reOrderByTitle(IndexSpecial indexSpecial);//重置一级标题排序
+	
+	public int getSpecialId(Map<String,Object> map);
+	
+	public int updateWeight(Map<String,Object> map);
+	
+	public int getMaxWeight();
+	
 	
 	
 

@@ -47,6 +47,43 @@
         #addElement{
         margin-bottom:10px;
         }
+        
+       .tdiamge div{
+       /*  width:200px;
+        height:50px; */
+        text-align:center;
+        margin:auto;
+        word-wrap:break-word;  
+    	word-break:break-all;
+    	overflow: auto; 
+        }
+        .tdfile div{
+       /*  width:200px;
+        height:50px; */
+        text-align:center;
+        margin:auto;
+        word-wrap:break-word;  
+    	word-break:break-all;
+    	overflow: auto; 
+        }
+        
+        td,th{
+        text-align:center;
+        }
+        
+         #dataTables-example tbody{
+        display:block;
+        height:300px;
+        width:100%;
+		overflow-y:scroll;        
+        }
+        #dataTables-example thead, tbody tr{
+        display:table;
+        width:100%;
+        table-layout:fixed;
+        }
+        
+        
     </style>
 </head>
 <body>  
@@ -74,6 +111,7 @@
   <div class="row" id="addElement">
      <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
+      <button class="btn btn-primary" id="" onclick="dosaveSeq('updateSepcialWeight')"><i class="fa fa-cog"></i>保存展示顺序</button>
     </div>  
     
 </div>
@@ -82,30 +120,64 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>id</th>
+                                            <th width="5%">id</th>
                                             <th>名称</th>
-                                            <th>路径</th>
+                                            <th width="15%">路径</th>
                                             <th>图片</th>
-                                            <th>操作</th>
+                                            <th width="15%">文件</th>
+                                            <th width="10%">展示方式</th>
+                                            <th width="5%">展示顺序</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${specialByPage}" var="c" varStatus="st">
-        <tr>
-            <td >${c.id}</td>
+        <tr id="${c.topic_weight }">
+            <td width="5%">${c.id}</td>
             <td >${c.title}</td>
-            <td >${c.image}</td>
-            <td ><img src="${c.image}" width="80" height="42"></td>
-           <%--  <td>${c.topic_weight}</td> --%>
-            <td width=40%>
+            <td class="tdiamge" width="15%"><div><a href="${c.image}" target="_blank">${c.image}</a></div></td>
+            <td data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')" ><img src="${c.image}" width="80" height="42" ></td>
+            <td class="tdfile" width="15%"><div><a href="${c.file}" target="_blank">${c.file}</a></div> </td>
+            <td width="10%">
+            
+            <div class="btn-group">
+    <button type="button" class="btn btn-info dropdown-toggle btn-sm" data-toggle="dropdown">
+     <c:if test="${c.show_type=='vis' }">
+     可视化
+     </c:if>
+     <c:if test="${c.show_type=='file' }">
+     文件
+     </c:if>
+      <span class="caret"></span>         
+    </button>
+      
+    <ul class="dropdown-menu" role="menu">
+    <c:if test="${c.show_type=='vis' }">
+     <li role="presentation">
+       <%--   <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>   --%>
+        <a href="#" id="noPerShow" onclick="updateShowTypeClick('${c.id }','file','specialUpdateShowType')">文件</a>        
+      </li>
+    </c:if>
+    <c:if test="${c.show_type=='file' }">
+      <li>
+      <%-- <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>   --%>
+           <a href="#" id="perShow" onclick="updateShowTypeClick('${c.id }','vis','specialUpdateShowType')">可视化</a>    
+      </li>
+    </c:if>
+    </ul>
+</div> 
+            </td>
+            
+          <td width="5%">${c.topic_weight}</td>
+            <td width="30%">
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
 <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')">
 <i class="fa fa-search"></i>查看大图
-</div>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}','${c.image}')">
+</div> 
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}','${c.image}','${c.file}')">
 <i class="fa fa-edit"></i>修改
 </div>
 <%-- <a href="specialDel?special_id=${c.id }" onclick="delClick('${c.id }')"> --%>
@@ -144,7 +216,7 @@
 </tbody>
 </table>
                               
-<div class="row">									
+<%-- <div class="row">									
 									<div class='page fix'>
                     <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
@@ -163,7 +235,7 @@
                         <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('specialInit')">
                     </form>
                 </div>
-                       </div>
+                       </div> --%>
                           </div>
                             
                                                             
@@ -209,6 +281,19 @@
                        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                      <div>
                   <span class="btn btn-file btn-primary"><span class="fileupload-new">选择图片</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+           <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择文件</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 150px; height: 25px;"><img src="" alt="" id="showFile"/></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;" ></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择文件</span><span class="fileupload-exists">更换</span><input type="file" name="file1"></span>
                   <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
                  </div>
                </div>
@@ -260,6 +345,32 @@
                </div>
              </div>
           </div>
+          <div class="form-group">
+                 <label class="control-label col-lg-pull-4">选择文件</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 150px; height: 25px;"><!-- <img src="assets/img/demoUpload.jpg" alt="" /> --></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择文件</span><span class="fileupload-exists">更换</span><input type="file" name="file1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div>
+         <!--  <div class="form-group">
+                 <label class="control-label col-lg-pull-4">展示形式</label>
+                    <div class="">
+                     <div class="fileupload fileupload-new" data-provides="fileupload">
+                       <div class="fileupload-new thumbnail" style="width: 100px; height: 150px;"><img src="assets/img/demoUpload.jpg" alt="" /></div>
+                       <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                     <div>
+                  <span class="btn btn-file btn-primary"><span class="fileupload-new">选择文件</span><span class="fileupload-exists">更换</span><input type="file" name="pic1"></span>
+                  <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">移除</a>
+                 </div>
+               </div>
+             </div>
+          </div> -->
     <!--   轮播图名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title"> -->
     
 			</div>
@@ -303,10 +414,52 @@
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
+    <script src="<%=path %>/assets/js/table.js"></script>
     <script>
             $(document).ready(function () {
      
             });            
+            
+            var initSeqArray = new Array();
+    		var fieIdSeqArray;	
+    		$(document).ready(function(){
+    			//为table绑定排序事件
+    			 $("#dataTables-example").tableDnD({
+    		         onDragClass:"myDragClass",
+    		         onDrop:function(table,row) {
+    		             var rows = table.tBodies[0].rows;
+    		             fieIdSeqArray = new Array();
+    		             flag = 1;
+    		             for (var i=0; i<rows.length; i++) {
+    		                fieIdSeqArray.push(rows[i].id);
+    		             }
+    		             
+    	             }
+    	   		 });
+    		});
+    		    		
+    		
+    		dosaveSeq = function(Url){
+    	    /* 	if(fieIdSeqArray != undefined){ */   		    	
+    		    		$.ajax({ 
+    						 type: "GET",
+    						 url: Url+"?sort="+fieIdSeqArray,
+    						 dataType: "html",
+    						 success: function(data) {
+    							 $('#getNewData').html(data);
+    							/* if(msg == initSeqArray.length) {
+    								alert("字段序列修改成功！");
+    							}else {
+    								alert("字段序列修改失败");
+    							} */
+    						 }
+    					 });
+    		    	/* 
+    		    }
+    	    	else {
+    		    	alert("未发现变更记录");
+    		    } */
+    	    }
 
             editClick = function(Url) {
          	   $('.modal-backdrop').remove();
@@ -361,7 +514,6 @@
                        	    processData: false,
                             cache:false,
                             success: function(data){
-                       	 	alert(data);
                                 $('#getNewData').html(data);
                             },
                             error : function(data){
@@ -386,6 +538,24 @@
                               }
                           });    
                    };
+                   
+                   
+                   updateShowTypeClick = function(special_id,show_type,Url) {
+                       $.ajax({
+                                  type: 'GET',
+                                  url:  Url+"?special_id="+special_id+"&show_type="+show_type,
+                                  dataType: "html",
+                             	    async : false,
+                              	  contentType: false, //不设置内容类型
+                             	    processData: false,
+                                  cache:false,
+                                  success: function(data){
+                                      $('#getNewData').html(data);
+                                  },
+                                  error : function(data){
+                                  }
+                              });    
+                       };
                    
                    pageClick = function(currentPage,Url) {
                      $.ajax({
@@ -424,11 +594,14 @@
                    
              
               
-              function edit(ID,title,image){
+              function edit(ID,title,image,file){
+            	
               	$("#topicid").val(ID);
               	$("#topictitle").val(title);
               	$("#showTopic").attr('src',image);
-                  	
+              	/* alert(document.getElementById("#showFile").innerHTML);
+              	document.getElementById("#showFile").innerHTML=file; */
+              	$("#showFile").attr('src',file);
               }
           
            
@@ -437,7 +610,7 @@
             	var op = select.value;
             	var form1=document.getElementById("form1");
             	var title=encodeURI(encodeURI(op));
-            	form1.action="initAnalysisList?op="+title;
+            	form1.action="initAngalysisList?op="+title;
             	form1.submit();
             }
             function search(){
@@ -450,48 +623,13 @@
             	formSearch.submit();
             	
             }
-  	
-            
-           
-            function del(aid){
-            	alert("sss")
-            	/* var aid=document.getElementById("aid").value; */
-            	alert(aid);
-            	var id=encodeURI(encodeURI(aid));
-          	    window.location.href="http://localhost:8089/wuhan_data1/delCol?id="+id;  
-            /* 	$.ajax({
-                    type: "POST",
-                    data: {"id":id},
-                    url: "deleteCol", 
-                    success:function(){
-                    	alert("删除成功！");
-                    }
-            	})  */
-            	
-            }
-            
-         /*    var order =  new BootstrapOrder();
-            
-            
-            function showS(json) {             	
-            	for(var i=0,l=json.length;i<l;i++){
-            		order.addItem(json[i]);
-            		}
-            	order.toggleShow();         	
-            }
-        
-            function addSort(item) {
-            	order.addItem(item);
-            }
-        
-            function getData(){
-            	var data = order.getData();
-                alert(JSON.stringify(data)); 
-            }
             function imageShow(image){
             	$("#image").attr('src',image);
                 	
-            } */
+            }
+  	
+            
+  
             
         
     </script>

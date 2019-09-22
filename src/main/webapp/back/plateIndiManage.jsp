@@ -51,6 +51,10 @@
       #addElement{
         margin-bottom:10px;
         }
+        
+          td,th{
+        text-align:center;
+        }
        
 
     </style>
