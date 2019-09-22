@@ -63,7 +63,7 @@
 		is_show as isShow
 		FROM WUHAN_DATA."ANALYSIS_SEARCH"
 		WHERE
-		keyword = #{keyword} AND
+		theme_name like CONCAT('%',#{keyword},'%') AND
 		(is_show = 0 OR is_show = 9)
 		ORDER BY theme_weight ASC
 	</select>
@@ -73,11 +73,10 @@
 		SELECT
 		theme_id as themeId,
 		theme_name as themeName,
-		type_name as listName,
 		is_show as isShow
 		FROM WUHAN_DATA."ANALYSIS_THEME"
 		WHERE
-		theme_id = #{theme}
+		theme_id = #{theme_id}
 	</select>
 
 	<!-- TODO 查询指定INDI_NAME的最新指标描述数据 -->
