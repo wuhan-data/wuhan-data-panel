@@ -1,5 +1,4 @@
 package com.wuhan_data.app.controller;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,8 +56,6 @@ public class IndiSearchAppController {
 	IndiDetailService indiDetailService;
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
-//	String source = "统计局数据库-国研网";// 搜索来源
-//	List<IndexManage> searchIndiList;
 	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String searchSource() {
@@ -67,8 +64,8 @@ public class IndiSearchAppController {
 		// List<String> indisourceList=indiSearchService.searchSource();
 
 		// 获得历史搜素
-		int uid = 1;// 应从session中获取
-		List<HistorySearch> historySearchList = indiSearchService.getHistorySearch(uid);
+//		int uid = 1;// 应从session中获取
+//		List<HistorySearch> historySearchList = indiSearchService.getHistorySearch(uid);
 
 		Map map = new HashMap();
 		// map.put("indisourceList", indisourceList);
@@ -223,7 +220,7 @@ public class IndiSearchAppController {
 	public String searchIndi(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String keyWord = "";
-		String source = "";
+		String source = "";//国统、湖统、全部
 		System.out.println("进入searchIndi");
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
@@ -243,27 +240,33 @@ public class IndiSearchAppController {
 		}
 
 		// 获得搜索的所有来源（如湖北统计局，国家统计局等）
-		switch (source) {
-		case "大数据":
-			source = "大数据";
-			break;
-		case "国统":
-			source = "国家统计局";
-			break;
-		case "湖统":
-			source = "湖北省统计局";
-			break;
-		default:
-			source = "全部";
-			break;
-		}
+//		switch (source) {
+//		case "大数据":
+//			source = "大数据";
+//			break;
+//		case "国统":
+//			source = "国家统计局";
+//			break;
+//		case "湖统":
+//			source = "湖北省统计局";
+//			break;
+//		default:
+//			source = "全部";
+//			break;
+//		}
 		/*将所有关键字小写转换成大写*/
 		System.out.println("转换前："+keyWord);
 		keyWord = keyWord.toUpperCase();
 		System.out.println("转换后："+keyWord);
-		List<IndexManage> searchIndiList;
+		//List<IndexManage> searchIndiList;
 		if (source.equals("全部")) {
-			searchIndiList = indiSearchService.searchIndiAll(keyWord);
+			//来自国统的数据
+			List<IndexManage> searchIndiListG;
+			searchIndiListG = indiSearchService.searchIndiG(keyWord);
+			//查询来自湖统的数据
+			List<IndexManage> searchIndiListH;
+			searchIndiListH = indiSearchService.searchIndiH(keyWord);
+			
 		}
 		else {
 			Map paraMap = new HashMap();

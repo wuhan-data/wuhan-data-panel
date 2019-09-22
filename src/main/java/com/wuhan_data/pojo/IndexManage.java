@@ -6,14 +6,37 @@ public class IndexManage {
 	Integer id;
 	String indi_code;//指示代码
 	String indi_name;//指示名称
-//	String freq_code;//频度代码
-//	String start_time;//报告期开始时间
-//	String end_time;//报告结束时间
-//	String indi_value;//指标值
-//	Integer time_point;//时点
 	Integer status;//指示状态 0正常 1不展示
 	String sjly_name2;
-	
+	String source;//指标来源
+	String lj;//路径
+	String is_show;//是否允许展示
+	String area_code;//指标的区域代码
+	String area_name;//指标的区域名称
+	public String getLj() {
+		return lj;
+	}
+	public String getArea_code() {
+		return area_code;
+	}
+	public void setArea_code(String area_code) {
+		this.area_code = area_code;
+	}
+	public String getArea_name() {
+		return area_name;
+	}
+	public void setArea_name(String area_name) {
+		this.area_name = area_name;
+	}
+	public void setLj(String lj) {
+		this.lj = lj;
+	}
+	public String getIs_show() {
+		return is_show;
+	}
+	public void setIs_show(String is_show) {
+		this.is_show = is_show;
+	}
 	public String getSjly_name2() {
 		return sjly_name2;
 	}
@@ -27,40 +50,10 @@ public class IndexManage {
 		this.source = source;
 	}
 	String show_type;//展示类型
-	String source;//来源
+
 	public Integer getId() {
 		return id;
 	}
-//	public String getFreq_code() {
-//		return freq_code;
-//	}
-//	public void setFreq_code(String freq_code) {
-//		this.freq_code = freq_code;
-//	}
-//	public String getStart_time() {
-//		return start_time;
-//	}
-//	public void setStart_time(String start_time) {
-//		this.start_time = start_time;
-//	}
-//	public String getEnd_time() {
-//		return end_time;
-//	}
-//	public void setEnd_time(String end_time) {
-//		this.end_time = end_time;
-//	}
-//	public String getIndi_value() {
-//		return indi_value;
-//	}
-//	public void setIndi_value(String indi_value) {
-//		this.indi_value = indi_value;
-//	}
-//	public Integer getTime_point() {
-//		return time_point;
-//	}
-//	public void setTime_point(Integer time_point) {
-//		this.time_point = time_point;
-//	}
 	public void setId(Integer id) {
 		this.id = id;
 	}

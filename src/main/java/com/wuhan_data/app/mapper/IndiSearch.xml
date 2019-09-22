@@ -20,8 +20,12 @@
             select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and sjly_name2=#{source} and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly_name2
         </select> 
         
-         <select id="searchIndiAll" resultType="IndexManage" parameterType="String">
-            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and (sjly_name2='大数据' or sjly_name2='国家统计局' or sjly_name2='湖北省统计局') and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly_name2
+         <select id="searchIndiG" resultType="IndexManage" parameterType="String">
+            select indi_code,new_indi_name as indi_name,source,lj,is_show from WUHAN_DATA."APP_INDI_G" where new_indi_name like CONCAT('%',#{keyWord},'%') group by indi_code,new_indi_name,sjly_name2,source,lj,is_show
+        </select> 
+        
+        <select id="searchIndiH" resultType="IndexManage" parameterType="String">
+            select indi_code,indi_new_name as indi_name,source,area_code,area_name,lj,is_show from MIDUSER."APP_INDI_H" where indi_new_name like CONCAT('%',#{keyWord},'%') group by indi_code,indi_new_name,source,area_code,area_name,lj,is_show
         </select> 
         
 <!--        获得前十四天的搜索趋势 -->
