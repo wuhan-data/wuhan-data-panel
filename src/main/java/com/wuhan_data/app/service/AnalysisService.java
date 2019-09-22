@@ -14,7 +14,9 @@ public interface AnalysisService {
 	public ArrayList<Object> getAnalysisLabelList(int userId, int typeId); // 经济分析分类标签列表接口
 
 	public ArrayList<Object> getAnalysisThemeList(int userId, int labelId); // 经济分析二级栏目列表接口
-
+	
+	public ArrayList<Object> searchAnalysis(int userId, String keyword); // 经济分析搜索
+	
 	public List<AnalysisTheme> getAnalysisRoleList(List<AnalysisTheme> subList, ArrayList<String> roleList);
 
 	public Map<String, Object> initAnalysisPlate(int themeId, int userId); // 查询经济分析栏目下所有版块

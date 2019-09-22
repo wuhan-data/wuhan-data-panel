@@ -49,6 +49,24 @@
 		(is_show = 0 OR is_show = 9)
 		ORDER BY theme_weight ASC
 	</select>
+	
+	<select id="searchAnalysis"
+		resultType="com.wuhan_data.pojo.AnalysisSearch" parameterType="String">
+		SELECT
+		theme_id as themeId,
+		theme_name as themeName,
+		theme_weight as themeWeight,
+		label_id as labelId,
+		label_name as labelName,
+		type_id as typeId,
+		type_name as typeName,
+		is_show as isShow
+		FROM WUHAN_DATA."ANALYSIS_SEARCH"
+		WHERE
+		keyword = #{keyword} AND
+		(is_show = 0 OR is_show = 9)
+		ORDER BY theme_weight ASC
+	</select>
 
 	<select id="getThemeBaseInfo"
 		resultType="com.wuhan_data.pojo.AnalysisTheme" parameterType="int">
