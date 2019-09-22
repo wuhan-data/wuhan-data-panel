@@ -37,4 +37,12 @@ public class AnalysisTheme {
 		return isFavorite;
 	}
 
+	@Override
+	public String toString() {
+		return "AnalysisTheme [listId=" + listId + ", listName=" + listName + ", listWeight=" + listWeight
+				+ ", themeId=" + themeId + ", themeName=" + themeName + ", isShow=" + isShow + ", isFavorite="
+				+ isFavorite + "]";
+	}
+	
+
 }
