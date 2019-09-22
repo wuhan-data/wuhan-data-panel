@@ -8,6 +8,7 @@ import com.wuhan_data.pojo.AnalysisIndiTime;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisLabel;
 import com.wuhan_data.pojo.AnalysisPlate;
+import com.wuhan_data.pojo.AnalysisSearch;
 import com.wuhan_data.pojo.AnalysisTheme;
 import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.Collect;
@@ -22,7 +23,10 @@ public interface AnalysisMapper {
 
 	@DataSource(value = "dataSource_dm")
 	public List<AnalysisTheme> getAnalysisThemeList(int labelId); // 查询经济分析二级栏目列表
-
+	
+	@DataSource(value = "dataSource_dm")
+	public List<AnalysisSearch> searchAnalysis(String keyword); // 根据关键词搜索二级栏目
+	
 	@DataSource(value = "dataSource_dm")
 	public List<AnalysisPlate> getAnalysisPlate(int themeId); // 查询指定经济分析栏目下所有版块
 

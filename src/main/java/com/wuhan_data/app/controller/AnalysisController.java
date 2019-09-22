@@ -68,6 +68,48 @@ public class AnalysisController {
 		return this.apiReturn("0", "成功获取数据", data);
 	}
 
+	@RequestMapping(value = "searchAnalysis", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String searchAnalysis(@RequestBody String resquestParams) {
+		JSONObject requestObject = JSONObject.parseObject(resquestParams);
+		String token = "";
+		String keyword = "";
+		Integer userId = 0;
+		Map<String, Object> data = new HashMap<String, Object>();
+		try {
+			System.out.println(requestObject.toString());
+			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+			boolean hasKeyword = requestObject.containsKey("keyword");
+			if (!hasKeyword) {
+				return this.apiReturn("-1", "需要输入关键词", data);
+			}
+			keyword = requestObject.get("keyword").toString();
+		} catch (Exception e) {
+			return this.apiReturn("-1", "参数获取异常", data);
+		}
+
+		ArrayList<Object> analysisResult = new ArrayList<Object>();
+
+		try {
+			if (!token.equals("")) {
+				String mapString = sessionSQLServiceApp.get(token).getSess_value();
+				Map map = StringToMap.stringToMap(mapString);
+				userId = Integer.valueOf((String) map.get("userId"));
+			}
+		} catch (Exception e) {
+			System.out.println("无效的token令牌");
+		}
+
+//		try {
+		// 获取栏目下的版块信息
+		analysisResult = analysisService.searchAnalysis(userId, keyword);
+//		} catch (Exception e) {
+//			return this.apiReturn("-1", "获取数据异常", data);
+//		}
+		data.put("result", analysisResult);
+		return this.apiReturn("0", "数据获取成功", data);
+	}
+
 	@RequestMapping(value = "getAnalysisDetail", produces = "text/plain;charset=utf-8")
 	@ResponseBody
 	public String getAnalysisDetail(@RequestBody String resquestParams) {
@@ -102,8 +144,8 @@ public class AnalysisController {
 		}
 
 //		try {
-			// 获取栏目下的版块信息
-			analysisPlate = analysisService.initAnalysisPlate(indexId, userId);
+		// 获取栏目下的版块信息
+		analysisPlate = analysisService.initAnalysisPlate(indexId, userId);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}
@@ -151,8 +193,8 @@ public class AnalysisController {
 
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
 //		try {
-			// 获取栏目下的版块信息
-			analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, timeFreq);
+		// 获取栏目下的版块信息
+		analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, timeFreq);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}

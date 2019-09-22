@@ -40,6 +40,7 @@ import com.wuhan_data.pojo.AnalysisIndiTime;
 import com.wuhan_data.pojo.AnalysisIndiValue;
 import com.wuhan_data.pojo.AnalysisLabel;
 import com.wuhan_data.pojo.AnalysisPlate;
+import com.wuhan_data.pojo.AnalysisSearch;
 import com.wuhan_data.pojo.AnalysisTheme;
 import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.Collect;
@@ -109,6 +110,25 @@ public class AnalysisServiceImpl implements AnalysisService {
 			String indexName = themeList.get(i).getThemeName().toString();
 			themeListMap.put("indexId", indexId);
 			themeListMap.put("indexName", indexName);
+			result.add(themeListMap);
+		}
+		return result;
+	}
+	
+	@Override
+	public ArrayList<Object> searchAnalysis(int userId, String keyword) {
+		ArrayList<Object> result = new ArrayList<Object>();
+		List<AnalysisSearch> searchResult = analysisMapper.searchAnalysis(keyword);
+		for (int i = 0; i < searchResult.size(); i++) {
+			Map<String, Object> themeListMap = new HashMap<String, Object>();
+			String indexId = searchResult.get(i).getThemeId().toString();
+			String indexName = searchResult.get(i).getThemeName().toString();
+			String typeName = searchResult.get(i).getTypeName().toString();
+			String labelName = searchResult.get(i).getLabelName().toString();
+			themeListMap.put("indexId", indexId);
+			themeListMap.put("indexName", indexName);
+			themeListMap.put("typeName", typeName);
+			themeListMap.put("labelName", labelName);
 			result.add(themeListMap);
 		}
 		return result;
