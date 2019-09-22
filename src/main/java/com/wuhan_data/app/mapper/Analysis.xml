@@ -6,7 +6,7 @@
 <mapper namespace="com.wuhan_data.app.mapper.AnalysisMapper">
 
 	<select id="getAnalysisTypeList"
-		resultType="com.wuhan_data.pojo.AnalysisType" parameterType="int">
+		resultType="com.wuhan_data.pojo.AnalysisType">
 		SELECT
 		type_id as typeId,
 		type_name as typeName,
@@ -16,8 +16,7 @@
 		is_show as isShow
 		FROM WUHAN_DATA."ANALYSIS_TYPE"
 		WHERE
-		type_id = #{type_id} AND
-		(is_show = 0 OR is_show = 9)
+		is_show = 0 OR is_show = 9
 		ORDER BY type_weight ASC
 	</select>
 	
