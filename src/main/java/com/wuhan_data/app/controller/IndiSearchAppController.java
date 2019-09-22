@@ -220,7 +220,7 @@ public class IndiSearchAppController {
 	public String searchIndi(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String keyWord = "";
-		String source = "";//国统、湖统、全部
+		String source = "全部";//国统、湖统、全部
 		System.out.println("进入searchIndi");
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
