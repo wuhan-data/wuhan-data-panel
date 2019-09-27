@@ -254,7 +254,7 @@
                         ${c.level_one}
                         <ul >
                         	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
-                            		<input type="checkbox" name="editPower_1" value="${cc.themeId}">${cc.themeName}  
+                            		<input type="checkbox" name="editPower_1" value="${cc.theme_id}">${cc.theme_name}  
                         	 </c:forEach>
                         </ul>
                   </li>
@@ -318,7 +318,7 @@
                         ${c.level_one}
                         <ul >
                         	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
-                            		<input type="checkbox" name="addPower_1" value="${cc.themeId}" checked>${cc.themeName}  
+                            		<input type="checkbox" name="addPower_1" value="${cc.theme_id}" checked>${cc.theme_name}  
                         	 </c:forEach>
                         </ul>
                   </li>

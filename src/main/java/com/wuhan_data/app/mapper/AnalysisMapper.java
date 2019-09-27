@@ -7,7 +7,7 @@ import com.wuhan_data.pojo.AnalysisIndi;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisTheme;
 
-public interface AnalysisMapper {
+public interface AnalysisMapper {	
 	public List<AnalysisTheme> getAnalysisList(); // 查询经济分析一级栏目列表
 
 	public List<AnalysisTheme> getAnalysisSubList(int typeId); // 查询经济分析二级栏目列表

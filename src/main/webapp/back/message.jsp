@@ -588,7 +588,25 @@
             
             function isCheck(checkbox){
             	alert("nihao");
-				}
+            	if( checkbox.checked == true){
+            		var select = document.getElementById("addReceiver_id");
+                	var op = select.value;
+                	var val =op.split(",");
+                	var newList=Array.asList(val).add(checkbox.value)
+                	var newValue=StringUtils.join(newlist.toArray(new String[newList.size()]),',')
+                	$("addReceiver_id").val(newValue)
+
+            		//Action for checked 
+            	}else{
+            		//Action for not checked
+            		var select = document.getElementById("addReceiver_id");
+                	var op = select.value;
+                	var val =op.split(",");
+                	var newList=Array.asList(val).remove(checkbox.value)
+                	var newValue=StringUtils.join(newlist.toArray(new String[newList.size()]),',')
+                	$("addReceiver_id").val(newValue)
+            		}
+            		}
             
             
             function selectUser()

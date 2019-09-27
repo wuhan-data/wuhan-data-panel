@@ -39,5 +39,6 @@ public interface RoleService {
 	public List<IndexSpecial> getIndexSpecials();
 	//获得搜索指标的列表power_3
 	public List<IndexManage> getIndexManages();
+	public List<String> getIndexManages2();
 		
 }

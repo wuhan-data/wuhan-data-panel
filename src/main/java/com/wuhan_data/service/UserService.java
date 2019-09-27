@@ -40,6 +40,8 @@ public interface UserService {
 
 	  public int count();
 	  
+	  //获得所有用户
+	  public Map<String, String>getAllPower(int id);
 	 
      
 
