@@ -24,4 +24,7 @@ public interface ColPlateMapper {
 	
 	public String getAddCname(int cid); //得到需要添加的板块所属栏目的名称
 
+	public int updateWeight(Map map); //更新权重
+	
+	public int getPid(Map map); //得到pid
 }

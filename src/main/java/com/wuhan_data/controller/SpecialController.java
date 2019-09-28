@@ -3,6 +3,7 @@ package com.wuhan_data.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,8 +109,16 @@ public class SpecialController {
 System.out.println("zhaodaole");		
 //       存到数据库的路径
        String sqlPath=null;
+       
+       String contextPath = request.getContextPath();
+       String basePath = request.getScheme()+"://"+InetAddress.getLocalHost().getHostAddress()+":"+  
+                     request.getServerPort()+contextPath+"/"; 
+       
 //       存到本地的路径
-       String localPath="/Users/in/uploads/";
+//       String localPath="/Users/in/uploads/";
+       String localPath="C:\\wuhan_data_file\\head\\";     
+//       存到本地的路径
+//       String localPath="/Users/in/uploads/";
 //       文件名
        String filename=null;
        System.out.println("pic1:"+pic1);
@@ -127,7 +136,7 @@ System.out.println("zhaodaole");
            pic1.transferTo(new File(localPath+filename));
        }
        //数据库中保存的是图片的相对路径
-       sqlPath = "/uploads/"+filename;
+       sqlPath = basePath+"file_head/"+filename;
        System.out.println(sqlPath);
        indexSpecial.setImage(sqlPath);
        specialService.add(indexSpecial); 
@@ -170,8 +179,15 @@ System.out.println("zhaodaole");
     response.setCharacterEncoding("UTF-8");
 		//      存到数据库的路径
      String sqlPath=null;
+     String contextPath = request.getContextPath();
+     String basePath = request.getScheme()+"://"+InetAddress.getLocalHost().getHostAddress()+":"+  
+                   request.getServerPort()+contextPath+"/"; 
+     
 //     存到本地的路径
-     String localPath="/Users/in/uploads/";
+//     String localPath="/Users/in/uploads/";
+     String localPath="C:\\wuhan_data_file\\head\\";    
+//     存到本地的路径
+//     String localPath="/Users/in/uploads/";
 //     文件名
      String filename=null;
      if(!pic1.isEmpty()){  //判断获取到的图片是否为空 不为空 进入到if
@@ -186,7 +202,8 @@ System.out.println("zhaodaole");
          System.out.println(filename);
          //文件保存路径
          pic1.transferTo(new File(localPath+filename));
-         sqlPath = "/uploads/"+filename;
+         sqlPath = basePath+"file_head/"+filename;
+         
          System.out.println(sqlPath);
          int id=Integer.parseInt(request.getParameter("id"));
          indexSpecial.setId(id);

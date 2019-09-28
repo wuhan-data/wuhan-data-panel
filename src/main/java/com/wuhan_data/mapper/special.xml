@@ -7,7 +7,7 @@
    
         <!-- 添加专题 -->
         <insert id="add" parameterType="IndexSpecial" >
-            insert into index_special(title,image) values(#{title},#{image})
+            insert into index_special(title,image,file,topic_weight) values(#{title},#{image},#{file},#{topic_weight})
         </insert>
         
          
@@ -19,7 +19,7 @@
          
          <!-- 得到专题列表 -->
         <select id="getlist" parameterType="java.util.Map" resultType="IndexSpecial">
-            select id,title,topic_weight,image,is_show from index_special order by topic_weight limit #{page.dbIndex},#{page.dbNumber}   
+            select id,title,topic_weight,image,is_show,file,show_type from index_special order by topic_weight
         </select>  
 
  		<select id="getSname" parameterType="int" resultType="String">
@@ -34,8 +34,9 @@
         <update id="update" parameterType="IndexSpecial" >
             update index_special 
             <set>
-            <if test="title!=null">title=#{title}</if>
-            <if test="image!=null">image=#{image}</if>
+            <if test="title!=null">title=#{title},</if>
+            <if test="image!=null">image=#{image},</if>
+            <if test="file!=null">file=#{file}</if>
             </set>
               where id=#{id}
         </update>
@@ -47,6 +48,31 @@
             is_show=#{is_show}
             </set>
              where id=#{id}   
+        </update>
+        
+         <update id="updateShowType" parameterType="IndexSpecial" >
+            update index_special
+            <set>
+            show_type=#{show_type}
+            </set>
+             where id=#{id}
+        </update>
+        
+        <select id="getMaxWeight" resultType="int">
+            select max(topic_weight)+1 from index_special
+        </select> 
+        
+        
+        <select id="getSpecialId" parameterType="Map" resultType="int">
+            select id from index_special where topic_weight=#{oldWeight}
+        </select>  
+        
+        <update id="updateWeight" parameterType="Map" >
+            update index_special
+            <set>
+            topic_weight=#{newWeight}
+            </set>
+             where id=#{id}
         </update>
         
         
