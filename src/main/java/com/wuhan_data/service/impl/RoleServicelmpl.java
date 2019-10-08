@@ -6,6 +6,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.xmlbeans.impl.tool.PrettyPrinter;
 import org.aspectj.apache.bcel.generic.ReturnaddressType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,6 +182,20 @@ public class RoleServicelmpl implements RoleService {
 		aList.add("1");
 		aList.add("2");
 		return aList;
+	}
+
+	@Override
+	public String getNameList(String idList) {
+		// TODO Auto-generated method stub
+		String[] ids=idList.split("\\|");
+		String[] names=new String[ids.length];
+		for(int i=0;i<ids.length;i++)
+		{
+			Role role=roleMapper.get(Integer.valueOf(ids[i]));
+			names[i]=role.getRole_name();
+		}
+		String result=StringUtils.join(names,"|");
+		return result;
 	}
 
 

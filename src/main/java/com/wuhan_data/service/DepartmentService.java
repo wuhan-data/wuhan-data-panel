@@ -30,6 +30,8 @@ public interface DepartmentService {
 	public List<Department> search(Map<String,Object> parameter);
 	//模糊查询数量
 	public int searchCount(Map<String,Object> parameter);
+	//通过idList获取nameList
+	public String getNameList(String idList);
 	
 
 

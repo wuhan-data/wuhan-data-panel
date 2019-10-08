@@ -46,6 +46,7 @@ import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.app.service.UserServiceApp;
 import com.wuhan_data.pojo.Role;
 import com.wuhan_data.pojo.User;
+import com.wuhan_data.service.DepartmentService;
 import com.wuhan_data.service.RoleService;
 import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.service.UserService;
@@ -60,6 +61,8 @@ import com.wuhan_data.tools.TokenUtil;
 @Controller
 @RequestMapping("")
 public class UserControllerApp {
+	@Autowired
+	DepartmentService departmentService;
 	@Autowired
 	UserServiceApp userServiceApp;
 	@Autowired
@@ -259,6 +262,11 @@ public class UserControllerApp {
 				String descriptionString = user.getDescription();
 				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
 				String roleNameString = user.getRole_id();
+				deparmentString=departmentService.getNameList(deparmentString);
+				roleNameString=roleService.getNameList(roleNameString);
+				
+				
+				
 				data.put("token", tokenString);
 				data.put("userId", idString);
 				data.put("tel", telString);
@@ -592,6 +600,10 @@ public class UserControllerApp {
 				String descriptionString = user.getDescription();
 				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
 				String roleNameString = user.getRole_id();
+				deparmentString=departmentService.getNameList(deparmentString);
+				roleNameString=roleService.getNameList(roleNameString);
+				
+				
 				data.put("userId", idString);
 				data.put("tel", telString);
 				data.put("realName", realNameString);
