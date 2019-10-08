@@ -1,4 +1,4 @@
-<%@page import="com.wuhan_data.pojo.Admin"%>
+<%@page import="com.wuhan_data.pojo.AnalysisTheme"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*"%> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -9,27 +9,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WUHANDATA</title>
+     <meta charset="utf-8" />
 	<!-- Bootstrap Styles-->
-    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/bootstrap.css" rel="stylesheet" />
      <!-- FontAwesome Styles-->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
-    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+    <link href="<%=path %>/assets/css/custom-styles.css" rel="stylesheet" />
     
-     <link href="assets/css/bootstrap-switch.min.css" rel="stylesheet" />
+     <link href="<%=path %>/assets/css/bootstrap-switch.min.css" rel="stylesheet" />
     
-    <link href="assets/css/my.css" rel="stylesheet" />
-    
-    <link href="assets/css/bootstrap-order.min.css" rel="stylesheet" />
-     <!-- Google Fonts-->
-   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-
+    <%-- <link href="<%=path %>/assets/css/my.css" rel="stylesheet" /> --%>
+   
+      <link href="<%=path %>/assets/css/bootstrap-fileupload.min.css" rel="stylesheet" />
+      
 
     <style type="text/css" rel="stylesheet">
-
+		.tabel-div{width:190px; height:20px; overflow-y:scroll; border:0px solid #F00} 
 		a{
 		hover:text-decoration:none;}
         .page { float:right; margin:10px 40px; line-height:25px;}
@@ -50,59 +46,126 @@
         .page b{ color:#2979b4}
 
     </style>
+    
+    <script type="text/javascript">
+    function checkRoleCode(){
+     	 var rolecode = document.getElementById("addRoleCode").value;
+     	 var flag=false;
+     	 var reg = /^[\d]{4}$/;
+          if (!reg.test(rolecode)) {
+          	span_rolecode.innerHTML = "请输入4位数字";
+              return false;
+          }
+          else {
+        	  //判断code是否存在
+				 roleCode=encodeURI(rolecode);
+		    	$.ajax({
+		    		url:"roleCodeIsExist",
+		    		data:{roleCode:roleCode},
+		    		async:false,
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				span_rolecode.innerHTML = "code已经存在";
+		    				flag=false;
+		          		  	return false;	
+		    			}
+		    			else{
+		    				span_rolecode.innerHTML = "格式正确";
+		    				flag=true;
+		              		return true;
+		    			}	
+		    		}
+		    	}) 
+				return flag;
+          }
+     }
+       
+    function checkRoleName(){
+    	 var roleName = document.getElementById("addRoleName").value;
+    	 var flag=false;
+    	 if(roleName==null || roleName==""){
+    		 span_roleName.innerHTML = "name不能为空";
+    		 return false;
+    	 }
+       	  //判断code是否存在
+       	  else{
+				 roleName=encodeURI(roleName);
+		    	$.ajax({
+		    		url:"roleNameIsExist",
+		    		data:{roleName:roleName},
+		    		async:false,
+		    		success:function(data){
+		    			if(data.data=="exist"){
+		    				span_roleName.innerHTML = "name已经存在";
+		    				flag=false;
+		          		  	return false;	
+		    			}
+		    			else{
+		    				span_roleName.innerHTML = "格式正确";
+		    				flag=true;
+		              		return true;
+		    			}	
+		    		}
+		    	}) 
+				return flag;
+       	  }
+    }
+       function checkForm(){
+       	var roleCode=checkRoleCode();
+    	var roleName=checkRoleName();
+       	if (roleCode && roleName){
+       		alert(roleCode && roleName);
+       		return true;
+       	}
+       	else
+       		{
+       		return false;
+       		}
+       }
+       function edit_checkForm(){
+         	var roleCode=edit_checkRoleCode();
+         	if (roleCode)
+         		return true;
+         	else
+         		return false;
+         }
+               
+         function edit_checkRoleCode(){
+         	 var rolecode = document.getElementById("editRoleCode").value;
+         	 var flag=false;
+         	 var reg = /^[\d]{4}$/;
+              if (!reg.test(rolecode)) {
+              	edit_span_rolecode.innerHTML = "请输入4位数字";
+                  return false;
+              }
+              else {
+            	roleCode=encodeURI(rolecode);
+  		    	$.ajax({
+  		    		url:"roleCodeIsExist",
+  		    		data:{roleCode:roleCode},
+  		    		success:function(data){
+  		    			if(data.data=="exist"){
+  		    				edit_span_rolecode.innerHTML = "code已经存在";
+  		    				flag=false;
+  		          		  	return false;	
+  		    			}
+  		    			else{
+  		    				edit_span_rolecode.innerHTML = "";
+  		    				flag=true;
+  		              		return true;
+  		    			}	
+  		    		}
+  		    	}) 
+  		    	return flag;
+              }
+         }
+      </script>
+    
+    
 </head>
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">WUHANDATA</a>
-            </div>
-
-            <ul class="nav navbar-top-links navbar-right">
-
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                    <%out.print(((Admin)session.getAttribute("user")).getUsername()); %>你好         
-                        <li><a href="adminLogout"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-        </nav>
-        <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-            <ul class="nav" id="main-menu">
-            <li>
-                <a class="active-menu" href="back/index.jsp"><i class="fa fa-dashboard"></i>首页</a>
-            </li>
-            <c:forEach items="${menuList}" var="c" varStatus="st">
-           		 <li>
-                        <a href="#"><i class="${c.level_twoInOneList.get(0).perm}"></i>${c.level_one}<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
-                        
-                            	<li>
-                                	<a href="${cc.url}">${cc.level_two}</a>
-                            	</li>
-                        	 </c:forEach>
-                        </ul>
-                  </li>
-            </c:forEach> 
-            </ul>
-            </div>
-        </nav>
+       
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
@@ -123,23 +186,24 @@
                              角色
                         </div>
                         <div class="panel-body">
-                     
-   <div class="btns col-md-4">
+        <div class="row" style="margin-bottom:7px;margin-right:2px">            
+   <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
     </div>    
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">
-      <input class="form-control" type="search" placeholder="搜索" aria-label="Search" id="searchtname" value="">
+      <input class="form-control" type="search" placeholder="按角色名称搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button>
     </form>
+    </div> 
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>角色id</th>
-                                            <th>角色代码</th>
-                                            <th>角色名称</th>
-                                            <th>角色描述</th>
-                                            <th>操作</th>
+                                            <th width="10%">角色id</th>
+                                            <th width="20%">角色代码</th>
+                                            <th width="20%">角色名称</th>
+                                            <th width="20%">角色描述</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -148,15 +212,16 @@
             <td >${c.id}</td>
             <td >${c.role_code}</td>
             <td >${c.role_name}</td>
-            <td >${c.role_description}</td>
+            <td ><div class="tabel-div">${c.role_description}</div></td>
+            <%--  <td >${c.role_power_1}</td> --%>
             <td >
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.id},${c.role_code},'${c.role_name}','${c.role_description}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.role_code}','${c.role_name}','${c.role_description}','${c.role_power_1}','${c.role_power_2}','${c.role_power_3}')">
 <i class="fa fa-edit"></i>修改
 </div>
-<a href="deleteRole?id=${c.id }">
-<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除
-</div>
+<a href="#" onclick="delClick('${c.id }','deleteRole')">
+<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
+
 </td>
         </tr>
     </c:forEach>
@@ -175,18 +240,46 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="editRole">
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#" >
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editRoleID" id="editRoleID">
-   用户代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode">  <br> 
-   用户名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName"> <br>  
-   用户描述：<input class="form-control" type="text" name="editRoleDescription" id="editRoleDescription"> <br>  
+   角色代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode" readonly > 
+    <br>  
+   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName" readonly> <br>  
+   角色描述：<textarea class="form-control" type="text" name="editRoleDescription" id="editRoleDescription" style="width:500px;height:80px;"></textarea> <br>  
+ 经济分析权限：<br>
+ <c:forEach items="${power_1}" var="c" varStatus="st">
+           		 <li>
+                        ${c.level_one}
+                        <ul >
+                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
+                            		<input type="checkbox" name="editPower_1" value="${cc.themeId}">${cc.themeName}  
+                        	 </c:forEach>
+                        </ul>
+                  </li>
+            </c:forEach> 
+            <br>
+ 专题权限：<br>
+ <c:forEach items="${power_2}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="editPower_2" value="${c.id}">${c.title}          	
+           </ul>
+ </c:forEach> 
+            <br>
+ 搜索指标权限：<br>
+ <c:forEach items="${power_3}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="editPower_3" value="${c.id}">${c.indi_name}(${c.source})     	
+           </ul>
+ </c:forEach> 
+            <br>
+			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="editClick('editRole')">
 					提交
 				</button>
 			</div>
@@ -210,18 +303,47 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addRole">
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addRole" onsubmit="return checkForm()">
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     部门代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode"><br>
-     部门名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName"><br>
-     部门描述：<input class="form-control" type="search" placeholder="部门描述" name="addRoleDescription">  <br>
+     角色代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode" id="addRoleCode" onblur="checkRoleCode()">
+     <span id="span_rolecode">填4位代码</span> <br>
+     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName" onblur="checkRoleName()">
+      <span id="span_roleName"></span> <br>
+     角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" id="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
+    经济分析权限：<br>
+      <c:forEach items="${power_1}" var="c" varStatus="st">
+           		 <li>
+                        ${c.level_one}
+                        <ul >
+                        	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
+                            		<input type="checkbox" name="addPower_1" value="${cc.themeId}" checked>${cc.themeName}  
+                        	 </c:forEach>
+                        </ul>
+                  </li>
+            </c:forEach> 
+            <br>
+  专题权限：<br>
+ <c:forEach items="${power_2}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="addPower_2" value="${c.id}" checked>${c.title}          	
+           </ul>
+ </c:forEach> 
+            <br>
+ 搜索指标权限：<br>
+ <c:forEach items="${power_3}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="addPower_3" value="${c.id}" checked>${c.indi_name}(${c.source})    	
+           </ul>
+ </c:forEach> 
+            <br>
+			
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
+				<button type="submit" class="btn btn-primary" onclick="addClick('addRole')">
 					提交
 				</button>
 			</div>
@@ -231,22 +353,21 @@
 </div>
                                 <div class="row">
 									 <div class='page fix'>
-                    <form method="post" action="${controlURL}" id="pageForm">
+                    <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="${controlURL}?currentPage=1" class='first'>首页</a>
-                           <a href="${controlURL}?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
+                           <a href="#" class='first' onclick="pageClick('1','${controlURL}')">首页</a>
+                           <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','${controlURL}')">上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="${controlURL}?currentPage=${page.currentPage+1}" class='next'>下一页</a>
-                            <a href="${controlURL}?currentPage=${page.totalPage}" class='last'>末页</a>
+                            <a href="#" class='next' onclick="pageClick('${page.currentPage+1}','${controlURL}')">下一页</a>
+                            <a href="#" class='last' onclick="pageClick('${page.totalPage}','${controlURL}')">末页</a>
                         </c:if>
                         跳至&nbsp;
-
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
-                        <input type="submit" value="GO" class="btn-primary btn-sm">
+                        <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('${controlURL}')">
                     </form>
                 </div>
 								<!-- 	<ul class="col-lg-4"></ul> -->
@@ -273,19 +394,138 @@
       <!-- Bootstrap Js -->
     <script src="assets/js/bootstrap.min.js"></script>
     <!-- Metis Menu Js -->
-    <script src="assets/js/jquery.metisMenu.js"></script>
+   <script src="<%=path %>/assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
-    <script src="assets/js/custom-scripts.js"></script>
+    <script src="<%=path %>/assets/js/custom-scripts.js"></script>
     
-    <script src="assets/js/bootstrap-switch.min.js"></script>
-   <script src="assets/js/dataTables/jquery.dataTables.js"></script>
-    <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>   
-    <script src="assets/js/bootstrap-order.min.js"></script>
+      <!-- Morris Chart Js -->
+<!--     <script src="assets/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="assets/js/morris/morris.js"></script>  -->
+    
+    <script src="<%=path %>/assets/js/bootstrap-switch.min.js"></script>
+   <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
+    <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
+    <script src="<%=path %>/assets/js/bootstrap-fileupload.js"></script>
     <script>
             $(document).ready(function () {
-                $('#dataTables-example').dataTable();
-               
             });
+            addClick = function(Url) {
+          	   $('.modal-backdrop').remove();
+          	    $('body').removeClass('modal-open');
+          	  if( checkForm()){
+               	var data = new FormData(document.getElementById("addForm"));
+               	 $.ajax({
+                          type: 'POST',
+                          url:  Url,
+                          dataType: "html",
+                     	    data: data,
+                     	    async : false,
+                      	contentType: false, //不设置内容类型
+                     	    processData: false,
+                          cache:false,
+                          success: function(data){
+                              $('#getNewData').html(data);
+                          },
+                          error : function(data){
+                          }
+                      }); 
+          	  	}
+          	  else{
+          		  
+          	  }
+              };
+               editClick = function(Url) {
+             	   $('.modal-backdrop').remove();
+             	    $('body').removeClass('modal-open');
+                  var data = new FormData(document.getElementById("editForm"));                	
+                  $.ajax({
+                             type: 'POST',
+                             url:  Url,
+                             dataType: "html",
+                        	    data: data,
+                        	    async : false,
+                         	contentType: false, //不设置内容类型
+                        	    processData: false,
+                             cache:false,
+                             success: function(data){
+                                 $('#getNewData').html(data);
+                             },
+                             error : function(data){
+                             }
+                         });    
+                  };
+                  delClick = function(s_id,Url) {
+                      $.ajax({
+                                 type: 'GET',
+                                 url:  Url+"?id="+s_id,
+                                 dataType: "html",
+                            	    async : false,
+                             	contentType: false, //不设置内容类型
+                            	    processData: false,
+                                 cache:false,
+                                 success: function(data){
+                            	 	alert(data);
+                                     $('#getNewData').html(data);
+                                 },
+                                 error : function(data){
+                                 }
+                             });    
+                      };
+                      
+                      pageClick = function(currentPage,Url) {
+                          $.ajax({
+                                     type: 'GET',
+                                     url:  Url+"?currentPage="+currentPage,
+                                     dataType: "html",
+                                	    async : false,
+                                 	contentType: false, //不设置内容类型
+                                	    processData: false,
+                                     cache:false,
+                                     success: function(data){
+                                         $('#getNewData').html(data);
+                                     },
+                                     error : function(data){
+                                     }
+                                 });    
+                          };
+                   
+                          pageGoClick = function(Url) {
+                         	var currentPage = document.getElementById("currentPageText").value;
+                              $.ajax({
+                                         type: 'GET',
+                                         url:  Url+"?currentPage="+currentPage,
+                                         dataType: "html",
+                                    	    async : false,
+                                     	contentType: false, //不设置内容类型
+                                    	    processData: false,
+                                         cache:false,
+                                         success: function(data){
+                                             $('#getNewData').html(data);
+                                         },
+                                         error : function(data){
+                                         }
+                                     });    
+                              };
+                   
+                              search= function(){
+                            	var searchName=document.getElementById("searchtname").value;
+                              	var role_name=encodeURI(encodeURI(searchName));
+                              	$.ajax({
+                                         type: 'GET',
+                                         url:  "roleSearchByName?role_name="+role_name,
+                                         dataType: "html",
+                                    	    async : false,
+                                     	contentType: false, //不设置内容类型
+                                    	    processData: false,
+                                         cache:false,
+                                         success: function(data){
+                                             $('#getNewData').html(data);
+                                         },
+                                         error : function(data){
+                                         }
+                                     });    
+                              };
+              
             function f1(){
             	var select = document.getElementById("FormControlSelect1");
             	var op = select.value;
@@ -294,16 +534,7 @@
             	form1.action="initAnalysisList?op="+title;
             	form1.submit();
             }
-            function search(){
-            	var searchName=document.getElementById("searchtname").value;
-            	alert(searchName)
-            	var role_name=encodeURI(encodeURI(searchName));
-            	
-            	var formSearch=document.getElementById("formSearch");
-            	formSearch.action="roleSearchByName?role_name="+role_name;
-            	formSearch.submit();
-            	
-            }
+
   
          /*    function add(themename){
             	alert(themename);
@@ -311,11 +542,58 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(id,code,name,dep){
+            function edit(id,code,name,dep,power_1,power_2,power_3){
             	$("#editRoleID").val(id);
+            	
             	$("#editRoleCode").val(code);
             	$("#editRoleName").val(name);
             	$("#editRoleDescription").val(dep);
+            	var boxes = document.getElementsByName("editPower_1");
+        	   	for(i=0;i<boxes.length;i++){  	           
+        	                boxes[i].checked = false;
+        	    }
+            	
+            	 var val = power_1.split("|");
+            	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+            	   	for(i=0;i<boxes.length;i++){
+            	        for(j=0;j<val.length;j++){
+            	            if(boxes[i].value == val[j]){
+            	                boxes[i].checked = true;
+            	                break
+            	            }
+            	        }
+            	    }
+            	   	
+            	 var boxes2 = document.getElementsByName("editPower_2");
+         	   	for(i=0;i<boxes2.length;i++){  	           
+         	                boxes2[i].checked = false;
+         	    }
+             	
+             	 var val2 = power_2.split("|");
+             	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+             	   	for(i=0;i<boxes2.length;i++){
+             	        for(j=0;j<val2.length;j++){
+             	            if(boxes2[i].value == val2[j]){
+             	                boxes2[i].checked = true;
+             	                break
+             	            }
+             	        }
+             	    }
+             	var boxes3 = document.getElementsByName("editPower_3");
+        	   	for(i=0;i<boxes3.length;i++){  	           
+        	                boxes3[i].checked = false;
+        	    }
+            	
+            	 var val3 = power_3.split("|");
+            	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+            	   	for(i=0;i<boxes3.length;i++){
+            	        for(j=0;j<val3.length;j++){
+            	            if(boxes3[i].value == val3[j]){
+            	                boxes3[i].checked = true;
+            	                break
+            	            }
+            	        }
+            	    }
                 	
             }
             function del(aid){

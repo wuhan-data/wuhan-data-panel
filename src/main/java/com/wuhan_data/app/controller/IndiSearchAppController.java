@@ -1,5 +1,4 @@
 package com.wuhan_data.app.controller;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,8 +56,6 @@ public class IndiSearchAppController {
 	IndiDetailService indiDetailService;
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
-//	String source = "统计局数据库-国研网";// 搜索来源
-
 	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String searchSource() {
@@ -67,8 +64,8 @@ public class IndiSearchAppController {
 		// List<String> indisourceList=indiSearchService.searchSource();
 
 		// 获得历史搜素
-		int uid = 1;// 应从session中获取
-		List<HistorySearch> historySearchList = indiSearchService.getHistorySearch(uid);
+//		int uid = 1;// 应从session中获取
+//		List<HistorySearch> historySearchList = indiSearchService.getHistorySearch(uid);
 
 		Map map = new HashMap();
 		// map.put("indisourceList", indisourceList);
@@ -218,12 +215,13 @@ public class IndiSearchAppController {
 		return param;
 	}
 
-	@RequestMapping(value = "searchIndi", produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "searchIndi",produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String searchIndi(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String keyWord = "";
-		String source = "";
+		String source = "";//国统、湖统、全部
+		System.out.println("进入searchIndi");
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			boolean hasKeyword = requestObject.containsKey("keyword");
@@ -241,35 +239,35 @@ public class IndiSearchAppController {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
 
-		// 获得搜索的所有来源（如湖北统计局，国家统计局等）@RequestBody String json
-//		JSONObject jsonObject = JSONObject.fromObject(json);
-//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-//		System.out.println("json" + json);
-//
-//		String keyWord = mapget.get("keyword").toString();
-//		source = mapget.get("source").toString();
-//		String keyWord="社会";
-//		source="湖统";//指标来源
-		switch (source) {
-		case "大数据":
-			source = "大数据";
-			break;
-		case "国统":
-			source = "国家统计局";
-			break;
-		case "湖统":
-			source = "湖北省统计局";
-			break;
-		default:
-			source = "全部";
-			break;
-		}
-
-		List<IndexManage> searchIndiList;
+		// 获得搜索的所有来源（如湖北统计局，国家统计局等）
+//		switch (source) {
+//		case "大数据":
+//			source = "大数据";
+//			break;
+//		case "国统":
+//			source = "国家统计局";
+//			break;
+//		case "湖统":
+//			source = "湖北省统计局";
+//			break;
+//		default:
+//			source = "全部";
+//			break;
+//		}
+		/*将所有关键字小写转换成大写*/
+		System.out.println("转换前："+keyWord);
+		keyWord = keyWord.toUpperCase();
+		System.out.println("转换后："+keyWord);
+		//List<IndexManage> searchIndiList;
 		if (source.equals("全部")) {
-			searchIndiList = indiSearchService.searchIndiAll(keyWord);
+			//来自国统的数据
+			List<IndexManage> searchIndiListG;
+			searchIndiListG = indiSearchService.searchIndiG(keyWord);
+			//查询来自湖统的数据
+			List<IndexManage> searchIndiListH;
+			searchIndiListH = indiSearchService.searchIndiH(keyWord);
+			
 		}
-
 		else {
 			Map paraMap = new HashMap();
 			paraMap.put("keyWord", keyWord);
@@ -280,31 +278,38 @@ public class IndiSearchAppController {
 		List resultList = new ArrayList();
 		for (int i = 0; i < searchIndiList.size(); i++) {
 			Map teMap = new HashMap();
-			String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
-			teMap.put("id", indexCode);
-			teMap.put("name", searchIndiList.get(i).getIndi_name());
-			switch (searchIndiList.get(i).getSjly_name2()) {
-			case "大数据":
-				teMap.put("source", "大数据");
-				break;
-			case "国家统计局":
-				teMap.put("source", "国统");
-				break;
-			case "湖北省统计局":
-				teMap.put("source", "湖统");
-				break;
-			default:
-				teMap.put("source", "其他");
-				break;
+			/*判断该指标是否允许展示*/
+			Map indiNameAndSourceMap = new HashMap();
+			indiNameAndSourceMap.put("indi_name", searchIndiList.get(i).getIndi_name());
+			indiNameAndSourceMap.put("source", searchIndiList.get(i).getSjly_name2());
+			int is_show = indiDetailService.getIndexStatus(indiNameAndSourceMap);
+			if(is_show==0)
+			{
+				switch (searchIndiList.get(i).getSjly_name2()) {
+				case "大数据":
+					teMap.put("source", "大数据");
+					break;
+				case "国家统计局":
+					teMap.put("source", "国统");
+					break;
+				case "湖北省统计局":
+					teMap.put("source", "湖统");
+					break;
+				default:
+					teMap.put("source", "其他");
+					break;
+				}
+				String indexCode = indiDetailService.getIndiCode(searchIndiList.get(i).getIndi_name());
+				teMap.put("id", indexCode);
+				teMap.put("name", searchIndiList.get(i).getIndi_name());
+				resultList.add(teMap);
+				System.out.println(searchIndiList.get(i));
 			}
-
-			resultList.add(teMap);
-			System.out.println(searchIndiList.get(i));
+			
 		}
 
 		Map dataMap = new HashMap();
 		dataMap.put("result", resultList);
-
 		Map map = new HashMap();
 		map.put("errCode", "0");
 		map.put("errMsg", "success");

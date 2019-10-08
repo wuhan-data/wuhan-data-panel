@@ -26,7 +26,7 @@ import com.wuhan_data.tools.Page;
 public class SysLogController {
 	@Autowired
 	SysLogService sysLogService;
-	private int operate_user_id=0;
+	private String e_type="";
 	@RequestMapping("sysLogInit")
 	public ModelAndView departmentInit(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	request.setCharacterEncoding("UTF-8");
@@ -39,7 +39,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogInit:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -57,6 +57,7 @@ public class SysLogController {
             page.count();
             map.put("page", page);
             List<SysLog> sysLogListByPage=sysLogService.listByPage(map);
+            System.out.println("zuixin"+sysLogListByPage.get(0).toString());
             maView.addObject("sysLogListByPage",sysLogListByPage);
             maView.addObject("controlURL", "sysLogListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -65,7 +66,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -81,7 +82,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogListByPage:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 		//数据库操作
@@ -107,7 +108,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogListByPage:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 	}
@@ -119,19 +120,20 @@ public class SysLogController {
     	//参数获取
     	String currentPage=null;
     	try {
-    		operate_user_id = Integer.valueOf(java.net.URLDecoder.decode(request.getParameter("operate_user_id"),"UTF-8"));
+    		e_type = java.net.URLDecoder.decode(request.getParameter("e_type"),"UTF-8");
+    		System.out.println(e_type);
     		currentPage=request.getParameter("currentPage");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchByName:参数获取"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
     	try {
     		Page page=new Page(); //分页类
             Map<String,Object> mapSearch = new HashMap<String, Object>();
-            mapSearch.put("operate_user_id", operate_user_id);
+            mapSearch.put("e_type", e_type);
             int count = sysLogService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
             Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
             Pattern pattern = Pattern.compile("[0-9]{1,9}");
@@ -143,7 +145,7 @@ public class SysLogController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
-            map.put("operate_user_id",operate_user_id);
+            map.put("e_type",e_type);
             List<SysLog> sysLogListByPage= sysLogService.search(map);//分页查询二极栏目
             maView.addObject("sysLogListByPage", sysLogListByPage);
             maView.addObject("controlURL", "sysLogSearchPage");//控制页码传递URL
@@ -153,7 +155,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchByName:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		} 
     }
@@ -170,14 +172,14 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchPage:参数获取"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
     	try {
     		Page page=new Page(); //分页类
             Map<String,Object> mapSearch = new HashMap<String, Object>();
-            mapSearch.put("operate_user_id", operate_user_id);
+            mapSearch.put("e_type", e_type);
             int count = sysLogService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
             Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
           
@@ -190,7 +192,7 @@ public class SysLogController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
-            map.put("operate_user_id",operate_user_id);
+            map.put("e_type",e_type);
             List<SysLog> sysLogListByPage= sysLogService.search(map);//分页查询二极栏目
             mav.addObject("sysLogListByPage", sysLogListByPage);
             mav.addObject("controlURL", "sysLogSearchPage");//控制页码传递URL
@@ -200,7 +202,7 @@ public class SysLogController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("sysLogSearchPage:参数获取"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     }

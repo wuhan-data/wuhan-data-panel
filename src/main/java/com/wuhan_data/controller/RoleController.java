@@ -2,6 +2,7 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wuhan_data.pojo.Admin;
@@ -40,6 +44,67 @@ public class RoleController {
 		mav.setViewName("listRole");
 		return mav;
 	}
+	//code是否存在
+	 @RequestMapping(value="roleCodeIsExist",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String codeIsExist(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 	JSONObject jsonObject = new JSONObject();
+	    	String code="";
+	    	try {
+				code=URLDecoder.decode(request.getParameter("roleCode"),"utf-8");
+				System.out.println("code"+code);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+			}
+	    	try {
+	    		Map map=new HashMap();
+	    		map.put("role_code", code);
+	    		List<Role> roles=roleService.getByCode(map);
+	    		if (roles.size()>0) {
+					jsonObject.put("data", "exist");
+				}
+	    		else {
+					jsonObject.put("data", "notExist");
+				}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    	}
+	    	return jsonObject.toString();
+	    }
+	//name是否存在
+	 @RequestMapping(value="roleNameIsExist",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String nameIsExist(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 	JSONObject jsonObject = new JSONObject();
+	    	String name="";
+	    	try {
+				name=URLDecoder.decode(request.getParameter("roleName"),"utf-8");
+				System.out.println("name"+name);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+			}
+	    	try {
+	    		Role role=roleService.getByName(name);
+	    		if (role!=null) {
+					jsonObject.put("data", "exist");
+				}
+	    		else {
+					jsonObject.put("data", "notExist");
+				}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    	}
+	    	return jsonObject.toString();
+	    }
+	
+	
+	
 	@RequestMapping("roleInit")
 	public ModelAndView roleInit(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	request.setCharacterEncoding("UTF-8");
@@ -52,7 +117,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleInit:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -71,6 +136,11 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
+
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -79,7 +149,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -95,7 +165,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleListByPage:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -113,6 +183,9 @@ public class RoleController {
 	        page.count();
 	        map.put("page", page);
 	        List<Role> roleListByPage=roleService.listByPage(map);
+	        maView.addObject("power_1",roleService.getThemeLists());
+	        maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
 	        maView.addObject("roleListByPage", roleListByPage);
 	        maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
 	        maView.addObject("page", page); 
@@ -121,7 +194,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleListByPage:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 	}
@@ -137,7 +210,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchByName:获取数据"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	try {
@@ -157,6 +230,9 @@ public class RoleController {
              map.put("page", page);
              map.put("role_name",role_name);
              List<Role> roleListByPage= roleService.search(map);//分页查询二极栏目
+             mav.addObject("power_1",roleService.getThemeLists());
+             mav.addObject("power_2",roleService.getIndexSpecials());
+             mav.addObject("power_3",roleService.getIndexManages());
              mav.addObject("roleListByPage", roleListByPage);  
              mav.addObject("page", page);
              mav.addObject("controlURL", "roleSearchPage");//控制页码传递URL
@@ -165,7 +241,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchByName:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	  
@@ -182,7 +258,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchPage:获取数据"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
         //数据库操作
@@ -203,6 +279,9 @@ public class RoleController {
             map.put("page", page);
             map.put("role_name",role_name);
             List<Role> roleListByPage= roleService.search(map);//分页查询二极栏目
+            mav.addObject("power_1",roleService.getThemeLists());
+            mav.addObject("power_2",roleService.getIndexSpecials());
+            mav.addObject("power_3",roleService.getIndexManages());
             mav.addObject("roleListByPage", roleListByPage);  
             mav.addObject("page", page);
             mav.addObject("controlURL", "roleSearchPage");//控制页码传递URL
@@ -211,7 +290,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchPage:数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}   
     }
@@ -227,16 +306,21 @@ public class RoleController {
     	String addRoleNameString="";
     	String addRoleDescriptionString="";
     	String currentPage="";
+    	String power_1="";
+    	String power_2="";
+    	String power_3="";
     	try {
     		addRoleCodeString=request.getParameter("addRoleCode");
     		addRoleNameString=request.getParameter("addRoleName");
     		addRoleDescriptionString=request.getParameter("addRoleDescription");
     		currentPage=request.getParameter("currentPage");
-			
+    		power_1=StringUtils.join(request.getParameterValues("addPower_1"),"|");
+    		power_2=StringUtils.join(request.getParameterValues("addPower_2"),"|");
+    		power_3=StringUtils.join(request.getParameterValues("addPower_3"),"|");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -245,6 +329,9 @@ public class RoleController {
         	role.setRole_code(addRoleCodeString);
         	role.setRole_name(addRoleNameString);
         	role.setRole_description(addRoleDescriptionString);
+        	role.setRole_power_1(power_1);
+        	role.setRole_power_2(power_2);
+        	role.setRole_power_3(power_3);
         	
         	roleService.add(role);
         	Page page=new Page();
@@ -260,6 +347,9 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -268,7 +358,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -285,7 +375,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteRole:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -304,6 +394,9 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -312,7 +405,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteRole:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -328,16 +421,22 @@ public class RoleController {
     	String editRoleCodeString="";
     	String editRoleNameString="";
     	String editRoleDescriptionString="";
+    	String power_1="";
+    	String power_2="";
+    	String power_3="";
     	try {
     		editRoleID=Integer.valueOf(request.getParameter("editRoleID"));
     		editRoleCodeString=request.getParameter("editRoleCode");
     		editRoleNameString=request.getParameter("editRoleName");
     		editRoleDescriptionString=request.getParameter("editRoleDescription");
     		currentPage=request.getParameter("currentPage");
+    		power_1=StringUtils.join(request.getParameterValues("editPower_1"),"|");
+    		power_2=StringUtils.join(request.getParameterValues("editPower_2"),"|");
+    		power_3=StringUtils.join(request.getParameterValues("editPower_3"),"|");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -347,6 +446,9 @@ public class RoleController {
         	role.setRole_code(editRoleCodeString);
         	role.setRole_name(editRoleNameString);
         	role.setRole_description(editRoleDescriptionString);
+        	role.setRole_power_1(power_1);
+        	role.setRole_power_2(power_2);
+        	role.setRole_power_3(power_3);
         	roleService.update(role);
         	Page page=new Page();
         	int count=roleService.count();
@@ -361,6 +463,9 @@ public class RoleController {
             page.count();
             map.put("page", page);
             List<Role> roleListByPage=roleService.listByPage(map);
+            maView.addObject("power_1",roleService.getThemeLists());
+            maView.addObject("power_2",roleService.getIndexSpecials());
+            maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -369,7 +474,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	

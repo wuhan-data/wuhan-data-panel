@@ -32,7 +32,7 @@
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Admin" parameterType="java.util.Map">
-        	select * from WUHAN_DATA."ADMIN"   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA."ADMIN"   order by id desc limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Admin">
@@ -40,7 +40,7 @@
             <where>
             username like concat(concat('%',#{adminname}),'%')  
             </where>
-             order by id limit #{page.dbIndex},#{page.dbNumber}
+             order by id desc limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >

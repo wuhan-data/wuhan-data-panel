@@ -61,9 +61,14 @@ public class IndiSearchServiceImpl implements IndiSearchService{
 	}
 
 	@Override
-	public List<IndexManage> searchIndiAll(String keyWord) {
+	public List<IndexManage> searchIndiG(String keyWord) {
 		// TODO Auto-generated method stub
-		return indiSearchMapper.searchIndiAll(keyWord);
+		return indiSearchMapper.searchIndiG(keyWord);
+	}
+
+	@Override
+	public List<IndexManage> searchIndiH(String keyWord) {
+		return indiSearchMapper.searchIndiH(keyWord);
 	}
 
 }

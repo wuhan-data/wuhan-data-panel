@@ -24,4 +24,6 @@ public interface IndiDetailService {
 
 	int getIsFavorite(Map favoriteMap);
 
+	int getIndexStatus(Map indiNameAndSourceMap);
+
 }

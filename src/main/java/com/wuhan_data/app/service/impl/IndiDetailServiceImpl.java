@@ -58,5 +58,10 @@ public class IndiDetailServiceImpl implements IndiDetailService{
 		// TODO Auto-generated method stub
 		return indiDetailMapper.getIsFavorite(favoriteMap);
 	}
+	@Override
+	public int getIndexStatus(Map indiNameAndSourceMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndexStatus(indiNameAndSourceMap);
+	}
 
 }

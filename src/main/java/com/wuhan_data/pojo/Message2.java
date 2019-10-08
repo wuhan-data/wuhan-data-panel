@@ -1,5 +1,6 @@
 package com.wuhan_data.pojo;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Message2 {
@@ -13,6 +14,17 @@ public class Message2 {
 	private String type;
 	private String path;
 	private Date create_time;
+	private String timeString;
+	public String getTimeString() {
+		String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		return sdf.format(create_time);
+	}
+	public void setTimeString() {
+		String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+		this.timeString = sdf.format(create_time);
+	}
 	public Integer getId() {
 		return id;
 	}

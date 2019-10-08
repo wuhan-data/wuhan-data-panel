@@ -24,7 +24,7 @@
         </select>
         <!-- 列表，可分页 -->
         <select id="listByPage" resultType="Feedback" parameterType="java.util.Map">
-        	select * from WUHAN_DATA.FEEDBACK   order by id limit #{page.dbIndex},#{page.dbNumber}
+        	select * from WUHAN_DATA.FEEDBACK   order by id desc  limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!--模糊查询 -->
 		<select id="search" parameterType="java.util.Map" resultType="Feedback">
@@ -32,7 +32,7 @@
             <where>
            title like concat(concat('%',#{title}),'%')  
             </where>
-             order by id limit #{page.dbIndex},#{page.dbNumber}
+             order by id desc limit #{page.dbIndex},#{page.dbNumber}
         </select>
         <!-- 模糊查询数量 -->
         <select id="searchCount" resultType="int" parameterType="java.util.Map" >

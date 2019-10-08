@@ -14,6 +14,10 @@ public interface DepartmentService {
 	
 	public Department get(int id) ;
 	
+	public List<Department> getByCode(Map<String,Object> parameter);
+	
+	public List<Department> getByName(Map<String,Object> parameter);
+	
 	public int update(Department department);
 	
 	public List<Department> list();

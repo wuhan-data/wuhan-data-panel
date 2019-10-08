@@ -111,161 +111,41 @@
 
 <body >
     <div id="wrapper">
-        <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="back/index.jsp">WUHANDATA</a>
-            </div>
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-<!--                     /.dropdown-user -->
-                </li>
-<!--                 /.dropdown -->
-            </ul>
-
-
-
-        </nav>
-        <!--/. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-
-                    <!-- <li>
-                        <a class="active-menu" href="index.html"><i class="fa fa-dashboard"></i> 首页</a>
-                    </li> -->
-                    <li>
-                        <a class="active-menu" href="toIndex"><i class="fa fa-dashboard"></i>首页</a>
-                    </li>
-<!--                     <li> -->
-<!--                         <a href="listIndiCorrelative"><i class="fa fa-list-alt"></i>元数据管理</a> -->
-                        <!-- <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">指标设计</a>
-                            </li>
-                            <li>
-                                <a href="#">指标关联关系维护</a>
-                            </li>
-                        </ul> -->
-<!--                     </li> -->
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i>数据管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="listIndexManage">指标数据维护</a>
-                            </li>
-<!--                             <li> -->
-<!--                                 <a href="dataReview.html">数据审核</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="reportDataManage.html">报告、报表数据管理</a> -->
-<!--                             </li> -->
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="init"><i class="fa fa-quote-left"></i>栏目管理</a>
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="columnManage.html">栏目维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPowerManage.html">栏目权限维护</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContentManage.html">内容配置</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="columnContPowerManage.html">内容权限设置</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-                    </li>
-                    <li>
-                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
-
-                    </li>
-<!--                     <li> -->
-<!--                         <a href="#"><i class="fa fa-laptop"></i>发布管理</a> -->
-<!--                         <ul class="nav nav-second-level"> -->
-<!--                             <li> -->
-<!--                                 <a href="columnPublish.html">栏目发布</a> -->
-<!--                             </li> -->
-<!--                             <li> -->
-<!--                                 <a href="publishedManage.html">已发布内容管理</a> -->
-<!--                             </li> -->
-<!--                         </ul> -->
-<!--                     </li> -->
-                    <li>
-                        <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="noticeInit">通知管理</a>
-                            </li>
-                            <li>
-                                <a href="sysLogInit">日志管理</a>
-                            </li>
-                            <li>
-                                <a href="messageManage.html">消息管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-cogs"></i>系统管理<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="departmentInit">组织结构管理</a>
-                            </li>
-                            <li>
-                                <a href="userInit">用户管理</a>
-                            </li>
-                            <li>
-                                <a href="roleInit">角色管理</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-            </div>
-
-        </nav>
+       
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">
 
 
-                <div class="row">
+                <div class="row"  style="margin-bottom:10px">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            Home <small>Summary of your App</small>
+                            指标<small>数据导出</small>
                         </h1>
                     </div>
                 </div>
                 
+                 <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+			   <div class="panel panel-default">
+                        <div class="panel-heading">
+                             指标
+                        </div>
+                        <div class="panel-body">
+                
                 
 <!--                 导出到excel style="float:right"-->
-		 <div style="margin:10px">
+		 <div>
 		  <form class="form-inline my-2 my-lg-0"  method="post" id="formSearch">
 		      <input class="form-control mr-sm-2" type="search" placeholder="请输入指标搜索关键字" value="${keyword}" aria-label="Search" id="searchKeyWord">
-		      <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
+		      <button class="btn btn-success my-2 my-sm-0" onclick="search('dbToEcxel')">搜索</button>
     	</form>
     	</div>
                 
-         <div style="margin:10px">
-			<span class="indiName" style="margin-right:5px">指标名称：
-			   <select id="indiName" class="com-opt"  style="width:150px">
+         <div style="margin-top:10px;margin-bottom:10px">
+			<span class="indiName" style="margin-right:5px"><img src="assets/img/pfeil.gif" alt="" />指标名称：
+			   <select id="indiName" style="width:100px">
 					<option value="" >
 						请选择指标
 					</option>
@@ -274,17 +154,17 @@
 					</c:forEach>
 				</select> 
 			</span>
-			<span class="indiSource"> <img src="images/pfeil.gif" alt="" />
-				指标来源： <select class="com-opt"></select> </span>
-			<span class="freqCode"> <img src="images/pfeil.gif" alt="" />
-				月/季度： <select class="com-opt"></select> </span>
-			<span class="startTime"> <img src="images/pfeil.gif" alt="" />
-				开始日期： <select class="com-opt"></select> </span>
-			<span class="endTime"> <img src="images/pfeil.gif" alt="" />
-				结束日期： <select class="com-opt"></select> </span>
+			<span class="indiSource"> <img src="assets/img/pfeil.gif" alt="" />
+				指标来源： <select text-align-last:center style="width:110px"></select> </span>
+			<span class="freqCode"> <img src="assets/img/pfeil.gif" alt="" />
+				月/季度： <select style="width:70px" text-align-last:center></select> </span>
+			<span class="startTime"> <img src="assets/img/pfeil.gif" alt="" />
+				开始日期： <select  style="width:100px" text-align-last:center></select> </span>
+			<span class="endTime"> <img src="assets/img/pfeil.gif" alt="" />
+				结束日期： <select style="width:100px" text-align-last:center></select> </span>
 				
 				
-				<input type="button" value="删除" id="delectBu">
+				<input type="button" value="删除" id="delectBu" style="float:right">
 		</div>
 		
 <!-- 		表格 -->
@@ -293,25 +173,31 @@
     			<thead>
     			<tr bgcolor="#4F81BD"style="color: #fff;">
 <%--     			<%=columns[0]%> --%>
-        			<td style="text-align: center" >indi_code</td>
-        			<td style="text-align: center" >indi_name</td>
-        			<td style="text-align: center" >date_code</td>
-        			<td style="text-align: center" >kjwdm</td>
-        			<td style="text-align: center" >area_code</td>
-        			<td style="text-align: center" >area_name</td>
-        			<td style="text-align: center" >freq_code</td>
-        			<td style="text-align: center" >time_point</td>
-        			<td style="text-align: center" >indi_value</td>
+        			<td style="text-align: center" >指标代码</td>
+        			<td style="text-align: center" >指标名称</td>
+        			<td style="text-align: center" >日期代码</td>
+        			<td style="text-align: center" >空间维度码</td>
+        			<td style="text-align: center" >区域代码</td>
+        			<td style="text-align: center" >区域名称</td>
+        			<td style="text-align: center" >频度代码</td>
+        			<td style="text-align: center" >时点</td>
+        			<td style="text-align: center" >指标值</td>
         			<td style="text-align: center" >操作</td>
     			</tr>
     			</thead>
 			</table>
 			
 
-      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('指标数据','toExcel')">导出到excel表格</button>
+      <button class="btn btn-success my-2 my-sm-0" id="exportE" onclick="exportExcel('指标数据','toExcel')" style="float:right;margin-top:10px">导出到excel表格</button>
 		 </div>
                 
-                
+                  </div>
+                              
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
                 
                 
                 <!-- /. ROW  -->
@@ -347,7 +233,7 @@ $(document).ready(function(){
 	 * 第一个下拉框change事件
 	 */
 	indiNameSelect.change(function(){
-		alert("进入indiNameSelect");
+// 		alert("进入indiNameSelect");
 		//只要第一个下拉框有变化则隐藏第三个和第四个下拉框
 		freqCodeSelect.parent().hide();
 		startTimeSelect.parent().hide();
@@ -374,7 +260,7 @@ $(document).ready(function(){
 						freqCodeSelect.html("");
 						startTimeSelect.html("");
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标来源"+ "</option>").appendTo(indiSourceSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(indiSourceSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i]+ "</option>").appendTo(indiSourceSelect);
@@ -427,7 +313,7 @@ $(document).ready(function(){
 						freqCodeSelect.html("");
 						startTimeSelect.html("");
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标频度"+ "</option>").appendTo(freqCodeSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(freqCodeSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(freqCodeSelect);
@@ -468,7 +354,7 @@ $(document).ready(function(){
 					{
 						startTimeSelect.html("");
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标频度"+ "</option>").appendTo(startTimeSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(startTimeSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(startTimeSelect);
@@ -510,7 +396,7 @@ $(document).ready(function(){
 					if(data.length !=0) 
 					{
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择指标频度"+ "</option>").appendTo(endTimeSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(endTimeSelect);
 						for(var i = 0;i<data.length;i++)
 						{
 							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(endTimeSelect);
@@ -550,7 +436,7 @@ $(document).ready(function(){
 		var startTime = startTimeSelect.val();
 		var endTime = endTimeSelect.val();
 		var tableBody = $(".dd");
-		alert(tableBody);
+// 		alert(tableBody);
 		if(indiSource != ""&&indiName != ""&&freqCode!=""&&startTime!=""&&endTime!="")
 		{
 			$.post("getSelectIndex",{indiName:indiName,indiSource:indiSource,freqCode:freqCode,startTime:startTime,endTime:endTime},function(data){
@@ -582,7 +468,7 @@ $(document).ready(function(){
 			
 		}
 		else
-			alert("完了！")
+			alert("选择条件不对！")
 			
 			
 			delectBu.show();
@@ -603,15 +489,38 @@ $(function(){
 });
 
 
-function search(){
-	var searchName=document.getElementById("searchKeyWord").value;
-	var keyWord=encodeURI(encodeURI(searchName));
+// function search(){
+// 	var searchName=document.getElementById("searchKeyWord").value;
+// 	var keyWord=encodeURI(encodeURI(searchName));
 	
-	var formSearch=document.getElementById("formSearch");
-	formSearch.action="dbToEcxel?keyWord="+keyWord;
-	formSearch.submit();
-	alert("搜索成功，请选择要导出的指标名字！")
-}
+// 	var formSearch=document.getElementById("formSearch");
+// 	formSearch.action="dbToEcxel?keyWord="+keyWord;
+// 	formSearch.submit();
+// 	alert("搜索成功，请选择要导出的指标名字！")
+// }
+
+search = function(Url) {
+	 var searchName=document.getElementById("searchKeyWord").value;
+// 	alert(searchName)
+	var keyWord=encodeURI(encodeURI(searchName));
+  $.ajax({
+             type: 'GET',
+             url:  Url+"?keyword="+keyWord,
+             dataType: "html",
+        	    async : false,
+         	contentType: false, //不设置内容类型
+        	    processData: false,
+             cache:false,
+             success: function(data){
+//         	 	alert(data);
+                 $('#getNewData').html(data);
+             },
+             error : function(data){
+             }
+         });  
+  
+  alert("搜索成功，请选择要导出的指标名字！");
+  };
 	
 </script>
 	

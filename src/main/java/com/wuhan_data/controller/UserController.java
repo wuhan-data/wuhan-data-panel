@@ -2,7 +2,9 @@ package com.wuhan_data.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,15 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wuhan_data.tools.MenuList;
 import com.wuhan_data.tools.Page;
+import com.alibaba.fastjson.JSON;
 import com.wuhan_data.pojo.Admin;
 import com.wuhan_data.pojo.AnalysisManage;
 import com.wuhan_data.pojo.Department;
@@ -54,8 +60,106 @@ public class UserController {
         mav.setViewName("userManage");
         return mav;
     }
+    @RequestMapping(value="test.do",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String test(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	System.out.println("响应的测试接口test.do"+userService.get(32).toString());
+    	JSONObject jsonObject = new JSONObject();
+    	jsonObject.put("data", userService.get(32));
+    	return jsonObject.toString();
+    }
+    @RequestMapping(value="telIsExist",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String telIsExist(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	JSONObject jsonObject = new JSONObject();
+    	String tel="";
+    	try {
+			tel=URLDecoder.decode(request.getParameter("tel"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			System.out.println("相应的额接口为telIsExist");
+			e.printStackTrace();
+		}
+    	try {
+    		Map map=new HashMap();
+    		map.put("tel", tel);
+			List<User> users=userService.getByTel(map);
+    		if (users.size()>0) {
+				jsonObject.put("data", "exist");
+			}
+    		else {
+				jsonObject.put("data", "notExist");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return jsonObject.toString();
+    }
     
     
+    @RequestMapping(value="selectByRealName2",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String selectByRealName2(HttpServletRequest request, 
+            HttpServletResponse response){
+    	JSONObject jsonObject = new JSONObject();
+    	String realName="";
+    	try {
+			realName=URLDecoder.decode(request.getParameter("realName"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	Map map=new HashMap();
+    	map.put("real_name", realName);
+    	List<User> users=userService.searchByRealname(map);
+    	
+    	List data=new ArrayList();
+    	for(int i=0;i<users.size();i++) {
+    		Map map1=new HashMap();
+    		User user=users.get(i);
+    		map1.put("realname", user.getReal_name());
+    		map1.put("role", user.getRole_id());
+    		map1.put("id", user.getId());
+    		data.add(map1);
+    	}
+
+    	jsonObject.put("errCode", "0");
+    	jsonObject.put("errMsg", "success");
+    	jsonObject.put("data", data);
+    	System.out.println(jsonObject.toString());
+		return jsonObject.toString();
+    }
+    
+    
+    
+    
+    @RequestMapping(value="selectByRealName",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String selectByRealName(HttpServletRequest request, 
+            HttpServletResponse response){
+    	JSONObject jsonObject = new JSONObject();
+    	String realName="";
+    	try {
+			realName=URLDecoder.decode(request.getParameter("realName"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	Map map=new HashMap();
+    	map.put("real_name", realName);
+    	List<User> users=userService.searchByRealname(map);
+    	String resultString="";
+    	for (int i=0;i<users.size();i++)
+    	{
+    		User user=users.get(i);
+    		resultString+=user.getReal_name()+"(角色："+user.getRole_id()+")|id="+user.getId()+"|;";
+    	}
+		jsonObject.put("data", resultString);
+		jsonObject.put("msg","success");
+		return jsonObject.toString();
+    }
     
     @RequestMapping("userInit")
     public ModelAndView userInit(HttpServletRequest request, 
@@ -70,7 +174,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userInit:获取数据"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -100,7 +204,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userInit:数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -119,7 +223,7 @@ public class UserController {
  		} catch (Exception e) {
  			// TODO: handle exception
  			System.out.println("userSelectAnalysisListByPage:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
  		}
     	try {
@@ -148,7 +252,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSelectAnalysisListByPage:数据库操作"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     }
@@ -167,7 +271,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchByName:获取数据"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     	try {
@@ -199,7 +303,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchByName:数据库操作"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     }
@@ -215,7 +319,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchPage:获取数据"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     	try {
@@ -248,7 +352,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchPage:数据库操作"+e.toString());
- 			mav.setViewName("login");
+ 			mav.setViewName("error");
  			return mav;
 		}
     }
@@ -270,7 +374,8 @@ public class UserController {
     	String addBirthday="";
     	String addCity="";
     	try {
-    		roleListSelect=request.getParameter("roleListSelect");
+    		roleListSelect=StringUtils.join(request.getParameterValues("roleListSelect"),"|");
+    		
     		departmentListSelect=request.getParameter("departmentListSelect");
     		genderSelect=request.getParameter("genderSelect");
     		addUserTel=request.getParameter("addUserTel");
@@ -282,7 +387,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addUser:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
  
@@ -336,7 +441,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addUser:数据库操作"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     }
@@ -363,7 +468,7 @@ public class UserController {
     	String editCity="";
     	try {
     		editUserID=Integer.parseInt(request.getParameter("editUserID"));
-        	editroleListSelect=request.getParameter("editroleListSelect");
+        	editroleListSelect=StringUtils.join(request.getParameterValues("editroleListSelect"),"|");;
         	editdepartmentListSelect=request.getParameter("editdepartmentListSelect");
         	editstatus=request.getParameter("editstatus");
         	editgenderSelect=request.getParameter("editgenderSelect");
@@ -376,14 +481,13 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
 
     	try {
     		User user=new User();
         	user.setId(editUserID);
-
         	user.setRole_id(editroleListSelect);
         	user.setDepartment_id(editdepartmentListSelect);
         	user.setStatus(editstatus);
@@ -428,7 +532,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:数据库操作"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     	
@@ -449,7 +553,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteUser:获取数据"+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     	try {
@@ -479,7 +583,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteUser:数据库操作 "+e.toString());
- 			maView.setViewName("login");
+ 			maView.setViewName("error");
  			return maView;
 		}
     }
@@ -527,6 +631,7 @@ public class UserController {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return "login";
 		}
   		user.setUsername(username1);
   		user.setPassword(password);
@@ -541,6 +646,8 @@ public class UserController {
   			System.out.println("role_list="+newUser.getRole_list());
   			List<MenuList> menuList=menuService.getMenu(newUser.getRole_list());
   			session.setAttribute("menuList",menuList);
+  			
+  			
   			
   			return "index";
   		}

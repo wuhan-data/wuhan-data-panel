@@ -57,7 +57,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionInit,参数获取失败"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -83,7 +83,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionInit,数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     }
@@ -99,7 +99,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,参数获取失败"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -125,7 +125,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,参数获取失败"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 	}
@@ -142,14 +142,14 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,参数获取失败"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
     	try {
     		Page page=new Page(); //分页类
             Map<String,Object> mapSearch = new HashMap<String, Object>();
-            mapSearch.put("version_name", version_name);
+            mapSearch.put("version", version_name);
             int count = versionService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
             System.out.println("count:"+count);
             Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
@@ -162,7 +162,7 @@ public class VersionController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
-            map.put("version_name",version_name);
+            map.put("version",version_name);
             List<Version> versionListByPage= versionService.search(map);//分页查询二极栏目
             mav.addObject("versionListByPage", versionListByPage);  
             mav.addObject("page", page);
@@ -172,7 +172,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}  
     }
@@ -190,14 +190,14 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionSearchPage,参数获取失败"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     	//数据库操作
     	try {
     		Page page=new Page(); //分页类
             Map<String,Object> mapSearch = new HashMap<String, Object>();
-            mapSearch.put("version_name", version_name);
+            mapSearch.put("version", version_name);
             int count = versionService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
             Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
             Pattern pattern = Pattern.compile("[0-9]{1,9}");
@@ -209,7 +209,7 @@ public class VersionController {
             page.setTotalNumber(count);
             page.count();
             map.put("page", page);
-            map.put("version_name",version_name);
+            map.put("version",version_name);
             List<Version> versionListByPage= versionService.search(map);//分页查询二极栏目
             mav.addObject("versionListByPage", versionListByPage);  
             mav.addObject("page", page);
@@ -219,7 +219,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionSearchPage,数据库操作"+e.toString());
-			mav.setViewName("login");
+			mav.setViewName("error");
 			return mav;
 		}
     }
@@ -244,7 +244,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addVersion,参数获取失败"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -253,7 +253,7 @@ public class VersionController {
     		 if (files.length!=1)
     	 	 {
         		 System.out.println("addVersion:上传文件数量不等于1");
-        		 maView.setViewName("login");
+        		 maView.setViewName("error");
         		 return maView;
     	 	 }
     	 	 else 
@@ -262,7 +262,7 @@ public class VersionController {
     	 	    if(imgPath==null ||imgPath.equals(""))
     	 	    {
     	 	    	System.out.println("addVersion:上传文件失败");
-    	 	    	maView.setViewName("login");
+    	 	    	maView.setViewName("error");
     	 	    	return maView;
     	 		 }
     	 	  }
@@ -296,7 +296,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addVersion,数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
 
@@ -315,7 +315,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteVersion,参数获取失败"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	//数据库操作
@@ -342,7 +342,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteVersion,数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	
@@ -350,7 +350,7 @@ public class VersionController {
 	//edit version
 	@RequestMapping("editVersion")
     public ModelAndView editVersion(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException{
+            HttpServletResponse response ,@RequestParam("editFile")MultipartFile [] files) throws IOException{
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
@@ -360,6 +360,7 @@ public class VersionController {
     	String editVersionString="";
     	String editTextString="";
     	String editUrl="";
+    	String imgPath="";
     	//参数获取
     	try {
     		editEditID=Integer.valueOf(request.getParameter("editID"));
@@ -371,17 +372,42 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editVersion,参数获取失败"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	try {
+    		 if (files.length!=1)
+    	 	 {
+        		 System.out.println("addVersion:上传文件数量不等于1");
+        		 maView.setViewName("error");
+        		 return maView;
+    	 	 }
+    	 	 else 
+    	 	 {
+    	 	    imgPath =ImageUtils.getURL(request)+"file_version/"+ ImageUtils.upload(request, files[0],"C:\\wuhan_data_file\\version");
+    	 	    if(imgPath==null ||imgPath.equals(""))
+    	 	    {
+    	 	    	System.out.println("addVersion:上传文件失败");
+    	 	    	maView.setViewName("error");
+    	 	    	return maView;
+    	 		 }
+    	 	  }
+    		//加入没有提价文件
+    		 if(files[0].isEmpty()==true)
+        	 {
+        		 imgPath=editUrl;
+        		 
+        	 }
+    		
     		Version version=new Version();
         	version.setId(editEditID);
         	version.setAppid(editAppidString);
         	version.setPlatform(editPlatformString);
         	version.setVersion(editVersionString);
         	version.setText(editTextString);
-        	version.setUrl(editUrl);
+        	//version.setUrl(editUrl);
+        	version.setUrl(imgPath);
+        	version.setCreate_time(new Date());
         	versionService.update(version);
         	Page page=new Page();
         	int count=versionService.count();
@@ -405,7 +431,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editVersion,数据库操作"+e.toString());
-			maView.setViewName("login");
+			maView.setViewName("error");
 			return maView;
 		}
     	

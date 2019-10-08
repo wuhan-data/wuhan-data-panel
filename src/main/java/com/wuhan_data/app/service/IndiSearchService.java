@@ -15,6 +15,7 @@ public interface IndiSearchService {
 	public List<String> getTrendList1(String nowDate);
 	public void addSearchHistory(HistorySearch historySearch);
 	public String getTrendSource(Map paraMap);
-	public List<IndexManage> searchIndiAll(String keyWord);
+	public List<IndexManage> searchIndiG(String keyWord);
+	public List<IndexManage> searchIndiH(String keyWord);
 
 }

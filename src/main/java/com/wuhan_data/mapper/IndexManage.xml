@@ -22,7 +22,7 @@
         </select>
  
         <update id="update" parameterType="IndexManage">
-            update WUHAN_DATA."INDEX_MANAGE" set indi_code=#{indi_code},indi_name=#{indi_name},status=#{status},show_type=#{show_type} where id=#{id}   
+            update WUHAN_DATA."INDEX_MANAGE" set indi_code=#{indi_code},indi_name=#{indi_name},status=#{status} where id=#{id}   
         </update>
         
         <select id="list" resultType="IndexManage">
@@ -63,11 +63,9 @@
         	update WUHAN_DATA."INDEX_MANAGE" set status=1 where id=#{id}
         </update>
         
-<!--         指标搜索 -->
+<!--      指标搜索 -->
 
- 		<select id="IndiSearch" resultType="String">
-            select indi_code from WUHAN_DATA."INDEX_LIST" where indi_name like CONCAT('%',#{keyword},'%') 
-        </select> 
+ 		
         
          <select id="indiSearch" parameterType="java.util.Map" resultType="IndexManage">
             select * from WUHAN_DATA."INDEX_MANAGE"  where indi_name like CONCAT('%',#{keyword},'%') 

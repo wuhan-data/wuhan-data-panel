@@ -15,6 +15,15 @@
         <select id="get" parameterType="_int" resultType="Menu">
             select * from   WUHAN_DATA.MENU  where id= #{id}   
         </select>
+        
+        <select id="getLevelOne"  resultType="Menu">
+            select * from   WUHAN_DATA.MENU  group by level_one  order by id 
+        </select>
+        
+        <select id="getLevelTwoByLevelOne" parameterType="java.util.Map" resultType="Menu">
+            select * from   WUHAN_DATA.MENU  where level_one=#{level_one}  order by id 
+        </select>
+        
  
         <update id="update" parameterType="Menu" >
             update WUHAN_DATA.MENU set level_one=#{level_one} , level_two=#{level_two} , role_name=#{role_name} , url=#{url} ,perm=#{perm} where id=#{id}   
@@ -35,7 +44,7 @@
      		</foreach>
         </select>
          <select id="searchByRoleGroupByOne" parameterType="java.util.ArrayList" resultType="Menu">
-        	select * from WUHAN_DATA.MENU  where role_name in  
+        	select max(id) id,level_one,max(level_two) level_two,max(role_name) role_name,max(url) url,max(perm) perm from WUHAN_DATA.MENU  where role_name in  
         	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
           		#{item}
      		</foreach>

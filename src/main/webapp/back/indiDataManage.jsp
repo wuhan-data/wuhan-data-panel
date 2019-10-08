@@ -108,16 +108,17 @@
                              指标
                         </div>
                         <div class="panel-body">
-                     
-  
-  
-   <div class="btns col-md-2" style="margin:5px">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal">添加</div>
+           
+  <div class="row" style="margin-bottom:7px;margin-right:2px">
+   <div class="btns col-md-6" >
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" ><i class="fa fa-plus"></i>添加</div>
    </div>
-    <form class="form-inline my-2 my-lg-0" style="float:right" method="post" id="formSearch">
+   
+    <form class="form-inline" style="float:right" method="post" id="formSearch">
       <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
-      <button class="btn btn-success my-2 my-sm-0" onclick="search()">搜索</button>
+      <button class="btn btn-success my-2 my-sm-0" onclick="search('IndiSearch')">搜索</button>
     </form>
+ </div>
 
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -127,7 +128,7 @@
                                             <th>指标代码</th>
                                             <th>指标名称</th>
                                             <th>状态</th>
-                                            <th>展示类型</th>
+<!--                                             <th>展示类型</th> -->
                                             <th>来源</th>
                                             <th>操作</th>
                                         </tr>
@@ -139,11 +140,11 @@
             <td>${c.indi_code}</td>
             <td>${c.indi_name}</td>
             <td>${c.status}</td>
-            <td>${c.show_type}</td>
+<%--             <td>${c.show_type}</td> --%>
             <td>${c.source}</td>
 
             <td >
-            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.indi_name}","${c.show_type}","${c.status}")'><i class="fa fa-edit"></i> 修改</div>
+            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.indi_name}","${c.status}")'><i class="fa fa-edit"></i> 修改</div>
             	<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> <a href="#" id="deleteIndi" onclick="deleteIndi('${c.id}','delete')">删除</a></div>
 
 	<div class="btn-group">
@@ -160,7 +161,7 @@
     </c:if>
     <c:if test="${c.status==0 }">
       <li role="presentation">
-         <a href="#" id="noPerShow" onclick="noPerShow(${c.id})">不展示</a>             
+         <a href="#" id="noPerShow" onclick="noPerShow('${c.id}','no_per_show')">不展示</a>             
       </li>
   	</c:if>
     </ul>
@@ -198,7 +199,7 @@
 				
 				
 <!-- 				<span class="text-info">指标值</span><input type="text" class="form-control" id="IndiValue" value="" name="Value"> -->
-				<span class="text-info">展示类型</span><input type="text" class="form-control" id="IndiShowType" value="" name="ShowType">
+<!-- 				<span class="text-info">展示类型</span><input type="text" class="form-control" id="IndiShowType" value="" name="ShowType"> -->
 				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status">
 <!-- 				<span class="text-info">来源</span><input type="text" class="form-control" id="IndiSource" value="" name="Source"> -->
 				
@@ -310,9 +311,9 @@
     <!-- JS Scripts-->
     <!-- jQuery Js -->
     
-     <script src="assets/js/jquery-1.10.2.js"></script>
-      <!-- Bootstrap Js -->
-    <script src="assets/js/bootstrap.min.js"></script>
+<!--      <script src="assets/js/jquery-1.10.2.js"></script> -->
+<!--       Bootstrap Js -->
+<!--     <script src="assets/js/bootstrap.min.js"></script> -->
     <!-- Metis Menu Js -->
     <script src="assets/js/jquery.metisMenu.js"></script>
       <!-- Custom Js -->
@@ -323,9 +324,7 @@
     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="assets/js/bootstrap-order.min.js"></script>
 <!--        <script> -->
-//             $(document).ready(function () {
-//                 $("#dataTables-example").dataTable();
-//             });
+
             
 <!--     </script>  -->
     
@@ -339,7 +338,7 @@
 	addbutton = function(Url) {
    	   $('.modal-backdrop').remove();
    	    $('body').removeClass('modal-open');
-          	alert(Url);
+          	
         	var data = new FormData(document.getElementById("addForm"));
         	console.log(data.get("title"));
         	 $.ajax({
@@ -352,7 +351,7 @@
               	    processData: false,
                    cache:false,
                    success: function(data){
-              	 	alert(data);
+              	 	
                        $('#getNewData').html(data);
                    },
                    error : function(data){
@@ -362,7 +361,7 @@
         
         
         deleteIndi = function(indi_id,Url) {
-            alert(indi_id);
+            
           $.ajax({
                      type: 'GET',
                      url:  Url+"?indi_id="+indi_id,
@@ -372,7 +371,7 @@
                 	    processData: false,
                      cache:false,
                      success: function(data){
-                	 	alert(data);
+                	 	
                          $('#getNewData').html(data);
                      },
                      error : function(data){
@@ -383,7 +382,7 @@
           updatebutton = function(Url) {
         	   $('.modal-backdrop').remove();
         	    $('body').removeClass('modal-open');
-               alert(Url);
+               
              var data = new FormData(document.getElementById("editForm"));                	
              
              $.ajax({
@@ -396,7 +395,7 @@
                    	    processData: false,
                         cache:false,
                         success: function(data){
-                   	 	alert(data);
+                   	 	
                             $('#getNewData').html(data);
                         },
                         error : function(data){
@@ -416,7 +415,7 @@
                        	    processData: false,
                             cache:false,
                             success: function(data){
-                       	 	alert(data);
+                       	 	
                                 $('#getNewData').html(data);
                             },
                             error : function(data){
@@ -425,9 +424,9 @@
                  };
           
                  pageGoClick = function(Url) {
-                	 alert(Url);
+                	 
                 	var currentPage = document.getElementById("currentPageText").value;
-                	 alert(currentPage);
+                	
                      $.ajax({
                                 type: 'GET',
                                 url:  Url+"?currentPage="+currentPage,
@@ -437,7 +436,7 @@
                            	    processData: false,
                                 cache:false,
                                 success: function(data){
-                           	 	alert(data);
+                           	 	
                                     $('#getNewData').html(data);
                                 },
                                 error : function(data){
@@ -446,7 +445,7 @@
                      };
              
                      perShow = function(indi_id,Url) {
-                         alert(indi_id);
+                        
                          $.ajax({
                                     type: 'GET',
                                     url:  Url+"?indi_id="+indi_id,
@@ -456,26 +455,64 @@
                                	    processData: false,
                                     cache:false,
                                     success: function(data){
-                               	 	alert(data);
+                               	 	
                                         $('#getNewData').html(data);
                                     },
                                     error : function(data){
                                     }
                                 });    
                          };
+                         
+                         noPerShow = function(indi_id,Url) {
+                             
+                             $.ajax({
+                                        type: 'GET',
+                                        url:  Url+"?indi_id="+indi_id,
+                                        dataType: "html",
+                                   	    async : false,
+                                    	contentType: false, //不设置内容类型
+                                   	    processData: false,
+                                        cache:false,
+                                        success: function(data){
+                                   	 	
+                                            $('#getNewData').html(data);
+                                        },
+                                        error : function(data){
+                                        }
+                                    });    
+                             };
              
              
-             
+                             search = function(Url) {
+                            	 var searchName=document.getElementById("searchKeyWord").value;
+                             
+                             	var keyWord=encodeURI(encodeURI(searchName));
+                               $.ajax({
+                                          type: 'GET',
+                                          url:  Url+"?keyword="+keyWord,
+                                          dataType: "html",
+                                     	    async : false,
+                                      	contentType: false, //不设置内容类型
+                                     	    processData: false,
+                                          cache:false,
+                                          success: function(data){
+                                
+                                              $('#getNewData').html(data);
+                                          },
+                                          error : function(data){
+                                          }
+                                      });    
+                               };
              
              
 	
-		function updateIndi(id,indi_code,indi_name,show_type,status){
+		function updateIndi(id,indi_code,indi_name,status){
 			
  			 $("#IndiId").val(id);
 			$("#IndiCode").val(indi_code);
 			$("#IndiName").val(indi_name);
 			
-			$("#IndiShowType").val(show_type);
+			
 			$("#IndiStatus").val(status);
 			
 }
@@ -488,41 +525,31 @@
 // 			alert("添加成功！");
 // 		}
 		
-		/* 删除指标 */
-// 		function deleteIndi(id){
-// 			if(confirm('确实要删除该指标吗?')) {
-<%-- 				$.post("<%=basePath%>delete.action",{"id":id},function(data){ --%>
-// 					alert("指标删除成功！");
+
+		/* 展示指标*/
+// 		function perShow(id){
+			
+<%-- 				$.post("<%=basePath%>per_show.action",{"id":id},function(data){ --%>
+// 					alert("允许指标展示！");
 // 					window.location.reload();
 // 				});
-// 			}
+			
 // 		}
 		
-		/* 展示指标*/
-		function perShow(id){
+// 		function noPerShow(id){
 			
-				$.post("<%=basePath%>per_show.action",{"id":id},function(data){
-					alert("允许指标展示！");
-					window.location.reload();
-				});
-			
-		}
+<%-- 			$.post("<%=basePath%>no_per_show.action",{"id":id},function(data){ --%>
+// 				alert("不允许指标展示！");
+// 				window.location.reload();
+// 			});
 		
-		function noPerShow(id){
-			
-			$.post("<%=basePath%>no_per_show.action",{"id":id},function(data){
-				alert("不允许指标展示！");
-				window.location.reload();
-			});
-		
-	}
-		function search(){
+// 	}
+		function search1(){
         	var searchName=document.getElementById("searchKeyWord").value;
-        	alert(searchName)
         	var keyWord=encodeURI(encodeURI(searchName));
         	
         	var formSearch=document.getElementById("formSearch");
-        	formSearch.action="IndiSearch?keyWord="+keyWord;
+        	formSearch.action="IndiSearch?keyword="+keyWord;
         	formSearch.submit();
         	
         }

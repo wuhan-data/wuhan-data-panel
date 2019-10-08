@@ -35,6 +35,7 @@
 		 <select id="isExist" parameterType="Track" resultType="int">
             select count(*) from   WUHAN_DATA.TRACK  where uid= #{uid} and index_id=#{index_id} and type=#{type}   
         </select>
+ 
        
 
     </mapper>

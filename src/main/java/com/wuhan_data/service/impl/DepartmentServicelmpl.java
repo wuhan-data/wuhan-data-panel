@@ -68,4 +68,16 @@ public class DepartmentServicelmpl implements DepartmentService {
 		return departmentMapper.searchCount(parameter);
 	}
 
+	@Override
+	public List<Department> getByCode(Map<String, Object> parameter) {
+		// TODO Auto-generated method stub
+		return departmentMapper.getByCode(parameter);
+	}
+
+	@Override
+	public List<Department> getByName(Map<String, Object> parameter) {
+		// TODO Auto-generated method stub
+		return departmentMapper.getByName(parameter);
+	}
+
 }

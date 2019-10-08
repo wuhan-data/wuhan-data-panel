@@ -164,7 +164,7 @@
         </select> 
         
         <select id="parentList" resultType="AnalysisManage" >
-            select type_name,type_weight weight from WUHAN_DATA."ANALYSIS_THEME" group by type_name,weight order by weight desc
+           select type_name,type_weight weight from WUHAN_DATA."ANALYSIS_THEME" group by type_name,type_weight order by type_weight desc
         </select> 
         <select id="countByGroup" resultType="int" parameterType="String" >
             select count(*) from WUHAN_DATA."ANALYSIS_THEME" where type_name=#{type_name}
