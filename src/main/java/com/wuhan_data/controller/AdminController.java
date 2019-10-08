@@ -515,7 +515,7 @@ public class AdminController {
 	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
 	  			System.out.println(menuList);
 	  			session.setAttribute("menuList",menuList);
-	  			System.out.println("获得权限"+userService.getAllPower(42));
+	  			
 	  			
 			}
 	    	return maView;

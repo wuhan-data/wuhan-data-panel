@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService{
   		for(int i=0;i<roleList.length;i++)
   		{
   			String role_nameString=roleList[i];
-  			Role role=roleService.getByName(role_nameString);
+  			Role role=roleService.get(Integer.valueOf(role_nameString));
   			if(role==null)
   				continue;
   			power_1String.add(role.getRole_power_1());
@@ -188,5 +188,39 @@ public class UserServiceImpl implements UserService{
   		data.put("powerIndexManages", powerIndexManages.toArray());
   		data.put("powerIndexManages2", powerIndexManages2.toArray());
 		return data;	
+	}
+
+	@Override
+	public boolean isExistRoleId(int roleId) {
+		// TODO Auto-generated method stub
+		String roleIdList=String.valueOf(roleId);
+		List<User> users=userMapper.list();
+		for (int i=0;i<users.size();i++)
+		{
+			User user=users.get(i);
+			String[] roleid=user.getRole_id().split("\\|");
+			for (String s:roleid) {
+				if (s.equals(roleIdList))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isExistDepartmentId(int departmentId) {
+		// TODO Auto-generated method stub
+		String departmentIdList=String.valueOf(departmentId);
+		List<User> users=userMapper.list();
+		for(int i=0;i<users.size();i++)
+		{
+			User user=users.get(i);
+			String [] departmentid=user.getDepartment_id().split("\\|");
+			for (String s:departmentid) {
+				if (s.equals(departmentIdList))
+					return true;
+			}
+		}
+		return false;
 	}
 }

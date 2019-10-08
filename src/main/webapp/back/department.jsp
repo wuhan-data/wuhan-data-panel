@@ -246,7 +246,7 @@
 	<input class="form-control" type="hidden" name="editDepartmentID" id="editDepartmentID">
    部门代码：<input class="form-control" type="text" name="editDepartmentCode" id="editDepartmentCode" readonly > 
     <br>  
-   部门名称：<input class="form-control" type="text" name="editDepartmentName" id="editDepartmentName" readonly> <br>  
+   部门名称：<input class="form-control" type="text" name="editDepartmentName" id="editDepartmentName"> <br>  
    部门描述：<textarea class="form-control" type="text" name="editDepartmentDescription" id="editDepartmentDescription" style="width:500px;height:80px;"></textarea> <br>  
 			</div>
 			<div class="modal-footer">
@@ -282,7 +282,7 @@
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
      部门代码：<input class="form-control" type="search" placeholder="部门代码" name="addDepartmentCode" id="addDepartmentCode" onblur="checkDepartmentCode()">
      <span id="span_rolecode">填4位代码</span> <br>
-     部门名称：<input class="form-control" type="search" placeholder="部门名称" name="addDepartmentName" id="addDepartmentName" onblur="checkDepartmentName()">
+     部门名称：<input class="form-control" type="search" placeholder="部门名称" name="addDepartmentName" id="addDepartmentName">
       <span id="span_roleName"></span> <br>
      部门描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addDepartmentDescription" id="addDepartmentDescription" style="width:500px;height:80px;"> </textarea> <br>
 			</div>
@@ -401,21 +401,40 @@
                          });    
                   };
                   delClick = function(s_id,Url) {
-                      $.ajax({
-                                 type: 'GET',
-                                 url:  Url+"?id="+s_id,
-                                 dataType: "html",
-                            	    async : false,
-                             	contentType: false, //不设置内容类型
-                            	    processData: false,
-                                 cache:false,
-                                 success: function(data){
-                            	 	alert(data);
-                                     $('#getNewData').html(data);
-                                 },
-                                 error : function(data){
-                                 }
-                             });    
+                	  
+                	  
+                	  var departmentId=encodeURI(s_id);
+                	  $.ajax({
+      		    		url:"departmentIdIsExistForD",
+      		    		data:{departmentId:departmentId},
+      		    		async:false,
+      		    		success:function(data){
+      		    			if(data.data=="exist"){
+      		    				alert("用户中存在该部门，不能删除")
+      		    			}
+      		    			else{
+      		    				$.ajax({
+      	                                 type: 'GET',
+      	                                 url:  Url+"?id="+s_id,
+      	                                 dataType: "html",
+      	                            	    async : false,
+      	                             	contentType: false, //不设置内容类型
+      	                            	    processData: false,
+      	                                 cache:false,
+      	                                 success: function(data){
+      	                            	 	alert(data);
+      	                                     $('#getNewData').html(data);
+      	                                 },
+      	                                 error : function(data){
+      	                                 }
+      	                             });  
+      		    			}	
+      		    		}
+      		    	})
+                	  
+                	  
+                	  
+                        
                       };
                       
                       pageClick = function(currentPage,Url) {
