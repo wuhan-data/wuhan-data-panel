@@ -1002,174 +1002,52 @@ public class IndiSearchAppController {
 		String freqCode = "";
 		String startTime = "";
 		String endTime = "";
+		String time = "";
 		String areaName="";
 		String lj = "";
+		String isArea = "";
 		Map<String, Object> data = new HashMap<String, Object>();
-		try {
-			boolean hasIndexCode = requestObject.containsKey("indexId");
-			boolean hasSource = requestObject.containsKey("source");
-			boolean hasFreqName = requestObject.containsKey("timeFreq");
-			boolean hasStartTime = requestObject.containsKey("startTime");
-			boolean hasEndTime = requestObject.containsKey("endTime");
-			boolean hasAreaName = requestObject.containsKey("areaName");
-			boolean hasLj = requestObject.containsKey("lj");
-			if (!hasIndexCode) {
-				return this.apiReturn("-1", "需要指定栏目id", data);
-			}
-			if (!hasSource) {
-				return this.apiReturn("-1", "需要指定数据来源", data);
-			}
-			if (!hasFreqName) {
-				return this.apiReturn("-1", "需要选择时间频度", data);
-			}
-			if (!hasStartTime) {
-				return this.apiReturn("-1", "需要选择起始时间", data);
-			}
-			if (!hasEndTime) {
-				return this.apiReturn("-1", "需要选择结束时间", data);
-			}
-			if (!hasAreaName) {
-				return this.apiReturn("-1", "需要选择地域维度", data);
-			}
-			if (!hasLj) {
-				return this.apiReturn("-1", "需要传入路径", data);
-			}
-			indexCode = requestObject.get("indexId").toString();
-			source = requestObject.get("source").toString();
-			freqCode = requestObject.get("timeFreq").toString();
-			startTime = requestObject.get("startTime").toString();
-			endTime = requestObject.get("endTime").toString();
-			areaName = requestObject.get("areaName").toString();
-			lj = requestObject.get("lj").toString();
-		} catch (Exception e) {
-			return this.apiReturn("-1", "参数获取异常", data);
-		}
-		//判断是查询国统数据还是湖统数据
-		String appIndiName ="";
-		if(source.equals("国统")){
-			appIndiName = indiDetailService.getIndexName(indexCode);
-			String temp[] = appIndiName.split("::");
-			System.out.println("真正的指标名称:"+temp[1]);
-			appIndiName = temp[1];
-		}
-		else{
-			appIndiName = indiDetailService.getIndexNameH(indexCode);
-		}
-//		String startTime = mapget.get("startTime").toString();
-//		String endTime = mapget.get("endTime").toString();
-//		String freqCode = mapget.get("timeFreq").toString();
-//		String startTime = "201408MM";
-//		String endTime = "201610MM";
-//		String freqCode = "月度";
+		isArea = requestObject.get("isArea").toString();
 		// 创建图
 		List classInfoList = new ArrayList();
-		if(source.equals("国统")){
-			// 搜索条件
+		if(isArea.equals("1")){
+			try {
+				boolean hasIndexCode = requestObject.containsKey("indexId");
+				boolean hasSource = requestObject.containsKey("source");
+				boolean hasFreqName = requestObject.containsKey("freqCode");
+				boolean hasTime = requestObject.containsKey("time");
+				boolean hasLj = requestObject.containsKey("lj");
+				if (!hasIndexCode) {
+					return this.apiReturn("-1", "需要指定栏目id", data);
+				}
+				if (!hasSource) {
+					return this.apiReturn("-1", "需要指定数据来源", data);
+				}
+				if (!hasFreqName) {
+					return this.apiReturn("-1", "需要选择时间频度", data);
+				}
+				if (!hasTime) {
+					return this.apiReturn("-1", "需要指定时间", data);
+				}
+				if (!hasLj) {
+					return this.apiReturn("-1", "需要传入路径", data);
+				}
+				indexCode = requestObject.get("indexId").toString();
+				source = requestObject.get("source").toString();
+				freqCode = requestObject.get("timeFreq").toString();
+				time = requestObject.get("startTime").toString();
+				lj = requestObject.get("lj").toString();
+			} catch (Exception e) {
+				return this.apiReturn("-1", "参数获取异常", data);
+			}
+			String appIndiName = indiDetailService.getIndexNameH(indexCode);
 			Map defaultMap = new HashMap();
 			defaultMap.put("appIndiName", appIndiName);
 			defaultMap.put("freqCode", freqCode);
-			defaultMap.put("startTime", startTime);
-			defaultMap.put("endTime", endTime);
 			defaultMap.put("source", source);
-			defaultMap.put("area_name", areaName);
-			defaultMap.put("indexCode", indexCode);
-			List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueG(defaultMap);
-			Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
-				@Override
-				public int compare(TPIndiValue r1, TPIndiValue r2) {
-					int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
-					int ageIndex = 0;
-					int startIndex = 0;
-					return nameIndex + ageIndex + startIndex;
-				}
-			});
-			System.out.println("defaultIndiValueList:" + defaultIndiValueList);
-			System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
-			List<List<String>> dataX = new ArrayList();
-			List<List<String>> dataV = new ArrayList();
-			List<String> dataList = new ArrayList();
-			List<String> dateList = new ArrayList();
-			List<String> legendList = new ArrayList();
-			if (defaultIndiValueList.size() >= 8) {
-				for (int j = 0; j < 8; j++) {// tempList.size()
-
-					dateList.add(defaultIndiValueList.get(j).getDate_code());
-					dataList.add(defaultIndiValueList.get(j).getIndi_value());
-				}
-			} else {
-				for (int j = 0; j < defaultIndiValueList.size(); j++) {// tempList.size()
-
-					dateList.add(defaultIndiValueList.get(j).getDate_code());
-					dataList.add(defaultIndiValueList.get(j).getIndi_value());
-				}
-			}
-			legendList.add(appIndiName);
-			dataV.add(dataList);
-			dataX.add(dateList);
-			List<String> showColor = new ArrayList<String>();
-			List<String> showType = new ArrayList<String>();
-			if(appIndiName.equals("湖北PMI"))
-			{
-				// 创建折线图
-				LineType lineType = new LineType();
-				LineEntity lineEntity = lineType.getOption(Integer.toString(1),appIndiName,
-						dataX.get(0), legendList, dataV, showColor, showType);
-				// 创建表格
-				TableType tableType = new TableType();
-				TableEntity tableEntity = tableType.getTable(Integer.toString(2), appIndiName,
-						dataX, legendList, dataV);// 表格
-				classInfoList.add(lineEntity);
-				classInfoList.add(tableEntity);
-			}
-			else
-			{
-					// 创建柱状图
-					BarType barType = new BarType();// 柱状图
-					System.out.println("legendList长度:" + legendList.size());
-					BarEntity barEntity = barType.getOption(Integer.toString(1), appIndiName ,
-							dataX.get(0), legendList, dataV, showColor, showType);
-					classInfoList.add(barEntity);
-					// 创建表格
-					TableType tableType = new TableType();
-					TableEntity tableEntity = tableType.getTable(Integer.toString(2), appIndiName,
-							dataX, legendList, dataV);// 表格
-					System.out.println("yes or no:" + tableEntity.getTableBody());
-					classInfoList.add(tableEntity);
-			}
-		}else{
-			//湖统数据
-			String newStartTime = startTime.substring(0, 4) + startTime.substring(5, 7) + freqCode;
-			String newEndTime = endTime.substring(0, 4) + endTime.substring(5, 7) + freqCode;
-			switch (freqCode) {
-			case "月度":
-				freqCode = "MM";
-				break;
-			case "季度":
-				freqCode = "SS";
-				break;
-			default:
-				freqCode = "YY";
-				break;
-			}
-			// 搜索条件
-			Map defaultMap = new HashMap();
-			defaultMap.put("appIndiName", appIndiName);
-			defaultMap.put("freqCode", freqCode);
-			defaultMap.put("startTime", newStartTime);
-			defaultMap.put("endTime", newEndTime);
-			defaultMap.put("source", source);
-			defaultMap.put("area_name", areaName);
+			defaultMap.put("time", time);
 			defaultMap.put("lj", lj);
-			List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValue(defaultMap);
-			Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
-				@Override
-				public int compare(TPIndiValue r1, TPIndiValue r2) {
-					int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
-					int ageIndex = 0;
-					int startIndex = 0;
-					return nameIndex + ageIndex + startIndex;
-				}
-			});
+			List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueArea(defaultMap);
 			System.out.println("defaultIndiValueList:" + defaultIndiValueList);
 			System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
 			// 对查询出的指标值根据不同的时点分类
@@ -1185,76 +1063,343 @@ public class IndiSearchAppController {
 					tm.put(tv.getTime_point(), tem);
 				}
 			}
+			// 创建图例列表和数据列表
+			List<String> legendData1 = new ArrayList();
 			Set<String> set = tm.keySet();
-			List<String> legendData = new ArrayList();
-			legendData.addAll(set);
-
+			legendData1.addAll(set);
 			// 创建数据列表
-
-			for (int i = 0; i < legendData.size(); i++) {
-				List<List<String>> dataX = new ArrayList();
+			for (int i = 0; i < legendData1.size(); i++) {
 				List<List<String>> dataV = new ArrayList();
-				List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData.get(i));
+				List<List<String>> dataX = new ArrayList();
+				List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData1.get(i));
 				List<String> dataList = new ArrayList();
 				List<String> dateList = new ArrayList();
 				List<String> legendList = new ArrayList();
-				if (tempList.size() > 8) {
+				if (tempList.size() >= 8) {
 					for (int j = 0; j < 8; j++) {// tempList.size()
 
-						dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
-								+ tempList.get(j).getDate_code().substring(4, 6));
+						dateList.add(tempList.get(j).getArea_name());
 						dataList.add(tempList.get(j).getIndi_value());
+						legendList.add(tempList.get(j).getArea_name());
 					}
 				} else {
 					for (int j = 0; j < tempList.size(); j++) {// tempList.size()
 
-						dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
-								+ tempList.get(j).getDate_code().substring(4, 6));
+						dateList.add(tempList.get(j).getArea_name());
 						dataList.add(tempList.get(j).getIndi_value());
+						legendList.add(tempList.get(j).getArea_name());
 					}
 				}
 				String showName;
-				if (legendData.get(i).equals("104")) {
+				if (legendData1.get(i).equals("104")) {
 					showName = "本期";
-				} else if (legendData.get(i).equals("203")) {
+				} else if (legendData1.get(i).equals("203")) {
 					showName = "自年初累计";
 				} else {
 					showName = "其他";
 				}
-				legendList.add(appIndiName + "-" + showName);
 				dataV.add(dataList);
 				dataX.add(dateList);
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
-				System.out.println("legendList" + legendList);
-				System.out.println("dataList" + dataList);
-				System.out.println("dateList" + dateList);
-				if (legendData.get(i).equals("104") || legendData.get(i).equals("203")) {
-					// 创建柱状图
-					BarType barType = new BarType();// 柱状图
-					BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
-							dataX.get(0), legendList, dataV, showColor, showType);
-					System.out.println("barEntity" + barEntity.getEchartOption().getSeries());
-					// 创建表格
-
-					TableType tableType = new TableType();
-					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
-							dataX, legendList, dataV);// 表格
-					classInfoList.add(barEntity);
-					classInfoList.add(tableEntity);
-				} else {
-					// TODO 其他情况
+				if(appIndiName.equals("湖北PMI"))
+				{
 					// 创建折线图
 					LineType lineType = new LineType();
-					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName+"-" + showName,
 							dataX.get(0), legendList, dataV, showColor, showType);
 
 					// 创建表格
 					TableType tableType = new TableType();
-					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName+"-" + showName,
 							dataX, legendList, dataV);// 表格
 					classInfoList.add(lineEntity);
 					classInfoList.add(tableEntity);
+				}
+				else
+				{
+					if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
+						// 创建柱状图
+						BarType barType = new BarType();// 柱状图
+						System.out.println("legendList长度:" + legendList.size());
+						BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+								dataX.get(0), legendList, dataV, showColor, showType);
+						classInfoList.add(barEntity);
+
+						// 创建表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+								dataX, legendList, dataV);// 表格
+						System.out.println("yes or no:" + tableEntity.getTableBody());
+						classInfoList.add(tableEntity);
+					} else {
+						// TODO 其他情况
+						// 创建折线图
+						LineType lineType = new LineType();
+						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+								dataX.get(0), legendList, dataV, showColor, showType);
+						// 创建表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+								dataX, legendList, dataV);// 表格
+						classInfoList.add(lineEntity);
+						classInfoList.add(tableEntity);
+					}
+				}
+			}
+			
+			
+		}
+		else{
+			try {
+				boolean hasIndexCode = requestObject.containsKey("indexId");
+				boolean hasSource = requestObject.containsKey("source");
+				boolean hasFreqName = requestObject.containsKey("freqCode");
+				boolean hasStartTime = requestObject.containsKey("startTime");
+				boolean hasEndTime = requestObject.containsKey("endTime");
+				boolean hasAreaName = requestObject.containsKey("areaName");
+				boolean hasLj = requestObject.containsKey("lj");
+				if (!hasIndexCode) {
+					return this.apiReturn("-1", "需要指定栏目id", data);
+				}
+				if (!hasSource) {
+					return this.apiReturn("-1", "需要指定数据来源", data);
+				}
+				if (!hasFreqName) {
+					return this.apiReturn("-1", "需要选择时间频度", data);
+				}
+				if (!hasStartTime) {
+					return this.apiReturn("-1", "需要选择起始时间", data);
+				}
+				if (!hasEndTime) {
+					return this.apiReturn("-1", "需要选择结束时间", data);
+				}
+				if (!hasAreaName) {
+					return this.apiReturn("-1", "需要选择地域维度", data);
+				}
+				if (!hasLj) {
+					return this.apiReturn("-1", "需要传入路径", data);
+				}
+				indexCode = requestObject.get("indexId").toString();
+				source = requestObject.get("source").toString();
+				freqCode = requestObject.get("timeFreq").toString();
+				startTime = requestObject.get("startTime").toString();
+				endTime = requestObject.get("endTime").toString();
+				areaName = requestObject.get("areaName").toString();
+				lj = requestObject.get("lj").toString();
+			} catch (Exception e) {
+				return this.apiReturn("-1", "参数获取异常", data);
+			}
+			//判断是查询国统数据还是湖统数据
+			String appIndiName ="";
+			if(source.equals("国统")){
+				appIndiName = indiDetailService.getIndexName(indexCode);
+				String temp[] = appIndiName.split("::");
+				System.out.println("真正的指标名称:"+temp[1]);
+				appIndiName = temp[1];
+			}
+			else{
+				appIndiName = indiDetailService.getIndexNameH(indexCode);
+			}
+//			String startTime = mapget.get("startTime").toString();
+//			String endTime = mapget.get("endTime").toString();
+//			String freqCode = mapget.get("timeFreq").toString();
+//			String startTime = "201408MM";
+//			String endTime = "201610MM";
+//			String freqCode = "月度";
+			if(source.equals("国统")){
+				// 搜索条件
+				Map defaultMap = new HashMap();
+				defaultMap.put("appIndiName", appIndiName);
+				defaultMap.put("freqCode", freqCode);
+				defaultMap.put("startTime", startTime);
+				defaultMap.put("endTime", endTime);
+				defaultMap.put("source", source);
+				defaultMap.put("area_name", areaName);
+				defaultMap.put("indexCode", indexCode);
+				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueG(defaultMap);
+				Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
+					@Override
+					public int compare(TPIndiValue r1, TPIndiValue r2) {
+						int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+						int ageIndex = 0;
+						int startIndex = 0;
+						return nameIndex + ageIndex + startIndex;
+					}
+				});
+				System.out.println("defaultIndiValueList:" + defaultIndiValueList);
+				System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
+				List<List<String>> dataX = new ArrayList();
+				List<List<String>> dataV = new ArrayList();
+				List<String> dataList = new ArrayList();
+				List<String> dateList = new ArrayList();
+				List<String> legendList = new ArrayList();
+				if (defaultIndiValueList.size() >= 8) {
+					for (int j = 0; j < 8; j++) {// tempList.size()
+
+						dateList.add(defaultIndiValueList.get(j).getDate_code());
+						dataList.add(defaultIndiValueList.get(j).getIndi_value());
+					}
+				} else {
+					for (int j = 0; j < defaultIndiValueList.size(); j++) {// tempList.size()
+
+						dateList.add(defaultIndiValueList.get(j).getDate_code());
+						dataList.add(defaultIndiValueList.get(j).getIndi_value());
+					}
+				}
+				legendList.add(appIndiName);
+				dataV.add(dataList);
+				dataX.add(dateList);
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				if(appIndiName.equals("湖北PMI"))
+				{
+					// 创建折线图
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(Integer.toString(1),appIndiName,
+							dataX.get(0), legendList, dataV, showColor, showType);
+					// 创建表格
+					TableType tableType = new TableType();
+					TableEntity tableEntity = tableType.getTable(Integer.toString(2), appIndiName,
+							dataX, legendList, dataV);// 表格
+					classInfoList.add(lineEntity);
+					classInfoList.add(tableEntity);
+				}
+				else
+				{
+						// 创建柱状图
+						BarType barType = new BarType();// 柱状图
+						System.out.println("legendList长度:" + legendList.size());
+						BarEntity barEntity = barType.getOption(Integer.toString(1), appIndiName ,
+								dataX.get(0), legendList, dataV, showColor, showType);
+						classInfoList.add(barEntity);
+						// 创建表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(2), appIndiName,
+								dataX, legendList, dataV);// 表格
+						System.out.println("yes or no:" + tableEntity.getTableBody());
+						classInfoList.add(tableEntity);
+				}
+			}else{
+				//湖统数据
+				String newStartTime = startTime.substring(0, 4) + startTime.substring(5, 7) + freqCode;
+				String newEndTime = endTime.substring(0, 4) + endTime.substring(5, 7) + freqCode;
+				switch (freqCode) {
+				case "月度":
+					freqCode = "MM";
+					break;
+				case "季度":
+					freqCode = "SS";
+					break;
+				default:
+					freqCode = "YY";
+					break;
+				}
+				// 搜索条件
+				Map defaultMap = new HashMap();
+				defaultMap.put("appIndiName", appIndiName);
+				defaultMap.put("freqCode", freqCode);
+				defaultMap.put("startTime", newStartTime);
+				defaultMap.put("endTime", newEndTime);
+				defaultMap.put("source", source);
+				defaultMap.put("area_name", areaName);
+				defaultMap.put("lj", lj);
+				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValue(defaultMap);
+				Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
+					@Override
+					public int compare(TPIndiValue r1, TPIndiValue r2) {
+						int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+						int ageIndex = 0;
+						int startIndex = 0;
+						return nameIndex + ageIndex + startIndex;
+					}
+				});
+				System.out.println("defaultIndiValueList:" + defaultIndiValueList);
+				System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
+				// 对查询出的指标值根据不同的时点分类
+				TreeMap<String, ArrayList<TPIndiValue>> tm = new TreeMap<String, ArrayList<TPIndiValue>>();
+				for (int i = 0; i < defaultIndiValueList.size(); i++) {
+					TPIndiValue tv = defaultIndiValueList.get(i);
+					if (tm.containsKey(tv.getTime_point())) {
+						ArrayList<TPIndiValue> l11 = (ArrayList<TPIndiValue>) tm.get(tv.getTime_point());
+						l11.add(tv);
+					} else {
+						ArrayList tem = new ArrayList();
+						tem.add(tv);
+						tm.put(tv.getTime_point(), tem);
+					}
+				}
+				Set<String> set = tm.keySet();
+				List<String> legendData = new ArrayList();
+				legendData.addAll(set);
+
+				// 创建数据列表
+
+				for (int i = 0; i < legendData.size(); i++) {
+					List<List<String>> dataX = new ArrayList();
+					List<List<String>> dataV = new ArrayList();
+					List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData.get(i));
+					List<String> dataList = new ArrayList();
+					List<String> dateList = new ArrayList();
+					List<String> legendList = new ArrayList();
+					if (tempList.size() > 8) {
+						for (int j = 0; j < 8; j++) {// tempList.size()
+
+							dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+									+ tempList.get(j).getDate_code().substring(4, 6));
+							dataList.add(tempList.get(j).getIndi_value());
+						}
+					} else {
+						for (int j = 0; j < tempList.size(); j++) {// tempList.size()
+
+							dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+									+ tempList.get(j).getDate_code().substring(4, 6));
+							dataList.add(tempList.get(j).getIndi_value());
+						}
+					}
+					String showName;
+					if (legendData.get(i).equals("104")) {
+						showName = "本期";
+					} else if (legendData.get(i).equals("203")) {
+						showName = "自年初累计";
+					} else {
+						showName = "其他";
+					}
+					legendList.add(appIndiName + "-" + showName);
+					dataV.add(dataList);
+					dataX.add(dateList);
+					List<String> showColor = new ArrayList<String>();
+					List<String> showType = new ArrayList<String>();
+					System.out.println("legendList" + legendList);
+					System.out.println("dataList" + dataList);
+					System.out.println("dateList" + dateList);
+					if (legendData.get(i).equals("104") || legendData.get(i).equals("203")) {
+						// 创建柱状图
+						BarType barType = new BarType();// 柱状图
+						BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+								dataX.get(0), legendList, dataV, showColor, showType);
+						System.out.println("barEntity" + barEntity.getEchartOption().getSeries());
+						// 创建表格
+
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+								dataX, legendList, dataV);// 表格
+						classInfoList.add(barEntity);
+						classInfoList.add(tableEntity);
+					} else {
+						// TODO 其他情况
+						// 创建折线图
+						LineType lineType = new LineType();
+						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+								dataX.get(0), legendList, dataV, showColor, showType);
+
+						// 创建表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+								dataX, legendList, dataV);// 表格
+						classInfoList.add(lineEntity);
+						classInfoList.add(tableEntity);
+					}
 				}
 			}
 		}
