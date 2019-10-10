@@ -18,12 +18,34 @@ public interface IndiDetailService {
 
 	String getIndiShowType(Map showMap);
 
-	String getIndiCode(String appIndiName);
+	String getIndiCode(Map paraMap);
 
 	String getIndexName(String indexCode);
 
 	int getIsFavorite(Map favoriteMap);
 
 	int getIndexStatus(Map indiNameAndSourceMap);
+
+	List<String> getFreqCodeByIndiNameG(Map fcMap);
+
+	List<String> indiDateByFreqNameG(Map paraMap);
+
+	List<String> getAreaNameListG(Map paraMap);
+	List<String> indiDateByFreqNameG1(Map parameterMap);
+	List<TPIndiValue> getIndiValueG(Map<String, Object> map);
+
+	String getIndexNameH(String indexCode);
+
+	List<String> getFreqCodeByIndiNameArea(Map fcMap);
+
+	List<String> indiDateByFreqNameArea(Map paraMap);
+
+	List<String> getIndiAreaList(Map paraMap);
+
+	List<String> indiDateByFreqNameDefault(Map parameterMap);
+
+	List<TPIndiValue> getIndiValueArea(Map defaultMap);
+
+	String getIndiCodeG(Map paraMap);
 
 }

@@ -21,7 +21,7 @@
         </select> 
         
          <select id="searchIndiG" resultType="IndexManage" parameterType="String">
-            select indi_code,new_indi_name as indi_name,source,lj,is_show from WUHAN_DATA."APP_INDI_G" where new_indi_name like CONCAT('%',#{keyWord},'%') group by indi_code,new_indi_name,sjly_name2,source,lj,is_show
+            select indi_code,new_indi_name as indi_name,source,lj,is_show from WUHAN_DATA."APP_INDI_G" where new_indi_name like CONCAT('%',#{keyWord},'%') group by indi_code,new_indi_name,source,lj,is_show
         </select> 
         
         <select id="searchIndiH" resultType="IndexManage" parameterType="String">
@@ -42,6 +42,10 @@
         
          <select id="getTrendSource" resultType="String" parameterType="java.util.Map">
             select source from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} and keyword=#{indi_name} group by source limit 1
+        </select> 
+        
+        <select id="getTrendLj" resultType="String" parameterType="java.util.Map">
+            select lj from WUHAN_DATA."HISTORY_SEARCH" where  create_time &lt; #{nowDate} and keyword=#{indi_name} and source=#{source} group by lj limit 1
         </select> 
         
          <insert id="addSearchHistory" parameterType="HistorySearch" >

@@ -19,13 +19,37 @@ public interface IndiDetailMapper {
 	void indiCollect(Collect collect);
 	@DataSource(value="dataSource_dm")
 	String getIndiShowType(Map showMap);
-	@DataSource(value="dataSource_dm")
-	String getIndiCode(String appIndiName);
+	@DataSource(value="dataSource_mysql")
+	String getIndiCode(Map paraMap);
 	@DataSource(value="dataSource_dm")
 	String getIndexName(String indexCode);
 	@DataSource(value="dataSource_dm")
 	int getIsFavorite(Map favoriteMap);
 	@DataSource(value="dataSource_dm")
 	int getIndexStatus(Map indiNameAndSourceMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> getFreqCodeByIndiNameG(Map fcMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> indiDateByFreqNameG(Map paraMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> getAreaNameListG(Map paraMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> indiDateByFreqNameG1(Map parameterMap);
+	@DataSource(value="dataSource_mysql")
+	List<TPIndiValue> getIndiValueG(Map<String, Object> map);
+	@DataSource(value="dataSource_mysql")
+	String getIndexNameH(String indexCode);
+	@DataSource(value="dataSource_mysql")
+	List<String> getFreqCodeByIndiNameArea(Map fcMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> indiDateByFreqNameArea(Map paraMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> getIndiAreaList(Map paraMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> indiDateByFreqNameDefault(Map parameterMap);
+	@DataSource(value="dataSource_mysql")
+	List<TPIndiValue> getIndiValueArea(Map defaultMap);
+	@DataSource(value="dataSource_dm")
+	String getIndiCodeG(Map paraMap);
 
 }

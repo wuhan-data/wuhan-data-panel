@@ -76,4 +76,10 @@ public class IndiSearchServiceImpl implements IndiSearchService{
 		return indiSearchMapper.getIsArea(indexManage);
 	}
 
+	@Override
+	public String getTrendLj(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiSearchMapper.getTrendLj(paraMap);
+	}
+
 }
