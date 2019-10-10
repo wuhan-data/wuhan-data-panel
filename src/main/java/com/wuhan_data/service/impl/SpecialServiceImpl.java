@@ -71,6 +71,30 @@ public class SpecialServiceImpl implements SpecialService {
 		// TODO Auto-generated method stub
 		return specialMapper.updateTitle(indexSpecial);
 	}
+
+	@Override
+	public int updateShowType(IndexSpecial indexSpecial) {
+		// TODO Auto-generated method stub
+		return specialMapper.updateShowType(indexSpecial);
+	}
+
+	@Override
+	public int getSpecialId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return specialMapper.getSpecialId(map);
+	}
+
+	@Override
+	public int updateWeight(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return specialMapper.updateWeight(map);
+	}
+
+	@Override
+	public int getMaxWeight() {
+		// TODO Auto-generated method stub
+		return specialMapper.getMaxWeight();
+	}
 	
 	
 	
