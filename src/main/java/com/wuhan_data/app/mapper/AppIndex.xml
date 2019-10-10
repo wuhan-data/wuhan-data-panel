@@ -2,25 +2,33 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- 
-    <mapper namespace="com.wuhan_data.app.mapper.AppIndexMapper">  
-         
-       <select id="getlist" resultType="com.wuhan_data.pojo.IndexPic">
-            <!-- select * from index_pic  -->
-            select id,title,image from WUHAN_DATA."INDEX_PIC" where is_show=0 limit 0,4
-        </select>
-        
-        <select id="getIconList" resultType="com.wuhan_data.pojo.AnalysisType">
-select type_id,type_name,type_weight,background,icon_url from WUHAN_DATA."ANALYSIS_TYPE" where is_show=0 and type_id&lt;11 order by type_weight
 
-        </select>
-        
-         <select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">
-            select id,title,image from WUHAN_DATA."INDEX_SPECIAL" where is_show=0
-        </select>
-        
-        <select id="getDesc" resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
-            select description from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
-        </select>
-        
-    </mapper>
+<mapper namespace="com.wuhan_data.app.mapper.AppIndexMapper">
+
+	<select id="getlist" resultType="com.wuhan_data.pojo.IndexPic">
+		<!-- select * from index_pic -->
+		select id, title, image from WUHAN_DATA."INDEX_PIC" where is_show=0
+		limit 0,4
+	</select>
+
+	<select id="getIconList"
+		resultType="com.wuhan_data.pojo.AnalysisType">
+		select type_id as typeId,type_name as typeName,type_weight
+		as typeWeight, background as background,icon_url as iconUrl from
+		WUHAN_DATA."ANALYSIS_TYPE" where is_show=0 and type_id&lt;11 order by
+		type_weight
+	</select>
+
+	<select id="getIndexSpecialList"
+		resultType="com.wuhan_data.pojo.IndexSpecial">
+		select id, title, image from WUHAN_DATA."INDEX_SPECIAL" where
+		is_show=0
+	</select>
+
+	<select id="getDesc"
+		resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
+		select
+		description from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
+	</select>
+
+</mapper>

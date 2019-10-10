@@ -6,6 +6,7 @@ import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.tools.DataSource;
 
 public interface IndexSpecialMapper {
+	@DataSource(value="dataSource_mysql")
 	@DataSource(value="dataSource_dm")
     public List<IndexSpecial> list(); 
 

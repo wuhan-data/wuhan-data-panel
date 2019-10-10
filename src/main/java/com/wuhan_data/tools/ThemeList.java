@@ -2,6 +2,8 @@ package com.wuhan_data.tools;
 
 import java.util.List;
 
+import com.wuhan_data.pojo.AnalysisTheme;
+import com.wuhan_data.pojo.AnalysisType;;
 import com.wuhan_data.pojo.AnalysisTheme;;
 
 public class ThemeList {
