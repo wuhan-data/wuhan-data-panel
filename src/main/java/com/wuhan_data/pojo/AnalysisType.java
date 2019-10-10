@@ -15,19 +15,23 @@ public class AnalysisType {
 	public String getTypeName() {
 		return typeName;
 	}
-	
+
 	public Integer getTypeWeight() {
 		return typeWeight;
 	}
-	
+
 	public String getBackground() {
 		return background;
 	}
-	
+
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
+	}
+
 	public String getIconUrl() {
 		return iconUrl;
 	}
-	
+
 	public Integer getIsShow() {
 		return isShow;
 	}
