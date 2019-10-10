@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.wuhan_data.app.mapper.AppIndexMapper;
 import com.wuhan_data.app.service.AppIndexService;
 import com.wuhan_data.pojo.AnalysisIcon;
+import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.IndexPic;
 import com.wuhan_data.pojo.IndexSpecial;
 
@@ -25,7 +26,7 @@ public class AppIndexServiceImpl implements AppIndexService {
 	}
 
 	@Override
-	public List<AnalysisIcon> getIconList() {
+	public List<AnalysisType> getIconList() {
 		// TODO Auto-generated method stub
 		return appIndexMapper.getIconList();
 	}

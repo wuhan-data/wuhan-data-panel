@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.wuhan_data.app.service.AppIndexService;
 import com.wuhan_data.pojo.AnalysisIcon;
+import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.IndexPic;
 import com.wuhan_data.pojo.IndexSpecial;
 
@@ -54,7 +55,7 @@ public class AppIndexController {
 	@RequestMapping(value="initIndexIcon",produces = "text/plain;charset=utf-8")
 	@ResponseBody
     public String initIndexIcon(){		
-		List<AnalysisIcon> indexList = appIndexService.getIconList();
+		List<AnalysisType> indexList = appIndexService.getIconList();
         String  param= JSON.toJSONString(indexList);        
         return param;
     }
@@ -115,7 +116,7 @@ public class AppIndexController {
 			hostIP = arr[0];
 			slideshow.get(i).setImage(slideshow.get(i).getImage().replace(hostIP,ip));
 		}
-		List<AnalysisIcon> analysis = appIndexService.getIconList();
+		List<AnalysisType> analysis = appIndexService.getIconList();
 		for(int i=0;i<analysis.size();i++) {
 			String hostIP = analysis.get(i).getIcon_url();
 			hostIP = hostIP.replace("http://","");//去除http和https前缀
