@@ -60,16 +60,7 @@ public class IndiSearchAppController {
 	@ResponseBody
 	public String searchSource() {
 
-		// //获得搜索的所有来源（如湖北统计局，国家统计局等）
-		// List<String> indisourceList=indiSearchService.searchSource();
-
-		// 获得历史搜素
-//		int uid = 1;// 应从session中获取
-//		List<HistorySearch> historySearchList = indiSearchService.getHistorySearch(uid);
-
 		Map map = new HashMap();
-		// map.put("indisourceList", indisourceList);
-		// map.put("historySearchList", historySearchList);
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 获取当前时间，设置日期格式
 		String nowDate = df.format(new Date());
@@ -160,6 +151,7 @@ public class IndiSearchAppController {
 			Map paraMap = new HashMap();
 			paraMap.put("indi_name", me.getKey());
 			paraMap.put("nowDate", nowDate);
+			System.out.println("me.getKey():" + me.getKey());
 //			calendar.set(calendar.DATE, calendar.get(calendar.DATE) - 8);
 //			paraMap.put("beforeDate", calendar.getTime());
 			String trendSource = indiSearchService.getTrendSource(paraMap);
@@ -168,18 +160,27 @@ public class IndiSearchAppController {
 			String lj = indiSearchService.getTrendLj(paraMap);
 			//获得指标代码
 			paraMap.put("lj", lj);
+			System.out.println("lj:" + lj);
 			String indexCode;
 			if(trendSource.equals("国统")){
 				indexCode = indiDetailService.getIndiCodeG(paraMap);
+				System.out.println("indexCode国统:" + indexCode);
 			}
-			else
+			else{
 				indexCode = indiDetailService.getIndiCode(paraMap);
+				System.out.println("indexCode湖统:" + indexCode);
+			}
+				
 			tempMap.put("indexId", indexCode);
 			tempMap.put("id", Integer.toString(index));
 			if(trendSource.equals("国统")){
 				String temp[] = ((String) me.getKey()).split("::");
-				System.out.println("真正的指标名称:"+temp[1]);
-				tempMap.put("name", temp[1]);
+				if(temp.length>1){
+					System.out.println("真正的指标名称:"+temp[1]);
+					tempMap.put("name", temp[1]);
+				}else
+					tempMap.put("name", temp[0]);
+				
 			}
 			else
 				tempMap.put("name", me.getKey());
@@ -240,22 +241,7 @@ public class IndiSearchAppController {
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
-
-		// 获得搜索的所有来源（如湖北统计局，国家统计局等）
-//		switch (source) {
-//		case "大数据":
-//			source = "大数据";
-//			break;
-//		case "国统":
-//			source = "国家统计局";
-//			break;
-//		case "湖统":
-//			source = "湖北省统计局";
-//			break;
-//		default:
-//			source = "全部";
-//			break;
-//		}
+		
 		/*将所有关键字小写转换成大写*/
 		System.out.println("转换前："+keyWord);
 		keyWord = keyWord.toUpperCase();
@@ -373,8 +359,13 @@ public class IndiSearchAppController {
 			appIndiName = indiDetailService.getIndexName(indexCode);
 			historySearch.setKeyword(appIndiName);
 			String temp[] = appIndiName.split("::");
-			System.out.println("真正的指标名称:"+temp[1]);
-			appIndiName = temp[1];
+			if(temp.length>1){
+				System.out.println("真正的指标名称:"+temp[1]);
+				appIndiName = temp[1];
+			}
+			else
+				appIndiName = temp[0];
+			
 		}
 		else{
 			appIndiName = indiDetailService.getIndexNameH(indexCode);
@@ -1007,16 +998,25 @@ public class IndiSearchAppController {
 		String lj = "";
 		String isArea = "";
 		Map<String, Object> data = new HashMap<String, Object>();
-		isArea = requestObject.get("isArea").toString();
+		try{
+			boolean hasIsArea = requestObject.containsKey("isArea");
+			if (!hasIsArea) {
+				return this.apiReturn("-1", "需要指定是否是地市级", data);
+			}
+			isArea = requestObject.get("isArea").toString();
+		}catch(Exception e){
+			
+		}
+		
 		// 创建图
 		List classInfoList = new ArrayList();
 		if(isArea.equals("1")){
 			try {
 				boolean hasIndexCode = requestObject.containsKey("indexId");
 				boolean hasSource = requestObject.containsKey("source");
-				boolean hasFreqName = requestObject.containsKey("freqCode");
-				boolean hasTime = requestObject.containsKey("time");
-				boolean hasLj = requestObject.containsKey("lj");
+				boolean hasFreqName = requestObject.containsKey("timeFreq");
+				boolean hasTime = requestObject.containsKey("startTime");
+				boolean hasLj = requestObject.containsKey("path");
 				if (!hasIndexCode) {
 					return this.apiReturn("-1", "需要指定栏目id", data);
 				}
@@ -1036,7 +1036,7 @@ public class IndiSearchAppController {
 				source = requestObject.get("source").toString();
 				freqCode = requestObject.get("timeFreq").toString();
 				time = requestObject.get("startTime").toString();
-				lj = requestObject.get("lj").toString();
+				lj = requestObject.get("path").toString();
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
 			}
@@ -1154,11 +1154,11 @@ public class IndiSearchAppController {
 			try {
 				boolean hasIndexCode = requestObject.containsKey("indexId");
 				boolean hasSource = requestObject.containsKey("source");
-				boolean hasFreqName = requestObject.containsKey("freqCode");
+				boolean hasFreqName = requestObject.containsKey("timeFreq");
 				boolean hasStartTime = requestObject.containsKey("startTime");
 				boolean hasEndTime = requestObject.containsKey("endTime");
-				boolean hasAreaName = requestObject.containsKey("areaName");
-				boolean hasLj = requestObject.containsKey("lj");
+//				boolean hasAreaName = requestObject.containsKey("areaName");
+				boolean hasLj = requestObject.containsKey("path");
 				if (!hasIndexCode) {
 					return this.apiReturn("-1", "需要指定栏目id", data);
 				}
@@ -1174,9 +1174,9 @@ public class IndiSearchAppController {
 				if (!hasEndTime) {
 					return this.apiReturn("-1", "需要选择结束时间", data);
 				}
-				if (!hasAreaName) {
-					return this.apiReturn("-1", "需要选择地域维度", data);
-				}
+//				if (!hasAreaName) {
+//					return this.apiReturn("-1", "需要选择地域维度", data);
+//				}
 				if (!hasLj) {
 					return this.apiReturn("-1", "需要传入路径", data);
 				}
@@ -1185,8 +1185,8 @@ public class IndiSearchAppController {
 				freqCode = requestObject.get("timeFreq").toString();
 				startTime = requestObject.get("startTime").toString();
 				endTime = requestObject.get("endTime").toString();
-				areaName = requestObject.get("areaName").toString();
-				lj = requestObject.get("lj").toString();
+//				areaName = requestObject.get("areaName").toString();
+				lj = requestObject.get("path").toString();
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
 			}
@@ -1195,8 +1195,10 @@ public class IndiSearchAppController {
 			if(source.equals("国统")){
 				appIndiName = indiDetailService.getIndexName(indexCode);
 				String temp[] = appIndiName.split("::");
-				System.out.println("真正的指标名称:"+temp[1]);
-				appIndiName = temp[1];
+				if(temp.length>1)
+					appIndiName = temp[1];
+				else
+					appIndiName = temp[0];
 			}
 			else{
 				appIndiName = indiDetailService.getIndexNameH(indexCode);
@@ -1215,7 +1217,7 @@ public class IndiSearchAppController {
 				defaultMap.put("startTime", startTime);
 				defaultMap.put("endTime", endTime);
 				defaultMap.put("source", source);
-				defaultMap.put("area_name", areaName);
+//				defaultMap.put("area_name", areaName);
 				defaultMap.put("indexCode", indexCode);
 				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueG(defaultMap);
 				Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
@@ -1302,7 +1304,7 @@ public class IndiSearchAppController {
 				defaultMap.put("startTime", newStartTime);
 				defaultMap.put("endTime", newEndTime);
 				defaultMap.put("source", source);
-				defaultMap.put("area_name", areaName);
+//				defaultMap.put("area_name", areaName);
 				defaultMap.put("lj", lj);
 				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValue(defaultMap);
 				Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {

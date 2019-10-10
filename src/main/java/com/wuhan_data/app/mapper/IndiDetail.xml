@@ -62,7 +62,8 @@
             select indi_value,time_point,date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and area_name='湖北省' and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_name2='湖北省统计局' and (time_point = '104' or time_point = '203')  and lj=#{lj}
         </select> 
  		<select id="getIndiValueG" resultType="TPIndiValue" parameterType="java.util.Map" >
-            select value as indi_value,data_time_name as date_code from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} and indexdataid=#{indexCode} and indicator_grp21_item_name=#{freqCode} and data_time_name &lt;= #{endTime} and data_time_name &gt;= #{startTime} and indicator_grp23_item_name=#{area_name}
+            select value as indi_value,data_time_name as date_code from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} and indexdataid=#{indexCode} and indicator_grp21_item_name=#{freqCode} and data_time_name &lt;= #{endTime} and data_time_name &gt;= #{startTime}
+<!--              and indicator_grp23_item_name=#{area_name} -->
         </select> 
        <select id="getIndiValueArea" resultType="TPIndiValue" parameterType="java.util.Map" >
             select indi_value,time_point,date_code,area_name from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and date_code= #{time} and sjly_name2='湖北省统计局' and (time_point = '104' or time_point = '203')  and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000'
@@ -79,7 +80,7 @@
             select indi_code from MIDUSER."APP_INDI_H" where new_indi_name=#{indi_name} and  lj=#{lj} group by indi_code
         </select> 
         <select id="getIndiCodeG" resultType="String" parameterType="java.util.Map" >
-            select indi_code from WUHAN_DATA."APP_INDI_G" where new_indi_name=#{indi_name} and lj=#{lj} group by indi_code
+            select indi_code from WUHAN_DATA."APP_INDI_G" where old_indi_name=#{indi_name} and lj=#{lj} group by indi_code
         </select> 
         
         

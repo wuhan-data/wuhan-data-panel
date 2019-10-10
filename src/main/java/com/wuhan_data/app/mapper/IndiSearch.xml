@@ -49,7 +49,7 @@
         </select> 
         
          <insert id="addSearchHistory" parameterType="HistorySearch" >
-            insert into WUHAN_DATA."HISTORY_SEARCH"(uid,keyword,create_time,source)values (#{uid},#{keyword},#{create_time},#{source})
+            insert into WUHAN_DATA."HISTORY_SEARCH"(uid,keyword,create_time,source,lj)values (#{uid},#{keyword},#{create_time},#{source},#{lj})
         </insert>
         
     </mapper>
