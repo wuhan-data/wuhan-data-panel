@@ -44,9 +44,9 @@ public class IndiDetailServiceImpl implements IndiDetailService{
 		return indiDetailMapper.getIndiShowType(showMap);
 	}
 	@Override
-	public String getIndiCode(String appIndiName) {
+	public String getIndiCode(Map paraMap) {
 		// TODO Auto-generated method stub
-		return indiDetailMapper.getIndiCode(appIndiName);
+		return indiDetailMapper.getIndiCode(paraMap);
 	}
 	@Override
 	public String getIndexName(String indexCode) {
@@ -62,6 +62,66 @@ public class IndiDetailServiceImpl implements IndiDetailService{
 	public int getIndexStatus(Map indiNameAndSourceMap) {
 		// TODO Auto-generated method stub
 		return indiDetailMapper.getIndexStatus(indiNameAndSourceMap);
+	}
+	@Override
+	public List<String> getFreqCodeByIndiNameG(Map fcMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getFreqCodeByIndiNameG(fcMap);
+	}
+	@Override
+	public List<String> indiDateByFreqNameG(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.indiDateByFreqNameG(paraMap);
+	}
+	@Override
+	public List<String> getAreaNameListG(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getAreaNameListG(paraMap);
+	}
+	@Override
+	public List<String> indiDateByFreqNameG1(Map parameterMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.indiDateByFreqNameG1(parameterMap);
+	}
+	@Override
+	public List<TPIndiValue> getIndiValueG(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndiValueG(map);
+	}
+	@Override
+	public String getIndexNameH(String indexCode) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndexNameH(indexCode);
+	}
+	@Override
+	public List<String> getFreqCodeByIndiNameArea(Map fcMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getFreqCodeByIndiNameArea(fcMap);
+	}
+	@Override
+	public List<String> indiDateByFreqNameArea(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.indiDateByFreqNameArea(paraMap);
+	}
+	@Override
+	public List<String> getIndiAreaList(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndiAreaList(paraMap);
+	}
+	@Override
+	public List<String> indiDateByFreqNameDefault(Map parameterMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.indiDateByFreqNameDefault(parameterMap);
+	}
+	@Override
+	public List<TPIndiValue> getIndiValueArea(Map defaultMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndiValueArea(defaultMap);
+	}
+	@Override
+	public String getIndiCodeG(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiDetailMapper.getIndiCodeG(paraMap);
 	}
 
 }

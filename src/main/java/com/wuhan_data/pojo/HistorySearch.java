@@ -9,6 +9,13 @@ public class HistorySearch {
 	String keyword;//搜索关键字
 	Date create_time;//创建时间
 	String source;//搜索的来源
+	String lj;//路径
+	public String getLj() {
+		return lj;
+	}
+	public void setLj(String lj) {
+		this.lj = lj;
+	}
 	public Integer getId() {
 		return id;
 	}

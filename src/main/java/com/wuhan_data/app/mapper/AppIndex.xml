@@ -10,12 +10,9 @@
             select id,title,image from WUHAN_DATA."INDEX_PIC" where is_show=0 limit 0,4
         </select>
         
-         <select id="getIconList" resultType="com.wuhan_data.pojo.AnalysisIcon">
-select b.type_weight id,a.background,a.icon_name,a.icon_url from WUHAN_DATA."INDEX_ANALYSIS_ICON" a
-left join WUHAN_DATA."ANALYSIS_THEME" b 
-on a.icon_name=b.type_name
-group by b.type_weight,a.background,a.icon_name,a.icon_url
-order by b.type_weight desc
+        <select id="getIconList" resultType="com.wuhan_data.pojo.AnalysisType">
+select type_id,type_name,type_weight,background,icon_url from WUHAN_DATA."ANALYSIS_TYPE" where is_show=0 and type_id&lt;11 order by type_weight
+
         </select>
         
          <select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">

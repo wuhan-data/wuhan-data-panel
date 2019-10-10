@@ -4,7 +4,14 @@ public class TPIndiValue implements Comparable<TPIndiValue>{
 	private  String date_code;
 	private  String time_point;
 	private  String indi_value;
+	private  String area_name;
 	
+	public String getArea_name() {
+		return area_name;
+	}
+	public void setArea_name(String area_name) {
+		this.area_name = area_name;
+	}
 	public String getDate_code() {
 		return date_code;
 	}

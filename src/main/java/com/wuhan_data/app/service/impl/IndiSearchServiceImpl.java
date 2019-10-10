@@ -71,4 +71,15 @@ public class IndiSearchServiceImpl implements IndiSearchService{
 		return indiSearchMapper.searchIndiH(keyWord);
 	}
 
+	@Override
+	public int getIsArea(IndexManage indexManage) {
+		return indiSearchMapper.getIsArea(indexManage);
+	}
+
+	@Override
+	public String getTrendLj(Map paraMap) {
+		// TODO Auto-generated method stub
+		return indiSearchMapper.getTrendLj(paraMap);
+	}
+
 }

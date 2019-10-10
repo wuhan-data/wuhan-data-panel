@@ -26,6 +26,10 @@ public interface IndiSearchMapper {
 	public List<IndexManage> searchIndiG(String keyWord);
 	@DataSource(value="dataSource_mysql")
 	public List<IndexManage> searchIndiH(String keyWord);
+	@DataSource(value="dataSource_mysql")
+	public int getIsArea(IndexManage indexManage);
+	 @DataSource(value="dataSource_dm")
+	public String getTrendLj(Map paraMap);
 	 
 
 }

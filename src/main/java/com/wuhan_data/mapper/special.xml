@@ -7,52 +7,78 @@
    
         <!-- 添加专题 -->
         <insert id="add" parameterType="IndexSpecial" >
-            insert into WUHAN_DATA."INDEX_SPECIAL"(title,image) values(#{title},#{image})
+            insert into index_special(title,image,file,topic_weight) values(#{title},#{image},#{file},#{topic_weight})
         </insert>
         
          
          <!-- 删除一个专题 -->
         <delete id="delete" parameterType="int" >
-            delete from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}  
+            delete from index_special where id=#{id}  
         </delete>    
         
          
          <!-- 得到专题列表 -->
         <select id="getlist" parameterType="java.util.Map" resultType="IndexSpecial">
-            select id,title,topic_weight,image,is_show from WUHAN_DATA."INDEX_SPECIAL" order by topic_weight limit #{page.dbIndex},#{page.dbNumber}   
+            select id,title,topic_weight,image,is_show,file,show_type from index_special order by topic_weight
         </select>  
 
  		<select id="getSname" parameterType="int" resultType="String">
-            select distinct title from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
+            select distinct title from index_special where id=#{id}
         </select>  
  
         <!--修改专题名称  -->
         <update id="updateTitle" parameterType="IndexSpecial" >
-            update WUHAN_DATA."INDEX_SPECIAL" set title=#{title} where id=#{id}
+            update index_special set title=#{title} where id=#{id}
         </update>
         
         <update id="update" parameterType="IndexSpecial" >
-            update WUHAN_DATA."INDEX_SPECIAL" 
+            update index_special 
             <set>
-            <if test="title!=null">title=#{title}</if>
-            <if test="image!=null">image=#{image}</if>
+            <if test="title!=null">title=#{title},</if>
+            <if test="image!=null">image=#{image},</if>
+            <if test="file!=null">file=#{file}</if>
             </set>
               where id=#{id}
         </update>
                
         <!-- 修改专题是否显示 -->
          <update id="updateShow" parameterType="IndexSpecial" >
-            update WUHAN_DATA."INDEX_SPECIAL"
+            update index_special
             <set>
             is_show=#{is_show}
             </set>
              where id=#{id}   
         </update>
         
+         <update id="updateShowType" parameterType="IndexSpecial" >
+            update index_special
+            <set>
+            show_type=#{show_type}
+            </set>
+             where id=#{id}
+        </update>
+        
+        <select id="getMaxWeight" resultType="int">
+            select max(topic_weight)+1 from index_special
+        </select> 
+        
+        
+        <select id="getSpecialId" parameterType="Map" resultType="int">
+            select id from index_special where topic_weight=#{oldWeight}
+        </select>  
+        
+        <update id="updateWeight" parameterType="Map" >
+            update index_special
+            <set>
+            topic_weight=#{newWeight}
+            </set>
+             where id=#{id}
+        </update>
+        
         
         
           <update id="reOrderByTitle" parameterType="IndexSpecial" >
-            update WUHAN_DATA."INDEX_SPECIAL"
+            update index_special
             <set>
             topic_weight=#{topic_weight}
             </set>
@@ -62,7 +88,7 @@
         
       <!-- 统计专题数量 -->
         <select id="total" resultType="int">
-            select count(*) from WUHAN_DATA."INDEX_SPECIAL"
+            select count(*) from index_special
         </select>     
 
     </mapper>
