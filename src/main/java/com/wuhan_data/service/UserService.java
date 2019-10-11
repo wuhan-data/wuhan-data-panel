@@ -40,7 +40,12 @@ public interface UserService {
 
 	  public int count();
 	  
-	 
+	  //获得用户的所有权限
+	  public Map<String, String>getAllPower(int id);
+	  //现有的用户中的角色是否存在该id，用于用户删除该id的时候进行判断
+	  public boolean isExistRoleId(int roleId);
+	  //现有的用户中的部门是否存在该id，用户部门删除该id的时候进行判断
+	  public boolean isExistDepartmentId(int departmentId);
      
 
 

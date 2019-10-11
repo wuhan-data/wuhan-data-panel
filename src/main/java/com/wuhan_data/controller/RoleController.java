@@ -26,6 +26,7 @@ import com.wuhan_data.pojo.Role;
 import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.RoleService;
 import com.wuhan_data.service.SysLogService;
+import com.wuhan_data.service.UserService;
 import com.wuhan_data.tools.Page;
 
 @Controller
@@ -34,6 +35,8 @@ public class RoleController {
 	
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	UserService userService;
 	
 	private static String role_name="";//用于模糊查询的名字
 	@RequestMapping("listRole")
@@ -102,6 +105,38 @@ public class RoleController {
 	    	}
 	    	return jsonObject.toString();
 	    }
+	 //将id转为name
+	 @RequestMapping(value="roleNameList",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String roleNameList(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 JSONObject jsonObject = new JSONObject();
+	    	String roleIdList="";
+	    	try {
+				roleIdList=URLDecoder.decode(request.getParameter("roleIdList"),"utf-8");
+				System.out.println("roleIdList"+roleIdList);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("roleNameList参数获取异常"+e.getStackTrace());
+			}
+	    	try {
+	    		String[] ids=roleIdList.split("\\|");
+	    		String[] names=new String[ids.length];
+	    		for(int i=0;i<ids.length;i++)
+	    		{
+	    			Role role=roleService.get(Integer.valueOf(ids[i]));
+	    			names[i]=role.getRole_name();
+	    		}
+	    		String result=StringUtils.join(names,"|");
+	    		jsonObject.put("data",result);
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    	}
+	    	return jsonObject.toString();
+		 
+	 }
+	 
 	
 	
 	
@@ -380,7 +415,11 @@ public class RoleController {
 		}
     	//数据库操作
     	try {
-    		roleService.delete(id);
+    		//只有用户中没有这个角色才可以删除
+    		if(userService.isExistRoleId(id)==false)
+    		{
+    			roleService.delete(id);
+    		}
         	int count=roleService.count();
         	Page page=new Page();
         	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    

@@ -26,6 +26,7 @@ import com.wuhan_data.pojo.Department;
 import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.DepartmentService;
 import com.wuhan_data.service.SysLogService;
+import com.wuhan_data.service.UserService;
 import com.wuhan_data.service.impl.SysLogServiceImpl;
 import com.wuhan_data.tools.Page;;
 
@@ -35,6 +36,8 @@ public class DepartmentController {
 	
 	@Autowired
 	DepartmentService departmentService;
+	@Autowired
+	UserService userService;
 	
 	private static String departmentname="";//用于模糊查询的名字
 	
@@ -423,7 +426,12 @@ public class DepartmentController {
 		}
     	//数据库操作
     	try {
-        	departmentService.delete(id);
+    		//只有用户中没有这个部门才可以删除
+    		if (userService.isExistDepartmentId(id)==false)
+    		{
+    			departmentService.delete(id);
+    		}
+        	
         	int count=departmentService.count();
         	Page page=new Page();
         	Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数    

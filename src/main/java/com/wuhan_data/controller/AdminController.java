@@ -33,6 +33,7 @@ import com.wuhan_data.service.AdminService;
 import com.wuhan_data.service.MenuService;
 import com.wuhan_data.service.RoleService;
 import com.wuhan_data.service.SysLogService;
+import com.wuhan_data.service.UserService;
 import com.wuhan_data.service.impl.SysLogServiceImpl;
 import com.wuhan_data.tools.MenuList;
 import com.wuhan_data.tools.Page;
@@ -42,7 +43,8 @@ import sun.print.PSPrinterJob.PluginPrinter;;
 @Controller
 @RequestMapping("")
 public class AdminController {
-	
+	@Autowired
+	UserService userService;
 	@Autowired
 	RoleService roleService;
 	@Autowired
@@ -513,6 +515,7 @@ public class AdminController {
 	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
 	  			System.out.println(menuList);
 	  			session.setAttribute("menuList",menuList);
+	  			
 	  			
 			}
 	    	return maView;

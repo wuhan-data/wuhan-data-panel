@@ -35,7 +35,7 @@ public class SysFilter implements Filter{
 	            throws IOException, ServletException {
 	        HttpServletRequest request = (HttpServletRequest) req;
 	        HttpServletResponse response = (HttpServletResponse) res;
-//	        System.out.println(request.getRequestURL().toString()+request.getParameterMap().toString());
+	       // System.out.println(request.getRequestURL().toString()+request.getParameterMap().toString());
 	        //sysLogService.add(1, "1", "2");
 	        //sysLogService.add(-1,request.getRequestURL().toString(),request.getParameterMap().toString());
 //	        if(request.getParameter("id")==null)

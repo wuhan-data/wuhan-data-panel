@@ -21,7 +21,7 @@
         </select> 
         
          <select id="searchIndiG" resultType="IndexManage" parameterType="String">
-            select indi_code,new_indi_name as indi_name,source,lj,is_show from WUHAN_DATA."APP_INDI_G" where new_indi_name like CONCAT('%',#{keyWord},'%') group by indi_code,new_indi_name,source,lj,is_show
+            select id,indi_code,new_indi_name as indi_name,source,lj,is_show from WUHAN_DATA."APP_INDI_G" where new_indi_name like CONCAT('%',#{keyWord},'%') group by id,indi_code,new_indi_name,source,lj,is_show
         </select> 
         
         <select id="searchIndiH" resultType="IndexManage" parameterType="String">

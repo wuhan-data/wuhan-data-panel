@@ -241,16 +241,21 @@
        		<option value="女" >女</option> 
   	</select>
   	<br>
-  部门：
+<%--   部门：
   <select class="form-control"  name="editdepartmentListSelect" id="editdepartmentListSelect">
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
         <option value="${c.department_name}" >${c.department_name}</option>    
 	</c:forEach>
   </select>
+  <br> --%>
+      部门：<br>
+  	<c:forEach items="${departmentList}" var="c" varStatus="st">
+  		<input type="checkbox" id="editdepartmentListSelect" name="editdepartmentListSelect" value="${c.id}">${c.department_name}
+	</c:forEach>
   <br>
     角色：<br>
   	<c:forEach items="${roleList}" var="c" varStatus="st">
-  		<input type="checkbox" id="editroleListSelect" name="editroleListSelect" value="${c.role_name}">${c.role_name}
+  		<input type="checkbox" id="editroleListSelect" name="editroleListSelect" value="${c.id}">${c.role_name}
 	</c:forEach>
   <br>
  
@@ -306,16 +311,21 @@
        		<option value="女" >女</option> 
   	</select>
   	<br>
-   部门：
+<%--    部门：
   <select class="form-control" id="departmentListSelect" name="departmentListSelect" id="departmentListSelect">
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
         <option value="${c.department_name}" >${c.department_name}</option>    
 	</c:forEach>
   </select>
+  <br> --%>
+        部门：<br>
+  	<c:forEach items="${departmentList}" var="c" varStatus="st">
+  		<input type="checkbox" id="departmentListSelect" name="departmentListSelect" value="${c.id}">${c.department_name}
+	</c:forEach>
   <br>
     角色：<br>
     <c:forEach items="${roleList}" var="c" varStatus="st">
-  		<input type="checkbox" id="roleListSelect" name="roleListSelect" value="${c.role_name}">${c.role_name}
+  		<input type="checkbox" id="roleListSelect" name="roleListSelect" value="${c.id}">${c.role_name}
 	</c:forEach>
   <br>
    真实姓名：<input class="form-control" type="search" placeholder="真实姓名" name="addUserReal_name" id="addUserReal_name">
@@ -542,44 +552,41 @@
                                         });    
                                   }
             
-            
-            
-            
-            
-            
-          //定义Format方法  dateTime--后台传输过来的Date类型  fmt--你要转换的格式
-          //返回的是对应fmt时间格式的字符串
-          
-          
-          
-          
-          
-          
-          function Format(datetime,fmt) {
-                  if (parseInt(datetime)==datetime) {
-                      if (datetime.length==10) {
-                          datetime=parseInt(datetime)*1000;
-                      } else if(datetime.length==13) {
-                          datetime=parseInt(datetime);
-                      }
-                  }
-                  datetime=new Date(datetime);
-                  var o = {
-                      "M+" : datetime.getMonth()+1,                 //月份
-                      "d+" : datetime.getDate(),                    //日
-                      "h+" : datetime.getHours(),                   //小时
-                      "m+" : datetime.getMinutes(),                 //分
-                      "s+" : datetime.getSeconds(),                 //秒
-                      "q+" : Math.floor((datetime.getMonth()+3)/3), //季度
-                      "S"  : datetime.getMilliseconds()             //毫秒
-                  };
-                  if(/(y+)/.test(fmt))
-                      fmt=fmt.replace(RegExp.$1, (datetime.getFullYear()+"").substr(4 - RegExp.$1.length));
-                  for(var k in o)
-                      if(new RegExp("("+ k +")").test(fmt))
-                          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-                  return fmt;
-          }
+                                //定义Format方法  dateTime--后台传输过来的Date类型  fmt--你要转换的格式
+                                  //返回的是对应fmt时间格式的字符串
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  
+                                  function Format(datetime,fmt) {
+                                          if (parseInt(datetime)==datetime) {
+                                              if (datetime.length==10) {
+                                                  datetime=parseInt(datetime)*1000;
+                                              } else if(datetime.length==13) {
+                                                  datetime=parseInt(datetime);
+                                              }
+                                          }
+                                          datetime=new Date(datetime);
+                                          var o = {
+                                              "M+" : datetime.getMonth()+1,                //月份
+                                              "d+" : datetime.getDate(),                    //日
+                                              "h+" : datetime.getHours(),                   //小时
+                                              "m+" : datetime.getMinutes(),                 //分
+                                              "s+" : datetime.getSeconds(),                 //秒
+                                              "q+" : Math.floor((datetime.getMonth()+3)/3), //季度
+                                              "S"  : datetime.getMilliseconds()             //毫秒
+                                          };
+                                          if(/(y+)/.test(fmt))
+                                              fmt=fmt.replace(RegExp.$1, (datetime.getFullYear()+"").substr(4 - RegExp.$1.length));
+                                          for(var k in o)
+                                              if(new RegExp("("+ k +")").test(fmt))
+                                                  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+                                          return fmt;
+                                  }
+                                  
+                                  
             function f1(){
             	var select = document.getElementById("FormControlSelect1");
             	var op = select.value;
@@ -618,7 +625,25 @@
             	            }
             	        }
             	    }
-            	$("#editdepartmentListSelect").val(department_id);
+            	/* $("#editdepartmentListSelect").val(department_id); */
+            	
+            	var boxes = document.getElementsByName("editdepartmentListSelect");
+        	   	for(i=0;i<boxes.length;i++){  	           
+        	                boxes[i].checked = false;
+        	    }
+            	
+            	 var val =department_id.split("\|");
+            	// alert(val)
+            	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+            	   	for(i=0;i<boxes.length;i++){
+            	        for(j=0;j<val.length;j++){
+            	            if(boxes[i].value == val[j]){
+            	                boxes[i].checked = true;
+            	                break;
+            	            }
+            	        }
+            	    }
+            	
             	$("#editBirthday").val(Format(birthday,"yyyy-MM-dd"));
             	$("#editCity").val(city)
                 	

@@ -246,20 +246,23 @@
 	<input class="form-control" type="hidden" name="editRoleID" id="editRoleID">
    角色代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode" readonly > 
     <br>  
-   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName" readonly> <br>  
+   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName"> <br>  
    角色描述：<textarea class="form-control" type="text" name="editRoleDescription" id="editRoleDescription" style="width:500px;height:80px;"></textarea> <br>  
+<div style=" overflow-y:auto; height:200px;">   
  经济分析权限：<br>
  <c:forEach items="${power_1}" var="c" varStatus="st">
            		 <li>
                         ${c.level_one}
                         <ul >
                         	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
-                            		<input type="checkbox" name="editPower_1" value="${cc.themeId}">${cc.themeName}  
+                            		<input type="checkbox" name="editPower_1" value="${cc.theme_id}">${cc.theme_name}  
                         	 </c:forEach>
                         </ul>
                   </li>
             </c:forEach> 
             <br>
+            </div>
+<div style=" overflow-y:auto; height:200px;">  
  专题权限：<br>
  <c:forEach items="${power_2}" var="c" varStatus="st">	
            <ul >
@@ -267,6 +270,8 @@
            </ul>
  </c:forEach> 
             <br>
+            </div>
+<div style=" overflow-y:auto; height:200px;">  
  搜索指标权限：<br>
  <c:forEach items="${power_3}" var="c" varStatus="st">	
            <ul >
@@ -274,6 +279,7 @@
            </ul>
  </c:forEach> 
             <br>
+</div>
 			
 			</div>
 			<div class="modal-footer">
@@ -309,21 +315,25 @@
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
      角色代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode" id="addRoleCode" onblur="checkRoleCode()">
      <span id="span_rolecode">填4位代码</span> <br>
-     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName" onblur="checkRoleName()">
+     角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName">
       <span id="span_roleName"></span> <br>
      角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" id="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
+    
+ <div style=" overflow-y:auto; height:200px;">  
     经济分析权限：<br>
       <c:forEach items="${power_1}" var="c" varStatus="st">
            		 <li>
                         ${c.level_one}
                         <ul >
                         	<c:forEach items="${c.level_twoInOneList}" var="cc" varStatus="status">
-                            		<input type="checkbox" name="addPower_1" value="${cc.themeId}" checked>${cc.themeName}  
+                            		<input type="checkbox" name="addPower_1" value="${cc.theme_id}" checked>${cc.theme_name}  
                         	 </c:forEach>
                         </ul>
                   </li>
             </c:forEach> 
             <br>
+      </div> 
+      <div style=" overflow-y:auto; height:200px;">  
   专题权限：<br>
  <c:forEach items="${power_2}" var="c" varStatus="st">	
            <ul >
@@ -331,6 +341,8 @@
            </ul>
  </c:forEach> 
             <br>
+            </div>
+     <div style=" overflow-y:auto; height:200px;">  
  搜索指标权限：<br>
  <c:forEach items="${power_3}" var="c" varStatus="st">	
            <ul >
@@ -338,7 +350,7 @@
            </ul>
  </c:forEach> 
             <br>
-			
+	</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -455,21 +467,37 @@
                          });    
                   };
                   delClick = function(s_id,Url) {
-                      $.ajax({
-                                 type: 'GET',
-                                 url:  Url+"?id="+s_id,
-                                 dataType: "html",
-                            	    async : false,
-                             	contentType: false, //不设置内容类型
-                            	    processData: false,
-                                 cache:false,
-                                 success: function(data){
-                            	 	alert(data);
-                                     $('#getNewData').html(data);
-                                 },
-                                 error : function(data){
-                                 }
-                             });    
+                	  
+                	  var roleId=encodeURI(s_id);
+                	  $.ajax({
+      		    		url:"roleIdIsExistForD",
+      		    		data:{roleId:roleId},
+      		    		async:false,
+      		    		success:function(data){
+      		    			if(data.data=="exist"){
+      		    				alert("用户中存在该角色，不能删除")
+      		    			}
+      		    			else{
+      		    				 $.ajax({
+      	                                 type: 'GET',
+      	                                 url:  Url+"?id="+s_id,
+      	                                 dataType: "html",
+      	                            	    async : false,
+      	                             	contentType: false, //不设置内容类型
+      	                            	    processData: false,
+      	                                 cache:false,
+      	                                 success: function(data){
+      	                            	 	alert(data);
+      	                                     $('#getNewData').html(data);
+      	                                 },
+      	                                 error : function(data){
+      	                                 }
+      	                             }); 
+      		    			}	
+      		    		}
+      		    	}) 
+                	  
+                        
                       };
                       
                       pageClick = function(currentPage,Url) {

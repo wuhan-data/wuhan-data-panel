@@ -8,6 +8,13 @@ public class Role {
 	String role_power_1;
 	String role_power_2;
 	String role_power_3;
+	public String getRole_power_4() {
+		return role_power_4;
+	}
+	public void setRole_power_4(String role_power_4) {
+		this.role_power_4 = role_power_4;
+	}
+	String role_power_4;
 	public String getRole_power_1() {
 		return role_power_1;
 	}

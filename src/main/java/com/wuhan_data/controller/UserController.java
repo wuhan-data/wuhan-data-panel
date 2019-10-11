@@ -97,6 +97,62 @@ public class UserController {
 		}
     	return jsonObject.toString();
     }
+    //指定角色id是否存在
+    @RequestMapping(value="roleIdIsExistForD",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String roleIdIsExistForD(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	JSONObject jsonObject = new JSONObject();
+    	String roleId="";
+    	try {
+			roleId=URLDecoder.decode(request.getParameter("roleId"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			System.out.println("相应的额接口为roleIdIsExistForD");
+			e.printStackTrace();
+		}
+    	try {
+    		
+    		if (userService.isExistRoleId(Integer.valueOf(roleId))==true) {
+				jsonObject.put("data", "exist");
+			}
+    		else {
+				jsonObject.put("data", "notExist");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return jsonObject.toString();
+    }
+    //指定部门id是否存在
+    @RequestMapping(value="departmentIdIsExistForD",produces="application/json;charset=utf-8")
+    @ResponseBody
+    public String departmentIdIsExistForD(HttpServletRequest request, 
+            HttpServletResponse response) {
+    	JSONObject jsonObject = new JSONObject();
+    	String departmentId="";
+    	try {
+			departmentId=URLDecoder.decode(request.getParameter("departmentId"),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			System.out.println("相应的额接口为departmentIdIsExistForD");
+			e.printStackTrace();
+		}
+    	try {
+    		
+    		if (userService.isExistRoleId(Integer.valueOf(departmentId))==true) {
+				jsonObject.put("data", "exist");
+			}
+    		else {
+				jsonObject.put("data", "notExist");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    	return jsonObject.toString();
+    }
+    
+    
     
     
     @RequestMapping(value="selectByRealName2",produces="application/json;charset=utf-8")
@@ -375,8 +431,8 @@ public class UserController {
     	String addCity="";
     	try {
     		roleListSelect=StringUtils.join(request.getParameterValues("roleListSelect"),"|");
-    		
-    		departmentListSelect=request.getParameter("departmentListSelect");
+    		departmentListSelect=StringUtils.join(request.getParameterValues("departmentListSelect"),"|");
+    		//departmentListSelect=request.getParameter("departmentListSelect");
     		genderSelect=request.getParameter("genderSelect");
     		addUserTel=request.getParameter("addUserTel");
     		addUserReal_name=request.getParameter("addUserReal_name");
@@ -393,6 +449,7 @@ public class UserController {
  
     	//数据库操作
     	try {
+    		System.out.println("shenfen"+roleListSelect);
     		User user=new User();
         	user.setRole_id(roleListSelect);
         	user.setDepartment_id(departmentListSelect);
@@ -468,8 +525,9 @@ public class UserController {
     	String editCity="";
     	try {
     		editUserID=Integer.parseInt(request.getParameter("editUserID"));
-        	editroleListSelect=StringUtils.join(request.getParameterValues("editroleListSelect"),"|");;
-        	editdepartmentListSelect=request.getParameter("editdepartmentListSelect");
+        	editroleListSelect=StringUtils.join(request.getParameterValues("editroleListSelect"),"|");
+        	editdepartmentListSelect=StringUtils.join(request.getParameterValues("editdepartmentListSelect"),"|");
+        	//editdepartmentListSelect=request.getParameter("editdepartmentListSelect");
         	editstatus=request.getParameter("editstatus");
         	editgenderSelect=request.getParameter("editgenderSelect");
         	editUserTel=request.getParameter("editUserTel");
@@ -532,6 +590,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:数据库操作"+e.toString());
+			e.printStackTrace();
  			maView.setViewName("error");
  			return maView;
 		}
