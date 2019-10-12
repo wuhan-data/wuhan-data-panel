@@ -19,8 +19,13 @@
         </delete>        
          
          <!-- 查询栏目下的板块 -->
+<<<<<<< HEAD
+       <select id="getlist" parameterType="java.util.Map" resultType="ColPlate">      
+           select plate_id pid,plate_id id,plate_name pname,is_show,show_type,show_term term,theme_name cname,plate_weight from WUHAN_DATA."ANALYSIS_PLATE" where theme_id=#{cid} order by plate_weight limit #{page.dbIndex},#{page.dbNumber}  
+=======
         <select id="getlist" parameterType="java.util.Map" resultType="ColPlate">      
            select plate_id pid,plate_id id,plate_name pname,is_show,show_type,show_term term,theme_name cname,plate_weight from WUHAN_DATA."ANALYSIS_PLATE" where theme_id=#{cid} order by plate_weight  
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         </select>
  
         <update id="update" parameterType="ColPlate" >
@@ -74,6 +79,10 @@
             select distinct theme_name from WUHAN_DATA."ANALYSIS_PLATE"  where theme_id=#{cid}
         </select>
         
+<<<<<<< HEAD
+        <update id="updateWeight" parameterType="Map" >
+            update WUHAN_DATA."ANALYSIS_PLATE"
+=======
         
         
         
@@ -118,6 +127,7 @@
         
            <update id="updateWeight" parameterType="Map" >
             update ANALYSIS_PLATE
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
             <set>
             plate_weight=#{newWeight}
             </set>
@@ -126,6 +136,9 @@
                
         <select id="getPid" resultType="int" parameterType="Map">
      
+<<<<<<< HEAD
+           select plate_id from  WUHAN_DATA."ANALYSIS_PLATE"  where theme_id=#{theme_id} and plate_weight=#{oldWeight}
+=======
            select plate_id from ANALYSIS_PLATE  where theme_id=#{theme_id} and plate_weight=#{oldWeight}
         </select>
         
@@ -144,6 +157,7 @@
         得到需要添加的板块所属栏目的名称
         <select id="getAddCname" resultType="String" parameterType="int">
             select distinct theme_name from analysis_plate  where theme_id=#{cid}
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         </select>
         
         

@@ -1,3 +1,59 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.AnalysisSecondMapper">
+        <!-- 添加二级栏目 -->
+        <insert id="add" parameterType="AnalysisTheme">
+           insert into WUHAN_DATA.WUHAN_DATA.ANALYSIS_THEME(label_id,theme_name,theme_weight) values(#{label_id},#{theme_name},#{theme_weight})
+        </insert>
+               
+         <!-- 删除板块 -->
+        <delete id="delete" parameterType="int" >
+          delete from WUHAN_DATA.ANALYSIS_THEME where theme_id=#{theme_id}
+        </delete>        
+         
+         <!-- 查询栏目下的板块 -->
+        <select id="getlist" parameterType="java.util.Map" resultType="AnalysisTheme">      
+           select theme_id,theme_name,theme_weight,label_id,is_show from WUHAN_DATA.ANALYSIS_THEME where label_id=#{label_id} order by theme_weight 
+        </select>
+ 
+        <update id="update" parameterType="AnalysisTheme" >
+            update WUHAN_DATA.ANALYSIS_THEME set theme_name=#{theme_name} where theme_id=#{theme_id}
+        </update>               
+        
+        <!-- 更新板块显示与否 -->
+         <update id="updateShow" parameterType="AnalysisTheme" >
+            update WUHAN_DATA.ANALYSIS_THEME
+            <set>
+            is_show=#{is_show}
+            </set>
+             where theme_id=#{theme_id}
+        </update>
+        
+           <update id="updateWeight" parameterType="Map" >
+            update WUHAN_DATA.ANALYSIS_THEME
+            <set>
+            theme_weight=#{newWeight}
+            </set>
+             where theme_id=#{theme_id}
+        </update>
+               
+        <select id="getThemeId" resultType="int" parameterType="Map">
+     
+           select theme_id from WUHAN_DATA.ANALYSIS_THEME  where label_id=#{label_id} and theme_weight=#{oldWeight}
+        </select>
+        
+        <select id="getMaxWeight" resultType="int" parameterType="int" >
+           select max(theme_weight)+1 from WUHAN_DATA.ANALYSIS_THEME where label_id=#{label_id}
+        </select> 
+        
+        
+        
+    </mapper>
+=======
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -99,3 +155,4 @@
         
         
     </mapper>
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
