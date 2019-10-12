@@ -44,6 +44,7 @@ import com.wuhan_data.pojo.AnalysisSearch;
 import com.wuhan_data.pojo.AnalysisTheme;
 import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.Collect;
+import com.wuhan_data.service.UserService;
 
 import cn.hutool.core.lang.Console;
 
@@ -55,6 +56,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 	@Autowired
 	CollectMapperApp collectMapperApp;
+	
+	@Autowired
+	UserService userService;
 
 	@Override
 	public ArrayList<Object> getAnalysisList(int userId) {
@@ -98,6 +102,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 		ArrayList<String> roleList = new ArrayList<String>();
 		if (userId != 0) {
 			// TODO 根据用户userId获取对应的role_list
+			Map<String, String> allPowerMap = new HashMap<String, String>();
+			allPowerMap = userService.getAllPower(userId);
+			String roleListString = allPowerMap.get("powerThemes");
+//			roleList = roleListString;
 			roleList.add("1");
 			roleList.add("2");
 		}
