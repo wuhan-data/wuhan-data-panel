@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,14 @@ import com.wuhan_data.tools.Page;
 @RequestMapping("")
 public class PlateIndiController {
 	
+	static Integer label_id;
+	static String label_name;
+	static String type_name;
+	static String theme_name;
+	static Integer plate_id;
+	static String plate_name;
+	static Integer theme_id;
+	
 	@Autowired
 	ColPlateIndiService colPlateIndiService;
 	
@@ -34,7 +43,24 @@ public class PlateIndiController {
         response.setCharacterEncoding("UTF-8");
         ModelAndView mav = new ModelAndView();   
         Page page=new Page(); //分页类
-        int plate_id=Integer.parseInt(request.getParameter("id"));
+        plate_id=Integer.parseInt(request.getParameter("id"));
+
+        label_id=Integer.parseInt(request.getParameter("label_id"));
+        theme_id=Integer.parseInt(request.getParameter("theme_id"));
+        
+        System.out.print("获取到label_id："+label_id);
+
+        plate_name=colPlateIndiService.getPname(plate_id);
+            
+
+        label_name=java.net.URLDecoder.decode(request.getParameter("label_name"),"UTF-8");
+        
+
+        type_name=java.net.URLDecoder.decode(request.getParameter("type_name"),"UTF-8");
+
+        
+        theme_name=java.net.URLDecoder.decode(request.getParameter("theme_name"),"UTF-8");
+        
         int count = colPlateIndiService.total(plate_id);//每一个板块下面的指标数量
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数
         String currentPage=request.getParameter("currentPage");
@@ -51,14 +77,16 @@ public class PlateIndiController {
         map.put("page", page);
         map.put("plate_id",plate_id);
         List<ColPlateIndi> indicolumnByPage=colPlateIndiService.getlist(map);
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^:"+indicolumnByPage.size());
-
-//        List<IndexManage> indexManageList = colPlateIndiService.getAllIndi();
-//        System.out.print("@@@@@@@@@@:"+indexManageList.size());
-//        List<IndexManage> InitIndexManageList = colPlateService.listIndi();
-//        mav.addObject("InitIndexManageList", InitIndexManageList);     
+  
         mav.addObject("indicolumnByPage", indicolumnByPage);
         mav.addObject("page", page);    
+        mav.addObject("label_id", label_id);  
+        mav.addObject("label_name", label_name);  
+        mav.addObject("type_name", type_name);  
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("plate_id", plate_id);  
+        mav.addObject("theme_id", theme_id); 
+        mav.addObject("plate_name", plate_name);  
         mav.addObject("cid", plate_id);  
 //        mav.addObject("indexManageList", indexManageList);
         mav.setViewName("plateIndiManage");
@@ -76,17 +104,18 @@ public class PlateIndiController {
         int pid=Integer.parseInt(request.getParameter("cid")); //板块id
         System.out.print("&&&&&&&&&&&&&&&:板块id"+pid);
         
-        String search_indi_id=request.getParameter("indi_id");
-        String indi_new_name=request.getParameter("indi_new_name");
+//        String search_indi_id=request.getParameter("indi_id");
+//        String indi_new_name=request.getParameter("indi_new_name");
         String indi_old_name=request.getParameter("indi_old_name");
+        String indi_new_name = request.getParameter("indi_new_name");
         String show_type = request.getParameter("show_type");  
-        String show_color = request.getParameter("show_color");  
+        String show_color = request.getParameter("show_color"); 
         System.out.print("show_color:"+show_color);
         //pid,pname,indi_id,indi_name,show_type
         ColPlateIndi colPlateIndi = new ColPlateIndi();
         colPlateIndi.setPlate_id(pid);
-        colPlateIndi.setSearch_indi_id(search_indi_id);
         colPlateIndi.setIndi_new_name(indi_new_name);
+        colPlateIndi.setSearch_indi_id(colPlateIndiService.getIdAndNew_name(indi_old_name).getSearch_indi_id());
         colPlateIndi.setIndi_old_name(indi_old_name);
         colPlateIndi.setShow_type(show_type);
         colPlateIndi.setShow_color(show_color);
@@ -184,5 +213,17 @@ public class PlateIndiController {
         mav.setViewName("plateIndiManage"); //返回到jsp页面
         return mav;
     }
+	
+	@RequestMapping("searchAddIndi")//
+    public String searchAddIndi(HttpServletRequest request, 
+            HttpServletResponse response) throws IOException{
+		System.out.println("进入serachAddIndi");
+		HttpSession session = request.getSession(true);
+		String content = java.net.URLDecoder.decode(request.getParameter("field"),"UTF-8");
+		List<ColPlateIndi> resultList= colPlateIndiService.searchIndi(content);
+		System.out.println("content:"+content);
+		session.setAttribute("resultList", resultList);
+		return "searchContent";
+	}
 
 }

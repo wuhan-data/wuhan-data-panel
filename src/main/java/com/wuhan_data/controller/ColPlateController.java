@@ -32,6 +32,12 @@ public class ColPlateController { //栏目下的板块管理
 	@Autowired
 	ColPlateService colPlateService;
 	
+	String theme_name;
+	String type_name;
+	String label_name;
+	Integer label_id;
+	
+	
 	@RequestMapping("colPlateInit")//初始化板块
     public ModelAndView colPlateInit(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
@@ -39,7 +45,11 @@ public class ColPlateController { //栏目下的板块管理
         response.setCharacterEncoding("UTF-8");//防止乱码       
         ModelAndView mav = new ModelAndView();//返回视图类    
         Page page=new Page(); //分页类
-        int cid=Integer.parseInt(request.getParameter("id")); //获取二级栏目id
+        int cid=Integer.parseInt(request.getParameter("theme_id")); //获取二级栏目id
+        theme_name=colPlateService.getThemeName(cid);
+        type_name=java.net.URLDecoder.decode(request.getParameter("type_name"),"UTF-8"); 
+        label_name=java.net.URLDecoder.decode(request.getParameter("label_name"),"UTF-8"); 
+        label_id=Integer.parseInt(request.getParameter("label_id"));
         int count = colPlateService.total(cid);//每一个二级栏目下的板块数量
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数     
         String currentPage=request.getParameter("currentPage");//获取jsp页面的当前页的页码
@@ -58,7 +68,12 @@ public class ColPlateController { //栏目下的板块管理
 //        mav.addObject("InitIndexManageList", InitIndexManageList);     
         mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
         mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参        
+        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
+        mav.addObject("theme_id", cid);   
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("label_name", label_name);
+        mav.addObject("label_id", label_id);
+        mav.addObject("type_name", type_name);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -103,7 +118,11 @@ public class ColPlateController { //栏目下的板块管理
 //        mav.addObject("InitIndexManageList", InitIndexManageList);     
         mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
         mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参        
+        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
+        mav.addObject("theme_id", cid);   
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("label_name", label_name);
+        mav.addObject("type_name", type_name);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -139,7 +158,11 @@ public class ColPlateController { //栏目下的板块管理
 //        mav.addObject("InitIndexManageList", InitIndexManageList);     
         mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
         mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参        
+        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
+        mav.addObject("theme_id", cid);   
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("label_name", label_name);
+        mav.addObject("type_name", type_name);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -180,7 +203,11 @@ public class ColPlateController { //栏目下的板块管理
 //        mav.addObject("InitIndexManageList", InitIndexManageList);     
         mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
         mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参        
+        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
+        mav.addObject("theme_id", cid);   
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("label_name", label_name);
+        mav.addObject("type_name", type_name);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -229,7 +256,11 @@ public class ColPlateController { //栏目下的板块管理
 //        mav.addObject("InitIndexManageList", InitIndexManageList);     
         mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
         mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参        
+        mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
+        mav.addObject("theme_id", cid);   
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("label_name", label_name);
+        mav.addObject("type_name", type_name);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -288,7 +319,11 @@ public class ColPlateController { //栏目下的板块管理
 //        mav.addObject("InitIndexManageList", InitIndexManageList);     
         mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
         mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", theme_id); //前端获取二级栏目id，以便多次传参        
+        mav.addObject("cid", theme_id); //前端获取二级栏目id，以便多次传参   
+        mav.addObject("theme_id", theme_id); //前端获取二级栏目id，以便多次传参  
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("label_name", label_name);
+        mav.addObject("type_name", type_name);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }

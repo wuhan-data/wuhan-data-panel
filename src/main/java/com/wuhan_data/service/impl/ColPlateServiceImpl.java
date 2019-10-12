@@ -76,4 +76,10 @@ public class ColPlateServiceImpl implements ColPlateService {
 		return colPlateMapper.getPid(map);
 	}
 
+	@Override
+	public String getThemeName(int theme_id) {
+		// TODO Auto-generated method stub
+		return colPlateMapper.getThemeName(theme_id);
+	}
+
 }

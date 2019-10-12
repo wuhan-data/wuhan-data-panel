@@ -72,7 +72,7 @@ public class IndexPicManageController {
        
 //       存到本地的路径
 //       String localPath="/Users/in/uploads/";
-       String localPath="C:\\wuhan_data_file\\head\\";      
+       String localPath="C:\\wuhan_data_file\\image\\slideshow\\";      
 //       文件名
        String filename=null;
        System.out.print(pic1);
@@ -91,7 +91,7 @@ public class IndexPicManageController {
 
        }
        //数据库中保存的是图片的相对路径
-       sqlPath = basePath+"file_head/"+filename;
+       sqlPath = basePath+"file_image_slideshow/"+filename;
        System.out.println(sqlPath);
        indexPic.setImage(sqlPath);
        indexPicService.add(indexPic);      

@@ -23,6 +23,8 @@
     <link href="<%=path %>/assets/css/my.css" rel="stylesheet" />
     
     <link href="<%=path %>/assets/css/bootstrap-order.min.css" rel="stylesheet" />
+    
+     <link href="<%=path %>/assets/css/bootstrap-colorpicker.css" rel="stylesheet" />
    
 
 
@@ -47,6 +49,10 @@
         .page .num:hover { background:#4c8ccc; border:1px solid #4c8ccc; color:#fff; text-decoration:none;}
        /*  .page .go { display:inline-block; width:25px; height:23px; line-height:23px; text-align:center; border:1px solid #ccc;} */
         .page b{ color:#2979b4}
+        .showColor{
+        width:20px;
+        height:20px;
+        float:left;}
         
       #addElement{
         margin-bottom:10px;
@@ -56,6 +62,35 @@
         text-align:center;
         }
        
+       #tips{
+        margin-top:0px;
+        display: none;
+        width: 558px;
+        height:150px;
+        overflow:auto;
+        border:1px black;
+       }
+       #chooseColor{
+        width: 20px;
+        height: 20px;
+        border: 1px solid #fff;
+        border-radius: 4px;
+        background-color:#000;
+        text-indent: 20px;;
+       }
+       .search_indi_id,.indi_old_name,indi_new_name{
+        text-align:center;
+        margin:auto;
+        word-wrap:break-word;  
+    	word-break:break-all;
+    	overflow: auto; 
+       width:200px;
+       }
+       
+       li{
+       list-style:none;}
+      
+     
 
     </style>
 </head>
@@ -66,7 +101,8 @@
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            栏目管理 <small>指标配置</small>
+                            栏目管理 
+                            <div><small><a href="#" onclick="backFirstMenu('${type_name}')">${type_name}(${ label_name})</a> > <a href="#" onclick="backSecondMenu('${label_id }','${type_name}','${label_name}','analysisSecondInit')">${theme_name}</a> > <a href="#" onclick="backThirdMenu('${theme_id }','${label_id }','${type_name}','${label_name }','colPlateInit')">${plate_name }</a> </small></div>
                         </h1>
                     </div>
                 </div> 
@@ -97,31 +133,33 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="10%">板块</th>
-                                            <th width="15%">指标id</th>
-                                            <th width="20%">指标名称</th>
-                                            <th width="20%">指标别名</th>
-                                            <th width="10%">展现形式</th>
-                                            <th width="35%">操作</th>
+                                            <th>板块</th>
+                                            <th>指标id</div></th>
+                                            <th>指标名称</th>
+                                            <th>指标别名</th>
+                                            <th>展现形式</th>
+                                            <th>展示颜色</th>
+                                            <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${indicolumnByPage}" var="c" varStatus="st">
         <tr>
             <td >${c.plate_id}</td>
-            <td>${c.search_indi_id }</td>
-            <td >${c.indi_old_name}</td>
-            <td >${c.indi_new_name}</td>
+            <td ><div class="search_indi_id">${c.search_indi_id }</div></td>
+            <td ><div class="indi_old_name">${c.indi_old_name}</div></td>
+            <td ><div class="indi_new_name">${c.indi_new_name}</div></td>
             <td>${c.show_type }</td>
-            <td width=40%>
+            <th>${c.show_color }<div style="background-color:${c.show_color}" class="showColor"></div></th>
+            <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
 
-<%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_name}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_name}')">
 <i class="fa fa-edit"></i>修改
-</div> --%>
+</div> 
 <a href="#" onclick="delClick('${c.plate_id }','${c.indi_id}','plateIndiDel')">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
@@ -205,25 +243,33 @@
 			<form class="" id="addForm" method="post" accept-charset="UTF-8" action="#">
 			<div class="modal-body">
 			
-			 <div class="form-group">
-                   <label>指标id</label>                  
-                   <input class="form-control" type="text" placeholder="请输入指标id" name="indi_id">
-             </div>
-              <div class="form-group">
+			
+              <div class="form-group" id="indi_name_group">
                    <label>指标名称</label>                  
-                   <input class="form-control" type="text" placeholder="请输入指标名称" name="indi_old_name">
+                   <input class="form-control" type="text" placeholder="请输入指标名称（xxx::xxx::xxx）" name="indi_old_name" id="indi_old_name" autocomplete="off" >
              </div>
-             <div class="form-group">
+             
+              <div id="tips" style=""></div>
+              
+               <div class="form-group" id="indi_name_group">
                    <label>指标别名</label>                  
                    <input class="form-control" type="text" placeholder="请输入指标别名" name="indi_new_name">
              </div>
+             
               <div class="form-group">
-                   <label>展示类型</label>                  
-                   <input class="form-control" type="text" placeholder="请输入展示类型" name="show_type">
+                   <label>展示类型</label>
+                   <select class="form-control" name="show_type" onchange="f1()" placeholder="">
+                    <option value="" selected>请选择展示类型</option>   
+                    <option value="line">line</option>
+                    <option value="line">bar</option>
+                   </select>
+              
+                   <!-- <input class="form-control" type="text" placeholder="请输入展示类型" name="show_type"> -->
              </div>
               <div class="form-group">
-                   <label>展示颜色</label>                  
-                   <input class="form-control" type="text" placeholder="请输入展示颜色" name="show_color">
+                   <label>展示颜色<input id="chooseColor" type="text" value="" readonly/></label>                                  
+                   <input id="color" class="form-control"  type="text" placeholder="请输入展示颜色" name="show_color"> 
+                  
              </div>
       
    
@@ -296,11 +342,86 @@
    <script src="<%=path %>/assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
+     <script src="<%=path %>/assets/js/bootstrap-colorpicker.js"></script>
+    
     <script>
             $(document).ready(function () {
-              
+            	 // 基本实例化:
+                $('#chooseColor').colorpicker();
+
+                // Example using an event, to change the color of the .jumbotron background:
+                $('#chooseColor').on('change', function (event) {
+                    $('#chooseColor').css('background-color', event.color.toString()).val('');
+                    $("#color").val(event.color.toString());
+                });
                
             });
+            
+            
+            
+            /* var div = document.getElementById("tips"); */
+            
+            
+    /*         var bind_name = "input";
+            if (navigator.userAgent.indexOf("MSIE") != -1){ 
+              bind_name = 'propertychange'; 
+            } 
+            $('#indi_old_name').bind(bind_name, function(){ 
+            	alert("ad");
+            
+            })  */
+            
+            
+            
+           /*  searchIndi = function(){
+            	alert("dff")
+            } */
+            
+            var textElment = document.getElementById("indi_old_name");
+            var div = document.getElementById("tips");
+            $(function(){  
+            	  $('#indi_old_name').bind('input propertychange', function() {  
+            		  console.log("1");
+            		  if(textElment.value!=""){
+            			  div.style.display="block";
+            		  }else{
+            			  div.style.display="none";
+            		  }
+          	      
+            		  var content=encodeURI(encodeURI($(this).val()));
+            	      $.ajax({
+                              type: 'GET',
+                              url:  'searchAddIndi?field='+content,
+                              dataType: "html",
+                         	  async : false,
+                          	  contentType: false, //不设置内容类型
+                         	  processData: false,
+                              cache:false,
+                              success: function(data){
+                        		  /* $('#tips').html($(this).val().length + ' characters');  */ 
+                        		  $('#tips').html(data);  
+                              },
+                              error : function(data){
+                              }
+                          }); 
+            	      
+            	  });
+            	})
+            	
+            	
+/*           textElment.onkeyup=function(){
+            	console.log("dff")
+ 				//获取用户输入的值
+ 				var text = textElment.value;
+ 				//如果文本框中没有值，则下拉框被隐藏，不显示
+ 				if(text==""){
+ 					div.style.display="none";
+ 					return;
+ 				}else{
+ 					div.style.display="block";
+ 				}
+            }  */
+            
             editClick = function(Url) {
             	   $('.modal-backdrop').remove();
             	    $('body').removeClass('modal-open');
@@ -404,7 +525,7 @@
                                        url:  Url+"?currentPage="+currentPage+"&id="+id,
                                        dataType: "html",
                                   	    async : false,
-                                   	contentType: false, //不设置内容类型
+                                    	contentType: false, //不设置内容类型
                                   	    processData: false,
                                        cache:false,
                                        success: function(data){
@@ -423,7 +544,73 @@
             }
           
             
-        
+            function resetContent(content){
+            	var indi_old_name = document.getElementById("indi_old_name");           	 
+            	indi_old_name.value=content;
+            	div.style.display="none";
+            	
+            }
+            
+            
+ function backFirstMenu(op){   
+                
+              	var o=encodeURI(encodeURI(op)); 
+                   $.ajax({
+                          type: 'GET',
+                          url:  'initAnalysisList?op='+o,
+                          dataType: "html", 
+                     	    async : false,
+                      	contentType: false, 
+                     	    processData: false,
+                          cache:false,
+                          success: function(data){
+                              $('#getNewData').html(data);
+                          },
+                          error : function(data){
+                          }
+                      });  
+               } 
+            
+            backSecondMenu = function(id,typeName,labelName,Url) { 
+            	var type=encodeURI(encodeURI(typeName));
+              	var label=encodeURI(encodeURI(labelName));
+                   $.ajax({
+                              type: 'GET',
+                              url:  Url+"?theme_id="+id+"&type_name="+type+"&label_name="+label,
+                              dataType: "html",
+                         	    async : false,
+                          	contentType: false, //不设置内容类型
+                         	    processData: false,
+                              cache:false,
+                              success: function(data){
+                                  $('#getNewData').html(data);
+                              },
+                              error : function(data){
+                              }
+                          });    
+                  };
+                  
+                  
+                  backThirdMenu = function(id,label_id,typeName,labelName,Url) { 
+                  	var type=encodeURI(encodeURI(typeName));
+                  	var label=encodeURI(encodeURI(labelName));
+                       $.ajax({
+                                  type: 'GET',
+                                  url:  Url+"?theme_id="+id+"&label_id="+label_id+"&type_name="+type+"&label_name="+label,
+                                  dataType: "html",
+                             	    async : false,
+                              	contentType: false, //不设置内容类型
+                             	    processData: false,
+                                  cache:false,
+                                  success: function(data){
+                                      $('#getNewData').html(data);
+                                  },
+                                  error : function(data){
+                                  }
+                              });    
+                       };
+                  
+             
     </script>
     
    

@@ -119,7 +119,7 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.title}</td>
-            <td class="tdiamge"><div>${c.image}</div></td>
+            <td class="tdiamge"><a href="${c.image}" target="_blank"><div>${c.image}</div></a></td>
             <td ><img src="${c.image}" width="80" height="42"></td>
             <td>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
