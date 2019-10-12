@@ -5,7 +5,10 @@
  
     <mapper namespace="com.wuhan_data.mapper.IndexManageMapper">
         <insert id="add" parameterType="IndexManage" >
-            insert into WUHAN_DATA."INDEX_MANAGE"(indi_code,indi_name,status,show_type,source)values (#{indi_code},#{indi_name},#{status},#{show_type},#{sjly_name2})   
+            insert into MIDUSER."APP_INDI_H"(indi_code,indi_old_name,indi_new_name,is_show,source,area_code,area_name,lj)values (#{indi_code},#{indi_name},#{indi_name},#{is_show},#{source},#{area_code},#{area_name},#{lj})   
+        </insert>
+         <insert id="addG" parameterType="IndexManage" >
+            insert into WUHAN_DATA."APP_INDI_G"(indi_code,old_indi_name,new_indi_name,source,is_area,lj,is_show)values (#{indi_code},#{indi_name},#{indi_name},#{source},0,#{lj},#{is_show})   
         </insert>
         
          <insert id="add_init" parameterType="IndexManage" >
@@ -14,7 +17,10 @@
         </insert>
          
         <delete id="delete" parameterType="_int" >
-            delete from WUHAN_DATA."INDEX_MANAGE" where id= #{id}  
+            delete from MIDUSER."APP_INDI_H" where id= #{id}  
+        </delete>
+         <delete id="deleteG" parameterType="_int" >
+            delete from WUHAN_DATA."APP_INDI_G" where id= #{id}  
         </delete>
          
         <select id="get" parameterType="_int" resultType="IndexManage">
@@ -22,7 +28,11 @@
         </select>
  
         <update id="update" parameterType="IndexManage">
-            update WUHAN_DATA."INDEX_MANAGE" set indi_code=#{indi_code},indi_name=#{indi_name},status=#{status} where id=#{id}   
+            update MIDUSER."APP_INDI_H" set indi_code=#{indi_code},indi_new_name=#{indi_name},is_show=#{is_show} where id=#{id}   
+        </update>
+        
+         <update id="updateG" parameterType="IndexManage">
+            update WUHAN_DATA."APP_INDI_G" set indi_code=#{indi_code},new_indi_name=#{indi_name},is_show=#{is_show} where id=#{id}   
         </update>
         
         <select id="list" resultType="IndexManage">
@@ -38,8 +48,12 @@
         </select>
         
           <select id="listAddPage" resultType="IndexManage" parameterType="java.util.Map" >
-            select * from WUHAN_DATA."INDEX_MANAGE"
-            
+            select id,indi_code,indi_new_name as indi_name,source,area_code,area_name,lj,is_show from MIDUSER."APP_INDI_H"
+            order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select> 
+        
+        <select id="listAddPageG" resultType="IndexManage" parameterType="java.util.Map" >
+            select id,indi_code,new_indi_name as indi_name,source,lj,is_show from WUHAN_DATA."APP_INDI_G"
             order by id limit #{page.dbIndex},#{page.dbNumber}
         </select> 
         
@@ -51,16 +65,27 @@
         </select>    
         
           <select id="total" resultType="int">
-            select count(*) from  WUHAN_DATA."INDEX_MANAGE"    
+            select count(*) from  MIDUSER."APP_INDI_H"    
         </select> 
+        
+         <select id="totalG" resultType="int">
+            select count(*) from  WUHAN_DATA."APP_INDI_G"    
+        </select>
         
 <!--         //设置指标允许展示 -->
         <update id="per_show" parameterType="_int">
         	update WUHAN_DATA."INDEX_MANAGE" set status=0 where id=#{id}
         </update>
         
+        <update id="per_showG" parameterType="_int">
+        	update WUHAN_DATA."APP_INDI_G" set is_show=0 where id=#{id}
+        </update>
+        
          <update id="no_per_show" parameterType="_int">
         	update WUHAN_DATA."INDEX_MANAGE" set status=1 where id=#{id}
+        </update>
+        <update id="no_per_showG" parameterType="_int">
+        	update WUHAN_DATA."APP_INDI_G" set is_show=1 where id=#{id}
         </update>
         
 <!--      指标搜索 -->
@@ -71,10 +96,17 @@
             select * from WUHAN_DATA."INDEX_MANAGE"  where indi_name like CONCAT('%',#{keyword},'%') 
              order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>  
+         <select id="indiSearchG" parameterType="java.util.Map" resultType="IndexManage">
+            select * from WUHAN_DATA."APP_INDI_G"  where old_indi_name like CONCAT('%',#{keyword},'%') 
+             order by id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
         
          <select id="searchCount" resultType="int" parameterType="java.util.Map" >
             select count(*) from WUHAN_DATA."INDEX_MANAGE" where indi_name like concat(concat('%',#{keyword}),'%')
         </select>   
+         <select id="searchCountG" resultType="int" parameterType="java.util.Map" >
+            select count(*) from WUHAN_DATA."APP_INDI_G" where old_indi_name like concat(concat('%',#{keyword}),'%')
+        </select>  
         
 <!--         模拟同方数据库   -->
 		  <select id="listTF" resultType="indi_TF">

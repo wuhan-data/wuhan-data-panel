@@ -44,4 +44,22 @@ public interface IndexManageService {
 
 	public void add_init(IndexManage indexManage);
 	public List<IndexManage> listIndi();
+
+	public int totalG();
+
+	public List<IndexManage> listAddPageG(Map<String, Object> map);
+
+	public void updateG(IndexManage indexManage);
+
+	public void deleteG(int indi_id);
+
+	public void addG(IndexManage indexManage);
+
+	public void per_showG(int indi_id);
+
+	public void no_per_showG(int indi_id);
+
+	public int searchCountG(Map<String, Object> mapSearch);
+
+	public List<IndexManage> indiSearchG(Map<String, Object> map);
 }

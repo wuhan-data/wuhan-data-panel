@@ -10,13 +10,13 @@ import com.wuhan_data.tools.DataSource;
 
 
 public interface IndexManageMapper {
-		@DataSource(value="dataSource_dm")
+		@DataSource(value="dataSource_mysql")
 	    public int add(IndexManage indexManager); 
 		@DataSource(value="dataSource_dm")
 	    public void delete(int id); 
 		@DataSource(value="dataSource_dm")
 	    public IndexManage get(int id); 
-		@DataSource(value="dataSource_dm")
+		@DataSource(value="dataSource_mysql")
 	    public void update(IndexManage indexManager);  
 		@DataSource(value="dataSource_dm")
 	    public List<IndexManage> list();
@@ -27,7 +27,7 @@ public interface IndexManageMapper {
 	    public int count(); 
 	    @DataSource(value="dataSource_dm")
 	    public List<IndexManage> list(Page page);
-	    @DataSource(value="dataSource_dm")
+	    @DataSource(value="dataSource_mysql")
 	    public int total();
 	    @DataSource(value="dataSource_dm")
 		public void per_show(int id);
@@ -37,7 +37,7 @@ public interface IndexManageMapper {
 		public List<String> IndiSearch(String keyword);
 	    @DataSource(value="dataSource_dm")
 		public List<IndexManage> indiSearch(Map map);
-	    @DataSource(value="dataSource_dm")
+	    @DataSource(value="dataSource_mysql")
 		public List<IndexManage> listAddPage(Map<String, Object> map);
 	    @DataSource(value="dataSource_dm")
 		public int searchCount(Map<String, Object> mapSearch);
@@ -48,5 +48,23 @@ public interface IndexManageMapper {
 	    @DataSource(value="dataSource_dm")
 		public void add_init(IndexManage indexManage);
 	    @DataSource(value="dataSource_dm")
-		 public List<IndexManage> listIndi();
+		public List<IndexManage> listIndi();
+	    @DataSource(value="dataSource_dm")
+		public int totalG();
+	    @DataSource(value="dataSource_dm")
+		public List<IndexManage> listAddPageG(Map<String, Object> map);
+	    @DataSource(value="dataSource_dm")
+		public void updateG(IndexManage indexManage);
+	    @DataSource(value="dataSource_dm")
+		public void deleteG(int indi_id);
+	    @DataSource(value="dataSource_dm")
+		public void addG(IndexManage indexManage);
+	    @DataSource(value="dataSource_dm")
+		public void per_showG(int indi_id);
+	    @DataSource(value="dataSource_dm")
+		public void no_per_showG(int indi_id);
+	    @DataSource(value="dataSource_dm")
+		public int searchCountG(Map<String, Object> mapSearch);
+	    @DataSource(value="dataSource_dm")
+		public List<IndexManage> indiSearchG(Map<String, Object> map);
 }

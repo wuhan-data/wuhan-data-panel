@@ -126,10 +126,10 @@
                                         <tr>
                                             <th>指标数据id</th>
                                             <th>指标代码</th>
+                                            <th>地域名称</th>
+                                            <th>路径</th>
                                             <th>指标名称</th>
                                             <th>状态</th>
-<!--                                             <th>展示类型</th> -->
-                                            <th>来源</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
@@ -138,28 +138,27 @@
         <tr>
             <td>${c.id}</td>
             <td>${c.indi_code}</td>
+            <td>${c.area_name}</td>
+            <td>${c.lj}</td>
             <td>${c.indi_name}</td>
-            <td>${c.status}</td>
-<%--             <td>${c.show_type}</td> --%>
-            <td>${c.source}</td>
-
+            <td>${c.is_show}</td>
             <td >
-            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.indi_name}","${c.status}")'><i class="fa fa-edit"></i> 修改</div>
+            	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.area_name}","${c.lj}","${c.indi_name}","${c.is_show}")'><i class="fa fa-edit"></i> 修改</div>
             	<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> <a href="#" id="deleteIndi" onclick="deleteIndi('${c.id}','delete')">删除</a></div>
 
 	<div class="btn-group">
     <button type="button" class="btn btn-info dropdown-toggle btn-sm"  data-toggle="dropdown">
-    <c:if test="${c.status==0 }"> &nbsp;&nbsp;&nbsp; 展示</c:if>
-    <c:if test="${c.status==1 }">不展示</c:if>	
+    <c:if test="${c.is_show==0 }"> &nbsp;&nbsp;&nbsp; 展示</c:if>
+    <c:if test="${c.is_show==1 }">不展示</c:if>	
     <span class="caret"></span>         
     </button>
     <ul class="dropdown-menu" role="menu">
-    <c:if test="${c.status==1 }">
+    <c:if test="${c.is_show==1 }">
       <li>
          <a href="#" id="perShow" onclick="perShow('${c.id}','per_show')">展示</a>            
       </li>
     </c:if>
-    <c:if test="${c.status==0 }">
+    <c:if test="${c.is_show==0 }">
       <li role="presentation">
          <a href="#" id="noPerShow" onclick="noPerShow('${c.id}','no_per_show')">不展示</a>             
       </li>
@@ -192,14 +191,9 @@
 			<div class="modal-body">
 				<span class="text-info">指标数据id</span><input type="text" class="form-control" id="IndiId" value="" name="Id" readonly>
 				<span class="text-info">指标代码</span><input type="text" class="form-control" id="IndiCode" value="" name="Code" readonly>
+				<span class="text-info">地域名称</span><input type="text" class="form-control" id="areaName" value="" name="areaName" readonly>
+				<span class="text-info">路径</span><input type="text" class="form-control" id="lj" value="" name="lj" readonly>
 				<span class="text-info">指标名称</span><input type="text" class="form-control" id="IndiName" value="" name="Name">
-<!-- 				<span class="text-info">频度代码</span><input type="text" class="form-control" id="IndiFreqCode" value="" name="FreqCode"> -->
-				
-<!-- 				<span class="text-info">报告期</span><input type="text" class="demo-input" placeholder="请选择日期" id="starttime" name="StartTime"><input type="text" class="demo-input" placeholder="请选择日期" id="endtime" name="EndTime"><br> -->
-				
-				
-<!-- 				<span class="text-info">指标值</span><input type="text" class="form-control" id="IndiValue" value="" name="Value"> -->
-<!-- 				<span class="text-info">展示类型</span><input type="text" class="form-control" id="IndiShowType" value="" name="ShowType"> -->
 				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status">
 <!-- 				<span class="text-info">来源</span><input type="text" class="form-control" id="IndiSource" value="" name="Source"> -->
 				
@@ -237,13 +231,10 @@
 <!-- 				<span class="text-info">指标数据id</span><input type="text" class="form-control" id="addIndiId" value="" name="addId"> -->
 				<span class="text-info">指标代码</span><input type="text" class="form-control" id="addIndiCode" value="" name="addCode">
 				<span class="text-info">指标名称</span><input type="text" class="form-control" id="addIndiName" value="" name="addName">
-<!-- 				<span class="text-info">频度代码</span><input type="text" class="form-control" id="addIndiFreqCode" value="" name="addFreqCode"> -->
-				
-<!-- 				<span class="text-info">报告期</span><input type="text" class="demo-input" placeholder="请选择日期" id="addstarttime" name="addStartTime"><input type="text" class="demo-input" placeholder="请选择日期" id="addendtime" name="addEndTime"><br> -->
-				
-				
-<!-- 				<span class="text-info">指标值</span><input type="text" class="form-control" id="addIndiValue" value="" name="addValue"> -->
-<!-- 				<span class="text-info">时点</span><input type="text" class="form-control" id="addIndiTimePoint" value="" name="addTimePoint"> -->
+				<span class="text-info">地域代码</span><input type="text" class="form-control" id="addAreaCode" value="" name="addAreaCode">
+				<span class="text-info">地域名称</span><input type="text" class="form-control" id="addAreaName" value="" name="addAreaName">
+				<span class="text-info">路径</span><input type="text" class="form-control" id="addLj" value="" name="addLj">
+
 				<span class="text-info">状态</span><input type="text" class="form-control" id="addIndiStatus" value="" name="addStatus">
 				<span class="text-info">来源</span><input type="text" class="form-control" id="addIndiSource" value="" name="addSource">
 				
@@ -506,13 +497,13 @@
              
              
 	
-		function updateIndi(id,indi_code,indi_name,status){
+		function updateIndi(id,indi_code,area_name,lj,indi_name,status){
 			
  			 $("#IndiId").val(id);
 			$("#IndiCode").val(indi_code);
+			$("#areaName").val(area_name);
+			$("#lj").val(lj);
 			$("#IndiName").val(indi_name);
-			
-			
 			$("#IndiStatus").val(status);
 			
 }

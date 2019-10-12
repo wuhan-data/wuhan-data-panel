@@ -130,6 +130,60 @@ public class IndexManageServiceImpl implements IndexManageService{
 			return indexManageMapper.listIndi();
 		}
 
+		@Override
+		public int totalG() {
+			// TODO Auto-generated method stub
+			return indexManageMapper.totalG();
+		}
+
+		@Override
+		public List<IndexManage> listAddPageG(Map<String, Object> map) {
+			// TODO Auto-generated method stub
+			return indexManageMapper.listAddPageG(map);
+		}
+
+		@Override
+		public void updateG(IndexManage indexManage) {
+			// TODO Auto-generated method stub
+			indexManageMapper.updateG(indexManage);
+		}
+
+		@Override
+		public void deleteG(int indi_id) {
+			// TODO Auto-generated method stub
+			indexManageMapper.deleteG(indi_id);
+		}
+
+		@Override
+		public void addG(IndexManage indexManage) {
+			// TODO Auto-generated method stub
+			indexManageMapper.addG(indexManage);
+		}
+
+		@Override
+		public void per_showG(int indi_id) {
+			// TODO Auto-generated method stub
+			indexManageMapper.per_showG(indi_id);
+		}
+
+		@Override
+		public void no_per_showG(int indi_id) {
+			// TODO Auto-generated method stub
+			indexManageMapper.no_per_showG(indi_id);
+		}
+
+		@Override
+		public int searchCountG(Map<String, Object> mapSearch) {
+			// TODO Auto-generated method stub
+			return indexManageMapper.searchCountG(mapSearch);
+		}
+
+		@Override
+		public List<IndexManage> indiSearchG(Map<String, Object> map) {
+			// TODO Auto-generated method stub
+			return indexManageMapper.indiSearchG(map);
+		}
+
 		
 
 }
