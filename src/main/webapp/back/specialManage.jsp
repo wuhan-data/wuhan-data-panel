@@ -88,7 +88,8 @@
         </nav>
         <!--/. NAV TOP  -->
         <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
+        
+         <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
 
                     <!-- <li>
@@ -114,7 +115,8 @@
 
                     </li>
                     <li>
-                        <a href="specialInit"><i class="fa fa-quote-left"></i>专题管理</a>
+                        <a href="#" onclick="menuClick('specialInit')"><i class="fa fa-quote-left"></i>专题管理</a>
+
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bell-o"></i>辅助功能<span class="fa arrow"></span></a>
@@ -147,6 +149,8 @@
                 </ul>
 
             </div>
+<%--            
+<jsp:include page="navbar.jsp" flush="true" /> --%>
 
         </nav>
         <!-- /. NAV SIDE  -->
@@ -159,9 +163,7 @@
                         </h1>
                     </div>
                 </div> 
-                 <!-- /. ROW  -->
-                 
-                 
+                 <!-- /. ROW  -->                
                                 
             <div class="row">
                 <div class="col-md-12">
@@ -185,73 +187,11 @@
    -->
   </div>
 
-    
-    <div width="10px"></div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>id</th>
-                                            <th>名称</th>
-                                            <th>路径</th>
-                                            <th>图片</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-     <c:forEach items="${specialByPage}" var="c" varStatus="st">
-        <tr>
-            <td >${c.id}</td>
-            <td >${c.title}</td>
-            <td >${c.image}</td>
-            <td ><img src="${c.image}" width="80" height="42"></td>
-           <%--  <td>${c.topic_weight}</td> --%>
-            <td width=40%>
-<%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
-<i class="fa fa-edit"></i>修改
+<div id="getNewData" width="100%" height="100%">
 </div>
- --%>
-<div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')">
-<i class="fa fa-search"></i>查看大图
-</div>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.title}','${c.image}')">
-<i class="fa fa-edit"></i>修改
-</div>
-<a href="specialDel?special_id=${c.id }">
-<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
-</a>
-<div class="btn-group">
-    <button type="button" class="btn btn-info dropdown-toggle btn-sm "  data-toggle="dropdown">
-     <c:if test="${c.is_show==0 }">
-     展示
-     </c:if>
-     <c:if test="${c.is_show==1 }">
-     不展示
-     </c:if>
-      <span class="caret"></span>         
-    </button>
-      
-    <ul class="dropdown-menu" role="menu">
-    <c:if test="${c.is_show==0 }">
-     <li role="presentation">
-         <a href="specialUpdateShow?is_show=1&special_id=${c.id }" id="noPerShow">不展示</a>             
-      </li>
-    </c:if>
-    <c:if test="${c.is_show==1 }">
-      <li>
-         <a href="specialUpdateShow?is_show=0&special_id=${c.id }" id="perShow">展示</a>            
-      </li>
-    </c:if>
-    </ul>
-</div>   
-</td>
-        </tr>
-    </c:forEach>
-</tbody>
 
-                                </table>
-                                
-                                
+                            
+                                                            
                                   <!-- 查看大图 模态框（Modal） -->
 <div class="modal fade" id="myImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
@@ -328,20 +268,6 @@
 					添加
 				</h4>
 			</div>
-		<!-- 	
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="specialAdd">
-			<div class="modal-body">
-      专题名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="title">
-    
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="submit" class="btn btn-primary" onclick="add()">
-					提交
-				</button>
-			</div>
-			</form> -->
 			
 			<form  id="addForm" method="post" accept-charset="UTF-8" action="specialAdd" enctype="multipart/form-data">
 			<div class="modal-body">
@@ -379,35 +305,6 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
 </div>
-
-
-                                <div class="row">									
-									 <div class='page fix'>
-                    <form method="post" action="specialInit" id="pageForm">
-                        共 <b>${page.totalNumber}</b> 条
-                        <c:if test="${page.currentPage != 1}">
-
-                           <a href="specialInit?currentPage=1" class='first'>首页</a>
-                           <a href="specialInit?currentPage=${page.currentPage-1}" class='pre'>上一页</a>
-                        </c:if>
-                        当前第<span>${page.currentPage}/${page.totalPage}</span>页
-                        <c:if test="${page.currentPage != page.totalPage}">
-                            <a href="specialInit?currentPage=${page.currentPage+1}" class='next'>下一页</a>
-                            <a href="specialInit?currentPage=${page.totalPage}" class='last'>末页</a>
-                        </c:if>
-                        跳至&nbsp;
-
-                        <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
-                        <input type="submit" value="GO" class="btn-primary btn-sm">
-                    </form>
-                </div>
-                
-      
-								<!-- 	<ul class="col-lg-4"></ul> -->
-                                </div>
-                              
-                                
-                            </div>
                             
                         </div>
                     </div>
@@ -439,9 +336,28 @@
     <script>
             $(document).ready(function () {
                 $('#dataTables-example').dataTable();
-               
-            });
-       	
+              /*   var height=document.documentElement.clientHeight;
+                document.getElementById('iframe-page-content').style.height='800px'; */
+                
+            });           
+            
+            var menuClick = function(menuUrl) {
+            	alert(menuUrl)
+            	 $.ajax({
+                         type: 'GET',
+                         url:  menuUrl,
+                         dataType: "html",
+                         cache:false,
+                         success: function(data){
+                    	 alert(data);
+                             $('#getNewData').html(data);
+                         },
+                         error : function(data){
+                         }
+                     });           	
+/*             $("#iframe-page-content").attr('src',menuUrl); */
+            };
+           
             function f1(){
             	var select = document.getElementById("FormControlSelect1");
             	var op = select.value;
