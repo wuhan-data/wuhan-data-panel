@@ -260,15 +260,21 @@ public class IndiSearchAppController {
 
 		List resultList = new ArrayList();
 		// 放入来自国统的指标数据
+		Set setG = new HashSet();
 		for (int i = 0; i < searchIndiListG.size(); i++) {
 			if (searchIndiListG.get(i).getIs_show().equals("0")) {
-				Map teMap = new HashMap();
-				teMap.put("id", searchIndiListG.get(i).getIndi_code());
-				teMap.put("name", searchIndiListG.get(i).getIndi_name());
-				teMap.put("path", searchIndiListG.get(i).getLj());
-				teMap.put("isArea", "0");
-				teMap.put("source", "国统");
-				resultList.add(teMap);
+				if(!setG.contains(searchIndiListG.get(i).getIndi_code()))
+				{
+					Map teMap = new HashMap();
+					teMap.put("id", searchIndiListG.get(i).getIndi_code());
+					teMap.put("name", searchIndiListG.get(i).getIndi_name());
+					teMap.put("path", searchIndiListG.get(i).getLj());
+					teMap.put("isArea", "0");
+					teMap.put("source", "国统");
+					resultList.add(teMap);
+					setG.add(searchIndiListG.get(i).getIndi_code());
+				}
+				
 			}
 		}
 		// 放入来自湖统的数据
