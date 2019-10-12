@@ -35,4 +35,24 @@ public class AnalysisType {
 	public Integer getIsShow() {
 		return isShow;
 	}
+
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public void setTypeWeight(Integer typeWeight) {
+		this.typeWeight = typeWeight;
+	}
+
+	public void setBackground(String background) {
+		this.background = background;
+	}
+
+	public void setIsShow(Integer isShow) {
+		this.isShow = isShow;
+	}
 }

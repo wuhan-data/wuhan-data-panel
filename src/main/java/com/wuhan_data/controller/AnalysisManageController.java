@@ -88,8 +88,8 @@ public class AnalysisManageController {
             	 AnalysisType o = new AnalysisType();
                  JSONObject jsonObj = JSONObject.fromObject(os[i]);
                  System.out.println("解析后："+jsonObj.get("name").toString()+":"+(jsonObj.getInt("num")));
-                 o.setType_name(jsonObj.get("name").toString());
-                 o.setType_weight(jsonObj.getInt("num"));
+                 o.setTypeName(jsonObj.get("name").toString());
+                 o.setTypeWeight(jsonObj.getInt("num"));
                  analysisManageService.reOrderByTypename(o);
                 
              } 
@@ -98,8 +98,8 @@ public class AnalysisManageController {
         	System.out.print("无法获取jsondata");
         }
         Page page=new Page(); //分页类
-        type_id = analysisManageService.getFirstWeight().getType_id();
-        tname=analysisManageService.getFirstWeight().getType_name();
+        type_id = analysisManageService.getFirstWeight().getTypeId();
+        tname=analysisManageService.getFirstWeight().getTypeName();
        
 //        List<AnalysisManage> analysisManageList= analysisManageService.list();
         int count = analysisManageService.countByGroup(type_id);//每一个一级栏目下面二极栏目的数量
@@ -126,14 +126,14 @@ public class AnalysisManageController {
         session.setAttribute("typenameOrder", typenameOrder);
 //        mav.addObject("typenameOrder", typenameOrder);
         for(AnalysisType a : typenameOrder){
-            System.out.println(a.getType_name()+":"+(a.getType_weight()+1));
+            System.out.println(a.getTypeName()+":"+(a.getTypeWeight()+1));
         }
         JSONArray json = new JSONArray();
         for(AnalysisType a : typenameOrder){
             JSONObject jo = new JSONObject();
-            jo.put("id", a.getType_weight());
-            jo.put("name", a.getType_name());
-            jo.put("num", a.getType_weight());
+            jo.put("id", a.getTypeWeight());
+            jo.put("name", a.getTypeName());
+            jo.put("num", a.getTypeWeight());
             json.add(jo);
         }
         mav.addObject("json", json);
@@ -206,14 +206,14 @@ public class AnalysisManageController {
         List<AnalysisType> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
         mav.addObject("typenameOrder", typenameOrder);
         for(AnalysisType a : typenameOrder){
-            System.out.println(a.getType_name()+":"+(a.getType_weight()));
+            System.out.println(a.getTypeName()+":"+(a.getTypeWeight()));
         }
         JSONArray json = new JSONArray();
         for(AnalysisType a : typenameOrder){
             JSONObject jo = new JSONObject();
-            jo.put("id", a.getType_weight());
-            jo.put("name", a.getType_name());
-            jo.put("num", a.getType_weight());
+            jo.put("id", a.getTypeWeight());
+            jo.put("name", a.getTypeName());
+            jo.put("num", a.getTypeWeight());
             json.add(jo);
         }
         mav.addObject("json", json);
@@ -313,14 +313,14 @@ public class AnalysisManageController {
            List<AnalysisType> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
            mav.addObject("typenameOrder", typenameOrder);
            for(AnalysisType a : typenameOrder){
-               System.out.println(a.getType_name()+":"+(a.getType_weight()));
+               System.out.println(a.getTypeName()+":"+(a.getTypeWeight()));
            }
            JSONArray json = new JSONArray();
            for(AnalysisType a : typenameOrder){
                JSONObject jo = new JSONObject();
-               jo.put("id", a.getType_weight());
-               jo.put("name", a.getType_name());
-               jo.put("num", a.getType_weight());
+               jo.put("id", a.getTypeWeight());
+               jo.put("name", a.getTypeName());
+               jo.put("num", a.getTypeWeight());
                json.add(jo);
            }
            mav.addObject("json", json);
@@ -458,9 +458,9 @@ public class AnalysisManageController {
     	
     	int label_weight = analysisManageService.getMaxWeight(type_id);
     	AnalysisLabel al = new AnalysisLabel();
-    	al.setType_id(type_id);
-    	al.setLabel_name(request.getParameter("addLabelName"));
-    	al.setLabel_weight(label_weight);
+    	al.setTypeId(type_id);
+    	al.setLabelName(request.getParameter("addLabelName"));
+    	al.setLabelWeight(label_weight);
     	analysisManageService.addLabel(al);
     	
     	  Page page=new Page(); //分页类
@@ -484,14 +484,14 @@ public class AnalysisManageController {
           List<AnalysisType> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
           mav.addObject("typenameOrder", typenameOrder);
           for(AnalysisType a : typenameOrder){
-              System.out.println(a.getType_name()+":"+(a.getType_weight()));
+              System.out.println(a.getTypeName()+":"+(a.getTypeWeight()));
           }
           JSONArray json = new JSONArray();
           for(AnalysisType a : typenameOrder){
               JSONObject jo = new JSONObject();
-              jo.put("id", a.getType_weight());
-              jo.put("name", a.getType_name());
-              jo.put("num", a.getType_weight());
+              jo.put("id", a.getTypeWeight());
+              jo.put("name", a.getTypeName());
+              jo.put("num", a.getTypeWeight());
               json.add(jo);
           }
           mav.addObject("json", json);
@@ -519,8 +519,8 @@ public class AnalysisManageController {
 //    	String theme_name="%"+search+"%";
     	
     	AnalysisLabel al = new AnalysisLabel();
-    	al.setLabel_id(Integer.parseInt(request.getParameter("editLabelID")));
-    	al.setLabel_name(request.getParameter("editLabelName"));
+    	al.setLabelId(Integer.parseInt(request.getParameter("editLabelID")));
+    	al.setLabelName(request.getParameter("editLabelName"));
     	analysisManageService.editLabel(al);
     	
     	
@@ -545,14 +545,14 @@ public class AnalysisManageController {
            List<AnalysisType> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
            mav.addObject("typenameOrder", typenameOrder);
            for(AnalysisType a : typenameOrder){
-               System.out.println(a.getType_name()+":"+(a.getType_weight()+1));
+               System.out.println(a.getTypeName()+":"+(a.getTypeWeight()+1));
            }
            JSONArray json = new JSONArray();
            for(AnalysisType a : typenameOrder){
                JSONObject jo = new JSONObject();
-               jo.put("id", a.getType_weight());
-               jo.put("name", a.getType_name());
-               jo.put("num", a.getType_weight());
+               jo.put("id", a.getTypeWeight());
+               jo.put("name", a.getTypeName());
+               jo.put("num", a.getTypeWeight());
                json.add(jo);
            }
            mav.addObject("json", json);
@@ -577,8 +577,8 @@ public class AnalysisManageController {
     	ModelAndView mav = new ModelAndView();
     	
     	AnalysisLabel al = new AnalysisLabel();
-    	al.setLabel_id(Integer.parseInt(request.getParameter("label_id")));
-    	al.setIs_show(Integer.parseInt(request.getParameter("is_show")));
+    	al.setLabelId(Integer.parseInt(request.getParameter("label_id")));
+    	al.setIsShow(Integer.parseInt(request.getParameter("is_show")));
     	analysisManageService.updateShow(al);
     	
     	   Page page=new Page(); //分页类
@@ -602,14 +602,14 @@ public class AnalysisManageController {
            List<AnalysisType> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
            mav.addObject("typenameOrder", typenameOrder);
            for(AnalysisType a : typenameOrder){
-               System.out.println(a.getType_name()+":"+(a.getType_weight()));
+               System.out.println(a.getTypeName()+":"+(a.getTypeWeight()));
            }
            JSONArray json = new JSONArray();
            for(AnalysisType a : typenameOrder){
                JSONObject jo = new JSONObject();
-               jo.put("id", a.getType_weight());
-               jo.put("name", a.getType_name());
-               jo.put("num", a.getType_weight());
+               jo.put("id", a.getTypeWeight());
+               jo.put("name", a.getTypeName());
+               jo.put("num", a.getTypeWeight());
                json.add(jo);
            }
            mav.addObject("json", json);
@@ -686,14 +686,14 @@ public class AnalysisManageController {
         List<AnalysisType> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
         mav.addObject("typenameOrder", typenameOrder);
         for(AnalysisType a : typenameOrder){
-            System.out.println(a.getType_name()+":"+(a.getType_weight()));
+            System.out.println(a.getTypeName()+":"+(a.getTypeWeight()));
         }
         JSONArray json = new JSONArray();
         for(AnalysisType a : typenameOrder){
             JSONObject jo = new JSONObject();
-            jo.put("id", a.getType_weight());
-            jo.put("name", a.getType_name());
-            jo.put("num", a.getType_weight());
+            jo.put("id", a.getTypeWeight());
+            jo.put("name", a.getTypeName());
+            jo.put("num", a.getTypeWeight());
             json.add(jo);
         }
         mav.addObject("json", json);

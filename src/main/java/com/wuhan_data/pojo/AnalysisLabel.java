@@ -7,6 +7,26 @@ public class AnalysisLabel {
 	Integer labelWeight; // 分类标签权重
 	Integer isShow; // 是否展示 0-正常 1-不展示 9-权限限制
 
+	public void setLabelId(Integer labelId) {
+		this.labelId = labelId;
+	}
+
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
+	}
+
+	public void setLabelName(String labelName) {
+		this.labelName = labelName;
+	}
+
+	public void setLabelWeight(Integer labelWeight) {
+		this.labelWeight = labelWeight;
+	}
+
+	public void setIsShow(Integer isShow) {
+		this.isShow = isShow;
+	}
+
 	public Integer getLabelId() {
 		return labelId;
 	}

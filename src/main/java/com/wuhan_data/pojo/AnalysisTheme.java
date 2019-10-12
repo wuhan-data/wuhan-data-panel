@@ -8,6 +8,26 @@ public class AnalysisTheme {
 	Integer isShow; // 是否展示 0-正常 1-不展示 9-权限限制
 	Boolean isFavorite; // 是否被收藏
 
+	public void setThemeId(Integer themeId) {
+		this.themeId = themeId;
+	}
+
+	public void setLabelId(Integer labelId) {
+		this.labelId = labelId;
+	}
+
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
+
+	public void setThemeWeight(Integer themeWeight) {
+		this.themeWeight = themeWeight;
+	}
+
+	public void setIsShow(Integer isShow) {
+		this.isShow = isShow;
+	}
+
 	public Integer getThemeId() {
 		return themeId;
 	}
