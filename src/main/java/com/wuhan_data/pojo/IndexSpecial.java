@@ -3,9 +3,11 @@ package com.wuhan_data.pojo;
 public class IndexSpecial {
 	
 	int id;
-	String topic_weight;
+	int topic_weight;
 	String title;
 	String image;
+	String file;
+	String show_type;
 	int is_show;
 	
 	public int getId() {
@@ -26,10 +28,10 @@ public class IndexSpecial {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public String getTopic_weight() {
+	public int getTopic_weight() {
 		return topic_weight;
 	}
-	public void setTopic_weight(String topic_weight) {
+	public void setTopic_weight(int topic_weight) {
 		this.topic_weight = topic_weight;
 	}
 	public int getIs_show() {
@@ -37,6 +39,18 @@ public class IndexSpecial {
 	}
 	public void setIs_show(int is_show) {
 		this.is_show = is_show;
+	}
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
+	public String getShow_type() {
+		return show_type;
+	}
+	public void setShow_type(String show_type) {
+		this.show_type = show_type;
 	}
 	
 

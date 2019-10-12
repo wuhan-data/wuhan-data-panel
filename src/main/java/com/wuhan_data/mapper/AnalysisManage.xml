@@ -5,6 +5,7 @@
  
     <mapper namespace="com.wuhan_data.mapper.AnalysisManageMapper">
     
+<<<<<<< HEAD
      	<select id="groupList" resultType="AnalysisLabel" parameterType="java.util.Map" >
            <!--  select theme_id id,type_name,theme_name,type_weight weight,is_show from analysis_theme
             <where>
@@ -17,16 +18,34 @@
             	type_id=#{type_id}
             </where>
             order by label_weight <!-- limit #{page.dbIndex},#{page.dbNumber} -->
+=======
+    <!-- 达梦数据库 -->
+    
+    <select id="groupList" resultType="AnalysisLabel" parameterType="java.util.Map" >      
+             select label_id ,type_id,label_name,label_weight,is_show from WUHAN_DATA."ANALYSIS_LABEL"
+            <where>
+            	type_id=#{type_id}
+            </where>
+            order by label_weight 
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         </select> 
         
         <!-- 添加二级分类 -->
         <insert id="addLabel" parameterType="AnalysisLabel" >
+<<<<<<< HEAD
             insert into WUHAN_DATA.ANALYSIS_LABEL(type_id,label_name,label_weight) values(#{type_id},#{label_name},#{label_weight})
+=======
+            insert into WUHAN_DATA."ANALYSIS_LABEL"(type_id,label_name,label_weight) values(#{type_id},#{label_name},#{label_weight})
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         </insert>
         
         <!-- 修改二级分类 -->
         <update id="editLabel" parameterType="AnalysisLabel">
+<<<<<<< HEAD
         update WUHAN_DATA.ANALYSIS_LABEL
+=======
+        update WUHAN_DATA."ANALYSIS_LABEL"
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         <set>
             <if test="label_name!=null">label_name=#{label_name}</if>
         </set>
@@ -35,6 +54,7 @@
         
         <!-- 删除二级分类 -->
         <delete id="delete" parameterType="int" >
+<<<<<<< HEAD
             delete from WUHAN_DATA.ANALYSIS_LABEL where label_id=#{label_id}
         </delete>
         
@@ -67,6 +87,166 @@
         
          <update id="reOrderByTypename" parameterType="AnalysisType">
         update WUHAN_DATA.ANALYSIS_TYPE
+=======
+            delete from WUHAN_DATA."ANALYSIS_LABEL" where label_id=#{label_id}
+        </delete>
+        
+        <!-- 二级分类是否显示 -->
+        <update id="updateShow" parameterType="AnalysisLabel">
+        update WUHAN_DATA."ANALYSIS_LABEL"
+        <set>
+            <if test="is_show!=null">is_show=#{is_show}</if>
+        </set>
+        where label_id=#{label_id}
+        </update>
+        
+        <select id="getMaxWeight" resultType="int" parameterType="int" >
+           select max(label_weight)+1 from WUHAN_DATA."ANALYSIS_LABEL" where type_id=#{type_id}
+        </select> 
+        
+        <select id="getLabelId" resultType="int" parameterType="Map">     
+           select label_id from WUHAN_DATA."ANALYSIS_LABEL"  where type_id=#{type_id} and label_weight=#{oldWeight}
+        </select>
+        
+        <update id="updateWeight" parameterType="Map" >
+            update WUHAN_DATA."ANALYSIS_LABEL"
+            <set>
+            label_weight=#{newWeight}
+            </set>
+             where label_id=#{label_id}
+        </update>
+        
+        
+        
+         <update id="reOrderByTypename" parameterType="AnalysisType">
+        update WUHAN_DATA."ANALYSIS_TYPE"
+        <set>
+            <if test="type_weight!=null">type_weight=#{type_weight}</if>
+        </set>
+        where type_name=#{type_name}
+        </update>        
+         
+        
+         
+        <select id="get" parameterType="int" resultType="AnalysisManage">
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME" where theme_id=#{id}   
+        </select>
+        
+         <select id="weight" parameterType="String" resultType="int">
+            select distinct type_weight from WUHAN_DATA."ANALYSIS_THEME" where type_name=#{tname}   
+        </select>
+        
+       <select id="getOrderByTypename"  resultType="AnalysisType">
+            select type_name,type_weight from WUHAN_DATA."ANALYSIS_TYPE" where type_weight&lt;11 order by type_weight desc
+        </select>
+ 
+  		<select id="search" parameterType="java.util.Map" resultType="AnalysisManage">
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME" 
+            <where>
+            theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name} 
+            </where>
+             order by theme_id limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+
+        
+        <select id="list" resultType="AnalysisManage">
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME"   
+        </select> 
+        
+        <select id="parentList" resultType="AnalysisType" >
+            select type_id,type_name,type_weight from WUHAN_DATA."ANALYSIS_TYPE" order by type_weight desc
+        </select> 
+        
+        <select id="countByGroup" resultType="int" parameterType="String" >
+            select count(*) from WUHAN_DATA."ANALYSIS_LABEL" where type_id=#{type_id}
+        </select>
+        
+        <select id="getFirstWeight" resultType="AnalysisType" >
+            select type_id,type_name from WUHAN_DATA."ANALYSIS_TYPE" where type_weight=1
+        </select>  
+       
+         <select id="searchCount" resultType="int" parameterType="java.util.Map" >
+            select count(*) from WUHAN_DATA."ANALYSIS_THEME" where theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name} 
+        </select>
+              
+         <select id="searchGroupList" resultType="AnalysisManage" parameterType="java.util.Map" >
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA."ANALYSIS_THEME"
+            <where>
+            theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name}
+            </where>
+            order by theme_id limit #{page.dbIndex},#{page.dbNumber}
+        </select> 
+        
+        <select id="getTypeId" resultType="int" parameterType="String" >
+            select type_id from WUHAN_DATA."ANALYSIS_TYPE" where type_name=#{type_name}
+        </select> 
+    
+    
+    <!-- mysql数据库 -->
+    
+     	<!-- <select id="groupList" resultType="AnalysisLabel" parameterType="java.util.Map" >
+            select theme_id id,type_name,theme_name,type_weight weight,is_show from analysis_theme
+            <where>
+            	type_name=#{type_name}
+            </where>
+            order by theme_id limit #{page.dbIndex},#{page.dbNumber}
+            
+             select label_id ,type_id,label_name,label_weight,is_show from analysis_label
+            <where>
+            	type_id=#{type_id}
+            </where>
+            order by label_weight limit #{page.dbIndex},#{page.dbNumber}
+        </select> 
+        
+        添加二级分类
+        <insert id="addLabel" parameterType="AnalysisLabel" >
+            insert into analysis_label(type_id,label_name,label_weight) values(#{type_id},#{label_name},#{label_weight})
+        </insert>
+        
+        修改二级分类
+        <update id="editLabel" parameterType="AnalysisLabel">
+        update analysis_label
+        <set>
+            <if test="label_name!=null">label_name=#{label_name}</if>
+        </set>
+        where label_id=#{label_id}
+        </update>
+        
+        删除二级分类
+        <delete id="delete" parameterType="int" >
+            delete from analysis_label where label_id=#{label_id}
+        </delete>
+        
+        二级分类是否显示
+        <update id="updateShow" parameterType="AnalysisLabel">
+        update analysis_label
+        <set>
+            <if test="is_show!=null">is_show=#{is_show}</if>
+        </set>
+        where label_id=#{label_id}
+        </update>
+        
+        <select id="getMaxWeight" resultType="int" parameterType="int" >
+           select max(label_weight)+1 from analysis_label where type_id=#{type_id}
+        </select> 
+        
+        <select id="getLabelId" resultType="int" parameterType="Map">     
+           select label_id from ANALYSIS_LABEL  where type_id=#{type_id} and label_weight=#{oldWeight}
+        </select>
+        
+        <update id="updateWeight" parameterType="Map" >
+            update ANALYSIS_LABEL
+            <set>
+            label_weight=#{newWeight}
+            </set>
+             where label_id=#{label_id}
+        </update>
+        
+        
+        
+         <update id="reOrderByTypename" parameterType="AnalysisType">
+        update analysis_type
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         <set>
             <if test="type_weight!=null">type_weight=#{type_weight}</if>
         </set>
@@ -84,7 +264,11 @@
         </select>
         
        <select id="getOrderByTypename"  resultType="AnalysisType">
+<<<<<<< HEAD
             select type_name,type_weight from WUHAN_DATA.ANALYSIS_TYPE where type_weight&lt;11 order by type_weight desc
+=======
+            select type_name,type_weight from analysis_type where type_weight&lt;11 order by type_weight desc
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         </select>
  
   		<select id="search" parameterType="java.util.Map" resultType="AnalysisManage">
@@ -94,18 +278,23 @@
             </where>
              order by theme_id limit #{page.dbIndex},#{page.dbNumber}
         </select>
+<<<<<<< HEAD
  
 <!--         <update id="update" parameterType="AnalysisManage" >
             update analysis_theme set type_name=#{type_name} where type_id=#{id}   
         </update> -->
         
       
+=======
+
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         
         <select id="list" resultType="AnalysisManage">
             select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA.ANALYSIS_THEME   
         </select> 
         
         <select id="parentList" resultType="AnalysisType" >
+<<<<<<< HEAD
             select type_id,type_name,type_weight from WUHAN_DATA.ANALYSIS_TYPE order by type_weight desc
         </select> 
         
@@ -115,14 +304,29 @@
         
         <select id="getFirstWeight" resultType="AnalysisType" >
             select type_id,type_name from WUHAN_DATA.ANALYSIS_TYPE where type_weight=1
+=======
+            select type_id,type_name,type_weight from analysis_type order by type_weight desc
+        </select> 
+        
+        <select id="countByGroup" resultType="int" parameterType="String" >
+            select count(*) from analysis_label where type_id=#{type_id}
+        </select>
+        
+        <select id="getFirstWeight" resultType="AnalysisType" >
+            select type_id,type_name from analysis_type where type_weight=1
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
         </select>  
        
          <select id="searchCount" resultType="int" parameterType="java.util.Map" >
             select count(*) from WUHAN_DATA.ANALYSIS_THEME where theme_name like concat(concat('%',#{theme_name}),'%') and type_name=#{type_name} 
         </select>
+<<<<<<< HEAD
       
        
                 
+=======
+              
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
          <select id="searchGroupList" resultType="AnalysisManage" parameterType="java.util.Map" >
             select theme_id id,type_name,theme_name,type_weight weight,is_show from WUHAN_DATA.ANALYSIS_THEME
             <where>
@@ -132,9 +336,19 @@
         </select> 
         
         <select id="getTypeId" resultType="int" parameterType="String" >
+<<<<<<< HEAD
             select type_id from WUHAN_DATA.ANALYSIS_TYPE where type_name=#{type_name}
         </select> 
+=======
+            select type_id from analysis_type where type_name=#{type_name}
+        </select>  -->
+>>>>>>> 2eade37d4f17a8691fde8f5d77143b92436665c9
 
 
+       
+       
+       
+       
+       
        
     </mapper>

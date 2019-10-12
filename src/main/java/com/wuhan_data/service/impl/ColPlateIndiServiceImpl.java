@@ -71,4 +71,16 @@ public class ColPlateIndiServiceImpl implements ColPlateIndiService {
 		return colPlateIndiMapper.getPname(pid);
 	}
 
+	@Override
+	public List<ColPlateIndi> searchIndi(String content) {
+		// TODO Auto-generated method stub
+		return colPlateIndiMapper.searchIndi(content);
+	}
+
+	@Override
+	public ColPlateIndi getIdAndNew_name(String indi_old_name) {
+		// TODO Auto-generated method stub
+		return colPlateIndiMapper.getIdAndNew_name(indi_old_name);
+	}
+
 }
