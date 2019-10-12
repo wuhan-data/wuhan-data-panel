@@ -4,20 +4,6 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.wuhan_data.app.mapper.AnalysisMapper">
-	
-	<select id="getAnalysisList"
-  resultType="com.wuhan_data.pojo.AnalysisTheme">
-  SELECT DISTINCT
-  `type_id` as listId,
-  `type_name` as listName
-  FROM
-  WUHANDATA."ANALYSIS_THEME"
-  WHERE
-  `is_show` = 0 OR
-  `is_show` = 9
-  ORDER BY
-  `type_weight` DESC
- </select>
 
 	<select id="getAnalysisTypeList"
 		resultType="com.wuhan_data.pojo.AnalysisType">
