@@ -64,9 +64,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList();
 		for (int i = 0; i < typeList.size(); i++) {
 			Map<String, Object> typeListMap = new HashMap<String, Object>();
-			typeListMap.put("typeId", typeList.get(i).getType_id());
-			typeListMap.put("typeName", typeList.get(i).getType_name());
-			ArrayList<Object> labelList = this.getAnalysisLabelList(userId, typeList.get(i).getType_id());
+			typeListMap.put("typeId", typeList.get(i).getTypeId());
+			typeListMap.put("typeName", typeList.get(i).getTypeName());
+			ArrayList<Object> labelList = this.getAnalysisLabelList(userId, typeList.get(i).getTypeId());
 			typeListMap.put("labelList", labelList);
 			result.add(typeListMap);
 		}
@@ -80,9 +80,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 		List<AnalysisLabel> labelList = analysisMapper.getAnalysisLabelList(typeId);
 		for (int i = 0; i < labelList.size(); i++) {
 			Map<String, Object> labelListMap = new HashMap<String, Object>();
-			String labelName = labelList.get(i).getLabel_name().toString();
+			String labelName = labelList.get(i).getLabelName().toString();
 			labelListMap.put("labelName", labelName);
-			ArrayList<Object> themeList = this.getAnalysisThemeList(userId, labelList.get(i).getLabel_id());
+			ArrayList<Object> themeList = this.getAnalysisThemeList(userId, labelList.get(i).getLabelId());
 			labelListMap.put("themeList", themeList);
 			result.add(labelListMap);
 		}
@@ -106,8 +106,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 		// 获取收藏信息，构建二级栏目数据集
 		for (int i = 0; i < themeList.size(); i++) {
 			Map<String, Object> themeListMap = new HashMap<String, Object>();
-			String indexId = String.valueOf(themeList.get(i).getTheme_id());
-			String indexName = themeList.get(i).getTheme_name().toString();
+			String indexId = themeList.get(i).getThemeId().toString();
+			String indexName = themeList.get(i).getThemeName().toString();
 			themeListMap.put("indexId", indexId);
 			themeListMap.put("indexName", indexName);
 			result.add(themeListMap);
@@ -146,8 +146,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 			return themeList;
 		}
 		for (int j = 0; j < themeList.size(); j++) {
-			String themeId = String.valueOf(themeList.get(j).getTheme_id());
-			String isShow = String.valueOf(themeList.get(j).getIs_show());
+			String themeId = themeList.get(j).getThemeId().toString();
+			String isShow = themeList.get(j).getIsShow().toString();
 			if (Arrays.asList(roleList).contains(themeId)) {
 				if (isShow.equals("0") || isShow.equals("9")) {
 					result.add(themeList.get(j));
@@ -175,7 +175,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		}
 		// 根据themeId查询analysis_theme表中的信息
 		List<AnalysisTheme> baseInfoList = analysisMapper.getThemeBaseInfo(themeId);
-		String indexName = baseInfoList.get(0).getTheme_name();
+		String indexName = baseInfoList.get(0).getThemeName();
 		Map<String, Object> baseInfo = new HashMap<String, Object>();
 		baseInfo.put("indexId", themeId);
 		baseInfo.put("indexName", indexName);
