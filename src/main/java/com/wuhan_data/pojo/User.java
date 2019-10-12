@@ -59,8 +59,8 @@ public class User {
     	role_list="undefined";
     	role_name="undefined";
     	create_time=new Date();
-    	role_id="职员";
-    	department_id="组织";
+    	role_id="1";
+    	department_id="1";
     	birthday=new Date();
     	city="";
     	head="";

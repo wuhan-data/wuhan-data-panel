@@ -515,12 +515,15 @@ public class AdminController {
 	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
 	  			System.out.println(menuList);
 	  			session.setAttribute("menuList",menuList);
+	  			Map<String, List<String>> a=userService.getAllPower(45);
+	  			List<String>bList=a.get("powerIndexManages");
 	  			
 	  			
 			}
 	    	return maView;
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			System.out.println("login:数据库操作"+e.toString());
 			maView.setViewName("error");
 			return maView;

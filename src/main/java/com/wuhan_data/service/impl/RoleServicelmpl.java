@@ -178,6 +178,7 @@ public class RoleServicelmpl implements RoleService {
 	@Override
 	public java.util.List<String> getIndexManages2() {
 		// TODO Auto-generated method stub
+		//return indiSearchMapper.searchIndiH("%");
 		List<String> aList=new ArrayList<String>();
 		aList.add("1");
 		aList.add("2");
