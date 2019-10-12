@@ -82,18 +82,7 @@ public class IndexManageController {
         List<IndexManage> indexManageList= indexManageService.listAddPage(map);
         //System.out.println(indexManageList.get(0).getStart_time());
         
-        //将时间格式转换为字符串
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        for(int i=0;i<indexManageList.size();i++)
-//        {
-//        	 System.out.println(indexManageList.size());
-//        	Date date = new SimpleDateFormat("yyyy-MM-dd").parse(indexManageList.get(i).getStart_time());
-//        	String str = format.format(date);
-//        	indexManageList.get(i).setStart_time(str);
-//        	date = new SimpleDateFormat("yyyy-MM-dd").parse(indexManageList.get(i).getEnd_time());
-//        	str = format.format(date);
-//        	indexManageList.get(i).setEnd_time(str);;
-//        }
+
        
         mav.addObject("controlURL", "selectListIndexManageByPage");//控制页码传递URL
         mav.addObject("page", page);
