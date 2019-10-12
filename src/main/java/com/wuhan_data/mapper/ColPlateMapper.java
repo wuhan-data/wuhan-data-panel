@@ -27,4 +27,6 @@ public interface ColPlateMapper {
 	public int updateWeight(Map map); //更新权重
 	
 	public int getPid(Map map); //得到pid
+	
+	public String getThemeName(int theme_id); //得到themename
 }

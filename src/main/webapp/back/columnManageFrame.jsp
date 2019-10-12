@@ -55,6 +55,17 @@
          td,th{
         text-align:center;
         }
+        #dataTables-example tbody{
+        display:block;
+        height:250px;
+        width:100%;
+		overflow-y:scroll;        
+        }
+        #dataTables-example thead, tbody tr{
+        display:table;
+        width:100%;
+        table-layout:fixed;
+        }
 
     </style>
 </head>
@@ -65,7 +76,8 @@
 			 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
-                            栏目管理 <small>栏目维护</small>
+                            栏目管理 
+                            <div><small><a href="#" onclick="backFirstMenu('${tname}')">${tname}</a> > </small></div>
                         </h1>
                     </div>
                 </div> 
@@ -104,15 +116,16 @@
   
    <div class="btns col-md-6">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
-      <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>设置</button>
+      <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>设置一级栏目顺序</button>
+      <button class="btn btn-primary" id="" onclick="dosaveSeq('updateLabelWeight','${type_id}')"><i class="fa fa-cog"></i>保存二级分类顺序</button>
     </div>  
- <div class="form-group col-md-4">
+<%--  <div class="form-group col-md-4">
    <form class="form-inline" style="float:right;" id="formSearch" method="post" accept-charset="UTF-8">
       <input class="form-control" type="search" placeholder="PMI指数(全国)" aria-label="Search" id="searchtname" value="${placeholder }" style="width:200px;">
       <button class="btn btn-success" onclick="searchClick()">搜索</button>
     </form>
     <div class="clear"></div>
- </div>
+ </div> --%>
  </div>
    
     
@@ -121,32 +134,34 @@
                                     <thead>
                                         <tr>
                                             <th>一级栏目</th>
-                                            <th>栏目名称</th>
+                                            <th>二级分类</th>
+                                            <th>展示顺序</th>
                                         <!--     <th>指标id</th>
                                             <th>指标名称</th> -->
-                                            <th>操作</th>
+                                            <th width="45%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${analysisListByPage}" var="c" varStatus="st">
-        <tr>
-            <td>${c.type_name}</td>
-            <td>${c.theme_name}</td>
+        <tr id="${c.label_weight }">
+            <td>${tname}</td>
+            <td>${c.label_name}</td>
+            <td>${c.label_weight}</td>
 <!--             <td>1300048</td>
             <td>工业生产排放量</td> -->
-            <td>
+            <td width="45%">
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
- <a href="#" onclick="showPlateClick('${c.id }','colPlateInit')">
-<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>查看板块
+ <a href="#" onclick="showPlateClick('${c.label_id }','${tname}','${c.label_name}','analysisSecondInit')">
+<div class="btn btn-success btn-sm"><i class="fa fa-search"></i>二级栏目
 </div>
 </a>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.theme_name}',${c.id})">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.label_name}',${c.label_id})">
 <i class="fa fa-edit"></i>修改
 </div>
-<a href="#" onclick="delClick('${c.id }','deleteCol')">
+<a href="#" onclick="delClick('${c.label_id }','deleteLabel')">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除
 </div>
 </a>
@@ -164,12 +179,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==0 }">
      <li role="presentation">
-         <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.id }','updateIsShow')">不展示</a>             
+         <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.label_id }','updateIsShow')">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="#" id="perShow" onclick="updateShowClick('0','${c.id }','updateIsShow')">展示</a>            
+         <a href="#" id="perShow" onclick="updateShowClick('0','${c.label_id }','updateIsShow')">展示</a>            
       </li>
     </c:if>
     </ul>
@@ -199,13 +214,13 @@
 	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#">
 			<div class="modal-body">		
 
-	<input class="form-control" type="hidden" name="editThemeID" id="editThemeID">
-   栏目名称：<input class="form-control" type="text" name="editThemeName" id="editThemeName">   
+	<input class="form-control" type="hidden" name="editLabelID" id="editLabelID">
+   二级分类：<input class="form-control" type="text" name="editLabelName" id="editLabelName">   
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="editClick('editTheme')">
+				<button type="submit" class="btn btn-primary" onclick="editClick('editLabel')">
 					提交
 				</button>
 			</div>
@@ -232,13 +247,14 @@
 			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="#">
 			<div class="modal-body">
 				
-     栏目名称：<input class="form-control" type="search" placeholder="请输入栏目名称" name="addThemeName">
+     二级分类：<input class="form-control" type="search" placeholder="请输入二级分类名称" name="addLabelName">
+     <input type="hidden" name="type_id" value="${type_id }">
     
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="addClick('addTheme')">
+				<button type="submit" class="btn btn-primary" onclick="addClick('addLabel')">
 					提交
 				</button>
 			</div>
@@ -267,7 +283,7 @@
 										  <li><a href="#">»</a></li>
 									</ul> --%>
 									
-									 <div class='page fix'>
+									 <%-- <div class='page fix'>
                     <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
@@ -285,7 +301,7 @@
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
                         <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('${controlURL}')">
                     </form>
-                </div>
+                </div> --%>
                 
       
 								<!-- 	<ul class="col-lg-4"></ul> -->
@@ -319,12 +335,54 @@
    <script src="assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="assets/js/dataTables/dataTables.bootstrap.js"></script>   
         <script src="assets/js/bootstrap-order.min.js"></script>
+        <script src="<%=path %>/assets/js/table.js"></script>
     
     <script>
             $(document).ready(function () {
               
                
             });
+            
+            var initSeqArray = new Array();
+    		var fieIdSeqArray;	
+    		$(document).ready(function(){
+    			//为table绑定排序事件
+    			 $("#dataTables-example").tableDnD({
+    		         onDragClass:"myDragClass",
+    		         onDrop:function(table,row) {
+    		             var rows = table.tBodies[0].rows;
+    		             fieIdSeqArray = new Array();
+    		             flag = 1;
+    		             for (var i=0; i<rows.length; i++) {
+    		                fieIdSeqArray.push(rows[i].id);
+    		             }
+    		             
+    	             }
+    	   		 });
+    		});
+    		    		
+    		
+    		dosaveSeq = function(Url,type_id){
+    	    /* 	if(fieIdSeqArray != undefined){ */   		    	
+    		    		$.ajax({ 
+    						 type: "GET",
+    						 url: Url+"?type_id="+type_id+"&sort="+fieIdSeqArray,
+    						 dataType: "html",
+    						 success: function(data) {
+    							 $('#getNewData').html(data);
+    							/* if(msg == initSeqArray.length) {
+    								alert("字段序列修改成功！");
+    							}else {
+    								alert("字段序列修改失败");
+    							} */
+    						 }
+    					 });
+    		    	/* 
+    		    }
+    	    	else {
+    		    	alert("未发现变更记录");
+    		    } */
+    	    }
             
             
  
@@ -375,7 +433,7 @@
                 delClick = function(id,Url) {
                    $.ajax({
                               type: 'GET',
-                              url:  Url+"?id="+id,
+                              url:  Url+"?label_id="+id,
                               dataType: "html",
                          	    async : false,
                           	contentType: false, //不设置内容类型
@@ -393,7 +451,7 @@
                    updateShowClick = function(is_show,id,Url) {
                      $.ajax({
                                 type: 'GET',
-                                url:  Url+"?id="+id+"&is_show="+is_show,
+                                url:  Url+"?label_id="+id+"&is_show="+is_show,
                                 dataType: "html",
                            	    async : false,
                             	  contentType: false, //不设置内容类型
@@ -463,10 +521,15 @@
                            }
                             
                             
-                            showPlateClick = function(id,Url) {                                 
+                            showPlateClick = function(id,type_name,label_name,Url) {
+                            
+             
+                            	var typeName=encodeURI(encodeURI(type_name));   
+                            	var labelName=encodeURI(encodeURI(label_name));   
+                            	
                                  $.ajax({
                                             type: 'GET',
-                                            url:  Url+"?id="+id,
+                                            url:  Url+"?label_id="+id+"&label_name="+labelName+"&type_name="+typeName,
                                             dataType: "html",
                                        	    async : false,
                                         	contentType: false, //不设置内容类型
@@ -527,6 +590,25 @@
             	form1.submit();  */
              }  
            
+                                  
+                                  function backFirstMenu(op){   
+                   
+                                  	var o=encodeURI(encodeURI(op)); 
+                                       $.ajax({
+                                              type: 'GET',
+                                              url:  'initAnalysisList?op='+o,
+                                              dataType: "html", 
+                                         	    async : false,
+                                          	contentType: false, 
+                                         	    processData: false,
+                                              cache:false,
+                                              success: function(data){
+                                                  $('#getNewData').html(data);
+                                              },
+                                              error : function(data){
+                                              }
+                                          });  
+                                   } 
   
          /*    function add(themename){
             	alert(themename);
@@ -534,9 +616,9 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(themename,ID){
-            	$("#editThemeName").val(themename);
-            	$("#editThemeID").val(ID);
+            function edit(labelName,labelId){
+            	$("#editLabelName").val(labelName);
+            	$("#editLabelID").val(labelId);
                 	
             }
             function del(aid){

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wuhan_data.mapper.AnalysisManageMapper;
+import com.wuhan_data.pojo.AnalysisLabel;
 import com.wuhan_data.pojo.AnalysisManage;
+import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.service.AnalysisManageService;
 
 @Service
@@ -54,21 +56,21 @@ public class AnalysisManageServiceImpl implements AnalysisManageService{
 	}
 
 	@Override
-	public List<AnalysisManage> parentList() {
+	public List<AnalysisType> parentList() {
 		// TODO Auto-generated method stub
 		return analysisManageMapper.parentList();
 	}
 
 	@Override
-	public List<AnalysisManage> groupList(Map<String, Object> parameter) {
+	public List<AnalysisLabel> groupList(Map<String, Object> parameter) {
 		// TODO Auto-generated method stub
 		return analysisManageMapper.groupList(parameter);
 	}
 
 	@Override
-	public int countByGroup(String type_name) {
+	public int countByGroup(int type_id) {
 		// TODO Auto-generated method stub
-		return analysisManageMapper.countByGroup(type_name);
+		return analysisManageMapper.countByGroup(type_id);
 	}
 
 	@Override
@@ -89,17 +91,7 @@ public class AnalysisManageServiceImpl implements AnalysisManageService{
 		return analysisManageMapper.searchGroupList(parameter);
 	}
 
-	@Override
-	public int addTheme(AnalysisManage analysisManage) {
-		// TODO Auto-generated method stub
-		return analysisManageMapper.addTheme(analysisManage);
-	}
-
-	@Override
-	public int editTheme(AnalysisManage analysisManage) {
-		// TODO Auto-generated method stub
-		return analysisManageMapper.editTheme(analysisManage);
-	}
+	
 
 	@Override
 	public int weight(String tname) {
@@ -108,27 +100,63 @@ public class AnalysisManageServiceImpl implements AnalysisManageService{
 	}
 
 	@Override
-	public List<AnalysisManage> getOrderByTypename() {
+	public List<AnalysisType> getOrderByTypename() {
 		// TODO Auto-generated method stub
 		return analysisManageMapper.getOrderByTypename();
 	}
 
 	@Override
-	public int reOrderByTypename(AnalysisManage analysisManage) {
+	public int reOrderByTypename(AnalysisType analysisType) {
 		// TODO Auto-generated method stub
-		return analysisManageMapper.reOrderByTypename(analysisManage);
+		return analysisManageMapper.reOrderByTypename(analysisType);
 	}
 
 	@Override
-	public AnalysisManage getFirstWeight() {
+	public AnalysisType getFirstWeight() {
 		// TODO Auto-generated method stub
 		return analysisManageMapper.getFirstWeight();
 	}
 
 	@Override
-	public int updateShow(AnalysisManage analysisManage) {
+	public int updateShow(AnalysisLabel analysisLabel) {
 		// TODO Auto-generated method stub
-		return analysisManageMapper.updateShow(analysisManage);
+		return analysisManageMapper.updateShow(analysisLabel);
+	}
+
+	@Override
+	public int getTypeId(String tname) {
+		// TODO Auto-generated method stub
+		return analysisManageMapper.getTypeId(tname);
+	}
+
+	@Override
+	public int addLabel(AnalysisLabel analysisLabel) {
+		// TODO Auto-generated method stub
+		return analysisManageMapper.addLabel(analysisLabel);
+	}
+
+	@Override
+	public int editLabel(AnalysisLabel analysisLabel) {
+		// TODO Auto-generated method stub
+		return analysisManageMapper.editLabel(analysisLabel);
+	}
+
+	@Override
+	public int getMaxWeight(int type_id) {
+		// TODO Auto-generated method stub
+		return analysisManageMapper.getMaxWeight(type_id);
+	}
+
+	@Override
+	public int getLabelId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return analysisManageMapper.getLabelId(map);
+	}
+
+	@Override
+	public int updateWeight(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return analysisManageMapper.updateWeight(map);
 	}
 
 
