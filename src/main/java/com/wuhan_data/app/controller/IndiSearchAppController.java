@@ -884,7 +884,11 @@ public class IndiSearchAppController {
 
 						dateList.add(tempList.get(j).getArea_name());
 						dataList.add(tempList.get(j).getIndi_value());
+
 						legendList.add(tempList.get(j).getArea_name());
+						List<String> tempDataList = new ArrayList();
+						tempDataList.add(tempList.get(j).getIndi_value());
+						dataV.add(tempDataList);
 					}
 				} else {
 					for (int j = 0; j < tempList.size(); j++) {// tempList.size()
@@ -892,6 +896,10 @@ public class IndiSearchAppController {
 						dateList.add(tempList.get(j).getArea_name());
 						dataList.add(tempList.get(j).getIndi_value());
 						legendList.add(tempList.get(j).getArea_name());
+
+						List<String> tempDataList = new ArrayList();
+						tempDataList.add(tempList.get(j).getIndi_value());
+						dataV.add(tempDataList);
 					}
 				}
 				String showName;
@@ -903,7 +911,6 @@ public class IndiSearchAppController {
 					showName = "其他";
 				}
 				// legendList.add(appIndiName +"-" + showName);
-				dataV.add(dataList);
 				dataX.add(selectTimeList);
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
