@@ -914,7 +914,28 @@ public class IndiSearchAppController {
 				dataX.add(selectTimeList);
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
-				if (appIndiName.equals("湖北PMI")) {
+
+				if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
+					// 创建柱状图
+					BarType barType = new BarType();// 柱状图
+					System.out.println("legendList长度:" + legendList.size());
+					BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+							dataX.get(0), legendList, dataV, showColor, showType);
+					classInfoList.add(barEntity);
+					// 创建表格
+					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < legendList.size(); q++) {
+						List<String> tempNameList = new ArrayList();
+						tempNameList.add(legendList.get(q).toString());
+						dataXaisTable.add(tempNameList);
+					}
+					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+							dataXaisTable, legendList, dataV);// 表格
+					System.out.println("yes or no:" + tableEntity.getTableBody());
+					classInfoList.add(tableEntity);
+				} else {
+					// TODO 其他情况
 					// 创建折线图
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
@@ -922,39 +943,16 @@ public class IndiSearchAppController {
 
 					// 创建表格
 					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < legendList.size(); q++) {
+						List<String> tempNameList = new ArrayList();
+						tempNameList.add(legendList.get(q).toString());
+						dataXaisTable.add(tempNameList);
+					}
 					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
-							dataX, legendList, dataV);// 表格
+							dataXaisTable, legendList, dataV);// 表格
 					classInfoList.add(lineEntity);
 					classInfoList.add(tableEntity);
-				} else {
-					if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
-						// 创建柱状图
-						BarType barType = new BarType();// 柱状图
-						System.out.println("legendList长度:" + legendList.size());
-						BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
-								dataX.get(0), legendList, dataV, showColor, showType);
-						classInfoList.add(barEntity);
-
-						// 创建表格
-						TableType tableType = new TableType();
-						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
-								appIndiName + "-" + showName, dataX, legendList, dataV);// 表格
-						System.out.println("yes or no:" + tableEntity.getTableBody());
-						classInfoList.add(tableEntity);
-					} else {
-						// TODO 其他情况
-						// 创建折线图
-						LineType lineType = new LineType();
-						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1),
-								appIndiName + "-" + showName, dataX.get(0), legendList, dataV, showColor, showType);
-
-						// 创建表格
-						TableType tableType = new TableType();
-						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
-								appIndiName + "-" + showName, dataX, legendList, dataV);// 表格
-						classInfoList.add(lineEntity);
-						classInfoList.add(tableEntity);
-					}
 				}
 			}
 		}
@@ -999,6 +997,7 @@ public class IndiSearchAppController {
 		// 创建图
 		List classInfoList = new ArrayList();
 		if (isArea.equals("1")) {
+			// 地市级
 			try {
 				boolean hasIndexCode = requestObject.containsKey("indexId");
 				boolean hasSource = requestObject.containsKey("source");
@@ -1035,6 +1034,10 @@ public class IndiSearchAppController {
 			defaultMap.put("source", source);
 			defaultMap.put("time", time);
 			defaultMap.put("lj", lj);
+			// 选取的时间字符
+			List<String> selectTimeList = new ArrayList<String>();
+			selectTimeList.add(time);
+
 			List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueArea(defaultMap);
 			System.out.println("defaultIndiValueList:" + defaultIndiValueList);
 			System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
@@ -1068,14 +1071,22 @@ public class IndiSearchAppController {
 
 						dateList.add(tempList.get(j).getArea_name());
 						dataList.add(tempList.get(j).getIndi_value());
+
 						legendList.add(tempList.get(j).getArea_name());
+						List<String> tempDataList = new ArrayList();
+						tempDataList.add(tempList.get(j).getIndi_value());
+						dataV.add(tempDataList);
 					}
 				} else {
 					for (int j = 0; j < tempList.size(); j++) {// tempList.size()
 
 						dateList.add(tempList.get(j).getArea_name());
 						dataList.add(tempList.get(j).getIndi_value());
+
 						legendList.add(tempList.get(j).getArea_name());
+						List<String> tempDataList = new ArrayList();
+						tempDataList.add(tempList.get(j).getIndi_value());
+						dataV.add(tempDataList);
 					}
 				}
 				String showName;
@@ -1086,51 +1097,51 @@ public class IndiSearchAppController {
 				} else {
 					showName = "其他";
 				}
-				dataV.add(dataList);
-				dataX.add(dateList);
+
+				dataX.add(selectTimeList);
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
-				if (appIndiName.equals("湖北PMI")) {
+
+				if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
+					// 创建柱状图
+					BarType barType = new BarType();// 柱状图
+					System.out.println("legendList长度:" + legendList.size());
+					BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
+							dataX.get(0), legendList, dataV, showColor, showType);
+					classInfoList.add(barEntity);
+
+					// 创建表格
+					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < legendList.size(); q++) {
+						List<String> tempNameList = new ArrayList();
+						tempNameList.add(legendList.get(q).toString());
+						dataXaisTable.add(tempNameList);
+					}
+					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
+							dataXaisTable, legendList, dataV);// 表格
+					System.out.println("yes or no:" + tableEntity.getTableBody());
+					classInfoList.add(tableEntity);
+				} else {
+					// TODO 其他情况
 					// 创建折线图
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
 							dataX.get(0), legendList, dataV, showColor, showType);
-
 					// 创建表格
 					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < legendList.size(); q++) {
+						List<String> tempNameList = new ArrayList();
+						tempNameList.add(legendList.get(q).toString());
+						dataXaisTable.add(tempNameList);
+					}
 					TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), appIndiName + "-" + showName,
-							dataX, legendList, dataV);// 表格
+							dataXaisTable, legendList, dataV);// 表格
 					classInfoList.add(lineEntity);
 					classInfoList.add(tableEntity);
-				} else {
-					if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
-						// 创建柱状图
-						BarType barType = new BarType();// 柱状图
-						System.out.println("legendList长度:" + legendList.size());
-						BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
-								dataX.get(0), legendList, dataV, showColor, showType);
-						classInfoList.add(barEntity);
-
-						// 创建表格
-						TableType tableType = new TableType();
-						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
-								appIndiName + "-" + showName, dataX, legendList, dataV);// 表格
-						System.out.println("yes or no:" + tableEntity.getTableBody());
-						classInfoList.add(tableEntity);
-					} else {
-						// TODO 其他情况
-						// 创建折线图
-						LineType lineType = new LineType();
-						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1),
-								appIndiName + "-" + showName, dataX.get(0), legendList, dataV, showColor, showType);
-						// 创建表格
-						TableType tableType = new TableType();
-						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
-								appIndiName + "-" + showName, dataX, legendList, dataV);// 表格
-						classInfoList.add(lineEntity);
-						classInfoList.add(tableEntity);
-					}
 				}
+
 			}
 
 		} else {
