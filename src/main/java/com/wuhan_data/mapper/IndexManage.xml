@@ -97,7 +97,7 @@
              order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>  
          <select id="indiSearchG" parameterType="java.util.Map" resultType="IndexManage">
-            select * from WUHAN_DATA."APP_INDI_G"  where old_indi_name like CONCAT('%',#{keyword},'%') 
+            select id,indi_code,new_indi_name as indi_name,source,lj,is_show from WUHAN_DATA."APP_INDI_G"  where old_indi_name like CONCAT('%',#{keyword},'%') 
              order by id limit #{page.dbIndex},#{page.dbNumber}
         </select>
         

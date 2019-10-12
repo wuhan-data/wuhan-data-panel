@@ -146,7 +146,7 @@
             <td>${c.source}</td>
             <td >
             	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.lj}","${c.indi_name}","${c.is_show}","${c.source}")'><i class="fa fa-edit"></i> 修改</div>
-            	<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> <a href="#" id="deleteIndi" onclick="deleteIndi('${c.id}','deleteG')">删除</a></div>
+            	<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> <a href="#" id="deleteIndi" onclick="deleteIndi('${c.id}','searchDeleteG')">删除</a></div>
 
 	<div class="btn-group">
     <button type="button" class="btn btn-info dropdown-toggle btn-sm"  data-toggle="dropdown">
@@ -157,12 +157,12 @@
     <ul class="dropdown-menu" role="menu">
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="#" id="perShow" onclick="perShow('${c.id}','per_showG')">展示</a>            
+         <a href="#" id="perShow" onclick="perShow('${c.id}','search_per_showG')">展示</a>            
       </li>
     </c:if>
     <c:if test="${c.is_show==0 }">
       <li role="presentation">
-         <a href="#" id="noPerShow" onclick="noPerShow('${c.id}','no_per_showG')">不展示</a>             
+         <a href="#" id="noPerShow" onclick="noPerShow('${c.id}','search_no_per_showG')">不展示</a>             
       </li>
   	</c:if>
     </ul>
@@ -204,7 +204,7 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
 				
-					<button type="submit" class="btn btn-primary" onclick="updatebutton('updateIndiDataG')">
+					<button type="submit" class="btn btn-primary" onclick="updatebutton('searchUpdateIndiDataG')">
 						提交
 					</button>
 				
@@ -245,7 +245,7 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
 				
-					<button type="submit" class="btn btn-primary" onclick="addbutton('addIndiDataG')">
+					<button type="submit" class="btn btn-primary" onclick="addbutton('searchAddIndiDataG')">
 						提交
 					</button>
 				
@@ -264,18 +264,18 @@
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
 
-                           <a href="#" class='first' onclick="pageClick('1','listIndexManageG')">首页</a>
-                           <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','listIndexManageG')">上一页</a>
+                           <a href="#" class='first' onclick="pageClick('1','IndiSearchPageG')">首页</a>
+                           <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','IndiSearchPageG')">上一页</a>
                         </c:if>
                         当前第<span>${page.currentPage}/${page.totalPage}</span>页
                         <c:if test="${page.currentPage != page.totalPage}">
-                             <a href="#" class='next' onclick="pageClick('${page.currentPage+1}','listIndexManageG')">下一页</a>
-                            <a href="#" class='last' onclick="pageClick('${page.totalPage}','listIndexManageG')">末页</a>
+                             <a href="#" class='next' onclick="pageClick('${page.currentPage+1}','IndiSearchPageG')">下一页</a>
+                            <a href="#" class='last' onclick="pageClick('${page.totalPage}','IndiSearchPageG')">末页</a>
                         </c:if>
                         跳至&nbsp;
 
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
-                        <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('listIndexManageG')">
+                        <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('IndiSearchPageG')">
                     </form>
                 </div>
                     
