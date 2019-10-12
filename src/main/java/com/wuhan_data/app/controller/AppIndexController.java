@@ -112,11 +112,11 @@ public class AppIndexController {
 		}
 		List<AnalysisType> analysis = appIndexService.getIconList();
 		for (int i = 0; i < analysis.size(); i++) {
-			String hostIP = analysis.get(i).getIcon_url();
+			String hostIP = analysis.get(i).getIconUrl();
 			hostIP = hostIP.replace("http://", "");// 去除http和https前缀
 			String[] arr = hostIP.split("/");// 按‘/’分隔，取第一个
 			hostIP = arr[0];
-			analysis.get(i).setIcon_url(analysis.get(i).getIcon_url().replace(hostIP, ip));
+			analysis.get(i).setIconUrl(analysis.get(i).getIconUrl().replace(hostIP, ip));
 		}
 		List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
 		for (int i = 0; i < topic.size(); i++) {

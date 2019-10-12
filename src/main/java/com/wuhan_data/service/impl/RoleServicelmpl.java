@@ -127,9 +127,9 @@ public class RoleServicelmpl implements RoleService {
 			ThemeList aList=new ThemeList();
 			AnalysisType analysisType=allAnalysisTypes.get(allAnalysisTypes.size()-i-1);
 			//System.out.println("一级栏目"+analysisType.getType_name());
-			aList.setLevel_one(analysisType.getType_name());//设置一级标题
+			aList.setLevel_one(analysisType.getTypeName());//设置一级标题
 			Map map=new HashMap();
-			map.put("type_id",analysisType.getType_id());
+			map.put("type_id",analysisType.getTypeId());
 			List<AnalysisLabel> analysisLabels=analysisManageMapper.groupList(map);//得到了二级标题
 			//System.out.println("二级标题"+analysisLabels.get(1).getLabel_name());
 			List<AnalysisTheme> aaList=new ArrayList<AnalysisTheme>();
@@ -137,7 +137,7 @@ public class RoleServicelmpl implements RoleService {
 			{
 				AnalysisLabel analysisLabel=analysisLabels.get(j);
 				Map map2=new HashMap();
-				map2.put("label_id", analysisLabel.getLabel_id());
+				map2.put("label_id", analysisLabel.getLabelId());
 				List<AnalysisTheme> analysisThemes=analysisSecondMapper.getlist(map2);//获得三级标题
 				//System.out.println("三级标题"+analysisThemes.get(1).getTheme_name());
 				for(int k=0;k<analysisThemes.size();k++)
