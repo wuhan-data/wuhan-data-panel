@@ -4,26 +4,110 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.wuhan_data.mapper.ColPlateMapper">
+    
+    
+        <!-- 达梦 -->
+    
         <!-- 关联关系表 栏目中添加板块 -->
         <insert id="add" parameterType="ColPlate">
-           insert into analysis_plate(plate_name,theme_id,theme_name,show_type,show_term) values(#{pname},#{cid},#{cname},#{show_type},#{term})
+           insert into WUHAN_DATA."ANALYSIS_PLATE"(plate_name,theme_id,theme_name,show_type,show_term) values(#{pname},#{cid},#{cname},#{show_type},#{term})
         </insert>
                
          <!-- 删除板块 -->
         <delete id="delete" parameterType="int" >
-          delete from analysis_plate where plate_id=#{id}
+          delete from WUHAN_DATA."ANALYSIS_PLATE" where plate_id=#{id}
         </delete>        
          
          <!-- 查询栏目下的板块 -->
         <select id="getlist" parameterType="java.util.Map" resultType="ColPlate">      
-           select plate_id pid,plate_id id,plate_name pname,is_show,show_type,show_term term,theme_name cname from analysis_plate where theme_id=#{cid} order by plate_id limit #{page.dbIndex},#{page.dbNumber}  
+           select plate_id pid,plate_id id,plate_name pname,is_show,show_type,show_term term,theme_name cname,plate_weight from WUHAN_DATA."ANALYSIS_PLATE" where theme_id=#{cid} order by plate_weight  
+        </select>
+ 
+        <update id="update" parameterType="ColPlate" >
+            update WUHAN_DATA."ANALYSIS_PLATE" set plate_name=#{pname},show_type=#{show_type},show_term=#{term} where plate_id=#{pid} and theme_id=#{cid}
+        </update>
+        
+        
+        
+        
+        <select id="getThemeName" resultType="String" parameterType="int">
+            select theme_name from WUHAN_DATA."ANALYSIS_THEME" where theme_id=#{cid}
+        </select>
+        
+        
+        <!-- 更新板块显示与否 -->
+         <update id="updateShow" parameterType="ColPlate" >
+            update WUHAN_DATA."ANALYSIS_PLATE"
+            <set>
+            is_show=#{is_show}
+            </set>
+             where plate_id=#{id}
+        </update>
+        
+           <update id="updateWeight" parameterType="Map" >
+            update WUHAN_DATA."ANALYSIS_PLATE"
+            <set>
+            plate_weight=#{newWeight}
+            </set>
+             where plate_id=#{plate_id}
+        </update>
+               
+        <select id="getPid" resultType="int" parameterType="Map">
+     
+           select plate_id from WUHAN_DATA."ANALYSIS_PLATE"  where theme_id=#{theme_id} and plate_weight=#{oldWeight}
+        </select>
+        
+                
+      <!-- 查询某栏目下的板块总数  用于分页 -->
+        <select id="total" resultType="int" parameterType="int">
+     
+           select count(*) from  WUHAN_DATA."ANALYSIS_PLATE"  where theme_id=#{cid} 
+        </select>
+        
+        <!-- 得到需要添加的板块的id值 -->
+        <select id="getAddPid" resultType="int" parameterType="int">
+            select max(plate_id)+1 from WUHAN_DATA."ANALYSIS_PLATE" where theme_id=#{cid}
+        </select>
+        
+       <!--  得到需要添加的板块所属栏目的名称 -->
+        <select id="getAddCname" resultType="String" parameterType="int">
+            select distinct theme_name from WUHAN_DATA."ANALYSIS_PLATE"  where theme_id=#{cid}
+        </select>
+        
+        
+        
+        
+    
+<!--     
+    
+        关联关系表 栏目中添加板块
+        <insert id="add" parameterType="ColPlate">
+           insert into analysis_plate(plate_name,theme_id,theme_name,show_type,show_term) values(#{pname},#{cid},#{cname},#{show_type},#{term})
+        </insert>
+               
+         删除板块
+        <delete id="delete" parameterType="int" >
+          delete from analysis_plate where plate_id=#{id}
+        </delete>        
+         
+         查询栏目下的板块
+        <select id="getlist" parameterType="java.util.Map" resultType="ColPlate">      
+           select plate_id pid,plate_id id,plate_name pname,is_show,show_type,show_term term,theme_name cname,plate_weight from analysis_plate where theme_id=#{cid} order by plate_weight  
         </select>
  
         <update id="update" parameterType="ColPlate" >
             update analysis_plate set plate_name=#{pname},show_type=#{show_type},show_term=#{term} where plate_id=#{pid} and theme_id=#{cid}
         </update>
         
-        <!-- 更新板块显示与否 -->
+        
+        
+        
+        <select id="getThemeName" resultType="String" parameterType="int">
+            select theme_name from analysis_theme where theme_id=#{cid}
+        </select>
+        
+        
+        更新板块显示与否
          <update id="updateShow" parameterType="ColPlate" >
             update analysis_plate
             <set>
@@ -31,22 +115,39 @@
             </set>
              where plate_id=#{id}
         </update>
+        
+           <update id="updateWeight" parameterType="Map" >
+            update ANALYSIS_PLATE
+            <set>
+            plate_weight=#{newWeight}
+            </set>
+             where plate_id=#{plate_id}
+        </update>
+               
+        <select id="getPid" resultType="int" parameterType="Map">
+     
+           select plate_id from ANALYSIS_PLATE  where theme_id=#{theme_id} and plate_weight=#{oldWeight}
+        </select>
+        
                 
-      <!-- 查询某栏目下的板块总数  用于分页 -->
+      查询某栏目下的板块总数  用于分页
         <select id="total" resultType="int" parameterType="int">
      
            select count(*) from  analysis_plate  where theme_id=#{cid} 
         </select>
         
-        <!-- 得到需要添加的板块的id值 -->
+        得到需要添加的板块的id值
         <select id="getAddPid" resultType="int" parameterType="int">
             select max(plate_id)+1 from analysis_plate where theme_id=#{cid}
         </select>
         
-       <!--  得到需要添加的板块所属栏目的名称 -->
+        得到需要添加的板块所属栏目的名称
         <select id="getAddCname" resultType="String" parameterType="int">
             select distinct theme_name from analysis_plate  where theme_id=#{cid}
         </select>
         
+        
+        
+         -->
         
     </mapper>

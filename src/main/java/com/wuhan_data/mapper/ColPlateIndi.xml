@@ -4,9 +4,66 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
     <mapper namespace="com.wuhan_data.mapper.ColPlateIndiMapper">
+    
+    <!-- 达梦数据库 -->
+            
+        <insert id="add" parameterType="ColPlateIndi" >
+          <!--  insert into analysis_indi(plate_id,search_indi_id,indi_new_name,indi_old_name,show_type,show_color,is_show) values(#{plate_id},#{search_indi_id},#{indi_new_name},#{indi_old_name},#{show_type},#{show_color},#{is_show}) -->
+        insert into WUHAN_DATA."ANALYSIS_INDI"(plate_id,search_indi_id,indi_new_name,indi_old_name,show_type,show_color,is_show) values(#{plate_id},#{search_indi_id},#{indi_new_name},#{indi_old_name},#{show_type},#{show_color},#{is_show})
+        </insert>
+         
+        <delete id="delete" parameterType="int" >
+          delete from WUHAN_DATA."ANALYSIS_INDI" where indi_id=#{indi_id}
+        </delete>        
+         
+        <select id="getlist" parameterType="java.util.Map" resultType="ColPlateIndi">
+            select * from WUHAN_DATA."ANALYSIS_INDI" where plate_id=#{plate_id} order by indi_id limit #{page.dbIndex},#{page.dbNumber}   
+        </select>
+ 
+        <update id="update" parameterType="ColPlateIndi" >
+            update WUHAN_DATA."ANALYSIS_INDI" 
+            <set>
+            <if test="search_indi_id!=null">search_indi_id=#{search_indi_id}</if>
+            <if test="indi_new_name!=null">indi_new_name=#{indi_new_name}</if>
+            <if test="indi_old_name!=null">indi_old_name=#{indi_old_name}</if>
+            <if test="show_color!=null">show_color=#{show_color}</if>         
+            <if test="show_type!=null">show_type=#{show_type}</if>
+            </set>             
+            where plate_id=#{plate_id} and indi_id=#{indi_id}
+        </update>
         
+         <update id="updateShow" parameterType="ColPlateIndi" >
+            update WUHAN_DATA."ANALYSIS_INDI"
+            <set>
+            is_show=#{is_show}
+            </set>
+             where indi_id=#{indi_id}
+        </update>
+                
+      <!-- 查询某栏目下的板块总数  用于分页 -->
+        <select id="total" resultType="int" parameterType="int">
+            select count(*) from  WUHAN_DATA."ANALYSIS_INDI"  where plate_id=#{pid}
+        </select>
+        
+        <select id="searchIndi" resultType="ColPlateIndi" parameterType="String">
+        select search_indi_id,indi_old_name,indi_new_name from WUHAN_DATA."ANALYSIS_INDI" where indi_old_name like  CONCAT('%',#{content},'%') 
+        </select>
+        
+         <select id="getIdAndNew_name" resultType="ColPlateIndi" parameterType="String">
+        select distinct search_indi_id from WUHAN_DATA."ANALYSIS_INDI" where indi_old_name like  CONCAT('%',#{indi_old_name},'%') 
+        </select>
+        
+         <select id="getPname" resultType="String" parameterType="int">
+        select plate_name from WUHAN_DATA."ANALYSIS_INDI" where plate_id=#{plate_id}
+        </select>
+        
+     
+    
+    
+<!--         
         <insert id="add" parameterType="ColPlateIndi" >
            insert into analysis_indi(plate_id,search_indi_id,indi_new_name,indi_old_name,show_type,show_color,is_show) values(#{plate_id},#{search_indi_id},#{indi_new_name},#{indi_old_name},#{show_type},#{show_color},#{is_show})
+        insert into analysis_indi(plate_id,search_indi_id,indi_new_name,indi_old_name,show_type,show_color,is_show) values(#{plate_id},#{search_indi_id},#{indi_new_name},#{indi_old_name},#{show_type},#{show_color},#{is_show})
         </insert>
          
         <delete id="delete" parameterType="int" >
@@ -37,9 +94,23 @@
              where indi_id=#{indi_id}
         </update>
                 
-      <!-- 查询某栏目下的板块总数  用于分页 -->
+      查询某栏目下的板块总数  用于分页
         <select id="total" resultType="int" parameterType="int">
             select count(*) from  analysis_indi  where plate_id=#{pid}
         </select>
+        
+        <select id="searchIndi" resultType="ColPlateIndi" parameterType="String">
+        select search_indi_id,indi_old_name,indi_new_name from analysis_indi where indi_old_name like  CONCAT('%',#{content},'%') 
+        </select>
+        
+         <select id="getIdAndNew_name" resultType="ColPlateIndi" parameterType="String">
+        select distinct search_indi_id from analysis_indi where indi_old_name like  CONCAT('%',#{indi_old_name},'%') 
+        </select>
+        
+         <select id="getPname" resultType="String" parameterType="int">
+        select plate_name from analysis_plate where plate_id=#{plate_id}
+        </select>
+        
+      -->
         
     </mapper>
