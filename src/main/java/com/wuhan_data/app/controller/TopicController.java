@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,7 +44,8 @@ public class TopicController {
 	
 	@RequestMapping(value="getTopicData",produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
-	 public String getTopicData(String json) throws UnsupportedEncodingException{
+	 public String getTopicData(@RequestBody String json) throws UnsupportedEncodingException{
+
 		 //从json中获得topicId
          JSONObject object= JSONObject.fromObject(json);
          int id=object.getInt("topicId");
