@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.wuhan_data.app.mapper.TopicMapper;
 import com.wuhan_data.app.service.TopicService;
+import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.pojo.Plate;
 import com.wuhan_data.pojo.indi_TF;
 
@@ -588,6 +589,14 @@ public class TopicServiceImple implements TopicService {
 	public List<indi_TF> getTopic4Value51_2() {
 		// TODO Auto-generated method stub
 		return topicMapper.getTopic4Value51_2();
+	}
+
+
+
+	@Override
+	public IndexSpecial getTopicById(int id) {
+		// TODO Auto-generated method stub
+		return topicMapper.getTopicById(id);
 	}
 
 }

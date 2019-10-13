@@ -2,10 +2,13 @@ package com.wuhan_data.app.service;
 
 import java.util.List;
 
+import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.pojo.Plate;
 import com.wuhan_data.pojo.indi_TF;
 
 public interface TopicService {
+	
+	public IndexSpecial getTopicById(int id);
 	
 	//topic1经济发展高质量分析
 	
