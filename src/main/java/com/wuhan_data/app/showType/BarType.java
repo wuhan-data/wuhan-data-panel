@@ -51,6 +51,10 @@ public class BarType {
 
 		BarOptionEntity barOptionEntity = new BarOptionEntity();
 
+		// 设置背景颜色
+		String backgroundColor = "#fff";
+		barOptionEntity.setBackgroundColor(backgroundColor);
+
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);

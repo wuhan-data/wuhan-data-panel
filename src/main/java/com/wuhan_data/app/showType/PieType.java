@@ -17,6 +17,10 @@ public class PieType {
 
 		PieOptionEntity pieOptionEntity = new PieOptionEntity();
 
+		// 设置背景颜色
+		String backgroundColor = "#fff";
+		pieOptionEntity.setBackgroundColor(backgroundColor);
+
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);

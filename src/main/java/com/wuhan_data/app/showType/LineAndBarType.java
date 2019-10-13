@@ -49,6 +49,10 @@ public class LineAndBarType {
 
 		LineAndBarOptionEntity lineAndBarOptionEntity = new LineAndBarOptionEntity();
 
+		// 设置背景颜色
+		String backgroundColor = "#fff";
+		lineAndBarOptionEntity.setBackgroundColor(backgroundColor);
+
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
@@ -198,7 +202,7 @@ public class LineAndBarType {
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "1");
-				seriesListMap.put("z", z+i);
+				seriesListMap.put("z", z + i);
 			}
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();

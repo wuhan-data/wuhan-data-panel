@@ -50,6 +50,10 @@ public class BarStoreType {
 		}
 
 		BarStoreOptionEntity barStoreOptionEntity = new BarStoreOptionEntity();
+		
+		// 设置背景颜色
+		String backgroundColor = "#fff";
+		barStoreOptionEntity.setBackgroundColor(backgroundColor);
 
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();

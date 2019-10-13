@@ -7,8 +7,8 @@ public class PieOptionEntity {
 	Map<String, Object> grid;
 	Map<String, Object> legend;
 	List<String> color;
+	String backgroundColor;
 	Map<String, Object> tooltip;
-//	Map series;
 	List<Map<String, Object>> series;
 
 	public Map<String, Object> getGrid() {
@@ -35,16 +35,18 @@ public class PieOptionEntity {
 		this.color = color;
 	}
 
-//	public Map getSeries() {
-//		return series;
-//	}
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
 	public List<Map<String, Object>> getSeries() {
 		return series;
 	}
 
-//	public void setSeries(Map series) {
-//		this.series = series;
-//	}
 	public void setSeries(List<Map<String, Object>> listTotal) {
 		this.series = listTotal;
 	}

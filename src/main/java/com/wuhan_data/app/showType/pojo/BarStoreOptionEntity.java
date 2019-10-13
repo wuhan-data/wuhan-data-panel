@@ -8,6 +8,7 @@ public class BarStoreOptionEntity {
 	Map<String, Object> tooltip;
 	Map<String, Object> legend;
 	List<String> color;
+	String backgroundColor;
 	List<Map<String, Object>> xAxis;
 	List<Map<String, Object>> yAxis;
 	List<Map<String, Object>> series;
@@ -44,6 +45,14 @@ public class BarStoreOptionEntity {
 		this.color = color;
 	}
 
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+	
 	public List<Map<String, Object>> getxAxis() {
 		return xAxis;
 	}

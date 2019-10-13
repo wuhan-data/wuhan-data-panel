@@ -53,6 +53,10 @@ public class LineType {
 
 		LineOptionEntity lineOptionEntity = new LineOptionEntity();
 
+		// 设置背景颜色
+		String backgroundColor = "#fff";
+		lineOptionEntity.setBackgroundColor(backgroundColor);
+
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
@@ -212,7 +216,7 @@ public class LineType {
 			seriesListMap.put("name", legendData.get(i));
 			seriesListMap.put("type", type);
 			seriesListMap.put("data", tempList);
-			seriesListMap.put("z", z+i);
+			seriesListMap.put("z", z + i);
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
 			if (i < showColor.size()) {

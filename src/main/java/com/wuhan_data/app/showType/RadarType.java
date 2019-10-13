@@ -17,6 +17,10 @@ public class RadarType {
 
 		RadarOptionEntity radarOptionEntity = new RadarOptionEntity();
 
+		// 设置背景颜色
+		String backgroundColor = "#fff";
+		radarOptionEntity.setBackgroundColor(backgroundColor);
+
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
