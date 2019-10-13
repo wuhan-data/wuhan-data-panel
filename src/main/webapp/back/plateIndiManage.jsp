@@ -54,7 +54,7 @@
         height:20px;
         float:left;}
         
-      #addElement{
+        #addElement{
         margin-bottom:10px;
         }
         
@@ -89,6 +89,18 @@
        
        li{
        list-style:none;}
+       
+        #dataTables-example tbody{
+        display:block;
+        height:250px;
+        width:100%;
+		overflow-y:scroll;        
+        }
+        #dataTables-example thead, tbody tr{
+        display:table;
+        width:100%;
+        table-layout:fixed;
+        }
       
      
 
@@ -133,33 +145,33 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>板块</th>
+                                            <th width="5%">板块</th>
                                             <th>指标id</div></th>
                                             <th>指标名称</th>
                                             <th>指标别名</th>
-                                            <th>展现形式</th>
-                                            <th>展示颜色</th>
+                                            <th width="5%">展现形式</th>
+                                            <th width="10%">展示颜色</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
      <c:forEach items="${indicolumnByPage}" var="c" varStatus="st">
         <tr>
-            <td >${c.plate_id}</td>
+            <td width="5%">${c.plate_id}</td>
             <td ><div class="search_indi_id">${c.search_indi_id }</div></td>
             <td ><div class="indi_old_name">${c.indi_old_name}</div></td>
             <td ><div class="indi_new_name">${c.indi_new_name}</div></td>
-            <td>${c.show_type }</td>
-            <th>${c.show_color }<div style="background-color:${c.show_color}" class="showColor"></div></th>
+            <td width="5%"> ${c.show_type }</td>
+            <th width="10%">${c.show_color }<div style="background-color:${c.show_color}" class="showColor"></div></th>
             <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
 
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_name}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_new_name}')">
 <i class="fa fa-edit"></i>修改
-</div> 
+</div>  
 <a href="#" onclick="delClick('${c.plate_id }','${c.indi_id}','plateIndiDel')">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
@@ -288,7 +300,7 @@
 	</div><!-- /.modal -->
 </div>
 
-
+<%-- 
                                 <div class="row">
 									 <div class='page fix'>
                     <form method="post" action="#" id="pageForm">
@@ -313,7 +325,7 @@
                 
       
 								<!-- 	<ul class="col-lg-4"></ul> -->
-                                </div>
+                                </div> --%>
                               
                                 
                             </div>
@@ -343,8 +355,12 @@
     <script src="<%=path %>/assets/js/dataTables/dataTables.bootstrap.js"></script>   
     <script src="<%=path %>/assets/js/bootstrap-order.min.js"></script>
      <script src="<%=path %>/assets/js/bootstrap-colorpicker.js"></script>
+    <script src="<%=path %>/assets/js/table.js"></script>
     
     <script>
+    
+    var initSeqArray = new Array();
+	var fieIdSeqArray;	
             $(document).ready(function () {
             	 // 基本实例化:
                 $('#chooseColor').colorpicker();
@@ -354,28 +370,49 @@
                     $('#chooseColor').css('background-color', event.color.toString()).val('');
                     $("#color").val(event.color.toString());
                 });
+                
+                
+                
+                
+        		//为table绑定排序事件
+   			 $("#dataTables-example").tableDnD({
+   		         onDragClass:"myDragClass",
+   		         onDrop:function(table,row) {
+   		             var rows = table.tBodies[0].rows;
+   		             fieIdSeqArray = new Array();
+   		             flag = 1;
+   		             for (var i=0; i<rows.length; i++) {
+   		                fieIdSeqArray.push(rows[i].id);
+   		             }
+   		             
+   	             }
+   	   		 });
                
             });
             
             
+            dosaveSeq = function(Url,cid){
+        	    /* 	if(fieIdSeqArray != undefined){ */   		    	
+        		    		$.ajax({ 
+        						 type: "GET",
+        						 url: Url+"?cid="+cid+"&sort="+fieIdSeqArray,
+        						 dataType: "html",
+        						 success: function(data) {
+        							 $('#getNewData').html(data);
+        							/* if(msg == initSeqArray.length) {
+        								alert("字段序列修改成功！");
+        							}else {
+        								alert("字段序列修改失败");
+        							} */
+        						 }
+        					 });
+        		    	/* 
+        		    }
+        	    	else {
+        		    	alert("未发现变更记录");
+        		    } */
+        	    }
             
-            /* var div = document.getElementById("tips"); */
-            
-            
-    /*         var bind_name = "input";
-            if (navigator.userAgent.indexOf("MSIE") != -1){ 
-              bind_name = 'propertychange'; 
-            } 
-            $('#indi_old_name').bind(bind_name, function(){ 
-            	alert("ad");
-            
-            })  */
-            
-            
-            
-           /*  searchIndi = function(){
-            	alert("dff")
-            } */
             
             var textElment = document.getElementById("indi_old_name");
             var div = document.getElementById("tips");
