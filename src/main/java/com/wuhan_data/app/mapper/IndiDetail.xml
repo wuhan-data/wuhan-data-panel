@@ -32,8 +32,8 @@
             select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and sjly_name2='湖北省统计局' and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000' and (time_point = '104' or time_point = '203') group by freq_code   
         </select>
         
-		<select id="getFreqCodeByIndiNameG" resultType="String" parameterType="String">
-            select indicator_grp21_item_name from  PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} group by indicator_grp21_item_name   
+		<select id="getFreqCodeByIndiNameG" resultType="String" parameterType="java.util.Map">
+            select indicator_grp21_item_name from  PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} and indexdataid=#{indexCode} group by indicator_grp21_item_name   
         </select>
         
 		 <select id="indiDateByFreqName" resultType="String" parameterType="java.util.Map" >
@@ -51,11 +51,11 @@
         </select> 
         
  		<select id="indiDateByFreqNameG" resultType="String" parameterType="java.util.Map" >
-            select data_time_name from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} and indicator_grp21_item_name=#{freqCode} group by data_time_name 
+            select data_time_name from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} and indicator_grp21_item_name=#{freqCode} and indexdataid=#{indexCode} group by data_time_name 
         </select> 
         
         <select id="indiDateByFreqNameG1" resultType="String" parameterType="java.util.Map" >
-            select data_time_name from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} and indicator_grp21_item_name=#{freqCode} and indicator_grp23_item_name=#{areaName}  group by data_time_name 
+            select data_time_name from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where indi_name_ch= #{appIndiName} and indicator_grp21_item_name=#{freqCode} and indexdataid=#{indexCode}  group by data_time_name 
         </select> 
         
          <select id="getIndiValue" resultType="TPIndiValue" parameterType="java.util.Map" >

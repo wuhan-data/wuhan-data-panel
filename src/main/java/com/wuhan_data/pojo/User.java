@@ -59,11 +59,11 @@ public class User {
     	role_list="undefined";
     	role_name="undefined";
     	create_time=new Date();
-    	role_id="职员";
-    	department_id="组织";
+    	role_id="1";
+    	department_id="1";
     	birthday=new Date();
-    	city="";
-    	head="";
+    	city="null";
+    	head="null";
     	description="天才是百分之一的灵感加百分之九十九的汗水。";	
     	String strDateFormat = "yyyy-MM-dd HH:mm:ss";
 	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
