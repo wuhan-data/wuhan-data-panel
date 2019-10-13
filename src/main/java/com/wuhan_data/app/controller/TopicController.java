@@ -30,6 +30,8 @@ import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.pojo.Plate;
 import com.wuhan_data.pojo.indi_TF;
 
+import net.sf.json.JSONObject;
+
 
 @Controller
 public class TopicController {
@@ -40,10 +42,10 @@ public class TopicController {
 	
 	@RequestMapping(value="getTopicData",produces = "text/plain;charset=utf-8")
 	@ResponseBody
-	 public String getTopicData(HttpServletRequest request, 
-	            HttpServletResponse response) throws UnsupportedEncodingException{
-		 //获取前端topicId
-		 int id=4;
+	 public String getTopicData(String json) throws UnsupportedEncodingException{
+		 //从json中获得topicId
+         JSONObject object= JSONObject.fromObject(json);
+         int id=object.getInt("topicId");
 		 Map<String,Object> map = new HashMap<String,Object>();//最外层map
 		 Map<String,Object> mapBaseInfo = new HashMap<String,Object>();
 		 map.put("errCode", "0");//错误码
@@ -54,14 +56,15 @@ public class TopicController {
 			topicPojoMap.put("indexName", indexSpecial.getTitle());
 			topicPojoMap.put("showType", indexSpecial.getShow_type());
 			topicPojoMap.put("file", indexSpecial.getFile());
-		if(indexSpecial.getFile()=="vis") {	
+		if(indexSpecial.getShow_type().equals("vis")) {	
 		 switch(id) {
-		 case 1: return topic1(request,response,topicPojoMap);
-		 case 2: return topic2(request,response,topicPojoMap);
-		 case 3: return topic3(request,response,topicPojoMap);
-		 case 4: return topic4(request,response,topicPojoMap);			 
+		 case 1: return topic1(topicPojoMap);
+		 case 2: return topic2(topicPojoMap); 
+		 case 3: return topic3(topicPojoMap);
+		 case 4: return topic4(topicPojoMap);	
 		 }
 		}else {
+			System.out.print("hha");
 			mapBaseInfo.put("baseInfo", topicPojoMap);
 			map.put("data", mapBaseInfo);
 			String  param= JSON.toJSONString(map); 
@@ -74,16 +77,15 @@ public class TopicController {
 
 		@RequestMapping(value="topic1",produces = "text/plain;charset=utf-8")
 		@ResponseBody
-	    public String topic1(HttpServletRequest request, 
-	            HttpServletResponse response, Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
-			System.out.println("拦截到了" + request.getRequestURL());
+	    public String topic1(Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
+			
+			
+			System.out.print("结束");
 			
 			Map<String,Object> map = new HashMap<String,Object>();//最外层map
 			map.put("errCode", "0");//错误码
 			map.put("errMsg", "success");//错误消息--成功
-			
-			
-			
+		
 			Plate plate = new Plate(1, "高质量发展"); //创建专题信息（Id，title）
 			
 			Map<String,Object> map1 = new HashMap<String,Object>();
@@ -259,14 +261,15 @@ public class TopicController {
 			map1.put("classInfo", classInfoList);
 			map.put("data", map1);
 			String  param= JSON.toJSONString(map); 
+			System.out.print("结束");
+			
 	        return param;
 	    }
 	
 //		宏观经济
 			@RequestMapping(value="topic2",produces = "text/plain;charset=utf-8")
 			@ResponseBody
-		    public String topic2(HttpServletRequest request, 
-		            HttpServletResponse response,Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
+		    public String topic2(Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
 				Map<String,Object> map = new HashMap<String,Object>();//最外层map
 				map.put("errCode", "0");//错误码
 				map.put("errMsg", "success");//错误消息--成功
@@ -581,8 +584,7 @@ public class TopicController {
 //		产业经济
 				@RequestMapping(value="topic3",produces = "text/plain;charset=utf-8")
 				@ResponseBody
-			    public String topic3(HttpServletRequest request, 
-			            HttpServletResponse response,Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
+			    public String topic3(Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
 					Map<String,Object> map = new HashMap<String,Object>();//最外层map
 					map.put("errCode", "0");//错误码
 					map.put("errMsg", "success");//错误消息--成功
@@ -763,8 +765,7 @@ public class TopicController {
 //		固定资产投资
 				@RequestMapping(value="topic4",produces = "text/plain;charset=utf-8")
 				@ResponseBody
-			    public String topic4(HttpServletRequest request, 
-			            HttpServletResponse response,Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
+			    public String topic4(Map<String,Object> topicPojoMap) throws UnsupportedEncodingException{
 					Map<String,Object> map = new HashMap<String,Object>();//最外层map
 					map.put("errCode", "0");//错误码
 					map.put("errMsg", "success");//错误消息--成功
