@@ -284,6 +284,7 @@ public class UserControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("getVercodeApp"+e.toString());
+				e.printStackTrace();
 				return this.apiReturn("-1", "数据库获取异常", data);
 			}
 			// 没有设置保存多长时间会不会有问题
