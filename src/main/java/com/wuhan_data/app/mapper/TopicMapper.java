@@ -3,10 +3,13 @@ package com.wuhan_data.app.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.pojo.Plate;
 import com.wuhan_data.pojo.indi_TF;
 
 public interface TopicMapper {
+	
+	public IndexSpecial getTopicById(int id);
 
 //*************topic1-经济发展高质量分析************	
 //	-----------图表数据部分-------------
