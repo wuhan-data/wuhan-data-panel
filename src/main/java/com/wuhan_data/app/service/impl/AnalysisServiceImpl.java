@@ -102,9 +102,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 		ArrayList<String> roleList = new ArrayList<String>();
 		if (userId != 0) {
 			// TODO 根据用户userId获取对应的role_list
-			Map<String, String> allPowerMap = new HashMap<String, String>();
-			allPowerMap = userService.getAllPower(userId);
-			String roleListString = allPowerMap.get("powerThemes");
+//			Map<String, String> allPowerMap = new HashMap<String, String>();
+//			allPowerMap = userService.getAllPower(userId);
+//			String roleListString = allPowerMap.get("powerThemes");
 //			roleList = roleListString;
 			roleList.add("1");
 			roleList.add("2");
