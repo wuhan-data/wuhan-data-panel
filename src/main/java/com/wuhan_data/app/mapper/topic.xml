@@ -5,6 +5,9 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.TopicMapper">  
 
+	<select id="getTopicById" resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
+    select * from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
+     </select>
         <!-- 数据图表部分 -->
         <!--高质量发展指数  -->
         <select id="getValue1_1" resultType="com.wuhan_data.pojo.indi_TF">

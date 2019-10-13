@@ -10,6 +10,7 @@ import com.wuhan_data.tools.DataSource;
 
 public interface TopicMapper {
 	
+	@DataSource(value="dataSource_dm")
 	public IndexSpecial getTopicById(int id);
 
 //*************topic1-经济发展高质量分析************	

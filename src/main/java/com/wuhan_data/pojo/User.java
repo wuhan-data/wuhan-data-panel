@@ -59,8 +59,8 @@ public class User {
     	role_list="undefined";
     	role_name="undefined";
     	create_time=new Date();
-    	role_id="1";
-    	department_id="1";
+    	role_id="2";
+    	department_id="2";
     	birthday=new Date();
     	city="null";
     	head="null";
