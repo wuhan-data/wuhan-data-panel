@@ -46,11 +46,19 @@ public class ColPlateController { //栏目下的板块管理
         ModelAndView mav = new ModelAndView();//返回视图类    
         Page page=new Page(); //分页类
         int cid=Integer.parseInt(request.getParameter("theme_id")); //获取二级栏目id
-        theme_name=colPlateService.getThemeName(cid);
-        type_name=java.net.URLDecoder.decode(request.getParameter("type_name"),"UTF-8"); 
-        label_name=java.net.URLDecoder.decode(request.getParameter("label_name"),"UTF-8"); 
-        label_id=Integer.parseInt(request.getParameter("label_id"));
-        int count = colPlateService.total(cid);//每一个二级栏目下的板块数量
+
+        	theme_name=colPlateService.getThemeName(cid);
+      
+    
+        	 type_name=java.net.URLDecoder.decode(request.getParameter("type_name"),"UTF-8"); 
+       
+   
+        	label_name=java.net.URLDecoder.decode(request.getParameter("label_name"),"UTF-8"); 
+      
+
+    	   label_id=Integer.parseInt(request.getParameter("label_id")); 
+    
+      int count = colPlateService.total(cid);//每一个二级栏目下的板块数量
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数     
         String currentPage=request.getParameter("currentPage");//获取jsp页面的当前页的页码
         Pattern pattern = Pattern.compile("[0-9]{1,9}");//对跳转框内容的限制
