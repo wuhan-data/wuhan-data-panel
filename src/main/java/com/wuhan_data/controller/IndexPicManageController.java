@@ -112,7 +112,7 @@ public class IndexPicManageController {
       
 //      存到本地的路径
 //      String localPath="/Users/in/uploads/";
-      String localPath="C:\\wuhan_data_file\\head\\";     
+      String localPath="C:\\wuhan_data_file\\image\\slideshow\\";      
       
 //      存到本地的路径
 //      String localPath="/Users/in/uploads/";
@@ -131,7 +131,7 @@ public class IndexPicManageController {
           //文件保存路径
           pic1.transferTo(new File(localPath+filename));
           
-          sqlPath = basePath+"file_head/"+filename;
+          sqlPath = basePath+"file_image_slideshow/"+filename;
           System.out.println(sqlPath);
           int id=Integer.parseInt(request.getParameter("picid"));
           indexPic.setId(id);
