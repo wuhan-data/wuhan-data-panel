@@ -19,5 +19,6 @@ public interface IndiSearchService {
 	public List<IndexManage> searchIndiH(String keyWord);
 	public int getIsArea(IndexManage indexManage);
 	public String getTrendLj(Map paraMap);
+	public List<IndexManage> searchIndiHPower();
 
 }

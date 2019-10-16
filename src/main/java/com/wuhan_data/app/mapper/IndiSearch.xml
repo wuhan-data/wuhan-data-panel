@@ -28,6 +28,10 @@
             select indi_code,indi_old_name as indi_name,source,area_code,area_name,lj,is_show from MIDUSER."APP_INDI_H" where indi_old_name like CONCAT('%',#{keyWord},'%') and area_code='420000000000' group by indi_code,indi_old_name,source,area_code,area_name,lj,is_show
         </select> 
         
+        <select id="searchIndiHPower" resultType="IndexManage" parameterType="String">
+            select id,indi_code,indi_old_name as indi_name,source,area_code,area_name,lj,is_show from MIDUSER."APP_INDI_H"
+        </select>
+        
          <select id="getIsArea" resultType="int" parameterType="IndexManage">
             select count(*) from MIDUSER."APP_INDI_H" where indi_old_name = #{indi_name} and area_code &lt; '430000000000' and area_code &gt; '420000000000' and lj = #{lj}
         </select> 

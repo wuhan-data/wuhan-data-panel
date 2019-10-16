@@ -21,13 +21,11 @@
         </select>
  
         <update id="update" parameterType="ColPlateIndi" >
-            update WUHAN_DATA."ANALYSIS_INDI" 
+            update WUHAN_DATA."ANALYSIS_INDI"
             <set>
-            <if test="search_indi_id!=null">search_indi_id=#{search_indi_id}</if>
-            <if test="indi_new_name!=null">indi_new_name=#{indi_new_name}</if>
-            <if test="indi_old_name!=null">indi_old_name=#{indi_old_name}</if>
-            <if test="show_color!=null">show_color=#{show_color}</if>         
-            <if test="show_type!=null">show_type=#{show_type}</if>
+            <if test="indi_new_name!=null">indi_new_name=#{indi_new_name},</if>
+            <if test="show_color!=null">show_color=#{show_color},</if>         
+            <if test="show_type!=null">show_type=#{show_type},</if>
             </set>             
             where plate_id=#{plate_id} and indi_id=#{indi_id}
         </update>
