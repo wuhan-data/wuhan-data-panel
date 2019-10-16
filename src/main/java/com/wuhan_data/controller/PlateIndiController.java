@@ -25,13 +25,13 @@ import com.wuhan_data.tools.Page;
 @RequestMapping("")
 public class PlateIndiController {
 	
-	static Integer label_id;
-	static String label_name;
-	static String type_name;
-	static String theme_name;
-	static Integer plate_id;
-	static String plate_name;
-	static Integer theme_id;
+	Integer label_id;
+	String label_name;
+	String type_name;
+	String theme_name;
+	Integer plate_id;
+	String plate_name;
+	Integer theme_id;
 	
 	@Autowired
 	ColPlateIndiService colPlateIndiService;
@@ -101,8 +101,8 @@ public class PlateIndiController {
         response.setCharacterEncoding("UTF-8");//防止乱码       
         ModelAndView mav = new ModelAndView();//返回视图类    
         Page page=new Page(); //分页类
-        int pid=Integer.parseInt(request.getParameter("cid")); //板块id
-        System.out.print("&&&&&&&&&&&&&&&:板块id"+pid);
+//        int pid=Integer.parseInt(request.getParameter("cid")); //板块id
+        System.out.print("&&&&&&&&&&&&&&&:板块id"+plate_id);
         
 //        String search_indi_id=request.getParameter("indi_id");
 //        String indi_new_name=request.getParameter("indi_new_name");
@@ -113,14 +113,14 @@ public class PlateIndiController {
         System.out.print("show_color:"+show_color);
         //pid,pname,indi_id,indi_name,show_type
         ColPlateIndi colPlateIndi = new ColPlateIndi();
-        colPlateIndi.setPlate_id(pid);
+        colPlateIndi.setPlate_id(plate_id);
         colPlateIndi.setIndi_new_name(indi_new_name);
         colPlateIndi.setSearch_indi_id(colPlateIndiService.getIdAndNew_name(indi_old_name).getSearch_indi_id());
         colPlateIndi.setIndi_old_name(indi_old_name);
         colPlateIndi.setShow_type(show_type);
         colPlateIndi.setShow_color(show_color);
         colPlateIndiService.add(colPlateIndi);        
-        int count = colPlateIndiService.total(pid);//每一个二级栏目下的板块数量
+        int count = colPlateIndiService.total(plate_id);//每一个二级栏目下的板块数量
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数     
         String currentPage=request.getParameter("currentPage");//获取jsp页面的当前页的页码
         Pattern pattern = Pattern.compile("[0-9]{1,9}");//对跳转框内容的限制
@@ -132,12 +132,21 @@ public class PlateIndiController {
         page.setTotalNumber(count);//设置总条数
         page.count();//执行分页类设置分页参数，为sql查询做准备
         map.put("page", page);//设置page参数
-        map.put("plate_id",pid);//设置二级栏目id参数，where条件
+        map.put("plate_id",plate_id);//设置二级栏目id参数，where条件
         List<ColPlateIndi> indicolumnByPage=colPlateIndiService.getlist(map);//获取分页
 
-        mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
-        mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", pid); //前端获取二级栏目id，以便多次传参        
+        
+        mav.addObject("indicolumnByPage", indicolumnByPage);
+        mav.addObject("page", page);    
+        mav.addObject("label_id", label_id);  
+        mav.addObject("label_name", label_name);  
+        mav.addObject("type_name", type_name);  
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("plate_id", plate_id);  
+        mav.addObject("theme_id", theme_id); 
+        mav.addObject("plate_name", plate_name);  
+        mav.addObject("cid", plate_id);  
+        
         mav.setViewName("plateIndiManage"); //返回到jsp页面
         return mav;
     }
@@ -149,10 +158,10 @@ public class PlateIndiController {
         response.setCharacterEncoding("UTF-8");//防止乱码       
         ModelAndView mav = new ModelAndView();//返回视图类    
         Page page=new Page(); //分页类
-        int pid=Integer.parseInt(request.getParameter("pid")); //板块id       
+//        int pid=Integer.parseInt(request.getParameter("pid")); //板块id       
         int indi_id=Integer.parseInt(request.getParameter("id")); //板块id
         colPlateIndiService.delete(indi_id);                
-        int count = colPlateIndiService.total(pid);//每一个二级栏目下的板块数量
+        int count = colPlateIndiService.total(plate_id);//每一个二级栏目下的板块数量
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数     
         String currentPage=request.getParameter("currentPage");//获取jsp页面的当前页的页码
         Pattern pattern = Pattern.compile("[0-9]{1,9}");//对跳转框内容的限制
@@ -164,14 +173,24 @@ public class PlateIndiController {
         page.setTotalNumber(count);//设置总条数
         page.count();//执行分页类设置分页参数，为sql查询做准备
         map.put("page", page);//设置page参数
-        map.put("plate_id",pid);//设置二级栏目id参数，where条件
+        map.put("plate_id",plate_id);//设置二级栏目id参数，where条件
         List<ColPlateIndi> indicolumnByPage=colPlateIndiService.getlist(map);//获取分页
         
 //        List<IndexManage> InitIndexManageList = colPlateService.listIndi();
 //        mav.addObject("InitIndexManageList", InitIndexManageList);     
-        mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
-        mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", pid); //前端获取二级栏目id，以便多次传参        
+       
+        
+        
+        mav.addObject("indicolumnByPage", indicolumnByPage);
+        mav.addObject("page", page);    
+        mav.addObject("label_id", label_id);  
+        mav.addObject("label_name", label_name);  
+        mav.addObject("type_name", type_name);  
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("plate_id", plate_id);  
+        mav.addObject("theme_id", theme_id); 
+        mav.addObject("plate_name", plate_name);  
+        mav.addObject("cid", plate_id); 
         mav.setViewName("plateIndiManage"); //返回到jsp页面
         return mav;
     }
@@ -183,14 +202,14 @@ public class PlateIndiController {
         response.setCharacterEncoding("UTF-8");//防止乱码       
         ModelAndView mav = new ModelAndView();//返回视图类    
         Page page=new Page(); //分页类
-        int pid=Integer.parseInt(request.getParameter("pid")); //板块id       
+//        int pid=Integer.parseInt(request.getParameter("pid")); //板块id       
         int indi_id=Integer.parseInt(request.getParameter("id")); //板块id
         int is_show=Integer.parseInt(request.getParameter("is_show")); //板块id
         ColPlateIndi colPlateIndi = new ColPlateIndi();
         colPlateIndi.setIndi_id(indi_id);
         colPlateIndi.setIs_show(is_show);
         colPlateIndiService.updateShow(colPlateIndi);            
-        int count = colPlateIndiService.total(pid);//每一个二级栏目下的板块数量
+        int count = colPlateIndiService.total(plate_id);//每一个二级栏目下的板块数量
         Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数     
         String currentPage=request.getParameter("currentPage");//获取jsp页面的当前页的页码
         Pattern pattern = Pattern.compile("[0-9]{1,9}");//对跳转框内容的限制
@@ -202,14 +221,78 @@ public class PlateIndiController {
         page.setTotalNumber(count);//设置总条数
         page.count();//执行分页类设置分页参数，为sql查询做准备
         map.put("page", page);//设置page参数
-        map.put("plate_id",pid);//设置二级栏目id参数，where条件
+        map.put("plate_id",plate_id);//设置二级栏目id参数，where条件
         List<ColPlateIndi> indicolumnByPage=colPlateIndiService.getlist(map);//获取分页
         
-//        List<IndexManage> InitIndexManageList = colPlateService.listIndi();
-//        mav.addObject("InitIndexManageList", InitIndexManageList);     
-        mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
-        mav.addObject("page", page);    //前端获取参数
-        mav.addObject("cid", pid); //前端获取二级栏目id，以便多次传参        
+       
+        mav.addObject("indicolumnByPage", indicolumnByPage);
+        mav.addObject("page", page);    
+        mav.addObject("label_id", label_id);  
+        mav.addObject("label_name", label_name);  
+        mav.addObject("type_name", type_name);  
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("plate_id", plate_id);  
+        mav.addObject("theme_id", theme_id); 
+        mav.addObject("plate_name", plate_name);  
+        mav.addObject("cid", plate_id); 
+        mav.setViewName("plateIndiManage"); //返回到jsp页面
+        return mav;
+    }
+	
+	
+	@RequestMapping("plateIndiUpdate")//
+    public ModelAndView plateIndiUpdate(HttpServletRequest request, 
+            HttpServletResponse response) throws IOException{
+    	request.setCharacterEncoding("UTF-8"); //防止乱码   	
+        response.setCharacterEncoding("UTF-8");//防止乱码       
+        ModelAndView mav = new ModelAndView();//返回视图类    
+        Page page=new Page(); //分页类
+//        int pid=Integer.parseInt(request.getParameter("pid")); //板块id       
+        int indi_id=Integer.parseInt(request.getParameter("indi_id_edit")); //板块id
+        String indi_new_name=request.getParameter("indi_new_name");
+        String show_type=request.getParameter("show_type");
+        String show_color=request.getParameter("show_color");
+        System.out.println("indi_id:"+indi_id);
+        System.out.println("indi_new_name:"+indi_new_name);
+        System.out.println("show_type:"+show_type);
+        System.out.println("show_color:"+show_color);
+        
+        
+        
+        ColPlateIndi colPlateIndi = new ColPlateIndi();
+        colPlateIndi.setIndi_id(indi_id);
+        colPlateIndi.setIndi_new_name(indi_new_name);
+        colPlateIndi.setShow_color(show_color);
+        colPlateIndi.setShow_type(show_type);
+        colPlateIndi.setPlate_id(plate_id);
+       
+        colPlateIndiService.update(colPlateIndi);            
+        int count = colPlateIndiService.total(plate_id);//每一个二级栏目下的板块数量
+        Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数     
+        String currentPage=request.getParameter("currentPage");//获取jsp页面的当前页的页码
+        Pattern pattern = Pattern.compile("[0-9]{1,9}");//对跳转框内容的限制
+        if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+            page.setCurrentPage(1);//首次进入，初始化页码
+        } else {
+            page.setCurrentPage(Integer.valueOf(currentPage));//设置页码
+        }
+        page.setTotalNumber(count);//设置总条数
+        page.count();//执行分页类设置分页参数，为sql查询做准备
+        map.put("page", page);//设置page参数
+        map.put("plate_id",plate_id);//设置二级栏目id参数，where条件
+        List<ColPlateIndi> indicolumnByPage=colPlateIndiService.getlist(map);//获取分页
+        
+       
+        mav.addObject("indicolumnByPage", indicolumnByPage);
+        mav.addObject("page", page);    
+        mav.addObject("label_id", label_id);  
+        mav.addObject("label_name", label_name);  
+        mav.addObject("type_name", type_name);  
+        mav.addObject("theme_name", theme_name); 
+        mav.addObject("plate_id", plate_id);  
+        mav.addObject("theme_id", theme_id); 
+        mav.addObject("plate_name", plate_name);  
+        mav.addObject("cid", plate_id); 
         mav.setViewName("plateIndiManage"); //返回到jsp页面
         return mav;
     }
