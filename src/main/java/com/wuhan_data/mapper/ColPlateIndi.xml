@@ -43,13 +43,13 @@
             select count(*) from  WUHAN_DATA."ANALYSIS_INDI"  where plate_id=#{pid}
         </select>
         
-        <select id="searchIndi" resultType="ColPlateIndi" parameterType="String">
-        select search_indi_id,indi_old_name,indi_new_name from WUHAN_DATA."ANALYSIS_INDI" where indi_old_name like  CONCAT('%',#{content},'%') 
-        </select>
+       <select id="searchIndi" resultType="ColPlateIndi" parameterType="String">
+        	select INDEXDATAID as search_indi_id,INDEXDATANAME as indi_old_name from PLATEFORM1."SRIT_DATA_INDICATOR_TJ" where INDEXDATANAME like  CONCAT('%',#{content},'%') 
+		</select>
         
-         <select id="getIdAndNew_name" resultType="ColPlateIndi" parameterType="String">
-        select distinct search_indi_id from WUHAN_DATA."ANALYSIS_INDI" where indi_old_name like  CONCAT('%',#{indi_old_name},'%') 
-        </select>
+ 		<select id="getIdAndNew_name" resultType="ColPlateIndi" parameterType="String">
+        	select distinct INDEXDATAID as search_indi_id from PLATEFORM1."SRIT_DATA_INDICATOR_TJ" where INDEXDATANAME like  CONCAT('%',#{indi_old_name},'%')  limit 0,1
+		</select>
         
          <select id="getPname" resultType="String" parameterType="int">
         select plate_name from WUHAN_DATA."ANALYSIS_INDI" where plate_id=#{plate_id}
