@@ -90,9 +90,9 @@ public class AnalysisSecondController {
         
         String theme_name = request.getParameter("addThemeName");
         AnalysisTheme analysisTheme = new AnalysisTheme();
-        analysisTheme.setLabelId(label_id);
-        analysisTheme.setThemeName(theme_name);
-        analysisTheme.setThemeWeight(analysisSecondService.getMaxWeight(label_id));
+        analysisTheme.setLabel_id(label_id);
+        analysisTheme.setTheme_name(theme_name);
+        analysisTheme.setTheme_weight(analysisSecondService.getMaxWeight(label_id));
         analysisSecondService.add(analysisTheme);       
         return "redirect:analysisSecondInit";
 		
@@ -117,8 +117,8 @@ public class AnalysisSecondController {
         int theme_id = Integer.parseInt(request.getParameter("editThemeID"));
         String theme_name = request.getParameter("editThemeName");
         AnalysisTheme analysisTheme = new AnalysisTheme();
-        analysisTheme.setThemeId(theme_id);
-        analysisTheme.setThemeName(theme_name);
+        analysisTheme.setTheme_id(theme_id);
+        analysisTheme.setTheme_name(theme_name);
         analysisSecondService.update(analysisTheme);
         return "redirect:analysisSecondInit";		
 	}
@@ -131,8 +131,8 @@ public class AnalysisSecondController {
         int theme_id = Integer.parseInt(request.getParameter("theme_id"));
         int is_show = Integer.parseInt(request.getParameter("is_show"));
         AnalysisTheme analysisTheme = new AnalysisTheme();
-        analysisTheme.setThemeId(theme_id);
-        analysisTheme.setIsShow(is_show);
+        analysisTheme.setTheme_id(theme_id);
+        analysisTheme.setIs_show(is_show);
         analysisSecondService.updateShow(analysisTheme);
         return "redirect:analysisSecondInit";		
 	}
