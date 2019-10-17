@@ -551,9 +551,9 @@ public class UserController {
         	user.setStatus(editstatus);
         	String genderString=editgenderSelect;
         	if (genderString.equals("男"))
-        		user.setGender(0);//男0女1
+        		user.setGender(1);//男1女0
         	else {
-    			user.setGender(1);
+    			user.setGender(0);
     		}
         	user.setTel(editUserTel);
         	user.setReal_name(editUserReal_name);

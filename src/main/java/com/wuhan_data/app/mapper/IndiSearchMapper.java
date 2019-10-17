@@ -31,5 +31,8 @@ public interface IndiSearchMapper {
 	 @DataSource(value="dataSource_dm")
 	public String getTrendLj(Map paraMap);
 	 
+	 @DataSource(value="dataSource_mysql")
+	public List<IndexManage> searchIndiHPower();
+	 
 
 }

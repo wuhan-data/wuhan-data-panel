@@ -236,8 +236,8 @@
    </select>
    <br>
    性别：
-     <select class="form-control"  name="editgenderSelect" id="editgenderSelect">	
-       		<option value="男" > 男</option>    
+     <select class="form-control" type="text" name="editgenderSelect" id="editgenderSelect">	
+       		<option value="男"  > 男</option>    
        		<option value="女" >女</option> 
   	</select>
   	<br>
@@ -602,9 +602,9 @@
             	$("#editUserPassword").val(password);
             	$("#editstatus").val(status);
             	if(gender=="0")
-            		{$("editgenderSelect").val(0);}
+            		{$("#editgenderSelect").val("女");}
             	else
-            		{$("editgenderSelect").val(1);}
+            		{$("#editgenderSelect").val("男");}
             	
             	$("#editUserTel").val(tel);
             	$("#editUserReal_name").val(real_name);

@@ -280,6 +280,15 @@
  </c:forEach> 
             <br>
 </div>
+<div style=" overflow-y:auto; height:200px;">  
+ 搜索指标权限2：<br>
+ <c:forEach items="${power_4}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="editPower_4" value="${c.id}">${c.indi_name}(${c.source})     	
+           </ul>
+ </c:forEach> 
+            <br>
+</div>
 			
 			</div>
 			<div class="modal-footer">
@@ -350,6 +359,17 @@
            </ul>
  </c:forEach> 
             <br>
+
+	</div>
+	     <div style=" overflow-y:auto; height:200px;">  
+ 搜索指标权限2：<br>
+ <c:forEach items="${power_4}" var="c" varStatus="st">	
+           <ul >
+                <input type="checkbox" name="addPower_4" value="${c.id}" checked>${c.indi_name}(${c.source})    	
+           </ul>
+ </c:forEach> 
+            <br>
+
 	</div>
 			</div>
 			<div class="modal-footer">
@@ -622,6 +642,21 @@
             	            }
             	        }
             	    }
+            	   	var boxes4 = document.getElementsByName("editPower_4");
+            	   	for(i=0;i<boxes4.length;i++){  	           
+            	                boxes4[i].checked = false;
+            	    }
+                	
+                	 var val4 = power_4.split("|");
+                	 //var boxes = document.getElementsByName("editMenuLevelTwo");
+                	   	for(i=0;i<boxes4.length;i++){
+                	        for(j=0;j<val4.length;j++){
+                	            if(boxes4[i].value == val4[j]){
+                	                boxes4[i].checked = true;
+                	                break
+                	            }
+                	        }
+                	    }
                 	
             }
             function del(aid){

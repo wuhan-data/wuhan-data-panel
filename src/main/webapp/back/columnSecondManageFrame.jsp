@@ -101,7 +101,7 @@
   
    <div class="btns col-md-6" id="addElement">
       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
-      <button class="btn btn-primary" id="reset" onclick="dosaveSeq('updateThemeWeight','${label_id}')"><i class="fa fa-cog"></i>设置</button>
+      <button class="btn btn-primary" id="reset" onclick="dosaveSeq('updateThemeWeight','${label_id}')"><i class="fa fa-cog"></i>保存顺序</button>
     </div>  
 <%--  <div class="form-group col-md-4">
    <form class="form-inline" style="float:right;" id="formSearch" method="post" accept-charset="UTF-8">

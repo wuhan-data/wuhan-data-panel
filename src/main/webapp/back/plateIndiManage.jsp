@@ -70,7 +70,7 @@
         overflow:auto;
         border:1px black;
        }
-       #chooseColor{
+       #chooseColor,#chooseColor_edit{
         width: 20px;
         height: 20px;
         border: 1px solid #fff;
@@ -169,7 +169,7 @@
 </div>
  --%>
 
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_new_name}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.indi_id}','${c.indi_new_name}','${c.show_color }','${c.show_type }')">
 <i class="fa fa-edit"></i>修改
 </div>  
 <a href="#" onclick="delClick('${c.plate_id }','${c.indi_id}','plateIndiDel')">
@@ -218,17 +218,37 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="indiColumnUpdateOther">
+	<form class="" id="editForm" method="post" accept-charset="UTF-8" action="">
 			<div class="modal-body">		
 
-	<input class="form-control" type="hidden" name="indi_id" id="indi_id">
-   板块名称：<input class="form-control" type="text" name="pname" id="indi_name">   
-   <input type="hidden" value="${pid}" name="cid2"/>
+   			<input type="hidden" value="" name="indi_id_edit" id="indi_id_edit"/>
+
+			<div class="form-group" id="indi_name_group">
+                   <label>指标别名</label>                  
+                   <input class="form-control" type="text" placeholder="请输入指标别名" id="indi_new_name_edit" name="indi_new_name">
+             </div>
+             
+              <div class="form-group">
+                   <label>展示类型</label>
+                   <select class="form-control" name="show_type" onchange="f1()" placeholder="" id="show_type_edit">
+                    <option value="" id="nullOption">请选择展示类型</option>   
+                    <option value="line" id="lineOption">line</option>
+                    <option value="bar" id="barOPtion">bar</option>
+                   </select>
+              
+                   <!-- <input class="form-control" type="text" placeholder="请输入展示类型" name="show_type"> -->
+             </div>
+              <div class="form-group">
+                   <label>展示颜色<input id="chooseColor_edit" type="text" value="" readonly/></label>                                  
+                   <input id="color_edit" class="form-control"  type="text" placeholder="请输入展示颜色"  name="show_color"> 
+                  
+             </div>
+  			 <input type="hidden" value="${pid}" name="pid_edit"/>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary">
+				<button type="submit" class="btn btn-primary" onclick="editClick('plateIndiUpdate')">
 					提交
 				</button>
 			</div>
@@ -263,7 +283,7 @@
              
               <div id="tips" style=""></div>
               
-               <div class="form-group" id="indi_name_group">
+             <div class="form-group" id="indi_name_group">
                    <label>指标别名</label>                  
                    <input class="form-control" type="text" placeholder="请输入指标别名" name="indi_new_name">
              </div>
@@ -273,7 +293,7 @@
                    <select class="form-control" name="show_type" onchange="f1()" placeholder="">
                     <option value="" selected>请选择展示类型</option>   
                     <option value="line">line</option>
-                    <option value="line">bar</option>
+                    <option value="bar">bar</option>
                    </select>
               
                    <!-- <input class="form-control" type="text" placeholder="请输入展示类型" name="show_type"> -->
@@ -364,16 +384,17 @@
             $(document).ready(function () {
             	 // 基本实例化:
                 $('#chooseColor').colorpicker();
-
-                // Example using an event, to change the color of the .jumbotron background:
+                $('#chooseColor_edit').colorpicker();
                 $('#chooseColor').on('change', function (event) {
                     $('#chooseColor').css('background-color', event.color.toString()).val('');
                     $("#color").val(event.color.toString());
                 });
                 
-                
-                
-                
+               $('#chooseColor_edit').on('change', function (event) {
+                    $('#chooseColor_edit').css('background-color', event.color.toString()).val('');
+                    $("#color_edit").val(event.color.toString());
+                });
+
         		//为table绑定排序事件
    			 $("#dataTables-example").tableDnD({
    		         onDragClass:"myDragClass",
@@ -574,10 +595,18 @@
                             };
        	
          
-            function edit(ID,indiname){
-            	$("#indi_id").val(ID);
-            	$("#indi_name").val(indiname);
-                	
+            function edit(indi_id,indi_new_name,show_color,show_type){
+            	$("#indi_id_edit").val(indi_id);
+            	$("#indi_new_name_edit").val(indi_new_name);
+                $('#chooseColor_edit').css('background-color',show_color);
+                $("#color_edit").val(show_color);
+                var opts = document.getElementById("show_type_edit");
+                for(var i=0;i<opts.options.length;i++){         
+                	if(show_type==opts.options[i].value){
+                		opts.options[i].selected='selected';
+                		break;
+                	}
+                }             	
             }
           
             

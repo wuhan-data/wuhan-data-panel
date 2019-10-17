@@ -1,59 +1,43 @@
 package com.wuhan_data.pojo;
 
 public class AnalysisTheme {
-	Integer themeId; // 一级栏目id
-	Integer labelId; // 所属分类标签id
-	String themeName; // 一级栏目名称
-	Integer themeWeight; // 一级栏目权重
-	Integer isShow; // 是否展示 0-正常 1-不展示 9-权限限制
-	Boolean isFavorite; // 是否被收藏
-
-	public void setThemeId(Integer themeId) {
-		this.themeId = themeId;
+	int theme_id;
+	int label_id;
+	String theme_name;
+	int theme_weight;
+	int is_show;
+	public int getTheme_id() {
+		return theme_id;
 	}
-
-	public void setLabelId(Integer labelId) {
-		this.labelId = labelId;
+	public void setTheme_id(int theme_id) {
+		this.theme_id = theme_id;
 	}
-
-	public void setThemeName(String themeName) {
-		this.themeName = themeName;
+	public int getLabel_id() {
+		return label_id;
 	}
-
-	public void setThemeWeight(Integer themeWeight) {
-		this.themeWeight = themeWeight;
+	public void setLabel_id(int label_id) {
+		this.label_id = label_id;
 	}
-
-	public void setIsShow(Integer isShow) {
-		this.isShow = isShow;
+	public String getTheme_name() {
+		return theme_name;
 	}
-
-	public Integer getThemeId() {
-		return themeId;
+	public void setTheme_name(String theme_name) {
+		this.theme_name = theme_name;
 	}
-	
-	public Integer getLabelId() {
-		return labelId;
+	public int getTheme_weight() {
+		return theme_weight;
 	}
-	
-	public String getThemeName() {
-		return themeName;
+	public void setTheme_weight(int theme_weight) {
+		this.theme_weight = theme_weight;
+	}
+	public int getIs_show() {
+		return is_show;
+	}
+	public void setIs_show(int is_show) {
+		this.is_show = is_show;
 	}
 	
-	public Integer getThemeWeight() {
-		return themeWeight;
-	}
-
-	public Integer getIsShow() {
-		return isShow;
-	}
-
-	public void setIsFavorite(Boolean is_favorite) {
-		this.isFavorite = is_favorite;
-	}
-
-	public Boolean getIsFavorite() {
-		return isFavorite;
-	}
+	
+	
 
 }

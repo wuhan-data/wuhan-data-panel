@@ -82,4 +82,10 @@ public class IndiSearchServiceImpl implements IndiSearchService{
 		return indiSearchMapper.getTrendLj(paraMap);
 	}
 
+	@Override
+	public List<IndexManage> searchIndiHPower() {
+		// TODO Auto-generated method stub
+		return indiSearchMapper.searchIndiHPower();
+	}
+
 }
