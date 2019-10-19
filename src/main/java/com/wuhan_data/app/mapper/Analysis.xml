@@ -8,75 +8,71 @@
 	<select id="getAnalysisTypeList"
 		resultType="com.wuhan_data.pojo.AnalysisType">
 		SELECT
-		type_id as typeId,
-		type_name as typeName,
-		type_weight as typeWeight,
-		background,
-		icon_url as iconUrl,
-		is_show as isShow
+		type_id, type_name, type_weight, background, icon_url, is_show
 		FROM WUHAN_DATA."ANALYSIS_TYPE"
 		WHERE
-		is_show = 0 OR is_show = 9
+		is_show = 0 OR
+		is_show = 9
 		ORDER BY type_weight ASC
 	</select>
-	
+
 	<select id="getAnalysisLabelList"
 		resultType="com.wuhan_data.pojo.AnalysisLabel" parameterType="int">
 		SELECT
-		label_id as labelId,
-		type_id as typeId,
-		label_name as labelName,
-		label_weight as labelWeight,
-		is_show as isShow
-		FROM WUHAN_DATA."ANALYSIS_LABEL"
+		label_id, type_id, label_name, label_weight, is_show
+		FROM
+		WUHAN_DATA."ANALYSIS_LABEL"
 		WHERE
 		type_id = #{type_id} AND
-		(is_show = 0 OR is_show = 9)
+		(is_show = 0
+		OR is_show = 9)
 		ORDER BY label_weight ASC
 	</select>
 
 	<select id="getAnalysisThemeList"
 		resultType="com.wuhan_data.pojo.AnalysisTheme" parameterType="int">
 		SELECT
-		theme_id as themeId,
-		label_id as labelId,
-		theme_name as themeName,
-		theme_weight as themeWeight,
-		is_show as isShow
-		FROM WUHAN_DATA."ANALYSIS_THEME"
+		theme_id, label_id, theme_name, theme_weight, is_show
+		FROM
+		WUHAN_DATA."ANALYSIS_THEME"
 		WHERE
 		label_id = #{label_id} AND
-		(is_show = 0 OR is_show = 9)
+		(is_show = 0
+		OR is_show = 9)
 		ORDER BY theme_weight ASC
 	</select>
 	
+	<select id="getThemeBaseInfo"
+		resultType="com.wuhan_data.pojo.AnalysisTheme" parameterType="int">
+		SELECT
+		theme_id, theme_name, is_show
+		FROM
+		WUHAN_DATA."ANALYSIS_THEME"
+		WHERE
+		theme_id = #{theme_id}
+	</select>
+
 	<select id="searchAnalysis"
 		resultType="com.wuhan_data.pojo.AnalysisSearch" parameterType="String">
 		SELECT
 		theme_id as themeId,
 		theme_name as themeName,
-		theme_weight as themeWeight,
+		theme_weight as
+		themeWeight,
 		label_id as labelId,
 		label_name as labelName,
-		type_id as typeId,
+		type_id as
+		typeId,
 		type_name as typeName,
 		is_show as isShow
-		FROM WUHAN_DATA."ANALYSIS_SEARCH"
+		FROM
+		WUHAN_DATA."ANALYSIS_SEARCH"
 		WHERE
-		theme_name like CONCAT('%',#{keyword},'%') AND
+		theme_name like
+		CONCAT('%',#{keyword},'%') AND
 		(is_show = 0 OR is_show = 9)
-		ORDER BY theme_weight ASC
-	</select>
-
-	<select id="getThemeBaseInfo"
-		resultType="com.wuhan_data.pojo.AnalysisTheme" parameterType="int">
-		SELECT
-		theme_id as themeId,
-		theme_name as themeName,
-		is_show as isShow
-		FROM WUHAN_DATA."ANALYSIS_THEME"
-		WHERE
-		theme_id = #{theme_id}
+		ORDER BY
+		theme_weight ASC
 	</select>
 
 	<!-- TODO 查询指定INDI_NAME的最新指标描述数据 -->
@@ -92,10 +88,12 @@
 		show_term as showTerm,
 		a.is_show as isShow
 		FROM WUHAN_DATA."ANALYSIS_PLATE" a
-		INNER JOIN WUHAN_DATA."ANALYSIS_THEME" b
+		INNER JOIN
+		WUHAN_DATA."ANALYSIS_THEME" b
 		ON a.theme_id=b.theme_id
 		WHERE
-		a.theme_id = #{themeId} AND
+		a.theme_id =
+		#{themeId} AND
 		a.is_show = 0
 		ORDER BY plate_id ASC
 	</select>
@@ -114,7 +112,8 @@
 		indi_weight as indiWeight,
 		is_show as
 		isShow
-		FROM WUHAN_DATA."ANALYSIS_INDI"
+		FROM
+		WUHAN_DATA."ANALYSIS_INDI"
 		WHERE
 		plate_id = #{plateId} AND
 		is_show = 0
@@ -126,7 +125,8 @@
 		parameterType="String">
 		SELECT DISTINCT
 		FREQ_NAME as freqName
-		FROM "MIDUSER"."APP_ANALYSIS_INDI_TIME"
+		FROM
+		"MIDUSER"."APP_ANALYSIS_INDI_TIME"
 		WHERE
 		INDI_CODE = #{indiCode}
 	</select>
@@ -140,7 +140,8 @@
 		freqName,
 		START_TIME as startTime,
 		END_TIME as endTime
-		FROM "MIDUSER"."APP_ANALYSIS_INDI_TIME"
+		FROM
+		"MIDUSER"."APP_ANALYSIS_INDI_TIME"
 		WHERE
 		INDI_CODE = #{indiCode} AND
 		FREQ_NAME = #{freqName}
@@ -157,7 +158,8 @@
 		WHERE
 		INDI_CODE = #{indiCode} AND
 		FREQ_NAME = #{freqName}
-		ORDER BY INDI_TIME DESC
+		ORDER BY INDI_TIME
+		DESC
 	</select>
 
 
