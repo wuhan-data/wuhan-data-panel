@@ -42,7 +42,7 @@ public class TopicController {
 	@Autowired
 	TopicService topicService;	
 	
-	@RequestMapping(value="getTopicData",produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
+	@RequestMapping(value="getTopicData",produces = "text/plain;charset=utf-8", method = RequestMethod.GET)
 	@ResponseBody
 	 public String getTopicData(@RequestBody String json) throws UnsupportedEncodingException{
 
@@ -51,8 +51,10 @@ public class TopicController {
          int id=object.getInt("topicId");
 		 Map<String,Object> map = new HashMap<String,Object>();//最外层map
 		 Map<String,Object> mapBaseInfo = new HashMap<String,Object>();
+		 
 		 map.put("errCode", "0");//错误码
 		 map.put("errMsg", "success");//错误消息--成功
+		 
 		 IndexSpecial indexSpecial = topicService.getTopicById(id);
 		 Map<String,Object> topicPojoMap = new HashMap<String,Object>();
 			topicPojoMap.put("indexId", indexSpecial.getId());
