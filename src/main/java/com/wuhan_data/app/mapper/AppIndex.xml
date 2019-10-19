@@ -17,11 +17,9 @@
   WUHAN_DATA."ANALYSIS_TYPE" where is_show=0 and type_id&lt;11 order by type_weight
 </select>
 
-	<select id="getIndexSpecialList"
-		resultType="com.wuhan_data.pojo.IndexSpecial">
-		select id, title, image from WUHAN_DATA."INDEX_SPECIAL" where
-		is_show=0
-	</select>
+	<select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">
+            select id,title,image,showType,file from WUHAN_DATA."INDEX_SPECIAL"
+ 	</select>
 
 	<select id="getDesc"
 		resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">

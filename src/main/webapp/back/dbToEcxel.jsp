@@ -242,6 +242,7 @@ $(document).ready(function(){
 // 		alert("进入indiNameSelect");
 		//只要第一个下拉框有变化则隐藏第三个和第四个下拉框
 		freqCodeSelect.parent().hide();
+		timePointSelect.parent().hide();
 		startTimeSelect.parent().hide();
 		endTimeSelect.parent().hide();
 		delectBu.hide();
@@ -264,6 +265,7 @@ $(document).ready(function(){
 						//先清空上次请求数据	
 						indiSourceSelect.html("");
 						freqCodeSelect.html("");
+						timePointSelect.html("");
 						startTimeSelect.html("");
 						endTimeSelect.html("");
 						$("<option value=''>" + "请选择"+ "</option>").appendTo(indiSourceSelect);
@@ -317,6 +319,7 @@ $(document).ready(function(){
 					if(data.length !=0) 
 					{
 						freqCodeSelect.html("");
+						timePointSelect.html("");
 						startTimeSelect.html("");
 						endTimeSelect.html("");
 						$("<option value=''>" + "请选择"+ "</option>").appendTo(freqCodeSelect);
@@ -355,18 +358,19 @@ $(document).ready(function(){
 		var freqCode = $(this).val();
 		if(indiSourceValue != ""&&indiNameValue != ""&&freqCode!="")
 		{
-				  $.post("getIndiStartTime",{indiName:indiNameValue,indiSource:indiSourceValue,freqCode:freqCode},function(data){
+				  $.post("getTimePoint",{indiName:indiNameValue,indiSource:indiSourceValue,freqCode:freqCode},function(data){
 					if(data.length !=0) 
 					{
+						timePointSelect.html("");
 						startTimeSelect.html("");
 						endTimeSelect.html("");
-						$("<option value=''>" + "请选择"+ "</option>").appendTo(startTimeSelect);
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(timePointSelect);
 						for(var i = 0;i<data.length;i++)
 						{
-							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(startTimeSelect);
+							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(timePointSelect);
 						}
-						startTimeSelect.parent().show();
-						startTimeSelect.next().hide();
+						timePointSelect.parent().show();
+						timePointSelect.next().hide();
 					}
 					else
 					{
@@ -381,8 +385,8 @@ $(document).ready(function(){
 			
 		}else
 		{
-			startTimeSelect.parent().hide();
-			startTimeSelect.next().hide();
+			timePointSelect.parent().hide();
+			timePointSelect.next().hide();
 		}
 	})
 	
@@ -398,7 +402,7 @@ $(document).ready(function(){
 		var timePoint = $(this).val();
 		if(indiSourceValue != ""&&indiNameValue != ""&&freqCode!=""&&timePoint!="")
 		{
-				  $.post("getIndiStartTime",{indiName:indiNameValue,indiSource:indiSourceValue,freqCode:freqCode},function(data){
+				  $.post("getIndiStartTime",{indiName:indiNameValue,indiSource:indiSourceValue,freqCode:freqCode,timePoint:timePoint},function(data){
 					if(data.length !=0) 
 					{
 						startTimeSelect.html("");
