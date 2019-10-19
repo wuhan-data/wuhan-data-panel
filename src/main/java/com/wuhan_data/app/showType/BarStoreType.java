@@ -58,7 +58,7 @@ public class BarStoreType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("bottom", "60");
+		gridMap.put("bottom", "10");
 		gridMap.put("height", "250");
 		barStoreOptionEntity.setGrid(gridMap);
 
@@ -83,7 +83,7 @@ public class BarStoreType {
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
-		legendMap.put("bottom", "330");
+		legendMap.put("bottom", "280");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = (legendData.size() > 5 ? 5 : legendData.size()) * 35;
