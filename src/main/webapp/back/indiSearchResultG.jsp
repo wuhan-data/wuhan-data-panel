@@ -142,7 +142,10 @@
             
 <%--             <td>${c.lj}</td> --%>
             <td>${c.indi_name}</td>
-            <td>${c.is_show}</td>
+            <td>
+            	 <c:if test="${c.is_show==0 }">展示</c:if>
+            	  <c:if test="${c.is_show==1 }">不展示</c:if>
+            </td>
             <td>${c.source}</td>
             <td >
             	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.lj}","${c.indi_name}","${c.is_show}","${c.source}")'><i class="fa fa-edit"></i> 修改</div>
@@ -196,7 +199,12 @@
 <!-- 				<span class="text-info">地域名称</span><input type="text" class="form-control" id="areaName" value="" name="areaName" readonly> -->
 				<span class="text-info">路径</span><input type="text" class="form-control" id="lj" value="" name="lj" readonly>
 				<span class="text-info">指标名称</span><input type="text" class="form-control" id="IndiName" value="" name="Name">
-				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status">
+<!-- 				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status"> -->
+				<span class="text-info">状态</span><br/>
+					<select id="IndiStatus" style="width:100px" name="Status">
+						<option value="0">0</option>
+						<option value="1">1</option>
+					</select> <br/>
 				<span class="text-info">来源</span><input type="text" class="form-control" id="IndiSource" value="" name="Source" readonly>
 				
 			</div>

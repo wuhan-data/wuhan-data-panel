@@ -158,6 +158,10 @@
 				指标来源： <select text-align-last:center style="width:110px"></select> </span>
 			<span class="freqCode"> <img src="assets/img/pfeil.gif" alt="" />
 				月/季度： <select style="width:70px" text-align-last:center></select> </span>
+			<span class="timePoint"> <img src="assets/img/pfeil.gif" alt="" />
+				时点： <select style="width:70px" text-align-last:center></select> </span>
+				
+				
 			<span class="startTime"> <img src="assets/img/pfeil.gif" alt="" />
 				开始日期： <select  style="width:100px" text-align-last:center></select> </span>
 			<span class="endTime"> <img src="assets/img/pfeil.gif" alt="" />
@@ -219,12 +223,14 @@ $(document).ready(function(){
 	var indiNameSelect = $('.indiName').children('select');
 	var indiSourceSelect = $('.indiSource').children('select');
 	var freqCodeSelect = $(".freqCode").children("select");
+	var timePointSelect = $(".timePoint").children("select");
 	var startTimeSelect = $(".startTime").children("select");
 	var endTimeSelect = $(".endTime").children("select");
 	var delectBu=$("#delectBu");
 	
 	indiSourceSelect.parent().hide();
 	freqCodeSelect.parent().hide();
+	timePointSelect.parent().hide();
 	startTimeSelect.parent().hide();
 	endTimeSelect.parent().hide();
 	delectBu.hide();
@@ -380,8 +386,52 @@ $(document).ready(function(){
 		}
 	})
 	
+	
 	/**
 	 * 第四个下拉框事件
+	 */
+	timePointSelect.change(function(){
+		//获取四个下拉框中的值
+		var indiNameValue = indiNameSelect.val();
+		var indiSourceValue = indiSourceSelect.val();
+		var freqCode = freqCodeSelect.val();
+		var timePoint = $(this).val();
+		if(indiSourceValue != ""&&indiNameValue != ""&&freqCode!=""&&timePoint!="")
+		{
+				  $.post("getIndiStartTime",{indiName:indiNameValue,indiSource:indiSourceValue,freqCode:freqCode},function(data){
+					if(data.length !=0) 
+					{
+						startTimeSelect.html("");
+						endTimeSelect.html("");
+						$("<option value=''>" + "请选择"+ "</option>").appendTo(startTimeSelect);
+						for(var i = 0;i<data.length;i++)
+						{
+							$("<option value='" + data[i]+ "'>" + data[i] + "</option>").appendTo(startTimeSelect);
+						}
+						startTimeSelect.parent().show();
+						startTimeSelect.next().hide();
+					}
+					else
+					{
+						alert("条件值为空");
+					}
+					/**
+					 * 缓存数据
+					 */
+					 freqCodeSelect.data(freqCode,data);
+					//alert("缓存了数据……");
+				},"json");		
+			
+		}else
+		{
+			startTimeSelect.parent().hide();
+			startTimeSelect.next().hide();
+		}
+	})
+	
+	
+	/**
+	 * 第五个下拉框事件
 	 */
 	 startTimeSelect.change(function(){
 		//获取四个下拉框中的值
@@ -426,10 +476,10 @@ $(document).ready(function(){
 	})
 	
 	/**
-	 * 第五个下拉框事件
+	 * 第六个下拉框事件
 	 */
 	 endTimeSelect.change(function(){
-		//获取五个下拉框中的值，便于拼接图片名称
+		//获取六个下拉框中的值，便于拼接图片名称
 		var indiName = indiNameSelect.val();
 		var indiSource = indiSourceSelect.val();
 		var freqCode = freqCodeSelect.val();
