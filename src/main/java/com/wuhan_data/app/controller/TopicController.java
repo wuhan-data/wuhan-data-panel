@@ -42,7 +42,7 @@ public class TopicController {
 	@Autowired
 	TopicService topicService;	
 	
-	@RequestMapping(value="getTopicData",produces = "text/plain;charset=utf-8", method = RequestMethod.GET)
+	@RequestMapping(value="getTopicData",produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
 	 public String getTopicData(@RequestBody String json) throws UnsupportedEncodingException{
 
