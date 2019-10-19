@@ -142,7 +142,10 @@
             
 <%--             <td>${c.lj}</td> --%>
             <td>${c.indi_name}</td>
-            <td>${c.is_show}</td>
+            <td>
+            	 <c:if test="${c.is_show==0 }">展示</c:if>
+            	  <c:if test="${c.is_show==1 }">不展示</c:if>
+            </td>
             <td>${c.source}</td>
             <td >
             	<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick='updateIndi("${c.id}","${c.indi_code}","${c.lj}","${c.indi_name}","${c.is_show}","${c.source}")'><i class="fa fa-edit"></i> 修改</div>

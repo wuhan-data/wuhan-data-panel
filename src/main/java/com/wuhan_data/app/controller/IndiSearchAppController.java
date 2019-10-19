@@ -282,7 +282,13 @@ public class IndiSearchAppController {
 			if (searchIndiListH.get(i).getIs_show().equals("0")) {
 				Map teMap = new HashMap();
 				teMap.put("id", searchIndiListH.get(i).getIndi_code());
-				teMap.put("name", searchIndiListH.get(i).getIndi_name());
+				String temp[] = searchIndiListH.get(i).getLj().split("-");
+				if(temp.length>1){
+					teMap.put("name", searchIndiListH.get(i).getIndi_name()+temp[temp.length-1]);
+				}
+				else{
+					teMap.put("name", searchIndiListH.get(i).getIndi_name());
+				}
 				teMap.put("path", searchIndiListH.get(i).getLj());
 				// 判断是否有地市级数据
 				int is_Area = indiSearchService.getIsArea(searchIndiListH.get(i));
