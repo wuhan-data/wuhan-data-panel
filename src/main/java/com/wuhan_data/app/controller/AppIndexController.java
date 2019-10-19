@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.wuhan_data.app.service.AppIndexService;
@@ -30,16 +31,17 @@ public class AppIndexController {
 	AppIndexService appIndexService;
 	
 	//测试
-	@RequestMapping(value="t",produces = "text/plain;charset=utf-8",method = RequestMethod.POST)
-	@ResponseBody
-    public String t(@RequestBody String json){
-		System.out.println(json);
-		Map map = new HashMap();	
-		map.put("code", 1);
-		map.put("id", 123456);
-        String  param= JSON.toJSONString(map);
-        return param;
+	@RequestMapping(value="t",produces = "text/plain;charset=utf-8")
+    public ModelAndView t(){
+        return new ModelAndView("testApp");
     }
+	
+	//测试
+		@RequestMapping(value="tt",produces = "text/plain;charset=utf-8")
+	    public ModelAndView tt(){
+			System.out.println("###########");
+	        return new ModelAndView("testApp");
+	    }
 	
 	//轮播图
 	@RequestMapping(value="initIndexPicture",produces = "text/plain;charset=utf-8")
@@ -99,7 +101,7 @@ public class AppIndexController {
 	
 
 	//首页
-	@RequestMapping(value="initHome",produces = "text/plain;charset=utf-8")
+	@RequestMapping(value="initHome",produces = "text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
     public String initHome(HttpServletRequest request, 
             HttpServletResponse response) throws UnknownHostException{
