@@ -199,7 +199,12 @@
 <!-- 				<span class="text-info">地域名称</span><input type="text" class="form-control" id="areaName" value="" name="areaName" readonly> -->
 				<span class="text-info">路径</span><input type="text" class="form-control" id="lj" value="" name="lj" readonly>
 				<span class="text-info">指标名称</span><input type="text" class="form-control" id="IndiName" value="" name="Name">
-				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status">
+<!-- 				<span class="text-info">状态</span><input type="text" class="form-control" id="IndiStatus" value="" name="Status"> -->
+				<span class="text-info">状态</span><br/>
+					<select id="IndiStatus" style="width:100px" name="Status">
+						<option value="0">0</option>
+						<option value="1">1</option>
+					</select> <br/>
 				<span class="text-info">来源</span><input type="text" class="form-control" id="IndiSource" value="" name="Source" readonly>
 				
 			</div>
