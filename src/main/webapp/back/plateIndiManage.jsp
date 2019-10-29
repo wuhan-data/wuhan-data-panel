@@ -161,8 +161,22 @@
             <td ><div class="search_indi_id">${c.search_indi_id }</div></td>
             <td ><div class="indi_old_name">${c.indi_old_name}</div></td>
             <td ><div class="indi_new_name">${c.indi_new_name}</div></td>
-            <td width="5%"> ${c.show_type }</td>
-            <th width="10%">${c.show_color }<div style="background-color:${c.show_color}" class="showColor"></div></th>
+            <td width="5%">
+            <c:if test="${c.show_type==''}">
+     			空
+            </c:if>
+             <c:if test="${c.show_type!=''}">
+     			${c.show_type }
+            </c:if>
+             </td>
+            <td width="10%">
+            <c:if test="${c.show_color==''}">
+            空
+            </c:if>
+             <c:if test="${c.show_color!=''}">
+            ${c.show_color }<div style="background-color:${c.show_color}" class="showColor"></div>
+            </c:if>     
+            </td>
             <td >
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
@@ -637,12 +651,13 @@
                       });  
                } 
             
-            backSecondMenu = function(id,typeName,labelName,Url) { 
+            backSecondMenu = function(label_id,typeName,labelName,Url) { 
+            	alert(label_id)
             	var type=encodeURI(encodeURI(typeName));
               	var label=encodeURI(encodeURI(labelName));
                    $.ajax({
                               type: 'GET',
-                              url:  Url+"?theme_id="+id+"&type_name="+type+"&label_name="+label,
+                              url:  Url+"?label_id="+label_id+"&type_name="+type+"&label_name="+label,
                               dataType: "html",
                          	    async : false,
                           	contentType: false, //不设置内容类型
