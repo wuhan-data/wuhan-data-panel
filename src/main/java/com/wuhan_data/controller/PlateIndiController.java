@@ -48,7 +48,6 @@ public class PlateIndiController {
         label_id=Integer.parseInt(request.getParameter("label_id"));
         theme_id=Integer.parseInt(request.getParameter("theme_id"));
         
-        System.out.print("获取到label_id："+label_id);
 
         plate_name=colPlateIndiService.getPname(plate_id);
             
