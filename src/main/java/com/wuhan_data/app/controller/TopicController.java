@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.wuhan_data.app.service.TopicService;
 import com.wuhan_data.app.showType.BarType;
 import com.wuhan_data.app.showType.LineAndBarType;
@@ -32,7 +33,6 @@ import com.wuhan_data.pojo.IndexSpecial;
 import com.wuhan_data.pojo.Plate;
 import com.wuhan_data.pojo.indi_TF;
 
-import net.sf.json.JSONObject;
 
 
 @Controller
@@ -47,8 +47,8 @@ public class TopicController {
 	 public String getTopicData(@RequestBody String json) throws UnsupportedEncodingException{
 
 		 //从json中获得topicId
-         JSONObject object= JSONObject.fromObject(json);
-         int id=object.getInt("topicId");
+         JSONObject object= JSONObject.parseObject(json);
+         int id=object.getInteger("topicId");
 		 Map<String,Object> map = new HashMap<String,Object>();//最外层map
 		 Map<String,Object> mapBaseInfo = new HashMap<String,Object>();
 		 

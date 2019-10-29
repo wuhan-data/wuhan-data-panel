@@ -6,6 +6,11 @@
     <mapper namespace="com.wuhan_data.app.mapper.TopicMapper">  
 
         <!-- 数据图表部分 -->
+
+        <select id="getTopicById" resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
+    select * from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
+     </select>
+     
         <!--高质量发展指数  -->
         <select id="getValue1_1" resultType="com.wuhan_data.pojo.indi_TF">
          select concat(c16,
@@ -145,9 +150,17 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，较上年同期提高',
+'，较上年同期',
+(case
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),1) in (3,6,9,12)  limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c3='0700025')))&gt;0 then '提高'
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),1) in (3,6,9,12)  limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c3='0700025')))&lt;0 then '降低'
+END
+),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+abs(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),1) in (3,6,9,12)  limit 0,1)),4),left((
 			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700025' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c3='0700025'))),
@@ -171,9 +184,19 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，较上年同期提高',
+'，较上年同期',
+(case
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c3='0700026')))&gt;0 then '提高'
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c3='0700026')))&lt;0 then '降低'
+END),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+abs(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4),left((
 			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0700026' and right(left(c1,6),2) in ('03','06','09','12')  limit 0,1)),4)-1) and c3='0700026'))),
@@ -197,9 +220,19 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，较上年同期下降',
+'，较上年同期',
+(case
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c3='1300028'))-TO_NUMBER(c9))&gt;0 then '下降'
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c3='1300028'))-TO_NUMBER(c9))&lt;0 then '上升'
+END),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+abs(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
 			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300028' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c3='1300028'))-TO_NUMBER(c9)),
@@ -223,9 +256,19 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，较上年同期提高',
+'，较上年同期',
+(case
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0900027' and c7='湖北省' and c2='SS' and c8='203')))&gt;0 then '提高'
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0900027' and c7='湖北省' and c2='SS' and c8='203')))&lt;0 then '降低'
+END),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+abs(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
 			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0900027' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0900027' and c7='湖北省' and c2='SS' and c8='203'))),
@@ -250,9 +293,19 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，较上年同期下降',
+'，较上年同期',
+(case
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c3='1300029'))-TO_NUMBER(c9))&gt;0 then '下降'
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c3='1300029'))-TO_NUMBER(c9))&lt;0 then '提升'
+END),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+abs(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4),left((
 			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='1300029' and right(left(c1,6),2) in ('03','06','09','12') order by c1 desc limit 0,1)),4)-1) and c3='1300029'))-TO_NUMBER(c9)),
@@ -276,9 +329,19 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，较上年同期降低',
+'，较上年同期',
+(case
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0400062' and c7='湖北省' and c2='SS' and c8='203'))-TO_NUMBER(c9))&gt;0 then '降低'
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0400062' and c7='湖北省' and c2='SS' and c8='203'))-TO_NUMBER(c9))&lt;0 then '提升'
+END),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+abs(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
 			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0400062' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0400062' and c7='湖北省' and c2='SS' and c8='203'))-TO_NUMBER(c9)),
@@ -302,9 +365,20 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，较上年同期提高',
+'，较上年同期',
+(
+case
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0100021' and c7='湖北省' and c2='SS' and c8='104')))&gt;0 then '提高'
+when (TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
+		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
+			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0100021' and c7='湖北省' and c2='SS' and c8='104')))&lt;0 then '降低'
+END),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
+abs(TO_NUMBER(c9)-TO_NUMBER((select c9 from SJJG.T1 where c1=replace((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),left((
 		select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4),left((
 			select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG.T1 where c3='0100021' and c7='湖北省' and c2='SS' order by c1 desc limit 0,1)),4)-1) and c3='0100021' and c7='湖北省' and c2='SS' and c8='104'))),
@@ -328,11 +402,35 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，同比增长',
+'，同比s',
+(
+case
+when (TO_NUMBER(c9)-
+TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='1700227' and
+c1=replace(
+(
+select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),
+left((
+select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4),
+left((
+select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),4)-1)
+and c8='203' and c7='湖北省' and c2='SS'  limit 0,1))))&gt;0 then '增长'
+when (TO_NUMBER(c9)-
+TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='1700227' and
+c1=replace(
+(
+select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),
+left((
+select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4),
+left((
+select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),4)-1)
+and c8='203' and c7='湖北省' and c2='SS'  limit 0,1))))&lt;0 then '下降'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
 (round(
 TO_NUMBER(
 (TO_NUMBER((
+abs(
 (TO_NUMBER(c9)-
 TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='1700227' and 
 c1=replace(
@@ -342,7 +440,8 @@ left((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4),
 left((
 	select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c1 from SJJG."T1" where c3='1700227' and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),4)-1)
- and c8='203' and c7='湖北省' and c2='SS'  limit 0,1))))/
+ and c8='203' and c7='湖北省' and c2='SS'  limit 0,1)))))
+ /
  (TO_NUMBER((TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='1700227' and
 c1=replace(
 (
@@ -448,8 +547,12 @@ c14,
 '&lt;span style="color: #3A82CC"&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1)),
 '&lt;/span&gt;',
-(select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c14 from SJJG."T1" where c3='0100001'' and c7 ='湖北省' and c2='YY' and c8='109' order by c1 desc limit 0,1)),
-'，增速与上年持平',
+(select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c14 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109' order by c1 desc limit 0,1)),
+(case
+when ((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1))-(select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 1,1)))=0 then '，增速与上年持平'
+when ((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1))-(select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 1,1)))&lt;0 then '，增速较上年有所下降'
+when ((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1))-(select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 1,1)))&gt;0 then '，增速较上年有所提升'
+END),
 '&lt;/li&gt;'
 )as result
 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='104' order by c1 desc limit 0,1
@@ -462,9 +565,13 @@ from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='104' o
 a.c9,
 '&lt;/span&gt;',
 a.c14,
-'，同比提高',
+'，同比',
+(case
+when (TO_NUMBER(a.c9)-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104'  limit 1,1) e)))&gt;0 then '提高'
+when (TO_NUMBER(a.c9)-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104'  limit 1,1) e)))&lt;0 then '下降'
+END),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER(a.c9)-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104'  limit 1,1) e))),
+abs(TO_NUMBER(a.c9)-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104'  limit 1,1) e))),
 '&lt;/span&gt;',
 '个百分点&lt;/li&gt;',
 '&lt;li&gt;一般公共预算收入占GDP比重为',
@@ -472,9 +579,15 @@ a.c14,
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700025' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)),
 '&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c3='0700025' and c7 ='湖北省' and c2='YY' and c8='104' limit 0,1)),
-'，同比下降',
+'，同比',
+(
+case
+when (TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY h.C3 ORDER BY h.C1 DESC), h.c9 from SJJG.T1 h where h.c3='0700025' and h.c7 ='湖北省' and h.c2='YY' and h.c8='104' limit 1,1) f))-TO_NUMBER((select g.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) g)))&gt;0 then '下降'
+when (TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY h.C3 ORDER BY h.C1 DESC), h.c9 from SJJG.T1 h where h.c3='0700025' and h.c7 ='湖北省' and h.c2='YY' and h.c8='104' limit 1,1) f))-TO_NUMBER((select g.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) g)))&lt;0 then '增长'
+end
+),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY h.C3 ORDER BY h.C1 DESC), h.c9 from SJJG.T1 h where h.c3='0700025' and h.c7 ='湖北省' and h.c2='YY' and h.c8='104' limit 1,1) f))-TO_NUMBER((select g.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) g))),
+abs(TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY h.C3 ORDER BY h.C1 DESC), h.c9 from SJJG.T1 h where h.c3='0700025' and h.c7 ='湖北省' and h.c2='YY' and h.c8='104' limit 1,1) f))-TO_NUMBER((select g.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0700025' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) g))),
 '&lt;/span&gt;',
 '个百分点',
 '&lt;/li&gt;'
@@ -541,9 +654,14 @@ from SJJG.T1 where c3='0500044' and c7 ='湖北省' and c2='YY' and c8='104' ord
 a.c9,
 '&lt;/span&gt;',
 a.c14,
-'，同比下降',
+'，同比',
+(case
+when (TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) e) ))&gt;0 then '下降'
+when (TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) e) ))&lt;0 then '增长'
+end
+),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) e) )),
+abs(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100094' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) e) )),
 '&lt;/span&gt;',
 '个百分点',
 '&lt;/li&gt;'
@@ -557,9 +675,14 @@ from SJJG.T1 a where a.c3='0100094' and a.c7 ='湖北省' and a.c2='YY' and a.c8
 a.c9,
 '&lt;/span&gt;',
 a.c14,
-'，同比提高',
+'，同比',
+(
+case
+when (TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) e)))&gt;0 then '提高'
+when (TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) e)))&lt;0 then '下降'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) e))),
+abs(TO_NUMBER((select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 0,1) d))-TO_NUMBER((select e.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0100095' and b.c7 ='湖北省' and b.c2='YY' and b.c8='104' limit 1,1) e))),
 '&lt;/span&gt;',
 '个百分点',
 '&lt;/li&gt;'
@@ -729,8 +852,13 @@ c9,
 '&lt;/span&gt;',
 c14,
 ',增速同比减少',
+(
+case
+when (TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300039' and c7='湖北省' and c2='MM' and c8='207' limit 1,1))-TO_NUMBER(c9)))&gt;0 then '减少'
+when (TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300039' and c7='湖北省' and c2='MM' and c8='207' limit 1,1))-TO_NUMBER(c9)))&lt;0 then '提升'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300039' and c7='湖北省' and c2='MM' and c8='207' limit 1,1))-TO_NUMBER(c9))),
+abs(TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300039' and c7='湖北省' and c2='MM' and c8='207' limit 1,1))-TO_NUMBER(c9))),
 '&lt;/span&gt;',
 '个百分点。从重点领域看，汽车制造业增加值同比增长',
 '&lt;span style="color: #3A82CC"&gt;',
@@ -744,17 +872,31 @@ c14,
 '&lt;span style="color: #3A82CC"&gt;',
 (select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 0,1)),
 '&lt;/span&gt;',
-'%，增速较上月分别放缓',
+'%，增速较上月分别',
+(case
+when (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 0,1)))),1))&gt;0 then '放缓'
+when (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 0,1)))),1))&lt;0 then '提升'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 0,1)))),1)),
+abs(round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='汽车制造业'  limit 0,1)))),1)),
 '&lt;/span&gt;',
+(
+case
+when (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 0,1)))),1))&gt;0 then '、放缓'
+when (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 0,1)))),1))&lt;0 then '、提升'
+end
+),
 '、放缓',
 '&lt;span style="color: #3A82CC"&gt;',
-(round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 0,1)))),1)),
+abs(round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='计算机、通信和其他电子设备制造业'  limit 0,1)))),1)),
 '&lt;/span&gt;',
-'、放缓',
+(
+case
+when (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 0,1)))),1))&gt;0 then '、放缓'
+when (round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 0,1)))),1))&lt;0 then '、提升'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 0,1)))),1)),
+abs(round((TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 1,1)))-TO_NUMBER((select zbz from (select ROW_NUMBER()OVER(PARTITION BY KJMC1 ORDER BY time DESC), zbz from CJCL_1921681237_1521_YTB_GJ.DT_TABLE_03883 where KJMC1='通用设备制造业'  limit 0,1)))),1)),
 '&lt;/span&gt;',
 '个百分点',
 '&lt;/li&gt;'
@@ -792,9 +934,14 @@ c14,
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),
 '&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),
-'，同比上升',
+'，同比',
+(
+case
+when (TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203' and c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4)-1)  limit 0,1))))&gt;0 then '上升'
+when (TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203' and c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4)-1)  limit 0,1))))&lt;0 then '下降'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203' and c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4)-1)  limit 0,1)))),
+abs(TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203' and c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='1300028' and c7='湖北省' and c8='203'  limit 0,1)),4)-1)  limit 0,1)))),
 '&lt;/span&gt;',
 '个百分点',
 '&lt;/li&gt;'
@@ -832,9 +979,23 @@ c14,
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203'  limit 0,1)),
 '&lt;/span&gt;',
 (select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c14 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203'  limit 0,1)),
-'，同比下降',
+'，同比',
+(case
+when (TO_NUMBER(((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),
+c9 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' and
+c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1)),
+left((select c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1),4),
+left((select c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1),4)-1)
+limit 0,1))))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1))))&gt;0 then '下降'
+when (TO_NUMBER(((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),
+c9 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' and
+c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1)),
+left((select c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1),4),
+left((select c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1),4)-1)
+limit 0,1))))-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1))))&lt;0 then '上升'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER(((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), 
+abs(TO_NUMBER(((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),
 c9 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' and 
 c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1)),
 left((select c1 from SJJG.T1 where c3='0100374' and c7='湖北省' and c8='203' limit 0,1),4),
@@ -854,15 +1015,13 @@ c18,
 c9,
 '&lt;/span&gt;',
 c14,
-'，同比提高',
+'，同比',
+(case
+when (round((((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))/TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),  c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))*100),1))&gt;0 then '提高'
+when (round((((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))/TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),  c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))*100),1))&lt;0 then '下降'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(
-round(
-(
-((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))/
-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),  c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))*100
-),1)
-),
+abs(round((((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))/TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),  c9 from SJJG.T1 where c3='1900230' and c7='湖北省' and c2='YY' and c8='104'  limit 1,1))))*100),1)),
 '&lt;/span&gt;',
 '%。',
 '&lt;/li&gt;'
@@ -891,15 +1050,13 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，同比提高',
+'，同比',
+(case
+when (round((((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))/TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))*100),1))&gt;0 then '提高'
+when (round((((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))/TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))*100),1))&lt;0 then '下降'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(
-round(
-(
-((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))/
-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))*100
-),1)
-),
+abs(round((((TO_NUMBER(c9)-TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))/TO_NUMBER((select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c9 from SJJG.T1 where c3='0700377' and c7='湖北省' and c2='MM' and c8='104'  limit 1,1))))*100),1)),
 '&lt;/span&gt;',
 '%',
 '&lt;/li&gt;'
@@ -1049,9 +1206,22 @@ a.c14,
 (select d.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0400015' and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;= '201704SS'  limit 0,1) d),
 '&lt;/span&gt;',
 (select e.c14 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c14 from SJJG.T1 b where b.c3='0400015' and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;='201704SS'  limit 0,1) e),
-'，增速较去年同期下降',
+'，增速较去年同期',
+(
+case
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015'
+and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' and c7='湖北省'
+and c2='SS' and c8='203' limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4)-1)
+and c3='0400015' and c7='湖北省' and c2='SS' and c8='207'))-TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0400015'
+and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;= '201704SS' limit 0,1) f)))&gt;0 then '下降'
+when (TO_NUMBER((select c9 from SJJG.T1 where c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015'
+and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' and c7='湖北省'
+and c2='SS' and c8='203' limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4)-1)
+and c3='0400015' and c7='湖北省' and c2='SS' and c8='207'))-TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0400015'
+and b.c8='207' and b.c7='湖北省' and b.c2='SS' and b.c1 &lt;= '201704SS' limit 0,1) f)))&lt;0 then '提升'
+end),
 '&lt;span style="color: #3A82CC"&gt;',
-(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' 
+abs(TO_NUMBER((select c9 from SJJG.T1 where c1=replace((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' 
 and c7='湖北省' and c2='SS' and c8='203'  limit 0,1)),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' and c7='湖北省' 
 and c2='SS' and c8='203' limit 0,1)),4),left((select c1 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC), c1 from SJJG.T1 where c3='0400015' and c7='湖北省' and c2='SS' and c8='203' limit 0,1)),4)-1) 
 and c3='0400015' and c7='湖北省' and c2='SS' and c8='207'))-TO_NUMBER((select f.c9 from (select ROW_NUMBER()OVER(PARTITION BY b.C3 ORDER BY b.C1 DESC), b.c9 from SJJG.T1 b where b.c3='0400015' 

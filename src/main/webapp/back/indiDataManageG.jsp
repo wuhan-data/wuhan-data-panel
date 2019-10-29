@@ -77,6 +77,15 @@
         #deleteIndi{
         color:#FFF;
         }
+        
+        .search_indi_id,.indi_old_name,indi_new_name{
+        text-align:center;
+        margin:auto;
+        word-wrap:break-word;  
+     word-break:break-all;
+     overflow: auto; 
+       width:200px;
+       }
 
     </style>
    
@@ -138,10 +147,10 @@
      <c:forEach items="${indexManageList}" var="c" varStatus="st">
         <tr>
             <td>${c.id}</td>
-            <td>${c.indi_code}</td>
+            <td><div class="search_indi_id">${c.indi_code}c</td>
             
 <%--             <td>${c.lj}</td> --%>
-            <td>${c.indi_name}</td>
+            <td><div class="indi_old_name">${c.indi_name}</div></td>
             <td>
             	 <c:if test="${c.is_show==0 }">展示</c:if>
             	  <c:if test="${c.is_show==1 }">不展示</c:if>
