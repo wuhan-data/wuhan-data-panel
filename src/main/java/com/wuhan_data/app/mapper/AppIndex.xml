@@ -18,7 +18,7 @@
 </select>
 
 	<select id="getIndexSpecialList" resultType="com.wuhan_data.pojo.IndexSpecial">
-            select id,title,image,showType,file from WUHAN_DATA."INDEX_SPECIAL"
+            select id,title,image,show_type,file from WUHAN_DATA."INDEX_SPECIAL"
  	</select>
 
 	<select id="getDesc"

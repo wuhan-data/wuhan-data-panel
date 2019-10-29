@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.wuhan_data.app.service.CollectServiceApp;
 import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.pojo.Collect;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.tools.SessionApp;
 import com.wuhan_data.tools.StringToMap;
 
@@ -34,6 +35,8 @@ public class CollectControllerApp {
 	CollectServiceApp  collectServiceApp;
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
+	@Autowired
+	SysLogService sysLogService;
 	
 	@RequestMapping(value="delCollectApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
@@ -54,6 +57,7 @@ public class CollectControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("delCollectApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 		 //token令牌验证
@@ -63,6 +67,7 @@ public class CollectControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("delCollectApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -89,6 +94,7 @@ public class CollectControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("delCollectApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}		
 	  		
@@ -120,6 +126,7 @@ public class CollectControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setCollectApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 	  	
@@ -130,6 +137,7 @@ public class CollectControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setCollectApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -165,6 +173,7 @@ public class CollectControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("setCollectApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}		
 		}
@@ -187,6 +196,7 @@ public class CollectControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setCollectApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "参数请求异常", e);
 			return this.apiReturn("-2", "参数请求异常", data);
 		}
 	  	
@@ -197,6 +207,7 @@ public class CollectControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setCollectApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -251,7 +262,8 @@ public class CollectControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("setCollectApp"+e.toString());
-				return this.apiReturn("-1", "数据库错误", data);
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
+				return this.apiReturn("-1", "数据库操作异常", data);
 			}
 		}
 	}

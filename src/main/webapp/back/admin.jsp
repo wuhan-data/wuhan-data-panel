@@ -49,6 +49,12 @@
       <script type="text/javascript">
     function checkRoleCode(){
      	 var rolecode = document.getElementById("addAdminUsername").value;
+     	 var reg = /\S/;
+         if (!reg.test(rolecode)) {
+         	span_rolecode.innerHTML = "不能为空，不能有空格";
+             return false;
+         }
+         else{
         	  //判断name是否存在
 			  roleCode=encodeURI(rolecode);
         	  var flag=false;
@@ -71,7 +77,7 @@
 		    	}) 
 		    	return flag;
      }
-       
+    }
        function checkForm(){
        	var roleCode=checkRoleCode();
        	if (roleCode){
@@ -128,7 +134,7 @@
                                             <th >管理员名称</th>
                                             <th >管理员密码</th>
                                             <th >状态</th>
-                                            <th >管理员权限</th>
+                                           
                                             <th >创建时间</th>
                                             <th >操作</th>
                                         </tr>
@@ -148,7 +154,7 @@
             	</c:if>
            <%--  ${c.status} --%>
             </td>
-            <td >${c.role_list}</td>
+           
             <td >${c.timeString}</td>
             <td >
 <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="editAdminhh('${c.id}','${c.username}','${c.password}','${c.status}','${c.role_list}')">
@@ -333,6 +339,7 @@
             addClick = function(Url) {
           	   $('.modal-backdrop').remove();
           	    $('body').removeClass('modal-open');
+          	    if(checkForm()){
                	var data = new FormData(document.getElementById("addForm"));
                	 $.ajax({
                           type: 'POST',
@@ -344,12 +351,17 @@
                      	    processData: false,
                           cache:false,
                           success: function(data){
+                    	  alert("添加成功");
                               $('#getNewData').html(data);
                           },
                           error : function(data){
+                    	  alert("添加失败");
                           }
                       });    
-               };
+               }
+          	    else
+          	    	{alert("请输入正确格式的值")}
+            }
                editClick = function(Url) {
              	   $('.modal-backdrop').remove();
              	    $('body').removeClass('modal-open');
@@ -364,9 +376,11 @@
                         	    processData: false,
                              cache:false,
                              success: function(data){
+                        	 alert("修改成功");
                                  $('#getNewData').html(data);
                              },
                              error : function(data){
+                        	 alert("修改失败");
                              }
                          });    
                   };
@@ -375,15 +389,16 @@
                                  type: 'GET',
                                  url:  Url+"?id="+s_id,
                                  dataType: "html",
-                            	    async : false,
-                             	contentType: false, //不设置内容类型
-                            	    processData: false,
+                            	 async : false,
+                                 contentType: false, //不设置内容类型
+                            	 processData: false,
                                  cache:false,
                                  success: function(data){
-                            	 	alert(data);
+                            	 	alert("删除成功");
                                      $('#getNewData').html(data);
                                  },
                                  error : function(data){
+                            	 alert("删除失败");
                                  }
                              });    
                       };

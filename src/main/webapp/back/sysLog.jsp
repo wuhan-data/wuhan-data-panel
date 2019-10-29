@@ -81,10 +81,9 @@
     <!--   <input class="form-control" type="search" placeholder="按操作者id搜索" aria-label="Search" id="searchtname" value="">
       <button class="btn btn-success" onclick="search()">搜索</button> -->
      <select class="form-control"  name="searchtname" id="searchtname" onchange="search()">
-     		<option value="#" > </option> 
-      		<option value="" >全部错误日志 </option> 	
-       		<option value="user"> 前端错误日志</option>    
-       		<option value="admin">后台错误日志</option> 
+      		<option value="" selected="selected" >全部错误日志 </option> 	
+       		<option value="user" <c:if test="${type==1}"><c:out value="selected=\"selected\""></c:out></c:if> > 前端错误日志</option>    
+       		<option value="admin" <c:if test="${type==2}"><c:out value="selected=\"selected\""></c:out></c:if> >后台错误日志</option> 
   	</select>
     </form>
     </div> 
@@ -149,7 +148,7 @@
 </textarea><br>
 系统错误信息：
 <br>
-<textarea class="form-control" type="text" name="lookE_error" id="lookE_error"readonly style="width:500px;height:80px;">  
+<textarea class="form-control" type="text" name="lookE_error" id="lookE_error"readonly style="width:500px;height:160px;">  
 </textarea><br>
 
 			</div>
@@ -251,6 +250,7 @@
     <script src="assets/js/bootstrap-order.min.js"></script>
     <script>
             $(document).ready(function () {
+            	
             });
             
             pageClick = function(currentPage,Url) {

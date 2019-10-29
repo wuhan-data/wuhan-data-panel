@@ -90,9 +90,22 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> getByRole(String role_id) {
+	public List<User> getByRole(int role_id) {
 		// TODO Auto-generated method stub
-		return userMapper.getByRole(role_id);
+		String role_idString=String.valueOf(role_id);
+		List<User> allUsers=userMapper.list();
+		List<User> users=new ArrayList<User>();
+		for (int i=0;i<allUsers.size();i++)
+		{
+			User user=allUsers.get(i);
+			String[] roles=user.getRole_id().split("\\|");
+			if (Arrays.asList(roles).contains(role_idString))
+			{
+				users.add(user);
+			}
+			
+		}
+		return users;
 	}
 
 	@Override
@@ -108,9 +121,9 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Map<String, String> getAllPower(int id) {
+	public Map<String, List<String>> getAllPower(int id) {
 		// TODO Auto-generated method stub
-		Map data = new HashMap();
+		Map<String, List<String>> data = new HashMap<String, List<String>>();
   		User user = userServiceApp.get(id);
   		
   		String roles=user.getRole_id();
@@ -183,10 +196,10 @@ public class UserServiceImpl implements UserService{
   		List<String> powerIndexSpecials=new ArrayList<String>(power_2);
   		List<String> powerIndexManages=new ArrayList<String>(power_3);
   		List<String> powerIndexManages2=new ArrayList<String>(power_4);
-  		data.put("powerThemes", powerThemes.toArray());
-  		data.put("powerIndexSpecials", powerIndexSpecials.toArray());
-  		data.put("powerIndexManages", powerIndexManages.toArray());
-  		data.put("powerIndexManages2", powerIndexManages2.toArray());
+  		data.put("powerThemes", powerThemes);
+  		data.put("powerIndexSpecials", powerIndexSpecials);
+  		data.put("powerIndexManages", powerIndexManages);
+  		data.put("powerIndexManages2", powerIndexManages2);
 		return data;	
 	}
 

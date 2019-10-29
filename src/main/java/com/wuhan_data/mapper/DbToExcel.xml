@@ -21,16 +21,20 @@
             select freq_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} group by freq_code
         </select> 
         
+         <select id="getIndiTimePoint" resultType="String" parameterType="java.util.Map">
+            select time_point from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} and freq_code=#{freqCode} group by time_point
+        </select> 
+        
          <select id="getIndiStartTime" resultType="String" parameterType="java.util.Map">
-            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} and freq_code=#{freqCode} group by date_code
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} and freq_code=#{freqCode} and time_point=#{timePoint} group by date_code
         </select>
         
          <select id="getIndiEndTime" resultType="String" parameterType="java.util.Map">
-            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} and freq_code=#{freqCode} and date_code &gt;= #{startTime} group by date_code
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} and freq_code=#{freqCode} and date_code &gt;= #{startTime} and time_point=#{timePoint} group by date_code
         </select>
         
         <select id="getSelectIndex" resultType="IndiAll" parameterType="java.util.Map">
-            select * from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} and freq_code=#{freqCode} and date_code &gt;= #{startTime} and date_code &lt;= #{endTime}
+            select * from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{indiName} and sjly_name2 = #{indiSource} and freq_code=#{freqCode} and date_code &gt;= #{startTime} and date_code &lt;= #{endTime} and time_point=#{timePoint}
         </select>
 
     </mapper>

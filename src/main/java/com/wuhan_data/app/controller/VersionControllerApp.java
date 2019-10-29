@@ -20,6 +20,7 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import com.wuhan_data.app.service.CollectServiceApp;
 import com.wuhan_data.app.service.VersionServiceApp;
 import com.wuhan_data.pojo.Version;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.tools.SessionApp;
 
 @Controller
@@ -27,54 +28,65 @@ import com.wuhan_data.tools.SessionApp;
 public class VersionControllerApp {
 	@Autowired
 	VersionServiceApp  versionServiceApp;
+	@Autowired
+	SysLogService sysLogService;
 	//获取最近版本信息接口
 	@RequestMapping(value="getVersionApp",produces="text/plain;charset=utf-8",method=RequestMethod.GET)
 	@ResponseBody
 	public String getVersion(HttpServletRequest request, 
             HttpServletResponse response) throws Exception
 	{
-		Map mapReturn=new HashMap();
-		//int uid=Integer.valueOf(request.getParameter("id"));
-		Map map=new HashMap();
-		map.put("platform", "IOS");
-		List<Version> versions=versionServiceApp.versionDetection(map);
-		Map mapAnd=new HashMap();
-		mapAnd.put("platform", "Android");
-		List<Version> versionList=versionServiceApp.versionDetection(mapAnd);
-		if (versions.size()==0||versionList.size()==0)
-		{
-			mapReturn.put("errCode","-1");
-			mapReturn.put("errMsg","最新版本信息获取失败");
+		Map data=new HashMap(); 
+		try {
+			Map mapReturn=new HashMap();
+			//int uid=Integer.valueOf(request.getParameter("id"));
+			Map map=new HashMap();
+			map.put("platform", "IOS");
+			List<Version> versions=versionServiceApp.versionDetection(map);
+			Map mapAnd=new HashMap();
+			mapAnd.put("platform", "Android");
+			List<Version> versionList=versionServiceApp.versionDetection(mapAnd);
+			if (versions.size()==0||versionList.size()==0)
+			{
+				mapReturn.put("errCode","-1");
+				mapReturn.put("errMsg","最新版本信息获取失败");
+			}
+			else {
+				Version iosVersion=versions.get(0);
+				Version androidVersion=versionList.get(0);
+				mapReturn.put("errCode","0");
+				mapReturn.put("errMsg","最新版本信息获取成功");
+				List list1 = new ArrayList();
+				Map map1 = new HashMap();
+				map1.put("appid", iosVersion.getAppid());
+				map1.put("version", iosVersion.getVersion());
+				map1.put("description",iosVersion.getText());
+				map1.put("url", iosVersion.getUrl());
+				list1.add(map1);
+				List list2 = new ArrayList();
+				Map map2 = new HashMap();
+				map2.put("appid", androidVersion.getAppid());
+				map2.put("version", androidVersion.getVersion());
+				map2.put("description",androidVersion.getText());
+				map2.put("url", androidVersion.getUrl());
+				list2.add(map2);
+				Map map3 = new HashMap();
+				map3.put("IOS", list1);
+				map3.put("Android", list2);
+				//mapReturn.put("data", map3);
+				mapReturn.put("IOS", map1);
+				mapReturn.put("Android", map2);
+			}
+			String param=JSON.toJSONString(mapReturn);
+			System.out.println("最新版本信息接口："+param);
+			return param;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
+			return apiReturn("-1", "数据库操作异常", data);
 		}
-		else {
-			Version iosVersion=versions.get(0);
-			Version androidVersion=versionList.get(0);
-			mapReturn.put("errCode","0");
-			mapReturn.put("errMsg","最新版本信息获取成功");
-			List list1 = new ArrayList();
-			Map map1 = new HashMap();
-			map1.put("appid", iosVersion.getAppid());
-			map1.put("version", iosVersion.getVersion());
-			map1.put("description",iosVersion.getText());
-			map1.put("url", iosVersion.getUrl());
-			list1.add(map1);
-			List list2 = new ArrayList();
-			Map map2 = new HashMap();
-			map2.put("appid", androidVersion.getAppid());
-			map2.put("version", androidVersion.getVersion());
-			map2.put("description",androidVersion.getText());
-			map2.put("url", androidVersion.getUrl());
-			list2.add(map2);
-			Map map3 = new HashMap();
-			map3.put("IOS", list1);
-			map3.put("Android", list2);
-			//mapReturn.put("data", map3);
-			mapReturn.put("IOS", map1);
-			mapReturn.put("Android", map2);
-		}
-		String param=JSON.toJSONString(mapReturn);
-		System.out.println("最新版本信息接口："+param);
-		return param;
+		
 	}
 	public String apiReturn(String errCode, String errMsg, Map<String, Object> data) {
 		Map<String, Object> responseMap = new HashMap<String, Object>();

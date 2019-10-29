@@ -4,6 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.wuhan_data.app.service.UserServiceApp;
+import com.wuhan_data.service.DepartmentService;
+import com.wuhan_data.service.RoleService;
+
 public class User {
     private Integer id;
     private String username;//用户名
@@ -22,7 +28,24 @@ public class User {
     private String head;
     private String description;
     private String birthString;
-    public String getBirthString() {
+    
+    private String role_idString;
+    private String department_idString;
+    
+
+	public String getRole_idString() {
+		return role_idString;
+	}
+	public void setRole_idString(String role_idString) {
+		this.role_idString = role_idString;
+	}
+	public String getDepartment_idString() {
+		return department_idString;
+	}
+	public void setDepartment_idString(String department_idString) {
+		this.department_idString = department_idString;
+	}
+	public String getBirthString() {
 		String strDateFormat = "yyyy-MM-dd";
 	    SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
 		return sdf.format(birthday);

@@ -22,5 +22,7 @@ public interface DbToExcelMapper {
 	List<String> getIndiEndTime(Map<String, String> indiNameSourceFreqSTimeMap);
 	@DataSource(value="dataSource_mysql")
 	List<IndiAll> getSelectIndex(Map<String, String> indiConditionMap);
+	@DataSource(value="dataSource_mysql")
+	List<String> getIndiTimePoint(Map<String, String> indiNameSourceMap);
 
 }

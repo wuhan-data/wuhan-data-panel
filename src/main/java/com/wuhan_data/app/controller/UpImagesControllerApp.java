@@ -29,6 +29,7 @@ import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.app.service.UserServiceApp;
 import com.wuhan_data.pojo.Feedback;
 import com.wuhan_data.pojo.User;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.tools.ImageUtils;
 import com.wuhan_data.tools.SessionApp;
 import com.wuhan_data.tools.StringToMap;
@@ -43,6 +44,8 @@ public class UpImagesControllerApp {
 	FeedbackServiceApp feedbackServiceApp;
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
+	@Autowired
+	SysLogService sysLogService;
 	/**
 	 * 添加用户信息
 	 * @param user，封装表单中除图片地址以外的其他数据（要求<input>中的name跟实体类中的属性一致）
@@ -67,6 +70,7 @@ public class UpImagesControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setHeadApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	    System.out.println("图片上传接口："+"token"+tokenString);
@@ -78,6 +82,7 @@ public class UpImagesControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setHeadApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 	  	if(tokenIsEmpty)
@@ -134,6 +139,7 @@ public class UpImagesControllerApp {
 	  			} catch (Exception e) {
 	  				// TODO: handle exception
 	  				System.out.println("setHeadApp"+e.toString());
+	  				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 	  				return this.apiReturn("-1", "数据库操作异常", data);
 	  		}
 	 	}
@@ -158,6 +164,7 @@ public class UpImagesControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("uploadFeedback"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 		
@@ -170,6 +177,7 @@ public class UpImagesControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("uploadFeedback"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 		
@@ -213,6 +221,7 @@ public class UpImagesControllerApp {
 			        	feedback.setText(text);
 			        	feedback.setImg(imgs);
 			        	feedback.setContact(contact);
+			        	feedback.setState("未解决");
 			        	Date date=new Date();
 			        	feedback.setCreate_time(date);
 			        	System.out.println("feedback"+feedback.toString());
@@ -236,6 +245,7 @@ public class UpImagesControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("uploadFeedback"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作错误", e);
 				return this.apiReturn("-1", "数据库操作错误", data);
 			}		
 		}
@@ -259,6 +269,7 @@ public class UpImagesControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("uploadFeedback1"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 		//token令牌验证
@@ -268,6 +279,7 @@ public class UpImagesControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("uploadFeedback1"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			return this.apiReturn("-1", "数据库操作异常", data);
 		}  
 		if(tokenIsEmpty)
@@ -285,6 +297,7 @@ public class UpImagesControllerApp {
 	        	feedback.setImg("");
 	        	feedback.setContact(contactString);
 	        	Date date=new Date();
+	        	feedback.setState("未解决");
 	        	feedback.setCreate_time(date);
 	        	System.out.println("feedback"+feedback.toString());
 	        	if(feedbackServiceApp.add(feedback)!=0)
@@ -297,6 +310,7 @@ public class UpImagesControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("uploadFeedback1"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}	
 		}

@@ -49,6 +49,7 @@ import com.wuhan_data.pojo.User;
 import com.wuhan_data.service.DepartmentService;
 import com.wuhan_data.service.RoleService;
 import com.wuhan_data.service.SysLogService;
+import com.wuhan_data.service.UserOpLogService;
 import com.wuhan_data.service.UserService;
 import com.wuhan_data.tools.ImageUtils;
 import com.wuhan_data.tools.SendMessage;
@@ -71,6 +72,9 @@ public class UserControllerApp {
 	SessionSQLServiceApp sessionSQLServiceApp;
 	@Autowired
 	SysLogService sysLogService;
+	@Autowired
+	UserOpLogService userOpLogService;
+	
 	@RequestMapping(value = "loginTest", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
 	public String loginTest(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
@@ -195,7 +199,8 @@ public class UserControllerApp {
 			verCode = mapget.get("verCode").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("getVercodeApp"+e.toString());
+			System.out.println("getVercodeApp,错误类型："+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数获取异常", data);
 		}
 		
@@ -280,11 +285,13 @@ public class UserControllerApp {
 				data.put("roleName", roleNameString);
 				// 将用户的信息加到session中，以token为key，对应的职位
 				sessionSQLServiceApp.set(tokenString, data.toString());
+				
+				userOpLogService.addOp(Integer.valueOf(idString), "用户登录", request, request.getRequestURL().toString());
 				return this.apiReturn("0", errMsg, data);
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println("getVercodeApp"+e.toString());
-				e.printStackTrace();
+				System.out.println("getVercodeApp错误，错误类型"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库获取异常", e);
 				return this.apiReturn("-1", "数据库获取异常", data);
 			}
 			// 没有设置保存多长时间会不会有问题
@@ -308,7 +315,8 @@ public class UserControllerApp {
 		  		 tokenString=mapget.get("token").toString();
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println("loginout"+e.toString());
+				System.out.println("loginout错误，错误类型"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 				return this.apiReturn("-2", "请求参数异常",data);
 			}
 		  	System.out.println("退出登录："+"token"+tokenString);
@@ -319,7 +327,8 @@ public class UserControllerApp {
 				tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
 			} catch (Exception e) {
 				// TODO: handle exception
-				System.out.println("loginout"+e.toString());
+				System.out.println("loginout错误，错误类型"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库获取数据异常", e);
 				return this.apiReturn("-1", "数据库异常",data);
 			}
 		  	
@@ -331,10 +340,12 @@ public class UserControllerApp {
 		  		//获取用户数据
 		  		try {
 		  			sessionSQLServiceApp.delete(tokenString);
+		  			//userOpLogService.addOp(Integer.valueOf(idString), "用户登录", request, request.getRequestURL().toString());
 					return this.apiReturn("0", "退出登录成功",data);			
 				} catch (Exception e) {
 					// TODO: handle exception
 					System.out.println("loginout"+e.toString());
+					sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 					return this.apiReturn("-1", "数据库操作错误",data);
 				}
 		  		
@@ -460,6 +471,7 @@ public class UserControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("getUserApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 				return this.apiReturn("-1", "数据库异常", data);
 			}
 		  	
@@ -531,6 +543,7 @@ public class UserControllerApp {
 				} catch (Exception e) {
 					// TODO: handle exception
 					System.out.println("getUserApp"+e.toString());
+					sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 					return this.apiReturn("-1", "数据库操作错误", data);
 				}
 		  		
@@ -570,6 +583,7 @@ public class UserControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("getUserApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}
 	  	
@@ -615,10 +629,12 @@ public class UserControllerApp {
 				data.put("description", descriptionString);
 				data.put("department", deparmentString);
 				data.put("roleName", roleNameString);
+				userOpLogService.addOp(Integer.valueOf(idString), "用户信息获取", request, request.getRequestURL().toString());
 				return this.apiReturn("0", "用户信息获取成功", data);			
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("getUserApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				return this.apiReturn("-1", "数据库操作错误", data);
 			}
 	  		
@@ -655,6 +671,7 @@ public class UserControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editUserApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 				return this.apiReturn("-2", "请求参数错误", data);
 			}
 			//token令牌验证
@@ -664,6 +681,7 @@ public class UserControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editUserApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 				return this.apiReturn("-1", "数据库异常", data);
 			}
 			
@@ -694,6 +712,7 @@ public class UserControllerApp {
 					user.setDescription(description);
 					System.out.println("user"+user.toString());
 					if (userServiceApp.updata(user) != 0) {
+						userOpLogService.addOp(user.getId(), "用户信息修改", request, request.getRequestURL().toString());
 						return this.apiReturn("0", "用户信息修改成功", data);
 					} else {
 						return this.apiReturn("-1", "用户信息修改失败", data);
@@ -701,6 +720,7 @@ public class UserControllerApp {
 				} catch (Exception e) {
 					// TODO: handle exception
 					System.out.println("editUserApp"+e.toString());
+					sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 					return this.apiReturn("-1", "数据库操作异常", data);
 				}		
 			}	  
@@ -723,6 +743,7 @@ public class UserControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("changeTelApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 		//token令牌验证
@@ -732,6 +753,7 @@ public class UserControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("changeTelApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}
 		
@@ -760,6 +782,7 @@ public class UserControllerApp {
 				  		user.setTel(newTel);
 				  		userServiceApp.updata(user);
 				  		flashSession(tokenString);
+				  		userOpLogService.addOp(user.getId(), "用户修改手机号", request, request.getRequestURL().toString());
 				  		return this.apiReturn("0", "手机号修改成功", data);
 					}
 					else {
@@ -769,6 +792,7 @@ public class UserControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("changeTelApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据获取异常", e);
 				return this.apiReturn("-1", "数据获取异常", data);
 			}		
 		}  

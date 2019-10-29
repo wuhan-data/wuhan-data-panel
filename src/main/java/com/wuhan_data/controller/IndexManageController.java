@@ -173,28 +173,28 @@ public class IndexManageController {
         return mav;
     }
     
-    @RequestMapping("updateIndiData")
-    public String updateIndiData(@RequestParam("Id") int id,
-  			@RequestParam("Code") String code,@RequestParam("areaName") String areaName,@RequestParam("lj") String lj,@RequestParam("Name") String name,@RequestParam("Status") String status,
-  			Model model){
-        //ModelAndView mav = new ModelAndView();
-        IndexManage indexManage= new IndexManage();
-        indexManage.setId(id);
-        indexManage.setIndi_code(code);
-        indexManage.setIndi_name(name);
-        indexManage.setArea_name(areaName);
-        indexManage.setIs_show(status);
-        indexManage.setLj(lj);
-        indexManageService.update(indexManage);
-        model.addAttribute("updateSuccess", "更新成功");
-        System.out.println("sssssss");
-        // 
-        //mav.addObject("updateSuccess", "更新成功");
-        // 
-        //mav.setViewName("indiDataManage");
-        return "redirect:listIndexManage";
-       
-    }
+//    @RequestMapping("updateIndiData")
+//    public String updateIndiData(@RequestParam("Id") int id,
+//  			@RequestParam("Code") String code,@RequestParam("areaName") String areaName,@RequestParam("lj") String lj,@RequestParam("Name") String name,@RequestParam("Status") String status,
+//  			Model model){
+//        //ModelAndView mav = new ModelAndView();
+//        IndexManage indexManage= new IndexManage();
+//        indexManage.setId(id);
+//        indexManage.setIndi_code(code);
+//        indexManage.setIndi_name(name);
+//        indexManage.setArea_name(areaName);
+//        indexManage.setIs_show(status);
+//        indexManage.setLj(lj);
+//        indexManageService.update(indexManage);
+//        model.addAttribute("updateSuccess", "更新成功");
+//        System.out.println("sssssss");
+//        // 
+//        //mav.addObject("updateSuccess", "更新成功");
+//        // 
+//        //mav.setViewName("indiDataManage");
+//        return "redirect:listIndexManage";
+//       
+//    }
     
     @RequestMapping("updateIndiDataG")
     public String updateIndiDataG(@RequestParam("Id") int id,
@@ -219,22 +219,22 @@ public class IndexManageController {
        
     }
     
-    @RequestMapping("searchUpdateIndiData")
-    public String searchUpdateIndiData(@RequestParam("Id") int id,
-  			@RequestParam("Code") String code,@RequestParam("Name") String name,@RequestParam("Status") int status,
-  			Model model){
-        IndexManage indexManage= new IndexManage();
-        indexManage.setId(id);
-        indexManage.setIndi_code(code);
-        indexManage.setIndi_name(name);
-//        indexManage.setShow_type(showType);
-        indexManage.setStatus(status);
-        indexManageService.update(indexManage);
-        model.addAttribute("updateSuccess", "更新成功");
-        System.out.println("sssssss");
-        return "redirect:IndiSearchPage";
-       
-    }
+//    @RequestMapping("searchUpdateIndiData")
+//    public String searchUpdateIndiData(@RequestParam("Id") int id,
+//  			@RequestParam("Code") String code,@RequestParam("Name") String name,@RequestParam("Status") int status,
+//  			Model model){
+//        IndexManage indexManage= new IndexManage();
+//        indexManage.setId(id);
+//        indexManage.setIndi_code(code);
+//        indexManage.setIndi_name(name);
+////        indexManage.setShow_type(showType);
+//        indexManage.setStatus(status);
+//        indexManageService.update(indexManage);
+//        model.addAttribute("updateSuccess", "更新成功");
+//        System.out.println("sssssss");
+//        return "redirect:IndiSearchPage";
+//       
+//    }
     
     @RequestMapping("searchUpdateIndiDataG")
     public String searchUpdateIndiDataG(@RequestParam("Id") int id,
@@ -254,13 +254,13 @@ public class IndexManageController {
     }
     
     
-    @RequestMapping("delete")
-	public String questionDelete(HttpServletRequest request, 
-            HttpServletResponse response) {
-    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
-    	indexManageService.delete(indi_id);
-		return "redirect:listIndexManage";
-	}
+//    @RequestMapping("delete")
+//	public String questionDelete(HttpServletRequest request, 
+//            HttpServletResponse response) {
+//    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+//    	indexManageService.delete(indi_id);
+//		return "redirect:listIndexManage";
+//	}
     @RequestMapping("deleteG")
    	public String questionDeleteG(HttpServletRequest request, 
                HttpServletResponse response) {
@@ -269,13 +269,13 @@ public class IndexManageController {
    		return "redirect:listIndexManageG";
    	}
     
-    @RequestMapping("searchDelete")
-   	public String searchDelete(HttpServletRequest request, 
-               HttpServletResponse response) {
-       	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
-       	indexManageService.delete(indi_id);
-   		return "redirect:IndiSearchPage";
-   	}
+//    @RequestMapping("searchDelete")
+//   	public String searchDelete(HttpServletRequest request, 
+//               HttpServletResponse response) {
+//       	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+//       	indexManageService.delete(indi_id);
+//   		return "redirect:IndiSearchPage";
+//   	}
     
     @RequestMapping("searchDeleteG")
    	public String searchDeleteG(HttpServletRequest request, 
@@ -285,13 +285,13 @@ public class IndexManageController {
    		return "redirect:IndiSearchPageG";
    	}
     
-    @RequestMapping("per_show")
-	public String per_show(HttpServletRequest request, 
-            HttpServletResponse response) {
-    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
-    	indexManageService.per_show(indi_id);
-		return "redirect:listIndexManage";
-	}
+//    @RequestMapping("per_show")
+//	public String per_show(HttpServletRequest request, 
+//            HttpServletResponse response) {
+//    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+//    	indexManageService.per_show(indi_id);
+//		return "redirect:listIndexManage";
+//	}
     
     @RequestMapping("per_showG")
    	public String per_showG(HttpServletRequest request, 
@@ -301,13 +301,13 @@ public class IndexManageController {
    		return "redirect:listIndexManageG";
    	}
     
-    @RequestMapping("search_per_show")
-   	public String search_per_show(HttpServletRequest request, 
-               HttpServletResponse response) {
-       	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
-       	indexManageService.per_show(indi_id);
-   		return "redirect:IndiSearchPage";
-   	}
+//    @RequestMapping("search_per_show")
+//   	public String search_per_show(HttpServletRequest request, 
+//               HttpServletResponse response) {
+//       	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+//       	indexManageService.per_show(indi_id);
+//   		return "redirect:IndiSearchPage";
+//   	}
     
     @RequestMapping("search_per_showG")
    	public String search_per_showG(HttpServletRequest request, 
@@ -317,13 +317,13 @@ public class IndexManageController {
    		return "redirect:IndiSearchPageG";
    	}
     
-    @RequestMapping("no_per_show")
-   	public String no_per_show(HttpServletRequest request, 
-            HttpServletResponse response) {
-    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
-       	indexManageService.no_per_show(indi_id);
-   		return "redirect:listIndexManage";
-   	}
+//    @RequestMapping("no_per_show")
+//   	public String no_per_show(HttpServletRequest request, 
+//            HttpServletResponse response) {
+//    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+//       	indexManageService.no_per_show(indi_id);
+//   		return "redirect:listIndexManage";
+//   	}
     
     @RequestMapping("no_per_showG")
    	public String no_per_showG(HttpServletRequest request, 
@@ -333,13 +333,13 @@ public class IndexManageController {
    		return "redirect:listIndexManageG";
    	}
     
-    @RequestMapping("search_no_per_show")
-   	public String search_no_per_show(HttpServletRequest request, 
-            HttpServletResponse response) {
-    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
-       	indexManageService.no_per_show(indi_id);
-   		return "redirect:IndiSearchPage";
-   	}
+//    @RequestMapping("search_no_per_show")
+//   	public String search_no_per_show(HttpServletRequest request, 
+//            HttpServletResponse response) {
+//    	int indi_id=Integer.parseInt(request.getParameter("indi_id"));
+//       	indexManageService.no_per_show(indi_id);
+//   		return "redirect:IndiSearchPage";
+//   	}
     @RequestMapping("search_no_per_showG")
    	public String search_no_per_showG(HttpServletRequest request, 
             HttpServletResponse response) {
@@ -349,27 +349,27 @@ public class IndexManageController {
    	}
     
     
-    @RequestMapping("addIndiData")
-    public String addIndiData(
-  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") String status,@RequestParam("addSource") String source,
-  			@RequestParam("addAreaCode") String addAreaCode,@RequestParam("addAreaName") String addAreaName,@RequestParam("addLj") String addLj,Model model){
-        IndexManage indexManage= new IndexManage();
-        indexManage.setIndi_code(code);
-        indexManage.setIndi_name(name);
-        indexManage.setSource(source);
-        indexManage.setIs_show(status);
-        indexManage.setArea_code(addAreaCode);
-        indexManage.setArea_name(addAreaName);
-        indexManage.setLj(addLj);
-        indexManageService.add(indexManage);
-        model.addAttribute("addSuccess", "添加成功");
-        System.out.println("sssssss");
-        // 
-        //mav.addObject("updateSuccess", "更新成功");
-        // 
-        //mav.setViewName("indiDataManage");
-        return "redirect:listIndexManage";
-    }
+//    @RequestMapping("addIndiData")
+//    public String addIndiData(
+//  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") String status,@RequestParam("addSource") String source,
+//  			@RequestParam("addAreaCode") String addAreaCode,@RequestParam("addAreaName") String addAreaName,@RequestParam("addLj") String addLj,Model model){
+//        IndexManage indexManage= new IndexManage();
+//        indexManage.setIndi_code(code);
+//        indexManage.setIndi_name(name);
+//        indexManage.setSource(source);
+//        indexManage.setIs_show(status);
+//        indexManage.setArea_code(addAreaCode);
+//        indexManage.setArea_name(addAreaName);
+//        indexManage.setLj(addLj);
+//        indexManageService.add(indexManage);
+//        model.addAttribute("addSuccess", "添加成功");
+//        System.out.println("sssssss");
+//        // 
+//        //mav.addObject("updateSuccess", "更新成功");
+//        // 
+//        //mav.setViewName("indiDataManage");
+//        return "redirect:listIndexManage";
+//    }
     
     @RequestMapping("addIndiDataG")
     public String addIndiDataG(
@@ -391,20 +391,20 @@ public class IndexManageController {
         return "redirect:listIndexManageG";
     }
     
-    @RequestMapping("searchAddIndiData")
-    public String searchAddIndiData(
-  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") int status,@RequestParam("addSource") String source,
-  			Model model){
-        IndexManage indexManage= new IndexManage();
-        indexManage.setIndi_code(code);
-        indexManage.setIndi_name(name);
-        indexManage.setStatus(status);
-        indexManage.setSjly_name2(source);
-        indexManageService.add(indexManage);
-        model.addAttribute("addSuccess", "添加成功");
-        System.out.println("sssssss");
-        return "redirect:IndiSearchPage";
-    }
+//    @RequestMapping("searchAddIndiData")
+//    public String searchAddIndiData(
+//  			@RequestParam("addCode") String code,@RequestParam("addName") String name,@RequestParam("addStatus") int status,@RequestParam("addSource") String source,
+//  			Model model){
+//        IndexManage indexManage= new IndexManage();
+//        indexManage.setIndi_code(code);
+//        indexManage.setIndi_name(name);
+//        indexManage.setStatus(status);
+//        indexManage.setSjly_name2(source);
+//        indexManageService.add(indexManage);
+//        model.addAttribute("addSuccess", "添加成功");
+//        System.out.println("sssssss");
+//        return "redirect:IndiSearchPage";
+//    }
     
     @RequestMapping("searchAddIndiDataG")
     public String searchAddIndiDataG(
@@ -421,40 +421,40 @@ public class IndexManageController {
         return "redirect:IndiSearchPageG";
     }
     
-    @RequestMapping("IndiSearch")
-    public ModelAndView searchCol(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException{
-    	ModelAndView mav = new ModelAndView();
-    	keyword = java.net.URLDecoder.decode(request.getParameter("keyword"),"UTF-8");
-
-    	System.out.println("IndiSearchkeyword"+keyword);
-    	   Page page=new Page(); //分页类
-          
-           Map<String,Object> mapSearch = new HashMap<String, Object>();
-           mapSearch.put("keyword", keyword);
-         
-           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
-           String currentPage=request.getParameter("currentPage");
-           Pattern pattern = Pattern.compile("[0-9]{1,9}");
-           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-               page.setCurrentPage(1);
-           } else {
-               page.setCurrentPage(Integer.valueOf(currentPage));
-           }
-           int count = indexManageService.searchCount(mapSearch);
-           page.setTotalNumber(count);
-           page.count();
-           map.put("page", page);
-           map.put("keyword",keyword);
-           
-           List<IndexManage> indexManageList= indexManageService.indiSearch(map);
-//           List<AnalysisManage> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
-           mav.addObject("indexManageList", indexManageList);
-           mav.addObject("page", page);
-           mav.addObject("controlURL", "searchIndiPage");//控制页码传递URL
-           mav.setViewName("indiSearchResult");           
-           return mav;
-    }
+//    @RequestMapping("IndiSearch")
+//    public ModelAndView searchCol(HttpServletRequest request, 
+//            HttpServletResponse response) throws IOException{
+//    	ModelAndView mav = new ModelAndView();
+//    	keyword = java.net.URLDecoder.decode(request.getParameter("keyword"),"UTF-8");
+//
+//    	System.out.println("IndiSearchkeyword"+keyword);
+//    	   Page page=new Page(); //分页类
+//          
+//           Map<String,Object> mapSearch = new HashMap<String, Object>();
+//           mapSearch.put("keyword", keyword);
+//         
+//           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
+//           String currentPage=request.getParameter("currentPage");
+//           Pattern pattern = Pattern.compile("[0-9]{1,9}");
+//           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+//               page.setCurrentPage(1);
+//           } else {
+//               page.setCurrentPage(Integer.valueOf(currentPage));
+//           }
+//           int count = indexManageService.searchCount(mapSearch);
+//           page.setTotalNumber(count);
+//           page.count();
+//           map.put("page", page);
+//           map.put("keyword",keyword);
+//           
+//           List<IndexManage> indexManageList= indexManageService.indiSearch(map);
+////           List<AnalysisManage> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
+//           mav.addObject("indexManageList", indexManageList);
+//           mav.addObject("page", page);
+//           mav.addObject("controlURL", "searchIndiPage");//控制页码传递URL
+//           mav.setViewName("indiSearchResult");           
+//           return mav;
+//    }
     
     @RequestMapping("IndiSearchG")
     public ModelAndView searchColG(HttpServletRequest request, 
@@ -492,40 +492,40 @@ public class IndexManageController {
            return mav;
     }
     
-    @RequestMapping("IndiSearchPage")
-    public ModelAndView searchCol1(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException{
-    	ModelAndView mav = new ModelAndView();
-//    	keyword = java.net.URLDecoder.decode(request.getParameter("keyword"),"UTF-8");
-
-    	System.out.println("IndiSearch1+keyword："+keyword);
-    	   Page page=new Page(); //分页类
-          
-           Map<String,Object> mapSearch = new HashMap<String, Object>();
-           mapSearch.put("keyword", keyword);
-         
-           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
-           String currentPage=request.getParameter("currentPage");
-           Pattern pattern = Pattern.compile("[0-9]{1,9}");
-           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-               page.setCurrentPage(1);
-           } else {
-               page.setCurrentPage(Integer.valueOf(currentPage));
-           }
-           int count = indexManageService.searchCount(mapSearch);
-           page.setTotalNumber(count);
-           page.count();
-           map.put("page", page);
-           map.put("keyword",keyword);
-           
-           List<IndexManage> indexManageList= indexManageService.indiSearch(map);
-//           List<AnalysisManage> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
-           mav.addObject("indexManageList", indexManageList);
-           mav.addObject("page", page);
-           mav.addObject("controlURL", "searchIndiPage");//控制页码传递URL
-           mav.setViewName("indiSearchResult");           
-           return mav;
-    }
+//    @RequestMapping("IndiSearchPage")
+//    public ModelAndView searchCol1(HttpServletRequest request, 
+//            HttpServletResponse response) throws IOException{
+//    	ModelAndView mav = new ModelAndView();
+////    	keyword = java.net.URLDecoder.decode(request.getParameter("keyword"),"UTF-8");
+//
+//    	System.out.println("IndiSearch1+keyword："+keyword);
+//    	   Page page=new Page(); //分页类
+//          
+//           Map<String,Object> mapSearch = new HashMap<String, Object>();
+//           mapSearch.put("keyword", keyword);
+//         
+//           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
+//           String currentPage=request.getParameter("currentPage");
+//           Pattern pattern = Pattern.compile("[0-9]{1,9}");
+//           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+//               page.setCurrentPage(1);
+//           } else {
+//               page.setCurrentPage(Integer.valueOf(currentPage));
+//           }
+//           int count = indexManageService.searchCount(mapSearch);
+//           page.setTotalNumber(count);
+//           page.count();
+//           map.put("page", page);
+//           map.put("keyword",keyword);
+//           
+//           List<IndexManage> indexManageList= indexManageService.indiSearch(map);
+////           List<AnalysisManage> typenameOrder = analysisManageService.getOrderByTypename();//得到一级分类顺序
+//           mav.addObject("indexManageList", indexManageList);
+//           mav.addObject("page", page);
+//           mav.addObject("controlURL", "searchIndiPage");//控制页码传递URL
+//           mav.setViewName("indiSearchResult");           
+//           return mav;
+//    }
     @RequestMapping("IndiSearchPageG")
     public ModelAndView searchCol1G(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
@@ -562,43 +562,43 @@ public class IndexManageController {
     }
     
     
-    @RequestMapping("searchIndiPage")
-    public ModelAndView searchPage(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException{
-    	ModelAndView mav = new ModelAndView();
-//    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
-    	System.out.println("keyword"+keyword);
-//    	String theme_name="%"+search+"%";
-    	   Page page=new Page(); //分页类
-          
-           Map<String,Object> mapSearch = new HashMap<String, Object>();
-           mapSearch.put("keyword", keyword);
-           int count = indexManageService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
-           System.out.println("count:"+count);
-           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
-           String currentPage=request.getParameter("currentPage");
-           Pattern pattern = Pattern.compile("[0-9]{1,9}");
-           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
-               page.setCurrentPage(1);
-           } else {
-               page.setCurrentPage(Integer.valueOf(currentPage));
-           }
-           page.setTotalNumber(count);
-           page.count();
-           map.put("page", page);
-           map.put("keyword", keyword);
-           List<IndexManage> indexManageList= indexManageService.indiSearch(map);//分页查询二极栏目
-          
-        
-          
-           mav.addObject("indexManageList", indexManageList);
-              
-           mav.addObject("page", page);
-          
-           mav.addObject("controlURL", "searchIndiPage");//控制页码传递URL
-           mav.setViewName("indiSearchResult");           
-           return mav;
-    }
+//    @RequestMapping("searchIndiPage")
+//    public ModelAndView searchPage(HttpServletRequest request, 
+//            HttpServletResponse response) throws IOException{
+//    	ModelAndView mav = new ModelAndView();
+////    	String theme_name = java.net.URLDecoder.decode(request.getParameter("theme"),"UTF-8");
+//    	System.out.println("keyword"+keyword);
+////    	String theme_name="%"+search+"%";
+//    	   Page page=new Page(); //分页类
+//          
+//           Map<String,Object> mapSearch = new HashMap<String, Object>();
+//           mapSearch.put("keyword", keyword);
+//           int count = indexManageService.searchCount(mapSearch);//每一个一级栏目下面二极栏目的数量
+//           System.out.println("count:"+count);
+//           Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数       
+//           String currentPage=request.getParameter("currentPage");
+//           Pattern pattern = Pattern.compile("[0-9]{1,9}");
+//           if(currentPage == null ||  !pattern.matcher(currentPage).matches()) {
+//               page.setCurrentPage(1);
+//           } else {
+//               page.setCurrentPage(Integer.valueOf(currentPage));
+//           }
+//           page.setTotalNumber(count);
+//           page.count();
+//           map.put("page", page);
+//           map.put("keyword", keyword);
+//           List<IndexManage> indexManageList= indexManageService.indiSearch(map);//分页查询二极栏目
+//          
+//        
+//          
+//           mav.addObject("indexManageList", indexManageList);
+//              
+//           mav.addObject("page", page);
+//          
+//           mav.addObject("controlURL", "searchIndiPage");//控制页码传递URL
+//           mav.setViewName("indiSearchResult");           
+//           return mav;
+//    }
     
     @RequestMapping("searchIndiPageG")
     public ModelAndView searchPageG(HttpServletRequest request, 

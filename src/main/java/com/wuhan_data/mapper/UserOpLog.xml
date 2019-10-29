@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+    <mapper namespace="com.wuhan_data.mapper.UserOpLogMapper">
+    
+        <insert id="add" parameterType="UserOpLog" >
+        	insert into WUHAN_DATA.USER_OP_LOG (user_id,op_interface,op_parameter,op_msg,op_create_time) values (#{user_id},#{op_interface},#{op_parameter},#{op_msg},#{op_create_time}) 
+        </insert>
+         
+        <delete id="delete" parameterType="int" >
+            delete from WUHAN_DATA.USER_OP_LOG where id= #{id}  
+        </delete>
+         
+        <select id="get" parameterType="int" resultType="UserOpLog">
+            select * from   WUHAN_DATA.USER_OP_LOG  where id= #{id}   
+        </select>
+      
+         <update id="update" parameterType="UserOpLog" >
+            update WUHAN_DATA.USER_OP_LOG set op_interface=#{op_interface} , op_parameter=#{op_parameter} , op_msg=#{op_msg} where id=#{id}   
+        </update>
+        
+        <select id="list" resultType="UserOpLog">
+            select * from WUHAN_DATA.USER_OP_LOG     
+        </select> 
+         
+        <select id="count" resultType="int">
+        	select count(*) from WUHAN_DATA.USER_OP_LOG  
+        </select>
+        
+        <!-- 列表，可分页 -->
+        <select id="listByPage" resultType="UserOpLog" parameterType="java.util.Map">
+        	select * from WUHAN_DATA.USER_OP_LOG   order by id desc limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        
+        <!--模糊查询 -->
+		<select id="search" parameterType="java.util.Map" resultType="UserOpLog">
+            select * from WUHAN_DATA.USER_OP_LOG 
+            <where>
+            op_msg like concat(concat('%',#{op_msg}),'%')  
+            </where>
+             order by id desc limit #{page.dbIndex},#{page.dbNumber}
+        </select>
+        
+        <!-- 模糊查询数量 -->
+        <select id="searchCount" resultType="int" parameterType="java.util.Map" >
+            select count(*) from WUHAN_DATA.USER_OP_LOG where op_msg like concat(concat('%',#{op_msg}),'%')  
+        </select>
+   
+    </mapper>

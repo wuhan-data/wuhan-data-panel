@@ -75,6 +75,7 @@ public class AdminController {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			System.out.println("相应的额接口为telIsExist");
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			e.printStackTrace();
 		}
     	try {
@@ -87,6 +88,7 @@ public class AdminController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 		}
     	return jsonObject.toString();
     }
@@ -107,6 +109,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminInit,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		} 
@@ -141,6 +144,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminInit：读取数据库错误"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -157,6 +161,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSelectAnalysisListByPage：参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -188,6 +193,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSelectAnalysisListByPage：数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -206,6 +212,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchByName:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -238,6 +245,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchByName:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}	   
@@ -255,6 +263,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchPage:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -285,6 +294,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("adminSearchPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}  
@@ -314,6 +324,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addAdmin:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -349,6 +360,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addAdmin:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -381,6 +393,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editAdmin:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -418,6 +431,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editAdmin:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -437,6 +451,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteAdmin:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -476,6 +491,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteAdmin:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -495,6 +511,7 @@ public class AdminController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("login:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -515,13 +532,15 @@ public class AdminController {
 	  			List<MenuList> menuList=menuService.getMenu(adminLL.getRole_list());
 	  			System.out.println(menuList);
 	  			session.setAttribute("menuList",menuList);
-	  			
+
 	  			
 			}
 	    	return maView;
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			System.out.println("login:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}

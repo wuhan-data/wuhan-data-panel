@@ -22,4 +22,6 @@ public interface DbToExcelService {
 
 	public List<IndiAll> getSelectIndex(Map<String, String> indiConditionMap);
 
+	public List<String> getIndiTimePoint(Map<String, String> indiNameSourceMap);
+
 }

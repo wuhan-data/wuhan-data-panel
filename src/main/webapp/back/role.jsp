@@ -480,13 +480,20 @@
                         	    processData: false,
                              cache:false,
                              success: function(data){
+                        	 alert("修改成功");
                                  $('#getNewData').html(data);
                              },
                              error : function(data){
+                        	 alert("修改失败");
                              }
                          });    
                   };
                   delClick = function(s_id,Url) {
+                	  if (s_id==2)
+                	{
+                		  alert("默认角色不能删除");
+                		  return 
+                	}
                 	  
                 	  var roleId=encodeURI(s_id);
                 	  $.ajax({
@@ -507,10 +514,11 @@
       	                            	    processData: false,
       	                                 cache:false,
       	                                 success: function(data){
-      	                            	 	alert(data);
+      	                            	 	alert("删除成功");
       	                                     $('#getNewData').html(data);
       	                                 },
       	                                 error : function(data){
+      	                            	 	alert("删除失败")
       	                                 }
       	                             }); 
       		    			}	

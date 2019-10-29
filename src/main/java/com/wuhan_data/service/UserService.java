@@ -1,5 +1,6 @@
 package com.wuhan_data.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public interface UserService {
 	  //
 	  public User getByName(String username);
 	  //通过角色，获得用户列表
-	  public List<User> getByRole(String role_id); 
+	  public List<User> getByRole(int role_id); 
 	  //通过tel，获得用户
 	  public List<User> getByTel(Map<String,Object> parameter); 
 	  //模糊查询，可分组
@@ -41,7 +42,7 @@ public interface UserService {
 	  public int count();
 	  
 	  //获得用户的所有权限
-	  public Map<String, String>getAllPower(int id);
+	  public Map<String, List<String>>getAllPower(int id);
 	  //现有的用户中的角色是否存在该id，用于用户删除该id的时候进行判断
 	  public boolean isExistRoleId(int roleId);
 	  //现有的用户中的部门是否存在该id，用户部门删除该id的时候进行判断

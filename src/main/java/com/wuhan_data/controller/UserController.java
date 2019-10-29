@@ -50,6 +50,8 @@ public class UserController {
 	DepartmentService departmentService;
 	@Autowired
 	MenuService menuService;
+	@Autowired
+	SysLogService sysLogService;
 	
 	private static String tel="";//用于模糊查询的名字
     @RequestMapping("listUser")
@@ -80,6 +82,7 @@ public class UserController {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			System.out.println("相应的额接口为telIsExist");
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			e.printStackTrace();
 		}
     	try {
@@ -94,6 +97,7 @@ public class UserController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 		}
     	return jsonObject.toString();
     }
@@ -109,6 +113,7 @@ public class UserController {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			System.out.println("相应的额接口为roleIdIsExistForD");
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			e.printStackTrace();
 		}
     	try {
@@ -121,6 +126,7 @@ public class UserController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 		}
     	return jsonObject.toString();
     }
@@ -136,11 +142,11 @@ public class UserController {
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			System.out.println("相应的额接口为departmentIdIsExistForD");
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			e.printStackTrace();
 		}
     	try {
-    		
-    		if (userService.isExistRoleId(Integer.valueOf(departmentId))==true) {
+    		if (userService.isExistDepartmentId(Integer.valueOf(departmentId))==true) {
 				jsonObject.put("data", "exist");
 			}
     		else {
@@ -148,6 +154,7 @@ public class UserController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 		}
     	return jsonObject.toString();
     }
@@ -165,6 +172,7 @@ public class UserController {
 			realName=URLDecoder.decode(request.getParameter("realName"),"utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			e.printStackTrace();
 		}
     	Map map=new HashMap();
@@ -201,6 +209,7 @@ public class UserController {
 			realName=URLDecoder.decode(request.getParameter("realName"),"utf-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			e.printStackTrace();
 		}
     	Map map=new HashMap();
@@ -230,6 +239,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userInit:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -260,6 +270,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userInit:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -279,6 +290,7 @@ public class UserController {
  		} catch (Exception e) {
  			// TODO: handle exception
  			System.out.println("userSelectAnalysisListByPage:获取数据"+e.toString());
+ 			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
  			maView.setViewName("error");
  			return maView;
  		}
@@ -308,6 +320,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSelectAnalysisListByPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
  			maView.setViewName("error");
  			return maView;
 		}
@@ -327,6 +340,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchByName:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
  			mav.setViewName("error");
  			return mav;
 		}
@@ -359,6 +373,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchByName:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
  			mav.setViewName("error");
  			return mav;
 		}
@@ -375,6 +390,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchPage:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
  			mav.setViewName("error");
  			return mav;
 		}
@@ -408,6 +424,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("userSearchPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
  			mav.setViewName("error");
  			return mav;
 		}
@@ -443,6 +460,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addUser:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
  			maView.setViewName("error");
  			return maView;
 		}
@@ -498,6 +516,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addUser:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
  			maView.setViewName("error");
  			return maView;
 		}
@@ -517,7 +536,7 @@ public class UserController {
     	String editroleListSelect="";
     	String editdepartmentListSelect="";
     	String editstatus="";
-    	String editgenderSelect="";
+    	String editgenderSelect="男";
     	String editUserTel="";
     	String editUserReal_name="";
     	String editUserRole_list="";
@@ -539,6 +558,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
  			maView.setViewName("error");
  			return maView;
 		}
@@ -590,7 +610,8 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:数据库操作"+e.toString());
-			e.printStackTrace();
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
+
  			maView.setViewName("error");
  			return maView;
 		}
@@ -612,6 +633,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteUser:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
  			maView.setViewName("error");
  			return maView;
 		}
@@ -642,6 +664,7 @@ public class UserController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteUser:数据库操作 "+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
  			maView.setViewName("error");
  			return maView;
 		}

@@ -155,17 +155,17 @@
 				</select> 
 			</span>
 			<span class="indiSource"> <img src="assets/img/pfeil.gif" alt="" />
-				指标来源： <select text-align-last:center style="width:110px"></select> </span>
+				指标来源： <select text-align-last:center style="width:100px"></select> </span>
 			<span class="freqCode"> <img src="assets/img/pfeil.gif" alt="" />
-				月/季度： <select style="width:70px" text-align-last:center></select> </span>
+				月/季度： <select style="width:50px" text-align-last:center></select> </span>
 			<span class="timePoint"> <img src="assets/img/pfeil.gif" alt="" />
-				时点： <select style="width:70px" text-align-last:center></select> </span>
+				时点： <select style="width:50px" text-align-last:center></select> </span>
 				
 				
 			<span class="startTime"> <img src="assets/img/pfeil.gif" alt="" />
-				开始日期： <select  style="width:100px" text-align-last:center></select> </span>
+				开始日期： <select  style="width:70px" text-align-last:center></select> </span>
 			<span class="endTime"> <img src="assets/img/pfeil.gif" alt="" />
-				结束日期： <select style="width:100px" text-align-last:center></select> </span>
+				结束日期： <select style="width:70px" text-align-last:center></select> </span>
 				
 				
 				<input type="button" value="删除" id="delectBu" style="float:right">
@@ -186,7 +186,7 @@
         			<td style="text-align: center" >频度代码</td>
         			<td style="text-align: center" >时点</td>
         			<td style="text-align: center" >指标值</td>
-        			<td style="text-align: center" >操作</td>
+<!--         			<td style="text-align: center" >操作</td> -->
     			</tr>
     			</thead>
 			</table>
@@ -422,7 +422,7 @@ $(document).ready(function(){
 					/**
 					 * 缓存数据
 					 */
-					 freqCodeSelect.data(freqCode,data);
+					 timePointSelect.data(timePoint,data);
 					//alert("缓存了数据……");
 				},"json");		
 			
@@ -442,11 +442,12 @@ $(document).ready(function(){
 		var indiNameValue = indiNameSelect.val();
 		var indiSourceValue = indiSourceSelect.val();
 		var freqCode = freqCodeSelect.val();
+		var timePoint = timePointSelect.val();
 		var startTime = $(this).val();
 		
-		if(indiSourceValue != ""&&indiNameValue != ""&&freqCode!=""&&startTime!="")
+		if(indiSourceValue != ""&&indiNameValue != ""&&freqCode!=""&&startTime!=""&&timePoint!="")
 		{
-				  $.post("getIndiEndTime",{indiName:indiNameValue,indiSource:indiSourceValue,freqCode:freqCode,startTime:startTime},function(data){
+				  $.post("getIndiEndTime",{indiName:indiNameValue,indiSource:indiSourceValue,freqCode:freqCode,startTime:startTime,timePoint:timePoint},function(data){
 					if(data.length !=0) 
 					{
 						endTimeSelect.html("");
@@ -487,13 +488,14 @@ $(document).ready(function(){
 		var indiName = indiNameSelect.val();
 		var indiSource = indiSourceSelect.val();
 		var freqCode = freqCodeSelect.val();
+		var timePoint = timePointSelect.val();
 		var startTime = startTimeSelect.val();
 		var endTime = endTimeSelect.val();
 		var tableBody = $(".dd");
 // 		alert(tableBody);
-		if(indiSource != ""&&indiName != ""&&freqCode!=""&&startTime!=""&&endTime!="")
+		if(indiSource != ""&&indiName != ""&&freqCode!=""&&startTime!=""&&endTime!=""&&timePoint!="")
 		{
-			$.post("getSelectIndex",{indiName:indiName,indiSource:indiSource,freqCode:freqCode,startTime:startTime,endTime:endTime},function(data){
+			$.post("getSelectIndex",{indiName:indiName,indiSource:indiSource,freqCode:freqCode,timePoint:timePoint,startTime:startTime,endTime:endTime},function(data){
 				if(data.length !=0) 
 				{
 					for(var i = 0;i<data.length;i++)
@@ -508,7 +510,7 @@ $(document).ready(function(){
 				           " <td align='center'>"+data[i].freq_code+"</td>"+
 				           " <td align='center'>"+data[i].time_point+"</td>"+
 				           " <td align='center'>"+data[i].indi_value+"</td>"+
-				           " <td align='center'><input type='checkbox' name='test'>删除</td>"+
+// 				           " <td align='center'><input type='checkbox' name='test'>删除</td>"+
 			        	   "</tr>").appendTo(tableBody);
 // 						<td><input type="checkbox" name="test"></td>
 					}
@@ -525,7 +527,7 @@ $(document).ready(function(){
 			alert("选择条件不对！")
 			
 			
-			delectBu.show();
+// 			delectBu.show();
 		
 
 	})

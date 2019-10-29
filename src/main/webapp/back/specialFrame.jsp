@@ -51,11 +51,12 @@
        .tdiamge div{
        /*  width:200px;
         height:50px; */
+        width:100%;
         text-align:center;
         margin:auto;
         word-wrap:break-word;  
     	word-break:break-all;
-    	overflow: auto; 
+    	overflow-y: auto; 
         }
         .tdfile div{
        /*  width:200px;
@@ -64,7 +65,7 @@
         margin:auto;
         word-wrap:break-word;  
     	word-break:break-all;
-    	overflow: auto; 
+    	overflow-y: auto; 
         }
         
         td,th{
@@ -122,12 +123,12 @@
                                         <tr>
                                             <th width="5%">id</th>
                                             <th>名称</th>
-                                            <th width="15%">路径</th>
+<!--                                             <th width="15%">路径</th> -->
                                             <th>图片</th>
                                             <th width="15%">文件</th>
                                             <th width="10%">展示方式</th>
                                             <th width="5%">展示顺序</th>
-                                            <th width="30%">操作</th>
+                                            <th width="40%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -135,7 +136,7 @@
         <tr id="${c.topic_weight }">
             <td width="5%">${c.id}</td>
             <td >${c.title}</td>
-            <td class="tdiamge" width="15%"><div><a href="${c.image}" target="_blank">${c.image}</a></div></td>
+<%--             <td class="tdiamge" width="15%"><div><a href="${c.image}" target="_blank">${c.image}</a></div></td> --%>
             <td data-toggle="modal" data-target="#myImageModal" onclick="imageShow('${c.image}')" ><img src="${c.image}" width="80" height="42" ></td>
             <td class="tdfile" width="15%"><div><a href="${c.file}" target="_blank">${c.file}</a></div> </td>
             <td width="10%">
@@ -169,7 +170,7 @@
             </td>
             
           <td width="5%">${c.topic_weight}</td>
-            <td width="30%">
+            <td width="40%">
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>

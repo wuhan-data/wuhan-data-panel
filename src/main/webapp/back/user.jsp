@@ -45,6 +45,7 @@
 
     </style>
      <script type="text/javascript">
+     
     function checkUserTel(){
      	 var rolecode = document.getElementById("addUserTel").value;
      	 var flag=false;
@@ -76,7 +77,7 @@
 		    	return flag;
           }
      }
-      function checkForm(){
+    function checkForm(){
       	var roleCode=checkUserTel();
       	if (roleCode)
       		return true;
@@ -159,8 +160,8 @@
                                             <th>联系方式</th>
                                             <th>用户状态</th>
                                             <th>用户性别</th>
-                                            <th>角色</th>
-                                            <th>部门</th>
+                                    <!--         <th>角色</th>
+                                            <th>部门</th> -->
                                             <th>真实姓名</th>
                                             <th>操作</th>
                                         </tr>
@@ -186,8 +187,8 @@
             	</c:if>
             </td>
            
-            <td>${c.role_id}</td>
-            <td>${c.department_id}</td>
+<%--             <td>${c.role_id}</td>
+            <td>${c.department_id}</td> --%>
             <td>${c.real_name}</td>
            
             <td >
@@ -237,8 +238,9 @@
    <br>
    性别：
      <select class="form-control" type="text" name="editgenderSelect" id="editgenderSelect">	
-       		<option value="男"  > 男</option>    
-       		<option value="女" >女</option> 
+       		<option value="女">女</option>
+       		<option value="男"> 男</option>    
+       		 
   	</select>
   	<br>
 <%--   部门：
@@ -295,7 +297,7 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="#" onsubmit="return checkForm()">
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addUser" onsubmit="return checkForm()" >
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
@@ -340,7 +342,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="addClick('addUser')">
+				<button type="submit" class="btn btn-primary" onclick="addClick('addUser')" >
 					提交
 				</button>
 			</div>
@@ -411,6 +413,7 @@
             addClick = function(Url) {
           	   $('.modal-backdrop').remove();
           	    $('body').removeClass('modal-open');
+          	  if( checkForm()){
                	var data = new FormData(document.getElementById("addForm"));
                	 $.ajax({
                           type: 'POST',
@@ -422,11 +425,16 @@
                      	    processData: false,
                           cache:false,
                           success: function(data){
+                    	  alert("添加成功")
                               $('#getNewData').html(data);
                           },
                           error : function(data){
+                    	  alert("添加失败")
                           }
-                      });    
+                      }); 
+          	  }
+          	  else
+          		  {alert("请填写正确格式的值")}
                };
                editClick = function(Url) {
             	   $('.modal-backdrop').remove();
@@ -442,9 +450,11 @@
                        	    processData: false,
                             cache:false,
                             success: function(data){
+                        	alert("修改成功")
                                 $('#getNewData').html(data);
                             },
                             error : function(data){
+                        	alert("修改失败")
                             }
                         });    
                  };
@@ -458,10 +468,11 @@
                            	    processData: false,
                                 cache:false,
                                 success: function(data){
-                           	 	alert(data);
+                           	 	alert("删除成功");
                                     $('#getNewData').html(data);
                                 },
                                 error : function(data){
+                            	alert("删除失败");
                                 }
                             });    
                      };
@@ -556,10 +567,6 @@
                                   //返回的是对应fmt时间格式的字符串
                                   
                                   
-                                  
-                                  
-                                  
-                                  
                                   function Format(datetime,fmt) {
                                           if (parseInt(datetime)==datetime) {
                                               if (datetime.length==10) {
@@ -601,10 +608,16 @@
             	$("#editUserName").val(username);
             	$("#editUserPassword").val(password);
             	$("#editstatus").val(status);
+            	/* $("#editgenderSelect").val(gender); */
             	if(gender=="0")
-            		{$("#editgenderSelect").val("女");}
+            		{	
+            			$("#editgenderSelect").val("女");
+            		}
             	else
-            		{$("#editgenderSelect").val("男");}
+            		{
+            			
+            			$("#editgenderSelect").val("男");
+            		} 
             	
             	$("#editUserTel").val(tel);
             	$("#editUserReal_name").val(real_name);

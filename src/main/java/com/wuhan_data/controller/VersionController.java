@@ -34,6 +34,8 @@ public class VersionController {
 
 	@Autowired
 	VersionService versionService;
+	@Autowired
+	SysLogService sysLogService;
 	
 	private static String version_name="";//用于模糊查询的名字
 	@RequestMapping("listVersion")
@@ -57,6 +59,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionInit,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -83,6 +86,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionInit,数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -99,6 +103,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -125,6 +130,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -142,6 +148,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -172,6 +179,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionListByPage,数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}  
@@ -190,6 +198,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionSearchPage,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -219,6 +228,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("versionSearchPage,数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -244,6 +254,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addVersion,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -296,6 +307,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addVersion,数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -315,6 +327,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteVersion,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -342,6 +355,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteVersion,数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -372,6 +386,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editVersion,参数获取失败"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -431,6 +446,7 @@ public class VersionController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editVersion,数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}

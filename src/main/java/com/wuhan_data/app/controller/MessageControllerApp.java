@@ -27,6 +27,7 @@ import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.pojo.Message;
 import com.wuhan_data.pojo.Message2;
 import com.wuhan_data.pojo.Notice;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.tools.SendMessage;
 import com.wuhan_data.tools.SessionApp;
 import com.wuhan_data.tools.StringToMap;
@@ -41,6 +42,8 @@ public class MessageControllerApp {
 	SessionSQLServiceApp sessionSQLServiceApp;
 	@Autowired
 	Message2ServiceApp message2ServiceApp;
+	@Autowired
+	SysLogService sysLogService;
 	
 	//消息页get
 	@RequestMapping(value="getMessageApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
@@ -58,6 +61,7 @@ public class MessageControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("getMessageApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	  	 //token令牌验证
@@ -67,6 +71,7 @@ public class MessageControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("getMessageApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  	
 	  	if(tokenIsEmpty)
@@ -110,6 +115,7 @@ public class MessageControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("getMessageApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}
 		}

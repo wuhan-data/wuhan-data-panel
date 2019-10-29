@@ -37,6 +37,8 @@ public class RoleController {
 	RoleService roleService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	SysLogService sysLogService;
 	
 	private static String role_name="";//用于模糊查询的名字
 	@RequestMapping("listRole")
@@ -60,6 +62,7 @@ public class RoleController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			}
 	    	try {
 	    		Map map=new HashMap();
@@ -74,6 +77,7 @@ public class RoleController {
 	    	} catch (Exception e) {
 	    		// TODO: handle exception
 	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    		sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 	    	}
 	    	return jsonObject.toString();
 	    }
@@ -90,6 +94,7 @@ public class RoleController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			}
 	    	try {
 	    		Role role=roleService.getByName(name);
@@ -102,6 +107,7 @@ public class RoleController {
 	    	} catch (Exception e) {
 	    		// TODO: handle exception
 	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    		sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 	    	}
 	    	return jsonObject.toString();
 	    }
@@ -118,6 +124,7 @@ public class RoleController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("roleNameList参数获取异常"+e.getStackTrace());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			}
 	    	try {
 	    		String[] ids=roleIdList.split("\\|");
@@ -132,6 +139,7 @@ public class RoleController {
 	    	} catch (Exception e) {
 	    		// TODO: handle exception
 	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    		sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 	    	}
 	    	return jsonObject.toString();
 		 
@@ -152,6 +160,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleInit:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -185,8 +194,8 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleInit:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
-			e.printStackTrace();
 			return maView;
 		}
     	
@@ -202,6 +211,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleListByPage:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -233,6 +243,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleListByPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -249,6 +260,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchByName:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -282,6 +294,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchByName:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -299,6 +312,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchPage:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -332,6 +346,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("roleSearchPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}   
@@ -365,6 +380,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -405,6 +421,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -422,6 +439,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteRole:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -457,6 +475,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteRole:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -490,6 +509,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -530,6 +550,7 @@ public class RoleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}

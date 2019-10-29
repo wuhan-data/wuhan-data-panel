@@ -110,9 +110,9 @@
                         <div class="panel-body">
            
   <div class="row" style="margin-bottom:7px;margin-right:2px">
-   <div class="btns col-md-6" >
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" ><i class="fa fa-plus"></i>添加</div>
-   </div>
+<!--    <div class="btns col-md-6" > -->
+<!--       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" ><i class="fa fa-plus"></i>添加</div> -->
+<!--    </div> -->
    
     <form class="form-inline" style="float:right" method="post" id="formSearch">
       <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">

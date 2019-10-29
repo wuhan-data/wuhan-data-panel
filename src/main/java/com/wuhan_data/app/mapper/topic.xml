@@ -5,9 +5,6 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.TopicMapper">  
 
-	<select id="getTopicById" resultType="com.wuhan_data.pojo.IndexSpecial" parameterType="int">
-    select * from WUHAN_DATA."INDEX_SPECIAL" where id=#{id}
-     </select>
         <!-- 数据图表部分 -->
         <!--高质量发展指数  -->
         <select id="getValue1_1" resultType="com.wuhan_data.pojo.indi_TF">
@@ -451,7 +448,7 @@ c14,
 '&lt;span style="color: #3A82CC"&gt;',
 (select c9 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c9 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109'  limit 0,1)),
 '&lt;/span&gt;',
-(select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c14 from SJJG."T1" where c3='0100001' and c7 ='湖北省' and c2='YY' and c8='109' order by c1 desc limit 0,1)),
+(select c14 from (select ROW_NUMBER()OVER(PARTITION BY C3 ORDER BY C1 DESC),c14 from SJJG."T1" where c3='0100001'' and c7 ='湖北省' and c2='YY' and c8='109' order by c1 desc limit 0,1)),
 '，增速与上年持平',
 '&lt;/li&gt;'
 )as result

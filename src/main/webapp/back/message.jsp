@@ -317,7 +317,7 @@
   
      接收人角色：<select class="form-control" id="addByRoleReceiver_id" name="addByRoleReceiver_id" onchange="">
   	<c:forEach items="${roleList}" var="c" varStatus="st">
-        <option value="${c.role_name}" >${c.role_name}</option>    
+        <option value="${c.id}" >${c.role_name}</option>    
 	</c:forEach>
   </select> <br>
  发送人名字：<input class="form-control" type="search" placeholder="发送人名字" name="addByRoleByRolesender_name" readonly value=<%out.print(username); %> ><br>
@@ -426,9 +426,11 @@
                      	    processData: false,
                           cache:false,
                           success: function(data){
+                    	  	 alert("添加成功")
                               $('#getNewData').html(data);
                           },
                           error : function(data){
+                    	  alert("添加失败")
                           }
                       });    
                };
@@ -446,9 +448,11 @@
                          	    processData: false,
                               cache:false,
                               success: function(data){
+                        	  alert("添加成功")
                                   $('#getNewData').html(data);
                               },
                               error : function(data){
+                        	  alert("添加失败")
                               }
                           });    
                    };
@@ -466,9 +470,12 @@
                         	    processData: false,
                              cache:false,
                              success: function(data){
+                        	 alert("修改成功")
                                  $('#getNewData').html(data);
+                         		
                              },
                              error : function(data){
+                        	 alert("修改失败")
                              }
                          });    
                   };
@@ -482,10 +489,11 @@
                             	    processData: false,
                                  cache:false,
                                  success: function(data){
-                            	 	alert(data);
+                            	 	alert("删除成功");
                                      $('#getNewData').html(data);
                                  },
                                  error : function(data){
+                            	 alert("删除失败")
                                  }
                              });    
                       };
@@ -579,7 +587,7 @@
             	var fileUrl="<a href=\"#\">没有下载链接</a>";
             	if(path!="" && path!=null)
             	{
-            		fileUrl="<a href=\""+path+"\">下载链接</a>";
+            		fileUrl="<a href=\""+path+"\"  target=\"_blank\" >下载链接</a>";
             	}
             	document.getElementById("lookFileUrl").innerHTML=fileUrl;	
             	//$("#lookPath").href(path)

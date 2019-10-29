@@ -98,6 +98,11 @@ public class DbToExcelServiceImpl implements DbToExcelService{
 		return dbToExcelMapper.getSelectIndex(indiConditionMap);
 	}
 
+	@Override
+	public List<String> getIndiTimePoint(Map<String, String> indiNameSourceMap) {
+		return dbToExcelMapper.getIndiTimePoint(indiNameSourceMap);
+	}
+
 	
 
 }

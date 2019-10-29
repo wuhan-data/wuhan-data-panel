@@ -295,9 +295,11 @@
                         	    processData: false,
                              cache:false,
                              success: function(data){
+                        	 alert("编辑成功");
                                  $('#getNewData').html(data);
                              },
                              error : function(data){
+                        	 alert("编辑失败")
                              }
                          });    
                   };
@@ -311,10 +313,11 @@
                             	    processData: false,
                                  cache:false,
                                  success: function(data){
-                            	 	alert(data);
+                            	 	alert("删除成功");
                                      $('#getNewData').html(data);
                                  },
                                  error : function(data){
+                            	 alert("删除失败");
                                  }
                              });    
                       };

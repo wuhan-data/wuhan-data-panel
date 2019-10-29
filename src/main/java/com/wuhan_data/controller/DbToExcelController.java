@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +27,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wuhan_data.pojo.IndexManage;
 import com.wuhan_data.pojo.IndiAll;
+import com.wuhan_data.pojo.TPIndiValue;
 import com.wuhan_data.service.DbToExcelService;
 import com.wuhan_data.tools.ExportExcel;
+import com.wuhan_data.tools.MapValueComparator;
 
 import cn.hutool.core.date.DateTime;
 import net.sf.json.JSONArray;
@@ -92,6 +95,28 @@ public class DbToExcelController {
 		JSONArray json = JSONArray.fromObject(indexFreqCodeList);
 		out.print(json.toString());
 	}
+	
+	@RequestMapping(value = "getTimePoint", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public void getTimePoint(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		System.out.println("进入根据指标名称和来源查询指标频度！");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		String indiName = request.getParameter("indiName");
+		String indiSource = request.getParameter("indiSource");
+		String freqCode = request.getParameter("freqCode");
+		System.out.println("后台接受到的指标名称：" + indiName);
+		System.out.println("后台接受到的指标来源：" + indiSource);
+		Map<String, String> indiNameSourceMap = new HashMap<String, String>();
+		indiNameSourceMap.put("indiName", indiName);
+		indiNameSourceMap.put("indiSource", indiSource);
+		indiNameSourceMap.put("freqCode", freqCode);
+		List<String> indexTimePointList = dbToExcelService.getIndiTimePoint(indiNameSourceMap);
+		System.out.println("indexFreqCodeList：" + indexTimePointList);
+		JSONArray json = JSONArray.fromObject(indexTimePointList);
+		out.print(json.toString());
+	}
+	
 
 	@RequestMapping(value = "getIndiStartTime", produces = "text/plain;charset=utf-8")
 	@ResponseBody
@@ -102,6 +127,7 @@ public class DbToExcelController {
 		String indiName = request.getParameter("indiName");
 		String indiSource = request.getParameter("indiSource");
 		String freqCode = request.getParameter("freqCode");
+		String timePoint = request.getParameter("timePoint");
 		System.out.println("后台接受到的指标名称：" + indiName);
 		System.out.println("后台接受到的指标来源：" + indiSource);
 		System.out.println("后台接受到的指标频度：" + freqCode);
@@ -109,6 +135,7 @@ public class DbToExcelController {
 		indiNameSourceFreqMap.put("indiName", indiName);
 		indiNameSourceFreqMap.put("indiSource", indiSource);
 		indiNameSourceFreqMap.put("freqCode", freqCode);
+		indiNameSourceFreqMap.put("timePoint", timePoint);
 		List<String> indexStartTimeList = dbToExcelService.getIndiStartTime(indiNameSourceFreqMap);
 		Collections.sort(indexStartTimeList);
 		System.out.println("indexStartTimeList：" + indexStartTimeList);
@@ -125,6 +152,7 @@ public class DbToExcelController {
 		String indiName = request.getParameter("indiName");
 		String indiSource = request.getParameter("indiSource");
 		String freqCode = request.getParameter("freqCode");
+		String timePoint = request.getParameter("timePoint");
 		String startTime = request.getParameter("startTime");
 		System.out.println("后台接受到的指标开始事件：" + startTime);
 		
@@ -133,6 +161,7 @@ public class DbToExcelController {
 		indiNameSourceFreqSTimeMap.put("indiSource", indiSource);
 		indiNameSourceFreqSTimeMap.put("freqCode", freqCode);
 		indiNameSourceFreqSTimeMap.put("startTime", startTime);
+		indiNameSourceFreqSTimeMap.put("timePoint", timePoint);
 		List<String> indexEndTimeList = dbToExcelService.getIndiEndTime(indiNameSourceFreqSTimeMap);
 		Collections.sort(indexEndTimeList);
 		System.out.println("indexEndTimeList：" + indexEndTimeList);
@@ -151,6 +180,7 @@ public class DbToExcelController {
 		String freqCode = request.getParameter("freqCode");
 		String startTime = request.getParameter("startTime");
 		String endTime = request.getParameter("endTime");
+		String timePoint = request.getParameter("timePoint");
 		System.out.println("后台接受到的指标开始事件：" + startTime);
 		
 		Map<String, String> indiConditionMap = new HashMap<String, String>();
@@ -159,7 +189,17 @@ public class DbToExcelController {
 		indiConditionMap.put("freqCode", freqCode);
 		indiConditionMap.put("startTime", startTime);
 		indiConditionMap.put("endTime", endTime);
+		indiConditionMap.put("timePoint", timePoint);
 		List<IndiAll> indexAllList = dbToExcelService.getSelectIndex(indiConditionMap);
+		Collections.sort(indexAllList, new Comparator<IndiAll>() {
+			@Override
+			public int compare(IndiAll r1, IndiAll r2) {
+				int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+				int ageIndex = 0;
+				int startIndex = 0;
+				return nameIndex + ageIndex + startIndex;
+			}
+		});
 		System.out.println("indexAllList：" + indexAllList.get(0).getDate_code());
 		JSONArray json = JSONArray.fromObject(indexAllList);
 		out.print(json.toString());

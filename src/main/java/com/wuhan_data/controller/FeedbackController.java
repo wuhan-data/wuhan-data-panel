@@ -31,6 +31,8 @@ import com.wuhan_data.tools.Page;
 public class FeedbackController {
 	@Autowired
 	FeedbackService feedbackService;
+	@Autowired
+	SysLogService sysLogService;
 	private static String  title="";//用于模糊查询的名字
 	//反馈界面初始化
 	@RequestMapping("feedbackInit")
@@ -45,6 +47,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackInit:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -71,6 +74,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackInit:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -87,6 +91,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackListByPage:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -113,6 +118,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackListByPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -132,6 +138,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchByUid:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -161,6 +168,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchByUid:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}  
@@ -177,6 +185,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchPage:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -206,6 +215,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("feedbackSearchPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}   
@@ -239,6 +249,7 @@ public class FeedbackController {
 			// TODO: handle exception
 			System.out.println("editFeedback:获取数据"+e.toString());
 			maView.setViewName("error");
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return maView;
 		}
 //    	Feedback feedback=new Feedback();
@@ -276,6 +287,7 @@ public class FeedbackController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editFeedback:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -293,6 +305,7 @@ public class FeedbackController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteFeedback:参数获取"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
@@ -320,6 +333,7 @@ public class FeedbackController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteDepartment:数据库操作"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				maView.setViewName("error");
 				return maView;
 			}

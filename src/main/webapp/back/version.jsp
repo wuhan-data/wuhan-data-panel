@@ -183,7 +183,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="editClick('editVersion')">>
+				<button type="submit" class="btn btn-primary" onclick="editClick('editVersion')">
 					提交
 				</button>
 			</div>
@@ -309,9 +309,11 @@
                      	    processData: false,
                           cache:false,
                           success: function(data){
+                    	  alert("添加成功");
                               $('#getNewData').html(data);
                           },
                           error : function(data){
+                    	  alert("添加失败");
                           }
                       });    
                };
@@ -329,9 +331,11 @@
                         	    processData: false,
                              cache:false,
                              success: function(data){
+                        	 alert("编辑成功");
                                  $('#getNewData').html(data);
                              },
                              error : function(data){
+                        	  alert("编辑失败");
                              }
                          });    
                   };
@@ -345,10 +349,11 @@
                             	    processData: false,
                                  cache:false,
                                  success: function(data){
-                            	 	alert(data);
+                            	 	alert("删除成功");
                                      $('#getNewData').html(data);
                                  },
                                  error : function(data){
+                            	 alert("删除失败");
                                  }
                              });    
                       };

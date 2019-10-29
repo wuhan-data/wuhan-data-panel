@@ -38,6 +38,8 @@ public class DepartmentController {
 	DepartmentService departmentService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	SysLogService sysLogService;
 	
 	private static String departmentname="";//用于模糊查询的名字
 	
@@ -70,6 +72,7 @@ public class DepartmentController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			}
 	    	try {
 	    		Map map=new HashMap();
@@ -84,6 +87,7 @@ public class DepartmentController {
 	    	} catch (Exception e) {
 	    		// TODO: handle exception
 	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    		sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 	    	}
 	    	return jsonObject.toString();
 	    }
@@ -99,6 +103,7 @@ public class DepartmentController {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			}
 	    	try {
 	    		Map map=new HashMap();
@@ -113,6 +118,7 @@ public class DepartmentController {
 	    	} catch (Exception e) {
 	    		// TODO: handle exception
 	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    		sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 	    	}
 	    	return jsonObject.toString();
 	    }
@@ -129,6 +135,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentInit:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -157,6 +164,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentInit:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -173,6 +181,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSelectAnalysisListByPage:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -199,6 +208,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSelectAnalysisListByPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -216,6 +226,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchByName:获取数据"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -245,6 +256,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchByName:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -262,6 +274,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchPage:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -291,6 +304,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("departmentSearchPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			mav.setViewName("error");
 			return mav;
 		}
@@ -315,6 +329,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addDepartment:获取参数"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -346,6 +361,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addDepartment:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -372,6 +388,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editDepartment:获取参数"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -404,6 +421,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editDepartment:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -421,6 +439,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteDepartment:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -453,6 +472,7 @@ public class DepartmentController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("deleteDepartment:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}

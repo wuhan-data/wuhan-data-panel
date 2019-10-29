@@ -110,9 +110,9 @@
                         <div class="panel-body">
            
   <div class="row" style="margin-bottom:7px;margin-right:2px">
-   <div class="btns col-md-6" >
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" ><i class="fa fa-plus"></i>添加</div>
-   </div>
+<!--    <div class="btns col-md-6" > -->
+<!--       <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" ><i class="fa fa-plus"></i>添加</div> -->
+<!--    </div> -->
    
     <form class="form-inline" style="float:right" method="post" id="formSearch">
       <input class="form-control mr-sm-2" type="search" placeholder="指标搜索关键字" aria-label="Search" id="searchKeyWord">
@@ -377,7 +377,8 @@
                      },
                      error : function(data){
                      }
-                 });    
+                 });  
+          alert("删除成功！");
           };
         
           updatebutton = function(Url) {
@@ -401,7 +402,8 @@
                         },
                         error : function(data){
                         }
-                    });    
+                    });  
+             alert("修改成功！");
              };
         
         
@@ -461,7 +463,8 @@
                                     },
                                     error : function(data){
                                     }
-                                });    
+                                }); 
+                         alert("指标状态为显示！");
                          };
                          
                          noPerShow = function(indi_id,Url) {
@@ -481,6 +484,7 @@
                                         error : function(data){
                                         }
                                     });    
+                             alert("指标状态为不显示！");
                              };
              
              
@@ -502,7 +506,8 @@
                                           },
                                           error : function(data){
                                           }
-                                      });    
+                                      }); 
+                               alert("搜索成功！");
                                };
              
              

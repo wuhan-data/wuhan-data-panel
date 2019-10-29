@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSON;
 import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.app.service.TrackServiceApp;
 import com.wuhan_data.pojo.Track;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.tools.StringToMap;
 
 import net.sf.json.JSONObject;
@@ -35,6 +36,8 @@ public class TrackControllerApp {
 	TrackServiceApp  trackServiceApp;
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
+	@Autowired
+	SysLogService sysLogService;
 	//set足迹接口
 	@RequestMapping(value="setTrackApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody
@@ -59,6 +62,7 @@ public class TrackControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setTrackApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数异常", data);
 		}
 	  	//token令牌验证
@@ -68,6 +72,7 @@ public class TrackControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setTrackApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 	  	if(tokenIsEmpty)
@@ -108,6 +113,7 @@ public class TrackControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("setTrackApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}
 
@@ -131,6 +137,7 @@ public class TrackControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("getTrackApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
 			return this.apiReturn("-2", "请求参数错误", data);
 		}
 	  	
@@ -141,6 +148,7 @@ public class TrackControllerApp {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("getTrackApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
 			return this.apiReturn("-1", "数据库异常", data);
 		}  
 
@@ -194,6 +202,7 @@ public class TrackControllerApp {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("getTrackApp"+e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				return this.apiReturn("-1", "数据库操作异常", data);
 			}		
 		}

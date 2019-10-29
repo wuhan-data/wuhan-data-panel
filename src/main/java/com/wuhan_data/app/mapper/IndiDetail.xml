@@ -40,7 +40,7 @@
             select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly_name2='湖北省统计局' and group_count=0 and area_name='湖北省' and (time_point = '104' or time_point = '203') group by date_code 
         </select> 
          <select id="indiDateByFreqNameArea" resultType="String" parameterType="java.util.Map" >
-            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly_name2='湖北省统计局' and lj=#{lj} and (time_point = '104' or time_point = '203') group by date_code 
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly_name2='湖北省统计局' and lj=#{lj} and (time_point = '104' or time_point = '203') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by date_code 
         </select> 
         <select id="indiDateByFreqNameDefault" resultType="String" parameterType="java.util.Map" >
             select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly_name2='湖北省统计局' and lj=#{lj} and (time_point = '104' or time_point = '203') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by date_code 
@@ -66,7 +66,7 @@
 <!--              and indicator_grp23_item_name=#{area_name} -->
         </select> 
        <select id="getIndiValueArea" resultType="TPIndiValue" parameterType="java.util.Map" >
-            select indi_value,time_point,date_code,area_name from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and date_code= #{time} and sjly_name2='湖北省统计局' and (time_point = '104' or time_point = '203')  and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000'
+            select indi_value,time_point,date_code,area_name from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and date_code= #{time} and (time_point = '104' or time_point = '203')  and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000'
         </select> 
       
        <insert id="indiCollect" parameterType="Collect" >

@@ -89,7 +89,7 @@
     	 }
        	  //判断code是否存在
        	  else{
-				 roleName=encodeURI(roleName);
+				 /* roleName=encodeURI(roleName);
 		    	$.ajax({
 		    		url:"departmentNameIsExist",
 		    		data:{roleName:roleName},
@@ -107,14 +107,14 @@
 		    			}	
 		    		}
 		    	}) 
-				return flag;
+				return flag; */
+				return true;
        	  }
     }
        function checkForm(){
        	var roleCode=checkDepartmentCode();
     	var roleName=checkDepartmentName();
        	if (roleCode && roleName){
-       		alert(roleCode && roleName);
        		return true;
        	}
        	else
@@ -370,15 +370,14 @@
                      	    processData: false,
                           cache:false,
                           success: function(data){
+                    	  alert("添加成功")
                               $('#getNewData').html(data);
                           },
                           error : function(data){
+                    	  alert("添加失败")
                           }
                       }); 
           	  	}
-          	  else{
-          		  
-          	  }
               };
                editClick = function(Url) {
              	   $('.modal-backdrop').remove();
@@ -394,14 +393,21 @@
                         	    processData: false,
                              cache:false,
                              success: function(data){
+                        	 alert("修改成功")
                                  $('#getNewData').html(data);
                              },
                              error : function(data){
+                        	 alert("修改失败")
                              }
                          });    
                   };
                   delClick = function(s_id,Url) {
-                	  
+                	  if (s_id==2)
+                  	{
+                  		  alert("默认角色不能删除");
+                  		  return 
+                  	}
+                  	  
                 	  
                 	  var departmentId=encodeURI(s_id);
                 	  $.ajax({
@@ -422,10 +428,11 @@
       	                            	    processData: false,
       	                                 cache:false,
       	                                 success: function(data){
-      	                            	 	alert(data);
+      	                            	 	alert("删除成功");
       	                                     $('#getNewData').html(data);
       	                                 },
       	                                 error : function(data){
+      	                            	 alert("删除失败")
       	                                 }
       	                             });  
       		    			}	

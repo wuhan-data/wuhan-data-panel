@@ -121,8 +121,7 @@ public class RoleServicelmpl implements RoleService {
 		System.out.println("主题");
 		//获得了一级栏目
 		List<AnalysisType> allAnalysisTypes=analysisManageMapper.parentList();//这是一级标题
-		System.out.println("一级标题");
-		System.out.println("一级标题"+allAnalysisTypes.size());
+		
 		for (int i=0;i<allAnalysisTypes.size();i++)
 		{	
 			ThemeList aList=new ThemeList();
@@ -131,10 +130,7 @@ public class RoleServicelmpl implements RoleService {
 			aList.setLevel_one(analysisType.getType_name());//设置一级标题
 			Map map=new HashMap();
 			map.put("type_id",analysisType.getType_id());
-			System.out.println("type_id:"+analysisType.getType_id());
-			
 			List<AnalysisLabel> analysisLabels=analysisManageMapper.groupList(map);//得到了二级标题
-			System.out.println("二级");
 			//System.out.println("二级标题"+analysisLabels.get(1).getLabel_name());
 			List<AnalysisTheme> aaList=new ArrayList<AnalysisTheme>();
 			for (int j=0;j<analysisLabels.size();j++)
@@ -182,8 +178,8 @@ public class RoleServicelmpl implements RoleService {
 	@Override
 	public java.util.List<IndexManage> getIndexManages2() {
 		// TODO Auto-generated method stub
-		
-		return indiSearchMapper.searchIndiHPower();
+		//return indiSearchMapper.searchIndiH("%");
+		return indiSearchMapper.searchIndiG("%");
 	}
 
 	@Override

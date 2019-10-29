@@ -30,6 +30,7 @@ import com.wuhan_data.pojo.User;
 import com.wuhan_data.pojo.Version;
 import com.wuhan_data.service.Message2Service;
 import com.wuhan_data.service.RoleService;
+import com.wuhan_data.service.SysLogService;
 import com.wuhan_data.service.UserService;
 import com.wuhan_data.tools.ImageUtils;
 import com.wuhan_data.tools.Page;
@@ -43,6 +44,8 @@ public class Message2Controller {
 	RoleService roleService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	SysLogService sysLogService;
 	private static String title="";//用于模糊查询的名字
 	 String strDateFormat = "yyyy-MM-dd HH:mm:ss";
 	 SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
@@ -61,6 +64,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messageInit:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -95,6 +99,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messageInit:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -112,6 +117,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messagesListByPage:参数获取"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -140,6 +146,7 @@ public class Message2Controller {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("messagesListByPage:数据库操作"+e.toString());
+			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 			maView.setViewName("error");
 			return maView;
 		}
@@ -179,6 +186,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessage:获取参数"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
@@ -240,6 +248,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessage:数据库操作"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
@@ -252,6 +261,7 @@ public class Message2Controller {
 	            HttpServletResponse response,@RequestParam("messageAddByRoleFile")MultipartFile [] files) throws IOException{
 	    	request.setCharacterEncoding("UTF-8");    	
 	        response.setCharacterEncoding("UTF-8");
+	        System.out.println("nihao zheshi add by role");
 	    	ModelAndView maView = new ModelAndView();
 	    	//获取数据
 	    	int addByRoleSender_id=0;
@@ -276,12 +286,13 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessageByRole:获取参数"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
 		      //数据库操作 
 	        try {
-	        	List<User>users=userService.getByRole(addByRoleReceiver_id);//这其实是一个名字
+	        	List<User>users=userService.getByRole(Integer.valueOf(addByRoleReceiver_id));//这其实是一个名字
 		        List<Integer> userIdList=new ArrayList<Integer>();
 		        for (int i=0;i<users.size();i++)
 		        {
@@ -347,6 +358,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("addMessageByRole:数据库操作"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
@@ -384,6 +396,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editMessage:获取参数"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 				maView.setViewName("error");
 				return maView;
 				
@@ -452,6 +465,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("editMessage:数据库操作"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
@@ -471,6 +485,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteMessage:获取参数"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
@@ -501,6 +516,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("deleteMessage:数据库操作"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				maView.setViewName("error");
 				return maView;
 			}
@@ -520,6 +536,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchByTitle:获取参数"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 				mav.setViewName("error");
 				return mav;
 			}
@@ -552,6 +569,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchByTitle:数据库操作"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				mav.setViewName("error");
 				return mav;
 			}
@@ -570,6 +588,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchListByPage:获取参数"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
 				mav.setViewName("error");
 				return mav;
 			}
@@ -602,6 +621,7 @@ public class Message2Controller {
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("messageSearchListByPage:数据库操作"+e.toString());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
 				mav.setViewName("error");
 				return mav;
 			}
