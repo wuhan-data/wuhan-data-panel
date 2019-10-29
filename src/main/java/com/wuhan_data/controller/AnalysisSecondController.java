@@ -41,17 +41,16 @@ public class AnalysisSecondController {
         response.setCharacterEncoding("UTF-8");//防止乱码       
         ModelAndView mav = new ModelAndView();//返回视图类    
 //        Page page=new Page(); //分页类
-      if(label_id==null) {
+     
     	  label_id=Integer.parseInt(request.getParameter("label_id")); //获取二级分类id
     	  
-      }
-      if(label_name==null) {
+     
     	  label_name=java.net.URLDecoder.decode(request.getParameter("label_name"),"UTF-8"); //获取二级分类名称
           
-      }
-      if(type_name==null) {
+      
+    
     	  type_name=java.net.URLDecoder.decode(request.getParameter("type_name"),"UTF-8");  //获取一级名称
-      }
+     
         	      	
        System.out.print(label_id);
        System.out.print(label_name);
