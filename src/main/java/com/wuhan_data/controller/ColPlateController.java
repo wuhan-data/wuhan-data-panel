@@ -100,10 +100,13 @@ public class ColPlateController { //栏目下的板块管理
         String cname=colPlateService.getAddCname(cid);//获取添加板块所属栏目的名称
         String show_type=request.getParameter("show_type");//获取显示类型
         int term = Integer.parseInt(request.getParameter("term"));//获取期数
+        int pweight = colPlateService.getAddPid(cid);
+        
         ColPlate colPlate = new ColPlate();//新添加板块对象
         colPlate.setCid(cid);
         colPlate.setCname(cname);
         colPlate.setPname(pname);
+        colPlate.setPlate_weight(pweight);
         colPlate.setShow_type(show_type);
         colPlate.setTerm(term);
         colPlateService.add(colPlate);
@@ -131,6 +134,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
+        mav.addObject("label_id", label_id);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -171,6 +175,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
+        mav.addObject("label_id", label_id);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -215,6 +220,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("theme_id", cid);   
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
+        mav.addObject("label_id", label_id);
         mav.addObject("type_name", type_name);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
@@ -269,6 +275,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
+        mav.addObject("label_id", label_id);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -332,6 +339,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
+        mav.addObject("label_id", label_id);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
