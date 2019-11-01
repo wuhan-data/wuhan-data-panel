@@ -106,9 +106,9 @@
 								</div> -->
 								<!-- /SOCIAL LOGIN -->
 								<div class="login-helpers">
-									<a href="#" onclick="swapScreen('forgot');return false;">忘记密码</a> <br>
-									<a href="#" onclick="swapScreen('register');return false;">注册</a>
-								</div>
+<!-- 									<a href="#" onclick="swapScreen('forgot');return false;">忘记密码</a> <br> -->
+<!-- 									<a href="#" onclick="swapScreen('register');return false;">注册</a> -->
+<!-- 								</div> -->
 							</div>
 						</div>
 					</div>

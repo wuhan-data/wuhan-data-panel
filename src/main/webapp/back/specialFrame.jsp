@@ -88,7 +88,7 @@
     </style>
 </head>
 <body>  
-
+<div id="wrapper">
         <div id="page-wrapper" >
             <div id="page-inner">
 			 <div class="row">
@@ -395,7 +395,8 @@
                  
 				</div>
              <!-- /. PAGE INNER  -->
-            </div>                    
+            </div>           
+            </div>         
                             </body>
                             
                              <!-- jQuery Js -->

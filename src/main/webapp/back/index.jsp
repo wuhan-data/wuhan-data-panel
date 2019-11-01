@@ -185,11 +185,12 @@
 <!--         </nav> -->
         <!-- /. NAV SIDE  -->
         <div id="getNewData" width="100%" height="100%">
+        <div id="wrapper">
          <div id="page-wrapper" >
             <div id="page-inner" >
             
 
-<div id="welcome" width="100%" height="100%" >
+<div id="welcome" width="100%"  >
 <div class="row">
                     <div class="col-md-12">
                         <h1 class="page-header">
@@ -206,6 +207,7 @@
                 <!-- /. ROW  -->
             </div>
             <!-- /. PAGE INNER  -->
+        </div>
         </div>
 </div>
 

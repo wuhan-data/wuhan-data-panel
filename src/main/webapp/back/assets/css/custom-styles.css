@@ -14,7 +14,7 @@ body {
 
 #page-wrapper {
     padding: 15px 15px;
-    /* min-height: 600px; */
+     min-height: 600px; 
     background:#E5EBF2;
    
 }
@@ -400,7 +400,7 @@ line-height: 1.428571429;
      #page-wrapper{
         margin: 0 0 0 260px;
         padding: 15px 30px;
-        min-height: 700px;  
+        min-height: 1200px;  
 		
     }
 	

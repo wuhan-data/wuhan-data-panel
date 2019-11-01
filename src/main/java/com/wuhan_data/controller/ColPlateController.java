@@ -128,6 +128,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("page", page);    //前端获取参数
         mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
         mav.addObject("theme_id", cid);   
+        mav.addObject("label_id", label_id);
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
@@ -168,6 +169,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("page", page);    //前端获取参数
         mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
         mav.addObject("theme_id", cid);   
+        mav.addObject("label_id", label_id);
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
@@ -212,7 +214,8 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
         mav.addObject("page", page);    //前端获取参数
         mav.addObject("cid", cid); //前端获取二级栏目id，以便多次传参 
-        mav.addObject("theme_id", cid);   
+        mav.addObject("theme_id", cid);  
+        mav.addObject("label_id", label_id);
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
@@ -269,6 +272,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
+        mav.addObject("label_id", label_id);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }
@@ -332,6 +336,7 @@ public class ColPlateController { //栏目下的板块管理
         mav.addObject("theme_name", theme_name); 
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
+        mav.addObject("label_id", label_id);
         mav.setViewName("columnContentManage"); //返回到jsp页面
         return mav;
     }

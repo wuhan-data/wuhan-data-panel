@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WUHANDATA</title>
 	<!-- Bootstrap Styles-->
-    <!--  <link href="assets/css/bootstrap.css" rel="stylesheet" />  -->
+     <link href="assets/css/bootstrap.css" rel="stylesheet" />  
      <!-- FontAwesome Styles-->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
         <!-- Custom Styles-->
@@ -64,12 +64,13 @@
         #dataTables-example thead, tbody tr{
         display:table;
         width:100%;
-        table-layout:fixed;
+        table-layout:fixed; 
         }
 
     </style>
 </head>
 <body>
+<div id="wrapper">
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
@@ -318,6 +319,7 @@
                  
 				</div>
              <!-- /. PAGE INNER  -->
+            </div>
             </div>
          <!-- /. PAGE WRAPPER  -->
      <!-- /. WRAPPER  -->
@@ -622,9 +624,9 @@
                 	
             }
             function del(aid){
-            	alert("sss")
+            	
             	/* var aid=document.getElementById("aid").value; */
-            	alert(aid);
+            
             	var id=encodeURI(encodeURI(aid));
           	    window.location.href="http://localhost:8089/wuhan_data1/delCol?id="+id;  
             /* 	$.ajax({
@@ -670,7 +672,7 @@
         
             function getData(){
             	var data = order.getData();
-                alert(JSON.stringify(data)); 
+             
             } 
             
     </script>

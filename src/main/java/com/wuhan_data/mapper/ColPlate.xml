@@ -66,7 +66,7 @@
         
         <!-- 得到需要添加的板块的id值 -->
         <select id="getAddPid" resultType="int" parameterType="int">
-            select max(plate_id)+1 from WUHAN_DATA."ANALYSIS_PLATE" where theme_id=#{cid}
+            select max(plate_weight)+1 from WUHAN_DATA."ANALYSIS_PLATE" where theme_id=#{cid}
         </select>
         
        <!--  得到需要添加的板块所属栏目的名称 -->

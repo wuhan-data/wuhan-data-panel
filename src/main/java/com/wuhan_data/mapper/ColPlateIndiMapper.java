@@ -28,8 +28,8 @@ public interface ColPlateIndiMapper {
 	public IndexManage getIndiInfo(String indi_code);//根据indi_code得到指标信息 用于添加
 	@DataSource(value="dataSource_dm")
 	public String getPname(int pid);//根据pid查询pname 用于添加指标
-	@DataSource(value="dataSource_mysql")
+	@DataSource(value="dataSource_dm")
 	public List<ColPlateIndi> searchIndi(String content);//用于添加指标时对指标的搜索
-	@DataSource(value="dataSource_mysql")
+	@DataSource(value="dataSource_dm")
 	public ColPlateIndi getIdAndNew_name(String indi_old_name);
 }

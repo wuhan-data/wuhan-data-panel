@@ -84,7 +84,7 @@
         word-wrap:break-word;  
     	word-break:break-all;
     	overflow: auto; 
-       width:200px;
+       width:120px;
        }
        
        li{
@@ -107,7 +107,7 @@
     </style>
 </head>
 <body>
-   
+   <div id="wrapper">
         <div id="page-wrapper" >
             <div id="page-inner">
 			 <div class="row">
@@ -151,7 +151,7 @@
                                             <th>指标别名</th>
                                             <th width="5%">展现形式</th>
                                             <th width="10%">展示颜色</th>
-                                            <th>操作</th>
+                                            <th width="30%">操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -177,7 +177,7 @@
             ${c.show_color }<div style="background-color:${c.show_color}" class="showColor"></div>
             </c:if>     
             </td>
-            <td >
+            <td width="30%">
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
 <i class="fa fa-edit"></i>修改
 </div>
@@ -372,6 +372,7 @@
                  
 				</div>
              <!-- /. PAGE INNER  -->
+            </div>
             </div>
          <!-- /. PAGE WRAPPER  -->
     <!-- JS Scripts-->
@@ -652,7 +653,7 @@
                } 
             
             backSecondMenu = function(label_id,typeName,labelName,Url) { 
-            	alert(label_id)
+            	
             	var type=encodeURI(encodeURI(typeName));
               	var label=encodeURI(encodeURI(labelName));
                    $.ajax({

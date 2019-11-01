@@ -44,11 +44,11 @@
         </select>
         
        <select id="searchIndi" resultType="ColPlateIndi" parameterType="String">
-        	select search_indi_id, indi_old_name from MIDUSER."search_indi" where indi_old_name like  CONCAT('%',#{content},'%') 
+        	select search_indi_id, indi_old_name from WUHAN_DATA."SEARCH_INDI" where indi_old_name like  CONCAT('%',#{content},'%') limit 0,20
 		</select>
         
  		<select id="getIdAndNew_name" resultType="ColPlateIndi" parameterType="String">
-        	select distinct INDEXDATAID as search_indi_id from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where INDEXDATANAME like  CONCAT('%',#{indi_old_name},'%')  limit 0,1
+        	select distinct  search_indi_id from WUHAN_DATA."SEARCH_INDI" where indi_old_name like  CONCAT('%',#{indi_old_name},'%')  limit 0,1
 		</select>
         
          <select id="getPname" resultType="String" parameterType="int">
