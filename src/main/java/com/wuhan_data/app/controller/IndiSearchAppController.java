@@ -34,6 +34,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.IndiDetailService;
 import com.wuhan_data.app.service.IndiSearchService;
+import com.wuhan_data.service.UserService;
 import com.wuhan_data.app.showType.BarType;
 import com.wuhan_data.app.showType.LineType;
 import com.wuhan_data.app.showType.TableType;
@@ -57,6 +58,8 @@ public class IndiSearchAppController {
 	IndiDetailService indiDetailService;
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -235,9 +238,29 @@ public class IndiSearchAppController {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
 		String keyWord = "";
 		String source = "全部";// 国统、湖统、全部
+		Integer userId = 0;
+		String token = "";
 		System.out.println("进入searchIndi");
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
+			
+//			try {
+//				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+//			} catch (Exception e) {
+//				return this.apiReturn("-1", "参数获取异常", data);
+//			}
+//
+//			try {
+//				if (!token.equals("")) {
+//					String mapString = sessionSQLServiceApp.get(token).getSess_value();
+//					Map mapS = StringToMap.stringToMap(mapString);
+//					userId = Integer.valueOf((String) mapS.get("userId"));
+//				}
+//			} catch (Exception e) {
+//				System.out.println("无效的token令牌");
+//			}
+			
+			
 			boolean hasKeyword = requestObject.containsKey("keyword");
 			if (!hasKeyword) {
 				return this.apiReturn("-1", "需要指定关键词", data);
@@ -267,7 +290,13 @@ public class IndiSearchAppController {
 			searchIndiListH = indiSearchService.searchIndiH(keyWord);
 		} else
 			searchIndiListG = indiSearchService.searchIndiG(keyWord);
-
+		
+		//获得该用户的权限
+//		Map<String, List<String>> allPower = userService.getAllPower(userId);
+//		Set <String> power_h=new HashSet<String>();
+//		Set <String> power_g=new HashSet<String>();
+//		power_h = (Set<String>) allPower.get("powerIndexManages");
+//		power_g = (Set<String>) allPower.get("powerIndexManages2");
 		List resultList = new ArrayList();
 		// 放入来自国统的指标数据
 		Set setG = new HashSet();

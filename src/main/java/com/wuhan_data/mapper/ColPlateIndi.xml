@@ -44,7 +44,7 @@
         </select>
         
        <select id="searchIndi" resultType="ColPlateIndi" parameterType="String">
-        	select INDEXDATAID as search_indi_id,INDEXDATANAME as indi_old_name from PLATFORM1."SRIT_DATA_INDICATOR_TJ" where INDEXDATANAME like  CONCAT('%',#{content},'%') 
+        	select search_indi_id, indi_old_name from MIDUSER."search_indi" where indi_old_name like  CONCAT('%',#{content},'%') 
 		</select>
         
  		<select id="getIdAndNew_name" resultType="ColPlateIndi" parameterType="String">
