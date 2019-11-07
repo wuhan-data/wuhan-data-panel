@@ -48,6 +48,7 @@
      
     function checkUserTel(){
      	 var rolecode = document.getElementById("addUserTel").value;
+     	 var realName= document.getElementById("addUserReal_name").value;
      	 var flag=false;
      	 var reg = /^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/;
           if (!reg.test(rolecode)) {
@@ -55,6 +56,13 @@
               return false;
           }
           else {
+        	  //判断用户名是否为空
+        	  var reg2 = /\S/;
+        	  if(!reg2.test(realName))
+        		  {
+        		  span_userReal_name.innerHTML = "用户名不能为空";
+                  return false;
+        		  }
         	//判断tel是否存在
 				roleCode=encodeURI(rolecode);
 		    	$.ajax({
@@ -86,32 +94,16 @@
       }
             
       function edit_checkUserTel(){
-      	 var rolecode = document.getElementById("editUserTel").value;
-      	 var reg = /^(13[0-9]|15[012356789]|17[0135678]|18[0-9]|14[579])[0-9]{8}$/;
-           if (!reg.test(rolecode)) {
-        	   edit_span_userTel.innerHTML = "请填写正确的手机号码";
-               return false;
-           }
-           else {
-        	/*  //判断tel是否存在
-				roleCode=encodeURI(rolecode);
-		    	$.ajax({
-		    		url:"telIsExist",
-		    		data:{tel:roleCode},
-		    		success:function(data){
-		    			if(data.data=="exist"){
-		    				edit_span_userTel.innerHTML = "tel已经存在";
-		          		  	return false;	
-		    			}
-		    			else{
-		    				edit_span_userTel.innerHTML = "格式正确";
-		              		return true;
-		    			}	
-		    		}
-		    	})  */
-        	   edit_span_userTel.innerHTML = "格式正确";
-         	   return true;
-           }
+      	
+      	 var realName= document.getElementById("editUserReal_name").value;
+         var reg2 = /\S/;
+         	  if(!reg2.test(realName))
+         		  {
+         		  edit_span_userReal_name.innerHTML = "用户名不能为空";
+                   return false;
+         		  }
+         	 return true;
+           
       }
        function edit_checkForm(){
        	var roleCode=edit_checkUserTel();
@@ -123,7 +115,7 @@
       </script>
 </head>
 <body>
-  <div id="wrapper">
+  
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
@@ -262,6 +254,8 @@
   <br>
  
    真实姓名：<input class="form-control"  name="editUserReal_name" id="editUserReal_name">
+    <span id="edit_span_userReal_name">请填写真实姓名</span><br>
+   
      <br>
  
       出生日期：<input class="form-control" type="date" value=""name="editBirthday" id="editBirthday"/><br>
@@ -297,7 +291,7 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addUser" onsubmit="return checkForm()" >
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="#" onsubmit="return checkForm()" >
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
@@ -331,6 +325,7 @@
 	</c:forEach>
   <br>
    真实姓名：<input class="form-control" type="search" placeholder="真实姓名" name="addUserReal_name" id="addUserReal_name">
+     <span id="span_userReal_name">请填写真实姓名</span><br>
      <br>
    
      出生日期：<input class="form-control" type="date" value="2019-01-01"name="addBirthday" id="addBirthday"/><br>
@@ -387,7 +382,7 @@
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
-       </div>
+       
      <!-- /. WRAPPER  -->
     <!-- JS Scripts-->
     <!-- jQuery Js -->
@@ -435,10 +430,12 @@
           	  }
           	  else
           		  {alert("请填写正确格式的值")}
-               };
+          	  }
+          
                editClick = function(Url) {
             	   $('.modal-backdrop').remove();
-            	    $('body').removeClass('modal-open');
+             	    $('body').removeClass('modal-open');
+            	   if(edit_checkForm()){
                  var data = new FormData(document.getElementById("editForm"));                	
                  $.ajax({
                             type: 'POST',
@@ -456,7 +453,11 @@
                             error : function(data){
                         	alert("修改失败")
                             }
-                        });    
+                        });  
+            	   }
+            	   else
+           		  {alert("请填写正确格式的值")}
+            	    
                  };
                  delClick = function(s_id,Url) {
                      $.ajax({
@@ -686,7 +687,8 @@
             function getData(){
                 var data = order.getData();
                 alert(JSON.stringify(data));
-            }    
+            }   
+            
     </script>
 </body>
 </html>

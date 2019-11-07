@@ -82,6 +82,7 @@ public class Message2Controller {
             page.count();
             map.put("page", page);
             List<Message2> messagesListByPage=message2Service.listByPage(map);
+            messagesListByPage=message2Service.getUserNameList(messagesListByPage);
             List<Role> roleList=roleService.List();
             
             
@@ -100,6 +101,7 @@ public class Message2Controller {
 			// TODO: handle exception
 			System.out.println("messageInit:数据库操作"+e.toString());
 			sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
+			e.printStackTrace();
 			maView.setViewName("error");
 			return maView;
 		}
@@ -136,6 +138,7 @@ public class Message2Controller {
             page.count();
             map.put("page", page);
             List<Message2> messagesListByPage=message2Service.listByPage(map);
+            messagesListByPage=message2Service.getUserNameList(messagesListByPage);
             List<Role> roleList=roleService.List();
             maView.addObject("roleList", roleList);
             maView.addObject("messagesListByPage",  messagesListByPage);
@@ -238,6 +241,7 @@ public class Message2Controller {
 	        page.count();
 	        map.put("page", page);
 	        List<Message2> messagesListByPage=message2Service.listByPage(map);
+	        messagesListByPage=message2Service.getUserNameList(messagesListByPage);
 	        List<Role> roleList=roleService.List();
 	        maView.addObject("roleList", roleList);
 	        maView.addObject("messagesListByPage",  messagesListByPage);
@@ -348,6 +352,7 @@ public class Message2Controller {
 		        page.count();
 		        map.put("page", page);
 		        List<Message2> messagesListByPage=message2Service.listByPage(map);
+		        messagesListByPage=message2Service.getUserNameList(messagesListByPage);
 		        List<Role> roleList=roleService.List();
 		        maView.addObject("roleList", roleList);
 		        maView.addObject("messagesListByPage",  messagesListByPage);
@@ -454,6 +459,7 @@ public class Message2Controller {
 	 		   	page.count();
 	 		   	map.put("page", page);
 	 		   	List<Message2> messagesListByPage=message2Service.listByPage(map);
+	 		    messagesListByPage=message2Service.getUserNameList(messagesListByPage);
 	 		   	List<Role> roleList=roleService.List();
 	 		   	maView.addObject("roleList", roleList);
 	 		   	maView.addObject("messagesListByPage",  messagesListByPage);
@@ -505,6 +511,7 @@ public class Message2Controller {
 				page.count();
 				map.put("page", page);
 				List<Message2> messagesListByPage=message2Service.listByPage(map);
+				messagesListByPage=message2Service.getUserNameList(messagesListByPage);
 				List<Role> roleList=roleService.List();
 				maView.addObject("roleList",roleList);
 				maView.addObject("messagesListByPage",messagesListByPage);
@@ -558,6 +565,7 @@ public class Message2Controller {
 		        map.put("page", page);
 		        map.put("title",title);
 		        List<Message2> messagesListByPage=message2Service.searchByContent(map);
+		        messagesListByPage=message2Service.getUserNameList(messagesListByPage);
 		        List<Role> roleList=roleService.List();
 		        mav.addObject("roleList", roleList);
 		        mav.addObject("messagesListByPage",  messagesListByPage);
@@ -610,6 +618,7 @@ public class Message2Controller {
 		        map.put("page", page);
 		        map.put("title",title);
 		        List<Message2> messagesListByPage=message2Service.searchByContent(map);
+		        messagesListByPage=message2Service.getUserNameList(messagesListByPage);
 		        List<Role> roleList=roleService.List();
 		        mav.addObject("roleList", roleList);
 		        mav.addObject("messagesListByPage",  messagesListByPage);

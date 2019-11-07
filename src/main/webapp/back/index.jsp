@@ -68,7 +68,7 @@
                         <li class="divider"></li>
 						<%out.print(((Admin)session.getAttribute("user")).getUsername()); %>你好   
 
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="adminLogout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
 <!--                     /.dropdown-user -->
@@ -250,6 +250,26 @@
             });           	
 /*             $("#iframe-page-content").attr('src',menuUrl); */
    };
+   
+   
+   logout = function(Url) {
+       
+       $.ajax({
+                  type: 'GET',
+                  url:  Url,
+                  dataType: "html",
+             	    async : false,
+              	contentType: false, //不设置内容类型
+             	    processData: false,
+                  cache:false,
+                  success: function(data){
+             	 	
+                      $('#getNewData').html(data);
+                  },
+                  error : function(data){
+                  }
+              });    
+       };
    </script>
 
 	

@@ -44,7 +44,7 @@
         </select>
         
        <select id="searchIndi" resultType="ColPlateIndi" parameterType="String">
-        	select search_indi_id, indi_old_name from WUHAN_DATA."SEARCH_INDI" where indi_old_name like  CONCAT('%',#{content},'%') limit 0,20
+        	select search_indi_id, indi_old_name from WUHAN_DATA."SEARCH_INDI" where indi_old_name like  CONCAT('%',#{content},'%') limit 0,40
 		</select>
         
  		<select id="getIdAndNew_name" resultType="ColPlateIndi" parameterType="String">

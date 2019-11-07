@@ -185,7 +185,7 @@ public class RoleController {
             maView.addObject("power_2",roleService.getIndexSpecials());
             maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("power_4",roleService.getIndexManages2());
-            
+            System.out.println("ffft:数据库操作"+roleService.getIndexManages2().size());
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 

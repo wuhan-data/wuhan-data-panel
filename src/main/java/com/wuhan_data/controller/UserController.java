@@ -527,7 +527,7 @@ public class UserController {
     @RequestMapping("editUser")
     public ModelAndView editUser(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
-    	System.out.println("进入方法--------------");
+    	
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
