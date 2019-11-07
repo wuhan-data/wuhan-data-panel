@@ -92,8 +92,8 @@
                                     <thead>
                                         <tr>
                                             <th width="2%">id</th>
-                                            <th width="8%">发送人id</th>
-                                            <th width="20%">接收人id</th>
+                                            <th width="8%">发送人</th>
+                                            <th width="20%">接收人</th>
                                             <th width="20%">标题</th>
                                             <th width="8%">消息类型</th>
                                             <th width="7%">内容类型</th>
@@ -105,8 +105,8 @@
      <c:forEach items="${messagesListByPage}" var="c" varStatus="st">
         <tr>
             <td >${c.id}</td>
-            <td >${c.sender_id}</td>
-            <td ><div class="tabel-div">${c.receiver_id}</div></td>
+            <td >${c.sender_name}</td>
+            <td ><div class="tabel-div">${c.receiver_name}</div></td>
             <td ><div class="tabel-div">${c.title}</div></td>
             <td >${c.label}</td>
             <td >${c.type}</td>
@@ -116,10 +116,10 @@
 <i class="fa fa-edit"></i>修改
 </div>
  --%>
- <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="lookrole('${c.id}','${c.sender_id}','${c.receiver_id}','${c.title}','${c.label}','${c.content}','${c.m_text}','${c.type}','${c.path}')">
+ <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="lookrole('${c.id}','${c.sender_name}','${c.receiver_name}','${c.title}','${c.label}','${c.content}','${c.m_text}','${c.type}','${c.path}')">
 <i class="fa fa-edit"></i>查看
 </div>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="editrole('${c.id}','${c.sender_id}','${c.receiver_id}','${c.title}','${c.label}','${c.content}','${c.m_text}','${c.type}','${c.path}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="editrole('${c.id}','${c.sender_id}','${c.sender_name}','${c.receiver_id}','${c.receiver_name}','${c.title}','${c.label}','${c.content}','${c.m_text}','${c.type}','${c.path}')">
 <i class="fa fa-edit"></i>修改
 </div>
 <a href="#" onclick="delClick('${c.id }','deleteMessage')">
@@ -150,8 +150,8 @@
 			<div class="modal-body">		
 
 		<input class="form-control" type="hidden" name="lookMessageID" id="lookMessageID">
- 发送人id：<input class="form-control" type="text" name="lookSender_id" id="lookSender_id"  readonly>  <br> 
- 接收人id：<input class="form-control" type="text" name="lookReceiver_id" id="lookReceiver_id"readonly> <br>
+ 发送人：<input class="form-control" type="text" name="lookSender_id" id="lookSender_id"  readonly>  <br> 
+ 接收人：<input class="form-control" type="text" name="lookReceiver_id" id="lookReceiver_id"readonly> <br>
   消息类型：
  <select class="form-control" id="lookLabel" name="lookLabel" readonly>	
        		<option value="系统消息" >系统消息</option>    
@@ -200,8 +200,11 @@
 			<div class="modal-body">		
 
 		<input class="form-control" type="hidden" name="editMessageID" id="editMessageID">
- 发送人id：<input class="form-control" type="text" name="editSender_id" id="editSender_id" readonly>  <br> 
- 接收人id：<input class="form-control" type="text" name="editReceiver_id" id="editReceiver_id"> <br>
+		
+ 发送人：<input class="form-control" type="hidden" name="editSender_id" id="editSender_id" readonly>  <br> 
+ 发送人：<input class="form-control" type="text" name="editSender_name" id="editSender_name" readonly> <br> 
+ 接收人：<input class="form-control" type="hidden" name="editReceiver_id" id="editReceiver_id" readonly> <br>
+接收人：<input class="form-control" type="text" name="editReceiver_name" id="editReceiver_name" readonly> <br>
   消息类型：
  <select class="form-control" id="editLabel" name="editLabel" >	
        		<option value="系统消息" >系统消息</option>    
@@ -562,10 +565,12 @@
             	form1.action="initAnalysisList?op="+title;
             	form1.submit();
             }
-            function editrole(id,sender_id,receiver_id,title,label,content,m_text,type,path){
+            function editrole(id,sender_id,sender_name,receiver_id,receiver_name,title,label,content,m_text,type,path){
             	$("#editMessageID").val(id);
             	$("#editSender_id").val(sender_id);
             	$("#editReceiver_id").val(receiver_id);
+            	$("#editSender_name").val(sender_name);
+            	$("#editReceiver_name").val(receiver_name);
             	$("#editTitle").val(title);
             	$("#editLabel").val(label);
             	$("#editContent").val(content);
@@ -622,7 +627,7 @@
             	var realName=$("#realName").val();
             	realName = encodeURI(realName);
             	$.ajax({
-            		url:"http://localhost:8080/wuhan_data1/selectByRealName2",
+            		url:"selectByRealName2",
             		data:{realName:realName},
             		type:'post',
             		success:function(data){

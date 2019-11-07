@@ -25,7 +25,7 @@
         </select> 
         
         <select id="searchIndiH" resultType="IndexManage" parameterType="String">
-            select indi_code,indi_old_name as indi_name,source,area_code,area_name,lj,is_show from MIDUSER."APP_INDI_H" where lj like CONCAT('%',#{keyWord},'%') and area_code='420000000000' group by indi_code,indi_old_name,source,area_code,area_name,lj,is_show
+            select id,indi_code,indi_old_name as indi_name,source,area_code,area_name,lj,is_show from MIDUSER."APP_INDI_H" where lj like CONCAT('%',#{keyWord},'%') and area_code='420000000000' group by id,indi_code,indi_old_name,source,area_code,area_name,lj,is_show
         </select> 
         
         <select id="searchIndiHPower" resultType="IndexManage" parameterType="String">

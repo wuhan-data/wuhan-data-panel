@@ -17,5 +17,6 @@ public interface Message2Service {
 	public List<Message2> searchByContent(Map<String, Object> parameter);
 	//模糊查询的数量
 	public int searchCountByContent(Map<String, Object> parameter);
+	public List<Message2> getUserNameList(List<Message2> message2s);
 
 }

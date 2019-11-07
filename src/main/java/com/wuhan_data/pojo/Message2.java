@@ -3,10 +3,34 @@ package com.wuhan_data.pojo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.wuhan_data.mapper.UserMapper;
+
 public class Message2 {
+	@Autowired
+	UserMapper userMapper;
 	private Integer id;
 	private Integer sender_id;
+	private String sender_name;
+	
+	
+	public String getSender_name() {
+		return sender_name;
+	}
+	public void setSender_name(String sender_name) {
+		this.sender_name = sender_name;
+	}
 	private String receiver_id;
+	private String receiver_name;
+	
+	public String getReceiver_name() {
+		return receiver_name;
+	}
+	public void setReceiver_name(String receiver_name) {
+		this.receiver_name = receiver_name;
+	}
 	private String title;
 	private String label;
 	private String content;

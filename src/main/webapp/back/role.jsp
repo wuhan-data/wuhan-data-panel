@@ -272,7 +272,7 @@
             <br>
             </div>
 <div style=" overflow-y:auto; height:200px;">  
- 搜索指标权限：<br>
+ 搜索国统指标权限：<br>
  <c:forEach items="${power_3}" var="c" varStatus="st">	
            <ul >
                 <input type="checkbox" name="editPower_3" value="${c.id}">${c.indi_name}(${c.source})     	
@@ -281,10 +281,10 @@
             <br>
 </div>
 <div style=" overflow-y:auto; height:200px;">  
- 搜索指标权限2：<br>
+ 搜索湖统指标权限：<br>
  <c:forEach items="${power_4}" var="c" varStatus="st">	
            <ul >
-                <input type="checkbox" name="editPower_4" value="${c.id}">${c.indi_name}(${c.source})     	
+                <input type="checkbox" name="editPower_4" value="${c.id}">${c.lj}_${c.area_name}(${c.source})     	
            </ul>
  </c:forEach> 
             <br>
@@ -352,7 +352,7 @@
             <br>
             </div>
      <div style=" overflow-y:auto; height:200px;">  
- 搜索指标权限：<br>
+ 搜索国统指标权限：<br>
  <c:forEach items="${power_3}" var="c" varStatus="st">	
            <ul >
                 <input type="checkbox" name="addPower_3" value="${c.id}" checked>${c.indi_name}(${c.source})    	
@@ -362,10 +362,10 @@
 
 	</div>
 	     <div style=" overflow-y:auto; height:200px;">  
- 搜索指标权限2：<br>
+ 搜索湖统指标权限：<br>
  <c:forEach items="${power_4}" var="c" varStatus="st">	
            <ul >
-                <input type="checkbox" name="addPower_4" value="${c.id}" checked>${c.indi_name}(${c.source})    	
+                <input type="checkbox" name="addPower_4" value="${c.id}" checked>${c.lj}_${c.area_name}(${c.source})    	
            </ul>
  </c:forEach> 
             <br>
