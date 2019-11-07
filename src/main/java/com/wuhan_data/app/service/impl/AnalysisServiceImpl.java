@@ -101,13 +101,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 		// 根据roleList 选择性的给栏目数据
 		ArrayList<String> roleList = new ArrayList<String>();
 		if (userId != 0) {
-			// TODO 根据用户userId获取对应的role_list
-//			Map<String, String> allPowerMap = new HashMap<String, String>();
-//			allPowerMap = userService.getAllPower(userId);
-//			String roleListString = allPowerMap.get("powerThemes");
-//			roleList = roleListString;
-			roleList.add("1");
-			roleList.add("2");
+			// 根据用户userId获取对应的role_list
+			Map<String, List<String>> allPowerMap = new HashMap<String, List<String>>();
+			allPowerMap = userService.getAllPower(userId);
+			roleList = (ArrayList<String>) allPowerMap.get("powerThemes");
 		}
 		// 根据权限列表筛选二级栏目数据
 		List<AnalysisTheme> themeList = this.getAnalysisRoleList(themeListTemp, roleList);
