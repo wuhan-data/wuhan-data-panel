@@ -144,9 +144,9 @@ public class AppIndexController {
 	   }
 	   
 	 //获得该用户的权限
-	  Map<String, List<String>> allPower = userService.getAllPower(userId);
-	  Set <String> power_h=new HashSet<String>();
-	  power_h = (Set<String>) allPower.get("powerIndexSpecials");
+//	  Map<String, List<String>> allPower = userService.getAllPower(userId);
+//	  Set <String> power_h=new HashSet<String>();
+//	  power_h = (Set<String>) allPower.get("powerIndexSpecials");
 
 	  List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
 	  
