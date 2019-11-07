@@ -24,9 +24,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.AppIndexService;
+import com.wuhan_data.app.service.SessionSQLServiceApp;
 import com.wuhan_data.pojo.AnalysisIcon;
+import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.IndexPic;
 import com.wuhan_data.pojo.IndexSpecial;
+import com.wuhan_data.service.UserService;
+import com.wuhan_data.tools.StringToMap;
 
 @Controller
 @RequestMapping("")
@@ -36,7 +40,7 @@ public class AppIndexController {
 	@Autowired
 	SessionSQLServiceApp sessionSQLServiceApp;
 	@Autowired
-	SessionSQLServiceApp userService;
+	UserService userService;
 	
 	//测试
 	@RequestMapping(value="t",produces = "text/plain;charset=utf-8")
@@ -64,7 +68,7 @@ public class AppIndexController {
 	@RequestMapping(value="initIndexIcon",produces = "text/plain;charset=utf-8")
 	@ResponseBody
     public String initIndexIcon(){		
-		List<AnalysisIcon> indexList = appIndexService.getIconList();
+		List<AnalysisType> indexList = appIndexService.getIconList();
         String  param= JSON.toJSONString(indexList);        
         return param;
     }
@@ -142,7 +146,7 @@ public class AppIndexController {
 	 //获得该用户的权限
 	  Map<String, List<String>> allPower = userService.getAllPower(userId);
 	  Set <String> power_h=new HashSet<String>();
-	  power_h = (Set<String>) allPower.get("powerIndexManages");
+	  power_h = (Set<String>) allPower.get("powerIndexSpecials");
 
 	  List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
 	  
@@ -153,7 +157,7 @@ public class AppIndexController {
 		
 		List<IndexPic> slideshow = appIndexService.getlist();
 
-		List<AnalysisIcon> analysis = appIndexService.getIconList();
+		List<AnalysisType> analysis = appIndexService.getIconList();
 
 		
 

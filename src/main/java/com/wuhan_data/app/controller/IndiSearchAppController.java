@@ -292,12 +292,12 @@ public class IndiSearchAppController {
 			searchIndiListG = indiSearchService.searchIndiG(keyWord);
 		
 		//获得该用户的权限
-		Map<String, List<String>> allPower = userService.getAllPower(userId);
-		Set <String> power_h=new HashSet<String>();
-		Set <String> power_g=new HashSet<String>();
-		power_g = (Set<String>) allPower.get("powerIndexManages");
-		System.out.println("power_g:"+power_g);
-		power_h = (Set<String>) allPower.get("powerIndexManages2");
+//		Map<String, List<String>> allPower = userService.getAllPower(userId);
+//		Set <String> power_h=new HashSet<String>();
+//		Set <String> power_g=new HashSet<String>();
+//		power_g = (Set<String>) allPower.get("powerIndexManages");
+//		System.out.println("power_g:"+power_g);
+//		power_h = (Set<String>) allPower.get("powerIndexManages2");
 		List resultList = new ArrayList();
 		// 放入来自国统的指标数据
 		Set setG = new HashSet();
@@ -305,7 +305,7 @@ public class IndiSearchAppController {
 			if (searchIndiListG.get(i).getIs_show().equals("0")) {
 				if(!setG.contains(searchIndiListG.get(i).getIndi_code()))
 				{
-					if(power_g.contains(searchIndiListG.get(i).getId())){
+//					if(power_g.contains(searchIndiListG.get(i).getId())){
 						System.out.println("进入国统权限");
 						Map teMap = new HashMap();
 						teMap.put("id", searchIndiListG.get(i).getIndi_code());
@@ -316,7 +316,7 @@ public class IndiSearchAppController {
 						resultList.add(teMap);
 						setG.add(searchIndiListG.get(i).getIndi_code());
 						
-					}
+//					}
 					
 				}
 				
@@ -325,7 +325,7 @@ public class IndiSearchAppController {
 		// 放入来自湖统的数据
 		for (int i = 0; i < searchIndiListH.size(); i++) {
 			if (searchIndiListH.get(i).getIs_show().equals("0")) {
-				if(power_h.contains(searchIndiListH.get(i).getId())){
+//				if(power_h.contains(searchIndiListH.get(i).getId())){
 					Map teMap = new HashMap();
 					teMap.put("id", searchIndiListH.get(i).getIndi_code());
 					String temp[] = searchIndiListH.get(i).getLj().split("-");
@@ -345,7 +345,7 @@ public class IndiSearchAppController {
 					teMap.put("source", "湖统");
 					resultList.add(teMap);
 					
-				}
+//				}
 				
 			}
 		}
