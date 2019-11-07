@@ -56,7 +56,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 	@Autowired
 	CollectMapperApp collectMapperApp;
-	
+
 	@Autowired
 	UserService userService;
 
@@ -106,8 +106,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 			allPowerMap = userService.getAllPower(userId);
 			roleList = (ArrayList<String>) allPowerMap.get("powerThemes");
 		}
+		System.out.println("权限列表:" + roleList);
 		// 根据权限列表筛选二级栏目数据
 		List<AnalysisTheme> themeList = this.getAnalysisRoleList(themeListTemp, roleList);
+		System.out.println("权限筛选后列表:" + themeList);
 		// 获取收藏信息，构建二级栏目数据集
 		for (int i = 0; i < themeList.size(); i++) {
 			Map<String, Object> themeListMap = new HashMap<String, Object>();
@@ -119,7 +121,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public ArrayList<Object> searchAnalysis(int userId, String keyword) {
 		ArrayList<Object> result = new ArrayList<Object>();
