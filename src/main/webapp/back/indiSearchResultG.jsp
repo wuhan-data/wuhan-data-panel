@@ -152,23 +152,23 @@
             	<div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> <a href="#" id="deleteIndi" onclick="deleteIndi('${c.id}','searchDeleteG')">删除</a></div>
 
 	<div class="btn-group">
-    <button type="button" class="btn btn-info dropdown-toggle btn-sm"  data-toggle="dropdown">
-    <c:if test="${c.is_show==0 }"> &nbsp;&nbsp;&nbsp; 展示</c:if>
-    <c:if test="${c.is_show==1 }">不展示</c:if>	
-    <span class="caret"></span>         
-    </button>
-    <ul class="dropdown-menu" role="menu">
-    <c:if test="${c.is_show==1 }">
-      <li>
-         <a href="#" id="perShow" onclick="perShow('${c.id}','search_per_showG')">展示</a>            
-      </li>
-    </c:if>
-    <c:if test="${c.is_show==0 }">
-      <li role="presentation">
-         <a href="#" id="noPerShow" onclick="noPerShow('${c.id}','search_no_per_showG')">不展示</a>             
-      </li>
-  	</c:if>
-    </ul>
+<!--     <button type="button" class="btn btn-info dropdown-toggle btn-sm"  data-toggle="dropdown"> -->
+<%--     <c:if test="${c.is_show==0 }"> &nbsp;&nbsp;&nbsp; 展示</c:if> --%>
+<%--     <c:if test="${c.is_show==1 }">不展示</c:if>	 --%>
+<!--     <span class="caret"></span>          -->
+<!--     </button> -->
+<!--     <ul class="dropdown-menu" role="menu"> -->
+<%--     <c:if test="${c.is_show==1 }"> --%>
+<!--       <li> -->
+<%--          <a href="#" id="perShow" onclick="perShow('${c.id}','search_per_showG')">展示</a>             --%>
+<!--       </li> -->
+<%--     </c:if> --%>
+<%--     <c:if test="${c.is_show==0 }"> --%>
+<!--       <li role="presentation"> -->
+<%--          <a href="#" id="noPerShow" onclick="noPerShow('${c.id}','search_no_per_showG')">不展示</a>              --%>
+<!--       </li> -->
+<%--   	</c:if> --%>
+<!--     </ul> -->
 </div>    
 				   
 				  				

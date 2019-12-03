@@ -143,9 +143,9 @@
 
 	<input class="form-control" type="hidden" name="editFeedbackID" id="editFeedbackID">
    反馈用户id：<input class="form-control" type="text" name="editFeedbackUid" id="editFeedbackUid"readonly>  <br>
-   反馈标题：<input class="form-control" type="text" name="editFeedbackTitle" id="editFeedbackTitle"readonly>  <br>
+   反馈标题：&nbsp&nbsp&nbsp<input class="form-control" type="text" name="editFeedbackTitle" id="editFeedbackTitle"readonly>  <br>
    正文：<br><textarea class="form-control" type="text" name="editFeedbackText" id="editFeedbackText"readonly style="width:500px;height:80px;"></textarea>  <br>
-   图片：<input class="form-control" type="text" name="editFeedbackImg" id="editFeedbackImg"readonly>  <br>
+   图片地址：<input class="form-control" type="text" name="editFeedbackImg" id="editFeedbackImg"readonly>  <br>
    联系方式：<input class="form-control" type="text" name="editFeedbackContact" id="editFeedbackContact"readonly>  <br>
    反馈时间：<input class="form-control" type="text" name="editFeedbackCreate_time" id="editFeedbackCreate_time"readonly>  <br>
    反馈状态：<select class="form-control" id="editFeedbackState" name="editFeedbackState" >	
@@ -183,9 +183,9 @@
 
 	<input class="form-control" type="hidden" name="lookFeedbackID" id="lookFeedbackID">
    反馈用户id：<input class="form-control" type="text" name="lookFeedbackUid" id="lookFeedbackUid" readonly>  <br>
-   反馈标题：<input class="form-control" type="text" name="lookFeedbackTitle" id="lookFeedbackTitle" readonly>  <br>
+   反馈标题：&nbsp&nbsp&nbsp<input class="form-control" type="text" name="lookFeedbackTitle" id="lookFeedbackTitle" readonly>  <br>
    正文：<br><textarea class="form-control" type="text" name="lookFeedbackText" id="lookFeedbackText" readonly style="width:500px;height:80px;"> </textarea> <br>
-   图片：<input class="form-control" type="text" name="lookFeedbackImg" id="lookFeedbackImg" readonly>  <br>
+   图片地址：<input class="form-control" type="text" name="lookFeedbackImg" id="lookFeedbackImg" readonly>  <br>
    联系方式：<input class="form-control" type="text" name="lookFeedbackContact" id="lookFeedbackContact" readonly>  <br>
    反馈时间：<input class="form-control" type="text" name="lookFeedbackCreate_time" id="lookFeedbackCreate_time" readonly>  <br>
    反馈状态：<input class="form-control" type="text" name="lookFeedbackState" id="lookFeedbackState"readonly>   

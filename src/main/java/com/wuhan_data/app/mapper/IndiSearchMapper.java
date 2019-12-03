@@ -22,7 +22,7 @@ public interface IndiSearchMapper {
 	public void addSearchHistory(HistorySearch historySearch);
 	 @DataSource(value="dataSource_dm")
 	public String getTrendSource(Map paraMap);
-	@DataSource(value="dataSource_dm")
+	 @DataSource(value="dataSource_mysql")
 	public List<IndexManage> searchIndiG(String keyWord);
 	@DataSource(value="dataSource_mysql")
 	public List<IndexManage> searchIndiH(String keyWord);

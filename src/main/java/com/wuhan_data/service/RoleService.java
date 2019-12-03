@@ -40,6 +40,7 @@ public interface RoleService {
 	//获得搜索指标的列表power_3
 	public List<IndexManage> getIndexManages();
 	public List<IndexManage> getIndexManages2();
+	public Map<String, List<String>>getDefaultRolePower();
 	//通过idList获取nameList
 	public String getNameList(String idList);
 		

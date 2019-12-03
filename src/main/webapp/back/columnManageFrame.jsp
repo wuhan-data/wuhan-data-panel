@@ -116,7 +116,7 @@
   
   
    <div class="btns col-md-6">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加</div>
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal"><i class="fa fa-plus"></i>添加二级分类</div>
       <button class="btn btn-primary" id="reset" onclick='showS(${json})'><i class="fa fa-cog"></i>设置一级栏目顺序</button>
       <button class="btn btn-primary" id="" onclick="dosaveSeq('updateLabelWeight','${type_id}')"><i class="fa fa-cog"></i>保存二级分类顺序</button>
     </div>  
@@ -241,7 +241,7 @@
 					&times;
 				</button>
 				<h4 class="modal-title" id="myModalLabel">
-					添加
+					添加二级分类
 				</h4>
 			</div>
 			

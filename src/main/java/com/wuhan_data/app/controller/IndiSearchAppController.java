@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -34,6 +35,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.wuhan_data.app.service.IndiDetailService;
 import com.wuhan_data.app.service.IndiSearchService;
+import com.wuhan_data.service.RoleService;
 import com.wuhan_data.service.UserService;
 import com.wuhan_data.app.showType.BarType;
 import com.wuhan_data.app.showType.LineType;
@@ -60,6 +62,8 @@ public class IndiSearchAppController {
 	SessionSQLServiceApp sessionSQLServiceApp;
 	@Autowired
 	UserService userService;
+	@Autowired
+	RoleService roleService;
 
 	@RequestMapping(value = "searchTrend", produces = "application/json; charset=utf-8")
 	@ResponseBody
@@ -236,29 +240,37 @@ public class IndiSearchAppController {
 	@ResponseBody
 	public String searchIndi(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
-		String keyWord = "";
+		String keyWord = "地区";
 		String source = "全部";// 国统、湖统、全部
 		Integer userId = 0;
 		String token = "";
 		System.out.println("进入searchIndi");
 		Map<String, Object> data = new HashMap<String, Object>();
+		Map<String, List<String>> allPower =new HashMap();
 		try {
 			
 			try {
 				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+				System.out.println("searchIndi:token:"+token);
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
 			}
 
-			try {
+//			try {
 				if (!token.equals("")) {
 					String mapString = sessionSQLServiceApp.get(token).getSess_value();
 					Map mapS = StringToMap.stringToMap(mapString);
 					userId = Integer.valueOf((String) mapS.get("userId"));
+					System.out.println("searchIndi:userid:"+userId);
+					allPower = userService.getAllPower(userId);
 				}
-			} catch (Exception e) {
-				System.out.println("无效的token令牌");
-			}
+				else{
+					allPower = roleService.getDefaultRolePower();
+					System.out.println("t为空："+allPower);
+				}
+//			} catch (Exception e) {
+//				System.out.println("无效的token令牌");
+//			}
 			
 			
 			boolean hasKeyword = requestObject.containsKey("keyword");
@@ -266,11 +278,13 @@ public class IndiSearchAppController {
 				return this.apiReturn("-1", "需要指定关键词", data);
 			}
 			keyWord = requestObject.get("keyword").toString();
+			System.out.println("searchIndi:keyWord:"+keyWord);
 			boolean hasSource = requestObject.containsKey("source");
 			if (!hasSource) {
 				return this.apiReturn("-1", "需要指定数据来源", data);
 			}
 			source = requestObject.get("source").toString();
+			System.out.println("searchIndi:source:"+source);
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
@@ -293,9 +307,35 @@ public class IndiSearchAppController {
 		
 		//获得该用户的权限
 //		Map<String, List<String>> allPower = userService.getAllPower(userId);
+//		Map<String, List<String>> allPower = roleService.getDefaultRolePower;
+		
+		
 //		Set <String> power_h=new HashSet<String>();
-//		Set <String> power_g=new HashSet<String>();
-//		power_g = (Set<String>) allPower.get("powerIndexManages");
+		List <String> power1=new ArrayList<String>();
+		power1 = allPower.get("powerIndexManages");
+		List <String> power=new ArrayList<String>();
+		 
+//		if(power1.size()>0){
+			String ss= power1.get(0);
+			System.out.println("power1大小:" + power1.size());
+			System.out.println("ss:" + ss);
+			if(ss!=null){
+				String[] arr = ss.split("\\|");
+				System.out.println("arr[0]:" + arr[0]);
+				System.out.println("arr大小:" + arr.length);
+				for(int i=0;i<arr.length;i++){
+					power.add(arr[i]);
+					}
+			}
+				
+			System.out.println("ss:" + ss);
+			
+//		}
+		
+		
+		 
+		 System.out.println("转换后power：" + power);
+		
 //		System.out.println("power_g:"+power_g);
 //		power_h = (Set<String>) allPower.get("powerIndexManages2");
 		List resultList = new ArrayList();
@@ -305,7 +345,7 @@ public class IndiSearchAppController {
 			if (searchIndiListG.get(i).getIs_show().equals("0")) {
 				if(!setG.contains(searchIndiListG.get(i).getIndi_code()))
 				{
-//					if(power_g.contains(searchIndiListG.get(i).getId())){
+					if(power.contains(Integer.toString(searchIndiListG.get(i).getId()))){
 						System.out.println("进入国统权限");
 						Map teMap = new HashMap();
 						teMap.put("id", searchIndiListG.get(i).getIndi_code());
@@ -313,10 +353,11 @@ public class IndiSearchAppController {
 						teMap.put("path", searchIndiListG.get(i).getLj());
 						teMap.put("isArea", "0");
 						teMap.put("source", "国统");
+						teMap.put("sourceArea", searchIndiListG.get(i).getArea_name());
 						resultList.add(teMap);
 						setG.add(searchIndiListG.get(i).getIndi_code());
 						
-//					}
+					}
 					
 				}
 				
@@ -325,7 +366,7 @@ public class IndiSearchAppController {
 		// 放入来自湖统的数据
 		for (int i = 0; i < searchIndiListH.size(); i++) {
 			if (searchIndiListH.get(i).getIs_show().equals("0")) {
-//				if(power_h.contains(searchIndiListH.get(i).getId())){
+				if(power.contains(Integer.toString(searchIndiListH.get(i).getId()))){
 					Map teMap = new HashMap();
 					teMap.put("id", searchIndiListH.get(i).getIndi_code());
 					String temp[] = searchIndiListH.get(i).getLj().split("-");
@@ -345,7 +386,7 @@ public class IndiSearchAppController {
 					teMap.put("source", "湖统");
 					resultList.add(teMap);
 					
-//				}
+				}
 				
 			}
 		}
@@ -408,20 +449,20 @@ public class IndiSearchAppController {
 		HistorySearch historySearch = new HistorySearch();
 		String appIndiName = "";
 		if (source.equals("国统")) {
-			appIndiName = indiDetailService.getIndexName(indexCode);
-			historySearch.setKeyword(appIndiName);
-			String temp[] = appIndiName.split("::");
-			if (temp.length > 1) {
-				System.out.println("真正的指标名称:" + temp[1]);
-				appIndiName = temp[1];
-			} else
-				appIndiName = temp[0];
+		appIndiName = indiDetailService.getIndexName(indexCode);
+//			historySearch.setKeyword(appIndiName);
+//			String temp[] = appIndiName.split("::");
+//			if (temp.length > 1) {
+//				System.out.println("真正的指标名称:" + temp[1]);
+//				appIndiName = temp[1];
+//			} else
+//				appIndiName = temp[0];
 
 		} else {
-			appIndiName = indiDetailService.getIndexNameH(indexCode);
-			historySearch.setKeyword(appIndiName);
+		appIndiName = indiDetailService.getIndexNameH(indexCode);
+		
 		}
-
+		historySearch.setKeyword(appIndiName);
 		Map favoriteMap = new HashMap();
 		favoriteMap.put("appIndiName", appIndiName);
 		favoriteMap.put("source", source);
@@ -456,16 +497,17 @@ public class IndiSearchAppController {
 			fcMap.put("appIndiName", appIndiName);
 			fcMap.put("source", source);
 			fcMap.put("indexCode", indexCode);
+			fcMap.put("lj", lj);
 //			fcMap.put("area_name", area_name);
 			// 判断是全国数据还是湖北省数据,获得频度
 			List<String> freqCodeListH = new ArrayList();
 			List<String> freqCodeListG = new ArrayList();
-			List<String> indiDateListG = new ArrayList();
+			
 			if (source.equals("湖统")) {
 				freqCodeListH = indiDetailService.getFreqCodeByIndiName(fcMap);
 				List<Map<String, String>> timeRangeList = new ArrayList();
 
-				for (int i = 0; i < freqCodeListH.size(); i++) {
+				for (int i = 0; i<freqCodeListH.size(); i++) {
 					Map timeMap = new HashMap();
 					switch (freqCodeListH.get(i)) {
 					case "MM":
@@ -483,8 +525,11 @@ public class IndiSearchAppController {
 					ParaMap.put("freqCode", freqCodeListH.get(i));
 					ParaMap.put("appIndiName", appIndiName);
 					ParaMap.put("source", source);
+					ParaMap.put("lj", lj);
+					ParaMap.put("indexCode", indexCode);
 //					ParaMap.put("area_name", area_name);
-					List<String> indiDateList = indiDetailService.indiDateByFreqName(ParaMap);
+					List<String> indiDateList = new ArrayList();
+					indiDateList = indiDetailService.indiDateByFreqName(ParaMap);
 					Collections.sort(indiDateList);
 					System.out.println("湖统timeRange:" + indiDateList);
 
@@ -495,15 +540,17 @@ public class IndiSearchAppController {
 					}
 					timeMap.put("startArray", newindiDateList);// 开始时间范围
 					timeMap.put("endArray", newindiDateList);// 结束时间范围
-					if (i == 0) {
+//					if (i == 0) {
 						List currentList = new ArrayList();
 						if (indiDateList.size() >= 8) {
 							currentList.add(indiDateList.size() - 8);
-						} else
+						} else{
 							currentList.add(0);
+						}
+							
 						currentList.add(indiDateList.size() - 1);
 						timeMap.put("current", currentList);
-					}
+//					}
 					timeMap.put("areaName", new ArrayList());// 湖统数据中不加地市级数据没有区域
 					timeCondition.add(timeMap);
 				}
@@ -511,34 +558,47 @@ public class IndiSearchAppController {
 				// 国统数据可能包含各个省
 				freqCodeListG = indiDetailService.getFreqCodeByIndiNameG(fcMap);
 				List<Map<String, String>> timeRangeList = new ArrayList();
-				for (int i = 0; i < freqCodeListG.size(); i++) {
+				for (int i = 0; i <freqCodeListG.size(); i++) {
+					List<String> indiDateListG = new ArrayList();
 					Map timeMap = new HashMap();
-					timeMap.put("freqName", freqCodeListG.get(i));
+					switch (freqCodeListG.get(i)) {
+					case "MM":
+						timeMap.put("freqName", "月度");
+						break;
+					case "SS":
+						timeMap.put("freqName", "季度");
+						break;
+					default:
+						timeMap.put("freqName", "年度");
+						break;
+					}
 					// 查询日期范围
 					Map ParaMap = new HashMap();// 获取日期参数范围的参数map
 					ParaMap.put("freqCode", freqCodeListG.get(i));
 					ParaMap.put("appIndiName", appIndiName);
 					ParaMap.put("source", source);
 					ParaMap.put("indexCode", indexCode);
+					ParaMap.put("lj", lj);
 					indiDateListG = indiDetailService.indiDateByFreqNameG(ParaMap);
 					Collections.sort(indiDateListG);
 					System.out.println("国统timeRange:" + indiDateListG);
 
 					List<String> newindiDateList = new ArrayList<String>();
 					for (int k = 0; k < indiDateListG.size(); k++) {
-						newindiDateList.add(indiDateListG.get(k));
+						newindiDateList
+						.add(indiDateListG.get(k).substring(0, 4) + "/" + indiDateListG.get(k).substring(4, 6));
 					}
 					timeMap.put("startArray", newindiDateList);// 开始时间范围
 					timeMap.put("endArray", newindiDateList);// 结束时间范围
-					if (i == 0) {
-						List currentList = new ArrayList();
-						if (indiDateListG.size() >= 8) {
-							currentList.add(indiDateListG.size() - 8);
-						} else
-							currentList.add(0);
-						currentList.add(indiDateListG.size() - 1);
-						timeMap.put("current", currentList);
+					System.out.println("timeMap2:" + timeMap.get("startArray"));
+					List currentList = new ArrayList();
+					if (indiDateListG.size() >= 8) {
+						currentList.add(indiDateListG.size() - 8);
+					} else{
+						currentList.add(0);
 					}
+					currentList.add(indiDateListG.size() - 1);
+					timeMap.put("current", currentList);
 					List<String> areaNameList = new ArrayList();
 //					areaNameList = indiDetailService.getAreaNameListG(ParaMap);
 					System.out.println("国统的区域名称列表：" + areaNameList);
@@ -556,9 +616,11 @@ public class IndiSearchAppController {
 					String param = JSON.toJSONString(finalMap);
 					return param;
 				}
-				ParameterMap.put("freqCode", freqCodeListH.get(0));
+				ParameterMap.put("freqCode", freqCodeListH.get(freqCodeListH.size()-1));
 				ParameterMap.put("appIndiName", appIndiName);
 				ParameterMap.put("source", source);
+				ParameterMap.put("lj", lj);
+				ParameterMap.put("indexCode", indexCode);
 				List<String> indiDateListDefaultH = indiDetailService.indiDateByFreqName(ParameterMap);
 				System.out.println("indiDateListDefaultH" + indiDateListDefaultH);
 				Collections.sort(indiDateListDefaultH);
@@ -575,8 +637,8 @@ public class IndiSearchAppController {
 				Map defaultMap = new HashMap();
 				defaultMap.put("appIndiName", appIndiName);
 				System.out.println("appIndiName：" + appIndiName);
-				defaultMap.put("freqCode", freqCodeListH.get(0));
-				System.out.println("freqCode：" + freqCodeListH.get(0));
+				defaultMap.put("freqCode", freqCodeListH.get(freqCodeListH.size()-1));
+				System.out.println("freqCode：" + freqCodeListH.get(freqCodeListH.size()-1));
 				defaultMap.put("startTime", startTime1);
 				System.out.println("startTime1：" + startTime1);
 				defaultMap.put("endTime", endTime1);
@@ -585,6 +647,7 @@ public class IndiSearchAppController {
 				System.out.println("source：" + source);
 				defaultMap.put("lj", lj);
 				System.out.println("lj：" + lj);
+				defaultMap.put("indexCode", indexCode);
 				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValue(defaultMap);
 				Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
 					@Override
@@ -705,6 +768,7 @@ public class IndiSearchAppController {
 				}
 
 			} else {
+				//国统
 				Map ParameterMap = new HashMap();
 				if (freqCodeListG.size() == 0) {
 					Map finalMap = new HashMap();
@@ -714,15 +778,16 @@ public class IndiSearchAppController {
 					String param = JSON.toJSONString(finalMap);
 					return param;
 				}
-				ParameterMap.put("freqCode", freqCodeListG.get(0));
+				ParameterMap.put("freqCode", freqCodeListG.get(freqCodeListG.size()-1));
 				ParameterMap.put("appIndiName", appIndiName);
 				ParameterMap.put("source", source);
-				List<String> areaNameList = new ArrayList();
-				areaNameList = indiDetailService.getAreaNameListG(ParameterMap);
+				ParameterMap.put("lj", lj);
+//				List<String> areaNameList = new ArrayList();
+//				areaNameList = indiDetailService.getAreaNameListG(ParameterMap);
 //				ParameterMap.put("areaName", areaNameList.get(0));
 				ParameterMap.put("indexCode", indexCode);
-//				List<String> indiDateListDefaultG1 = indiDetailService.indiDateByFreqNameG1(ParameterMap);
-				List<String> indiDateListDefaultG1 = indiDateListG;
+				List<String> indiDateListDefaultG1 = indiDetailService.indiDateByFreqNameG(ParameterMap);
+//				List<String> indiDateListDefaultG1 = indiDateListG;
 				Collections.sort(indiDateListDefaultG1);
 				System.out.println("indiDateListDefaultG1:" + indiDateListDefaultG1);
 				// 创建图例列表和数据列表
@@ -738,8 +803,8 @@ public class IndiSearchAppController {
 				Map defaultMap = new HashMap();
 				defaultMap.put("appIndiName", appIndiName);
 				System.out.println("appIndiNameG:" + appIndiName);
-				defaultMap.put("freqCode", freqCodeListG.get(0));
-				System.out.println("freqCodeG:" + freqCodeListG.get(0));
+				defaultMap.put("freqCode", freqCodeListG.get(freqCodeListG.size()-1));
+				System.out.println("freqCodeG:" + freqCodeListG.get(freqCodeListG.size()-1));
 				defaultMap.put("startTime", startTime1);
 				System.out.println("startTime:" + startTime1);
 				defaultMap.put("endTime", endTime1);
@@ -749,6 +814,7 @@ public class IndiSearchAppController {
 //				defaultMap.put("area_name", areaNameList.get(0));
 //				System.out.println("area_name:" + areaNameList.get(0));
 				defaultMap.put("indexCode", indexCode);
+				defaultMap.put("lj", lj);
 				System.out.println("indexCode:" + indexCode);
 				List<TPIndiValue> defaultIndiValueListG = indiDetailService.getIndiValueG(defaultMap);
 				Collections.sort(defaultIndiValueListG, new Comparator<TPIndiValue>() {
@@ -767,13 +833,17 @@ public class IndiSearchAppController {
 				if (defaultIndiValueListG.size() >= 8) {
 					for (int j = 0; j < 8; j++) {// tempList.size()
 
-						dateList.add(defaultIndiValueListG.get(j).getDate_code());
+//						dateList.add(defaultIndiValueListG.get(j).getDate_code());
+						dateList.add(defaultIndiValueListG.get(j).getDate_code().substring(0, 4) + "/"
+								+ defaultIndiValueListG.get(j).getDate_code().substring(4, 6));
 						dataList.add(defaultIndiValueListG.get(j).getIndi_value());
 					}
 				} else {
 					for (int j = 0; j < defaultIndiValueListG.size(); j++) {// tempList.size()
 
-						dateList.add(defaultIndiValueListG.get(j).getDate_code());
+//						dateList.add(defaultIndiValueListG.get(j).getDate_code());
+						dateList.add(defaultIndiValueListG.get(j).getDate_code().substring(0, 4) + "/"
+								+ defaultIndiValueListG.get(j).getDate_code().substring(4, 6));
 						dataList.add(defaultIndiValueListG.get(j).getIndi_value());
 					}
 				}
@@ -817,6 +887,7 @@ public class IndiSearchAppController {
 			fcMap.put("appIndiName", appIndiName);
 			fcMap.put("source", source);
 			fcMap.put("lj", lj);
+			fcMap.put("indexCode", indexCode);
 			// 获得频度
 			List<String> freqCodeListH = new ArrayList();
 			freqCodeListH = indiDetailService.getFreqCodeByIndiNameArea(fcMap);
@@ -843,6 +914,7 @@ public class IndiSearchAppController {
 				ParaMap.put("appIndiName", appIndiName);
 				ParaMap.put("source", source);
 				ParaMap.put("lj", lj);
+				ParaMap.put("indexCode", indexCode);
 				List<String> indiDateList = indiDetailService.indiDateByFreqNameArea(ParaMap);
 				Collections.sort(indiDateList);
 				System.out.println("湖统timeRange:" + indiDateList);
@@ -854,13 +926,13 @@ public class IndiSearchAppController {
 				timeMap.put("startArray", newindiDateList);// 开始时间范围
 				timeMap.put("endArray", newindiDateList);// 结束时间范围
 
-				if (i == 0) {
+//				if (i == 0) {
 					List currentList = new ArrayList();
 					currentList.add(indiDateList.size() - 1);
 					currentList.add(indiDateList.size() - 1);
 					timeMap.put("current", currentList);
 					selectTimeList.add(newindiDateList.get(indiDateList.size() - 1));
-				}
+//				}
 
 //				List<String> areaList = new ArrayList();
 //				areaList = indiDetailService.getIndiAreaList(ParaMap);
@@ -880,6 +952,7 @@ public class IndiSearchAppController {
 			ParameterMap.put("appIndiName", appIndiName);
 			ParameterMap.put("source", source);
 			ParameterMap.put("lj", lj);
+			ParameterMap.put("indexCode", indexCode);
 //			List<String> area_nameList = new ArrayList();
 //			area_nameList = indiDetailService.getIndiAreaList(ParameterMap);
 //			ParameterMap.put("area_name", area_nameList.get(0));
@@ -907,6 +980,7 @@ public class IndiSearchAppController {
 			defaultMap.put("time", indiDateListDefaultH.get(indiDateListDefaultH.size() - 1));
 //			defaultMap.put("area_name", area_nameList.get(0));
 			defaultMap.put("lj", lj);
+			defaultMap.put("indexCode", indexCode);
 			System.out.println("appIndiName" + appIndiName);
 			System.out.println("freqCode" + freqCodeListH.get(0));
 			System.out.println("source" + source);
@@ -1141,7 +1215,7 @@ public class IndiSearchAppController {
 			defaultMap.put("source", source);
 			defaultMap.put("time", time);
 			defaultMap.put("lj", lj);
-
+			defaultMap.put("indexCode", indexCode);
 			List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueArea(defaultMap);
 			System.out.println("defaultIndiValueList:" + defaultIndiValueList);
 			System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
@@ -1298,11 +1372,11 @@ public class IndiSearchAppController {
 			String appIndiName = "";
 			if (source.equals("国统")) {
 				appIndiName = indiDetailService.getIndexName(indexCode);
-				String temp[] = appIndiName.split("::");
-				if (temp.length > 1)
-					appIndiName = temp[1];
-				else
-					appIndiName = temp[0];
+//				String temp[] = appIndiName.split("::");
+//				if (temp.length > 1)
+//					appIndiName = temp[1];
+//				else
+//					appIndiName = temp[0];
 			} else {
 				appIndiName = indiDetailService.getIndexNameH(indexCode);
 			}
@@ -1312,16 +1386,39 @@ public class IndiSearchAppController {
 //			String startTime = "201408MM";
 //			String endTime = "201610MM";
 //			String freqCode = "月度";
+			String freqCodeNew = "";
+			switch (freqCode) {
+			case "月度":
+				freqCodeNew = "MM";
+				break;
+			case "季度":
+				freqCodeNew = "SS";
+				break;
+			default:
+				freqCodeNew = "YY";
+				break;
+			}
+			String newStartTime = startTime.substring(0, 4) + startTime.substring(5, 7) + freqCodeNew;
+			String newEndTime = endTime.substring(0, 4) + endTime.substring(5, 7) + freqCodeNew;
 			if (source.equals("国统")) {
+				
 				// 搜索条件
 				Map defaultMap = new HashMap();
 				defaultMap.put("appIndiName", appIndiName);
-				defaultMap.put("freqCode", freqCode);
-				defaultMap.put("startTime", startTime);
-				defaultMap.put("endTime", endTime);
+				System.out.println("国统确认appIndiName:" + appIndiName);
+				defaultMap.put("freqCode", freqCodeNew);
+				System.out.println("国统确认freqCode:" + freqCodeNew);
+				defaultMap.put("startTime", newStartTime);
+				System.out.println("国统确认newStartTime:" + newStartTime);
+				defaultMap.put("endTime", newEndTime);
+				System.out.println("国统确认newEndTime:" + newEndTime);
 				defaultMap.put("source", source);
+				System.out.println("国统确认source:" + source);
 //				defaultMap.put("area_name", areaName);
 				defaultMap.put("indexCode", indexCode);
+				System.out.println("国统确认indexCode:" + indexCode);
+				defaultMap.put("lj", lj);
+				System.out.println("国统确认lj:" + lj);
 				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueG(defaultMap);
 				if(defaultIndiValueList.size()<1){
 					return this.apiReturn("-1", "没有相关数据", data);
@@ -1344,14 +1441,16 @@ public class IndiSearchAppController {
 				List<String> legendList = new ArrayList();
 				if (defaultIndiValueList.size() >= 8) {
 					for (int j = 0; j < 8; j++) {// tempList.size()
-
-						dateList.add(defaultIndiValueList.get(j).getDate_code());
+						dateList.add(defaultIndiValueList.get(j).getDate_code().substring(0, 4) + "/"
+								+ defaultIndiValueList.get(j).getDate_code().substring(4, 6));
 						dataList.add(defaultIndiValueList.get(j).getIndi_value());
+
 					}
 				} else {
 					for (int j = 0; j < defaultIndiValueList.size(); j++) {// tempList.size()
 
-						dateList.add(defaultIndiValueList.get(j).getDate_code());
+						dateList.add(defaultIndiValueList.get(j).getDate_code().substring(0, 4) + "/"
+								+ defaultIndiValueList.get(j).getDate_code().substring(4, 6));
 						dataList.add(defaultIndiValueList.get(j).getIndi_value());
 					}
 				}
@@ -1387,8 +1486,8 @@ public class IndiSearchAppController {
 				}
 			} else {
 				// 湖统数据
-				String newStartTime = startTime.substring(0, 4) + startTime.substring(5, 7) + freqCode;
-				String newEndTime = endTime.substring(0, 4) + endTime.substring(5, 7) + freqCode;
+//				String newStartTime = startTime.substring(0, 4) + startTime.substring(5, 7) + freqCode;
+//				String newEndTime = endTime.substring(0, 4) + endTime.substring(5, 7) + freqCode;
 				switch (freqCode) {
 				case "月度":
 					freqCode = "MM";
@@ -1409,6 +1508,7 @@ public class IndiSearchAppController {
 				defaultMap.put("source", source);
 //				defaultMap.put("area_name", areaName);
 				defaultMap.put("lj", lj);
+				defaultMap.put("indexCode", indexCode);
 				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValue(defaultMap);
 				if(defaultIndiValueList.size()<1){
 					return this.apiReturn("-1", "没有相关数据", data);
