@@ -463,89 +463,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 							showColor, showType);
 					TotalList.add(lineAndBarEntity);
 
-					// 绘制表格数据
-					System.out.println("进入特殊指标——各市州GDP-表格");
-					List<List<String>> dataValueTable = new ArrayList<List<String>>();
-					List<String> legendTable = new ArrayList<String>();
-					String dataXTempTime = "";
-					for (int j = 0; j < indiList.size(); j++) {
-						Map<String, Object> queryMap1 = new HashMap<String, Object>();
-						queryMap1.put("freqName", queryMap.get("freqName"));
-						queryMap1.put("startTime", queryMap.get("endTime"));
-						queryMap1.put("endTime", queryMap.get("endTime"));
-						queryMap1.put("indiCode", indiList.get(j).getIndiCode());
-						List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
-						List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
-						for (int m = 0; m < indiInfoList.size(); m++) {
-							String dataXTemp = indiInfoList.get(m).getTime();
-							if (xAxis.contains(dataXTemp)) {
-								int index = xAxis.indexOf(dataXTemp);
-								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
-							}
-						}
-						dataValueTable.add(dataIndiValue);
-						legendTable.add(indiList.get(j).getIndiName());
-					}
-					System.out.println("进入特殊指标——各市州GDP-表格-数据" + dataValueTable);
-					System.out.println("进入特殊指标——各市州GDP-表格-legend" + legendTable);
-
-					// 配置表格数据
-					List<List<String>> dataTable = new ArrayList<List<String>>();
-					List<String> tableRow1 = new ArrayList<String>();
-					tableRow1.add("地区");
-					tableRow1.add("武汉市");
-					tableRow1.add("黄石市");
-					tableRow1.add("襄阳市");
-
-					List<String> tableRow2 = new ArrayList<String>();
-					tableRow2.add("累计值(亿元)");
-					for (int j = 1; j < tableRow1.size(); j++) {
-						String tableRow2Value = "-";
-						String areaName = tableRow1.get(j).toString();
-						String funcName = "累计值";
-						for (int k = 0; k < legendTable.size(); k++) {
-							if (legendTable.get(k).toString().indexOf(areaName) != -1
-									|| legendTable.get(k).toString().indexOf(funcName) != -1) {
-								tableRow2Value = dataValueTable.get(k).get(0);
-								break;
-							}
-						}
-						tableRow2.add(tableRow2Value);
-					}
-
-					List<String> tableRow3 = new ArrayList<String>();
-					tableRow3.add("累计增长(%)");
-					for (int j = 1; j < tableRow1.size(); j++) {
-						String tableRow3Value = "-";
-						String areaName = tableRow1.get(j).toString();
-						String funcName = "累计值";
-						for (int k = 0; k < legendTable.size(); k++) {
-							if (legendTable.get(k).toString().indexOf(areaName) != -1
-									|| legendTable.get(k).toString().indexOf(funcName) != -1) {
-								tableRow3Value = dataValueTable.get(k).get(0);
-								break;
-							}
-						}
-						tableRow3.add(tableRow3Value);
-					}
-
-					List<String> tableRow4 = new ArrayList<String>();
-					tableRow4.add("占比(%)");
-					for (int j = 1; j < tableRow1.size(); j++) {
-						String tableRow4Value = "-";
-						String areaName = tableRow1.get(j).toString();
-						tableRow4.add("66.66");
-					}
-
-					dataTable.add(tableRow1);
-					dataTable.add(tableRow2);
-					dataTable.add(tableRow3);
-					dataTable.add(tableRow4);
-
-					String titleTable = dataXTempTime + "GDP累计值及增速";
-					String tableId = id + "table";
-					TableEntity tableEntity = new TableEntity(tableId, titleTable, dataTable);
-					TotalList.add(tableEntity);
 				}
 				if (id.equals("26")) {
 					System.out.println("进入特殊指标——各市州GDP-26");
@@ -584,6 +501,98 @@ public class AnalysisServiceImpl implements AnalysisService {
 				flagPlate = 1;
 			}
 				break;
+			case "238": {
+				// 绘制表格数据
+				System.out.println("进入特殊指标——各市州GDP-表格");
+				List<List<String>> dataValueTable = new ArrayList<List<String>>();
+				List<String> legendTable = new ArrayList<String>();
+				String dataXTempTime = "";
+				for (int j = 0; j < indiList.size(); j++) {
+					Map<String, Object> queryMap1 = new HashMap<String, Object>();
+					queryMap1.put("freqName", queryMap.get("freqName"));
+					queryMap1.put("startTime", queryMap.get("endTime"));
+					queryMap1.put("endTime", queryMap.get("endTime"));
+					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					System.out.println("进入特殊指标——各市州GDP-表格-单指标数据" + dataIndiValue);
+//					for (int m = 0; m < indiInfoList.size(); m++) {
+//						String dataXTemp = indiInfoList.get(m).getTime();
+//						if (xAxis.contains(dataXTemp)) {
+//							int index = xAxis.indexOf(dataXTemp);
+//							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+//						}
+//					}
+					dataIndiValue.add(indiInfoList.get(indiInfoList.size() - 1).getIndiValue());
+					dataValueTable.add(dataIndiValue);
+					legendTable.add(indiList.get(j).getIndiName());
+				}
+				System.out.println("进入特殊指标——各市州GDP-表格-数据" + dataValueTable);
+				System.out.println("进入特殊指标——各市州GDP-表格-legend" + legendTable);
+
+				// 配置表格数据
+				List<List<String>> dataTable = new ArrayList<List<String>>();
+				List<String> tableRow1 = new ArrayList<String>();
+				tableRow1.add("地区");
+				tableRow1.add("湖北省");
+				tableRow1.add("武汉市");
+				tableRow1.add("黄石市");
+				tableRow1.add("襄阳市");
+
+				List<String> tableRow2 = new ArrayList<String>();
+				tableRow2.add("累计值(亿元)");
+				for (int j = 1; j < tableRow1.size(); j++) {
+					String tableRow2Value = "-";
+					String areaName = tableRow1.get(j).toString();
+					String funcName = "累计值";
+					for (int k = 0; k < legendTable.size(); k++) {
+						if (legendTable.get(k).toString().indexOf(areaName) != -1
+								|| legendTable.get(k).toString().indexOf(funcName) != -1) {
+							tableRow2Value = dataValueTable.get(k).get(0);
+							break;
+						}
+					}
+					tableRow2.add(tableRow2Value);
+				}
+
+				List<String> tableRow3 = new ArrayList<String>();
+				tableRow3.add("累计增长(%)");
+				for (int j = 1; j < tableRow1.size(); j++) {
+					String tableRow3Value = "-";
+					String areaName = tableRow1.get(j).toString();
+					String funcName = "累计值";
+					for (int k = 0; k < legendTable.size(); k++) {
+						if (legendTable.get(k).toString().indexOf(areaName) != -1
+								|| legendTable.get(k).toString().indexOf(funcName) != -1) {
+							tableRow3Value = dataValueTable.get(k).get(0);
+							break;
+						}
+					}
+					tableRow3.add(tableRow3Value);
+				}
+
+				List<String> tableRow4 = new ArrayList<String>();
+				tableRow4.add("占比(%)");
+				for (int j = 1; j < tableRow1.size(); j++) {
+					String tableRow4Value = "-";
+					Double dataValue = Double.parseDouble(tableRow2.get(j)) / Double.parseDouble(tableRow2.get(1));
+					tableRow4Value = String.format("%.2f", dataValue);
+					tableRow4.add(tableRow4Value);
+				}
+
+				dataTable.add(tableRow1);
+				dataTable.add(tableRow2);
+				dataTable.add(tableRow3);
+				dataTable.add(tableRow4);
+
+				String titleTable = dataXTempTime + "GDP累计值及增速";
+				String tableId = id + "table";
+				TableEntity tableEntity = new TableEntity(tableId, titleTable, dataTable);
+				TotalList.add(tableEntity);
+				flagPlate = 1;
+			}
+				break;
+
 			case "203": {
 				System.out.println("进入特殊图例——异常数据源特殊处理");
 				if (id.equals("203")) {
