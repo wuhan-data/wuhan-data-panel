@@ -262,7 +262,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 		return result;
 	}
 
-	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName, String area) {
+	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName,
+			String area) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 		System.out.println("开始初始化数据:" + df.format(new Date()));// new Date()为获取当前系统时间
@@ -365,14 +366,15 @@ public class AnalysisServiceImpl implements AnalysisService {
 					// TOOD 从app_analysis_indi_time视图中直接取出start_time/end_time并组成数组
 					// List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
 					List<AnalysisIndiTime> timeList1 = analysisMapper.getTimeByFreq(queryMap);
-					System.out.println("特定指标时间区间为:" + timeList1.toString());
+					// System.out.println("特定指标时间区间为:" + timeList1.toString());
 					String startTime = timeList1.get(0).getStartTime();
 					String endTime = timeList1.get(0).getEndTime();
 					List<String> timeList2 = this.fillTimeList(freqName, startTime, endTime);
 					Set<String> timeSpanSet = new HashSet<String>(timeList2);
 					timeSpanFinal.addAll(timeSpanSet);
 				}
-				System.out.println("版块" + pid + "的" + freqName + "区间插入后，时间选择器为:" + timeSpanFinal);
+				// System.out.println("版块" + pid + "的" + freqName + "区间插入后，时间选择器为:" +
+				// timeSpanFinal);
 			}
 			List<String> timeList = new ArrayList<String>(timeSpanFinal);
 			Collections.sort(timeList);
@@ -460,6 +462,36 @@ public class AnalysisServiceImpl implements AnalysisService {
 					LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
 							showColor, showType);
 					TotalList.add(lineAndBarEntity);
+
+					// 绘制表格数据
+					System.out.println("进入特殊指标——各市州GDP-表格");
+					List<List<String>> dataValueTable = new ArrayList<List<String>>();
+					List<String> legendTable = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						queryMap.put("indiCode", indiList.get(j).getIndiCode());
+						List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+						List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+						for (int m = 0; m < indiInfoList.size(); m++) {
+							String dataXTemp = indiInfoList.get(m).getTime();
+							if (xAxis.contains(dataXTemp)) {
+								int index = xAxis.indexOf(dataXTemp);
+								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							}
+						}
+						dataValueTable.add(dataIndiValue);
+						legendTable.add(indiList.get(j).getIndiName());
+					}
+					// 配置表格数据
+					TableType tableType = new TableType();
+					List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+					for (int q = 0; q < indiList.size(); q++) {
+						dataXaisTable.add(xAxis);
+					}
+					String titleTable = "GDP累计值及增速";
+					TableEntity tableEntity = tableType.getTable(id, titleTable, dataXaisTable, legendTable,
+							dataValueTable);
+					TotalList.add(tableEntity);
+
 				}
 				if (id.equals("26")) {
 					System.out.println("进入特殊指标——各市州GDP-26");
@@ -492,6 +524,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
 							showType);
 					TotalList.add(lineEntity);
+
 				}
 
 				flagPlate = 1;
