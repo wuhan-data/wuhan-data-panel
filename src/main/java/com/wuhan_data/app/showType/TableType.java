@@ -51,7 +51,6 @@ public class TableType {
 		if (dataX.size() == 0) {
 			List legendDATA = new ArrayList(legendData);
 			legendDATA.add(0, "指标/时间");
-
 		}
 		List legendDATA = new ArrayList(legendData);
 		legendDATA.add(0, "指标/时间");
