@@ -140,19 +140,19 @@ public class TopicController {
 			List<String> dataVV2_2 = new ArrayList<String>();
 			List<String> dataVV2_3 = new ArrayList<String>();
 			List<String> dataVV2_4 = new ArrayList<String>();
-			for(int i=(list2_1.size()-1);i>0;i--) {
+			for(int i=(list2_1.size()-1);i>=0;i--) {
 				dataX2.add(list2_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 			}
-			for(int i=(list2_1.size()-1);i>0;i--) {
+			for(int i=(list2_1.size()-1);i>=0;i--) {
 				dataVV2_1.add(list2_1.get(i).getIndi_value());	
 			}
-			for(int i=(list2_2.size()-1);i>0;i--) {
+			for(int i=(list2_2.size()-1);i>=0;i--) {
 				dataVV2_2.add(list2_2.get(i).getIndi_value());	
 			}
-			for(int i=(list2_3.size()-1);i>0;i--) {
+			for(int i=(list2_3.size()-1);i>=0;i--) {
 				dataVV2_3.add(list2_3.get(i).getIndi_value());	
 			}
-			for(int i=(list2_4.size()-1);i>0;i--) {
+			for(int i=(list2_4.size()-1);i>=0;i--) {
 				dataVV2_4.add(list2_4.get(i).getIndi_value());	
 			}
 			dataV2.add(dataVV2_1);
@@ -178,7 +178,7 @@ public class TopicController {
 			List<String> dataX3 = new ArrayList<String>();
 			List<List<String>> dataV3 = new ArrayList<List<String>>();
 			List<String> dataVv3 = new ArrayList<String>();
-			for(int i=(list3_1.size()-1);i>0;i--) {
+			for(int i=(list3_1.size()-1);i>=0;i--) {
 				dataX3.add(list3_1.get(i).getDate_code());
 				dataVv3.add(list3_1.get(i).getIndi_value());
 			}
@@ -199,7 +199,7 @@ public class TopicController {
 			List<String> dataX4 = new ArrayList<String>();
 			List<List<String>> dataV4 = new ArrayList<List<String>>();
 			List<String> dataVv4 = new ArrayList<String>();
-			for(int i=(list4_1.size()-1);i>0;i--) {
+			for(int i=(list4_1.size()-1);i>=0;i--) {
 				dataX4.add(list4_1.get(i).getDate_code());
 				dataVv4.add(list4_1.get(i).getIndi_value());
 			}
@@ -219,7 +219,7 @@ public class TopicController {
 			List<String> dataX5 = new ArrayList<String>();
 			List<List<String>> dataV5 = new ArrayList<List<String>>();
 			List<String> dataVv5 = new ArrayList<String>();
-			for(int i=(list5_1.size()-1);i>0;i--) {
+			for(int i=(list5_1.size()-1);i>=0;i--) {
 				dataX5.add(list5_1.get(i).getDate_code());
 				dataVv5.add(list5_1.get(i).getIndi_value());
 			}
@@ -239,7 +239,7 @@ public class TopicController {
 			List<String> showType6 = new ArrayList<String>();
 			List<List<String>> dataV6 = new ArrayList<List<String>>();
 			List<String> dataVv6 = new ArrayList<String>();
-			for(int i=(list6_1.size()-1);i>0;i--) {
+			for(int i=(list6_1.size()-1);i>=0;i--) {
 				dataX6.add(list6_1.get(i).getDate_code());
 				dataVv6.add(list6_1.get(i).getIndi_value());
 			}
@@ -290,7 +290,7 @@ public class TopicController {
 				List<String> showType1 = new ArrayList<String>();
 				List<List<String>> dataV = new ArrayList<List<String>>();//指标值
 				List<String> dataV_1 = new ArrayList<String>();//指标值
-				for(int i=(list1_1.size()-1);i>0;i--) {
+				for(int i=(list1_1.size()-1);i>=0;i--) {
 					dataX.add(list1_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV_1.add(list1_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
@@ -314,11 +314,11 @@ public class TopicController {
 				List<List<String>> dataV2 = new ArrayList<List<String>>();//指标值
 				List<String> dataV2_1 = new ArrayList<String>();
 				List<String> dataV2_2 = new ArrayList<String>();
-				for(int i=(list2_1.size()-1);i>0;i--) {
+				for(int i=(list2_1.size()-1);i>=0;i--) {
 					dataX2.add(list2_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV2_1.add(list2_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=(list2_2.size()-1);i>0;i--) {
+				for(int i=(list2_2.size()-1);i>=0;i--) {
 					dataV2_2.add(list2_2.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
 				dataV2.add(dataV2_1);
@@ -342,7 +342,7 @@ public class TopicController {
 				List<String> dataX3 = new ArrayList<String>();//X轴数据（时间轴）
 				List<List<String>> dataV3 = new ArrayList<List<String>>();//指标值
 				List<String> dataV_3 = new ArrayList<String>();//指标值
-				for(int i=(list3_1.size()-1);i>0;i--) {
+				for(int i=(list3_1.size()-1);i>=0;i--) {
 					dataX3.add(list3_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV_3.add(list3_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
@@ -369,14 +369,14 @@ public class TopicController {
 				List<String> dataV4_1 = new ArrayList<String>();//指标值
 				List<String> dataV4_2 = new ArrayList<String>();//指标值
 				List<String> dataV4_3 = new ArrayList<String>();//指标值
-				for(int i=(list4_1.size()-1);i>0;i--) {
+				for(int i=(list4_1.size()-1);i>=0;i--) {
 					dataX4.add(list4_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV4_1.add(list4_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=(list4_2.size()-1);i>0;i--) {
+				for(int i=(list4_2.size()-1);i>=0;i--) {
 					dataV4_2.add(list4_2.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=(list4_3.size()-1);i>0;i--) {
+				for(int i=(list4_3.size()-1);i>=0;i--) {
 					dataV4_3.add(list4_3.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
 				dataV4.add(dataV4_1);
@@ -406,11 +406,11 @@ public class TopicController {
 				List<List<String>> dataV5 = new ArrayList<List<String>>();//指标值				
 				List<String> dataV5_1 = new ArrayList<String>();//指标值
 				List<String> dataV5_2 = new ArrayList<String>();//指标值
-				for(int i=(list5_1.size()-1);i>0;i--) {
+				for(int i=(list5_1.size()-1);i>=0;i--) {
 					dataX5.add(list5_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV5_1.add(list5_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=(list5_2.size()-1);i>0;i--) {
+				for(int i=(list5_2.size()-1);i>=0;i--) {
 					dataV5_2.add(list5_2.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
 
@@ -435,11 +435,11 @@ public class TopicController {
 				List<List<String>> dataV6 = new ArrayList<List<String>>();//指标值				
 				List<String> dataV6_1 = new ArrayList<String>();//指标值
 				List<String> dataV6_2 = new ArrayList<String>();//指标值
-				for(int i=(list6_1.size()-1);i>0;i--) {
+				for(int i=(list6_1.size()-1);i>=0;i--) {
 					dataX6.add(list6_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 					dataV6_1.add(list6_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
-				for(int i=(list6_1.size()-1);i>0;i--) {
+				for(int i=(list6_1.size()-1);i>=0;i--) {
 					dataV6_2.add(list6_2.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 				}
 
@@ -469,11 +469,11 @@ public class TopicController {
 				List<List<String>> dataV7 = new ArrayList<List<String>>();
 				List<String> dataVV7_1 = new ArrayList<String>();
 				List<String> dataVV7_2 = new ArrayList<String>();
-				for(int i=(list7_1.size()-1);i>0;i--) {
+				for(int i=(list7_1.size()-1);i>=0;i--) {
 					dataX7.add(list7_1.get(i).getDate_code());
 					dataVV7_1.add(list7_1.get(i).getIndi_value());	
 				}
-				for(int i=(list7_2.size()-1);i>0;i--) {
+				for(int i=(list7_2.size()-1);i>=0;i--) {
 					dataVV7_2.add(list7_2.get(i).getIndi_value());	
 				}
 			
@@ -505,11 +505,11 @@ public class TopicController {
 				List<List<String>> dataV8 = new ArrayList<List<String>>();
 				List<String> dataVV8_1 = new ArrayList<String>();
 				List<String> dataVV8_2 = new ArrayList<String>();
-				for(int i=(list8_1.size()-1);i>0;i--) {
+				for(int i=(list8_1.size()-1);i>=0;i--) {
 					dataX8.add(list8_1.get(i).getDate_code());
 					dataVV8_1.add(list8_1.get(i).getIndi_value());	
 				}
-				for(int i=(list8_1.size()-1);i>0;i--) {
+				for(int i=(list8_1.size()-1);i>=0;i--) {
 					dataVV8_2.add(list8_2.get(i).getIndi_value());	
 				}
 			
@@ -540,11 +540,11 @@ public class TopicController {
 				List<List<String>> dataV9 = new ArrayList<List<String>>();
 				List<String> dataVV9_1 = new ArrayList<String>();
 				List<String> dataVV9_2 = new ArrayList<String>();
-				for(int i=(list9_1.size()-1);i>0;i--) {
+				for(int i=(list9_1.size()-1);i>=0;i--) {
 					dataX9.add(list9_1.get(i).getDate_code());
 					dataVV9_1.add(list9_1.get(i).getIndi_value());	
 				}
-				for(int i=(list9_2.size()-1);i>0;i--) {
+				for(int i=(list9_2.size()-1);i>=0;i--) {
 					dataVV9_2.add(list9_2.get(i).getIndi_value());	
 				}
 			
@@ -605,7 +605,7 @@ public class TopicController {
 					List<String> dataX = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<String>> dataV = new ArrayList<List<String>>();//指标值
 					List<String> dataV_1 = new ArrayList<String>();//指标值
-					for(int i=(list1_1.size()-1);i>0;i--) {
+					for(int i=(list1_1.size()-1);i>=0;i--) {
 						dataX.add(list1_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV_1.add(list1_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 					}
@@ -627,7 +627,7 @@ public class TopicController {
 					List<String> dataX2 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<String>> dataV2 = new ArrayList<List<String>>();//指标值
 					List<String> dataV2_1 = new ArrayList<String>();//指标值
-					for(int i=(list2_1.size()-1);i>0;i--) {
+					for(int i=(list2_1.size()-1);i>=0;i--) {
 						dataX2.add(list2_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV2_1.add(list2_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 					}
@@ -667,23 +667,23 @@ public class TopicController {
 					List<String> dataVV3_4 = new ArrayList<String>();
 					List<String> dataVV3_5 = new ArrayList<String>();
 					List<String> dataVV3_6 = new ArrayList<String>();
-					for(int i=(list3_1.size()-1);i>0;i--) {
+					for(int i=(list3_1.size()-1);i>=0;i--) {
 						dataX3.add(list3_1.get(i).getDate_code());
 						dataVV3_1.add(list3_1.get(i).getIndi_value());	
 					}
-					for(int i=(list3_2.size()-1);i>0;i--) {
+					for(int i=(list3_2.size()-1);i>=0;i--) {
 						dataVV3_2.add(list3_2.get(i).getIndi_value());	
 					}
-					for(int i=(list3_3.size()-1);i>0;i--) {
+					for(int i=(list3_3.size()-1);i>=0;i--) {
 						dataVV3_3.add(list3_3.get(i).getIndi_value());	
 					}
-					for(int i=(list3_4.size()-1);i>0;i--) {
+					for(int i=(list3_4.size()-1);i>=0;i--) {
 						dataVV3_4.add(list3_4.get(i).getIndi_value());	
 					}
-					for(int i=(list3_5.size()-1);i>0;i--) {
+					for(int i=(list3_5.size()-1);i>=0;i--) {
 						dataVV3_5.add(list3_5.get(i).getIndi_value());	
 					}
-					for(int i=(list3_6.size()-1);i>0;i--) {
+					for(int i=(list3_6.size()-1);i>=0;i--) {
 						dataVV3_6.add(list3_6.get(i).getIndi_value());	
 					}
 				
@@ -717,7 +717,7 @@ public class TopicController {
 					List<String> dataX4 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<String>> dataV4 = new ArrayList<List<String>>();//指标值
 					List<String> dataV4_1 = new ArrayList<String>();//指标值
-					for(int i=(list4_1.size()-1);i>0;i--) {
+					for(int i=(list4_1.size()-1);i>=0;i--) {
 						dataX4.add(list4_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV4_1.add(list4_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 					}
@@ -737,7 +737,7 @@ public class TopicController {
 					List<String> dataX5 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<String>> dataV5 = new ArrayList<List<String>>();//指标值
 					List<String> dataV5_1 = new ArrayList<String>();//指标值
-					for(int i=(list5_1.size()-1);i>0;i--) {
+					for(int i=(list5_1.size()-1);i>=0;i--) {
 						dataX5.add(list5_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV5_1.add(list5_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 					}
@@ -786,7 +786,7 @@ public class TopicController {
 					List<String> dataX = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<String>> dataV = new ArrayList<List<String>>();//指标值
 					List<String> dataV_1 = new ArrayList<String>();//指标值
-					for(int i=(list1_1.size()-1);i>0;i--) {
+					for(int i=(list1_1.size()-1);i>=0;i--) {
 						dataX.add(list1_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV_1.add(list1_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 					}
@@ -812,11 +812,11 @@ public class TopicController {
 					List<List<String>> dataV2 = new ArrayList<List<String>>();
 					List<String> dataVV2_1 = new ArrayList<String>();
 					List<String> dataVV2_2 = new ArrayList<String>();
-					for(int i=(list2_1.size()-1);i>0;i--) {
+					for(int i=(list2_1.size()-1);i>=0;i--) {
 						dataX2.add(list2_1.get(i).getDate_code());
 						dataVV2_1.add(list2_1.get(i).getIndi_value());	
 					}
-					for(int i=(list2_2.size()-1);i>0;i--) {
+					for(int i=(list2_2.size()-1);i>=0;i--) {
 						dataVV2_2.add(list2_2.get(i).getIndi_value());	
 					}
 				
@@ -853,18 +853,18 @@ public class TopicController {
 					List<String> dataVV3_2 = new ArrayList<String>();
 					List<String> dataVV3_3 = new ArrayList<String>();
 					List<String> dataVV3_4 = new ArrayList<String>();
-					for(int i=(list3_1.size()-1);i>0;i--) {
+					for(int i=(list3_1.size()-1);i>=0;i--) {
 						dataX3.add(list3_1.get(i).getDate_code());
 						dataVV3_1.add(list3_1.get(i).getIndi_value());	
 					}
-					for(int i=(list3_2.size()-1);i>0;i--) {
+					for(int i=(list3_2.size()-1);i>=0;i--) {
 						dataVV3_2.add(list3_2.get(i).getIndi_value());	
 					}
 					
-					for(int i=(list3_3.size()-1);i>0;i--) {
+					for(int i=(list3_3.size()-1);i>=0;i--) {
 						dataVV3_3.add(list3_3.get(i).getIndi_value());	
 					}
-					for(int i=(list3_4.size()-1);i>0;i--) {
+					for(int i=(list3_4.size()-1);i>=0;i--) {
 						dataVV3_4.add(list3_4.get(i).getIndi_value());	
 					}
 				
@@ -895,7 +895,7 @@ public class TopicController {
 					List<String> dataX4 = new ArrayList<String>();//X轴数据（时间轴）
 					List<List<String>> dataV4 = new ArrayList<List<String>>();//指标值
 					List<String> dataV4_1 = new ArrayList<String>();//指标值
-					for(int i=(list4_1.size()-1);i>0;i--) {
+					for(int i=(list4_1.size()-1);i>=0;i--) {
 						dataX4.add(list4_1.get(i).getDate_code());//从指标列表获取时间数据存入 X轴列表
 						dataV4_1.add(list4_1.get(i).getIndi_value());//从指标列表获取指标值 并存入dataV
 					}
@@ -922,11 +922,11 @@ public class TopicController {
 					List<List<String>> dataV5 = new ArrayList<List<String>>();
 					List<String> dataVV5_1 = new ArrayList<String>();
 					List<String> dataVV5_2 = new ArrayList<String>();
-					for(int i=(list5_1.size()-1);i>0;i--) {
+					for(int i=(list5_1.size()-1);i>=0;i--) {
 						dataX5.add(list5_1.get(i).getDate_code());
 						dataVV5_1.add(list5_1.get(i).getIndi_value());	
 					}
-					for(int i=(list5_2.size()-1);i>0;i--) {
+					for(int i=(list5_2.size()-1);i>=0;i--) {
 						dataVV5_2.add(list5_2.get(i).getIndi_value());	
 					}
 
