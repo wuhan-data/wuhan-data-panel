@@ -247,6 +247,8 @@ public class IndiSearchAppController {
 		System.out.println("进入searchIndi");
 		Map<String, Object> data = new HashMap<String, Object>();
 		Map<String, List<String>> allPower =new HashMap();
+		List <String> power1=new ArrayList<String>();
+		List <String> power=new ArrayList<String>();
 		try {
 			
 			try {
@@ -256,7 +258,7 @@ public class IndiSearchAppController {
 				return this.apiReturn("-1", "参数获取异常", data);
 			}
 
-//			try {
+			try {
 				if (!token.equals("")) {
 					String mapString = sessionSQLServiceApp.get(token).getSess_value();
 					Map mapS = StringToMap.stringToMap(mapString);
@@ -264,14 +266,30 @@ public class IndiSearchAppController {
 					System.out.println("searchIndi:userid:"+userId);
 					allPower = userService.getAllPower(userId);
 					System.out.println("searchIndi:有登录权限:"+allPower.size());
+
+					power1 = allPower.get("powerIndexManages");
+					System.out.println("power1大小:" + power1.size());
+					power = power1;
 				}
 				else{
 					allPower = roleService.getDefaultRolePower();
 					System.out.println("t为空："+allPower);
+					power1 = allPower.get("powerIndexManages");
+					String ss= power1.get(0);
+					System.out.println("power1大小:" + power1.size());
+					if(ss!=null){
+						String[] arr = ss.split("\\|");
+						System.out.println("arr[0]:" + arr[0]);
+						System.out.println("arr大小:" + arr.length);
+						for(int i=0;i<arr.length;i++){
+							power.add(arr[i]);
+							}
+					}	
+					System.out.println("ss:" + ss);
 				}
-//			} catch (Exception e) {
-//				System.out.println("无效的token令牌");
-//			}
+			} catch (Exception e) {
+				System.out.println("无效的token令牌");
+			}
 			
 			
 			boolean hasKeyword = requestObject.containsKey("keyword");
@@ -307,40 +325,7 @@ public class IndiSearchAppController {
 			searchIndiListG = indiSearchService.searchIndiG(keyWord);
 		
 		//获得该用户的权限
-//		Map<String, List<String>> allPower = userService.getAllPower(userId);
-//		Map<String, List<String>> allPower = roleService.getDefaultRolePower;
-		
-		
-//		Set <String> power_h=new HashSet<String>();
-		List <String> power1=new ArrayList<String>();
-		power1 = allPower.get("powerIndexManages");
-		List <String> power=new ArrayList<String>();
-		 
-//		if(power1.size()>0){
-			String ss= power1.get(0);
-			System.out.println("power1大小:" + power1.size());
-			System.out.println("ss:" + ss);
-			System.out.println("ss1:" + power1.get(1));
-			System.out.println("ss2:" + power1.get(2));
-			if(ss!=null){
-				String[] arr = ss.split("\\|");
-				System.out.println("arr[0]:" + arr[0]);
-				System.out.println("arr大小:" + arr.length);
-				for(int i=0;i<arr.length;i++){
-					power.add(arr[i]);
-					}
-			}
-				
-			System.out.println("ss:" + ss);
-			
-//		}
-		
-		
-		 
-		 System.out.println("转换后power：" + power);
-		
-//		System.out.println("power_g:"+power_g);
-//		power_h = (Set<String>) allPower.get("powerIndexManages2");
+		System.out.println("转换后power：" + power.size());
 		List resultList = new ArrayList();
 		// 放入来自国统的指标数据
 		Set setG = new HashSet();
@@ -413,6 +398,7 @@ public class IndiSearchAppController {
 		Integer userId = 0;
 		String isArea = "1";
 		String lj = "地区生产总值(GDP)-三次产业-第一产业";
+		String area_name = "全国";
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			try {
@@ -444,7 +430,7 @@ public class IndiSearchAppController {
 			source = requestObject.get("source").toString();
 
 			isArea = requestObject.get("isArea").toString();// 判断是地市级数据还是全国数据
-//		area_name = requestObject.get("area_name").toString();
+			area_name = requestObject.get("area_name").toString();
 			lj = requestObject.get("path").toString();
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
@@ -501,7 +487,7 @@ public class IndiSearchAppController {
 			fcMap.put("source", source);
 			fcMap.put("indexCode", indexCode);
 			fcMap.put("lj", lj);
-//			fcMap.put("area_name", area_name);
+			fcMap.put("area_name", area_name);
 			// 判断是全国数据还是湖北省数据,获得频度
 			List<String> freqCodeListH = new ArrayList();
 			List<String> freqCodeListG = new ArrayList();
@@ -582,6 +568,7 @@ public class IndiSearchAppController {
 					ParaMap.put("source", source);
 					ParaMap.put("indexCode", indexCode);
 					ParaMap.put("lj", lj);
+					ParaMap.put("area_name", area_name);
 					indiDateListG = indiDetailService.indiDateByFreqNameG(ParaMap);
 					Collections.sort(indiDateListG);
 					System.out.println("国统timeRange:" + indiDateListG);
@@ -787,7 +774,7 @@ public class IndiSearchAppController {
 				ParameterMap.put("lj", lj);
 //				List<String> areaNameList = new ArrayList();
 //				areaNameList = indiDetailService.getAreaNameListG(ParameterMap);
-//				ParameterMap.put("areaName", areaNameList.get(0));
+				ParameterMap.put("area_name", area_name);
 				ParameterMap.put("indexCode", indexCode);
 				List<String> indiDateListDefaultG1 = indiDetailService.indiDateByFreqNameG(ParameterMap);
 //				List<String> indiDateListDefaultG1 = indiDateListG;
@@ -814,7 +801,7 @@ public class IndiSearchAppController {
 				System.out.println("endTime:" + endTime1);
 				defaultMap.put("source", source);
 				System.out.println("source:" + source);
-//				defaultMap.put("area_name", areaNameList.get(0));
+				defaultMap.put("area_name", area_name);
 //				System.out.println("area_name:" + areaNameList.get(0));
 				defaultMap.put("indexCode", indexCode);
 				defaultMap.put("lj", lj);
@@ -1146,6 +1133,7 @@ public class IndiSearchAppController {
 		String areaName = "";
 		String lj = "";
 		String isArea = "";
+		String area_name = "全国";
 		Map<String, Object> data = new HashMap<String, Object>();
 		try {
 			boolean hasIsArea = requestObject.containsKey("isArea");
@@ -1338,7 +1326,7 @@ public class IndiSearchAppController {
 				boolean hasFreqName = requestObject.containsKey("timeFreq");
 				boolean hasStartTime = requestObject.containsKey("startTime");
 				boolean hasEndTime = requestObject.containsKey("endTime");
-//				boolean hasAreaName = requestObject.containsKey("areaName");
+				boolean hasAreaName = requestObject.containsKey("areaName");
 				boolean hasLj = requestObject.containsKey("path");
 				if (!hasIndexCode) {
 					return this.apiReturn("-1", "需要指定栏目id", data);
@@ -1355,9 +1343,9 @@ public class IndiSearchAppController {
 				if (!hasEndTime) {
 					return this.apiReturn("-1", "需要选择结束时间", data);
 				}
-//				if (!hasAreaName) {
-//					return this.apiReturn("-1", "需要选择地域维度", data);
-//				}
+				if (!hasAreaName) {
+					return this.apiReturn("-1", "需要选择地域维度", data);
+				}
 				if (!hasLj) {
 					return this.apiReturn("-1", "需要传入路径", data);
 				}
@@ -1366,7 +1354,7 @@ public class IndiSearchAppController {
 				freqCode = requestObject.get("timeFreq").toString();
 				startTime = requestObject.get("startTime").toString();
 				endTime = requestObject.get("endTime").toString();
-//				areaName = requestObject.get("areaName").toString();
+				area_name = requestObject.get("area_name").toString();
 				lj = requestObject.get("path").toString();
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
@@ -1417,7 +1405,7 @@ public class IndiSearchAppController {
 				System.out.println("国统确认newEndTime:" + newEndTime);
 				defaultMap.put("source", source);
 				System.out.println("国统确认source:" + source);
-//				defaultMap.put("area_name", areaName);
+				defaultMap.put("area_name", area_name);
 				defaultMap.put("indexCode", indexCode);
 				System.out.println("国统确认indexCode:" + indexCode);
 				defaultMap.put("lj", lj);
