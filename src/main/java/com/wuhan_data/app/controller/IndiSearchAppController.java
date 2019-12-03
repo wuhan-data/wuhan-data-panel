@@ -263,6 +263,7 @@ public class IndiSearchAppController {
 					userId = Integer.valueOf((String) mapS.get("userId"));
 					System.out.println("searchIndi:userid:"+userId);
 					allPower = userService.getAllPower(userId);
+					System.out.println("searchIndi:有登录权限:"+allPower.size());
 				}
 				else{
 					allPower = roleService.getDefaultRolePower();
