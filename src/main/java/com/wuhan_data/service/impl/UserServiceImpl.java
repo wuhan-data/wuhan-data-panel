@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService{
   			Set<String> set=new HashSet<String>(Arrays.asList(alist));
   			power_4.addAll(set);	
   		}
-  		System.out.println("power_4"+power_4.toString());
+//  		System.out.println("power_4"+power_4.toString());
   		List<String> powerThemes=new ArrayList<String>(power_1);
   		List<String> powerIndexSpecials=new ArrayList<String>(power_2);
   		List<String> powerIndexManages=new ArrayList<String>(power_3);
