@@ -216,6 +216,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 		}
 		System.out.println("时间区间数据获取成功:" + df.format(new Date()));
 
+		// 获取地区可取区间数据
+		ArrayList<String> areaCondition = new ArrayList<String>();
+		areaCondition.add("武汉市");
+		areaCondition.add("黄石市");
+		areaCondition.add("襄阳市");
+
 		// 构建查询条件
 		Map<String, Object> freqObject = new HashMap<String, Object>();
 		try {
@@ -237,6 +243,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		String endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("freqName", freqName);
+		queryMap.put("area", areaCondition.get(0).toString());
 		queryMap.put("startTime", startTime);
 		queryMap.put("startTimeRadar", startTimeRadar);
 		queryMap.put("startTimePoint", startTimePoint);
@@ -249,6 +256,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		System.out.println("指标数据查询绘制成功:" + df.format(new Date()));
 		result.put("baseInfo", baseInfo);
 		result.put("timeCondition", timeCondition);
+		result.put("areaCondition", areaCondition);
 		result.put("classInfo", classInfo);
 
 		return result;
@@ -419,6 +427,75 @@ public class AnalysisServiceImpl implements AnalysisService {
 			// 对需要进行计算的特殊图例进行单独配置
 			int flagPlate = 0;
 			switch (id) {
+			case "25":
+			case "26": {
+				if (id.equals("25")) {
+					System.out.println("进入特殊指标——各市州GDP-25");
+					List<List<String>> dataValue = new ArrayList<List<String>>();
+					List<String> legend = new ArrayList<String>();
+					List<String> showColor = new ArrayList<String>();
+					List<String> showType = new ArrayList<String>();
+					String area = queryMap.get("area").toString();
+					// 配置指标图例
+					LineAndBarType lineAndBarType = new LineAndBarType();
+					for (int j = 0; j < indiList.size(); j++) {
+						if (indiList.get(j).getIndiName().toString().indexOf(area) != -1) {
+							queryMap.put("indiCode", indiList.get(j).getIndiCode());
+							List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+							List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+							for (int m = 0; m < indiInfoList.size(); m++) {
+								String dataXTemp = indiInfoList.get(m).getTime();
+								if (xAxis.contains(dataXTemp)) {
+									int index = xAxis.indexOf(dataXTemp);
+									dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+								}
+							}
+							dataValue.add(dataIndiValue);
+							legend.add(indiList.get(j).getIndiName());
+							showColor.add(indiList.get(j).getShowColor());
+							showType.add(indiList.get(j).getShowType());
+						}
+					}
+					LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
+							showColor, showType);
+					TotalList.add(lineAndBarEntity);
+				}
+				if (id.equals("26")) {
+					System.out.println("进入特殊指标——各市州GDP-26");
+					List<List<String>> dataValue = new ArrayList<List<String>>();
+					List<String> legend = new ArrayList<String>();
+					List<String> showColor = new ArrayList<String>();
+					List<String> showType = new ArrayList<String>();
+					String area = queryMap.get("area").toString();
+					// 配置指标图例
+					LineType lineType = new LineType();
+					for (int j = 0; j < indiList.size(); j++) {
+						if (indiList.get(j).getIndiName().toString().indexOf(area) != -1
+								|| indiList.get(j).getIndiName().toString().indexOf("湖北") != -1) {
+							queryMap.put("indiCode", indiList.get(j).getIndiCode());
+							List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+							List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+							for (int m = 0; m < indiInfoList.size(); m++) {
+								String dataXTemp = indiInfoList.get(m).getTime();
+								if (xAxis.contains(dataXTemp)) {
+									int index = xAxis.indexOf(dataXTemp);
+									dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+								}
+							}
+							dataValue.add(dataIndiValue);
+							legend.add(indiList.get(j).getIndiName());
+							showColor.add(indiList.get(j).getShowColor());
+							showType.add(indiList.get(j).getShowType());
+						}
+					}
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
+							showType);
+					TotalList.add(lineEntity);
+				}
+
+				flagPlate = 1;
+			}
+				break;
 			case "203": {
 				System.out.println("进入特殊图例——异常数据源特殊处理");
 				if (id.equals("203")) {
