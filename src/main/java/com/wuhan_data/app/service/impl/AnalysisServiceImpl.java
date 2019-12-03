@@ -507,14 +507,17 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<List<String>> dataValueTable = new ArrayList<List<String>>();
 				List<String> legendTable = new ArrayList<String>();
 				String dataXTempTime = "";
+				// indiList是版块下的指标
 				for (int j = 0; j < indiList.size(); j++) {
 					Map<String, Object> queryMap1 = new HashMap<String, Object>();
 					queryMap1.put("freqName", queryMap.get("freqName"));
 					queryMap1.put("startTime", queryMap.get("endTime"));
 					queryMap1.put("endTime", queryMap.get("endTime"));
 					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
+					System.out.println("进入特殊指标——各市州GDP-表格-queryMap1" + queryMap1);
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
-					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					// TODO 这里的xAxis.size()可能需要改，改成长度为1，只取一个时间点的数据
+					List<String> dataIndiValue = new ArrayList<String>();
 					System.out.println("进入特殊指标——各市州GDP-表格-单指标数据" + dataIndiValue);
 //					for (int m = 0; m < indiInfoList.size(); m++) {
 //						String dataXTemp = indiInfoList.get(m).getTime();
@@ -523,7 +526,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 //							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 //						}
 //					}
-					dataIndiValue.add(indiInfoList.get(indiInfoList.size() - 1).getIndiValue());
+					dataIndiValue.add(indiInfoList.get(0).getIndiValue());
 					dataValueTable.add(dataIndiValue);
 					legendTable.add(indiList.get(j).getIndiName());
 				}
