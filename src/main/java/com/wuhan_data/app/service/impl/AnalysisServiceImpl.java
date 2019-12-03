@@ -262,7 +262,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		return result;
 	}
 
-	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName) {
+	public Map<String, Object> initAnalysisPlateByTime(int themeId, String startTime, String endTime, String freqName, String area) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 设置日期格式
 		System.out.println("开始初始化数据:" + df.format(new Date()));// new Date()为获取当前系统时间
@@ -295,6 +295,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		String endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		queryMap.put("freqName", freqName);
+		queryMap.put("area", area);
 		queryMap.put("startTime", startTime);
 		queryMap.put("startTimeRadar", startTimeRadar);
 		queryMap.put("startTimePoint", startTimePoint);

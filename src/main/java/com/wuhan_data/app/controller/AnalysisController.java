@@ -159,6 +159,7 @@ public class AnalysisController {
 		String token = "";
 		int indexId = 0;
 		String timeFreq = "";
+		String area = "";
 		String startTime = "";
 		String endTime = "";
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -186,6 +187,9 @@ public class AnalysisController {
 			timeFreq = requestObject.get("timeFreq").toString();
 			startTime = requestObject.get("startTime").toString();
 			endTime = requestObject.get("endTime").toString();
+			if (requestObject.containsKey("area")) {
+				area = requestObject.get("area").toString();
+			}
 
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
@@ -194,7 +198,7 @@ public class AnalysisController {
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
 //		try {
 		// 获取栏目下的版块信息
-		analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, timeFreq);
+		analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, timeFreq, area);
 //		} catch (Exception e) {
 //			return this.apiReturn("-1", "获取数据异常", data);
 //		}
