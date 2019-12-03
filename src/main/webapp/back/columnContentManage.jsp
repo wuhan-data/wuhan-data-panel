@@ -98,7 +98,7 @@
    <input type="hidden" value="${cid}" name="cid" />
   <div class="row" id="addElement">
      <div class="btns col-md-6">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加版块</div>
       <button class="btn btn-primary" id="" onclick="dosaveSeq('colPlateUpdateWeight','${cid}')"><i class="fa fa-cog"></i>保存顺序</button>
     </div>  
  

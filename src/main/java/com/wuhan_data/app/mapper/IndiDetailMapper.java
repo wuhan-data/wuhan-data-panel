@@ -21,7 +21,7 @@ public interface IndiDetailMapper {
 	String getIndiShowType(Map showMap);
 	@DataSource(value="dataSource_mysql")
 	String getIndiCode(Map paraMap);
-	@DataSource(value="dataSource_dm")
+	@DataSource(value="dataSource_mysql")
 	String getIndexName(String indexCode);
 	@DataSource(value="dataSource_dm")
 	int getIsFavorite(Map favoriteMap);
@@ -49,7 +49,7 @@ public interface IndiDetailMapper {
 	List<String> indiDateByFreqNameDefault(Map parameterMap);
 	@DataSource(value="dataSource_mysql")
 	List<TPIndiValue> getIndiValueArea(Map defaultMap);
-	@DataSource(value="dataSource_dm")
+	@DataSource(value="dataSource_mysql")
 	String getIndiCodeG(Map paraMap);
 
 }

@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService{
   			Set<String> set=new HashSet<String>(Arrays.asList(alist));
   			power_1.addAll(set);	
   		}
-  		System.out.println("power_1"+power_1.toString());
+//  		System.out.println("power_1"+power_1.toString());
   		Set <String> power_2=new HashSet<String>();
   		for (int i=0;i<power_2String.size();i++)
   		{
@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService{
   			Set<String> set=new HashSet<String>(Arrays.asList(alist));
   			power_2.addAll(set);	
   		}
-  		System.out.println("power_2"+power_2.toString());
+//  		System.out.println("power_2"+power_2.toString());
   		Set <String> power_3=new HashSet<String>();
   		for (int i=0;i<power_3String.size();i++)
   		{
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService{
   			Set<String> set=new HashSet<String>(Arrays.asList(alist));
   			power_3.addAll(set);	
   		}
-  		System.out.println("power_3"+power_3.toString());
+//  		System.out.println("power_3"+power_3.toString());
   		Set <String> power_4=new HashSet<String>();
   		System.out.println("大小"+power_4String.size());
   		for (int i=0;i<power_4String.size();i++)

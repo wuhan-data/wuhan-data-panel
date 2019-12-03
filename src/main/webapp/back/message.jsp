@@ -75,11 +75,11 @@
                  
   <div class="row" style="margin-bottom:7px;margin-right:2px">   
   <div class="btns col-md-2">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModalByRole" onclick="add()"><i class="fa fa-plus"></i>批量添加</div>
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModalByRole" onclick="add()"><i class="fa fa-plus"></i>群体推送</div>
       <!-- <button class="btn btn-primary" onclick="showSort()"><i class="fa fa-cog"></i>设置</button> -->
     </div> 
    <div class="btns col-md-4">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>个人推送</div>
       <!-- <button class="btn btn-primary" onclick="showSort()"><i class="fa fa-cog"></i>设置</button> -->
     </div>  
      <form class="form-inline" style="float:right" id="formSearch" method="post" accept-charset="UTF-8">

@@ -134,7 +134,7 @@
    <input type="hidden" value="${cid}" name="cid"/>
   <div class="row" id="addElement">
      <div class="btns col-md-2">
-      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加</div>
+      <div class="btn btn-info" data-toggle="modal" data-target="#myAddModal" onclick="add()"><i class="fa fa-plus"></i>添加指标</div>
     </div>  
   
   </div>

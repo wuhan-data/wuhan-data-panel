@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.aspectj.weaver.ast.And;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -68,6 +69,7 @@ public class RoleController {
 	    		Map map=new HashMap();
 	    		map.put("role_code", code);
 	    		List<Role> roles=roleService.getByCode(map);
+	    		System.out.println("nihao"+roles.size());
 	    		if (roles.size()>0) {
 					jsonObject.put("data", "exist");
 				}
@@ -90,7 +92,7 @@ public class RoleController {
 	    	String name="";
 	    	try {
 				name=URLDecoder.decode(request.getParameter("roleName"),"utf-8");
-				System.out.println("name"+name);
+				
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
@@ -100,6 +102,43 @@ public class RoleController {
 	    		Role role=roleService.getByName(name);
 	    		if (role!=null) {
 					jsonObject.put("data", "exist");
+				}
+	    		else {
+					jsonObject.put("data", "notExist");
+				}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    		sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
+	    	}
+	    	return jsonObject.toString();
+	    }
+	 @RequestMapping(value="editRoleNameIsExist",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String editRoleNameIsExist(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 	JSONObject jsonObject = new JSONObject();
+	    	String name="";
+	    	int id=0;
+	    	try {
+				name=URLDecoder.decode(request.getParameter("roleName"),"utf-8");
+				id=Integer.valueOf(URLDecoder.decode(request.getParameter("roleID"),"utf-8"));
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
+			}
+	    	try {
+	    		
+	    		Role role=roleService.getByName(name);
+	    		
+	    		if (role!=null) {
+	    			if(role.getId()!=id)
+	    				jsonObject.put("data", "exist");
+	    			else {
+	    				jsonObject.put("data", "notExist");
+					}
+					
 				}
 	    		else {
 					jsonObject.put("data", "notExist");
@@ -185,7 +224,7 @@ public class RoleController {
             maView.addObject("power_2",roleService.getIndexSpecials());
             maView.addObject("power_3",roleService.getIndexManages());
             maView.addObject("power_4",roleService.getIndexManages2());
-            System.out.println("ffft:数据库操作"+roleService.getIndexManages2().size());
+            
             maView.addObject("roleListByPage", roleListByPage);
             maView.addObject("controlURL", "roleListByPage");//控制页码传递URL
             maView.addObject("page", page); 
@@ -359,7 +398,7 @@ public class RoleController {
         response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
     	//参数获取
-    	String addRoleCodeString="";
+    	String addRoleCodeString="0000";
     	String addRoleNameString="";
     	String addRoleDescriptionString="";
     	String currentPage="";
@@ -368,7 +407,7 @@ public class RoleController {
     	String power_3="";
     	String power_4="";
     	try {
-    		addRoleCodeString=request.getParameter("addRoleCode");
+//    		addRoleCodeString=request.getParameter("addRoleCode");
     		addRoleNameString=request.getParameter("addRoleName");
     		addRoleDescriptionString=request.getParameter("addRoleDescription");
     		currentPage=request.getParameter("currentPage");
@@ -376,7 +415,7 @@ public class RoleController {
     		power_2=StringUtils.join(request.getParameterValues("addPower_2"),"|");
     		power_3=StringUtils.join(request.getParameterValues("addPower_3"),"|");
     		power_3=StringUtils.join(request.getParameterValues("addPower_3"),"|");
-    		power_4=StringUtils.join(request.getParameterValues("addPower_4"),"|");
+//    		power_4=StringUtils.join(request.getParameterValues("addPower_4"),"|");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addRole:获取数据"+e.toString());
@@ -386,6 +425,7 @@ public class RoleController {
 		}
     	//数据库操作
     	try {
+    		power_4=power_3;
     		Role role=new Role();
         	role.setRole_code(addRoleCodeString);
         	role.setRole_name(addRoleNameString);
@@ -489,7 +529,7 @@ public class RoleController {
     	//参数获取
     	String currentPage="";
     	int editRoleID=0;
-    	String editRoleCodeString="";
+    	String editRoleCodeString="0000";
     	String editRoleNameString="";
     	String editRoleDescriptionString="";
     	String power_1="";
@@ -498,14 +538,14 @@ public class RoleController {
     	String power_4="";
     	try {
     		editRoleID=Integer.valueOf(request.getParameter("editRoleID"));
-    		editRoleCodeString=request.getParameter("editRoleCode");
+//    		editRoleCodeString=request.getParameter("editRoleCode");
     		editRoleNameString=request.getParameter("editRoleName");
     		editRoleDescriptionString=request.getParameter("editRoleDescription");
     		currentPage=request.getParameter("currentPage");
     		power_1=StringUtils.join(request.getParameterValues("editPower_1"),"|");
     		power_2=StringUtils.join(request.getParameterValues("editPower_2"),"|");
     		power_3=StringUtils.join(request.getParameterValues("editPower_3"),"|");
-    		power_4=StringUtils.join(request.getParameterValues("editPower_4"),"|");
+//    		power_4=StringUtils.join(request.getParameterValues("editPower_4"),"|");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editRole:获取数据"+e.toString());
@@ -515,6 +555,8 @@ public class RoleController {
 		}
     	//数据库操作
     	try {
+    		power_4=power_3;
+    		
     		Role role=new Role();
         	role.setId(editRoleID);
         	role.setRole_code(editRoleCodeString);

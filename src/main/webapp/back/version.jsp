@@ -108,9 +108,9 @@
  <div class="btn btn-success btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myLookModal" onclick="look(${c.id},'${c.appid}','${c.platform}','${c.version}','${c.text}','${c.url}')">
 <i class="fa fa-edit"></i>查看
 </div>
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.id},'${c.appid}','${c.platform}','${c.version}','${c.text}','${c.url}')">
+<%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.id},'${c.appid}','${c.platform}','${c.version}','${c.text}','${c.url}')">
 <i class="fa fa-edit"></i>修改
-</div>
+</div> --%>
 <a href="#" onclick="delClick('${c.id }','deleteVersion')">
 <div class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</div>
 </a>
@@ -170,7 +170,7 @@
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editID" id="editID" >
-   应用标识：<input class="form-control" type="text" name="editAppid" id="editAppid" > <br>
+   应用标识：<input class="form-control" type="text" name="editAppid" id="editAppid" readonly > <br>
  操作系统：<select class="form-control" id="editPlatform" name="editPlatform" >	
        		<option value="ios">ios</option>    
        		<option value="Android">Android</option> 
@@ -211,7 +211,7 @@
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     应用标识：<input class="form-control" type="text" name="addAppid" id="addAppid" > <br> 
+     应用标识：<input class="form-control" type="text" readonly  name="addAppid" id="addAppid" value="__UNI__8BAA13B" > <br> 
    操作系统：<!-- <input class="form-control" type="text" name="addPlatform" id="addPlatform"> <br> -->
         <select class="form-control" id="addPlatform" name="addPlatform" >	
        		<option value="ios">ios</option>    

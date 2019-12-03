@@ -3,6 +3,8 @@ package com.wuhan_data.app.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +31,7 @@ import com.wuhan_data.pojo.AnalysisIcon;
 import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.IndexPic;
 import com.wuhan_data.pojo.IndexSpecial;
+import com.wuhan_data.service.RoleService;
 import com.wuhan_data.service.UserService;
 import com.wuhan_data.tools.StringToMap;
 
@@ -41,6 +44,8 @@ public class AppIndexController {
 	SessionSQLServiceApp sessionSQLServiceApp;
 	@Autowired
 	UserService userService;
+	@Autowired
+	RoleService roleService;
 	
 	//测试
 	@RequestMapping(value="t",produces = "text/plain;charset=utf-8")
@@ -125,10 +130,11 @@ public class AppIndexController {
 		  String source = "全部";// 国统、湖统、全部
 		  Integer userId = 0;
 		  String token = "";
-		  
+		  Map<String, List<String>> allPower =new HashMap();
 		  Map<String, Object> data = new HashMap<String, Object>();
 	   try {
 	    token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+	    System.out.print("nitHome:tokenL:"+token);
 	   } catch (Exception e) {
 	    return this.apiReturn("-1", "参数获取异常", data);
 	   }
@@ -138,6 +144,11 @@ public class AppIndexController {
 	     String mapString = sessionSQLServiceApp.get(token).getSess_value();
 	     Map mapS = StringToMap.stringToMap(mapString);
 	     userId = Integer.valueOf((String) mapS.get("userId"));
+	     allPower = userService.getAllPower(userId);
+	    }
+	    else{
+	    	allPower = roleService.getDefaultRolePower();
+	    	System.out.println("专题权限："+allPower);
 	    }
 	   } catch (Exception e) {
 	    System.out.println("无效的token令牌");
@@ -145,12 +156,34 @@ public class AppIndexController {
 	   
 	 //获得该用户的权限
 //	  Map<String, List<String>> allPower = userService.getAllPower(userId);
-//	  Set <String> power_h=new HashSet<String>();
-//	  power_h = (Set<String>) allPower.get("powerIndexSpecials");
-
+	  List<String> power_h=new ArrayList();
+	  power_h =allPower.get("powerIndexSpecials");
+	  System.out.println("专题权限1："+power_h);
+	  List<String> power_h1= new ArrayList();
+	   
+	   String[] arr = null;
+		if(power_h.size()>0){
+			String ss= power_h.get(0);
+			System.out.println("ss:" + ss);
+			if(ss!=null){
+				arr = ss.split("\\|");
+				power_h1 = Arrays.asList(arr);
+			}
+				
+			System.out.println("ss:" + ss);
+			
+		}
+	   
+	   
 	  List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
+	  List<IndexSpecial> topicPower = new ArrayList();//加权限后的部分
+	  for(int i=0;i<topic.size();i++){
+		  if(power_h1.contains(Integer.toString(topic.get(i).getId()))){
+			  topicPower.add(topic.get(i));
+			  System.out.println("专题权限2："+topic.get(i));
+		  }
+	  }
 	  
-	 
 		 
 	   
 	
@@ -164,7 +197,7 @@ public class AppIndexController {
 		Map map1 = new HashMap();
 		map1.put("slideshow", slideshow);
 		map1.put("analysis", analysis);
-		map1.put("topic", topic);
+		map1.put("topic", topicPower);
 		map.put("data", map1);
         String  param= JSON.toJSONString(map);        
         return param;

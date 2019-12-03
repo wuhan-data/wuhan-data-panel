@@ -172,14 +172,14 @@ public class RoleServicelmpl implements RoleService {
 	@Override
 	public java.util.List<IndexManage> getIndexManages() {
 		// TODO Auto-generated method stub
-		return indiSearchMapper.searchIndiG("%");
+		return indiSearchMapper.searchIndiHPower();
 	}
 
 	@Override
 	public java.util.List<IndexManage> getIndexManages2() {
 		// TODO Auto-generated method stub
+		//return indiSearchMapper.searchIndiHPower("%");
 		return indiSearchMapper.searchIndiHPower();
-//		return indiSearchMapper.searchIndiG("%");
 	}
 
 	@Override
@@ -194,6 +194,26 @@ public class RoleServicelmpl implements RoleService {
 		}
 		String result=StringUtils.join(names,"|");
 		return result;
+	}
+
+	@Override
+	public Map<String, java.util.List<String>> getDefaultRolePower() {
+		// TODO Auto-generated method stub
+		Map<String, List<String>> data = new HashMap<String, List<String>>();
+		Role role=roleMapper.get(2);
+		List<String> power_1String=new ArrayList<String>();
+  		List<String> power_2String=new ArrayList<String>();
+  		List<String> power_3String=new ArrayList<String>();
+  		List<String> power_4String=new ArrayList<String>();
+  		power_1String.add(role.getRole_power_1());
+		power_2String.add(role.getRole_power_2());
+		power_3String.add(role.getRole_power_3());	
+		power_4String.add(role.getRole_power_4());	
+		data.put("powerThemes", power_1String);
+  		data.put("powerIndexSpecials", power_2String);
+  		data.put("powerIndexManages", power_3String);
+  		data.put("powerIndexManages2", power_4String);
+		return data;	
 	}
 
 

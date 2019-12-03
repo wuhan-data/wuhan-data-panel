@@ -222,19 +222,19 @@
    用户密码：<input class="form-control" type="text" name="editUserPassword" id="editUserPassword"> 
    <br> -->
     手机：<input class="form-control"  name="editUserTel" id="editUserTel" readonly onblur="edit_checkUserTel()">
-    <!--  <span id="edit_span_userTel">填11位数字</span> --><br> 
+    <!--  <span id="edit_span_userTel">填11位数字</span> --><br> <br>
    状态：<select class="form-control" type="text" name="editstatus" id="editstatus"> 
    			<option value="0" >正常</option>    
        		<option value="1" >封禁</option>
    </select>
-   <br>
+   <br><br>
    性别：
      <select class="form-control" type="text" name="editgenderSelect" id="editgenderSelect">	
        		<option value="女">女</option>
        		<option value="男"> 男</option>    
        		 
   	</select>
-  	<br>
+  	<br><br>
 <%--   部门：
   <select class="form-control"  name="editdepartmentListSelect" id="editdepartmentListSelect">
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
@@ -242,23 +242,20 @@
 	</c:forEach>
   </select>
   <br> --%>
-      部门：<br>
+      部门：<br><br>
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
   		<input type="checkbox" id="editdepartmentListSelect" name="editdepartmentListSelect" value="${c.id}">${c.department_name}
 	</c:forEach>
-  <br>
-    角色：<br>
+  <br><br>
+    角色：<br><br>
   	<c:forEach items="${roleList}" var="c" varStatus="st">
   		<input type="checkbox" id="editroleListSelect" name="editroleListSelect" value="${c.id}">${c.role_name}
 	</c:forEach>
-  <br>
+  <br><br>
  
    真实姓名：<input class="form-control"  name="editUserReal_name" id="editUserReal_name">
-    <span id="edit_span_userReal_name">请填写真实姓名</span><br>
-   
-     <br>
- 
-      出生日期：<input class="form-control" type="date" value=""name="editBirthday" id="editBirthday"/><br>
+    <span id="edit_span_userReal_name">请填写真实姓名</span><br><br>
+      出生日期：<input class="form-control" type="date" value=""name="editBirthday" id="editBirthday"/><br><br>
      所在地区：<input class="form-control" type="search" placeholder="地区" name="editCity" id="editCity">
      <br>
       <input class="form-control" type="hidden"  name="editUserRole_list" id="editUserRole_list">
@@ -300,13 +297,13 @@
      用户密码：<input class="form-control" type="search" placeholder="用户密码" name="addUserPassword" id="addUserPassword">
      <br> -->
      手机:<input class="form-control" type="search" placeholder="联系方式" name="addUserTel" id="addUserTel" onblur="checkUserTel()">
-     <span id="span_userTel">填11位数字</span><br>
+     <span id="span_userTel">填11位数字</span><br><br>
      性别：
      <select class="form-control" id="genderSelect" name="genderSelect" id="genderSelect">	
        		<option value="男" selected> 男</option>    
        		<option value="女" >女</option> 
   	</select>
-  	<br>
+  	<br><br>
 <%--    部门：
   <select class="form-control" id="departmentListSelect" name="departmentListSelect" id="departmentListSelect">
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
@@ -314,21 +311,21 @@
 	</c:forEach>
   </select>
   <br> --%>
-        部门：<br>
+        部门：<br><br>
   	<c:forEach items="${departmentList}" var="c" varStatus="st">
   		<input type="checkbox" id="departmentListSelect" name="departmentListSelect" value="${c.id}">${c.department_name}
 	</c:forEach>
-  <br>
-    角色：<br>
+  <br><br>
+    角色：<br><br>
     <c:forEach items="${roleList}" var="c" varStatus="st">
   		<input type="checkbox" id="roleListSelect" name="roleListSelect" value="${c.id}">${c.role_name}
 	</c:forEach>
-  <br>
+  <br><br>
    真实姓名：<input class="form-control" type="search" placeholder="真实姓名" name="addUserReal_name" id="addUserReal_name">
      <span id="span_userReal_name">请填写真实姓名</span><br>
      <br>
    
-     出生日期：<input class="form-control" type="date" value="2019-01-01"name="addBirthday" id="addBirthday"/><br>
+     出生日期：<input class="form-control" type="date" value="2019-01-01"name="addBirthday" id="addBirthday"/><br><br>
      所在地区：<input class="form-control" type="search" placeholder="地区" name="addCity" id="addCity">
      <br>
       <input class="form-control" type="hidden" placeholder="用户权限" name="addUserRole_list" id="addUserRole_list">

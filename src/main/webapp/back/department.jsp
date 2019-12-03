@@ -48,38 +48,7 @@
     </style>
     
     <script type="text/javascript">
-    function checkDepartmentCode(){
-     	 var rolecode = document.getElementById("addDepartmentCode").value;
-     	 var flag=false;
-     	 var reg = /^[\d]{4}$/;
-          if (!reg.test(rolecode)) {
-          	span_rolecode.innerHTML = "请输入4位数字";
-              return false;
-          }
-          else {
-        	  //判断code是否存在
-				 roleCode=encodeURI(rolecode);
-		    	$.ajax({
-		    		url:"departmentCodeIsExist",
-		    		data:{roleCode:roleCode},
-		    		async:false,
-		    		success:function(data){
-		    			if(data.data=="exist"){
-		    				span_rolecode.innerHTML = "code已经存在";
-		    				flag=false;
-		          		  	return false;	
-		    			}
-		    			else{
-		    				span_rolecode.innerHTML = "格式正确";
-		    				flag=true;
-		              		return true;
-		    			}	
-		    		}
-		    	}) 
-				return flag;
-          }
-     }
-       
+   
     function checkDepartmentName(){
     	 var roleName = document.getElementById("addDepartmentName").value;
     	 var flag=false;
@@ -89,7 +58,7 @@
     	 }
        	  //判断code是否存在
        	  else{
-				 /* roleName=encodeURI(roleName);
+				roleName=encodeURI(roleName);
 		    	$.ajax({
 		    		url:"departmentNameIsExist",
 		    		data:{roleName:roleName},
@@ -107,14 +76,12 @@
 		    			}	
 		    		}
 		    	}) 
-				return flag; */
-				return true;
+				return flag; 
        	  }
     }
        function checkForm(){
-       	var roleCode=checkDepartmentCode();
     	var roleName=checkDepartmentName();
-       	if (roleCode && roleName){
+       	if ( roleName){
        		return true;
        	}
        	else
@@ -123,46 +90,44 @@
        		}
        }
        function edit_checkForm(){
-         	var roleCode=edit_checkDepartmentCode();
-         	if (roleCode)
+         	var roleName=edit_checkDepartmentName();
+         	if (roleName)
          		return true;
          	else
          		return false;
          }
-               
-         function edit_checkDepartmentCode(){
-         	 var rolecode = document.getElementById("editDepartmentCode").value;
-         	roleCode=encodeURI(rolecode);
-         	 var flag=false;
-         	 var reg = /^[\d]{4}$/;
-              if (!reg.test(rolecode)) {
-              	edit_span_rolecode.innerHTML = "请输入4位数字";
-                  return false;
-              }
-              else {
-            	
+       function edit_checkDepartmentName(){
+    	 var roleName = document.getElementById("editDepartmentName").value;
+    	 var roleID=document.getElementById("editDepartmentID").value;
+      	 var flag=false;
+      	 if(roleName==null || roleName==""){
+      		edit_span_roleName.innerHTML = "name不能为空";
+      		 return false;
+      	 }
+         	  //判断code是否存在
+         	  else{
+  				roleName=encodeURI(roleName);
   		    	$.ajax({
-  		    		url:"departmentCodeIsExist",
-  		    		data:{roleCode:roleCode},
+  		    		url:"editDepartmentNameIsExist",
+  		    		data:{roleName:roleName,roleID:roleID},
+  		    		async:false,
   		    		success:function(data){
   		    			if(data.data=="exist"){
-  		    				edit_span_rolecode.innerHTML = "code已经存在";
+  		    				edit_span_roleName.innerHTML = "name已经存在";
   		    				flag=false;
   		          		  	return false;	
   		    			}
   		    			else{
-  		    				edit_span_rolecode.innerHTML = "";
+  		    				edit_span_roleName.innerHTML = "格式正确";
   		    				flag=true;
   		              		return true;
   		    			}	
   		    		}
-  		    	}) 
-  		    	return flag;
-              }
-         }
+  		    	}) ;
+ 		return flag; 
+    	   }
+       }
       </script>
-    
-    
 </head>
 <body>
     <div id="wrapper">
@@ -200,9 +165,8 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="10%">部门id</th>
-                                            <th width="20%">部门代码</th>
-                                            <th width="20%">部门名称</th>
+                                            <th width="20%">部门id</th>
+                                            <th width="30%">部门名称</th>
                                             <th width="20%">部门描述</th>
                                             <th width="30%">操作</th>
                                         </tr>
@@ -210,12 +174,11 @@
                                     <tbody>
      <c:forEach items="${departmentListByPage}" var="c" varStatus="st">
         <tr>
-            <td >${c.id}</td>
-            <td >${c.department_code}</td>
-            <td >${c.department_name}</td>
-            <td ><div class="tabel-div">${c.department_description}</div></td>
-            <td >
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.department_code}','${c.department_name}','${c.department_description}')">
+            <td>${c.id}</td>
+            <td>${c.department_name}</td>
+            <td><div class="tabel-div">${c.department_description}</div></td>
+            <td>
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.department_name}','${c.department_description}')">
 <i class="fa fa-edit"></i>修改
 </div>
 <a href="#" onclick="delClick('${c.id }','deleteDepartment')">
@@ -240,13 +203,12 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#" >
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#" onsubmit="return edit_checkForm()">
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editDepartmentID" id="editDepartmentID">
-   部门代码：<input class="form-control" type="text" name="editDepartmentCode" id="editDepartmentCode" readonly > 
-    <br>  
-   部门名称：<input class="form-control" type="text" name="editDepartmentName" id="editDepartmentName"> <br>  
+   部门名称：<input class="form-control" type="text" name="editDepartmentName" id="editDepartmentName">
+   <span id="edit_span_roleName"></span> <br>  
    部门描述：<textarea class="form-control" type="text" name="editDepartmentDescription" id="editDepartmentDescription" style="width:500px;height:80px;"></textarea> <br>  
 			</div>
 			<div class="modal-footer">
@@ -276,12 +238,10 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addDepartment" onsubmit="return checkForm()">
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="#" onsubmit="return checkForm()">
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     部门代码：<input class="form-control" type="search" placeholder="部门代码" name="addDepartmentCode" id="addDepartmentCode" onblur="checkDepartmentCode()">
-     <span id="span_rolecode">填4位代码</span> <br>
      部门名称：<input class="form-control" type="search" placeholder="部门名称" name="addDepartmentName" id="addDepartmentName">
       <span id="span_roleName"></span> <br>
      部门描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addDepartmentDescription" id="addDepartmentDescription" style="width:500px;height:80px;"> </textarea> <br>
@@ -382,6 +342,7 @@
                editClick = function(Url) {
              	   $('.modal-backdrop').remove();
              	    $('body').removeClass('modal-open');
+             	    if(edit_checkForm()){
                   var data = new FormData(document.getElementById("editForm"));                	
                   $.ajax({
                              type: 'POST',
@@ -399,8 +360,13 @@
                              error : function(data){
                         	 alert("修改失败")
                              }
-                         });    
-                  };
+                         }); 
+             	    }
+             	    else
+             	    	{
+             	    	alert("请填写正确格式的值");
+             	    	}
+             	    }
                   delClick = function(s_id,Url) {
                 	  if (s_id==2)
                   	{
@@ -514,9 +480,9 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(id,code,name,dep){
+            function edit(id,name,dep){
             	$("#editDepartmentID").val(id);
-            	$("#editDepartmentCode").val(code);
+            /* 	$("#editDepartmentCode").val(code); */
             	$("#editDepartmentName").val(name);
             	$("#editDepartmentDescription").val(dep);
                 	

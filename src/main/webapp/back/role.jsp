@@ -110,25 +110,57 @@
 				return flag;
        	  }
     }
+    
        function checkForm(){
-       	var roleCode=checkRoleCode();
     	var roleName=checkRoleName();
-       	if (roleCode && roleName){
-       		alert(roleCode && roleName);
+       	if (roleName){
        		return true;
        	}
-       	else
-       		{
+       	else{
        		return false;
-       		}
+       	}
        }
        function edit_checkForm(){
-         	var roleCode=edit_checkRoleCode();
-         	if (roleCode)
-         		return true;
-         	else
+         	var roleName=edit_checkRoleName();
+         	if (roleName)
+         		{return true;}
+         	else{
          		return false;
+         		}
          }
+       function edit_checkRoleName(){
+      	 var roleName = document.getElementById("editRoleName").value;
+      	 var roleID=document.getElementById("editRoleID").value;
+      	 var flag=false;
+      	 if(roleName==null || roleName==""){
+      		edit_span_roleName.innerHTML = "name不能为空";
+      		 return false;
+      	 }
+         	  //判断code是否存在
+         	  else{
+  				 roleName=encodeURI(roleName);
+  				 roleID=encodeURI(roleID);
+  		    	$.ajax({
+  		    		url:"editRoleNameIsExist",
+  		    		data:{roleName:roleName,roleID:roleID},
+  		    		async:false,
+  		    		success:function(data){
+  		    			if(data.data=="exist"){
+  		    				edit_span_roleName.innerHTML = "name已经存在";
+  		    				flag=false;
+  		          		  	return false;	
+  		    			}
+  		    			else{
+  		    				edit_span_roleName.innerHTML = "格式正确";
+  		    				flag=true;
+  		              		return true;
+  		    			}	
+  		    		}
+  		    	}) 
+  				return flag;
+         	  }
+      }
+      
                
          function edit_checkRoleCode(){
          	 var rolecode = document.getElementById("editRoleCode").value;
@@ -199,9 +231,9 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th width="10%">角色id</th>
-                                            <th width="20%">角色代码</th>
-                                            <th width="20%">角色名称</th>
+                                            <th width="20%">角色id</th>
+                                           
+                                            <th width="30%">角色名称</th>
                                             <th width="20%">角色描述</th>
                                             <th width="30%">操作</th>
                                         </tr>
@@ -210,12 +242,12 @@
      <c:forEach items="${roleListByPage}" var="c" varStatus="st">
         <tr>
             <td >${c.id}</td>
-            <td >${c.role_code}</td>
+            
             <td >${c.role_name}</td>
             <td ><div class="tabel-div">${c.role_description}</div></td>
             <%--  <td >${c.role_power_1}</td> --%>
             <td >
-<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.role_code}','${c.role_name}','${c.role_description}','${c.role_power_1}','${c.role_power_2}','${c.role_power_3}')">
+<div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit('${c.id}','${c.role_name}','${c.role_description}','${c.role_power_1}','${c.role_power_2}','${c.role_power_3}')">
 <i class="fa fa-edit"></i>修改
 </div>
 <a href="#" onclick="delClick('${c.id }','deleteRole')">
@@ -240,13 +272,12 @@
 					修改
 				</h4>
 			</div>
-	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#" >
+	<form class="form-inline" id="editForm" method="post" accept-charset="UTF-8" action="#" onsubmit="return edit_checkForm()" >
 			<div class="modal-body">		
 
 	<input class="form-control" type="hidden" name="editRoleID" id="editRoleID">
-   角色代码：<input class="form-control" type="text" name="editRoleCode" id="editRoleCode" readonly > 
-    <br>  
-   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName"> <br>  
+   角色名称：<input class="form-control" type="text" name="editRoleName" id="editRoleName">  
+    <span id="edit_span_roleName"></span> <br>
    角色描述：<textarea class="form-control" type="text" name="editRoleDescription" id="editRoleDescription" style="width:500px;height:80px;"></textarea> <br>  
 <div style=" overflow-y:auto; height:200px;">   
  经济分析权限：<br>
@@ -272,23 +303,23 @@
             <br>
             </div>
 <div style=" overflow-y:auto; height:200px;">  
- 搜索国统指标权限：<br>
+ 搜索指标权限：<br>
  <c:forEach items="${power_3}" var="c" varStatus="st">	
            <ul >
-                <input type="checkbox" name="editPower_3" value="${c.id}">${c.indi_name}(${c.source})     	
+                <input type="checkbox" name="editPower_3" value="${c.id}">${c.lj}|${c.area_name}(${c.source})    	
            </ul>
  </c:forEach> 
             <br>
 </div>
-<div style=" overflow-y:auto; height:200px;">  
- 搜索湖统指标权限：<br>
+<%-- <div style=" overflow-y:auto; height:200px;">  
+ 搜索指标权限2：<br>
  <c:forEach items="${power_4}" var="c" varStatus="st">	
            <ul >
-                <input type="checkbox" name="editPower_4" value="${c.id}">${c.lj}_${c.area_name}(${c.source})     	
+                <input type="checkbox" name="editPower_4" value="${c.id}">${c.indi_name}(${c.source})     	
            </ul>
  </c:forEach> 
             <br>
-</div>
+</div> --%>
 			
 			</div>
 			<div class="modal-footer">
@@ -318,12 +349,10 @@
 				</h4>
 			</div>
 			
-			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="addRole" onsubmit="return checkForm()">
+			<form class="form-inline" id="addForm" method="post" accept-charset="UTF-8" action="#" onsubmit="return checkForm()">
 			<div class="modal-body">
 				
   <!--    用户id：<input class="form-control" type="search" placeholder="用户id" name="addUserId"> -->
-     角色代码：<input class="form-control" type="search" placeholder="部门代码" name="addRoleCode" id="addRoleCode" onblur="checkRoleCode()">
-     <span id="span_rolecode">填4位代码</span> <br>
      角色名称：<input class="form-control" type="search" placeholder="部门名称" name="addRoleName" id="addRoleName">
       <span id="span_roleName"></span> <br>
      角色描述：<textarea class="form-control" type="search" placeholder="部门描述" name="addRoleDescription" id="addRoleDescription" style="width:500px;height:80px;"> </textarea> <br>
@@ -352,25 +381,25 @@
             <br>
             </div>
      <div style=" overflow-y:auto; height:200px;">  
- 搜索国统指标权限：<br>
+ 搜索指标权限：<br>
  <c:forEach items="${power_3}" var="c" varStatus="st">	
            <ul >
-                <input type="checkbox" name="addPower_3" value="${c.id}" checked>${c.indi_name}(${c.source})    	
+                <input type="checkbox" name="addPower_3" value="${c.id}" checked>${c.lj}|${c.area_name}(${c.source})    	
            </ul>
  </c:forEach> 
             <br>
 
 	</div>
-	     <div style=" overflow-y:auto; height:200px;">  
- 搜索湖统指标权限：<br>
+<%-- 	     <div style=" overflow-y:auto; height:200px;">  
+ 搜索指标权限2：<br>
  <c:forEach items="${power_4}" var="c" varStatus="st">	
            <ul >
-                <input type="checkbox" name="addPower_4" value="${c.id}" checked>${c.lj}_${c.area_name}(${c.source})    	
+                <input type="checkbox" name="addPower_4" value="${c.id}" checked>${c.indi_name}(${c.source})    	
            </ul>
  </c:forEach> 
             <br>
 
-	</div>
+	</div> --%>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -450,44 +479,51 @@
                           type: 'POST',
                           url:  Url,
                           dataType: "html",
-                     	    data: data,
-                     	    async : false,
-                      	contentType: false, //不设置内容类型
-                     	    processData: false,
+                     	  data: data,
+                     	  async : false,
+                      	  contentType: false, //不设置内容类型
+                     	  processData: false,
                           cache:false,
                           success: function(data){
+                    	  	  alert("添加成功");
                               $('#getNewData').html(data);
                           },
                           error : function(data){
+                    	  		alert("添加失败");
                           }
                       }); 
           	  	}
           	  else{
-          		  
-          	  }
+          		  }
               };
                editClick = function(Url) {
-             	   $('.modal-backdrop').remove();
-             	    $('body').removeClass('modal-open');
-                  var data = new FormData(document.getElementById("editForm"));                	
-                  $.ajax({
+            	   $('.modal-backdrop').remove();
+             	   $('body').removeClass('modal-open');
+             	   
+             	  if( edit_checkForm()){
+                  	var data = new FormData(document.getElementById("editForm"));
+                  	 $.ajax({
                              type: 'POST',
                              url:  Url,
                              dataType: "html",
-                        	    data: data,
-                        	    async : false,
-                         	contentType: false, //不设置内容类型
-                        	    processData: false,
+                        	 data: data,
+                        	 async : false,
+                         	 contentType: false, //不设置内容类型
+                        	 processData: false,
                              cache:false,
                              success: function(data){
-                        	 alert("修改成功");
+                        	 alert("修改成功")
                                  $('#getNewData').html(data);
                              },
                              error : function(data){
-                        	 alert("修改失败");
+                        	 alert("修改失败")
                              }
-                         });    
-                  };
+                         })
+             	  	}
+             	  else{
+             		  
+             		  }
+                  }
                   delClick = function(s_id,Url) {
                 	  if (s_id==2)
                 	{
@@ -598,10 +634,10 @@
             	addForm.action="";
             	addFrom.submit();
             } */
-            function edit(id,code,name,dep,power_1,power_2,power_3){
+            function edit(id,name,dep,power_1,power_2,power_3){
             	$("#editRoleID").val(id);
             	
-            	$("#editRoleCode").val(code);
+            	
             	$("#editRoleName").val(name);
             	$("#editRoleDescription").val(dep);
             	var boxes = document.getElementsByName("editPower_1");
@@ -650,7 +686,7 @@
             	            }
             	        }
             	    }
-            	   	var boxes4 = document.getElementsByName("editPower_4");
+            	   	/* var boxes4 = document.getElementsByName("editPower_4");
             	   	for(i=0;i<boxes4.length;i++){  	           
             	                boxes4[i].checked = false;
             	    }
@@ -665,7 +701,7 @@
                 	            }
                 	        }
                 	    }
-                	
+                	 */
             }
             function del(aid){
             	alert("sss")

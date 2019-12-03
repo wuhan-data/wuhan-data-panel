@@ -123,6 +123,44 @@ public class DepartmentController {
 	    	return jsonObject.toString();
 	    }
 	
+	 @RequestMapping(value="editDepartmentNameIsExist",produces="application/json;charset=utf-8")
+	 @ResponseBody
+	 public String editDepartmentNameIsExist(HttpServletRequest request, 
+	            HttpServletResponse response) {
+		 	JSONObject jsonObject = new JSONObject();
+	    	String name="";
+	    	int id=0;
+	    	try {
+				name=URLDecoder.decode(request.getParameter("roleName"),"utf-8");
+				id=Integer.valueOf(URLDecoder.decode(request.getParameter("roleID"),"utf-8"));
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("codeIsExist参数获取异常"+e.getStackTrace());
+				sysLogService.addAdmin(request, request.getRequestURL().toString(), "请求参数异常", e);
+			}
+	    	try {
+	    		Map map=new HashMap();
+	    		map.put("department_name", name);
+	    		List<Department> departments=departmentService.getByName(map);
+	    		if (departments.size()>0) {
+	    			if (departments.get(0).getId()!=id) {
+	    				jsonObject.put("data", "exist");
+	    			}
+	    			else {
+	    				jsonObject.put("data", "notExist");
+					}
+				}
+	    		else {
+					jsonObject.put("data", "notExist");
+				}
+	    	} catch (Exception e) {
+	    		// TODO: handle exception
+	    		System.out.println("codeIsExist数据库操作异常"+e.getStackTrace());
+	    		sysLogService.addAdmin(request, request.getRequestURL().toString(), "数据库操作异常", e);
+	    	}
+	    	return jsonObject.toString();
+	    }
+	 
 	@RequestMapping("departmentInit")
 	public ModelAndView departmentInit(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
     	request.setCharacterEncoding("UTF-8");
@@ -317,12 +355,12 @@ public class DepartmentController {
         response.setCharacterEncoding("UTF-8");
         //参数获取
     	ModelAndView maView = new ModelAndView();
-    	String departmentCode="";
+    	String departmentCode="0000";
     	String departmentName="";
     	String departmentDescription="";
     	String currentPage="";
     	try {
-			departmentCode=request.getParameter("addDepartmentCode");
+//			departmentCode=request.getParameter("addDepartmentCode");
 			departmentName=request.getParameter("addDepartmentName");
 			departmentDescription=request.getParameter("addDepartmentDescription");
 			currentPage=request.getParameter("currentPage");
@@ -369,19 +407,18 @@ public class DepartmentController {
   //修改
     @RequestMapping("editDepartment")
     public ModelAndView editDepartment(HttpServletRequest request, HttpServletResponse response) throws IOException{
-    	System.out.println("进入方法--------------");
     	request.setCharacterEncoding("UTF-8");    	
         response.setCharacterEncoding("UTF-8");
     	ModelAndView maView = new ModelAndView();
     	int id=0;
-    	String departmentCode="";
+    	String departmentCode="0000";
     	String departmentName="";
     	String departmentDescription="";
     	String currentPage="";
     	//获取参数
     	try {
     		id=Integer.valueOf(request.getParameter("editDepartmentID"));
-			departmentCode=request.getParameter("editDepartmentCode");
+//			departmentCode=request.getParameter("editDepartmentCode");
 			departmentName=request.getParameter("editDepartmentName");
 			departmentDescription=request.getParameter("editDepartmentDescription");
 			currentPage=request.getParameter("currentPage");
