@@ -320,6 +320,8 @@ public class IndiSearchAppController {
 			String ss= power1.get(0);
 			System.out.println("power1大小:" + power1.size());
 			System.out.println("ss:" + ss);
+			System.out.println("ss1:" + power1.get(1));
+			System.out.println("ss2:" + power1.get(2));
 			if(ss!=null){
 				String[] arr = ss.split("\\|");
 				System.out.println("arr[0]:" + arr[0]);
