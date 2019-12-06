@@ -29,21 +29,17 @@
 
 
     <style type="text/css" rel="stylesheet">
-
 		a{
 		text-decoration:none;
 		}
         .page { float:right; margin:10px 40px; line-height:25px;}
         .w28 { width:28px; height:23px; line-height:23px; text-align:center;}
-
         .page .pre, .page .next { width:57px; height:25px; background:url(images/page.gif) no-repeat; line-height:23px; text-indent:-9999px;/* border:1px solid #ccc; */ }
         .page .pre { margin:0 10px 0 0;}
         .page .next { background-position:left bottom; margin:0 2px 0 7px;}
-
         .page .first, .page .last { width:57px; height:25px; background:url(images/page_be.gif) no-repeat; line-height:25px; text-indent:-9999px;/* border:1px solid #ccc; */ }
         .page .first { margin:0 10px 0 15px;}
         .page .last { background-position:left bottom; margin:0 20px 0 7px;}
-
         .page .num { width:25px; height:23px; line-height:23px; margin-right:3px; text-align:center; border:1px solid #ccc; color:#333;}
         .page .cur { display:inline-block; width:25px; height:23px; margin-right:3px; line-height:25px; text-align:center;  /* border:1px solid #468bbe; */ color:#468bbe;}
         .page .num:hover { background:#4c8ccc; border:1px solid #4c8ccc; color:#fff; text-decoration:none;}
@@ -103,7 +99,6 @@
         }
       
      
-
     </style>
 </head>
 <body>
@@ -340,7 +335,6 @@
                     <form method="post" action="#" id="pageForm">
                         共 <b>${page.totalNumber}</b> 条
                         <c:if test="${page.currentPage != 1}">
-
                            <a href="#" class='first' onclick="pageClick('1','${cid }','plateIndiInit')">首页</a>
                            <a href="#" class='pre' onclick="pageClick('${page.currentPage-1}','${cid }','plateIndiInit')">上一页</a>
                         </c:if>
@@ -350,7 +344,6 @@
                             <a href="#" class='last' onclick="pageClick('${page.totalPage}','${cid }','plateIndiInit')">末页</a>
                         </c:if>
                         跳至&nbsp;
-
 <input type="hidden" value="${cid }" name="id" id="pageCid">
                         <input id="currentPageText" type='text' value='${page.currentPage}' class='allInput w28' name="currentPage" />&nbsp;页&nbsp;
                         <input type="submit" value="GO" class="btn-primary btn-sm" onclick="pageGoClick('plateIndiInit')">
@@ -409,7 +402,6 @@
                     $('#chooseColor_edit').css('background-color', event.color.toString()).val('');
                     $("#color_edit").val(event.color.toString());
                 });
-
         		//为table绑定排序事件
    			 $("#dataTables-example").tableDnD({
    		         onDragClass:"myDragClass",
@@ -463,19 +455,19 @@
           	      
             		  var content=encodeURI(encodeURI($(this).val()));
             	      $.ajax({
-                              type: 'GET',
-                              url:  'searchAddIndi?field='+content,
-                              dataType: "html",
+                              type: 'GET',
+                              url:  'searchAddIndi?field='+content,
+                              dataType: "html",
                          	  async : false,
                           	  contentType: false, //不设置内容类型
                          	  processData: false,
-                              cache:false,
-                              success: function(data){
+                              cache:false,
+                              success: function(data){
                         		  /* $('#tips').html($(this).val().length + ' characters');  */ 
                         		  $('#tips').html(data);  
-                              },
-                              error : function(data){
-                              }
+                              },
+                              error : function(data){
+                              }
                           }); 
             	      
             	  });
@@ -500,19 +492,19 @@
             	    $('body').removeClass('modal-open');
                  var data = new FormData(document.getElementById("editForm"));                	
                  $.ajax({
-                            type: 'POST',
-                            url:  Url,
-                            dataType: "html",
+                            type: 'POST',
+                            url:  Url,
+                            dataType: "html",
                        	    data: data,
                        	    async : false,
                         	contentType: false, //不设置内容类型
                        	    processData: false,
-                            cache:false,
-                            success: function(data){
-                                $('#getNewData').html(data);
-                            },
-                            error : function(data){
-                            }
+                            cache:false,
+                            success: function(data){
+                                $('#getNewData').html(data);
+                            },
+                            error : function(data){
+                            }
                         });    
                  };
             	            
@@ -521,72 +513,72 @@
             	    $('body').removeClass('modal-open');
                  	var data = new FormData(document.getElementById("addForm"));
                  	 $.ajax({
-                            type: 'POST',
-                            url:  Url,
-                            dataType: "html",
+                            type: 'POST',
+                            url:  Url,
+                            dataType: "html",
                        	    data: data,
                        	    async : false,
                         	contentType: false, //不设置内容类型
                        	    processData: false,
-                            cache:false,
-                            success: function(data){
-                                $('#getNewData').html(data);
-                            },
-                            error : function(data){
-                            }
+                            cache:false,
+                            success: function(data){
+                                $('#getNewData').html(data);
+                            },
+                            error : function(data){
+                            }
                         });    
                  };
                  
                  
                  delClick = function(pid,id,Url) {
                     $.ajax({
-                               type: 'GET',
-                               url:  Url+"?pid="+pid+"&id="+id,
-                               dataType: "html",
+                               type: 'GET',
+                               url:  Url+"?pid="+pid+"&id="+id,
+                               dataType: "html",
                           	    async : false,
                            	contentType: false, //不设置内容类型
                           	    processData: false,
-                               cache:false,
-                               success: function(data){
-                                   $('#getNewData').html(data);
-                               },
-                               error : function(data){
-                               }
+                               cache:false,
+                               success: function(data){
+                                   $('#getNewData').html(data);
+                               },
+                               error : function(data){
+                               }
                            });    
                     };
                  
                  
                     updateShowClick = function(is_show,id,pid,Url) {
                       $.ajax({
-                                 type: 'GET',
-                                 url:  Url+"?id="+id+"&is_show="+is_show+"&pid="+pid,
-                                 dataType: "html",
+                                 type: 'GET',
+                                 url:  Url+"?id="+id+"&is_show="+is_show+"&pid="+pid,
+                                 dataType: "html",
                             	    async : false,
                              	  contentType: false, //不设置内容类型
                             	    processData: false,
-                                 cache:false,
-                                 success: function(data){
-                                     $('#getNewData').html(data);
-                                 },
-                                 error : function(data){
-                                 }
+                                 cache:false,
+                                 success: function(data){
+                                     $('#getNewData').html(data);
+                                 },
+                                 error : function(data){
+                                 }
                              });    
                       };
                       
                       pageClick = function(currentPage,id,Url) {
                         $.ajax({
-                                   type: 'GET',
-                                   url:  Url+"?currentPage="+currentPage+"&id="+id,
-                                   dataType: "html",
+                                   type: 'GET',
+                                   url:  Url+"?currentPage="+currentPage+"&id="+id,
+                                   dataType: "html",
                               	    async : false,
                                	contentType: false, //不设置内容类型
                               	    processData: false,
-                                   cache:false,
-                                   success: function(data){
-                                       $('#getNewData').html(data);
-                                   },
-                                   error : function(data){
-                                   }
+                                   cache:false,
+                                   success: function(data){
+                                       $('#getNewData').html(data);
+                                   },
+                                   error : function(data){
+                                   }
                                });    
                         };
                  
@@ -594,18 +586,18 @@
                        	var currentPage = document.getElementById("currentPageText").value;
                        	var id = document.getElementById("pageCid").value;
                             $.ajax({
-                                       type: 'GET',
-                                       url:  Url+"?currentPage="+currentPage+"&id="+id,
-                                       dataType: "html",
+                                       type: 'GET',
+                                       url:  Url+"?currentPage="+currentPage+"&id="+id,
+                                       dataType: "html",
                                   	    async : false,
                                     	contentType: false, //不设置内容类型
                                   	    processData: false,
-                                       cache:false,
-                                       success: function(data){
-                                           $('#getNewData').html(data);
-                                       },
-                                       error : function(data){
-                                       }
+                                       cache:false,
+                                       success: function(data){
+                                           $('#getNewData').html(data);
+                                       },
+                                       error : function(data){
+                                       }
                                    });    
                             };
        	
@@ -637,18 +629,18 @@
                 
               	var o=encodeURI(encodeURI(op)); 
                    $.ajax({
-                          type: 'GET',
-                          url:  'initAnalysisList?op='+o,
-                          dataType: "html", 
+                          type: 'GET',
+                          url:  'initAnalysisList?op='+o,
+                          dataType: "html", 
                      	    async : false,
                       	contentType: false, 
                      	    processData: false,
-                          cache:false,
-                          success: function(data){
-                              $('#getNewData').html(data);
-                          },
-                          error : function(data){
-                          }
+                          cache:false,
+                          success: function(data){
+                              $('#getNewData').html(data);
+                          },
+                          error : function(data){
+                          }
                       });  
                } 
             
@@ -657,18 +649,18 @@
             	var type=encodeURI(encodeURI(typeName));
               	var label=encodeURI(encodeURI(labelName));
                    $.ajax({
-                              type: 'GET',
-                              url:  Url+"?label_id="+label_id+"&type_name="+type+"&label_name="+label,
-                              dataType: "html",
+                              type: 'GET',
+                              url:  Url+"?label_id="+label_id+"&type_name="+type+"&label_name="+label,
+                              dataType: "html",
                          	    async : false,
                           	contentType: false, //不设置内容类型
                          	    processData: false,
-                              cache:false,
-                              success: function(data){
-                                  $('#getNewData').html(data);
-                              },
-                              error : function(data){
-                              }
+                              cache:false,
+                              success: function(data){
+                                  $('#getNewData').html(data);
+                              },
+                              error : function(data){
+                              }
                           });    
                   };
                   
@@ -677,18 +669,18 @@
                   	var type=encodeURI(encodeURI(typeName));
                   	var label=encodeURI(encodeURI(labelName));
                        $.ajax({
-                                  type: 'GET',
-                                  url:  Url+"?theme_id="+id+"&label_id="+label_id+"&type_name="+type+"&label_name="+label,
-                                  dataType: "html",
+                                  type: 'GET',
+                                  url:  Url+"?theme_id="+id+"&label_id="+label_id+"&type_name="+type+"&label_name="+label,
+                                  dataType: "html",
                              	    async : false,
                               	contentType: false, //不设置内容类型
                              	    processData: false,
-                                  cache:false,
-                                  success: function(data){
-                                      $('#getNewData').html(data);
-                                  },
-                                  error : function(data){
-                                  }
+                                  cache:false,
+                                  success: function(data){
+                                      $('#getNewData').html(data);
+                                  },
+                                  error : function(data){
+                                  }
                               });    
                        };
                   

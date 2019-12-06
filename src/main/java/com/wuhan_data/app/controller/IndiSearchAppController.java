@@ -403,6 +403,7 @@ public class IndiSearchAppController {
 		try {
 			try {
 				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+				System.out.println("searchDetail:token:"+token);
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
 			}
@@ -430,8 +431,11 @@ public class IndiSearchAppController {
 			source = requestObject.get("source").toString();
 
 			isArea = requestObject.get("isArea").toString();// 判断是地市级数据还是全国数据
+			System.out.println("searchDetail:isArea:"+isArea);
 			area_name = requestObject.get("sourceArea").toString();
+			System.out.println("searchDetail:area_name:"+area_name);
 			lj = requestObject.get("path").toString();
+			System.out.println("searchDetail:sourcelj:"+lj);
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}

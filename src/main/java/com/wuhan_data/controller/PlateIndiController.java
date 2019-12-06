@@ -303,7 +303,6 @@ public class PlateIndiController {
 		HttpSession session = request.getSession(true);
 		String content = java.net.URLDecoder.decode(request.getParameter("field"),"UTF-8");
 		List<ColPlateIndi> resultList= colPlateIndiService.searchIndi(content);
-		System.out.println("size:"+resultList.size());
 		System.out.println("content:"+content);
 		session.setAttribute("resultList", resultList);
 		return "searchContent";

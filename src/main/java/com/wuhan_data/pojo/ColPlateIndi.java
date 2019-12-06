@@ -8,6 +8,7 @@ public class ColPlateIndi {
 	String indi_old_name;
 	String show_type;
 	String show_color;
+	int indi_weight;
 	int is_show;
 	
 	
@@ -58,6 +59,12 @@ public class ColPlateIndi {
 	}
 	public void setShow_color(String show_color) {
 		this.show_color = show_color;
+	}
+	public int getIndi_weight() {
+		return indi_weight;
+	}
+	public void setIndi_weight(int indi_weight) {
+		this.indi_weight = indi_weight;
 	}
 	
 	
