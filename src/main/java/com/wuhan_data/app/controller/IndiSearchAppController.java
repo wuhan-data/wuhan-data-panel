@@ -183,7 +183,7 @@ public class IndiSearchAppController {
 			tempMap.put("id", Integer.toString(index));
 			 
 			String[] sourceArray=trendSource.split("-"); 
-			if (trendSource.equals("国统")) {
+			if (sourceArray[0].equals("国统")) {
 				String temp[] = ((String) me.getKey()).split("::");
 				if (temp.length > 1) {
 					System.out.println("真正的指标名称:" + temp[1]);
