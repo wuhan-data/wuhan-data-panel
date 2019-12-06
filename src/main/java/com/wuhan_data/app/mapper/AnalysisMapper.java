@@ -47,5 +47,8 @@ public interface AnalysisMapper {
 
 	@DataSource(value = "dataSource_mysql")
 	public List<AnalysisIndiValue> getIndiValue(Map<String, Object> queryMap); // 查询指标信息
+	
+	@DataSource(value = "dataSource_mysql")
+	public List<AnalysisIndiValue> getIndiValue2(Map<String, Object> queryMap); // 查询指标信息
 
 }
