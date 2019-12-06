@@ -593,11 +593,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 						}
 					}
 				}
-				System.out.println("" + tableRow2 + tableRow3);
+				System.out.println(tableRow2);
+				System.out.println(tableRow3);
 
 				List<String> tableRow4 = new ArrayList<String>();
 				tableRow4.add("占比(%)");
-				for (int j = 1; j < tableRow1.size(); j++) {
+				for (int j = 1; j < tableRow2.size(); j++) {
 					Double dataValue = Double.parseDouble(tableRow2.get(j)) / Double.parseDouble(tableRow2.get(1));
 					tableRow4.add(String.format("%.2f", dataValue));
 				}
