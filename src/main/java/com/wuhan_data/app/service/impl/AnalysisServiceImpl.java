@@ -583,7 +583,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				for (int j = 1; j < tableRow1.size(); j++) {
 					String tableRow3Value = "-";
 					String areaName = tableRow1.get(j).toString();
-					String funcName = "累计值";
+					String funcName = "累计增长";
 					for (int k = 0; k < legendTable.size(); k++) {
 						if (legendTable.get(k).toString().indexOf(areaName) != -1
 								&& legendTable.get(k).toString().indexOf(funcName) != -1) {
@@ -597,10 +597,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> tableRow4 = new ArrayList<String>();
 				tableRow4.add("占比(%)");
 				for (int j = 1; j < tableRow1.size(); j++) {
-					String tableRow4Value = "-";
 					Double dataValue = Double.parseDouble(tableRow2.get(j)) / Double.parseDouble(tableRow2.get(1));
-					tableRow4Value = String.format("%.2f", dataValue);
-					tableRow4.add(tableRow4Value);
+					tableRow4.add(String.format("%.2f", dataValue));
 				}
 
 				dataTable.add(tableRow1);
