@@ -530,7 +530,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue2(queryMap1);
 					// TODO 这里的xAxis.size()可能需要改，改成长度为1，只取一个时间点的数据
 					List<String> dataIndiValue = new ArrayList<String>();
-					
+
 					System.out.println("进入特殊指标——各市州GDP-表格-单指标数据" + dataIndiValue);
 					dataIndiValue.add(indiInfoList.get(0).getIndiValue());
 					dataValueTable.add(dataIndiValue);
@@ -572,10 +572,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 						if (legendTable.get(k).toString().indexOf(areaName) != -1
 								&& legendTable.get(k).toString().indexOf(funcName) != -1) {
 							tableRow2Value = dataValueTable.get(k).get(0);
+							tableRow2.add(tableRow2Value);
 							break;
 						}
 					}
-					tableRow2.add(tableRow2Value);
 				}
 
 				List<String> tableRow3 = new ArrayList<String>();
@@ -588,11 +588,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 						if (legendTable.get(k).toString().indexOf(areaName) != -1
 								&& legendTable.get(k).toString().indexOf(funcName) != -1) {
 							tableRow3Value = dataValueTable.get(k).get(0);
+							tableRow3.add(tableRow3Value);
 							break;
 						}
 					}
-					tableRow3.add(tableRow3Value);
 				}
+				System.out.println("" + tableRow2 + tableRow3);
 
 				List<String> tableRow4 = new ArrayList<String>();
 				tableRow4.add("占比(%)");
