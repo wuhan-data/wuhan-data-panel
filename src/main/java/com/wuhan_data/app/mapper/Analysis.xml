@@ -182,6 +182,23 @@
 		INDI_TIME &lt;= #{endTime}
 		ORDER BY INDI_TIME DESC
 	</select>
+	
+	<select id="getIndiValue2"
+		resultType="com.wuhan_data.pojo.AnalysisIndiValue"
+		parameterType="java.util.Map">
+		SELECT
+		INDI_CODE as indiCode,
+		FREQ_NAME as freqName,
+		INDI_TIME as time,
+		TIME_POINT as timePoint,
+		INDI_VALUE as indiValue,
+		UNIT_NAME as unitName
+		FROM "MIDUSER"."APP_ANALYSIS_INDI_VALUE"
+		WHERE
+		INDI_CODE = #{indiCode} AND
+		FREQ_NAME = #{freqName} AND
+		INDI_TIME = #{endTime}
+	</select>
 
 
 

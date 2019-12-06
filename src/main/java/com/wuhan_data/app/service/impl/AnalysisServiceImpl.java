@@ -221,6 +221,20 @@ public class AnalysisServiceImpl implements AnalysisService {
 		areaCondition.add("武汉市");
 		areaCondition.add("黄石市");
 		areaCondition.add("襄阳市");
+		areaCondition.add("宜昌市");
+		areaCondition.add("十堰市");
+		areaCondition.add("鄂州市");
+		areaCondition.add("荆门市");
+		areaCondition.add("孝感市");
+		areaCondition.add("荆州市");
+		areaCondition.add("黄冈市");
+		areaCondition.add("咸宁市	");
+		areaCondition.add("随州市");
+		areaCondition.add("仙桃市	");
+		areaCondition.add("潜江市");
+		areaCondition.add("天门市");
+		areaCondition.add("恩施自治州");
+		areaCondition.add("神农架林区");
 
 		// 构建查询条件
 		Map<String, Object> freqObject = new HashMap<String, Object>();
@@ -495,9 +509,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
 							showType);
 					TotalList.add(lineEntity);
-
 				}
-
 				flagPlate = 1;
 			}
 				break;
@@ -511,21 +523,15 @@ public class AnalysisServiceImpl implements AnalysisService {
 				for (int j = 0; j < indiList.size(); j++) {
 					Map<String, Object> queryMap1 = new HashMap<String, Object>();
 					queryMap1.put("freqName", queryMap.get("freqName"));
-					queryMap1.put("startTime", queryMap.get("endTime"));
 					queryMap1.put("endTime", queryMap.get("endTime"));
 					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
 					System.out.println("进入特殊指标——各市州GDP-表格-queryMap1" + queryMap1);
-					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap1);
+					// 单独优化单时间取数
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue2(queryMap1);
 					// TODO 这里的xAxis.size()可能需要改，改成长度为1，只取一个时间点的数据
 					List<String> dataIndiValue = new ArrayList<String>();
+					
 					System.out.println("进入特殊指标——各市州GDP-表格-单指标数据" + dataIndiValue);
-//					for (int m = 0; m < indiInfoList.size(); m++) {
-//						String dataXTemp = indiInfoList.get(m).getTime();
-//						if (xAxis.contains(dataXTemp)) {
-//							int index = xAxis.indexOf(dataXTemp);
-//							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
-//						}
-//					}
 					dataIndiValue.add(indiInfoList.get(0).getIndiValue());
 					dataValueTable.add(dataIndiValue);
 					legendTable.add(indiList.get(j).getIndiName());
@@ -541,6 +547,20 @@ public class AnalysisServiceImpl implements AnalysisService {
 				tableRow1.add("武汉市");
 				tableRow1.add("黄石市");
 				tableRow1.add("襄阳市");
+				tableRow1.add("宜昌市");
+				tableRow1.add("十堰市");
+				tableRow1.add("鄂州市");
+				tableRow1.add("荆门市");
+				tableRow1.add("孝感市");
+				tableRow1.add("荆州市");
+				tableRow1.add("黄冈市");
+				tableRow1.add("咸宁市	");
+				tableRow1.add("随州市");
+				tableRow1.add("仙桃市	");
+				tableRow1.add("潜江市");
+				tableRow1.add("天门市");
+				tableRow1.add("恩施自治州");
+				tableRow1.add("神农架林区");
 
 				List<String> tableRow2 = new ArrayList<String>();
 				tableRow2.add("累计值(亿元)");
@@ -550,7 +570,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					String funcName = "累计值";
 					for (int k = 0; k < legendTable.size(); k++) {
 						if (legendTable.get(k).toString().indexOf(areaName) != -1
-								|| legendTable.get(k).toString().indexOf(funcName) != -1) {
+								&& legendTable.get(k).toString().indexOf(funcName) != -1) {
 							tableRow2Value = dataValueTable.get(k).get(0);
 							break;
 						}
@@ -566,7 +586,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					String funcName = "累计值";
 					for (int k = 0; k < legendTable.size(); k++) {
 						if (legendTable.get(k).toString().indexOf(areaName) != -1
-								|| legendTable.get(k).toString().indexOf(funcName) != -1) {
+								&& legendTable.get(k).toString().indexOf(funcName) != -1) {
 							tableRow3Value = dataValueTable.get(k).get(0);
 							break;
 						}
