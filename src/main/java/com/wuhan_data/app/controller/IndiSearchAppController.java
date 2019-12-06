@@ -403,6 +403,7 @@ public class IndiSearchAppController {
 		try {
 			try {
 				token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
+				System.out.println("searchDetail:token:"+token);
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
 			}
@@ -430,8 +431,11 @@ public class IndiSearchAppController {
 			source = requestObject.get("source").toString();
 
 			isArea = requestObject.get("isArea").toString();// 判断是地市级数据还是全国数据
-			area_name = requestObject.get("area_name").toString();
+			System.out.println("searchDetail:isArea:"+isArea);
+			area_name = requestObject.get("sourceArea").toString();
+			System.out.println("searchDetail:area_name:"+area_name);
 			lj = requestObject.get("path").toString();
+			System.out.println("searchDetail:sourcelj:"+lj);
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
@@ -1326,7 +1330,7 @@ public class IndiSearchAppController {
 				boolean hasFreqName = requestObject.containsKey("timeFreq");
 				boolean hasStartTime = requestObject.containsKey("startTime");
 				boolean hasEndTime = requestObject.containsKey("endTime");
-				boolean hasAreaName = requestObject.containsKey("areaName");
+				boolean hasAreaName = requestObject.containsKey("sourceArea");
 				boolean hasLj = requestObject.containsKey("path");
 				if (!hasIndexCode) {
 					return this.apiReturn("-1", "需要指定栏目id", data);
@@ -1354,7 +1358,7 @@ public class IndiSearchAppController {
 				freqCode = requestObject.get("timeFreq").toString();
 				startTime = requestObject.get("startTime").toString();
 				endTime = requestObject.get("endTime").toString();
-				area_name = requestObject.get("area_name").toString();
+				area_name = requestObject.get("sourceArea").toString();
 				lj = requestObject.get("path").toString();
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
