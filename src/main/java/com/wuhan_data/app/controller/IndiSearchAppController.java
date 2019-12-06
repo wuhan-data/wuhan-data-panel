@@ -181,14 +181,18 @@ public class IndiSearchAppController {
 
 			tempMap.put("indexId", indexCode);
 			tempMap.put("id", Integer.toString(index));
+			 
+			String[] sourceArray=trendSource.split("-"); 
 			if (trendSource.equals("国统")) {
 				String temp[] = ((String) me.getKey()).split("::");
 				if (temp.length > 1) {
 					System.out.println("真正的指标名称:" + temp[1]);
 					tempMap.put("name", temp[1]);
-				} else
+				} else{
 					tempMap.put("name", temp[0]);
-
+				}
+				tempMap.put("sourceArea", sourceArray[1]);
+				tempMap.put("source", sourceArray[0]);
 			} 
 			else{
 				String temp[] = lj.split("-");
@@ -198,11 +202,12 @@ public class IndiSearchAppController {
 				else{
 					tempMap.put("name", me.getKey());
 				}
+				tempMap.put("sourceArea", "");
+				tempMap.put("source", sourceArray[0]);
 				
 			}
-				
 			tempMap.put("path", lj);
-			tempMap.put("source", trendSource);
+			
 
 			float t = (float) finaMap.get(me.getKey());
 			DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -450,9 +455,11 @@ public class IndiSearchAppController {
 //				appIndiName = temp[1];
 //			} else
 //				appIndiName = temp[0];
+		historySearch.setSource(source+'-'+area_name);
 
 		} else {
 		appIndiName = indiDetailService.getIndexNameH(indexCode);
+		historySearch.setSource(source);
 		
 		}
 		historySearch.setKeyword(appIndiName);
@@ -474,7 +481,7 @@ public class IndiSearchAppController {
 
 		historySearch.setCreate_time(date);
 		historySearch.setUid(userId);
-		historySearch.setSource(source);
+//		historySearch.setSource(source+'-'+area_name);
 		historySearch.setLj(lj);
 		indiSearchService.addSearchHistory(historySearch);
 		// 创建图
