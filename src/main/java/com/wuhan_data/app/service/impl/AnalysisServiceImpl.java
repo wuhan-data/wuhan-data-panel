@@ -228,9 +228,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 		areaCondition.add("孝感市");
 		areaCondition.add("荆州市");
 		areaCondition.add("黄冈市");
-		areaCondition.add("咸宁市	");
+		areaCondition.add("咸宁市");
 		areaCondition.add("随州市");
-		areaCondition.add("仙桃市	");
+		areaCondition.add("仙桃市");
 		areaCondition.add("潜江市");
 		areaCondition.add("天门市");
 		areaCondition.add("恩施自治州");
@@ -556,7 +556,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				tableRow1.add("黄冈市");
 				tableRow1.add("咸宁市	");
 				tableRow1.add("随州市");
-				tableRow1.add("仙桃市	");
+				tableRow1.add("仙桃市");
 				tableRow1.add("潜江市");
 				tableRow1.add("天门市");
 				tableRow1.add("恩施自治州");
@@ -599,7 +599,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> tableRow4 = new ArrayList<String>();
 				tableRow4.add("占比(%)");
 				for (int j = 1; j < tableRow2.size(); j++) {
-					Double dataValue = Double.parseDouble(tableRow2.get(j)) / Double.parseDouble(tableRow2.get(1));
+					Double dataValue = (Double.parseDouble(tableRow2.get(j)) / Double.parseDouble(tableRow2.get(1)))
+							* 100;
 					tableRow4.add(String.format("%.2f", dataValue));
 				}
 
