@@ -233,7 +233,21 @@ public class CollectControllerApp {
 						map1.put("collectId", collect.getId().toString());
 						map1.put("indexId",collect.getIndex_id());
 						map1.put("indexName",collect.getIndex_name());
-						map1.put("source", collect.getIndi_source());
+						String source=collect.getIndi_source();
+						String sourceArea="";
+						if (source.equals("湖统"))
+						{
+							sourceArea="";
+						}
+						else
+						{
+							String[] sp=source.split("-");
+							sourceArea=sp[1];
+							source=sp[0];
+						}
+						map1.put("source", source);
+						map1.put("sourceArea", sourceArea);
+						
 						//时间数据格式化
 						Date create = collect.getCreate_time();
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

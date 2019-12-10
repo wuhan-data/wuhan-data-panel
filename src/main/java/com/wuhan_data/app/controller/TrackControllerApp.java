@@ -173,7 +173,23 @@ public class TrackControllerApp {
 					{
 						map.put("type", "指标数据");
 						map.put("trackId", track.getId().toString());
-						map.put("source", track.getIndi_source());
+						//map.put("source", track.getIndi_source());
+						
+						String source=track.getIndi_source();
+						String sourceArea="";
+						if (source.equals("湖统"))
+						{
+							sourceArea="";
+						}
+						else
+						{
+							String[] sp=source.split("-");
+							sourceArea=sp[1];
+							source=sp[0];
+						}
+						map.put("source", source);
+						map.put("sourceArea", sourceArea);
+						
 						map.put("indexId",track.getIndex_id());
 						map.put("indexName",track.getIndex_name());
 						Date create = track.getCreate_time();
