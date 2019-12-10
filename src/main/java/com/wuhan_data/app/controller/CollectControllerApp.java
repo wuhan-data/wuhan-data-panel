@@ -238,7 +238,7 @@ public class CollectControllerApp {
 		  		List<Collect> collects=collectServiceApp.getByUid(uid);
 		  		List list1=new ArrayList();
 				List list2=new ArrayList();
-				for(int i=0;i<collects.size();i++)
+				for(int i=collects.size()-1;i>=0;i--)
 				{
 					Map map1=new HashMap();
 					Collect collect=collects.get(i);

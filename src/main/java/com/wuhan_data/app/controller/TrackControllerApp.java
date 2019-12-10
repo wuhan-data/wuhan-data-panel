@@ -169,7 +169,7 @@ public class TrackControllerApp {
 				List<Track> tracks=trackServiceApp.getByUid(uid);
 				List list1=new ArrayList();
 				List list2=new ArrayList();
-				for(int i=0;i<tracks.size();i++)
+				for(int i=tracks.size()-1;i>=0;i--)
 				{
 					Map map=new HashMap();
 					Track track=tracks.get(i);
