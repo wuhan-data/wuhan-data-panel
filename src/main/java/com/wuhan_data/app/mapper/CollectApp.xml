@@ -5,7 +5,7 @@
  
     <mapper namespace="com.wuhan_data.app.mapper.CollectMapperApp">
         <insert id="add" parameterType="Collect" >
-            insert into WUHAN_DATA.COLLECT (uid,type,index_id,index_name,indi_source,create_time) values (#{uid},#{type},#{index_id},#{index_name},#{indi_source},#{create_time})   
+            insert into WUHAN_DATA.COLLECT (uid,type,index_id,index_name,indi_source,create_time,lj,isarea) values (#{uid},#{type},#{index_id},#{index_name},#{indi_source},#{create_time},#{lj},#{isarea})   
         </insert>
         <delete id="delete" parameterType="Collect" >
             delete from WUHAN_DATA.COLLECT where id= #{id}  

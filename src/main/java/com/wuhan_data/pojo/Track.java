@@ -16,6 +16,21 @@ public class Track {
 	}
 	String indi_source;//来源国统省级
 	Date create_time;//收藏时间
+	String lj;
+	String isarea;
+	
+	public String getLj() {
+		return lj;
+	}
+	public void setLj(String lj) {
+		this.lj = lj;
+	}
+	public String getIsarea() {
+		return isarea;
+	}
+	public void setIsarea(String isarea) {
+		this.isarea = isarea;
+	}
 	@Override
 	public String toString() {
 		return "Track [id=" + id + ", uid=" + uid + ", type=" + type + ", index_id=" + index_id + ", index_name="

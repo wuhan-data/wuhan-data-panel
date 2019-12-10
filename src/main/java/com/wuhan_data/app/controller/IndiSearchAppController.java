@@ -479,6 +479,7 @@ public class IndiSearchAppController {
 		baseInfoMap.put("indexId", indexCode);
 		baseInfoMap.put("indexName", appIndiName);
 		baseInfoMap.put("isFavorite", isF);
+		baseInfoMap.put("isArea", isArea);
 		// 记录历史搜索
 		Date date = new Date();
 

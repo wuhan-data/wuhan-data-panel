@@ -53,12 +53,14 @@ public class TrackControllerApp {
 	  	String indexIdString="";
 	  	String indexNameString="";
 	  	String sourceString="";
+	  	String ljString="";
 	  	try {
 	  		tokenString=mapget.get("token").toString();
 		  	typeString=mapget.get("type").toString();
 		  	indexIdString=mapget.get("indexId").toString();
 		  	indexNameString=mapget.get("indexName").toString();
 		  	sourceString=mapget.get("source").toString();
+		  	ljString=mapget.get("lj").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setTrackApp"+e.toString());
@@ -92,6 +94,7 @@ public class TrackControllerApp {
 				track.setIndex_id(indexIdString);
 				track.setIndex_name(indexNameString);
 				track.setIndi_source(sourceString);
+				track.setLj(ljString);
 				track.setCreate_time(create_time);
 				//足迹存在
 				if (trackServiceApp.isExist(track)!=0)
@@ -192,6 +195,7 @@ public class TrackControllerApp {
 						
 						map.put("indexId",track.getIndex_id());
 						map.put("indexName",track.getIndex_name());
+						map.put("lj",track.getLj());
 						Date create = track.getCreate_time();
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 						String createTime = formatter.format(create);

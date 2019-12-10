@@ -117,12 +117,16 @@ public class CollectControllerApp {
 	  	String indexIdString="";
 	  	String indexNameString="";
 	  	String sourceString="";
+	  	String ljString="";
+
 	  	try {
 	  		tokenString=mapget.get("token").toString();
 		  	typeString=mapget.get("type").toString();
 		  	indexIdString=mapget.get("indexId").toString();
 		  	indexNameString=mapget.get("indexName").toString();
 		  	sourceString=mapget.get("source").toString();
+		  	ljString=mapget.get("lj").toString();
+		  	
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setCollectApp"+e.toString());
@@ -155,6 +159,8 @@ public class CollectControllerApp {
 				collect.setIndex_id(indexIdString);
 				collect.setIndex_name(indexNameString);
 				collect.setIndi_source(sourceString);
+				collect.setLj(ljString);
+
 				collect.setCreate_time(new Date());
 				if(collectServiceApp.IsExist(collect)!=0)
 				{
@@ -247,6 +253,8 @@ public class CollectControllerApp {
 						}
 						map1.put("source", source);
 						map1.put("sourceArea", sourceArea);
+						map1.put("lj", collect.getLj());
+						
 						
 						//时间数据格式化
 						Date create = collect.getCreate_time();
