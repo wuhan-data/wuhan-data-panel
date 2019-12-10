@@ -72,7 +72,9 @@ public class Collect {
 	@Override
 	public String toString() {
 		return "Collect [id=" + id + ", uid=" + uid + ", type=" + type + ", index_id=" + index_id + ", index_name="
-				+ index_name + ", create_time=" + create_time + ", indi_source=" + indi_source + "]";
+				+ index_name + ", create_time=" + create_time + ", indi_source=" + indi_source + ", lj=" + lj
+				+ ", isarea=" + isarea + "]";
 	}
+	
 
 }

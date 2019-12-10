@@ -50,10 +50,14 @@ public class CollectControllerApp {
 	  	String tokenString="";
 	  	String typeString="";
 	  	String indexIdString="";
+	  	String sourceString="";
+	  	String ljString="";
 		try {
 	  		tokenString=mapget.get("token").toString();
 		  	typeString=mapget.get("type").toString();
 		  	indexIdString=mapget.get("indexId").toString();
+		  	sourceString=mapget.get("source").toString();
+		  	ljString=mapget.get("path").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("delCollectApp"+e.toString());
@@ -83,6 +87,8 @@ public class CollectControllerApp {
 				collect.setUid(uid);
 				collect.setType(typeString);
 				collect.setIndex_id(indexIdString);
+				collect.setIndi_source(sourceString);
+				collect.setLj(ljString);
 				if (collectServiceApp.deleteByUidTypeIndex(collect)!=0)
 				{
 					return this.apiReturn("0", "取消收藏成功", data);
@@ -118,6 +124,7 @@ public class CollectControllerApp {
 	  	String indexNameString="";
 	  	String sourceString="";
 	  	String ljString="";
+	  	String isareaString="";
 
 	  	try {
 	  		tokenString=mapget.get("token").toString();
@@ -125,7 +132,7 @@ public class CollectControllerApp {
 		  	indexIdString=mapget.get("indexId").toString();
 		  	indexNameString=mapget.get("indexName").toString();
 		  	sourceString=mapget.get("source").toString();
-		  	ljString=mapget.get("lj").toString();
+		  	ljString=mapget.get("path").toString();
 		  	
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -160,8 +167,10 @@ public class CollectControllerApp {
 				collect.setIndex_name(indexNameString);
 				collect.setIndi_source(sourceString);
 				collect.setLj(ljString);
+				collect.setIsarea(isareaString);
 
 				collect.setCreate_time(new Date());
+				System.out.print(collect.toString());
 				if(collectServiceApp.IsExist(collect)!=0)
 				{
 					return this.apiReturn("-2", "已经收藏", data);
@@ -253,7 +262,7 @@ public class CollectControllerApp {
 						}
 						map1.put("source", source);
 						map1.put("sourceArea", sourceArea);
-						map1.put("lj", collect.getLj());
+						map1.put("path", collect.getLj());
 						
 						
 						//时间数据格式化

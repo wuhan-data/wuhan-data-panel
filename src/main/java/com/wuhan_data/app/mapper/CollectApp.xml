@@ -11,7 +11,7 @@
             delete from WUHAN_DATA.COLLECT where id= #{id}  
         </delete>
          <delete id="deleteByUidTypeIndex" parameterType="Collect" >
-            delete from WUHAN_DATA.COLLECT where uid= #{uid} and   index_id=#{index_id} and type=#{type}
+            delete from WUHAN_DATA.COLLECT where uid= #{uid} and   index_id=#{index_id} and type=#{type} and indi_source=#{indi_source} and lj=#{lj}
         </delete>
         
          
@@ -34,7 +34,7 @@
         	select count(*) from WUHAN_DATA.COLLECT  
         </select>
          <select id="IsExist" parameterType="Collect" resultType="int">
-            select count(*) from   WUHAN_DATA.COLLECT  where uid= #{uid} and index_id=#{index_id} and type=#{type}   
+            select count(*) from   WUHAN_DATA.COLLECT  where uid= #{uid} and index_id=#{index_id} and type=#{type}  and indi_source=#{indi_source} and lj=#{lj}
         </select>
 
        <select id="getTypeCollect" parameterType="Collect" resultType="int">
