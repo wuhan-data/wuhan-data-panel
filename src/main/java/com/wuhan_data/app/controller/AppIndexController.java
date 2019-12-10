@@ -138,17 +138,33 @@ public class AppIndexController {
 	   } catch (Exception e) {
 	    return this.apiReturn("-1", "参数获取异常", data);
 	   }
-	
+	   List<String> power_h1= new ArrayList();
+	   List<String> power_h=new ArrayList();
 	   try {
 	    if (!token.equals("")) {
 	     String mapString = sessionSQLServiceApp.get(token).getSess_value();
 	     Map mapS = StringToMap.stringToMap(mapString);
 	     userId = Integer.valueOf((String) mapS.get("userId"));
 	     allPower = userService.getAllPower(userId);
+	     power_h1 =allPower.get("powerIndexSpecials");
 	    }
 	    else{
 	    	allPower = roleService.getDefaultRolePower();
 	    	System.out.println("专题权限："+allPower);
+	    	power_h =allPower.get("powerIndexSpecials");
+	   	  System.out.println("专题权限1："+power_h);
+//	   	  List<String> power_h1= new ArrayList();
+	   	   String[] arr = null;
+	   		if(power_h.size()>0){
+	   			String ss= power_h.get(0);
+	   			System.out.println("ss:" + ss);
+	   			if(ss!=null){
+	   				arr = ss.split("\\|");
+	   				power_h1 = Arrays.asList(arr);
+	   			}
+	   			System.out.println("ss:" + ss);
+	   			
+	   		}
 	    }
 	   } catch (Exception e) {
 	    System.out.println("无效的token令牌");
@@ -156,23 +172,21 @@ public class AppIndexController {
 	   
 	 //获得该用户的权限
 //	  Map<String, List<String>> allPower = userService.getAllPower(userId);
-	  List<String> power_h=new ArrayList();
-	  power_h =allPower.get("powerIndexSpecials");
-	  System.out.println("专题权限1："+power_h);
-	  List<String> power_h1= new ArrayList();
-	   
-	   String[] arr = null;
-		if(power_h.size()>0){
-			String ss= power_h.get(0);
-			System.out.println("ss:" + ss);
-			if(ss!=null){
-				arr = ss.split("\\|");
-				power_h1 = Arrays.asList(arr);
-			}
-				
-			System.out.println("ss:" + ss);
-			
-		}
+//	  List<String> power_h=new ArrayList();
+//	  power_h =allPower.get("powerIndexSpecials");
+//	  System.out.println("专题权限1："+power_h);
+//	  List<String> power_h1= new ArrayList();
+//	   String[] arr = null;
+//		if(power_h.size()>0){
+//			String ss= power_h.get(0);
+//			System.out.println("ss:" + ss);
+//			if(ss!=null){
+//				arr = ss.split("\\|");
+//				power_h1 = Arrays.asList(arr);
+//			}
+//			System.out.println("ss:" + ss);
+//			
+//		}
 	   
 	   
 	  List<IndexSpecial> topic = appIndexService.getIndexSpecialList();
