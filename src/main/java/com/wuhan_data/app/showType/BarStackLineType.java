@@ -145,10 +145,16 @@ public class BarStackLineType {
 		Map<String, Object> yAxisFirstMap = new HashMap<String, Object>();
 		yAxisFirstMap.put("type", "value");
 		yAxisFirstMap.put("name", "");
+		Map<String, Boolean> yAxisFirstSplitLineMap = new HashMap<String, Boolean>();
+		yAxisFirstSplitLineMap.put("show", true);
+		yAxisFirstMap.put("splitLine", yAxisFirstSplitLineMap);
 		yAxis.add(yAxisFirstMap);
 		Map<String, Object> yAxisSecondMap = new HashMap<String, Object>();
 		yAxisSecondMap.put("type", "value");
 		yAxisSecondMap.put("name", "");
+		Map<String, Boolean> yAxisSecondSplitLineMap = new HashMap<String, Boolean>();
+		yAxisSecondSplitLineMap.put("show", true);
+		yAxisSecondMap.put("splitLine", yAxisSecondSplitLineMap);
 		yAxis.add(yAxisSecondMap);
 		barStackLineOptionEntity.setyAxis(yAxis);
 
