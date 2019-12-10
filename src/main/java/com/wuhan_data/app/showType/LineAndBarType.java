@@ -155,7 +155,7 @@ public class LineAndBarType {
 		yAxisSecondMap.put("type", "value");
 		yAxisSecondMap.put("name", "");
 		Map<String, Boolean> yAxisSecondSplitLineMap = new HashMap<String, Boolean>();
-		yAxisSecondSplitLineMap.put("show", true);
+		yAxisSecondSplitLineMap.put("show", false);
 		yAxisSecondMap.put("splitLine", yAxisSecondSplitLineMap);
 		// 配置经济分析特殊图表的y轴样式
 		List<String> boundaryGap = new ArrayList<String>();

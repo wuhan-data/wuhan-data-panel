@@ -554,7 +554,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				tableRow1.add("孝感市");
 				tableRow1.add("荆州市");
 				tableRow1.add("黄冈市");
-				tableRow1.add("咸宁市	");
+				tableRow1.add("咸宁市");
 				tableRow1.add("随州市");
 				tableRow1.add("仙桃市");
 				tableRow1.add("潜江市");
