@@ -951,6 +951,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println("进入特殊图例——指标相减");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
+				List<String> legendTable = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -966,7 +967,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						}
 					}
 					dataValue.add(dataIndiValue);
-
+					legendTable.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
 				}
@@ -1050,7 +1051,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				for (int q = 0; q < indiList.size(); q++) {
 					dataXaisTable.add(xAxis);
 				}
-				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legendTable, dataValue);
 				TotalList.add(tableEntity);
 				flagPlate = 1;
 			}
