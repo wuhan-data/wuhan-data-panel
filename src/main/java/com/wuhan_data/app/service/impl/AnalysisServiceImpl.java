@@ -161,14 +161,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 			String themeId = String.valueOf(themeList.get(j).getTheme_id());
 			String isShow = String.valueOf(themeList.get(j).getIs_show());
 			System.out.println("themeId" + themeId);
-			if (Arrays.asList(roleList).contains(themeId)) {
-				System.out.println("themeId-pipei" + themeId);
-				if (isShow.equals("0") || isShow.equals("9")) {
-					result.add(themeList.get(j));
-				}
-			} else {
-				if (isShow.equals("0")) {
-					result.add(themeList.get(j));
+			if (isShow.equals("0")) {
+				result.add(themeList.get(j));
+			} else if (isShow.equals("9")) {
+				for (int k = 0; k < roleList.size(); k++) {
+					if (roleList.get(k).toString().equals(themeId)) {
+						result.add(themeList.get(j));
+						break;
+					}
 				}
 			}
 		}
