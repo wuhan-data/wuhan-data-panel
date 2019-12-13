@@ -446,6 +446,7 @@ public class IndiSearchAppController {
 		}
 		HistorySearch historySearch = new HistorySearch();
 		String appIndiName = "";
+		Map favoriteMap = new HashMap();
 		if (source.equals("国统")) {
 		appIndiName = indiDetailService.getIndexName(indexCode);
 //			historySearch.setKeyword(appIndiName);
@@ -456,16 +457,17 @@ public class IndiSearchAppController {
 //			} else
 //				appIndiName = temp[0];
 		historySearch.setSource(source+'-'+area_name);
+		favoriteMap.put("source", source+'-'+area_name);
 
 		} else {
 		appIndiName = indiDetailService.getIndexNameH(indexCode);
 		historySearch.setSource(source);
-		
+		favoriteMap.put("source", source);
 		}
 		historySearch.setKeyword(appIndiName);
-		Map favoriteMap = new HashMap();
+		
 		favoriteMap.put("appIndiName", appIndiName);
-		favoriteMap.put("source", source);
+		
 		favoriteMap.put("userId", userId);
 		int isFavorite = indiDetailService.getIsFavorite(favoriteMap);
 		boolean isF = false;
@@ -473,9 +475,11 @@ public class IndiSearchAppController {
 			isF = true;
 		Map baseInfoMap = new HashMap();
 		baseInfoMap.put("source", source);
+		baseInfoMap.put("sourceArea", area_name);
 		baseInfoMap.put("indexId", indexCode);
 		baseInfoMap.put("indexName", appIndiName);
 		baseInfoMap.put("isFavorite", isF);
+		baseInfoMap.put("isArea", isArea);
 		// 记录历史搜索
 		Date date = new Date();
 

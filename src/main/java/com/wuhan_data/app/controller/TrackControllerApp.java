@@ -53,12 +53,14 @@ public class TrackControllerApp {
 	  	String indexIdString="";
 	  	String indexNameString="";
 	  	String sourceString="";
+	  	String ljString="";
 	  	try {
 	  		tokenString=mapget.get("token").toString();
 		  	typeString=mapget.get("type").toString();
 		  	indexIdString=mapget.get("indexId").toString();
 		  	indexNameString=mapget.get("indexName").toString();
 		  	sourceString=mapget.get("source").toString();
+		  	ljString=mapget.get("path").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setTrackApp"+e.toString());
@@ -92,6 +94,8 @@ public class TrackControllerApp {
 				track.setIndex_id(indexIdString);
 				track.setIndex_name(indexNameString);
 				track.setIndi_source(sourceString);
+				track.setLj(ljString);
+				track.setIsarea("");
 				track.setCreate_time(create_time);
 				//足迹存在
 				if (trackServiceApp.isExist(track)!=0)
@@ -165,7 +169,7 @@ public class TrackControllerApp {
 				List<Track> tracks=trackServiceApp.getByUid(uid);
 				List list1=new ArrayList();
 				List list2=new ArrayList();
-				for(int i=0;i<tracks.size();i++)
+				for(int i=tracks.size()-1;i>=0;i--)
 				{
 					Map map=new HashMap();
 					Track track=tracks.get(i);
@@ -173,9 +177,26 @@ public class TrackControllerApp {
 					{
 						map.put("type", "指标数据");
 						map.put("trackId", track.getId().toString());
-						map.put("source", track.getIndi_source());
+						//map.put("source", track.getIndi_source());
+						
+						String source=track.getIndi_source();
+						String sourceArea="";
+						if (source.equals("湖统"))
+						{
+							sourceArea="";
+						}
+						else
+						{
+							String[] sp=source.split("-");
+							sourceArea=sp[1];
+							source=sp[0];
+						}
+						map.put("source", source);
+						map.put("sourceArea", sourceArea);
+						
 						map.put("indexId",track.getIndex_id());
 						map.put("indexName",track.getIndex_name());
+						map.put("path",track.getLj());
 						Date create = track.getCreate_time();
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 						String createTime = formatter.format(create);

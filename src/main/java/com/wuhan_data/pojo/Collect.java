@@ -17,6 +17,21 @@ public class Collect {
 	}
 	Date create_time;//收藏时间
 	String indi_source;//来源国统省级
+	String lj;
+	String isarea;
+
+	public String getLj() {
+		return lj;
+	}
+	public void setLj(String lj) {
+		this.lj = lj;
+	}
+	public String getIsarea() {
+		return isarea;
+	}
+	public void setIsarea(String isarea) {
+		this.isarea = isarea;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -57,7 +72,9 @@ public class Collect {
 	@Override
 	public String toString() {
 		return "Collect [id=" + id + ", uid=" + uid + ", type=" + type + ", index_id=" + index_id + ", index_name="
-				+ index_name + ", create_time=" + create_time + ", indi_source=" + indi_source + "]";
+				+ index_name + ", create_time=" + create_time + ", indi_source=" + indi_source + ", lj=" + lj
+				+ ", isarea=" + isarea + "]";
 	}
+	
 
 }

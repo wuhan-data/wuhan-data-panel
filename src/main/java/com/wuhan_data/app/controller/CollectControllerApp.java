@@ -50,10 +50,14 @@ public class CollectControllerApp {
 	  	String tokenString="";
 	  	String typeString="";
 	  	String indexIdString="";
+	  	String sourceString="";
+	  	String ljString="";
 		try {
 	  		tokenString=mapget.get("token").toString();
 		  	typeString=mapget.get("type").toString();
 		  	indexIdString=mapget.get("indexId").toString();
+		  	sourceString=mapget.get("source").toString();
+		  	ljString=mapget.get("path").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("delCollectApp"+e.toString());
@@ -83,6 +87,8 @@ public class CollectControllerApp {
 				collect.setUid(uid);
 				collect.setType(typeString);
 				collect.setIndex_id(indexIdString);
+				collect.setIndi_source(sourceString);
+				collect.setLj(ljString);
 				if (collectServiceApp.deleteByUidTypeIndex(collect)!=0)
 				{
 					return this.apiReturn("0", "取消收藏成功", data);
@@ -117,12 +123,17 @@ public class CollectControllerApp {
 	  	String indexIdString="";
 	  	String indexNameString="";
 	  	String sourceString="";
+	  	String ljString="";
+	  	String isareaString="";
+
 	  	try {
 	  		tokenString=mapget.get("token").toString();
 		  	typeString=mapget.get("type").toString();
 		  	indexIdString=mapget.get("indexId").toString();
 		  	indexNameString=mapget.get("indexName").toString();
 		  	sourceString=mapget.get("source").toString();
+		  	ljString=mapget.get("path").toString();
+		  	
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("setCollectApp"+e.toString());
@@ -155,7 +166,11 @@ public class CollectControllerApp {
 				collect.setIndex_id(indexIdString);
 				collect.setIndex_name(indexNameString);
 				collect.setIndi_source(sourceString);
+				collect.setLj(ljString);
+				collect.setIsarea(isareaString);
+
 				collect.setCreate_time(new Date());
+				System.out.print(collect.toString());
 				if(collectServiceApp.IsExist(collect)!=0)
 				{
 					return this.apiReturn("-2", "已经收藏", data);
@@ -223,7 +238,7 @@ public class CollectControllerApp {
 		  		List<Collect> collects=collectServiceApp.getByUid(uid);
 		  		List list1=new ArrayList();
 				List list2=new ArrayList();
-				for(int i=0;i<collects.size();i++)
+				for(int i=collects.size()-1;i>=0;i--)
 				{
 					Map map1=new HashMap();
 					Collect collect=collects.get(i);
@@ -233,7 +248,23 @@ public class CollectControllerApp {
 						map1.put("collectId", collect.getId().toString());
 						map1.put("indexId",collect.getIndex_id());
 						map1.put("indexName",collect.getIndex_name());
-						map1.put("source", collect.getIndi_source());
+						String source=collect.getIndi_source();
+						String sourceArea="";
+						if (source.equals("湖统"))
+						{
+							sourceArea="";
+						}
+						else
+						{
+							String[] sp=source.split("-");
+							sourceArea=sp[1];
+							source=sp[0];
+						}
+						map1.put("source", source);
+						map1.put("sourceArea", sourceArea);
+						map1.put("path", collect.getLj());
+						
+						
 						//时间数据格式化
 						Date create = collect.getCreate_time();
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
