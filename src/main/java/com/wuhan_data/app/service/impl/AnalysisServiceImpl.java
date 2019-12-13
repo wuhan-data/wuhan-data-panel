@@ -160,7 +160,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 		for (int j = 0; j < themeList.size(); j++) {
 			String themeId = String.valueOf(themeList.get(j).getTheme_id());
 			String isShow = String.valueOf(themeList.get(j).getIs_show());
+			System.out.println("themeId" + themeId);
 			if (Arrays.asList(roleList).contains(themeId)) {
+				System.out.println("themeId-pipei" + themeId);
 				if (isShow.equals("0") || isShow.equals("9")) {
 					result.add(themeList.get(j));
 				}
@@ -220,9 +222,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 		ArrayList<String> areaCondition = new ArrayList<String>();
 		areaCondition.add("武汉市");
 		areaCondition.add("黄石市");
-		areaCondition.add("襄阳市");
-		areaCondition.add("宜昌市");
 		areaCondition.add("十堰市");
+		areaCondition.add("宜昌市");
+		areaCondition.add("襄阳市");
 		areaCondition.add("鄂州市");
 		areaCondition.add("荆门市");
 		areaCondition.add("孝感市");
@@ -230,10 +232,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 		areaCondition.add("黄冈市");
 		areaCondition.add("咸宁市");
 		areaCondition.add("随州市");
+		areaCondition.add("恩施自治州");
 		areaCondition.add("仙桃市");
 		areaCondition.add("潜江市");
 		areaCondition.add("天门市");
-		areaCondition.add("恩施自治州");
 		areaCondition.add("神农架林区");
 
 		// 构建查询条件
@@ -546,9 +548,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 				tableRow1.add("湖北省");
 				tableRow1.add("武汉市");
 				tableRow1.add("黄石市");
-				tableRow1.add("襄阳市");
-				tableRow1.add("宜昌市");
 				tableRow1.add("十堰市");
+				tableRow1.add("宜昌市");
+				tableRow1.add("襄阳市");
 				tableRow1.add("鄂州市");
 				tableRow1.add("荆门市");
 				tableRow1.add("孝感市");
@@ -556,10 +558,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 				tableRow1.add("黄冈市");
 				tableRow1.add("咸宁市");
 				tableRow1.add("随州市");
+				tableRow1.add("恩施自治州");
 				tableRow1.add("仙桃市");
 				tableRow1.add("潜江市");
 				tableRow1.add("天门市");
-				tableRow1.add("恩施自治州");
 				tableRow1.add("神农架林区");
 
 				List<String> tableRow2 = new ArrayList<String>();
