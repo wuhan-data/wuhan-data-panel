@@ -599,7 +599,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				System.out.println(tableRow3);
 
 				Double totalGDPDouble = 0.0;
-				for (int j = 0; j < tableRow2.size(); j++) {
+				for (int j = 1; j < tableRow2.size(); j++) {
 					Double dataValue = Double.parseDouble(tableRow2.get(j));
 					totalGDPDouble = totalGDPDouble + dataValue;
 				}
