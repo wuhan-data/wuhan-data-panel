@@ -334,9 +334,10 @@ public class IndiSearchAppController {
 		List resultList = new ArrayList();
 		// 放入来自国统的指标数据
 		Set setG = new HashSet();
+		Set setG1 = new HashSet();
 		for (int i = 0; i < searchIndiListG.size(); i++) {
 			if (searchIndiListG.get(i).getIs_show().equals("0")) {
-				if(!setG.contains(searchIndiListG.get(i).getIndi_code()))
+				if(!(setG.contains(searchIndiListG.get(i).getLj())&&setG1.contains(searchIndiListG.get(i).getArea_name())))
 				{
 					if(power.contains(Integer.toString(searchIndiListG.get(i).getId()))){
 						System.out.println("进入国统权限");
@@ -348,8 +349,8 @@ public class IndiSearchAppController {
 						teMap.put("source", "国统");
 						teMap.put("sourceArea", searchIndiListG.get(i).getArea_name());
 						resultList.add(teMap);
-						setG.add(searchIndiListG.get(i).getIndi_code());
-						
+						setG.add(searchIndiListG.get(i).getLj());
+						setG1.add(searchIndiListG.get(i).getArea_name());
 					}
 					
 				}
