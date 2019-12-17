@@ -515,6 +515,115 @@ public class AnalysisServiceImpl implements AnalysisService {
 				flagPlate = 1;
 			}
 				break;
+			case "93": {
+				System.out.println("进入特殊图例——指标相加");
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> legendTable = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				for (int j = 0; j < indiList.size(); j++) {
+					// 处理配置表中配置数据
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+						}
+					}
+					dataValue.add(dataIndiValue);
+					legendTable.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
+				}
+				List<List<String>> dataValue1 = new ArrayList<List<String>>();
+				// 获取核准类项目个数,备案类项目个数,核准类投资总额,备案类投资总额
+				List<String> indexNumberList1 = new ArrayList<String>();
+				List<String> indexNumberList2 = new ArrayList<String>();
+				List<String> indexTotalList1 = new ArrayList<String>();
+				List<String> indexTotalList2 = new ArrayList<String>();
+				for (int j = 0; j < indiList.size(); j++) {
+					String indexCode = indiList.get(j).getIndiCode().toString();
+					// 核准类项目个数
+					if (indexCode.equals("HBTJ0797;400:101585152;363:706401;62:42")) {
+						indexNumberList1 = dataValue.get(j);
+					}
+					// 备案类项目个数
+					if (indexCode.equals("HBTJ0798;400:101585152;363:706401;62:42")) {
+						indexNumberList2 = dataValue.get(j);
+					}
+					// 核准类投资总额
+					if (indexCode.equals("HBTJ0793;400:101585152;363:706401;62:42")) {
+						indexTotalList1 = dataValue.get(j);
+					}
+					// 备案类投资总额
+					if (indexCode.equals("HBTJ0794;400:101585152;363:706401;62:42")) {
+						indexTotalList2 = dataValue.get(j);
+					}
+				}
+				// 进行减法
+				if (id.equals("93")) {
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexNumberList1.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexNumberList1.get(j))
+									+ Double.parseDouble(indexNumberList2.get(j));
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("项目核准备案个数_当期值");
+					
+					for (int j = 0; j < indexNumberList1.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexTotalList1.get(j))
+									+ Double.parseDouble(indexTotalList2.get(j));
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("项目核准备案金额_当期值");
+				}
+				// 配置指标图例
+				switch (analysisPlate.get(i).getShowType()) {
+				case "折线图": {
+					LineType lineType = new LineType();
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
+							showType);
+					TotalList.add(lineEntity);
+					break;
+				}
+				case "柱状图": {
+					BarType barType = new BarType();
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType);
+					TotalList.add(barEntity);
+					break;
+				}
+				default:
+					System.out.println("未知图例无法求指标相减值" + analysisPlate.get(i).getShowType());
+					break;
+				}
+				// 配置表格数据
+				TableType tableType = new TableType();
+				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+				// 表格依然是展示指标计算后的数据，因此数量要除2
+				for (int q = 0; q < indiList.size()/2; q++) {
+					dataXaisTable.add(xAxis);
+				}
+				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue1);
+				TotalList.add(tableEntity);
+				flagPlate = 1;
+			}
+			break;
 			case "238": {
 				// 绘制表格数据
 				System.out.println("进入特殊指标——各市州GDP-表格");
