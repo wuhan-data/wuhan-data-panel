@@ -49,9 +49,9 @@ public class IndiDetailServiceImpl implements IndiDetailService{
 		return indiDetailMapper.getIndiCode(paraMap);
 	}
 	@Override
-	public String getIndexName(String indexCode) {
+	public String getIndexName(Map codeLjMap) {
 		// TODO Auto-generated method stub
-		return indiDetailMapper.getIndexName(indexCode);
+		return indiDetailMapper.getIndexName(codeLjMap);
 	}
 	@Override
 	public int getIsFavorite(Map favoriteMap) {
@@ -89,9 +89,9 @@ public class IndiDetailServiceImpl implements IndiDetailService{
 		return indiDetailMapper.getIndiValueG(map);
 	}
 	@Override
-	public String getIndexNameH(String indexCode) {
+	public String getIndexNameH(Map codeLjMap) {
 		// TODO Auto-generated method stub
-		return indiDetailMapper.getIndexNameH(indexCode);
+		return indiDetailMapper.getIndexNameH(codeLjMap);
 	}
 	@Override
 	public List<String> getFreqCodeByIndiNameArea(Map fcMap) {
