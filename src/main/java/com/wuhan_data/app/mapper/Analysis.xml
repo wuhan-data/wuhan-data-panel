@@ -136,15 +136,15 @@
 		parameterType="java.util.Map">
 		SELECT DISTINCT
 		INDI_CODE as indiCode,
-		FREQ_NAME as
-		freqName,
-		START_TIME as startTime,
-		END_TIME as endTime
+		FREQ_NAME as freqName,
+		MIN(START_TIME) as startTime,
+		MAX(END_TIME) as endTime
 		FROM
 		"MIDUSER"."APP_ANALYSIS_INDI_TIME"
 		WHERE
 		INDI_CODE = #{indiCode} AND
 		FREQ_NAME = #{freqName}
+		GROUP BY INDI_CODE, FREQ_NAME
 	</select>
 
 	<!-- 获取指标指定频度的时间跨度 -->
