@@ -1107,7 +1107,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMap1.put("indiCode", indiList.get(j).getIndiCode());
 					System.out.println("特殊图例同期配置项：" + queryMap1.toString());
 					// 处理上年同期数据
-					List<AnalysisIndiValue> indiInfoList1 = analysisMapper.getIndiValue(queryMap);
+					List<AnalysisIndiValue> indiInfoList1 = analysisMapper.getIndiValue(queryMap1);
 					List<String> dataIndiValue1 = Arrays.asList(new String[xAxis.size()]);
 					List<String> xAxis1 = this.fillTimeList(queryMap1.get("freqName").toString(),
 							queryMap1.get("startTime").toString(), queryMap1.get("endTime").toString());
