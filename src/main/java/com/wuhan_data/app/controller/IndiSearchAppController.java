@@ -337,8 +337,8 @@ public class IndiSearchAppController {
 		Set setG1 = new HashSet();
 		for (int i = 0; i < searchIndiListG.size(); i++) {
 			if (searchIndiListG.get(i).getIs_show().equals("0")) {
-				if(!(setG.contains(searchIndiListG.get(i).getLj())&&setG1.contains(searchIndiListG.get(i).getArea_name())))
-				{
+//				if(!(setG.contains(searchIndiListG.get(i).getLj())&&setG1.contains(searchIndiListG.get(i).getArea_name())))
+//				{
 					if(power.contains(Integer.toString(searchIndiListG.get(i).getId()))){
 						System.out.println("进入国统权限");
 						Map teMap = new HashMap();
@@ -353,7 +353,7 @@ public class IndiSearchAppController {
 						setG1.add(searchIndiListG.get(i).getArea_name());
 					}
 					
-				}
+//				}
 				
 			}
 		}
