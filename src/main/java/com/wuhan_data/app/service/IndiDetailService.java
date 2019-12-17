@@ -20,7 +20,7 @@ public interface IndiDetailService {
 
 	String getIndiCode(Map paraMap);
 
-	String getIndexName(String indexCode);
+	String getIndexName(Map codeLjMap);
 
 	int getIsFavorite(Map favoriteMap);
 
@@ -34,7 +34,7 @@ public interface IndiDetailService {
 	List<String> indiDateByFreqNameG1(Map parameterMap);
 	List<TPIndiValue> getIndiValueG(Map<String, Object> map);
 
-	String getIndexNameH(String indexCode);
+	String getIndexNameH(Map codeLjMap);
 
 	List<String> getFreqCodeByIndiNameArea(Map fcMap);
 

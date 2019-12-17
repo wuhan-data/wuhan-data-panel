@@ -447,8 +447,11 @@ public class IndiSearchAppController {
 		HistorySearch historySearch = new HistorySearch();
 		String appIndiName = "";
 		Map favoriteMap = new HashMap();
+		Map codeLjMap = new HashMap(); 
+		codeLjMap.put("lj",lj);
+		codeLjMap.put("indexCode",indexCode);
 		if (source.equals("国统")) {
-		appIndiName = indiDetailService.getIndexName(indexCode);
+		appIndiName = indiDetailService.getIndexName(codeLjMap);
 //			historySearch.setKeyword(appIndiName);
 //			String temp[] = appIndiName.split("::");
 //			if (temp.length > 1) {
@@ -460,7 +463,7 @@ public class IndiSearchAppController {
 		favoriteMap.put("source", source+'-'+area_name);
 
 		} else {
-		appIndiName = indiDetailService.getIndexNameH(indexCode);
+		appIndiName = indiDetailService.getIndexNameH(codeLjMap);
 		historySearch.setSource(source);
 		favoriteMap.put("source", source);
 		}
@@ -1214,7 +1217,10 @@ public class IndiSearchAppController {
 			} catch (Exception e) {
 				return this.apiReturn("-1", "参数获取异常", data);
 			}
-			String appIndiName = indiDetailService.getIndexNameH(indexCode);
+			Map codeLjMap = new HashMap(); 
+			codeLjMap.put("lj",lj);
+			codeLjMap.put("indexCode",indexCode);
+			String appIndiName = indiDetailService.getIndexNameH(codeLjMap);
 			Map defaultMap = new HashMap();
 			defaultMap.put("appIndiName", appIndiName);
 			defaultMap.put("freqCode", freqCode);
@@ -1376,15 +1382,18 @@ public class IndiSearchAppController {
 			}
 			// 判断是查询国统数据还是湖统数据
 			String appIndiName = "";
+			Map codeLjMap = new HashMap(); 
+			codeLjMap.put("lj",lj);
+			codeLjMap.put("indexCode",indexCode);
 			if (source.equals("国统")) {
-				appIndiName = indiDetailService.getIndexName(indexCode);
+				appIndiName = indiDetailService.getIndexName(codeLjMap);
 //				String temp[] = appIndiName.split("::");
 //				if (temp.length > 1)
 //					appIndiName = temp[1];
 //				else
 //					appIndiName = temp[0];
 			} else {
-				appIndiName = indiDetailService.getIndexNameH(indexCode);
+				appIndiName = indiDetailService.getIndexNameH(codeLjMap);
 			}
 //			String startTime = mapget.get("startTime").toString();
 //			String endTime = mapget.get("endTime").toString();

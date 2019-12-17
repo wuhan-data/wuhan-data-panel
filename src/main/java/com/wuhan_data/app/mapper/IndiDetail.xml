@@ -86,11 +86,11 @@
         </select> 
         
         
-         <select id="getIndexName" resultType="String" parameterType="String" >
-            select indi_old_name from MIDUSER."APP_SEARCH_INDI" where indi_code=#{indexCode} and sjly_code2='1' group by indi_old_name
+         <select id="getIndexName" resultType="String" parameterType="java.util.Map" >
+            select indi_old_name from MIDUSER."APP_SEARCH_INDI" where indi_code=#{indexCode} and sjly_code2='1' and lj=#{lj} group by indi_old_name
         </select>
         <select id="getIndexNameH" resultType="String" parameterType="String" >
-            select indi_old_name from MIDUSER."APP_SEARCH_INDI" where indi_code=#{indexCode} and source='湖统' group by indi_old_name limit 1
+            select indi_old_name from MIDUSER."APP_SEARCH_INDI" where indi_code=#{indexCode} and lj=#{lj} and source='湖统' group by indi_old_name limit 1
         </select>
         
          <select id="getIsFavorite" resultType="int" parameterType="java.util.Map" >

@@ -17,7 +17,7 @@
         </delete>        
          
         <select id="getlist" parameterType="java.util.Map" resultType="ColPlateIndi">
-            select * from WUHAN_DATA."ANALYSIS_INDI" where plate_id=#{plate_id} order by indi_id limit #{page.dbIndex},#{page.dbNumber}   
+            select * from WUHAN_DATA."ANALYSIS_INDI" where plate_id=#{plate_id} order by indi_id 
         </select>
  
         <update id="update" parameterType="ColPlateIndi" >
