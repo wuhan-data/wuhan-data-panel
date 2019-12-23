@@ -1167,6 +1167,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 				break;
 
+			case "168":
+			case "170":
+			case "171":
+			case "227":
+			case "178":
+			case "179":
 			case "180": {
 				System.out.println("进入特殊图例——指标相除");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
@@ -1193,8 +1199,183 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 
 				// 处理指标相除
-				// 进行减法
 				List<List<String>> dataValue1 = new ArrayList<List<String>>();
+				if (id.equals("168")) {
+					List<String> indexList1 = new ArrayList<String>();
+					List<String> indexList2 = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						String indexCode = indiList.get(j).getIndiCode().toString();
+						// 除数-专利批准量(项)
+						if (indexCode.equals("HBTJ0843;400:101585152;363:706401;62:42")) {
+							indexList1 = dataValue.get(j);
+						}
+						// 被除数-常住人口(万人)
+						if (indexCode.equals("SH030201;400:101585152;363:706401;62:42")) {
+							indexList2 = dataValue.get(j);
+						}
+					}
+					// 进行相除
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexList1.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
+									/ Double.parseDouble(indexList2.get(j));
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("每万人口发明专利拥有量(项)");
+				}
+				if (id.equals("170")) {
+					List<String> indexList1 = new ArrayList<String>();
+					List<String> indexList2 = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						String indexCode = indiList.get(j).getIndiCode().toString();
+						// 除数-科技活动人员数(人)
+						if (indexCode.equals("KJ0102;400:101585152;363:706401;62:42")) {
+							indexList1 = dataValue.get(j);
+						}
+						// 被除数-常住人口(万人)
+						if (indexCode.equals("SH030201;400:101585152;363:706401;62:42")) {
+							indexList2 = dataValue.get(j);
+						}
+					}
+					// 进行相除
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexList1.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
+									/ Double.parseDouble(indexList2.get(j));
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("千人拥有研发人员数(人)");
+				}
+				if (id.equals("171")) {
+					List<String> indexList1 = new ArrayList<String>();
+					List<String> indexList2 = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						String indexCode = indiList.get(j).getIndiCode().toString();
+						// 除数-研究与发展经费内部支出额(万元)
+						if (indexCode.equals("KJ010404;400:101585152;363:706401;62:42")) {
+							indexList1 = dataValue.get(j);
+						}
+						// 被除数-支出法地区生产总值(亿元)
+						if (indexCode.equals("GM0301;400:101585152;62:42")) {
+							indexList2 = dataValue.get(j);
+						}
+					}
+					// 进行相除
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexList1.size(); j++) {
+						try {
+							// 这里要多除以100,因为计算的是百分比,而且单位是万元与亿元
+							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
+									/ (Double.parseDouble(indexList2.get(j))*100);
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("R&D经费支出占GDP比重(%)");
+				}
+				if (id.equals("227")) {
+					List<String> indexList1 = new ArrayList<String>();
+					List<String> indexList2 = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						String indexCode = indiList.get(j).getIndiCode().toString();
+						// 除数-高新技术产业增加值
+						if (indexCode.equals("HBTJ0200;400:101585152;363:706403;62:42")) {
+							indexList1 = dataValue.get(j);
+						}
+						// 被除数-地区生产总值
+						if (indexCode.equals("GM0101;400:101585152;363:706403;62:42")) {
+							indexList2 = dataValue.get(j);
+						}
+					}
+					// 进行相除
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexList1.size(); j++) {
+						try {
+							// 这里要多乘100,因为求的是百分比
+							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
+									/ Double.parseDouble(indexList2.get(j))*100;
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("高新技术产业增加值占GDP比重(%)");
+				}
+				if (id.equals("178")) {
+					List<String> indexList1 = new ArrayList<String>();
+					List<String> indexList2 = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						String indexCode = indiList.get(j).getIndiCode().toString();
+						// 除数-能源消费总量
+						if (indexCode.equals("NYUAN0306;400:101585152;363:706401;62:42")) {
+							indexList1 = dataValue.get(j);
+						}
+						// 被除数-地区生产总值
+						if (indexCode.equals("GM0101;400:101585152;62:42")) {
+							indexList2 = dataValue.get(j);
+						}
+					}
+					// 进行相除
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexList1.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
+									/ Double.parseDouble(indexList2.get(j));
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("单位生产总值能耗(吨标准煤/万元)");
+				}
+				if (id.equals("179")) {
+					List<String> indexList1 = new ArrayList<String>();
+					List<String> indexList2 = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						String indexCode = indiList.get(j).getIndiCode().toString();
+						// 除数-全社会用电量
+						if (indexCode.equals("NYUAN0601;400:101585152;363:706401;62:42")) {
+							indexList1 = dataValue.get(j);
+						}
+						// 被除数-地区生产总值
+						if (indexCode.equals("GM0101;400:101585152;62:42")) {
+							indexList2 = dataValue.get(j);
+						}
+					}
+					// 进行相除
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexList1.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
+									/ Double.parseDouble(indexList2.get(j));
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("单位生产总值全社会用电量(亿千瓦时/亿元)");
+				}
 				if (id.equals("180")) {
 					List<String> indexList1 = new ArrayList<String>();
 					List<String> indexList2 = new ArrayList<String>();
