@@ -995,33 +995,34 @@ public class AnalysisServiceImpl implements AnalysisService {
 						indexTotalList2 = dataValue.get(j);
 					}
 				}
-				// 进行减法
+				// 进行加法
 				if (id.equals("93")) {
-					List<String> dataIndiValue = new ArrayList<String>();
+					List<String> dataIndiValue1 = new ArrayList<String>();
 					for (int j = 0; j < indexNumberList1.size(); j++) {
 						try {
 							Double dataValueDouble = Double.parseDouble(indexNumberList1.get(j))
 									+ Double.parseDouble(indexNumberList2.get(j));
-							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+							dataIndiValue1.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue1.add("0.00");
 						}
 
 					}
-					dataValue1.add(dataIndiValue);
+					dataValue1.add(dataIndiValue1);
 					legend.add("项目核准备案个数_当期值");
 
-					for (int j = 0; j < indexNumberList1.size(); j++) {
+					List<String> dataIndiValue2 = new ArrayList<String>();
+					for (int j = 0; j < indexTotalList2.size(); j++) {
 						try {
 							Double dataValueDouble = Double.parseDouble(indexTotalList1.get(j))
 									+ Double.parseDouble(indexTotalList2.get(j));
-							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+							dataIndiValue2.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue2.add("0.00");
 						}
 
 					}
-					dataValue1.add(dataIndiValue);
+					dataValue1.add(dataIndiValue2);
 					legend.add("项目核准备案金额_当期值");
 				}
 				// 配置指标图例
@@ -1165,7 +1166,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				flagPlate = 1;
 			}
 				break;
-				
+
 			case "180": {
 				System.out.println("进入特殊图例——指标相除");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
@@ -1190,7 +1191,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
 				}
-				
+
 				// 处理指标相除
 				// 进行减法
 				List<List<String>> dataValue1 = new ArrayList<List<String>>();
@@ -1253,7 +1254,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				TotalList.add(tableEntity);
 				flagPlate = 1;
 			}
-			break;
+				break;
 
 			case "58":
 			case "59":
@@ -1355,6 +1356,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 			default:
 				break;
 			}
+
 			// 如果是特殊图例，就不进行常规图例的判断
 			if (flagPlate != 0) {
 				continue;
@@ -1378,6 +1380,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
+							if (id == "167") {
+								// 167-新经济行业岗位占比-折线图
+								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+								dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
+							} else {
+								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							}
 							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 						}
 					}
@@ -1414,7 +1423,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							if (id == "97" || id == "166") {
+								// 97-中长期贷款余额-柱状图
+								// 166-新经济行业风险投资比例（互联网大数据）-柱状图
+								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+								dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
+							} else {
+								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							}
 						}
 					}
 					dataValue.add(dataIndiValue);
