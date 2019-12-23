@@ -1315,11 +1315,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 						try {
 							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
 									/ Double.parseDouble(indexList2.get(j));
-							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+							if (dataValueDouble == 0.00) {
+								dataIndiValue.add("-");
+							} else {
+								dataIndiValue.add(String.format("%.2f", dataValueDouble));
+							}
 						} catch (Exception e) {
 							dataIndiValue.add("0.00");
 						}
-
 					}
 					dataValue1.add(dataIndiValue);
 					legend.add("千人拥有研发人员数(人)");
