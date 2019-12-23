@@ -690,7 +690,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 			case "18":
 			case "23":
 			case "208":
-			case "211": {
+			case "211":
+			case "85":
+			case "86": {
 				System.out.println("进入特殊图例——拉动率计算");
 				List<List<String>> dataValue = new ArrayList<List<String>>();
 				List<String> legend = new ArrayList<String>();
@@ -908,7 +910,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
 					TotalList.add(pieEntity);
 				}
-				if (id.equals("23")) {
+				if (id.equals("23") || id.equals("85") || id.equals("86")) {
 					legend.add("第一产业");
 					showColor.add("#77C87B");
 					showType.add("line");
@@ -1621,7 +1623,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							if (title.contains("互联网大数据")||title.contains("新经济行业岗位占比")) {
+							if (title.contains("互联网大数据") || title.contains("新经济行业岗位占比")) {
 								// 167-新经济行业岗位占比-折线图
 								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
 								System.out.println(String.format("%.2f", dataValueDouble));
