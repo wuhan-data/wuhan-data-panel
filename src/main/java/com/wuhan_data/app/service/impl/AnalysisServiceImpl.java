@@ -1079,7 +1079,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue()) - 100.00;
+							dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
+							// dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -1123,7 +1125,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 					}
 					dataValue1.add(dataIndiValue);
+					dataValue.add(dataIndiValue);
 					legend.add("CPI-PPI_同比剪刀差");
+					legendTable.add("CPI-PPI_同比剪刀差");
 				}
 				if (id.equals("30")) {
 					List<String> dataIndiValue = new ArrayList<String>();
@@ -1139,7 +1143,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 						}
 					}
 					dataValue1.add(dataIndiValue);
+					dataValue.add(dataIndiValue);
 					legend.add("PPI-IPI_同比剪刀差");
+					legendTable.add("PPI-IPI_同比剪刀差");
 				}
 				// 配置指标图例
 				switch (analysisPlate.get(i).getShowType()) {
@@ -1173,6 +1179,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 				break;
 
+			case "33":
 			case "168":
 			case "170":
 			case "171":
@@ -1206,6 +1213,38 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 				// 处理指标相除
 				List<List<String>> dataValue1 = new ArrayList<List<String>>();
+
+				if (id.equals("33")) {
+					List<String> indexList1 = new ArrayList<String>();
+					List<String> indexList2 = new ArrayList<String>();
+					for (int j = 0; j < indiList.size(); j++) {
+						String indexCode = indiList.get(j).getIndiCode().toString();
+						// 除数-M1
+						if (indexCode.equals("JYBX090101;400:706501;363:100000060;62:1")) {
+							indexList1 = dataValue.get(j);
+						}
+						// 被除数-M2
+						if (indexCode.equals("JYBX0901;400:706501;363:100000060;62:1")) {
+							indexList2 = dataValue.get(j);
+						}
+					}
+					// 进行相除
+					List<String> dataIndiValue = new ArrayList<String>();
+					for (int j = 0; j < indexList1.size(); j++) {
+						try {
+							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
+									/ Double.parseDouble(indexList2.get(j));
+							dataIndiValue.add(String.format("%.2f", dataValueDouble));
+						} catch (Exception e) {
+							dataIndiValue.add("0.00");
+						}
+
+					}
+					dataValue1.add(dataIndiValue);
+					legend.add("M1/M2");
+					dataValue.add(dataIndiValue);
+					legendTable.add("M1/M2");
+				}
 				if (id.equals("168")) {
 					List<String> indexList1 = new ArrayList<String>();
 					List<String> indexList2 = new ArrayList<String>();
@@ -1234,6 +1273,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue1.add(dataIndiValue);
 					legend.add("每万人口发明专利拥有量(项)");
+					dataValue.add(dataIndiValue);
+					legendTable.add("每万人口发明专利拥有量(项)");
 				}
 				if (id.equals("170")) {
 					List<String> indexList1 = new ArrayList<String>();
@@ -1263,6 +1304,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue1.add(dataIndiValue);
 					legend.add("千人拥有研发人员数(人)");
+					dataValue.add(dataIndiValue);
+					legendTable.add("千人拥有研发人员数(人)");
 				}
 				if (id.equals("171")) {
 					List<String> indexList1 = new ArrayList<String>();
@@ -1293,6 +1336,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue1.add(dataIndiValue);
 					legend.add("R&D经费支出占GDP比重(%)");
+					dataValue.add(dataIndiValue);
+					legendTable.add("R&D经费支出占GDP比重(%)");
 				}
 				if (id.equals("227")) {
 					List<String> indexList1 = new ArrayList<String>();
@@ -1323,6 +1368,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue1.add(dataIndiValue);
 					legend.add("高新技术产业增加值占GDP比重(%)");
+					dataValue.add(dataIndiValue);
+					legendTable.add("高新技术产业增加值占GDP比重(%)");
 				}
 				if (id.equals("178")) {
 					List<String> indexList1 = new ArrayList<String>();
@@ -1352,6 +1399,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue1.add(dataIndiValue);
 					legend.add("单位生产总值能耗(吨标准煤/万元)");
+					dataValue.add(dataIndiValue);
+					legendTable.add("单位生产总值能耗(吨标准煤/万元)");
 				}
 				if (id.equals("179")) {
 					List<String> indexList1 = new ArrayList<String>();
@@ -1381,6 +1430,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 					}
 					dataValue1.add(dataIndiValue);
 					legend.add("单位生产总值全社会用电量(亿千瓦时/亿元)");
+					dataValue.add(dataIndiValue);
+					legendTable.add("单位生产总值全社会用电量(亿千瓦时/亿元)");
 				}
 				if (id.equals("180")) {
 					List<String> indexList1 = new ArrayList<String>();
@@ -1409,7 +1460,9 @@ public class AnalysisServiceImpl implements AnalysisService {
 
 					}
 					dataValue1.add(dataIndiValue);
-					legend.add("单位生产总值煤炭消耗量");
+					legend.add("单位生产总值煤炭消耗量(万吨标准煤/亿元)");
+					dataValue.add(dataIndiValue);
+					legendTable.add("单位生产总值煤炭消耗量(万吨标准煤/亿元)");
 				}
 				// 配置指标图例
 				switch (analysisPlate.get(i).getShowType()) {
