@@ -173,6 +173,10 @@ public class BarType {
 			boundaryGap.add("0.5");
 			yAxisMap.put("boundaryGap", boundaryGap);
 			break;
+		case "64":
+			yAxisMap.put("min", "90");
+			yAxisMap.put("max", "100");
+			break;
 		default:
 			break;
 		}
