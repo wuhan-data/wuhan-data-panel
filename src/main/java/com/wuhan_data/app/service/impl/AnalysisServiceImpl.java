@@ -1801,7 +1801,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							if (indiList.get(j).getIndiCode().toString()
+									.equals("SCZT010201;400:101585152;363:706403;62:42")) {
+								// 外商投资企业总数-万户
+								Integer dataValueInt = Integer.parseInt(indiInfoList.get(m).getIndiValue()) * 10000;
+								dataIndiValue.set(index, String.valueOf(dataValueInt));
+							} else {
+								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+							}
 						}
 					}
 					dataValue.add(dataIndiValue);
