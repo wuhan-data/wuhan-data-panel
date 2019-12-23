@@ -651,14 +651,16 @@ public class AnalysisServiceImpl implements AnalysisService {
 								// 对数据源异常的处理
 								if (indiList.get(j).getIndiCode().toString()
 										.equals("GM0201;400:101585152;363:102387482;62:42")) {
+									System.out.println("处理异常增速数据-开始" + indiInfoList.get(m).getIndiValue());
 									Double dataValueDouble = 0.0;
 									try {
 										dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
 									} catch (Exception e) {
 										dataValueDouble = 0.0;
 									}
-									if (dataValueDouble > 100) {
+									if (dataValueDouble > 100.00) {
 										dataValueDouble -= 100;
+										System.out.println("处理异常增速数据-完成" + dataValueDouble);
 									}
 									dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
 								} else {
