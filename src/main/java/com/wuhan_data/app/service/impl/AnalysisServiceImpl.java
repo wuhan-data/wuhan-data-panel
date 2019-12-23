@@ -1806,8 +1806,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 							if (indiList.get(j).getIndiCode().toString()
 									.equals("SCZT010201;400:101585152;363:706403;62:42")) {
 								// 外商投资企业总数-万户
-								Integer dataValueInt = Integer.parseInt(indiInfoList.get(m).getIndiValue()) * 10000;
-								dataIndiValue.set(index, String.valueOf(dataValueInt));
+								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue()) * 10000;
+								dataIndiValue.set(index, String.valueOf(dataValueDouble));
 							} else {
 								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 							}
