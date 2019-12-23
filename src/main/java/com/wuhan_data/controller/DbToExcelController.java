@@ -55,8 +55,8 @@ public class DbToExcelController {
 		String keyword = java.net.URLDecoder.decode(request.getParameter("keyword"),"UTF-8");
 		List<IndexManage> indexList = dbToExcelService.getIndi(keyword);
 		ModelAndView mav = new ModelAndView();
-		System.out.println("后台的指标代码：" + indexList.get(0).getIndi_code());
-		System.out.println("后台的指标名字：" + indexList.get(0).getIndi_name());
+//		System.out.println("后台的指标代码：" + indexList.get(0).getIndi_code());
+//		System.out.println("后台的指标名字：" + indexList.get(0).getIndi_name());
 		mav.addObject("indexList", indexList);
 		mav.addObject("keyword", keyword);
 		mav.setViewName("dbToEcxel");

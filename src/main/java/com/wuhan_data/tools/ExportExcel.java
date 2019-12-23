@@ -76,7 +76,7 @@ public class ExportExcel{
 	   	        	iterator.next();
 	   	        	value = jsonObject.getString(headers[j]);
 	   	        	//表格内容
-	   	        	if(j<headersLen-1)
+	   	        	if(j<headersLen)
 	   	        	{
 	   	        		line.add(value);
 	   	        	}
@@ -183,7 +183,7 @@ public class ExportExcel{
 		comment.setAuthor("leno");
 		// 产生表格标题行
 		HSSFRow row = sheet.createRow(0);
-		for (short i = 0; i < headers.length-1; i++) {
+		for (short i = 0; i < headers.length; i++) {
 			HSSFCell cell = row.createCell(i);
 			cell.setCellStyle(style);
 			HSSFRichTextString text = new HSSFRichTextString(headers[i]);
