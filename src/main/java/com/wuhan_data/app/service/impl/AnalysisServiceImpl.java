@@ -1122,10 +1122,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 							System.out.println("第" + j + "列" + "double数据转换计算null错误:" + indexCPIList.toString()
 									+ indexPPIList.toString());
 						}
-
 					}
 					dataValue1.add(dataIndiValue);
+					System.out.println("dataValue-11111:" + dataValue);
 					dataValue.add(dataIndiValue);
+					System.out.println("dataValue-22222:" + dataValue);
 					legend.add("CPI-PPI_同比剪刀差");
 					legendTable.add("CPI-PPI_同比剪刀差");
 				}
@@ -1170,7 +1171,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				// 表格依然是展示指标原始数据
-				for (int q = 0; q < indiList.size(); q++) {
+				for (int q = 0; q < indiList.size() + 1; q++) {
 					dataXaisTable.add(xAxis);
 				}
 				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legendTable, dataValue);
@@ -1487,7 +1488,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				TableType tableType = new TableType();
 				List<List<String>> dataXaisTable = new ArrayList<List<String>>();
 				// 表格依然是展示指标原始数据
-				for (int q = 0; q < indiList.size(); q++) {
+				for (int q = 0; q < indiList.size() + 1; q++) {
 					dataXaisTable.add(xAxis);
 				}
 				TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legendTable, dataValue);
