@@ -1621,7 +1621,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							if (title.contains("互联网大数据")) {
+							if (title.contains("互联网大数据")||title.contains("新经济行业岗位占比")) {
 								// 167-新经济行业岗位占比-折线图
 								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
 								System.out.println(String.format("%.2f", dataValueDouble));
