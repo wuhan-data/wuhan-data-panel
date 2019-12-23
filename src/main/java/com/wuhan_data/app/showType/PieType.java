@@ -78,6 +78,12 @@ public class PieType {
 			Map<String, Object> seriesListMap = new HashMap<String, Object>();
 			seriesListMap.put("value", dataV.get(i));
 			seriesListMap.put("name", legend.get(i));
+			// 配置label到饼上
+			Map<String, Object> seriesLabelMap = new HashMap<String, Object>();
+			seriesLabelMap.put("show", true);
+			seriesLabelMap.put("position", "inside");
+			seriesLabelMap.put("formatter", "{d}%");
+			seriesListMap.put("label", seriesLabelMap);
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
 			if (i < showColor.size()) {
