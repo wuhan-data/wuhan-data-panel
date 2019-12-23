@@ -179,6 +179,7 @@ public class BarStackLineType {
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "1");
 				seriesListMap.put("z", z + i);
+				seriesListMap.put("connectNulls", true); // 折线图连接空数据
 			}
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();

@@ -217,6 +217,7 @@ public class LineType {
 			seriesListMap.put("type", type);
 			seriesListMap.put("data", tempList);
 			seriesListMap.put("z", z + i);
+			seriesListMap.put("connectNulls", true); // 折线图连接空数据
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
 			if (i < showColor.size()) {
