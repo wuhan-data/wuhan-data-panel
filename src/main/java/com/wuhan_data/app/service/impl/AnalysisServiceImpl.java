@@ -1284,7 +1284,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						try {
 							// 这里要多除以100,因为计算的是百分比,而且单位是万元与亿元
 							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
-									/ (Double.parseDouble(indexList2.get(j))*100);
+									/ (Double.parseDouble(indexList2.get(j)) * 100);
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
 							dataIndiValue.add("0.00");
@@ -1314,7 +1314,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						try {
 							// 这里要多乘100,因为求的是百分比
 							Double dataValueDouble = Double.parseDouble(indexList1.get(j))
-									/ Double.parseDouble(indexList2.get(j))*100;
+									/ Double.parseDouble(indexList2.get(j)) * 100;
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
 							dataIndiValue.add("0.00");
@@ -1567,7 +1567,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							if (id == "167") {
+							if (title.contains("互联网大数据")) {
 								// 167-新经济行业岗位占比-折线图
 								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
 								System.out.println(String.format("%.2f", dataValueDouble));
@@ -1610,7 +1610,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 						String dataXTemp = indiInfoList.get(m).getTime();
 						if (xAxis.contains(dataXTemp)) {
 							int index = xAxis.indexOf(dataXTemp);
-							if (id == "97" || id == "166") {
+							if (title.contains("互联网大数据")) {
 								// 97-中长期贷款余额-柱状图
 								// 166-新经济行业风险投资比例（互联网大数据）-柱状图
 								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
