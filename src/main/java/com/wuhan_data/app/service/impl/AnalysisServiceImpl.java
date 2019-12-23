@@ -634,44 +634,44 @@ public class AnalysisServiceImpl implements AnalysisService {
 			case "202":
 			case "203": {
 				System.out.println("进入特殊图例——异常数据源特殊处理");
-				if (id.equals("202")) {
-					List<List<String>> dataValue = new ArrayList<List<String>>();
-					List<String> legend = new ArrayList<String>();
-					List<String> showColor = new ArrayList<String>();
-					List<String> showType = new ArrayList<String>();
-					// 配置指标图例
-					LineType lineType = new LineType();
-					for (int j = 0; j < indiList.size(); j++) {
-						queryMap.put("indiCode", indiList.get(j).getIndiCode());
-						List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
-						List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
-						for (int m = 0; m < indiInfoList.size(); m++) {
-							String dataXTemp = indiInfoList.get(m).getTime();
-							if (xAxis.contains(dataXTemp)) {
-								int index = xAxis.indexOf(dataXTemp);
-								// 对数据源异常的处理
-								if (indiList.get(j).getIndiCode().toString()
-										.equals("GM0201;400:101585152;363:102387482;62:42")) {
-									Double dataValueDouble = 0.0;
-									try {
-										dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
-									} catch (Exception e) {
-										dataValueDouble = 0.0;
-									}
-									if (dataValueDouble > 100.00) {
-										dataValueDouble -= 100;
-									}
-									dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
-								} else {
-									dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+				List<List<String>> dataValue = new ArrayList<List<String>>();
+				List<String> legend = new ArrayList<String>();
+				List<String> showColor = new ArrayList<String>();
+				List<String> showType = new ArrayList<String>();
+				// 配置指标图例
+				LineType lineType = new LineType();
+				for (int j = 0; j < indiList.size(); j++) {
+					queryMap.put("indiCode", indiList.get(j).getIndiCode());
+					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+					List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+					for (int m = 0; m < indiInfoList.size(); m++) {
+						String dataXTemp = indiInfoList.get(m).getTime();
+						if (xAxis.contains(dataXTemp)) {
+							int index = xAxis.indexOf(dataXTemp);
+							// 对数据源异常的处理
+							if (indiList.get(j).getIndiCode().toString()
+									.equals("GM0201;400:101585152;363:102387482;62:42")) {
+								Double dataValueDouble = 0.0;
+								try {
+									dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+								} catch (Exception e) {
+									dataValueDouble = 0.0;
 								}
+								if (dataValueDouble > 100.00) {
+									dataValueDouble -= 100;
+								}
+								dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
+							} else {
+								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 							}
 						}
-						dataValue.add(dataIndiValue);
-						legend.add(indiList.get(j).getIndiName());
-						showColor.add(indiList.get(j).getShowColor());
-						showType.add(indiList.get(j).getShowType());
 					}
+					dataValue.add(dataIndiValue);
+					legend.add(indiList.get(j).getIndiName());
+					showColor.add(indiList.get(j).getShowColor());
+					showType.add(indiList.get(j).getShowType());
+				}
+				if (id.equals("202")) {
 					// 配置指标图例
 					LineAndBarType lineAndBarType = new LineAndBarType();
 					LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
@@ -687,45 +687,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					TotalList.add(tableEntity);
 				}
 				if (id.equals("203")) {
-					List<List<String>> dataValue = new ArrayList<List<String>>();
-					List<String> legend = new ArrayList<String>();
-					List<String> showColor = new ArrayList<String>();
-					List<String> showType = new ArrayList<String>();
-					// 配置指标图例
-					LineType lineType = new LineType();
-					for (int j = 0; j < indiList.size(); j++) {
-						queryMap.put("indiCode", indiList.get(j).getIndiCode());
-						List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
-						List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
-						for (int m = 0; m < indiInfoList.size(); m++) {
-							String dataXTemp = indiInfoList.get(m).getTime();
-							if (xAxis.contains(dataXTemp)) {
-								int index = xAxis.indexOf(dataXTemp);
-								// 对数据源异常的处理
-								if (indiList.get(j).getIndiCode().toString()
-										.equals("GM0201;400:101585152;363:102387482;62:42")) {
-									System.out.println("处理异常增速数据-开始" + indiInfoList.get(m).getIndiValue());
-									Double dataValueDouble = 0.0;
-									try {
-										dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
-									} catch (Exception e) {
-										dataValueDouble = 0.0;
-									}
-									if (dataValueDouble > 100.00) {
-										dataValueDouble -= 100;
-										System.out.println("处理异常增速数据-完成" + dataValueDouble);
-									}
-									dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
-								} else {
-									dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
-								}
-							}
-						}
-						dataValue.add(dataIndiValue);
-						legend.add(indiList.get(j).getIndiName());
-						showColor.add(indiList.get(j).getShowColor());
-						showType.add(indiList.get(j).getShowType());
-					}
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
 							showType);
 					TotalList.add(lineEntity);
