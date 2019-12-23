@@ -631,9 +631,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 			}
 				break;
 
+			case "202":
 			case "203": {
 				System.out.println("进入特殊图例——异常数据源特殊处理");
-				if (id.equals("203")) {
+				if (id.equals("202") || id.equals("203")) {
 					List<List<String>> dataValue = new ArrayList<List<String>>();
 					List<String> legend = new ArrayList<String>();
 					List<String> showColor = new ArrayList<String>();
