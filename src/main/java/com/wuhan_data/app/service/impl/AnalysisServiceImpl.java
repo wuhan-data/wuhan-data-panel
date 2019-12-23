@@ -383,8 +383,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 					// List<String> timeList = analysisMapper.getTimeByFreqname(queryMap);
 					List<AnalysisIndiTime> timeList1 = analysisMapper.getTimeByFreq(queryMap);
 					// System.out.println("特定指标时间区间为:" + timeList1.toString());
-					String startTime = timeList1.get(0).getStartTime();
-					String endTime = timeList1.get(0).getEndTime();
+					String startTime = "";
+					String endTime = "";
+					// 对无法查询到时间区间的指标进行异常处理
+					if (timeList1.size() == 0) {
+						continue;
+					}
+					startTime = timeList1.get(0).getStartTime();
+					endTime = timeList1.get(0).getEndTime();
 					List<String> timeList2 = this.fillTimeList(freqName, startTime, endTime);
 					Set<String> timeSpanSet = new HashSet<String>(timeList2);
 					timeSpanFinal.addAll(timeSpanSet);
@@ -1564,11 +1570,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 							if (id == "167") {
 								// 167-新经济行业岗位占比-折线图
 								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+								System.out.println(String.format("%.2f", dataValueDouble));
 								dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
 							} else {
 								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 							}
-							dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
 						}
 					}
 					dataValue.add(dataIndiValue);
@@ -1608,6 +1614,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 								// 97-中长期贷款余额-柱状图
 								// 166-新经济行业风险投资比例（互联网大数据）-柱状图
 								Double dataValueDouble = Double.parseDouble(indiInfoList.get(m).getIndiValue());
+								System.out.println(String.format("%.2f", dataValueDouble));
 								dataIndiValue.set(index, String.format("%.2f", dataValueDouble));
 							} else {
 								dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
