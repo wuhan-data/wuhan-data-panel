@@ -56,7 +56,9 @@ public class LineAndBarType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("bottom", "10");
+		gridMap.put("left", "15%");
+		gridMap.put("right", "15%");
+		gridMap.put("bottom", "50");
 		gridMap.put("height", "250");
 		lineAndBarOptionEntity.setGrid(gridMap);
 
@@ -77,12 +79,16 @@ public class LineAndBarType {
 		axisPointerLabelMap.put("show", true);
 		axisPointerMap.put("label", axisPointerLabelMap);
 		toolTipMap.put("axisPointer", axisPointerMap);
+		Map<String, Object> textStyleMap = new HashMap<String, Object>();
+		textStyleMap.put("color", "#000");
+		toolTipMap.put("textStyle", textStyleMap);
 		lineAndBarOptionEntity.setTooltip(toolTipMap);
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
-		legendMap.put("bottom", "280");
+		legendMap.put("right", "60%");
+		legendMap.put("bottom", "320");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = (legendData.size() > 5 ? 5 : legendData.size()) * 35;
