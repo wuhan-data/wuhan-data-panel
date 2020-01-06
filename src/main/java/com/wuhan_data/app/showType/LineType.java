@@ -60,7 +60,7 @@ public class LineType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("left", "15%");
+		gridMap.put("left", "20%");
 		gridMap.put("right", "15%");
 		gridMap.put("bottom", "50");
 		gridMap.put("height", "250");
