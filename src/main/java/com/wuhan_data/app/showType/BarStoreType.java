@@ -66,7 +66,7 @@ public class BarStoreType {
 
 		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
-		toolTipMap.put("formatter", "'{name}'");
+		toolTipMap.put("formatter", "{a}:{c}\n");
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
 		toolTipMap.put("backgroundColor", "transparent");
@@ -89,7 +89,7 @@ public class BarStoreType {
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
-		legendMap.put("formatter", "'{name}'");
+		legendMap.put("formatter", "{name}\n");
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "20%");
 		legendMap.put("top", "10");
