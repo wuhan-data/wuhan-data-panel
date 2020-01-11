@@ -157,6 +157,9 @@
      <c:if test="${c.is_show==0 }">
      展示
      </c:if>
+      <c:if test="${c.is_show==9 }">
+     权限展示
+     </c:if>
      <c:if test="${c.is_show==1 }">
      不展示
      </c:if>
@@ -164,14 +167,14 @@
     </button>
       
     <ul class="dropdown-menu" role="menu">
-    <c:if test="${c.is_show==0 }">
+    <c:if test="${c.is_show==0 or c.is_show==9 }">
      <li role="presentation">
          <a href="#" id="noPerShow" onclick="updateShowClick('1','${c.theme_id }','updateThemeShow')">不展示</a>             
       </li>
     </c:if>
     <c:if test="${c.is_show==1 }">
       <li>
-         <a href="#" id="perShow" onclick="updateShowClick('0','${c.theme_id }','updateThemeShow')">展示</a>            
+         <a href="#" id="perShow" onclick="updateShowClick('9','${c.theme_id }','updateThemeShow')">展示</a>            
       </li>
     </c:if>
     </ul>
