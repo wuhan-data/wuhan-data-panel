@@ -66,8 +66,9 @@ public class BarStackLineType {
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
+		toolTipMap.put("backgroundColor", "transparent");
 		List<String> toolTipPosition = new ArrayList<String>();
-		toolTipPosition.add("10%");
+		toolTipPosition.add("25%");
 		toolTipPosition.add("50%");
 		toolTipMap.put("position", toolTipPosition);
 		toolTipMap.put("snap", true);
@@ -75,7 +76,7 @@ public class BarStackLineType {
 		axisPointerMap.put("type", "line");
 		axisPointerMap.put("axis", "x");
 		Map<String, Object> axisPointerLabelMap = new HashMap<String, Object>();
-		axisPointerLabelMap.put("show", true);
+		axisPointerLabelMap.put("show", false);
 		axisPointerMap.put("label", axisPointerLabelMap);
 		toolTipMap.put("axisPointer", axisPointerMap);
 		Map<String, Object> textStyleMap = new HashMap<String, Object>();

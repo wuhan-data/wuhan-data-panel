@@ -32,6 +32,7 @@ public class PieType {
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "item");
+		toolTipMap.put("backgroundColor", "transparent");
 		Map<String, Object> textStyleMap = new HashMap<String, Object>();
 		textStyleMap.put("color", "#000");
 		toolTipMap.put("textStyle", textStyleMap);
