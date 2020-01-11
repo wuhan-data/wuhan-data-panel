@@ -235,7 +235,7 @@ public class LineAndBarType {
 
 		// 设置图例对象
 		LineAndBarEntity lineAndBarEntity = new LineAndBarEntity(id, title, lineAndBarOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 10);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 20);
 		lineAndBarEntity.setClassHeight(String.valueOf(classHeight));
 		return lineAndBarEntity;
 	}

@@ -242,7 +242,7 @@ public class LineType {
 
 		// 设置图例对象
 		LineEntity lineEntity = new LineEntity(id, title, lineOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 10);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 20);
 		lineEntity.setClassHeight(String.valueOf(classHeight));
 		return lineEntity;
 	}

@@ -216,7 +216,7 @@ public class BarType {
 
 		// 设置图例对象
 		BarEntity barEntity = new BarEntity(id, title, barOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 10);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 20);
 		barEntity.setClassHeight(String.valueOf(classHeight));
 		return barEntity;
 	}
