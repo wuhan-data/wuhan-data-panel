@@ -12,7 +12,7 @@ public class PieType {
 	String type = "pie";
 
 	// 参数：指标或版块id、指标或版块名称、
-	public PieEntity getOption(String id, String title, List<String> dataV, List<String> legend,
+	public PieEntity getOption(String id, String title, List<String> dataV, List<String> legendData,
 			List<String> showColor) {
 
 		PieOptionEntity pieOptionEntity = new PieOptionEntity();
@@ -32,20 +32,28 @@ public class PieType {
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "item");
+		toolTipMap.put("backgroundColor", "transparent");
+		Map<String, Object> textStyleMap = new HashMap<String, Object>();
+		textStyleMap.put("color", "#000");
+		toolTipMap.put("textStyle", textStyleMap);
 		pieOptionEntity.setTooltip(toolTipMap);
 
 		// 构建legend
-//		Map<String, Object> legendMap = new HashMap<String, Object>();
-//		legendMap.put("orient", "vertical");
-//		legendMap.put("bottom", "330");
-//		legendMap.put("data", legend);
-//		// 计算legend高度
-//		int legendHeight = (legend.size() > 5 ? 5 : legend.size()) * 35;
-//		legendMap.put("height", String.valueOf(legendHeight));
-//		if (legend.size() > 5) {
-//			legendMap.put("type", "scroll");
-//		}
-//		pieOptionEntity.setLegend(legendMap);
+		Map<String, Object> legendMap = new HashMap<String, Object>();
+		legendMap.put("orient", "vertical");
+		legendMap.put("left", "20%");
+		legendMap.put("bottom", "320");
+		legendMap.put("data", legendData);
+		// 计算legend高度
+		int legendHeight = 150;
+		if (legendData.size() > 5) {
+			legendHeight = legendData.size() * 22;
+			legendMap.put("type", "scroll");
+		} else {
+			legendHeight = legendData.size() * 35;
+		}
+		legendMap.put("height", String.valueOf(legendHeight));
+		pieOptionEntity.setLegend(legendMap);
 
 		// 构建调色盘
 		List<String> colorMap = new ArrayList<String>();
@@ -77,7 +85,7 @@ public class PieType {
 		for (int i = 0; i < dataV.size(); i++) {
 			Map<String, Object> seriesListMap = new HashMap<String, Object>();
 			seriesListMap.put("value", dataV.get(i));
-			seriesListMap.put("name", legend.get(i));
+			seriesListMap.put("name", legendData.get(i));
 			// 配置label到饼上
 			Map<String, Object> seriesLabelMap = new HashMap<String, Object>();
 			seriesLabelMap.put("show", true);
@@ -106,6 +114,8 @@ public class PieType {
 		pieOptionEntity.setSeries(listTotal);
 
 		PieEntity pieEntity = new PieEntity(id, title, pieOptionEntity);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 20);
+		pieEntity.setClassHeight(String.valueOf(classHeight));
 		return pieEntity;
 	}
 }
