@@ -61,7 +61,7 @@
         </select> 
         
          <select id="getIndiValue" resultType="TPIndiValue" parameterType="java.util.Map" >
-            select indi_value,time_point,date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and area_name='湖北省' and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_code2='3' and (time_point = '104' or time_point = '203')  and lj=#{lj} and (zrr='yiqi' or zrr = '5240')
+            select indi_value,time_point,date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and area_name='湖北省' and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_code2='3' and (time_point = '104' or time_point = '203')  and lj=#{lj}
         </select> 
  		<select id="getIndiValueG" resultType="TPIndiValue" parameterType="java.util.Map" >
             select indi_value,date_code,time_point from MIDUSER."DT_EXP_ALL_SJLY" where indi_code=#{indexCode} and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_code2='1' and (time_point = '104' or time_point = '203')  and lj=#{lj} and area_name=#{area_name}
