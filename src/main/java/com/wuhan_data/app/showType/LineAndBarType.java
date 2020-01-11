@@ -64,12 +64,13 @@ public class LineAndBarType {
 
 		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
+		toolTipMap.put("formatter", "'{name}'");
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
 		toolTipMap.put("backgroundColor", "transparent");
 		List<String> toolTipPosition = new ArrayList<String>();
 		toolTipPosition.add("25%");
-		toolTipPosition.add("50%");
+		toolTipPosition.add("65%");
 		toolTipMap.put("position", toolTipPosition);
 		toolTipMap.put("snap", true);
 		Map<String, Object> axisPointerMap = new HashMap<String, Object>();
@@ -86,6 +87,7 @@ public class LineAndBarType {
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
+		legendMap.put("formatter", "'{name}'");
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "20%");
 		legendMap.put("top", "10");
