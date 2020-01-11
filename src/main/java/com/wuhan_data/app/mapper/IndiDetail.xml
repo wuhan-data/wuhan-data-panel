@@ -79,10 +79,10 @@
             select show_type from WUHAN_DATA."INDEX_MANAGE" where indi_name=#{appIndiName} and source=#{source}
         </select> 
         <select id="getIndiCode" resultType="String" parameterType="java.util.Map" >
-            select indi_code from MIDUSER."APP_SEARCH_INDI" where indi_old_name=#{indi_name} and  lj=#{lj} group by indi_code
+            select indi_code from MIDUSER."APP_SEARCH_INDI" where indi_old_name=#{indi_name} and  lj=#{lj} group by indi_code limit 1
         </select> 
         <select id="getIndiCodeG" resultType="String" parameterType="java.util.Map" >
-            select indi_code from MIDUSER."APP_SEARCH_INDI" where indi_old_name=#{indi_name} and lj=#{lj} and area_name='全国' group by indi_code
+            select indi_code from MIDUSER."APP_SEARCH_INDI" where indi_old_name=#{indi_name} and lj=#{lj} and area_name='全国' group by indi_code limit1
         </select> 
         
         
