@@ -90,6 +90,7 @@ public class BarType {
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "20%");
+		legendMap.put("top", "10");
 		legendMap.put("bottom", "320");
 		legendMap.put("data", legendData);
 		// 计算legend高度
@@ -217,7 +218,7 @@ public class BarType {
 
 		// 设置图例对象
 		BarEntity barEntity = new BarEntity(id, title, barOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 20);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 50);
 		barEntity.setClassHeight(String.valueOf(classHeight));
 		return barEntity;
 	}

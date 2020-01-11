@@ -88,6 +88,7 @@ public class BarStackLineType {
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "20%");
+		legendMap.put("top", "10");
 		legendMap.put("bottom", "320");
 		legendMap.put("data", legendData);
 		// 计算legend高度
@@ -206,7 +207,7 @@ public class BarStackLineType {
 
 		// 设置图例对象
 		BarStackLineEntity barStackLineEntity = new BarStackLineEntity(id, title, barStackLineOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 20);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 50);
 		barStackLineEntity.setClassHeight(String.valueOf(classHeight));
 		return barStackLineEntity;
 	}
