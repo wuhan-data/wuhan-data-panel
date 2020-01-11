@@ -521,6 +521,7 @@ public class IndiSearchAppController {
 			
 			if (source.equals("湖统")) {
 				freqCodeListH = indiDetailService.getFreqCodeByIndiName(fcMap);
+				Collections.sort(freqCodeListH,Collections.reverseOrder());
 				List<Map<String, String>> timeRangeList = new ArrayList();
 
 				for (int i = 0; i<freqCodeListH.size(); i++) {
@@ -573,6 +574,7 @@ public class IndiSearchAppController {
 			} else {
 				// 国统数据可能包含各个省
 				freqCodeListG = indiDetailService.getFreqCodeByIndiNameG(fcMap);
+				Collections.sort(freqCodeListG,Collections.reverseOrder());
 				List<Map<String, String>> timeRangeList = new ArrayList();
 				for (int i = 0; i <freqCodeListG.size(); i++) {
 					List<String> indiDateListG = new ArrayList();
@@ -698,7 +700,25 @@ public class IndiSearchAppController {
 				for (int i = 0; i < legendData1.size(); i++) {
 					List<List<String>> dataV = new ArrayList();
 					List<List<String>> dataX = new ArrayList();
-					List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData1.get(i));
+					
+					List<TPIndiValue> tempList1 = (List<TPIndiValue>) tm.get(legendData1.get(i));
+//					 Set<TPIndiValue> tp = new HashSet<TPIndiValue>(); 
+//					 tp.addAll(tempList1);
+//					 List<TPIndiValue> tempList=new ArrayList();
+//					 tempList.addAll(tp);
+					List<TPIndiValue> tempList= removeDuplicatePlan(tempList1);
+					 
+					 Collections.sort(tempList, new Comparator<TPIndiValue>() {
+							@Override
+							public int compare(TPIndiValue r1, TPIndiValue r2) {
+								int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+								int ageIndex = 0;
+								int startIndex = 0;
+								return nameIndex + ageIndex + startIndex;
+							}
+						});
+					 
+					 
 					List<String> dataList = new ArrayList();
 					List<String> dateList = new ArrayList();
 					List<String> legendList = new ArrayList();
@@ -833,8 +853,8 @@ public class IndiSearchAppController {
 				defaultMap.put("indexCode", indexCode);
 				defaultMap.put("lj", lj);
 				System.out.println("indexCode:" + indexCode);
-				List<TPIndiValue> defaultIndiValueListG = indiDetailService.getIndiValueG(defaultMap);
-				Collections.sort(defaultIndiValueListG, new Comparator<TPIndiValue>() {
+				List<TPIndiValue> defaultIndiValueListG1 = indiDetailService.getIndiValueG(defaultMap);
+				Collections.sort(defaultIndiValueListG1, new Comparator<TPIndiValue>() {
 					public int compare(TPIndiValue r1, TPIndiValue r2) {
 						int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
 						int ageIndex = 0;
@@ -842,6 +862,25 @@ public class IndiSearchAppController {
 						return nameIndex + ageIndex + startIndex;
 					}
 				});
+				
+//				List<TPIndiValue> defaultIndiValueListG= new ArrayList();
+//				 Set<TPIndiValue> tp1 = new HashSet<TPIndiValue>(); 
+//				 tp1.addAll(defaultIndiValueListG1);
+				 List<TPIndiValue> defaultIndiValueListG= removeDuplicatePlan(defaultIndiValueListG1);
+				 
+				 
+//				 defaultIndiValueListG.addAll(tp1);
+				 Collections.sort(defaultIndiValueListG, new Comparator<TPIndiValue>() {
+						@Override
+						public int compare(TPIndiValue r1, TPIndiValue r2) {
+							int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+							int ageIndex = 0;
+							int startIndex = 0;
+							return nameIndex + ageIndex + startIndex;
+						}
+					});
+				
+				
 				List<List<String>> dataV = new ArrayList();
 				List<List<String>> dataX = new ArrayList();
 				List<String> dataList = new ArrayList();
@@ -922,6 +961,7 @@ public class IndiSearchAppController {
 			// 获得频度
 			List<String> freqCodeListH = new ArrayList();
 			freqCodeListH = indiDetailService.getFreqCodeByIndiNameArea(fcMap);
+			Collections.sort(freqCodeListH,Collections.reverseOrder());
 			List<Map<String, String>> timeRangeList = new ArrayList();
 			// 选取的时间字符
 			List<String> selectTimeList = new ArrayList<String>();
@@ -1050,7 +1090,25 @@ public class IndiSearchAppController {
 			for (int i = 0; i < legendData1.size(); i++) {
 				List<List<String>> dataV = new ArrayList();
 				List<List<String>> dataX = new ArrayList();
-				List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData1.get(i));
+				List<TPIndiValue> tempList1 = (List<TPIndiValue>) tm.get(legendData1.get(i));
+				
+//				List<TPIndiValue> tempList= new ArrayList();
+//				 Set<TPIndiValue> tp2 = new HashSet<TPIndiValue>(); 
+//				 tp2.addAll(tempList1);
+//				 tempList.addAll(tp2);
+				 List<TPIndiValue> tempList= removeDuplicatePlan(tempList1);
+				
+				 Collections.sort(tempList, new Comparator<TPIndiValue>() {
+						@Override
+						public int compare(TPIndiValue r1, TPIndiValue r2) {
+							int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+							int ageIndex = 0;
+							int startIndex = 0;
+							return nameIndex + ageIndex + startIndex;
+						}
+					});
+				
+				
 				List<String> dataList = new ArrayList();
 				List<String> dateList = new ArrayList();
 				List<String> legendList = new ArrayList();
@@ -1277,7 +1335,25 @@ public class IndiSearchAppController {
 			for (int i = 0; i < legendData1.size(); i++) {
 				List<List<String>> dataV = new ArrayList();
 				List<List<String>> dataX = new ArrayList();
-				List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData1.get(i));
+				List<TPIndiValue> tempList1 = (List<TPIndiValue>) tm.get(legendData1.get(i));
+//				List<TPIndiValue> tempList= new ArrayList();
+//				 Set<TPIndiValue> tp2 = new HashSet<TPIndiValue>(); 
+//				 tp2.addAll(tempList1);
+//				 tempList.addAll(tp2);
+				 List<TPIndiValue> tempList= removeDuplicatePlan(tempList1);
+				
+				 Collections.sort(tempList, new Comparator<TPIndiValue>() {
+						@Override
+						public int compare(TPIndiValue r1, TPIndiValue r2) {
+							int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+							int ageIndex = 0;
+							int startIndex = 0;
+							return nameIndex + ageIndex + startIndex;
+						}
+					});
+				 
+				 
+				 
 				List<String> dataList = new ArrayList();
 				List<String> dateList = new ArrayList();
 				List<String> legendList = new ArrayList();
@@ -1456,11 +1532,11 @@ public class IndiSearchAppController {
 				System.out.println("国统确认indexCode:" + indexCode);
 				defaultMap.put("lj", lj);
 				System.out.println("国统确认lj:" + lj);
-				List<TPIndiValue> defaultIndiValueList = indiDetailService.getIndiValueG(defaultMap);
-				if(defaultIndiValueList.size()<1){
+				List<TPIndiValue> defaultIndiValueList1 = indiDetailService.getIndiValueG(defaultMap);
+				if(defaultIndiValueList1.size()<1){
 					return this.apiReturn("-1", "没有相关数据", data);
 				}
-				Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
+				Collections.sort(defaultIndiValueList1, new Comparator<TPIndiValue>() {
 					@Override
 					public int compare(TPIndiValue r1, TPIndiValue r2) {
 						int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
@@ -1469,6 +1545,27 @@ public class IndiSearchAppController {
 						return nameIndex + ageIndex + startIndex;
 					}
 				});
+				
+				
+				
+//				List<TPIndiValue> defaultIndiValueList= new ArrayList();
+//				 Set<TPIndiValue> tp2 = new HashSet<TPIndiValue>(); 
+//				 tp2.addAll(defaultIndiValueList1);
+//				 defaultIndiValueList.addAll(tp2);
+				List<TPIndiValue> defaultIndiValueList= removeDuplicatePlan(defaultIndiValueList1);
+				 
+				 Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
+						@Override
+						public int compare(TPIndiValue r1, TPIndiValue r2) {
+							int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+							int ageIndex = 0;
+							int startIndex = 0;
+							return nameIndex + ageIndex + startIndex;
+						}
+					});
+				
+				
+				
 				System.out.println("defaultIndiValueList:" + defaultIndiValueList);
 				System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
 				List<List<String>> dataX = new ArrayList();
@@ -1595,7 +1692,25 @@ public class IndiSearchAppController {
 				for (int i = 0; i < legendData.size(); i++) {
 					List<List<String>> dataX = new ArrayList();
 					List<List<String>> dataV = new ArrayList();
-					List<TPIndiValue> tempList = (List<TPIndiValue>) tm.get(legendData.get(i));
+					List<TPIndiValue> tempList1= new ArrayList();
+					List<TPIndiValue> tempList= new ArrayList();
+					tempList1 = (List<TPIndiValue>) tm.get(legendData.get(i));
+					
+//					List<TPIndiValue> tempList= new ArrayList();
+//					 Set<TPIndiValue> tp2 = new HashSet<TPIndiValue>(); 
+//					 tp2.addAll(tempList1);
+//					 tempList.addAll(tp2);
+					tempList= removeDuplicatePlan(tempList1);
+					 Collections.sort(tempList, new Comparator<TPIndiValue>() {
+							@Override
+							public int compare(TPIndiValue r1, TPIndiValue r2) {
+								int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
+								int ageIndex = 0;
+								int startIndex = 0;
+								return nameIndex + ageIndex + startIndex;
+							}
+						});
+					 
 					List<String> dataList = new ArrayList();
 					List<String> dateList = new ArrayList();
 					List<String> legendList = new ArrayList();
@@ -1726,5 +1841,20 @@ public class IndiSearchAppController {
 		responseMap.put("data", data);
 		return JSON.toJSONString(responseMap, SerializerFeature.DisableCircularReferenceDetect);
 	}
+	
+	public   List<TPIndiValue> removeDuplicatePlan(List<TPIndiValue> planList) {
+	    Set<TPIndiValue> set = new TreeSet<TPIndiValue>(new Comparator<TPIndiValue>() {
+	        @Override
+	        public int compare(TPIndiValue a, TPIndiValue b) {
+	            // 字符串则按照asicc码升序排列
+	            return a.getDate_code().compareTo(b.getDate_code());
+	        }
+	    });
+	    set.addAll(planList);
+	    return new ArrayList<TPIndiValue>(set);
+	}
+
+	
+	
 
 }
