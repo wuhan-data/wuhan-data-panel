@@ -186,7 +186,7 @@ public class BarStoreType {
 
 		// 设置图例对象
 		BarStoreEntity barStoreEntity = new BarStoreEntity(id, title, barStoreOptionEntity);
-		int classHeight = 330 + legendHeight + legendData.size() > 5 ? 100 : 10;
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 10);
 		barStoreEntity.setClassHeight(String.valueOf(classHeight));
 		return barStoreEntity;
 	}

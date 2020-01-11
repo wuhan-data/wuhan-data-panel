@@ -205,7 +205,7 @@ public class BarStackLineType {
 
 		// 设置图例对象
 		BarStackLineEntity barStackLineEntity = new BarStackLineEntity(id, title, barStackLineOptionEntity);
-		int classHeight = 330 + legendHeight + legendData.size() > 5 ? 100 : 10;
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 10);
 		barStackLineEntity.setClassHeight(String.valueOf(classHeight));
 		return barStackLineEntity;
 	}
