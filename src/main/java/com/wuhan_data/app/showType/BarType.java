@@ -98,8 +98,8 @@ public class BarType {
 		// 计算legend高度
 		int legendHeight = 150;
 		if (legendData.size() > 5) {
-			legendHeight = legendData.size() * 22;
-			legendMap.put("type", "scroll");
+			legendHeight = legendData.size() * 25;
+//			legendMap.put("type", "scroll");
 		} else {
 			legendHeight = legendData.size() * 35;
 		}
