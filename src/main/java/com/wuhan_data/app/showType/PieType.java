@@ -39,21 +39,21 @@ public class PieType {
 		pieOptionEntity.setTooltip(toolTipMap);
 
 		// 构建legend
-		Map<String, Object> legendMap = new HashMap<String, Object>();
-		legendMap.put("orient", "vertical");
-		legendMap.put("left", "20%");
-		legendMap.put("bottom", "320");
-		legendMap.put("data", legendData);
-		// 计算legend高度
-		int legendHeight = 150;
-		if (legendData.size() > 5) {
-			legendHeight = legendData.size() * 22;
-			legendMap.put("type", "scroll");
-		} else {
-			legendHeight = legendData.size() * 35;
-		}
-		legendMap.put("height", String.valueOf(legendHeight));
-		pieOptionEntity.setLegend(legendMap);
+//		Map<String, Object> legendMap = new HashMap<String, Object>();
+//		legendMap.put("orient", "vertical");
+//		legendMap.put("left", "20%");
+//		legendMap.put("bottom", "320");
+//		legendMap.put("data", legendData);
+//		// 计算legend高度
+//		int legendHeight = 150;
+//		if (legendData.size() > 5) {
+//			legendHeight = legendData.size() * 22;
+//			legendMap.put("type", "scroll");
+//		} else {
+//			legendHeight = legendData.size() * 35;
+//		}
+//		legendMap.put("height", String.valueOf(legendHeight));
+//		pieOptionEntity.setLegend(legendMap);
 
 		// 构建调色盘
 		List<String> colorMap = new ArrayList<String>();
@@ -114,8 +114,6 @@ public class PieType {
 		pieOptionEntity.setSeries(listTotal);
 
 		PieEntity pieEntity = new PieEntity(id, title, pieOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 20);
-		pieEntity.setClassHeight(String.valueOf(classHeight));
 		return pieEntity;
 	}
 }

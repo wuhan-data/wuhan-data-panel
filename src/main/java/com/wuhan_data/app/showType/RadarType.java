@@ -28,6 +28,7 @@ public class RadarType {
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
+		legendMap.put("orient", "vertical");
 		legendMap.put("data", legendData);
 		// 控制初始展示图例个数
 		int showNum = 1;
