@@ -56,7 +56,7 @@ public class LineAndBarType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("left", "15%");
+		gridMap.put("left", "20%");
 		gridMap.put("right", "15%");
 		gridMap.put("bottom", "50");
 		gridMap.put("height", "250");
@@ -87,15 +87,18 @@ public class LineAndBarType {
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("orient", "vertical");
-		legendMap.put("right", "60%");
+		legendMap.put("left", "20%");
 		legendMap.put("bottom", "320");
 		legendMap.put("data", legendData);
 		// 计算legend高度
-		int legendHeight = (legendData.size() > 5 ? 5 : legendData.size()) * 35;
-		legendMap.put("height", String.valueOf(legendHeight));
+		int legendHeight = 150;
 		if (legendData.size() > 5) {
+			legendHeight = legendData.size() * 22;
 			legendMap.put("type", "scroll");
+		} else {
+			legendHeight = legendData.size() * 35;
 		}
+		legendMap.put("height", String.valueOf(legendHeight));
 		// 控制初始展示图例个数,默认展示4个
 		int showNum = 4;
 		if (legendData.size() >= showNum) {
@@ -232,7 +235,7 @@ public class LineAndBarType {
 
 		// 设置图例对象
 		LineAndBarEntity lineAndBarEntity = new LineAndBarEntity(id, title, lineAndBarOptionEntity);
-		int classHeight = 330 + (legendData.size() > 5 ? 5 : legendData.size()) * 35 + 10;
+		int classHeight = 330 + legendHeight + legendData.size() > 5 ? 100 : 10;
 		lineAndBarEntity.setClassHeight(String.valueOf(classHeight));
 		return lineAndBarEntity;
 	}
