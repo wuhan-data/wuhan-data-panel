@@ -437,13 +437,13 @@ public class IndiSearchAppController {
 				return this.apiReturn("-1", "需要指定栏目id", data);
 			}
 			indexCode = requestObject.get("indexId").toString();
-
+			System.out.println("searchDetail:indexCode:"+indexCode);
 			boolean hasSource = requestObject.containsKey("source");
 			if (!hasSource) {
 				return this.apiReturn("-1", "需要指定数据来源", data);
 			}
 			source = requestObject.get("source").toString();
-
+			System.out.println("searchDetail:source:"+source);
 			isArea = requestObject.get("isArea").toString();// 判断是地市级数据还是全国数据
 			System.out.println("searchDetail:isArea:"+isArea);
 			area_name = requestObject.get("sourceArea").toString();
@@ -509,6 +509,7 @@ public class IndiSearchAppController {
 
 		if (isArea.equals("0")) {
 			// 查出频度范围
+			System.out.println("searchDetail:1:");
 			Map fcMap = new HashMap();
 			fcMap.put("appIndiName", appIndiName);
 			fcMap.put("source", source);
@@ -520,7 +521,9 @@ public class IndiSearchAppController {
 			List<String> freqCodeListG = new ArrayList();
 			
 			if (source.equals("湖统")) {
+				System.out.println("searchDetail:湖统1:");
 				freqCodeListH = indiDetailService.getFreqCodeByIndiName(fcMap);
+				System.out.println("searchDetail:测试规模freqCodeListH:"+freqCodeListH);
 				Collections.sort(freqCodeListH,Collections.reverseOrder());
 				List<Map<String, String>> timeRangeList = new ArrayList();
 
@@ -573,7 +576,9 @@ public class IndiSearchAppController {
 				}
 			} else {
 				// 国统数据可能包含各个省
+				System.out.println("searchDetail:国统1:");
 				freqCodeListG = indiDetailService.getFreqCodeByIndiNameG(fcMap);
+				System.out.println("searchDetail:测试规模国统freqCodeListG:"+freqCodeListG);
 				Collections.sort(freqCodeListG,Collections.reverseOrder());
 				List<Map<String, String>> timeRangeList = new ArrayList();
 				for (int i = 0; i <freqCodeListG.size(); i++) {
