@@ -17,7 +17,7 @@
       
      
       <select id="searchIndi" resultType="IndexManage" parameterType="java.util.Map">
-            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and sjly_name2=#{source} and (time_point = '104' or time_point = '203') group by indi_code,indi_name,sjly_name2
+            select indi_code,indi_name,sjly_name2 from MIDUSER."DT_EXP_ALL_SJLY" where indi_name like CONCAT('%',#{keyWord},'%') and group_count=0 and sjly_name2=#{source} and (time_point = '104' or time_point = '203' or time_point = '207') group by indi_code,indi_name,sjly_name2
         </select> 
         
          <select id="searchIndiG" resultType="IndexManage" parameterType="String">

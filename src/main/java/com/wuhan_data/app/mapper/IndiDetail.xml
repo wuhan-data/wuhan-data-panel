@@ -27,33 +27,33 @@
 
   		<select id="getFreqCodeByIndiName" resultType="String" parameterType="String">
 <!--   		and group_count=0 -->
-            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_code=#{indexCode} and sjly_code2='3' and area_name='湖北省'  and (time_point = '104' or time_point = '203') and lj=#{lj} group by freq_code   
+            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_code=#{indexCode} and sjly_code2='3' and area_name='湖北省'  and (time_point = '104' or time_point = '203' or time_point = '207') and lj=#{lj} group by freq_code   
         </select>
         <select id="getFreqCodeByIndiNameArea" resultType="String" parameterType="java.util.Map">
-            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and sjly_code2='3' and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000' and (time_point = '104' or time_point = '203') group by freq_code   
+            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and sjly_code2='3' and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000' and (time_point = '104' or time_point = '203' or time_point = '207') group by freq_code   
         </select>
         
 		<select id="getFreqCodeByIndiNameG" resultType="String" parameterType="java.util.Map">
-            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and sjly_code2='1' and (time_point = '104' or time_point = '203') and area_name=#{area_name} and lj=#{lj} group by freq_code   
+            select freq_code from  MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and sjly_code2='1' and (time_point = '104' or time_point = '203' or time_point = '207') and area_name=#{area_name} and lj=#{lj} group by freq_code   
         </select>
         
 		 <select id="indiDateByFreqName" resultType="String" parameterType="java.util.Map" >
 <!-- 		 and group_count=0 -->
-            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='3'  and area_name='湖北省' and (time_point = '104' or time_point = '203') and lj=#{lj} group by date_code 
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='3'  and area_name='湖北省' and (time_point = '104' or time_point = '203' or time_point = '207') and lj=#{lj} group by date_code 
         </select> 
          <select id="indiDateByFreqNameArea" resultType="String" parameterType="java.util.Map" >
-            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='3' and lj=#{lj} and (time_point = '104' or time_point = '203') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by date_code 
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='3' and lj=#{lj} and (time_point = '104' or time_point = '203' or time_point = '207') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by date_code 
         </select> 
         <select id="indiDateByFreqNameDefault" resultType="String" parameterType="java.util.Map" >
-            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='3' and lj=#{lj} and (time_point = '104' or time_point = '203') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by date_code 
+            select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='3' and lj=#{lj} and (time_point = '104' or time_point = '203' or time_point = '207') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by date_code 
         </select>
         
         <select id="getIndiAreaList" resultType="String" parameterType="java.util.Map" >
-            select area_name from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly_name2='湖北省统计局' and group_count=0 and lj=#{lj} and (time_point = '104' or time_point = '203') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by area_name 
+            select area_name from MIDUSER."DT_EXP_ALL_SJLY" where indi_name= #{appIndiName} and freq_code=#{freqCode} and sjly_name2='湖北省统计局' and group_count=0 and lj=#{lj} and (time_point = '104' or time_point = '203' or time_point = '207') and area_code &lt; '430000000000' and area_code &gt; '420000000000' group by area_name 
         </select> 
         
  		<select id="indiDateByFreqNameG" resultType="String" parameterType="java.util.Map" >
-           select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='1' and (time_point = '104' or time_point = '203') and area_name=#{area_name} and lj=#{lj} group by date_code 
+           select date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and sjly_code2='1' and (time_point = '104' or time_point = '203' or time_point = '207') and area_name=#{area_name} and lj=#{lj} group by date_code 
         </select> 
         
         <select id="indiDateByFreqNameG1" resultType="String" parameterType="java.util.Map" >
@@ -61,14 +61,14 @@
         </select> 
         
          <select id="getIndiValue" resultType="TPIndiValue" parameterType="java.util.Map" >
-            select indi_value,time_point,date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and area_name='湖北省' and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_code2='3' and (time_point = '104' or time_point = '203')  and lj=#{lj}
+            select indi_value,time_point,date_code from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and area_name='湖北省' and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_code2='3' and (time_point = '104' or time_point = '203' or time_point = '207')  and lj=#{lj}
         </select> 
  		<select id="getIndiValueG" resultType="TPIndiValue" parameterType="java.util.Map" >
-            select indi_value,date_code,time_point from MIDUSER."DT_EXP_ALL_SJLY" where indi_code=#{indexCode} and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_code2='1' and (time_point = '104' or time_point = '203')  and lj=#{lj} and area_name=#{area_name}
+            select indi_value,date_code,time_point from MIDUSER."DT_EXP_ALL_SJLY" where indi_code=#{indexCode} and freq_code=#{freqCode} and date_code &lt;= #{endTime} and date_code &gt;= #{startTime} and sjly_code2='1' and (time_point = '104' or time_point = '203' or time_point = '207')  and lj=#{lj} and area_name=#{area_name}
 <!--              and indicator_grp23_item_name=#{area_name} -->
         </select> 
        <select id="getIndiValueArea" resultType="TPIndiValue" parameterType="java.util.Map" >
-            select indi_value,time_point,date_code,area_name from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and date_code= #{time} and (time_point = '104' or time_point = '203')  and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000' and sjly_code2='3'
+            select indi_value,time_point,date_code,area_name from MIDUSER."DT_EXP_ALL_SJLY" where indi_code= #{indexCode} and freq_code=#{freqCode} and date_code= #{time} and (time_point = '104' or time_point = '203' or time_point = '207')  and lj=#{lj} and area_code &lt; '430000000000' and area_code &gt; '420000000000' and sjly_code2='3'
         </select> 
       
        <insert id="indiCollect" parameterType="Collect" >

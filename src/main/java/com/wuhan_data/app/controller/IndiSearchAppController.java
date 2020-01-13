@@ -461,13 +461,7 @@ public class IndiSearchAppController {
 		codeLjMap.put("indexCode",indexCode);
 		if (source.equals("国统")) {
 		appIndiName = indiDetailService.getIndexName(codeLjMap);
-//			historySearch.setKeyword(appIndiName);
-//			String temp[] = appIndiName.split("::");
-//			if (temp.length > 1) {
-//				System.out.println("真正的指标名称:" + temp[1]);
-//				appIndiName = temp[1];
-//			} else
-//				appIndiName = temp[0];
+
 		historySearch.setSource(source+'-'+area_name);
 		favoriteMap.put("source", source+'-'+area_name);
 
@@ -707,10 +701,6 @@ public class IndiSearchAppController {
 					List<List<String>> dataX = new ArrayList();
 					
 					List<TPIndiValue> tempList1 = (List<TPIndiValue>) tm.get(legendData1.get(i));
-//					 Set<TPIndiValue> tp = new HashSet<TPIndiValue>(); 
-//					 tp.addAll(tempList1);
-//					 List<TPIndiValue> tempList=new ArrayList();
-//					 tempList.addAll(tp);
 					List<TPIndiValue> tempList= removeDuplicatePlan(tempList1);
 					 
 					 Collections.sort(tempList, new Comparator<TPIndiValue>() {
@@ -748,7 +738,7 @@ public class IndiSearchAppController {
 					} else if (legendData1.get(i).equals("203")) {
 						showName = "自年初累计";
 					} else {
-						showName = "其他";
+						showName = "累计增速";
 					}
 					String temp[] = lj.split("-");
 					if(temp.length>1){
@@ -859,23 +849,37 @@ public class IndiSearchAppController {
 				defaultMap.put("lj", lj);
 				System.out.println("indexCode:" + indexCode);
 				List<TPIndiValue> defaultIndiValueListG1 = indiDetailService.getIndiValueG(defaultMap);
-				Collections.sort(defaultIndiValueListG1, new Comparator<TPIndiValue>() {
-					public int compare(TPIndiValue r1, TPIndiValue r2) {
-						int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
-						int ageIndex = 0;
-						int startIndex = 0;
-						return nameIndex + ageIndex + startIndex;
+		
+				// 对查询出的指标值根据不同的时点分类
+				TreeMap<String, ArrayList<TPIndiValue>> tm = new TreeMap<String, ArrayList<TPIndiValue>>();
+				for (int i = 0; i < defaultIndiValueListG1.size(); i++) {
+					TPIndiValue tv = defaultIndiValueListG1.get(i);
+					if (tm.containsKey(tv.getTime_point())) {
+						ArrayList<TPIndiValue> l11 = (ArrayList<TPIndiValue>) tm.get(tv.getTime_point());
+						l11.add(tv);
+					} else {
+						ArrayList tem = new ArrayList();
+						tem.add(tv);
+						tm.put(tv.getTime_point(), tem);
 					}
-				});
+				}
+				Set<String> set = tm.keySet();
+				legendData1.addAll(set);
+
+				// 创建数据列表
 				
-//				List<TPIndiValue> defaultIndiValueListG= new ArrayList();
-//				 Set<TPIndiValue> tp1 = new HashSet<TPIndiValue>(); 
-//				 tp1.addAll(defaultIndiValueListG1);
-				 List<TPIndiValue> defaultIndiValueListG= removeDuplicatePlan(defaultIndiValueListG1);
+				
+				
+
+				
+				for (int i = 0; i < legendData1.size(); i++) {
+				List<List<String>> dataV = new ArrayList();
+				List<List<String>> dataX = new ArrayList();
+				
+				List<TPIndiValue> tempList1 = (List<TPIndiValue>) tm.get(legendData1.get(i));
+				List<TPIndiValue> tempList= removeDuplicatePlan(tempList1);
 				 
-				 
-//				 defaultIndiValueListG.addAll(tp1);
-				 Collections.sort(defaultIndiValueListG, new Comparator<TPIndiValue>() {
+				 Collections.sort(tempList, new Comparator<TPIndiValue>() {
 						@Override
 						public int compare(TPIndiValue r1, TPIndiValue r2) {
 							int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
@@ -885,27 +889,24 @@ public class IndiSearchAppController {
 						}
 					});
 				
-				
-				List<List<String>> dataV = new ArrayList();
-				List<List<String>> dataX = new ArrayList();
 				List<String> dataList = new ArrayList();
 				List<String> dateList = new ArrayList();
 				List<String> legendList = new ArrayList();
-				if (defaultIndiValueListG.size() >= 8) {
+				if (tempList.size() >= 8) {
 					for (int j = 0; j < 8; j++) {// tempList.size()
 
 //						dateList.add(defaultIndiValueListG.get(j).getDate_code());
-						dateList.add(defaultIndiValueListG.get(j).getDate_code().substring(0, 4) + "/"
-								+ defaultIndiValueListG.get(j).getDate_code().substring(4, 6));
-						dataList.add(defaultIndiValueListG.get(j).getIndi_value());
+						dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+								+ tempList.get(j).getDate_code().substring(4, 6));
+						dataList.add(tempList.get(j).getIndi_value());
 					}
 				} else {
-					for (int j = 0; j < defaultIndiValueListG.size(); j++) {// tempList.size()
+					for (int j = 0; j < tempList.size(); j++) {// tempList.size()
 
 //						dateList.add(defaultIndiValueListG.get(j).getDate_code());
-						dateList.add(defaultIndiValueListG.get(j).getDate_code().substring(0, 4) + "/"
-								+ defaultIndiValueListG.get(j).getDate_code().substring(4, 6));
-						dataList.add(defaultIndiValueListG.get(j).getIndi_value());
+						dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+								+ tempList.get(j).getDate_code().substring(4, 6));
+						dataList.add(tempList.get(j).getIndi_value());
 					}
 				}
 				
@@ -920,8 +921,16 @@ public class IndiSearchAppController {
 					legendList.add(appIndiName);
 					showName = appIndiName;
 				}
+				String showName1;
+				if (legendData1.get(i).equals("104")) {
+					showName1 = "本期";
+				} else if (legendData1.get(i).equals("203")) {
+					showName1 = "自年初累计";
+				} else {
+					showName1 = "累计增速";
+				}
 				
-				
+				showName = showName+"_"+showName1;
 //				legendList.add(appIndiName);
 				dataV.add(dataList);
 				dataX.add(dateList);
@@ -938,20 +947,42 @@ public class IndiSearchAppController {
 							dataV);// 表格
 					classInfoList.add(lineEntity);
 					classInfoList.add(tableEntity);
+					
+				
 				} else {
-					// 创建柱状图
-					BarType barType = new BarType();// 柱状图
-					System.out.println("legendList长度:" + legendList.size());
-					BarEntity barEntity = barType.getOption(Integer.toString(1), showName, dataX.get(0), legendList,
-							dataV, showColor, showType);
-					classInfoList.add(barEntity);
-					// 创建表格
-					TableType tableType = new TableType();
-					TableEntity tableEntity = tableType.getTable(Integer.toString(2), showName, dataX, legendList,
-							dataV);// 表格
-					System.out.println("yes or no:" + tableEntity.getTableBody());
-					classInfoList.add(tableEntity);
+					if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
+						// 创建柱状图
+						BarType barType = new BarType();// 柱状图
+						System.out.println("legendList长度:" + legendList.size());
+						BarEntity barEntity = barType.getOption(Integer.toString(i + 1),
+								 showName, dataX.get(0), legendList, dataV, showColor, showType);
+						classInfoList.add(barEntity);
+
+						// 创建表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
+								 showName, dataX, legendList, dataV);// 表格
+						System.out.println("yes or no:" + tableEntity.getTableBody());
+						classInfoList.add(tableEntity);
+					} else {
+						// TODO 其他情况
+						// 创建折线图
+						LineType lineType = new LineType();
+						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1),
+								 showName, dataX.get(0), legendList, dataV, showColor, showType);
+
+						// 创建表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
+								 showName, dataX, legendList, dataV);// 表格
+						classInfoList.add(lineEntity);
+						classInfoList.add(tableEntity);
+
+					}
+					
+
 				}
+			}
 			}
 		} // 判断是否展示地级市指标的if结束
 
@@ -1146,7 +1177,7 @@ public class IndiSearchAppController {
 				} else if (legendData1.get(i).equals("203")) {
 					showName = "自年初累计";
 				} else {
-					showName = "其他";
+					showName = "累计增速";
 				}
 				// legendList.add(appIndiName +"-" + showName);
 				dataX.add(selectTimeList);
@@ -1341,10 +1372,7 @@ public class IndiSearchAppController {
 				List<List<String>> dataV = new ArrayList();
 				List<List<String>> dataX = new ArrayList();
 				List<TPIndiValue> tempList1 = (List<TPIndiValue>) tm.get(legendData1.get(i));
-//				List<TPIndiValue> tempList= new ArrayList();
-//				 Set<TPIndiValue> tp2 = new HashSet<TPIndiValue>(); 
-//				 tp2.addAll(tempList1);
-//				 tempList.addAll(tp2);
+
 				 List<TPIndiValue> tempList= removeDuplicatePlan(tempList1);
 				
 				 Collections.sort(tempList, new Comparator<TPIndiValue>() {
@@ -1391,7 +1419,7 @@ public class IndiSearchAppController {
 				} else if (legendData1.get(i).equals("203")) {
 					showName = "自年初累计";
 				} else {
-					showName = "其他";
+					showName = "累计增速";
 				}
 				String temp[] = lj.split("-");
 				if(temp.length>1){
@@ -1444,6 +1472,7 @@ public class IndiSearchAppController {
 			}
 
 		} else {
+			//不是地市级的数据
 			try {
 				boolean hasIndexCode = requestObject.containsKey("indexId");
 				boolean hasSource = requestObject.containsKey("source");
@@ -1541,25 +1570,36 @@ public class IndiSearchAppController {
 				if(defaultIndiValueList1.size()<1){
 					return this.apiReturn("-1", "没有相关数据", data);
 				}
-				Collections.sort(defaultIndiValueList1, new Comparator<TPIndiValue>() {
-					@Override
-					public int compare(TPIndiValue r1, TPIndiValue r2) {
-						int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
-						int ageIndex = 0;
-						int startIndex = 0;
-						return nameIndex + ageIndex + startIndex;
+				
+				// 对查询出的指标值根据不同的时点分类
+				TreeMap<String, ArrayList<TPIndiValue>> tm = new TreeMap<String, ArrayList<TPIndiValue>>();
+				for (int i = 0; i < defaultIndiValueList1.size(); i++) {
+					TPIndiValue tv = defaultIndiValueList1.get(i);
+					if (tm.containsKey(tv.getTime_point())) {
+						ArrayList<TPIndiValue> l11 = (ArrayList<TPIndiValue>) tm.get(tv.getTime_point());
+						l11.add(tv);
+					} else {
+						ArrayList tem = new ArrayList();
+						tem.add(tv);
+						tm.put(tv.getTime_point(), tem);
 					}
-				});
+				}
+				// 创建图例列表和数据列表
+				List<String> legendData1 = new ArrayList();
+				Set<String> set = tm.keySet();
+				legendData1.addAll(set);
 				
+				System.out.println("defaultIndiValueList:" + defaultIndiValueList1);
+				System.out.println("defaultIndiValueList长度：" + defaultIndiValueList1.size());
+				for (int i = 0; i < legendData1.size(); i++) {
+				List<List<String>> dataX = new ArrayList();
+				List<List<String>> dataV = new ArrayList();
 				
+				List<TPIndiValue> tempList1 = (List<TPIndiValue>) tm.get(legendData1.get(i));
+
+				 List<TPIndiValue> tempList= removeDuplicatePlan(tempList1);
 				
-//				List<TPIndiValue> defaultIndiValueList= new ArrayList();
-//				 Set<TPIndiValue> tp2 = new HashSet<TPIndiValue>(); 
-//				 tp2.addAll(defaultIndiValueList1);
-//				 defaultIndiValueList.addAll(tp2);
-				List<TPIndiValue> defaultIndiValueList= removeDuplicatePlan(defaultIndiValueList1);
-				 
-				 Collections.sort(defaultIndiValueList, new Comparator<TPIndiValue>() {
+				 Collections.sort(tempList, new Comparator<TPIndiValue>() {
 						@Override
 						public int compare(TPIndiValue r1, TPIndiValue r2) {
 							int nameIndex = r1.getDate_code().compareTo(r2.getDate_code());
@@ -1569,28 +1609,22 @@ public class IndiSearchAppController {
 						}
 					});
 				
-				
-				
-				System.out.println("defaultIndiValueList:" + defaultIndiValueList);
-				System.out.println("defaultIndiValueList长度：" + defaultIndiValueList.size());
-				List<List<String>> dataX = new ArrayList();
-				List<List<String>> dataV = new ArrayList();
 				List<String> dataList = new ArrayList();
 				List<String> dateList = new ArrayList();
 				List<String> legendList = new ArrayList();
-				if (defaultIndiValueList.size() >= 8) {
+				if (tempList.size() >= 8) {
 					for (int j = 0; j < 8; j++) {// tempList.size()
-						dateList.add(defaultIndiValueList.get(j).getDate_code().substring(0, 4) + "/"
-								+ defaultIndiValueList.get(j).getDate_code().substring(4, 6));
-						dataList.add(defaultIndiValueList.get(j).getIndi_value());
+						dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+								+ tempList.get(j).getDate_code().substring(4, 6));
+						dataList.add(tempList.get(j).getIndi_value());
 
 					}
 				} else {
-					for (int j = 0; j < defaultIndiValueList.size(); j++) {// tempList.size()
+					for (int j = 0; j < tempList.size(); j++) {// tempList.size()
 
-						dateList.add(defaultIndiValueList.get(j).getDate_code().substring(0, 4) + "/"
-								+ defaultIndiValueList.get(j).getDate_code().substring(4, 6));
-						dataList.add(defaultIndiValueList.get(j).getIndi_value());
+						dateList.add(tempList.get(j).getDate_code().substring(0, 4) + "/"
+								+ tempList.get(j).getDate_code().substring(4, 6));
+						dataList.add(tempList.get(j).getIndi_value());
 					}
 				}
 				String showName="";
@@ -1604,8 +1638,15 @@ public class IndiSearchAppController {
 					showName = appIndiName;
 				}
 				
-				
-//				legendList.add(appIndiName);
+				String showName1;
+				if (legendData1.get(i).equals("104")) {
+					showName1 = "本期";
+				} else if (legendData1.get(i).equals("203")) {
+					showName1 = "自年初累计";
+				} else {
+					showName1 = "累计增速";
+				}
+				showName=showName+"_"+showName1;
 				dataV.add(dataList);
 				dataX.add(dateList);
 				List<String> showColor = new ArrayList<String>();
@@ -1622,18 +1663,55 @@ public class IndiSearchAppController {
 					classInfoList.add(lineEntity);
 					classInfoList.add(tableEntity);
 				} else {
-					// 创建柱状图
-					BarType barType = new BarType();// 柱状图
-					System.out.println("legendList长度:" + legendList.size());
-					BarEntity barEntity = barType.getOption(Integer.toString(1), showName, dataX.get(0), legendList,
-							dataV, showColor, showType);
-					classInfoList.add(barEntity);
-					// 创建表格
-					TableType tableType = new TableType();
-					TableEntity tableEntity = tableType.getTable(Integer.toString(2), showName, dataX, legendList,
-							dataV);// 表格
-					System.out.println("yes or no:" + tableEntity.getTableBody());
-					classInfoList.add(tableEntity);
+					if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
+						// 创建柱状图
+						BarType barType = new BarType();// 柱状图
+						System.out.println("legendList长度:" + legendList.size());
+						BarEntity barEntity = barType.getOption(Integer.toString(i + 1),  showName,
+								dataX.get(0), legendList, dataV, showColor, showType);
+						classInfoList.add(barEntity);
+
+						// 创建表格
+//						TableType tableType = new TableType();
+//						List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+//						for (int q = 0; q < legendList.size(); q++) {
+//							List<String> tempNameList = new ArrayList();
+//							tempNameList.add(legendList.get(q).toString());
+//							dataXaisTable.add(tempNameList);
+//						}
+//						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),  showName,
+//								dataXaisTable, legendList, dataV);// 表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
+								 showName, dataX, legendList, dataV);// 表格
+						System.out.println("yes or no:" + tableEntity.getTableBody());
+						classInfoList.add(tableEntity);
+					} else {
+						// TODO 其他情况
+						// 创建折线图
+						LineType lineType = new LineType();
+						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), showName,
+								dataX.get(0), legendList, dataV, showColor, showType);
+						// 创建表格
+//						TableType tableType = new TableType();
+//						List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+//						for (int q = 0; q < legendList.size(); q++) {
+//							List<String> tempNameList = new ArrayList();
+//							tempNameList.add(legendList.get(q).toString());
+//							dataXaisTable.add(tempNameList);
+//						}
+//						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2), showName,
+//								dataXaisTable, legendList, dataV);// 表格
+						TableType tableType = new TableType();
+						TableEntity tableEntity = tableType.getTable(Integer.toString(i + 2),
+								 showName, dataX, legendList, dataV);// 表格
+//						System.out.println("yes or no:" + tableEntity.getTableBody());
+						classInfoList.add(lineEntity);
+						classInfoList.add(tableEntity);
+					}
+
+				
+				}
 				}
 			} else {
 				// 湖统数据
@@ -1700,11 +1778,7 @@ public class IndiSearchAppController {
 					List<TPIndiValue> tempList1= new ArrayList();
 					List<TPIndiValue> tempList= new ArrayList();
 					tempList1 = (List<TPIndiValue>) tm.get(legendData.get(i));
-					
-//					List<TPIndiValue> tempList= new ArrayList();
-//					 Set<TPIndiValue> tp2 = new HashSet<TPIndiValue>(); 
-//					 tp2.addAll(tempList1);
-//					 tempList.addAll(tp2);
+
 					tempList= removeDuplicatePlan(tempList1);
 					 Collections.sort(tempList, new Comparator<TPIndiValue>() {
 							@Override
@@ -1740,7 +1814,7 @@ public class IndiSearchAppController {
 					} else if (legendData.get(i).equals("203")) {
 						showName = "自年初累计";
 					} else {
-						showName = "其他";
+						showName = "累计增速";
 					}
 					String temp[] = lj.split("-");
 					if(temp.length>1){
@@ -1794,32 +1868,6 @@ public class IndiSearchAppController {
 		return param;
 	}
 
-	// 用户收藏
-//	@RequestMapping(value = "indiCollect", produces = "application/json; charset=utf-8")
-//	@ResponseBody
-//	public String indiCollect() {
-//
-//		int uid = 1;// TODO 从session中获得
-//		String index_id = "0100001";
-//		String source = null;
-//		String type = "指标数据";
-//		Date date = new Date();
-//		String indi_source = source;
-//		String index_name = source;
-//		Collect collect = new Collect();
-//		collect.setIndex_id(index_id);
-//		collect.setCreate_time(date);
-//		collect.setIndi_source(indi_source);
-//		collect.setType(type);
-//		collect.setUid(uid);
-//		collect.setIndex_name(index_name);
-//		indiDetailService.indiCollect(collect);
-//
-//		Map map = new HashMap();
-//		map.put("收藏指标：", "收藏指标成功！");
-//		String param = JSON.toJSONString(map);
-//		return param;
-//	}
 
 	// map按照值排序函数
 	public Map<String, Float> sortMapByValue(Map<String, Float> oriMap) {
