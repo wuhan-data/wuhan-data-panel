@@ -100,8 +100,8 @@ public class LineType {
 		// 计算legend高度
 		int legendHeight = 150;
 		if (legendData.size() > 5) {
-			legendHeight = legendData.size() * 25;
-//			legendMap.put("type", "scroll");
+			legendHeight = 150;
+			legendMap.put("type", "scroll");
 		} else {
 			legendHeight = legendData.size() * 35;
 		}
