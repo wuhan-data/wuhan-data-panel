@@ -30,11 +30,12 @@ public class PieType {
 
 		// 构建toopTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
+		toolTipMap.put("confine", true);
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "item");
 //		toolTipMap.put("backgroundColor", "transparent");
 		Map<String, Object> textStyleMap = new HashMap<String, Object>();
-		textStyleMap.put("color", "#000");
+		textStyleMap.put("color", "#fff");
 		toolTipMap.put("textStyle", textStyleMap);
 		pieOptionEntity.setTooltip(toolTipMap);
 
