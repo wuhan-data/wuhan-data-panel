@@ -64,10 +64,10 @@ public class LineAndBarType {
 
 		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
-		toolTipMap.put("formatter", "{a}:{c}\n");
+//		toolTipMap.put("formatter", "{a}:{c}\n");
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
-		toolTipMap.put("backgroundColor", "transparent");
+//		toolTipMap.put("backgroundColor", "transparent");
 		List<String> toolTipPosition = new ArrayList<String>();
 		toolTipPosition.add("25%");
 		toolTipPosition.add("65%");
@@ -96,8 +96,8 @@ public class LineAndBarType {
 		// 计算legend高度
 		int legendHeight = 150;
 		if (legendData.size() > 5) {
-			legendHeight = legendData.size() * 25;
-//			legendMap.put("type", "scroll");
+			legendHeight = 150;
+			legendMap.put("type", "scroll");
 		} else {
 			legendHeight = legendData.size() * 35;
 		}

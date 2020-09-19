@@ -68,10 +68,10 @@ public class LineType {
 
 		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
-		toolTipMap.put("formatter", "{a}:{c}\n");
+//		toolTipMap.put("formatter", "{a}:{c}\n");
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
-		toolTipMap.put("backgroundColor", "transparent");
+//		toolTipMap.put("backgroundColor", "transparent");
 		List<String> toolTipPosition = new ArrayList<String>();
 		toolTipPosition.add("25%");
 		toolTipPosition.add("65%");

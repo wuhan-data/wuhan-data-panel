@@ -6,7 +6,7 @@ public class RadarEntity {
 	String id;
 	String classTitle;
 	String classType="echarts";
-	String classHeight="400";
+	String classHeight="450";
 	RadarOptionEntity echartOption;
 	
 	public RadarEntity() {
