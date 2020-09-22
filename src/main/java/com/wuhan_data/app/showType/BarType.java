@@ -83,9 +83,9 @@ public class BarType {
 		axisPointerLabelMap.put("show", false);
 		axisPointerMap.put("label", axisPointerLabelMap);
 		toolTipMap.put("axisPointer", axisPointerMap);
-		Map<String, Object> textStyleMap = new HashMap<String, Object>();
-		textStyleMap.put("color", "#fff");
-		toolTipMap.put("textStyle", textStyleMap);
+//		Map<String, Object> textStyleMap = new HashMap<String, Object>();
+//		textStyleMap.put("color", "#fff");
+//		toolTipMap.put("textStyle", textStyleMap);
 		barOptionEntity.setTooltip(toolTipMap);
 
 		// 构建legend

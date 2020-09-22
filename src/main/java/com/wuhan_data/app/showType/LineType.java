@@ -85,10 +85,11 @@ public class LineType {
 		axisPointerLabelMap.put("show", false);
 		axisPointerMap.put("label", axisPointerLabelMap);
 		toolTipMap.put("axisPointer", axisPointerMap);
-		Map<String, Object> textStyleMap = new HashMap<String, Object>();
-		textStyleMap.put("color", "#fff");
-		toolTipMap.put("textStyle", textStyleMap);
+//		Map<String, Object> textStyleMap = new HashMap<String, Object>();
+//		textStyleMap.put("color", "#fff");
+//		toolTipMap.put("textStyle", textStyleMap);
 		lineOptionEntity.setTooltip(toolTipMap);
+		System.out.println(toolTipMap);
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
@@ -121,6 +122,7 @@ public class LineType {
 			legendMap.put("selected", legendSelectedMap);
 		}
 		lineOptionEntity.setLegend(legendMap);
+		System.out.println(legendMap);
 
 		// 构建调色盘
 		List<String> colorMap = new ArrayList<String>();

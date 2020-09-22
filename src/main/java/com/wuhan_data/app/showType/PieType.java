@@ -34,9 +34,9 @@ public class PieType {
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "item");
 //		toolTipMap.put("backgroundColor", "transparent");
-		Map<String, Object> textStyleMap = new HashMap<String, Object>();
-		textStyleMap.put("color", "#fff");
-		toolTipMap.put("textStyle", textStyleMap);
+//		Map<String, Object> textStyleMap = new HashMap<String, Object>();
+//		textStyleMap.put("color", "#fff");
+//		toolTipMap.put("textStyle", textStyleMap);
 		pieOptionEntity.setTooltip(toolTipMap);
 
 		// 构建legend
