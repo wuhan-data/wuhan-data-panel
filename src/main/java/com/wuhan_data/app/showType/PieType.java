@@ -24,7 +24,7 @@ public class PieType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("bottom", "50");
+		gridMap.put("bottom", "20");
 		gridMap.put("height", "250");
 		pieOptionEntity.setGrid(gridMap);
 

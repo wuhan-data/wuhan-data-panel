@@ -60,19 +60,17 @@ public class LineType {
 		// 构建grid
 		Map<String, Object> gridMap = new HashMap<String, Object>();
 		gridMap.put("containLabel", true);
-		gridMap.put("left", "20%");
-		gridMap.put("right", "15%");
-		gridMap.put("bottom", "50");
+		gridMap.put("left", "10%");
+		gridMap.put("right", "10%");
+		gridMap.put("bottom", "10");
 		gridMap.put("height", "250");
 		lineOptionEntity.setGrid(gridMap);
 
 		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
-//		toolTipMap.put("formatter", "{a}:{c}\n");
 		toolTipMap.put("confine", true);
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
-//		toolTipMap.put("backgroundColor", "transparent");
 		List<String> toolTipPosition = new ArrayList<String>();
 		toolTipPosition.add("25%");
 		toolTipPosition.add("65%");
@@ -85,9 +83,6 @@ public class LineType {
 		axisPointerLabelMap.put("show", false);
 		axisPointerMap.put("label", axisPointerLabelMap);
 		toolTipMap.put("axisPointer", axisPointerMap);
-//		Map<String, Object> textStyleMap = new HashMap<String, Object>();
-//		textStyleMap.put("color", "#fff");
-//		toolTipMap.put("textStyle", textStyleMap);
 		lineOptionEntity.setTooltip(toolTipMap);
 		System.out.println(toolTipMap);
 
@@ -95,9 +90,9 @@ public class LineType {
 		Map<String, Object> legendMap = new HashMap<String, Object>();
 		legendMap.put("formatter", "{name}\n");
 		legendMap.put("orient", "vertical");
-		legendMap.put("left", "20%");
+		legendMap.put("left", "center");
 		legendMap.put("top", "10");
-		legendMap.put("bottom", "320");
+		legendMap.put("bottom", "280");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
@@ -249,7 +244,7 @@ public class LineType {
 
 		// 设置图例对象
 		LineEntity lineEntity = new LineEntity(id, title, lineOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 100 : 50);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 70 : 40);
 		lineEntity.setClassHeight(String.valueOf(classHeight));
 		return lineEntity;
 	}
