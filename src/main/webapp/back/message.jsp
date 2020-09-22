@@ -266,8 +266,11 @@
  </div>
  <br>
  		
- 发送人id：<input class="form-control" type="text" name="addSender_id" id="addSender_id" readonly value=<%out.print(adminId);%> >  <br> 
- 接收人id：<input class="form-control" type="text" name="addReceiver_id" id="addReceiver_id">多人请用，隔开 <br>
+ 发送人：<input class="form-control" type="hidden" name="addSender_id" id="addSender_id" readonly value=<%out.print(adminId);%> >
+           <input class="form-control" type="search" placeholder="发送人名字" name="addByRoleByRolesender_name" readonly value=<%out.print(username); %> > <br>
+
+ 接收人：<input class="form-control" type="hidden" name="addReceiver_id" id="addReceiver_id" previous_id="" readonly>
+         <input class="form-control" type="text" name="addReceiver_Name" id="addReceiver_Name" previous_name="" readonly>多人请用，隔开 <br>
  消息类型：
   <select class="form-control" id="addLabel" name="addLabel" >	
        		<option value="系统消息" selected>系统消息</option>    
@@ -324,7 +327,7 @@
 	</c:forEach>
   </select> <br>
  发送人名字：<input class="form-control" type="search" placeholder="发送人名字" name="addByRoleByRolesender_name" readonly value=<%out.print(username); %> ><br>
- 发送人id：&nbsp<input class="form-control" type="text" name="addByRoleSender_id" id="addByRoleSender_id" readonly value=<%out.print(adminId);%>>  <br> 
+ 发送人id：&nbsp<input class="form-control" type="text" name="addByRoleSender_id" id="addByRoleSender_id" readonly value=<%out.print(adminId);%>>  <br>
 消息类型：
   <select class="form-control" id="addByRoleLabel" name="addByRoleLabel" >	
        		<option value="系统消息" selected>系统消息</option>    
@@ -600,46 +603,65 @@
             }
             
             function isCheck(checkbox){
-            	alert("nihao");
-            	if( checkbox.checked == true){
-            		var select = document.getElementById("addReceiver_id");
-                	var op = select.value;
-                	var val =op.split(",");
-                	var newList=Array.asList(val).add(checkbox.value)
-                	var newValue=StringUtils.join(newlist.toArray(new String[newList.size()]),',')
-                	$("addReceiver_id").val(newValue)
-
-            		//Action for checked 
-            	}else{
-            		//Action for not checked
-            		var select = document.getElementById("addReceiver_id");
-                	var op = select.value;
-                	var val =op.split(",");
-                	var newList=Array.asList(val).remove(checkbox.value)
-                	var newValue=StringUtils.join(newlist.toArray(new String[newList.size()]),',')
-                	$("addReceiver_id").val(newValue)
-            		}
-            		}
+                var current_name = $("#addReceiver_Name").attr("previous_name");
+                var current_id = $("#addReceiver_id").attr("previous_id");
+            	$('input:checkbox[name=selectname]:checked').each(
+            	    function (){
+            	        var v = $(this).val();
+                        var n = $(this).attr("userId");
+                        current_name = current_name + "，" + v;
+                        current_id = current_id + "|" + n;
+                    }
+                );
+            	if(current_id.indexOf("|") == 0) current_id = current_id.substring(1, current_id.length);
+                if(current_name.indexOf("，") == 0) current_name = current_name.substring(1, current_name.length);
+                //设置一个previous_id、previous_name
+                $("#addReceiver_id").val(current_id);
+            	$("#addReceiver_Name").val(current_name);
+            }
             
             
             function selectUser()
             {
             	var realName=$("#realName").val();
             	realName = encodeURI(realName);
+            	//隐藏先前搜索框
+                $('input:checkbox[name=selectname]').each(
+                    function (obj){
+                        $(obj).attr("type", "hidden");
+                    }
+                );
             	$.ajax({
             		url:"selectByRealName2",
             		data:{realName:realName},
             		type:'post',
             		success:function(data){
-            			
             			var imgsUrl="";
+            			var s1 = "";
             			var users=data.data;
+                        $("#addReceiver_Name").attr("previous_name", $("#addReceiver_Name").val());
+                        $("#addReceiver_id").attr("previous_id", $("#addReceiver_id").val());
             			for (var i=0;i<users.length;i++)
             			{
-            				var sl="<input type=\"checkbox\"  id=\"selectname\" name=\"selectname\" οnclick=\"isCheck(this)\"  value=\""+users[i].realname+"\" />"+users[i].realname+"(角色："+users[i].role+")"+"|id："+users[i].id+"|";
-            				
-            				/* var sl=users[i]+"\r\n"; */
-            				imgsUrl+=sl;
+                            var name = $("#addReceiver_Name").attr("previous_name");
+            			    var val = $("#addReceiver_id").attr("previous_id");
+            			    var index = val == "" ? -1 : val.indexOf(users[i].id);
+            			    if(index != -1) {
+            			        var id_arr = val.split("|");
+            			        var name_arr = name.split("，");
+            			        var goal = users[i].id;
+            			        index = id_arr.indexOf(goal.toString());
+            			        id_arr.splice(index, 1);
+            			        name_arr.splice(index, 1);
+                                val = id_arr.join("|");
+                                name = name_arr.join("，");
+                                $("#addReceiver_Name").attr("previous_name", name);
+                                $("#addReceiver_id").attr("previous_id", val);
+                                sl="<input type=\"checkbox\" id=\""+users[i].id+"\" name=\"selectname\" onclick=\"isCheck(this)\" checked=\"checked\"  value=\""+users[i].realname+"\" userId=\""+users[i].id+"\" />"+users[i].realname+"(角色："+users[i].role+")"+"|id："+users[i].id+"|";
+                            } else {
+                                sl="<input type=\"checkbox\" id=\""+users[i].id+"\" name=\"selectname\" onclick=\"isCheck(this)\"  value=\""+users[i].realname+"\" userId=\""+users[i].id+"\" />"+users[i].realname+"(角色："+users[i].role+")"+"|id："+users[i].id+"|";
+                            }
+                            imgsUrl+=sl;
             			}
             			
                     	document.getElementById("resultOfSelectName").innerHTML=imgsUrl;
