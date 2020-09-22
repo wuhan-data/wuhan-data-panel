@@ -84,19 +84,21 @@ public class BarStoreType {
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
-		legendMap.put("formatter", "{name}\n");
+		legendMap.put("formatter", "{name}");
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
-		legendMap.put("top", "10");
+//		legendMap.put("top", "10");
 		legendMap.put("bottom", "280");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
 		if (legendData.size() > 5) {
-			legendHeight = 150;
+			legendHeight = 125;
 			legendMap.put("type", "scroll");
+		} else if(legendData.size() <= 3) {
+			legendHeight = legendData.size() * 20;
 		} else {
-			legendHeight = legendData.size() * 35;
+			legendHeight = legendData.size() * 25;
 		}
 		legendMap.put("height", String.valueOf(legendHeight));
 		// 控制初始展示图例个数,默认展示4个
@@ -185,7 +187,7 @@ public class BarStoreType {
 
 		// 设置图例对象
 		BarStoreEntity barStoreEntity = new BarStoreEntity(id, title, barStoreOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 70 : 40);
+		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 50 : 20);
 		barStoreEntity.setClassHeight(String.valueOf(classHeight));
 		return barStoreEntity;
 	}
