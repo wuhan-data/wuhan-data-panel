@@ -226,6 +226,7 @@ public class LineType {
 			List<String> tempList = new ArrayList<String>();
 			tempList = dataV.get(i);
 			Map<String, Object> seriesListMap = new HashMap<String, Object>();
+			seriesListMap.put("smooth", "0.6");
 			seriesListMap.put("name", legendData.get(i));
 			seriesListMap.put("type", type);
 			seriesListMap.put("data", tempList);
