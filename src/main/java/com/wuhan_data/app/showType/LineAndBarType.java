@@ -94,7 +94,7 @@ public class LineAndBarType {
 		if (legendData.size() > 5) {
 			legendHeight = 125;
 			legendMap.put("type", "scroll");
-		} else if(legendData.size() <= 3) {
+		} else if (legendData.size() <= 3) {
 			legendHeight = legendData.size() * 20;
 		} else {
 			legendHeight = legendData.size() * 25;
@@ -147,7 +147,7 @@ public class LineAndBarType {
 		xAxisMap.put("name", "");
 		xAxisMap.put("data", temList);
 		Map<String, Object> xAxisLabelMap = new HashMap<String, Object>();
-		xAxisLabelMap.put("interval", "0");
+//		xAxisLabelMap.put("interval", "0");
 		xAxisLabelMap.put("rotate", "75");
 		xAxisMap.put("axisLabel", xAxisLabelMap);
 		xAxis.add(xAxisMap);
@@ -192,6 +192,14 @@ public class LineAndBarType {
 			boundaryGap.add("0");
 			yAxisFirstMap.put("boundaryGap", boundaryGap);
 			break;
+		default:
+			break;
+		}
+		// 配置经济分析单位
+		switch (id) {
+		case "220":
+			yAxisFirstMap.put("name", "万吨");
+			yAxisSecondMap.put("name", "%");
 		default:
 			break;
 		}
