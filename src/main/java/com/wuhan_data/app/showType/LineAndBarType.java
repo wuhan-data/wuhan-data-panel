@@ -2,6 +2,8 @@ package com.wuhan_data.app.showType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +14,7 @@ import com.wuhan_data.app.showType.pojo.LineAndBarOptionEntity;
 public class LineAndBarType {
 	// 参数：图例名称、数据、数据、显示类型
 	public LineAndBarEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
-			List<List<String>> dataV, List<String> showColor, List<String> showType) {
+			List<List<String>> dataV, List<String> showColor, List<String> showType, List<String> unitName) {
 		// 预处理数据，合并1月及2月的数据
 		int ignoreX = -1;
 		for (int i = 0; i < dataX.size(); i++) {
@@ -87,7 +89,7 @@ public class LineAndBarType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
 //		legendMap.put("top", "10");
-		legendMap.put("bottom", "280");
+		legendMap.put("bottom", "300");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
@@ -195,18 +197,7 @@ public class LineAndBarType {
 		default:
 			break;
 		}
-		// 配置经济分析单位
-		switch (id) {
-		case "220":
-			yAxisFirstMap.put("name", "万吨");
-			yAxisSecondMap.put("name", "%");
-		default:
-			break;
-		}
-		yAxis.add(yAxisFirstMap);
-		yAxis.add(yAxisSecondMap);
-		lineAndBarOptionEntity.setyAxis(yAxis);
-
+		
 		// 构建series
 		List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
 		int z = 3;
@@ -221,11 +212,15 @@ public class LineAndBarType {
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "0");
+				// 配置经济分析单位
+				yAxisFirstMap.put("name", unitName.get(i));
 			} else {
 				seriesListMap.put("name", legendData.get(i));
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "1");
+				// 配置经济分析单位
+				yAxisSecondMap.put("name", unitName.get(i));
 				seriesListMap.put("z", z + i);
 				seriesListMap.put("connectNulls", true); // 折线图连接空数据
 			}
@@ -241,10 +236,14 @@ public class LineAndBarType {
 			seriesList.add(seriesListMap);
 		}
 		lineAndBarOptionEntity.setSeries(seriesList);
+		
+		yAxis.add(yAxisFirstMap);
+		yAxis.add(yAxisSecondMap);
+		lineAndBarOptionEntity.setyAxis(yAxis);
 
 		// 设置图例对象
 		LineAndBarEntity lineAndBarEntity = new LineAndBarEntity(id, title, lineAndBarOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 50 : 20);
+		int classHeight = 350 + legendHeight + (legendData.size() > 5 ? 50 : 20);
 		lineAndBarEntity.setClassHeight(String.valueOf(classHeight));
 		return lineAndBarEntity;
 	}

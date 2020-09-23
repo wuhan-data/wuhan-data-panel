@@ -160,7 +160,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		for (int j = 0; j < themeList.size(); j++) {
 			String themeId = String.valueOf(themeList.get(j).getTheme_id());
 			String isShow = String.valueOf(themeList.get(j).getIs_show());
-			System.out.println("themeId" + themeId);
+//			System.out.println("themeId" + themeId);
 			if (isShow.equals("0")) {
 				result.add(themeList.get(j));
 			} else if (isShow.equals("9")) {
@@ -350,7 +350,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 			// 查询每个板块下的指标数据
 			Integer pid = analysisPlate.get(i).getPlateId();
 			List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
+			System.out.println("进入版块" + pid);
 			for (int j = 0; j < indiList.size(); j++) {
+//				if (pid == 19 || pid == 20|| pid == 24 || pid == 25 || pid == 26|| pid == 238){
+				if (j > 0) {
+					break;
+				}
+//				}
+				System.out.println("进入指标" + j);
 				String indiCode = indiList.get(j).getIndiCode();
 				// 查询指标所有可取的时间区间
 				List<String> freqNameList = analysisMapper.getFreqnameByIndicode(indiCode);
@@ -373,8 +380,15 @@ public class AnalysisServiceImpl implements AnalysisService {
 			Set<String> timeSpanFinal = new HashSet<String>();
 			for (int j = 0; j < analysisPlate.size(); j++) {
 				Integer pid = analysisPlate.get(j).getPlateId();
+				System.out.println("进入版块" + pid);
 				List<AnalysisIndi> indiList = analysisMapper.getIndiByPid(pid);
 				for (int k = 0; k < indiList.size(); k++) {
+//					if (pid == 19 || pid == 20|| pid == 24 || pid == 25 || pid == 26|| pid == 238){
+					if (k > 0) {
+						break;
+					}
+//					}
+					System.out.println("进入指标" + k);
 					Map<String, Object> queryMap = new HashMap<String, Object>();
 					String indiCode = indiList.get(k).getIndiCode();
 					queryMap.put("indiCode", indiCode);
@@ -460,6 +474,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					List<String> legend = new ArrayList<String>();
 					List<String> showColor = new ArrayList<String>();
 					List<String> showType = new ArrayList<String>();
+					List<String> unitName = new ArrayList<String>();
 					String area = queryMap.get("area").toString();
 					// 配置指标图例
 					LineAndBarType lineAndBarType = new LineAndBarType();
@@ -479,10 +494,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 							legend.add(indiList.get(j).getIndiName());
 							showColor.add(indiList.get(j).getShowColor());
 							showType.add(indiList.get(j).getShowType());
+							unitName.add(indiInfoList.get(0).getUnitName().toString());
 						}
 					}
 					LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
-							showColor, showType);
+							showColor, showType, unitName);
 					TotalList.add(lineAndBarEntity);
 
 				}
@@ -492,6 +508,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					List<String> legend = new ArrayList<String>();
 					List<String> showColor = new ArrayList<String>();
 					List<String> showType = new ArrayList<String>();
+					List<String> unitName = new ArrayList<String>();
 					String area = queryMap.get("area").toString();
 					// 配置指标图例
 					LineType lineType = new LineType();
@@ -512,10 +529,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 							legend.add(indiList.get(j).getIndiName());
 							showColor.add(indiList.get(j).getShowColor());
 							showType.add(indiList.get(j).getShowType());
+							unitName.add(indiInfoList.get(0).getUnitName());
 						}
 					}
-					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
-							showType);
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType,
+							unitName);
 					TotalList.add(lineEntity);
 				}
 				flagPlate = 1;
@@ -638,6 +656,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				// 配置指标图例
 				LineType lineType = new LineType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -670,12 +689,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
 				if (id.equals("202")) {
 					// 配置指标图例
 					LineAndBarType lineAndBarType = new LineAndBarType();
 					LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
-							showColor, showType);
+							showColor, showType, unitName);
 					TotalList.add(lineAndBarEntity);
 					// 配置表格数据
 					TableType tableType = new TableType();
@@ -687,8 +707,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 					TotalList.add(tableEntity);
 				}
 				if (id.equals("203")) {
-					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
-							showType);
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType,
+							unitName);
 					TotalList.add(lineEntity);
 					// 配置表格数据
 					TableType tableType = new TableType();
@@ -714,6 +734,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				for (int j = 0; j < indiList.size(); j++) {
 					// 处理配置表中配置数据
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -883,9 +904,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showType.add("line");
 					dataValue1.add(indexGDPSpeedList);
 					System.out.println("17版块:" + dataValue1.toString());
+					unitName.add("%");
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
-							showType);
+							showType, unitName);
 					TotalList.add(lineEntity);
 					// 配置表格数据
 					TableType tableType = new TableType();
@@ -941,7 +963,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					dataValue1.add(dataIndiValue33);
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
-							showType);
+							showType, unitName);
 					TotalList.add(lineEntity);
 					// 配置表格数据
 					TableType tableType = new TableType();
@@ -977,6 +999,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legendTable = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				for (int j = 0; j < indiList.size(); j++) {
 					// 处理配置表中配置数据
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -993,6 +1016,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legendTable.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
 				List<List<String>> dataValue1 = new ArrayList<List<String>>();
 				// 获取核准类项目个数,备案类项目个数,核准类投资总额,备案类投资总额
@@ -1054,13 +1078,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				case "折线图": {
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
-							showType);
+							showType, unitName);
 					TotalList.add(lineEntity);
 					break;
 				}
 				case "柱状图": {
 					BarType barType = new BarType();
-					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType);
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType, unitName);
 					TotalList.add(barEntity);
 					break;
 				}
@@ -1088,6 +1112,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legendTable = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				for (int j = 0; j < indiList.size(); j++) {
 					// 处理配置表中配置数据
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -1106,6 +1131,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legendTable.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
 				List<List<String>> dataValue1 = new ArrayList<List<String>>();
 				// 获取CPI/PPI/IPI
@@ -1171,13 +1197,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				case "折线图": {
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
-							showType);
+							showType, unitName);
 					TotalList.add(lineEntity);
 					break;
 				}
 				case "柱状图": {
 					BarType barType = new BarType();
-					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType);
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType, unitName);
 					TotalList.add(barEntity);
 					break;
 				}
@@ -1212,6 +1238,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legendTable = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				for (int j = 0; j < indiList.size(); j++) {
 					// 处理配置表中配置数据
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -1228,6 +1255,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legendTable.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add("");// 指标相除不带单位！
 				}
 
 				// 处理指标相除
@@ -1491,13 +1519,13 @@ public class AnalysisServiceImpl implements AnalysisService {
 				case "折线图": {
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
-							showType);
+							showType, unitName);
 					TotalList.add(lineEntity);
 					break;
 				}
 				case "柱状图": {
 					BarType barType = new BarType();
-					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType);
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue1, showColor, showType, unitName);
 					TotalList.add(barEntity);
 					break;
 				}
@@ -1541,6 +1569,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 
 				for (int j = 0; j < indiList.size(); j++) {
 					// 处理配置表中配置数据
@@ -1583,19 +1612,20 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName() + "去年同期");
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
 				// 配置指标图例——柱状
 				switch (analysisPlate.get(i).getShowType()) {
 				case "折线图": {
 					LineType lineType = new LineType();
-					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor,
-							showType);
+					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType,
+							unitName);
 					TotalList.add(lineEntity);
 					break;
 				}
 				case "柱状图": {
 					BarType barType = new BarType();
-					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
+					BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType, unitName);
 					TotalList.add(barEntity);
 					break;
 				}
@@ -1632,6 +1662,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				// 配置指标图例
 				LineType lineType = new LineType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -1656,8 +1687,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
-				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
+				System.out.println(unitName.toString());
+				LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType,
+						unitName);
 				TotalList.add(lineEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();
@@ -1675,6 +1709,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				// 配置指标图例
 				BarType barType = new BarType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -1700,8 +1735,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
-				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType);
+				System.out.println(unitName.toString());
+				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType, unitName);
 				TotalList.add(barEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();
@@ -1812,6 +1849,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				// 配置指标图例
 				LineAndBarType lineAndBarType = new LineAndBarType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -1836,9 +1874,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
+				System.out.println(unitName.toString());
 				LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
-						showColor, showType);
+						showColor, showType, unitName);
 				TotalList.add(lineAndBarEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();
@@ -1856,6 +1896,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				// 配置指标图例
 				BarStoreType barStoreType = new BarStoreType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -1873,9 +1914,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
+				System.out.println(unitName.toString());
 				BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue, showColor,
-						showType);
+						showType, unitName);
 				TotalList.add(barStoreEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();
@@ -1893,6 +1936,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				List<String> unitName = new ArrayList<String>();
 				// 配置指标图例
 				BarStackLineType barStackLineType = new BarStackLineType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -1910,9 +1954,11 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
+					unitName.add(indiInfoList.get(0).getUnitName());
 				}
+				System.out.println(unitName.toString());
 				BarStackLineEntity barStackLineEntity = barStackLineType.getOption(id, title, xAxis, legend, dataValue,
-						showColor, showType);
+						showColor, showType, unitName);
 				TotalList.add(barStackLineEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();
