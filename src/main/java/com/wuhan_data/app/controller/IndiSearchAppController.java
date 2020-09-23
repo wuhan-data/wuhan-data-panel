@@ -1250,6 +1250,7 @@ public class IndiSearchAppController {
 		finalMap.put("errMsg", "success");
 		finalMap.put("data", finData);
 		String param = JSON.toJSONString(finalMap);
+		System.out.println("最后的param："+param);
 		return param;
 
 	}
