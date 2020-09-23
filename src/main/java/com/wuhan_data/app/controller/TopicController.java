@@ -731,20 +731,13 @@ public class TopicController {
 		legendData3.add(list3_5.get(0).getIndi_name());
 		legendData3.add(list3_6.get(0).getIndi_name());
 
-		List<String> unitName3 = new ArrayList<String>();
-		System.out.println(list3_1.get(0).getIndi_name());
-		System.out.println(list3_2.get(0).getIndi_name() + "-累计增速");
-		System.out.println(list3_3.get(0).getIndi_name());
-		System.out.println(list3_4.get(0).getIndi_name() + "-累计增速");
-		System.out.println(list3_5.get(0).getIndi_name());
-		System.out.println(list3_6.get(0).getIndi_name());
-		
-		unitName3.add(list3_1.get(0).getUnitname());
-		unitName3.add(list3_2.get(0).getUnitname());
-		unitName3.add(list3_3.get(0).getUnitname());
-		unitName3.add(list3_4.get(0).getUnitname());
-		unitName3.add(list3_5.get(0).getUnitname());
-		unitName3.add(list3_6.get(0).getUnitname());
+		List<String> unitName3 = new ArrayList<String>();		
+		unitName3.add("亿元");
+		unitName3.add("%");
+		unitName3.add("亿元");
+		unitName3.add("%");
+		unitName3.add("%");
+		unitName3.add("%");
 
 		LineAndBarType topicLineAndBarType3 = new LineAndBarType();
 		LineAndBarEntity lineAndBarEntity3 = topicLineAndBarType3.getOption("5", "重点产业经济效益", dataX3, legendData3,
@@ -872,10 +865,8 @@ public class TopicController {
 		legendData2.add(list2_2.get(0).getIndi_name() + "-增速");
 
 		List<String> unitName2 = new ArrayList<String>();
-		System.out.print(list2_1.get(0).getIndi_name() + "-累计值");
-		System.out.print(list2_2.get(0).getIndi_name() + "-增速");
-		unitName2.add(list2_1.get(0).getUnitname());
-		unitName2.add(list2_2.get(0).getUnitname());
+		unitName2.add("亿元");
+		unitName2.add("%");
 
 		LineAndBarType topicLineAndBarType2 = new LineAndBarType();
 		LineAndBarEntity lineAndBarEntity2 = topicLineAndBarType2.getOption("3", "湖北省固定资产投资变化趋势", dataX2, legendData2,
@@ -929,14 +920,10 @@ public class TopicController {
 		legendData3.add(list3_4.get(0).getIndi_name() + "-增速");
 
 		List<String> unitName3 = new ArrayList<String>();
-		System.out.print(list3_1.get(0).getIndi_name() + "-累计值");
-		System.out.print(list3_2.get(0).getIndi_name() + "-增速");
-		System.out.print(list3_3.get(0).getIndi_name() + "-累计值");
-		System.out.print(list3_4.get(0).getIndi_name() + "-增速");
-		unitName3.add(list3_1.get(0).getUnitname());
-		unitName3.add(list3_2.get(0).getUnitname());
-		unitName3.add(list3_3.get(0).getUnitname());
-		unitName3.add(list3_4.get(0).getUnitname());
+		unitName3.add("个");
+		unitName3.add("%");
+		unitName3.add("个");
+		unitName3.add("%");
 
 		LineAndBarType topicLineAndBarType3 = new LineAndBarType();
 		LineAndBarEntity lineAndBarEntity3 = topicLineAndBarType3.getOption("5", "湖北省项目个数变化趋势", dataX3, legendData3,
@@ -997,10 +984,8 @@ public class TopicController {
 		legendData5.add(list5_2.get(0).getIndi_name());
 
 		List<String> unitName5 = new ArrayList<String>();
-		System.out.println(list5_1.get(0).getIndi_name());
-		System.out.println(list5_2.get(0).getIndi_name());
-		unitName5.add(list5_1.get(0).getUnitname());
-		unitName5.add(list5_2.get(0).getUnitname());
+		unitName5.add("亿元");
+		unitName5.add("%");
 
 		LineAndBarType topicLineAndBarType5 = new LineAndBarType();
 		LineAndBarEntity lineAndBarEntity5 = topicLineAndBarType5.getOption("9", "湖北省非公经济发展变化趋势", dataX5, legendData5,
