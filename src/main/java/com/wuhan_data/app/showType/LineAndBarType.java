@@ -89,7 +89,7 @@ public class LineAndBarType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
 //		legendMap.put("top", "10");
-		legendMap.put("bottom", "280");
+		legendMap.put("bottom", "290");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
