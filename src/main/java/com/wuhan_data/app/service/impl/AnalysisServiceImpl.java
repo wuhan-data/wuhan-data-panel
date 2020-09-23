@@ -1909,7 +1909,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> legend = new ArrayList<String>();
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
-				HashSet<String> unitName = new HashSet<String>();
+				List<String> unitName = new ArrayList<String>();
 				// 配置指标图例
 				BarStackLineType barStackLineType = new BarStackLineType();
 				for (int j = 0; j < indiList.size(); j++) {
@@ -1931,7 +1931,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				}
 				System.out.println(unitName.toString());
 				BarStackLineEntity barStackLineEntity = barStackLineType.getOption(id, title, xAxis, legend, dataValue,
-						showColor, showType);
+						showColor, showType, unitName);
 				TotalList.add(barStackLineEntity);
 				// 配置表格数据
 				TableType tableType = new TableType();

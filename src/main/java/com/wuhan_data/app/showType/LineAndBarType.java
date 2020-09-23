@@ -89,7 +89,7 @@ public class LineAndBarType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
 //		legendMap.put("top", "10");
-		legendMap.put("bottom", "290");
+		legendMap.put("bottom", "300");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
@@ -243,7 +243,7 @@ public class LineAndBarType {
 
 		// 设置图例对象
 		LineAndBarEntity lineAndBarEntity = new LineAndBarEntity(id, title, lineAndBarOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 50 : 20);
+		int classHeight = 350 + legendHeight + (legendData.size() > 5 ? 50 : 20);
 		lineAndBarEntity.setClassHeight(String.valueOf(classHeight));
 		return lineAndBarEntity;
 	}

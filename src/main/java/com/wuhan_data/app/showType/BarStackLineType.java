@@ -11,7 +11,7 @@ import com.wuhan_data.app.showType.pojo.BarStackLineOptionEntity;
 public class BarStackLineType {
 	// 参数：图例名称列表、数据、数据、展示类型
 	public BarStackLineEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
-			List<List<String>> dataV, List<String> showColor, List<String> showType) {
+			List<List<String>> dataV, List<String> showColor, List<String> showType, List<String> unitName) {
 
 		// 预处理数据，合并1月及2月的数据
 		int ignoreX = -1;
@@ -86,7 +86,7 @@ public class BarStackLineType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
 //		legendMap.put("top", "10");
-		legendMap.put("bottom", "280");
+		legendMap.put("bottom", "300");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
@@ -158,15 +158,14 @@ public class BarStackLineType {
 		Map<String, Boolean> yAxisFirstSplitLineMap = new HashMap<String, Boolean>();
 		yAxisFirstSplitLineMap.put("show", true);
 		yAxisFirstMap.put("splitLine", yAxisFirstSplitLineMap);
-		yAxis.add(yAxisFirstMap);
+		
 		Map<String, Object> yAxisSecondMap = new HashMap<String, Object>();
 		yAxisSecondMap.put("type", "value");
 		yAxisSecondMap.put("name", "");
 		Map<String, Boolean> yAxisSecondSplitLineMap = new HashMap<String, Boolean>();
 		yAxisSecondSplitLineMap.put("show", false);
 		yAxisSecondMap.put("splitLine", yAxisSecondSplitLineMap);
-		yAxis.add(yAxisSecondMap);
-		barStackLineOptionEntity.setyAxis(yAxis);
+		
 
 		// 构建series
 		List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
@@ -183,11 +182,13 @@ public class BarStackLineType {
 				seriesListMap.put("stack", "堆叠图");
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "0");
+				yAxisFirstMap.put("name", unitName.get(i));
 			} else {
 				seriesListMap.put("name", legendData.get(i));
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
 				seriesListMap.put("yAxisIndex", "1");
+				yAxisSecondMap.put("name", unitName.get(i));
 				seriesListMap.put("z", z + i);
 				seriesListMap.put("connectNulls", true); // 折线图连接空数据
 			}
@@ -203,10 +204,14 @@ public class BarStackLineType {
 			seriesList.add(seriesListMap);
 		}
 		barStackLineOptionEntity.setSeries(seriesList);
+		
+		yAxis.add(yAxisFirstMap);
+		yAxis.add(yAxisSecondMap);
+		barStackLineOptionEntity.setyAxis(yAxis);
 
 		// 设置图例对象
 		BarStackLineEntity barStackLineEntity = new BarStackLineEntity(id, title, barStackLineOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 50 : 20);
+		int classHeight = 350 + legendHeight + (legendData.size() > 5 ? 50 : 20);
 		barStackLineEntity.setClassHeight(String.valueOf(classHeight));
 		return barStackLineEntity;
 	}
