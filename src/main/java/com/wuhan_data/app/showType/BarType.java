@@ -13,7 +13,7 @@ public class BarType {
 
 	// 参数：指标或版块id、指标或版块名称、
 	public BarEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
-			List<List<String>> dataV, List<String> showColor, List<String> showType) {
+			List<List<String>> dataV, List<String> showColor, List<String> showType, List<String> unitName) {
 
 		// 预处理数据，合并1月及2月的数据
 		int ignoreX = -1;
@@ -66,7 +66,7 @@ public class BarType {
 
 		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
-		toolTipMap.put("confine", true);
+//		toolTipMap.put("confine", true);
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
 //		List<String> toolTipPosition = new ArrayList<String>();
@@ -89,7 +89,7 @@ public class BarType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
 //		legendMap.put("top", "10");
-		legendMap.put("bottom", "280");
+		legendMap.put("bottom", "300");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
@@ -157,7 +157,7 @@ public class BarType {
 		List<Map<String, Object>> yAxis = new ArrayList<Map<String, Object>>();
 		Map<String, Object> yAxisMap = new HashMap<String, Object>();
 		yAxisMap.put("type", "value");
-		yAxisMap.put("name", "");
+		yAxisMap.put("name", unitName.get(0));
 		// 配置经济分析特殊图表的y轴样式
 		List<String> boundaryGap = new ArrayList<String>();
 		switch (id) {
@@ -218,7 +218,7 @@ public class BarType {
 
 		// 设置图例对象
 		BarEntity barEntity = new BarEntity(id, title, barOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 50 : 20);
+		int classHeight = 350 + legendHeight + (legendData.size() > 5 ? 50 : 20);
 		barEntity.setClassHeight(String.valueOf(classHeight));
 		return barEntity;
 	}

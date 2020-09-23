@@ -111,9 +111,13 @@ public class TopicController {
 		dataV.add(dataVv);
 		List<String> legendData1 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData1.add(list1_1.get(0).getIndi_name());//
+		
+		List<String> unitName1 = new ArrayList<String>();
+		unitName1.add("");//指数没有单位
+		
 		LineType lineType = new LineType();
 		LineEntity lineEntity1 = lineType.getOption("1", "湖北省高质量发展指数变化趋势", dataX, legendData1, dataV, showColor,
-				showType1);
+				showType1, unitName1);
 //第二部分			
 //			String cardText = 
 //			"<li>"+topicService.getTopic1Card1_1()+";"+"</li>"
@@ -195,9 +199,13 @@ public class TopicController {
 		showType3.add("line");
 		List<String> legendData3 = new ArrayList<String>();
 		legendData3.add(list3_1.get(0).getIndi_name());
+		
+		List<String> unitName3 = new ArrayList<String>();
+		unitName3.add("%");
+		
 		LineType lineType3 = new LineType();
 		LineEntity lineEntity3 = lineType3.getOption("5", "湖北省企业资产负债率趋势", dataX3, legendData3, dataV3, showColor3,
-				showType3);
+				showType3, unitName3);
 //第6部分		
 		String cardText3 = topicService.getTopic1Card3_1();
 		CardEntity cardEntity3 = new CardEntity("6", "风险防控", "card", cardText3);
@@ -217,9 +225,13 @@ public class TopicController {
 		showType4.add("line");
 		List<String> legendData4 = new ArrayList<String>();
 		legendData4.add(list4_1.get(0).getIndi_name());
+		
+		List<String> unitName4 = new ArrayList<String>();
+		unitName4.add("平方米/万元");
+		
 		LineType lineType4 = new LineType();
 		LineEntity lineEntity4 = lineType4.getOption("7", "湖北省企业资产负债率趋势", dataX4, legendData4, dataV4, showColor4,
-				showType4);
+				showType4, unitName4);
 //第8部分		
 		String cardText4 = topicService.getTopic1Card4_1();
 		CardEntity cardEntity4 = new CardEntity("8", "产业转型升级分析", "card", cardText4);
@@ -238,9 +250,13 @@ public class TopicController {
 		showType5.add("line");
 		List<String> legendData5 = new ArrayList<String>();
 		legendData5.add(list5_1.get(0).getIndi_name());
+		
+		List<String> unitName5 = new ArrayList<String>();
+		unitName5.add("%");
+		
 		LineType lineType5 = new LineType();
 		LineEntity lineEntity5 = lineType5.getOption("9", "湖北产业转型升级", dataX5, legendData5, dataV5, showColor5,
-				showType5);
+				showType5, unitName5);
 //第10部分
 		String cardText5 = topicService.getTopic1Card5_1();
 		CardEntity cardEntity5 = new CardEntity("10", "新经济发展分析", "card", cardText5);
@@ -259,9 +275,13 @@ public class TopicController {
 		showType6.add("line");
 		List<String> legendData6 = new ArrayList<String>();
 		legendData6.add(list6_1.get(0).getIndi_name());
+		
+		List<String> unitName6 = new ArrayList<String>();
+		unitName6.add("亿元");
+		
 		LineType lineType6 = new LineType();
 		LineEntity lineEntity6 = lineType6.getOption("11", "湖北省新经济发展变化情况", dataX6, legendData6, dataV6, showColor6,
-				showType6);
+				showType6, unitName6);
 
 		List<Object> classInfoList = new ArrayList<Object>();
 		classInfoList.add(lineEntity1);// 图1
@@ -311,9 +331,13 @@ public class TopicController {
 		showType1.add("line");
 		List<String> legendData1 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData1.add(list1_1.get(0).getIndi_name());//
+		
+		List<String> unitName1 = new ArrayList<String>();
+		unitName1.add("");//指数没有单位
+		
 		LineType lineType = new LineType();
 		LineEntity lineEntity1 = lineType.getOption("1", "湖北省宏观预警指数变化趋势", dataX, legendData1, dataV, showColor1,
-				showType1);
+				showType1, unitName1);
 
 		// 第二部分-文字1
 		String cardText1 = topicService.getTopic2Card1_1();
@@ -342,9 +366,13 @@ public class TopicController {
 		List<String> legendData2 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData2.add(list2_1.get(0).getIndi_name() + "-湖北省");//
 		legendData2.add(list2_2.get(0).getIndi_name() + "-全国");//
+		
+		List<String> unitName2 = new ArrayList<String>();
+		unitName2.add("%");
+		
 		LineType lineType2 = new LineType();
 		LineEntity lineEntity2 = lineType2.getOption("3", "地区生产总值运行趋势", dataX2, legendData2, dataV2, showColor2,
-				showType2);
+				showType2, unitName2);
 
 		// 第四部分-文字2
 		String cardText2 = topicService.getTopic2Card2_1();
@@ -365,9 +393,13 @@ public class TopicController {
 		dataV3.add(dataV_3);
 		List<String> legendData3 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData3.add(list3_1.get(0).getIndi_name());//
+		
+		List<String> unitName3 = new ArrayList<String>();
+		unitName3.add("%");
+		
 		LineType lineType3 = new LineType();
 		LineEntity lineEntity3 = lineType3.getOption("5", "税收收入占地方一般公共预算收入比重变化", dataX3, legendData3, dataV3,
-				showColor3, showType3);
+				showColor3, showType3, unitName3);
 
 		// 第6部分-文字3
 		String cardText3 = topicService.getTopic2Card3_1() + topicService.getTopic2Card3_2()
@@ -405,9 +437,13 @@ public class TopicController {
 		legendData4.add(list4_1.get(0).getIndi_name());//
 		legendData4.add(list4_2.get(0).getIndi_name());//
 		legendData4.add(list4_3.get(0).getIndi_name());//
+		
+		List<String> unitName4 = new ArrayList<String>();
+		unitName4.add("%");
+		
 		LineType lineType4 = new LineType();
 		LineEntity lineEntity4 = lineType4.getOption("7", "湖北省三大需求增速走势变动", dataX4, legendData4, dataV4, showColor4,
-				showType4);
+				showType4, unitName4);
 
 		// 第8部分-文字4
 
@@ -436,9 +472,13 @@ public class TopicController {
 		List<String> legendData5 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData5.add(list5_1.get(0).getIndi_name());//
 		legendData5.add(list5_2.get(0).getIndi_name());//
+		
+		List<String> unitName5 = new ArrayList<String>();
+		unitName5.add("%");
+		
 		LineType lineType5 = new LineType();
 		LineEntity lineEntity5 = lineType5.getOption("9", "湖北省三大需求增速走势变动", dataX5, legendData5, dataV5, showColor5,
-				showType5);
+				showType5, unitName5);
 
 		// 第10部分-文字5
 		String cardText5 = topicService.getTopic2Card5_1() + topicService.getTopic2Card5_2();
@@ -468,9 +508,13 @@ public class TopicController {
 		List<String> legendData6 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData6.add(list6_1.get(0).getIndi_name());//
 		legendData6.add(list6_2.get(0).getIndi_name());//
+		
+		List<String> unitName6 = new ArrayList<String>();
+		unitName6.add("%");
+		
 		LineType lineType6 = new LineType();
 		LineEntity lineEntity6 = lineType6.getOption("11", "湖北省三大产业对GDP的拉动", dataX6, legendData6, dataV6, showColor6,
-				showType6);
+				showType6, unitName6);
 
 		// 第12部分-文字6
 		String cardText6 = topicService.getTopic2Card6_1();
@@ -641,9 +685,13 @@ public class TopicController {
 		showType1.add("line");
 		List<String> legendData1 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData1.add(list1_1.get(0).getIndi_name());//
+		
+		List<String> unitName1 = new ArrayList<String>();
+		unitName1.add("");
+		
 		LineType lineType = new LineType();
 		LineEntity lineEntity1 = lineType.getOption("1", "湖北省工业预警指数变化趋势", dataX, legendData1, dataV, showColor1,
-				showType1);
+				showType1, unitName1);
 
 		// 第2部分-文字1
 		String cardText1 = topicService.getTopic3Card1_1();
@@ -664,9 +712,13 @@ public class TopicController {
 		showType2.add("line");
 		List<String> legendData2 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData2.add(list2_1.get(0).getIndi_name());//
+		
+		List<String> unitName2 = new ArrayList<String>();
+		unitName2.add("%");
+		
 		LineType lineType2 = new LineType();
 		LineEntity lineEntity2 = lineType2.getOption("3", "湖北省产业规模变化趋势", dataX2, legendData2, dataV2, showColor2,
-				showType2);
+				showType2, unitName2);
 
 		// 第4部分-文字2
 		String cardText2 = topicService.getTopic3Card2_1() + topicService.getTopic3Card2_2();
@@ -761,9 +813,13 @@ public class TopicController {
 		showType4.add("bar");
 		List<String> legendData4 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData4.add(list4_1.get(0).getIndi_name());//
+		
+		List<String> unitName4 = new ArrayList<String>();
+		unitName4.add("万户");
+		
 		BarType barType4 = new BarType();
 		BarEntity barEntity4 = barType4.getOption("7", "互联网宽带接入用户数", dataX4, legendData4, dataV4, showColor4,
-				showType4);
+				showType4, unitName4);
 		// 第8部分-文字4
 		String cardText4 = topicService.getTopic3Card4_1();
 		CardEntity cardEntity4 = new CardEntity("8", "产业环境分析（资金）", "card", cardText4);
@@ -782,9 +838,13 @@ public class TopicController {
 		showType5.add("bar");
 		List<String> legendData5 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData5.add(list5_1.get(0).getIndi_name());//
+		
+		List<String> unitName5 = new ArrayList<String>();
+		unitName5.add("亿元");
+		
 		BarType barType5 = new BarType();
 		BarEntity barEntity5 = barType5.getOption("9", "金融机构本外币贷款余额", dataX5, legendData5, dataV5, showColor5,
-				showType5);
+				showType5, unitName5);
 
 		List<Object> classInfoList = new ArrayList<Object>();
 		classInfoList.add(lineEntity1);// 图1
@@ -830,9 +890,13 @@ public class TopicController {
 		showType1.add("line");
 		List<String> legendData1 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData1.add(list1_1.get(0).getIndi_name());//
+		
+		List<String> unitName1 = new ArrayList<String>();
+		unitName1.add("");
+		
 		LineType lineType = new LineType();
 		LineEntity lineEntity1 = lineType.getOption("1", "湖北省投资先行指数变化趋势", dataX, legendData1, dataV, showColor1,
-				showType1);
+				showType1, unitName1);
 
 //第2部分-文字1	
 		String cardText1 = topicService.getTopic4Card1_1();
@@ -948,9 +1012,13 @@ public class TopicController {
 		showType4.add("line");
 		List<String> legendData4 = new ArrayList<String>();// 图例列表（指标名称）
 		legendData4.add(list4_1.get(0).getIndi_name());//
+		
+		List<String> unitName4 = new ArrayList<String>();
+		unitName4.add("%");
+		
 		LineType lineType4 = new LineType();
 		LineEntity lineEntity4 = lineType4.getOption("7", "湖北省投资效益系数变化趋势", dataX4, legendData4, dataV4, showColor4,
-				showType4);
+				showType4, unitName4);
 
 //第8部分-文字4
 		String cardText4 = topicService.getTopic4Card4_1();
