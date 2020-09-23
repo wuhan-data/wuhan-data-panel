@@ -66,10 +66,10 @@ public class BarStackLineType {
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
-		List<String> toolTipPosition = new ArrayList<String>();
-		toolTipPosition.add("25%");
-		toolTipPosition.add("65%");
-		toolTipMap.put("position", toolTipPosition);
+//		List<String> toolTipPosition = new ArrayList<String>();
+//		toolTipPosition.add("25%");
+//		toolTipPosition.add("65%");
+//		toolTipMap.put("position", toolTipPosition);
 		toolTipMap.put("snap", true);
 		Map<String, Object> axisPointerMap = new HashMap<String, Object>();
 		axisPointerMap.put("type", "line");
