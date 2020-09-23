@@ -215,6 +215,7 @@ public class LineAndBarType {
 				// 配置经济分析单位
 				yAxisFirstMap.put("name", unitName.get(i));
 			} else {
+				seriesListMap.put("smooth", "0.6");
 				seriesListMap.put("name", legendData.get(i));
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
