@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.wuhan_data.app.mapper.AuthorityMapper">
+    
+    <!-- 达梦数据库 -->
+
+    <select id="getAnalysisListByUserId" resultMap="AuthorityModel" parameterType="java.lang.Integer">
+        SELECT ATY.TYPE_ID "typeId", ATY.TYPE_NAME "typeName", ALA.LABEL_NAME "labelName", ATH.THEME_ID "indexId", ATH.THEME_NAME "indexName"
+        FROM WUHAN_DATA."USER" U, WUHAN_DATA."ROLE" R, WUHAN_DATA.ANALYSIS_TYPE ATY, WUHAN_DATA.ANALYSIS_LABEL ALA, WUHAN_DATA.ANALYSIS_THEME ATH
+        WHERE U.ID = #{userId} AND U.ROLE_ID = R.ID
+        AND (INSTR(R.ROLE_POWER_1, CONCAT(CONCAT('|', ATH.THEME_ID), '|')) &lt;&gt; 0
+        OR INSTR(R.ROLE_POWER_1, CONCAT(ATH.THEME_ID, '|')) &lt;&gt; 0
+        OR INSTR(R.ROLE_POWER_1, CONCAT('|', ATH.THEME_ID)) &lt;&gt; 0
+        OR INSTR(R.ROLE_POWER_1, ATH.THEME_ID) = 1)
+        AND (ATY.IS_SHOW = 0 OR ATY.IS_SHOW = 9)
+        AND (ALA.IS_SHOW = 0 OR ALA.IS_SHOW = 9) AND (ATH.IS_SHOW = 0 OR ATH.IS_SHOW = 9)
+        AND ATY.TYPE_ID = ALA.TYPE_ID AND ALA.LABEL_ID = ATH.LABEL_ID
+        ORDER BY ATY.TYPE_WEIGHT, ALA.LABEL_WEIGHT, ATH.THEME_WEIGHT
+    </select>
+
+    <resultMap id="AuthorityModel" type="com.wuhan_data.app.showType.model.AuthorityModel">
+        <result column="typeId" property="typeId"/>
+        <result column="typeName" property="typeName"/>
+        <collection property="labelList" javaType="java.util.ArrayList" ofType="com.wuhan_data.app.showType.model.LabelModel">
+            <result column="labelName" property="labelName"/>
+            <collection property="themeList" javaType="java.util.ArrayList" ofType="com.wuhan_data.app.showType.model.ThemeModel">
+                <result column="indexId" property="indexId"/>
+                <result column="indexName" property="indexName"/>
+            </collection>
+        </collection>
+    </resultMap>
+</mapper>
