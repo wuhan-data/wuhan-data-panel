@@ -14,7 +14,7 @@ public class BarStoreType {
 
 	// 参数：图例名称列表、数据、数据
 	public BarStoreEntity getOption(String id, String title, List<String> dataX, List<String> legendData,
-			List<List<String>> dataV, List<String> showColor, List<String> showType) {
+			List<List<String>> dataV, List<String> showColor, List<String> showType, List<String> unitName) {
 		// 预处理数据，合并1月及2月的数据
 		int ignoreX = -1;
 		for (int i = 0; i < dataX.size(); i++) {
@@ -88,7 +88,7 @@ public class BarStoreType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
 //		legendMap.put("top", "10");
-		legendMap.put("bottom", "280");
+		legendMap.put("bottom", "300");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
@@ -158,7 +158,7 @@ public class BarStoreType {
 		List<Map<String, Object>> yAxis = new ArrayList<Map<String, Object>>();
 		Map<String, Object> yAxisMap = new HashMap<String, Object>();
 		yAxisMap.put("type", "value");
-		yAxisMap.put("name", "");
+		yAxisMap.put("name", unitName.get(0));
 		yAxis.add(yAxisMap);
 		barStoreOptionEntity.setyAxis(yAxis);
 
@@ -187,7 +187,7 @@ public class BarStoreType {
 
 		// 设置图例对象
 		BarStoreEntity barStoreEntity = new BarStoreEntity(id, title, barStoreOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 50 : 20);
+		int classHeight = 350 + legendHeight + (legendData.size() > 5 ? 50 : 20);
 		barStoreEntity.setClassHeight(String.valueOf(classHeight));
 		return barStoreEntity;
 	}

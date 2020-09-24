@@ -89,7 +89,7 @@ public class LineAndBarType {
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
 //		legendMap.put("top", "10");
-		legendMap.put("bottom", "290");
+		legendMap.put("bottom", "300");
 		legendMap.put("data", legendData);
 		// 计算legend高度
 		int legendHeight = 150;
@@ -215,6 +215,7 @@ public class LineAndBarType {
 				// 配置经济分析单位
 				yAxisFirstMap.put("name", unitName.get(i));
 			} else {
+				seriesListMap.put("smooth", "0.6");
 				seriesListMap.put("name", legendData.get(i));
 				seriesListMap.put("type", showTypeString);
 				seriesListMap.put("data", tempList);
@@ -243,7 +244,7 @@ public class LineAndBarType {
 
 		// 设置图例对象
 		LineAndBarEntity lineAndBarEntity = new LineAndBarEntity(id, title, lineAndBarOptionEntity);
-		int classHeight = 330 + legendHeight + (legendData.size() > 5 ? 50 : 20);
+		int classHeight = 350 + legendHeight + (legendData.size() > 5 ? 50 : 20);
 		lineAndBarEntity.setClassHeight(String.valueOf(classHeight));
 		return lineAndBarEntity;
 	}
