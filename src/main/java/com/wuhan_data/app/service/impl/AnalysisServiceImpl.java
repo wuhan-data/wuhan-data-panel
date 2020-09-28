@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.wuhan_data.app.mapper.AuthorityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,11 +43,8 @@ import com.wuhan_data.pojo.AnalysisLabel;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisSearch;
 import com.wuhan_data.pojo.AnalysisTheme;
-import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.Collect;
 import com.wuhan_data.service.UserService;
-
-import cn.hutool.core.lang.Console;
 
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
@@ -60,20 +58,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	AuthorityMapper authorityMapper;
+
 	@Override
 	public ArrayList<Object> getAnalysisList(int userId) {
 		System.out.println("用户Id:" + userId);
 		// 处理经济分析栏目列表
-		ArrayList<Object> result = new ArrayList<Object>();
-		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList();
-		for (int i = 0; i < typeList.size(); i++) {
-			Map<String, Object> typeListMap = new HashMap<String, Object>();
-			typeListMap.put("typeId", typeList.get(i).getType_id());
-			typeListMap.put("typeName", typeList.get(i).getType_name());
-			ArrayList<Object> labelList = this.getAnalysisLabelList(userId, typeList.get(i).getType_id());
-			typeListMap.put("labelList", labelList);
-			result.add(typeListMap);
-		}
+		ArrayList<Object> result = authorityMapper.getAnalysisListByUserId(userId);
 		return result;
 	}
 
@@ -211,6 +203,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
 
 		// 获取时间可取区间数据
+        //TODO 贼慢
 		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
 		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
 		if (timeCondition.toString().equals(errorTimeCondition)) {
