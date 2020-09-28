@@ -744,10 +744,15 @@ public class IndiSearchAppController {
 					dataX.add(dateList);
 					List<String> showColor = new ArrayList<String>();
 					List<String> showType = new ArrayList<String>();
+					//添加單位
+					String unitnameT = "%";
+					if(tempList.size()>0){
+						unitnameT = tempList.get(0).getUnitname();
+					}
 					List<String> unitName = new ArrayList<String>();
 					if (appIndiName.equals("湖北PMI")) {
 						// 创建折线图
-						unitName.add("%");
+						unitName.add(unitnameT);
 						LineType lineType = new LineType();
 						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1),
 								appIndiName + "-" + showName, dataX.get(0), legendList, dataV, showColor, showType,
@@ -762,7 +767,7 @@ public class IndiSearchAppController {
 					} else {
 						if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
 							// 创建柱状图
-							unitName.add("");
+							unitName.add(unitnameT);
 
 							BarType barType = new BarType();// 柱状图
 							System.out.println("legendList长度:" + legendList.size());
@@ -779,7 +784,7 @@ public class IndiSearchAppController {
 							classInfoList.add(tableEntity);
 						} else {
 							// TODO 其他情况
-							unitName.add("");
+							unitName.add(unitnameT);
 							// 创建折线图
 							LineType lineType = new LineType();
 							LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1),
@@ -931,9 +936,15 @@ public class IndiSearchAppController {
 					dataX.add(dateList);
 					List<String> showColor = new ArrayList<String>();
 					List<String> showType = new ArrayList<String>();
+					
+					//添加單位
+					String unitnameT = "%";
+					if(tempList.size()>0){
+						unitnameT = tempList.get(0).getUnitname();
+					}
 					List<String> unitName = new ArrayList<String>();
 					if (appIndiName.equals("湖北PMI")) {
-						unitName.add("%");
+						unitName.add(unitnameT);
 						// 创建折线图
 						LineType lineType = new LineType();
 						LineEntity lineEntity = lineType.getOption(Integer.toString(1), showName, dataX.get(0),
@@ -947,7 +958,7 @@ public class IndiSearchAppController {
 
 					} else {
 						if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
-							unitName.add("");
+							unitName.add(unitnameT);
 							// 创建柱状图
 							BarType barType = new BarType();// 柱状图
 							System.out.println("legendList长度:" + legendList.size());
@@ -963,7 +974,7 @@ public class IndiSearchAppController {
 							classInfoList.add(tableEntity);
 						} else {
 							// TODO 其他情况
-							unitName.add("");
+							unitName.add(unitnameT);
 							// 创建折线图
 							LineType lineType = new LineType();
 							LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), showName, dataX.get(0),
@@ -1179,9 +1190,15 @@ public class IndiSearchAppController {
 				dataX.add(selectTimeList);
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				
+				//添加單位
+				String unitnameT = "%";
+				if(tempList.size()>0){
+					unitnameT = tempList.get(0).getUnitname();
+				}
 				List<String> unitName = new ArrayList<String>();
 				if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
-					unitName.add("");
+					unitName.add(unitnameT);
 					// 创建柱状图
 					BarType barType = new BarType();// 柱状图
 					System.out.println("legendList长度:" + legendList.size());
@@ -1218,7 +1235,7 @@ public class IndiSearchAppController {
 					classInfoList.add(tableEntity);
 				} else {
 					// TODO 其他情况
-					unitName.add("");
+					unitName.add(unitnameT);
 					// 创建折线图
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
@@ -1249,6 +1266,7 @@ public class IndiSearchAppController {
 		finalMap.put("errMsg", "success");
 		finalMap.put("data", finData);
 		String param = JSON.toJSONString(finalMap);
+		System.out.println("最后的param："+param);
 		return param;
 
 	}
@@ -1425,10 +1443,16 @@ public class IndiSearchAppController {
 				dataX.add(selectTimeList);
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
+				
+				//添加單位
+				String unitnameT = "%";
+				if(tempList.size()>0){
+					unitnameT = tempList.get(0).getUnitname();
+				}
 				List<String> unitName = new ArrayList<String>();
 
 				if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
-					unitName.add("");
+					unitName.add(unitnameT);
 					// 创建柱状图
 					BarType barType = new BarType();// 柱状图
 					System.out.println("legendList长度:" + legendList.size());
@@ -1450,7 +1474,7 @@ public class IndiSearchAppController {
 					classInfoList.add(tableEntity);
 				} else {
 					// TODO 其他情况
-					unitName.add("");
+					unitName.add(unitnameT);
 					// 创建折线图
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
@@ -1650,9 +1674,15 @@ public class IndiSearchAppController {
 					dataX.add(dateList);
 					List<String> showColor = new ArrayList<String>();
 					List<String> showType = new ArrayList<String>();
+					
+					//添加單位
+					String unitnameT = "%";
+					if(tempList.size()>0){
+						unitnameT = tempList.get(0).getUnitname();
+					}
 					List<String> unitName = new ArrayList<String>();
 					if (appIndiName.equals("湖北PMI")) {
-						unitName.add("");
+						unitName.add(unitnameT);
 						// 创建折线图
 						LineType lineType = new LineType();
 						LineEntity lineEntity = lineType.getOption(Integer.toString(1), showName, dataX.get(0),
@@ -1665,7 +1695,7 @@ public class IndiSearchAppController {
 						classInfoList.add(tableEntity);
 					} else {
 						if (legendData1.get(i).equals("104") || legendData1.get(i).equals("203")) {
-							unitName.add("");
+							unitName.add(unitnameT);
 							// 创建柱状图
 							BarType barType = new BarType();// 柱状图
 							System.out.println("legendList长度:" + legendList.size());
@@ -1690,7 +1720,7 @@ public class IndiSearchAppController {
 							classInfoList.add(tableEntity);
 						} else {
 							// TODO 其他情况
-							unitName.add("");
+							unitName.add(unitnameT);
 							// 创建折线图
 							LineType lineType = new LineType();
 							LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1), showName, dataX.get(0),
@@ -1827,12 +1857,19 @@ public class IndiSearchAppController {
 					dataX.add(dateList);
 					List<String> showColor = new ArrayList<String>();
 					List<String> showType = new ArrayList<String>();
+					
+
+					//添加單位
+					String unitnameT = "%";
+					if(tempList.size()>0){
+						unitnameT = tempList.get(0).getUnitname();
+					}
 					List<String> unitName = new ArrayList<String>();
 					System.out.println("legendList" + legendList);
 					System.out.println("dataList" + dataList);
 					System.out.println("dateList" + dateList);
 					if (legendData.get(i).equals("104") || legendData.get(i).equals("203")) {
-						unitName.add("");
+						unitName.add(unitnameT);
 						// 创建柱状图
 						BarType barType = new BarType();// 柱状图
 						BarEntity barEntity = barType.getOption(Integer.toString(i + 1), appIndiName + "-" + showName,
@@ -1847,7 +1884,7 @@ public class IndiSearchAppController {
 						classInfoList.add(tableEntity);
 					} else {
 						// TODO 其他情况
-						unitName.add("");
+						unitName.add(unitnameT);
 						// 创建折线图
 						LineType lineType = new LineType();
 						LineEntity lineEntity = lineType.getOption(Integer.toString(i + 1),

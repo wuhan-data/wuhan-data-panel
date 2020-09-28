@@ -5,6 +5,15 @@ public class TPIndiValue implements Comparable<TPIndiValue> {
 	private String time_point;
 	private String indi_value;
 	private String area_name;
+	private String unitname;
+
+	public String getUnitname() {
+		return unitname;
+	}
+
+	public void setUnitname(String unitname) {
+		this.unitname = unitname;
+	}
 
 	public String getArea_name() {
 		return area_name;
