@@ -51,6 +51,8 @@ public class RadarType {
 		Map<String, Object> radarTextStyleMap = new HashMap<String, Object>();
 		Map<String, Object> radarNameMap = new HashMap<String, Object>();
 		List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
+		double maxd = 0.0;
+		double mind = 100.0;
 		for (int i = 0; i < nameData.size(); i++) {
 			List<String> temList = data.get(i);
 			List<Double> temListDouble = new ArrayList<Double>();
@@ -63,13 +65,25 @@ public class RadarType {
 			}
 			Map<String, Object> mapi = new HashMap<String, Object>();
 			double max = Collections.max(temListDouble);
-			double maxd = max * 1.1;
+			double min = Collections.min(temListDouble);
+			maxd = Math.ceil(max * 1.1) > maxd ? Math.ceil(max * 1.1) : maxd;
+			mind = Math.floor(min * 0.9) < mind ? Math.floor(min * 0.9) : mind;
 			mapi.put("name", nameData.get(i));
-			mapi.put("max", maxd);
 			list1.add(mapi);
 		}
+		for (int i = 0; i < nameData.size(); i++) {
+			if (i == 0) {
+				Map<String, Object> axisLabelMap = new HashMap<String, Object>();
+				axisLabelMap.put("show", true);
+				axisLabelMap.put("showMaxLabel", true);
+				axisLabelMap.put("showMinLabel", false);
+				list1.get(i).put("axisLabel", axisLabelMap);
+			}
+			list1.get(i).put("max", maxd);
+			list1.get(i).put("min", mind);
+		}
 		radarMap.put("radius", "50%");
-		radarMap.put("shape", "circle");
+		radarMap.put("shape", "polygon");
 		radarTextStyleMap.put("color", "#000000");
 		radarTextStyleMap.put("fontSize", 10);
 		radarNameMap.put("show", true);
@@ -84,7 +98,7 @@ public class RadarType {
 		Map<String, Object> normalMap = new HashMap<String, Object>();
 		List<Map<String, Object>> listTem = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> listSeries = new ArrayList<Map<String, Object>>();
-		showMap.put("show", true);
+		showMap.put("show", false);
 		normalMap.put("normal", showMap);
 		for (int i = 0; i < legendData.size(); i++) {
 			Map<String, Object> seriesListDataMap = new HashMap<String, Object>();

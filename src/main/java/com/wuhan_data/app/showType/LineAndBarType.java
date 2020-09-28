@@ -237,7 +237,15 @@ public class LineAndBarType {
 			seriesList.add(seriesListMap);
 		}
 		lineAndBarOptionEntity.setSeries(seriesList);
-		
+		// 进出口总额及增速（综合）中个别图例的y轴单位是【千美元】需要换算
+		System.out.println("id"+id);
+		if (id.equals("213") || id.equals("215") || id.equals("217")) {
+			System.out.println("iddddd"+id);
+			yAxisFirstMap.put("name", "千美元");
+		}
+		Map<String, Object> yAxisLabelMap = new HashMap<String, Object>();
+		yAxisLabelMap.put("formatter", "{value}");
+		yAxisFirstMap.put("axisLabel", yAxisLabelMap);
 		yAxis.add(yAxisFirstMap);
 		yAxis.add(yAxisSecondMap);
 		lineAndBarOptionEntity.setyAxis(yAxis);

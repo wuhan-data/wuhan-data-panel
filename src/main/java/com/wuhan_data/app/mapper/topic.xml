@@ -402,7 +402,7 @@ END),
 c9,
 '&lt;/span&gt;',
 c14,
-'，同比s',
+'，同比',
 (
 case
 when (TO_NUMBER(c9)-

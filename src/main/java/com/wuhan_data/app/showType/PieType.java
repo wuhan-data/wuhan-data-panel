@@ -105,7 +105,7 @@ public class PieType {
 			listData.add(seriesListMap);
 		}
 		seriesList.put("type", "pie");
-		seriesList.put("radius", "50%");
+		seriesList.put("radius", "75%");
 		List<String> center = new ArrayList<String>();
 		center.add("50%");
 		center.add("50%");

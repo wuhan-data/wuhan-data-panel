@@ -1286,7 +1286,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ Double.parseDouble(indexList2.get(j));
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 
 					}
@@ -1317,7 +1317,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ Double.parseDouble(indexList2.get(j));
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 
 					}
@@ -1352,7 +1352,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 								dataIndiValue.add(String.format("%.2f", dataValueDouble));
 							}
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 					}
 					dataValue1.add(dataIndiValue);
@@ -1383,7 +1383,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ (Double.parseDouble(indexList2.get(j)) * 100);
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 
 					}
@@ -1415,7 +1415,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ Double.parseDouble(indexList2.get(j)) * 100;
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 
 					}
@@ -1446,7 +1446,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ Double.parseDouble(indexList2.get(j));
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 
 					}
@@ -1477,7 +1477,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ Double.parseDouble(indexList2.get(j));
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 
 					}
@@ -1508,7 +1508,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 									/ Double.parseDouble(indexList2.get(j));
 							dataIndiValue.add(String.format("%.2f", dataValueDouble));
 						} catch (Exception e) {
-							dataIndiValue.add("0.00");
+							dataIndiValue.add(null);
 						}
 
 					}
@@ -1615,7 +1615,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName() + "去年同期");
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
-					unitName.add(indiInfoList.get(0).getUnitName());
+//					unitName.add(indiInfoList.get(0).getUnitName());
+					if (indiInfoList.size() > 0) {
+						unitName.add(indiInfoList.get(0).getUnitName());
+					} else {
+						unitName.add(null);
+					}
 				}
 				// 配置指标图例——柱状
 				switch (analysisPlate.get(i).getShowType()) {
@@ -1738,7 +1743,12 @@ public class AnalysisServiceImpl implements AnalysisService {
 					legend.add(indiList.get(j).getIndiName());
 					showColor.add(indiList.get(j).getShowColor());
 					showType.add(indiList.get(j).getShowType());
-					unitName.add(indiInfoList.get(0).getUnitName());
+//					unitName.add(indiInfoList.get(0).getUnitName());
+					if (indiInfoList.size()>0) {
+						unitName.add(indiInfoList.get(0).getUnitName());
+					} else {
+						unitName.add(null);
+					}
 				}
 				System.out.println(unitName.toString());
 				BarEntity barEntity = barType.getOption(id, title, xAxis, legend, dataValue, showColor, showType, unitName);
