@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.wuhan_data.app.mapper.AuthorityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,11 +43,8 @@ import com.wuhan_data.pojo.AnalysisLabel;
 import com.wuhan_data.pojo.AnalysisPlate;
 import com.wuhan_data.pojo.AnalysisSearch;
 import com.wuhan_data.pojo.AnalysisTheme;
-import com.wuhan_data.pojo.AnalysisType;
 import com.wuhan_data.pojo.Collect;
 import com.wuhan_data.service.UserService;
-
-import cn.hutool.core.lang.Console;
 
 @Service
 public class AnalysisServiceImpl implements AnalysisService {
@@ -60,20 +58,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	AuthorityMapper authorityMapper;
+
 	@Override
 	public ArrayList<Object> getAnalysisList(int userId) {
 		System.out.println("用户Id:" + userId);
 		// 处理经济分析栏目列表
-		ArrayList<Object> result = new ArrayList<Object>();
-		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList();
-		for (int i = 0; i < typeList.size(); i++) {
-			Map<String, Object> typeListMap = new HashMap<String, Object>();
-			typeListMap.put("typeId", typeList.get(i).getType_id());
-			typeListMap.put("typeName", typeList.get(i).getType_name());
-			ArrayList<Object> labelList = this.getAnalysisLabelList(userId, typeList.get(i).getType_id());
-			typeListMap.put("labelList", labelList);
-			result.add(typeListMap);
-		}
+		ArrayList<Object> result = authorityMapper.getAnalysisListByUserId(userId);
 		return result;
 	}
 
@@ -211,6 +203,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 		System.out.println("版块数据获取成功:" + df.format(new Date()));
 
 		// 获取时间可取区间数据
+        //TODO 贼慢
 		ArrayList<Map<String, Object>> timeCondition = this.getTimeCondition(analysisPlate);
 		String errorTimeCondition = "[{current=[0, 0], startArray=[], freqName=月度, endArray=[]}, {startArray=[], freqName=季度, endArray=[]}, {startArray=[], freqName=年度, endArray=[]}]";
 		if (timeCondition.toString().equals(errorTimeCondition)) {
@@ -735,6 +728,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
 				List<String> unitName = new ArrayList<String>();
+				unitName.add("%");
+				unitName.add("%");
+				unitName.add("%");
+				unitName.add("%");
 				for (int j = 0; j < indiList.size(); j++) {
 					// 处理配置表中配置数据
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -904,7 +901,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showType.add("line");
 					dataValue1.add(indexGDPSpeedList);
 					System.out.println("17版块:" + dataValue1.toString());
-					unitName.add("%");
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
 							showType, unitName);
@@ -1799,6 +1795,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				PieType pieType = new PieType();
 				for (int j = 0; j < indiList.size(); j++) {
 					String indiName = indiList.get(j).getIndiName().toString();
+					System.out.println(indiName);
 					// 饼状图只有一个指标，不用for循环
 					Map<String, Object> queryMapPie = new HashMap<String, Object>();
 					queryMapPie.put("freqName", queryMap.get("freqName"));
@@ -1806,7 +1803,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMapPie.put("endTime", queryMap.get("endTime"));
 					queryMapPie.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
-					String indiValue = indiInfoList.get(0).getIndiValue();
+					String indiValue = "无数据";
+					if (indiInfoList.size()>0) {
+						indiValue = indiInfoList.get(0).getIndiValue();
+					}
 					legend.add(j, indiName);
 					dataV.add(j, indiValue);
 					showColor.add(indiList.get(j).getShowColor());
