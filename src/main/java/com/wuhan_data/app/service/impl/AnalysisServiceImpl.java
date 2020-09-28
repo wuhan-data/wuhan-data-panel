@@ -735,6 +735,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 				List<String> showColor = new ArrayList<String>();
 				List<String> showType = new ArrayList<String>();
 				List<String> unitName = new ArrayList<String>();
+				unitName.add("%");
+				unitName.add("%");
+				unitName.add("%");
+				unitName.add("%");
 				for (int j = 0; j < indiList.size(); j++) {
 					// 处理配置表中配置数据
 					queryMap.put("indiCode", indiList.get(j).getIndiCode());
@@ -904,7 +908,6 @@ public class AnalysisServiceImpl implements AnalysisService {
 					showType.add("line");
 					dataValue1.add(indexGDPSpeedList);
 					System.out.println("17版块:" + dataValue1.toString());
-					unitName.add("%");
 					LineType lineType = new LineType();
 					LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue1, showColor,
 							showType, unitName);
@@ -1799,6 +1802,7 @@ public class AnalysisServiceImpl implements AnalysisService {
 				PieType pieType = new PieType();
 				for (int j = 0; j < indiList.size(); j++) {
 					String indiName = indiList.get(j).getIndiName().toString();
+					System.out.println(indiName);
 					// 饼状图只有一个指标，不用for循环
 					Map<String, Object> queryMapPie = new HashMap<String, Object>();
 					queryMapPie.put("freqName", queryMap.get("freqName"));
@@ -1806,7 +1810,10 @@ public class AnalysisServiceImpl implements AnalysisService {
 					queryMapPie.put("endTime", queryMap.get("endTime"));
 					queryMapPie.put("indiCode", indiList.get(j).getIndiCode());
 					List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
-					String indiValue = indiInfoList.get(0).getIndiValue();
+					String indiValue = "无数据";
+					if (indiInfoList.size()>0) {
+						indiValue = indiInfoList.get(0).getIndiValue();
+					}
 					legend.add(j, indiName);
 					dataV.add(j, indiValue);
 					showColor.add(indiList.get(j).getShowColor());
