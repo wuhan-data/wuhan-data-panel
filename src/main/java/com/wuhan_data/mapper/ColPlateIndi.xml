@@ -54,9 +54,14 @@
          <select id="getPname" resultType="String" parameterType="int">
         select plate_name from WUHAN_DATA."ANALYSIS_PLATE" where plate_id=#{plate_id}
         </select>
-        
-     
-    
+
+    <update id="updateWeight" parameterType="ColPlateIndi" >
+        update WUHAN_DATA."ANALYSIS_INDI"
+        <set>
+            indi_weight=#{indi_weight},
+        </set>
+        where indi_id=#{indi_id}
+    </update>
     
 <!--         
         <insert id="add" parameterType="ColPlateIndi" >

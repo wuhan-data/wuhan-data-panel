@@ -32,4 +32,14 @@ public interface ColPlateIndiMapper {
 	public List<ColPlateIndi> searchIndi(String content);//用于添加指标时对指标的搜索
 	@DataSource(value="dataSource_dm")
 	public ColPlateIndi getIdAndNew_name(String indi_old_name);
+
+	/**
+	 * 修改权值
+	 * @param colPlateIndi 指标
+	 * @return 修改条数
+	 */
+	@DataSource(value="dataSource_dm")
+	public int updateWeight(ColPlateIndi colPlateIndi);
+
+
 }

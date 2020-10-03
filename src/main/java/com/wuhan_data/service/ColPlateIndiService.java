@@ -18,6 +18,14 @@ public int add(ColPlateIndi colPlateIndi);
 	public int total(int pid);//查询数量
 	
 	public int updateShow(ColPlateIndi colPlateIndi);  //管理显示与否
+
+	/**
+	 * 修改指标权值
+	 * @param plateId 板块ID
+	 * @param ids 指标ID集合
+	 * @return 修改指标条数
+	 */
+	public int updateWeight(int plateId, String[] ids);
 	
 	public List<IndexManage> getAllIndi();//分组查询index_manage 得到indi_code与indi_name 用于前端select组件
 

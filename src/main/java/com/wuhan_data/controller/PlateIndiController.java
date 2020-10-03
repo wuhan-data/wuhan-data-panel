@@ -308,4 +308,49 @@ public class PlateIndiController {
 		return "searchContent";
 	}
 
+    @RequestMapping("updateIndexWeight")
+    public ModelAndView updateIndexWeight(HttpServletRequest request,
+                                          HttpServletResponse response) throws IOException{
+        request.setCharacterEncoding("UTF-8"); //防止乱码
+        response.setCharacterEncoding("UTF-8");//防止乱码
+        String sort = request.getParameter("sort");
+        String plateId = request.getParameter("cid");
+
+        String[] array = sort.split(",");
+
+        System.out.println("arraylegth:"+array.length);
+
+        colPlateIndiService.updateWeight(Integer.valueOf(plateId), array);
+        /*for(int i=1;i<=array.length;i++) {
+            Map map = new HashMap();
+            System.out.println("array[i-1]"+array[i-1]);
+            map.put("label_id", label_id);
+            map.put("oldWeight", array[i-1]);
+            int label_id = analysisSecondService.getThemeId(map);
+            themeIdArray[i-1]=label_id;
+        }
+
+        for(int i=1;i<=themeIdArray.length;i++) {
+            Map map = new HashMap();
+            map.put("theme_id", themeIdArray[i-1]);
+            map.put("newWeight", i);
+            analysisSecondService.updateWeight(map);
+        }*/
+        ModelAndView mav = new ModelAndView();//返回视图类
+        Map<String,Object> map = new HashMap<>(); //分页查询参数
+        map.put("plate_id", plate_id);
+        List<ColPlateIndi> indicolumnByPage = colPlateIndiService.getlist(map);//获取分页
+        mav.addObject("indicolumnByPage", indicolumnByPage);//查询结果，前端展示
+        mav.addObject("label_id", label_id);
+        mav.addObject("label_name", label_name);
+        mav.addObject("type_name", type_name);
+        mav.addObject("theme_name", theme_name);
+        mav.addObject("plate_id", plate_id);
+        mav.addObject("theme_id", theme_id);
+        mav.addObject("plate_name", plate_name);
+        mav.addObject("cid", plate_id);
+        mav.setViewName("plateIndiManage"); //返回到jsp页面
+        return mav;
+    }
+
 }
