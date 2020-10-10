@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.wuhan_data.app.mapper.AuthorityMapper;
+import com.wuhan_data.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,14 +37,6 @@ import com.wuhan_data.app.showType.pojo.PieEntity;
 import com.wuhan_data.app.showType.pojo.PointEntity;
 import com.wuhan_data.app.showType.pojo.RadarEntity;
 import com.wuhan_data.app.showType.pojo.TableEntity;
-import com.wuhan_data.pojo.AnalysisIndi;
-import com.wuhan_data.pojo.AnalysisIndiTime;
-import com.wuhan_data.pojo.AnalysisIndiValue;
-import com.wuhan_data.pojo.AnalysisLabel;
-import com.wuhan_data.pojo.AnalysisPlate;
-import com.wuhan_data.pojo.AnalysisSearch;
-import com.wuhan_data.pojo.AnalysisTheme;
-import com.wuhan_data.pojo.Collect;
 import com.wuhan_data.service.UserService;
 
 @Service
@@ -65,7 +58,17 @@ public class AnalysisServiceImpl implements AnalysisService {
 	public ArrayList<Object> getAnalysisList(int userId) {
 		System.out.println("用户Id:" + userId);
 		// 处理经济分析栏目列表
-		ArrayList<Object> result = authorityMapper.getAnalysisListByUserId(userId);
+		//ArrayList<Object> result = authorityMapper.getAnalysisListByUserId(userId);
+		ArrayList<Object> result = new ArrayList<Object>();
+		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList();
+		for (int i = 0; i < typeList.size(); i++) {
+			Map<String, Object> typeListMap = new HashMap<String, Object>();
+			typeListMap.put("typeId", typeList.get(i).getType_id());
+			typeListMap.put("typeName", typeList.get(i).getType_name());
+			ArrayList<Object> labelList = this.getAnalysisLabelList(userId, typeList.get(i).getType_id());
+			typeListMap.put("labelList", labelList);
+			result.add(typeListMap);
+		}
 		return result;
 	}
 
