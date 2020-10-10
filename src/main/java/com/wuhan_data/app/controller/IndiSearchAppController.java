@@ -745,7 +745,7 @@ public class IndiSearchAppController {
 					List<String> showColor = new ArrayList<String>();
 					List<String> showType = new ArrayList<String>();
 					//添加單位
-					String unitnameT = "%";
+					String unitnameT = "无单位";
 					if(tempList.size()>0){
 						unitnameT = tempList.get(0).getUnitname();
 					}
@@ -938,7 +938,7 @@ public class IndiSearchAppController {
 					List<String> showType = new ArrayList<String>();
 					
 					//添加單位
-					String unitnameT = "%";
+					String unitnameT = "无单位";
 					if(tempList.size()>0){
 						unitnameT = tempList.get(0).getUnitname();
 					}
@@ -1192,7 +1192,7 @@ public class IndiSearchAppController {
 				List<String> showType = new ArrayList<String>();
 				
 				//添加單位
-				String unitnameT = "%";
+				String unitnameT = "无单位";
 				if(tempList.size()>0){
 					unitnameT = tempList.get(0).getUnitname();
 				}
@@ -1445,7 +1445,7 @@ public class IndiSearchAppController {
 				List<String> showType = new ArrayList<String>();
 				
 				//添加單位
-				String unitnameT = "%";
+				String unitnameT = "无单位";
 				if(tempList.size()>0){
 					unitnameT = tempList.get(0).getUnitname();
 				}
@@ -1676,7 +1676,7 @@ public class IndiSearchAppController {
 					List<String> showType = new ArrayList<String>();
 					
 					//添加單位
-					String unitnameT = "%";
+					String unitnameT = "无单位";
 					if(tempList.size()>0){
 						unitnameT = tempList.get(0).getUnitname();
 					}
@@ -1860,7 +1860,7 @@ public class IndiSearchAppController {
 					
 
 					//添加單位
-					String unitnameT = "%";
+					String unitnameT = "无单位";
 					if(tempList.size()>0){
 						unitnameT = tempList.get(0).getUnitname();
 					}
