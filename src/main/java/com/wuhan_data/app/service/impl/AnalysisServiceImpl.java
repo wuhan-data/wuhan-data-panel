@@ -59,16 +59,6 @@ public class AnalysisServiceImpl implements AnalysisService {
         System.out.println("用户Id:" + userId);
         // 处理经济分析栏目列表
         ArrayList<Object> result = authorityMapper.getAnalysisListByUserId(userId);
-        if (result.isEmpty()) {
-            List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList();
-            for (int i = 0; i < typeList.size(); i++) {
-                Map<String, Object> typeListMap = new HashMap<>();
-                typeListMap.put("typeId", typeList.get(i).getType_id());
-                typeListMap.put("typeName", typeList.get(i).getType_name());
-                typeListMap.put("labelList", new ArrayList<>());
-                result.add(typeListMap);
-            }
-        }
 		/*ArrayList<Object> result = new ArrayList<Object>();
 		List<AnalysisType> typeList = analysisMapper.getAnalysisTypeList();
 		for (int i = 0; i < typeList.size(); i++) {
