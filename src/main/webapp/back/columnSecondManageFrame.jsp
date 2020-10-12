@@ -337,14 +337,13 @@
     						 type: "GET",
     						 url: Url+"?label_id="+label_id+"&sort="+fieIdSeqArray,
     						 dataType: "html",
-    						 success: function(data) {
-    							 $('#getNewData').html(data);
-    							/* if(msg == initSeqArray.length) {
-    								alert("字段序列修改成功！");
-    							}else {
-    								alert("字段序列修改失败");
-    							} */
-    						 }
+                            success: function (data) {
+                                alert("保存成功");
+                                $('#getNewData').html(data);
+                            },
+                            error : function(data){
+                                alert("保存失败");
+                            }
     					 });
     		    	/* 
     		    }

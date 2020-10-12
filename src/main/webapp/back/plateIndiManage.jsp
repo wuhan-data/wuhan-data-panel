@@ -555,7 +555,11 @@
                 url: Url + "?cid=" + cid + "&sort=" + fieIdSeqArray,
                 dataType: "html",
                 success: function (data) {
+                    alert("保存成功");
                     $('#getNewData').html(data);
+                },
+                error : function(data){
+                    alert("保存失败");
                 }
             });
         }
