@@ -224,7 +224,6 @@
                                         <th>指标名称</th>
                                         <th>指标别名</th>
                                         <th width="5%">展现形式</th>
-                                        <th width="10%">展示颜色</th>
                                         <th width="30%">操作</th>
                                     </tr>
                                     </thead>
@@ -249,17 +248,7 @@
                                                     ${c.show_type }
                                                 </c:if>
                                             </td>
-                                            <td width="10%">
-                                                <c:if test="${c.show_color==''}">
-                                                    空
-                                                </c:if>
-                                                <c:if test="${c.show_color!=''}">
-                                                    ${c.show_color }
-                                                    <div style="background-color:${c.show_color}"
-                                                         class="showColor"></div>
-                                                </c:if>
-                                            </td>
-                                            <td width="27%">
+                                            <td width="30%">
                                                     <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
                                                     <i class="fa fa-edit"></i>修改
                                                     </div>
