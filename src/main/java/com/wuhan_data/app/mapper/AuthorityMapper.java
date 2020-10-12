@@ -7,8 +7,12 @@ import java.util.ArrayList;
 
 public interface AuthorityMapper {
 
-		@DataSource(value="dataSource_dm")
-	    public ArrayList<Object> getAnalysisListByUserId(Integer userId);
+
+    @DataSource(value = "dataSource_dm")
+    public ArrayList<Object> getAnalysisListByRoleId(Integer roleId);
+
+    @DataSource(value = "dataSource_dm")
+    public ArrayList<Object> getAnalysisListByUserId(Integer userId);
 
 
 }
