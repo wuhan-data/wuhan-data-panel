@@ -368,6 +368,8 @@
              	    	}
              	    }
                   delClick = function(s_id,Url) {
+                      var c = confirm("是否删除？");
+                      if (!c) return;
                 	  if (s_id==2)
                   	{
                   		  alert("默认角色不能删除");

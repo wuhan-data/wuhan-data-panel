@@ -313,7 +313,7 @@
             
             
             var initSeqArray = new Array();
-    		var fieIdSeqArray;	
+    		var fieIdSeqArray;
     		$(document).ready(function(){
     			//为table绑定排序事件
     			 $("#dataTables-example").tableDnD({
@@ -398,6 +398,8 @@
                 
                 
                 delClick = function(id,Url) {
+                    var c = confirm("是否删除？");
+                    if (!c) return;
                    $.ajax({
                               type: 'GET',
                               url:  Url+"?theme_id="+id,

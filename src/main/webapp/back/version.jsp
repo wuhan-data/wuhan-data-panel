@@ -340,6 +340,8 @@
                          });    
                   };
                   delClick = function(s_id,Url) {
+                      var c = confirm("是否删除？");
+                      if (!c) return;
                       $.ajax({
                                  type: 'GET',
                                  url:  Url+"?id="+s_id,
