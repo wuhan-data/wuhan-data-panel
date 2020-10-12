@@ -118,7 +118,6 @@
                                             <th width="15%">二级栏目</th>
                                             <th width="15%">板块</th>
                                             <th>展现形式</th>
-                                            <th>期数</th>
                                    			<th>权重</th>
                                             <th width=40%>操作</th>
                                         </tr>
@@ -129,7 +128,6 @@
             <td width="15%">${c.cname}</td>
             <td width="15%">${c.pname}</td>
             <td>${c.show_type }</td>
-            <td>${c.term }</td>
             <td>${c.plate_weight }</td>
             <td width=40%>
 <%-- <div class="btn btn-warning btn-sm" style="margin-right:3px" data-toggle="modal" data-target="#myEditModal" onclick="edit(${c.theme_name})">
@@ -194,8 +192,7 @@
 
 	<input class="form-control" type="hidden" name="indi_id" id="indi_id">  
      板块名称：<input class="form-control" type="search"  name="pname" id="pnameEdit"> 
-      展示形式：<input class="form-control" type="search" name="show_type" id="show_typeEdit"> 
-      显示期数：<input class="form-control" type="search" name="term" id="termEdit"> 
+      展示形式：<input class="form-control" type="search" name="show_type" id="show_typeEdit">
      		 <input class="form-control"  type="hidden" value="${cid}" name="cid" id="cidEdit"/>
      		 <input class="form-control"  type="hidden" value="${pid}" name="pid" id="pidEdit"/>
 
@@ -506,7 +503,24 @@
             	$("#show_typeEdit").val(show_type);
             	$("#cidEdit").val(cid);
             	$("#termEdit").val(term);
-                	
+
+                $.ajax({
+                    type: 'GET',
+                    url : "graphOptions",
+                    dataType: "json",
+                    async : false,
+                    contentType: false, //不设置内容类型
+                    processData: false,
+                    editable : false,
+                    cache:true,
+                    success: function(data){
+                        alert(data);
+                        $("#show_typeEdit").html(data);
+                    },
+                    error : function(data){
+                    }
+                });
+
             }
             
             function backFirstMenu(op){   
