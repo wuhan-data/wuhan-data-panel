@@ -66,7 +66,7 @@ public class BarType {
 
 		// 构建toolTip
 		Map<String, Object> toolTipMap = new HashMap<String, Object>();
-//		toolTipMap.put("confine", true);
+		toolTipMap.put("confine", true);
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "axis");
 //		List<String> toolTipPosition = new ArrayList<String>();
