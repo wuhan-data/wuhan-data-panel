@@ -6,6 +6,29 @@
 <mapper namespace="com.wuhan_data.app.mapper.AuthorityMapper">
 
     <!-- 达梦数据库 -->
+    <select id="getAnalysisListByRoleId" resultMap="AuthorityModel" parameterType="java.lang.Integer">
+        SELECT ATY.TYPE_ID "typeId", ATY.TYPE_NAME "typeName", ALA.LABEL_NAME "labelName", ATH.THEME_ID "indexId", ATH.THEME_NAME "indexName"
+        FROM
+        (
+        SELECT DISTINCT((SUBSTR(POWER, INSTR(POWER, '|', 1, ROWNUM) + 1, INSTR(POWER, '|', 1, ROWNUM + 1) - INSTR(POWER, '|', 1, ROWNUM) - 1))) "POWER_ID"
+        FROM (
+        SELECT '|' || R.ROLE_POWER_1 || '|' "POWER"
+        FROM WUHAN_DATA."ROLE" R
+        WHERE R.ID = #{roleId}
+        )
+        CONNECT BY INSTR(POWER, '|', 2, ROWNUM) > 0
+        ) G
+        INNER JOIN WUHAN_DATA.ANALYSIS_THEME ATH
+        ON G.POWER_ID = ATH.THEME_ID
+        INNER JOIN WUHAN_DATA.ANALYSIS_LABEL ALA
+        ON ALA.LABEL_ID = ATH.LABEL_ID
+        RIGHT JOIN WUHAN_DATA.ANALYSIS_TYPE ATY
+        ON ATY.TYPE_ID = ALA.TYPE_ID
+        AND (ATY.IS_SHOW = 0 OR ATY.IS_SHOW = 9)
+        AND (ALA.IS_SHOW = 0 OR ALA.IS_SHOW = 9) AND (ATH.IS_SHOW = 0 OR ATH.IS_SHOW = 9)
+        ORDER BY ATY.TYPE_WEIGHT, ALA.LABEL_WEIGHT, ATH.THEME_WEIGHT
+    </select>
+
 
     <select id="getAnalysisListByUserId" resultMap="AuthorityModel" parameterType="java.lang.Integer">
         SELECT ATY.TYPE_ID "typeId", ATY.TYPE_NAME "typeName", ALA.LABEL_NAME "labelName", ATH.THEME_ID "indexId", ATH.THEME_NAME "indexName"
