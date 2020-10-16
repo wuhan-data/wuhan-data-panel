@@ -192,7 +192,8 @@
 
 	<input class="form-control" type="hidden" name="indi_id" id="indi_id">  
      板块名称：<input class="form-control" type="search"  name="pname" id="pnameEdit"> 
-      展示形式：<input class="form-control" type="search" name="show_type" id="show_typeEdit">
+                展示形式：<select class="form-control" name="show_type" id="show_typeEdit"></select>
+                <input class="form-control"  type="hidden" name="term" id="termEdit"/>
      		 <input class="form-control"  type="hidden" value="${cid}" name="cid" id="cidEdit"/>
      		 <input class="form-control"  type="hidden" value="${pid}" name="pid" id="pidEdit"/>
 
@@ -499,28 +500,32 @@
                                        });    
                                 };
             function edit(pid,pname,show_type,cid,term){
-            	$("#pidEdit").val(pid);
-            	$("#pnameEdit").val(pname);
-            	$("#show_typeEdit").val(show_type);
-            	$("#cidEdit").val(cid);
-            	$("#termEdit").val(term);
-
                 $.ajax({
                     type: 'GET',
                     url : "graphOptions",
                     dataType: "json",
                     async : false,
-                    contentType: false, //不设置内容类型
+                    contentType: "application/json",
                     processData: false,
                     editable : false,
                     cache:true,
                     success: function(data){
-                        alert(data);
-                        $("#show_typeEdit").html(data);
+                        $("#show_typeEdit").empty();
+                        for(var i = 0; i < data.length; i++){
+                            //if(i == 0) alert("<option value=" + data[i] + ">" + data[i] + "</option>");
+                            $("#show_typeEdit").append("<option value=" + data[i] + ">" + data[i] + "</option>");
+                        }
                     },
                     error : function(data){
+                        alert("获取展示形式列表失败");
                     }
                 });
+
+                $("#pidEdit").val(pid);
+                $("#pnameEdit").val(pname);
+                $("#show_typeEdit").val(show_type);
+                $("#cidEdit").val(cid);
+                $("#termEdit").val(term);
 
             }
             

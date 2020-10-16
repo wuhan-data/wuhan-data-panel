@@ -130,6 +130,11 @@ public class AnalysisManageServiceImpl implements AnalysisManageService{
 	}
 
 	@Override
+	public List<String> getGraphOptions() {
+		return analysisManageMapper.getGraphOptions();
+	}
+
+	@Override
 	public int addLabel(AnalysisLabel analysisLabel) {
 		// TODO Auto-generated method stub
 		return analysisManageMapper.addLabel(analysisLabel);

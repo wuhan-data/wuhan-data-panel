@@ -60,4 +60,11 @@ public interface AnalysisManageMapper {
 		@DataSource(value="dataSource_dm")
 	    public int getTypeId(String tname);
 
+	/**
+	 *
+	 * 获取图片类型下拉框
+	 * @return 图片类型列表
+	 */
+		@DataSource(value="dataSource_dm")
+		public List<String> getGraphOptions();
 }

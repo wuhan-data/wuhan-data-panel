@@ -122,7 +122,13 @@
         
         <select id="getTypeId" resultType="int" parameterType="String" >
             select type_id from WUHAN_DATA."ANALYSIS_TYPE" where type_name=#{type_name}
-        </select> 
+        </select>
+
+
+    <select id="getGraphOptions" resultType="String" >
+        SELECT DISTINCT(SHOW_TYPE) FROM WUHAN_DATA.ANALYSIS_PLATE
+    </select>
+
     
     
     <!-- mysql数据库 -->

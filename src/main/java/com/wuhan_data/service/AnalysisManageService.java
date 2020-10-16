@@ -53,5 +53,12 @@ public interface AnalysisManageService {
     
     public int getTypeId(String tname);
 
+    /**
+     *
+     * 获取图片类型下拉框
+     * @return 图片类型列表
+     */
+    public List<String> getGraphOptions();
+
 
 }
