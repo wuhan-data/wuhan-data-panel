@@ -85,13 +85,34 @@
 		    	return flag;
           }
      }
+
+     //检查密码合法性
+     function checkPassWord(textPartId, warnPartId){
+        textPartId = '#' + textPartId;
+        warnPartId = '#' + warnPartId;
+        var password = $(textPartId).val();
+        var reg = /^\w{6,18}$/;  //检查密码是否为6至18位数字、字母或下划线
+        var empty_reg = /\S/;  //检查密码是否为空
+        $(warnPartId).css("display", "none");
+        if(!empty_reg.test(password)){
+            $(warnPartId).css("display", "block");
+            $(warnPartId).html("密码不能为空!");
+            return false;
+        }
+        if(!reg.test(password)){
+            $(warnPartId).css("display", "block");
+            $(warnPartId).html("密码必须由6至18位数字、字母或下划线组成!");
+            return false;
+        }
+        return true;
+     }
     function checkForm(){
-      	var roleCode=checkUserTel();
-      	if (roleCode)
-      		return true;
-      	else
-      		return false;
+      	return checkUserTel() && checkPassWord('addPassWord', 'add_span_userPassWord');
       }
+
+    function edit_checkForm(){
+        return edit_checkUserTel() && checkPassWord('editPassWord', 'edit_span_userPassWord');
+    }
             
       function edit_checkUserTel(){
       	
@@ -105,13 +126,7 @@
          	 return true;
            
       }
-       function edit_checkForm(){
-       	var roleCode=edit_checkUserTel();
-       	if (roleCode)
-       		return true;
-       	else
-       		return false;
-       }
+
       </script>
 </head>
 <body>
@@ -149,7 +164,8 @@
                                     <thead>
                                         <tr>
                                             <th>用户id</th>
-                                            <th>联系方式</th>
+                                            <th>用户账号/联系方式</th>
+                                            <th>用户密码</th>
                                             <th>用户状态</th>
                                             <th>用户性别</th>
                                     <!--         <th>角色</th>
@@ -163,6 +179,7 @@
         <tr>
             <td>${c.id}</td>
             <td>${c.tel}</td>
+            <td>${c.password}</td>
             <td>
             <c:if test="${c.status==0}" var="statusflag">
             	<c:out value="正常"></c:out>
@@ -223,6 +240,8 @@
    <br> -->
     手机：<input class="form-control"  name="editUserTel" id="editUserTel" readonly onblur="edit_checkUserTel()">
     <!--  <span id="edit_span_userTel">填11位数字</span> --><br> <br>
+    密码:<input class="form-control" type="search" placeholder="请输入6至18位数字、字母或下划线" name="editPassWord" id="editPassWord" onblur="checkPassWord('editPassWord', 'edit_span_userPassWord')">
+    <span id="edit_span_userPassWord"></span><br><br>
    状态：<select class="form-control" type="text" name="editstatus" id="editstatus"> 
    			<option value="0" >正常</option>    
        		<option value="1" >封禁</option>
@@ -296,8 +315,10 @@
      <br>
      用户密码：<input class="form-control" type="search" placeholder="用户密码" name="addUserPassword" id="addUserPassword">
      <br> -->
-     手机:<input class="form-control" type="search" placeholder="联系方式" name="addUserTel" id="addUserTel" onblur="checkUserTel()">
+     手机:<input class="form-control" type="search" placeholder="用户账号/联系方式" name="addUserTel" id="addUserTel" onblur="checkUserTel()">
      <span id="span_userTel">填11位数字</span><br><br>
+     密码:<input class="form-control" type="search" placeholder="请输入6至18位数字、字母或下划线" name="addPassWord" id="addPassWord" onblur="checkPassWord('addPassWord', 'add_span_userPassWord')">
+     <span id="add_span_userPassWord"></span><br><br>
      性别：
      <select class="form-control" id="genderSelect" name="genderSelect" id="genderSelect">	
        		<option value="男" selected> 男</option>    
@@ -606,7 +627,7 @@
             function edit(username,ID,password,status,gender,tel,real_name,role_list,role_id,department_id,birthday,city){
             	$("#editUserID").val(ID);
             	$("#editUserName").val(username);
-            	$("#editUserPassword").val(password);
+            	$("#editPassWord").val(password);
             	$("#editstatus").val(status);
             	/* $("#editgenderSelect").val(gender); */
             	if(gender=="0")

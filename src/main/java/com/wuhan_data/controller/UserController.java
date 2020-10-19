@@ -446,6 +446,7 @@ public class UserController {
     	String addUserRole_list="";
     	String addBirthday="";
     	String addCity="";
+    	String addPassword = "";
     	try {
     		roleListSelect=StringUtils.join(request.getParameterValues("roleListSelect"),"|");
     		departmentListSelect=StringUtils.join(request.getParameterValues("departmentListSelect"),"|");
@@ -456,7 +457,7 @@ public class UserController {
     		addUserRole_list=request.getParameter("addUserRole_list");
     		addBirthday=request.getParameter("addBirthday");
     		addCity=request.getParameter("addCity");
-			
+			addPassword = request.getParameter("addPassWord");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("addUser:获取数据"+e.toString());
@@ -483,6 +484,7 @@ public class UserController {
         	user.setRole_list(addUserRole_list);
         	user.setRole_name("1");
         	user.setCreate_time(new Date());
+        	user.setPassword(addPassword);
         	Date birthday=new Date();
         	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         	birthday=formatter.parse(addBirthday);
@@ -542,6 +544,7 @@ public class UserController {
     	String editUserRole_list="";
     	String editBirthday="";
     	String editCity="";
+    	String editPassword = "";
     	try {
     		editUserID=Integer.parseInt(request.getParameter("editUserID"));
         	editroleListSelect=StringUtils.join(request.getParameterValues("editroleListSelect"),"|");
@@ -554,7 +557,7 @@ public class UserController {
         	editUserRole_list=request.getParameter("editUserRole_list");
         	editBirthday=request.getParameter("editBirthday");
         	editCity=request.getParameter("editCity");
-			
+			editPassword = request.getParameter("editPassWord");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("editUser:获取数据"+e.toString());
@@ -569,6 +572,7 @@ public class UserController {
         	user.setRole_id(editroleListSelect);
         	user.setDepartment_id(editdepartmentListSelect);
         	user.setStatus(editstatus);
+        	user.setPassword(editPassword);
         	String genderString=editgenderSelect;
         	if (genderString.equals("男"))
         		user.setGender(1);//男1女0
