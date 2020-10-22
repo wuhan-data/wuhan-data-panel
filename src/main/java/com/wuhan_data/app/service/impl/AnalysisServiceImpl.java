@@ -634,7 +634,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                     List<String> tableRow4 = new ArrayList<String>();
                     tableRow4.add("占比(%)");
                     for (int j = 1; j < tableRow2.size(); j++) {
-                        Double dataValue = (Double.parseDouble(tableRow2.get(j)) / totalGDPDouble) * 100;
+                        Double dataValue = (Double.parseDouble(tableRow2.get(j)) / totalGDPDouble) * 200;
                         tableRow4.add(String.format("%.2f", dataValue));
                     }
 
