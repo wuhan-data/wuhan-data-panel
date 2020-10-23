@@ -13,6 +13,8 @@
     <mysql.version>5.1.6</mysql.version>
     <mybatis.spring.version>1.2.3</mybatis.spring.version>
     <mybatis.version>3.1.1</mybatis.version>
+    <freemarker.version>2.3.28</freemarker.version>
+    <httpclient.version>4.5.12</httpclient.version>
     <junit.version>4.12</junit.version>
     <jstl.version>1.2</jstl.version>
     <jsqlparser.version>1.0</jsqlparser.version>
@@ -47,6 +49,17 @@
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis-spring</artifactId>
       <version>${mybatis.spring.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>${freemarker.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${httpclient.version}</version>
     </dependency>
  
     <dependency>
@@ -257,6 +270,12 @@
     <version>3.4</version>
   </dependency>
 
+    <!-- pool 对象池 -->
+   <dependency>
+     <groupId>org.apache.commons</groupId>
+     <artifactId>commons-pool2</artifactId>
+   </dependency>
+
   <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
   <dependency>
     <groupId>commons-lang</groupId>
@@ -287,9 +306,27 @@
     <artifactId>commons-io</artifactId>
     <version>2.4</version>
   </dependency>
-  
+
+    <!--phantomjs -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>2.53.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.detro</groupId>
+      <artifactId>ghostdriver</artifactId>
+      <version>2.1.0</version>
+    </dependency>
   
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
   <build>
     <finalName>wuhan_data1</finalName>
     <plugins>
@@ -308,8 +345,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.2</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
