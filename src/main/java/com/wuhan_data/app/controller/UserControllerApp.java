@@ -183,7 +183,15 @@ public class UserControllerApp {
 			
 		}
 	}
-	//跳过验证码直接登录
+
+	/**
+	 * 用户使用账号（手机号码）和密码进行登录
+	 * @param request
+	 * @param response
+	 * @param json
+	 * @return	登录errCode
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "loginaa", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
@@ -191,103 +199,92 @@ public class UserControllerApp {
 		Map data = new HashMap();
 		JSONObject jsonObject = JSONObject.fromObject(json);
 		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-		String tel="";
-		String verCode="";
+		String telephoneNumber="";
+		String password="";
 		//参数获取
 		try {
-			tel = mapget.get("tel").toString();
-			verCode = mapget.get("verCode").toString();
+			telephoneNumber = mapget.get("tel").toString();
+			password = mapget.get("password").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("getVercodeApp,错误类型："+e.toString());
 			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
-			return this.apiReturn("-2", "请求参数获取异常", data);
+			return this.apiReturn("-3", "请求参数获取异常", data);
 		}
-		
-		System.out.println("登录接口:获取的参数为" + "tel" + tel + "verCode" + verCode);
-//		String sessioncode="";
-//		try {
-//			sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			return this.apiReturn("-1", "session获取异常", data);
-//		}
+
+		System.out.println("登录接口:获取的参数为" + "telephoneNumber:" + telephoneNumber + "password:" + password);
+
 		// 对比缓存是否相同+
 		if (true) {
 			//获取用户信息
 			try {
 				// 判断是否为新用户
 				String errMsg="";
-				if (userServiceApp.getByTel(tel) == null) {
-					User user=new User();
-					user.setTel(tel);
-					//设置头像路径
-//					String headString=ImageUtils.getURL(request);
-//					user.setHead(headString+"heads/default.jpg");
-					userServiceApp.add(user);
-					System.out.println(user.toString());
-					errMsg="新用户登录成功";	
-				} else {
+				if(userServiceApp.getByTel(telephoneNumber) != null && userServiceApp.getByTel(telephoneNumber).getPassword().equals(password)){
 					errMsg="用户登录成功";
+					//0.1的概率删除过期session
+					//生成随机数
+					int max=100,min=1;
+					int ran2 = (int) (Math.random()*(max-min)+min);
+					if(ran2<10)
+					{
+						Date timeout=new Date();
+						Calendar calendar=Calendar.getInstance();
+						calendar.setTime(timeout);
+						calendar.add(Calendar.DATE, -15);
+						timeout=calendar.getTime();
+						System.out.println("删除过期session条数："+sessionSQLServiceApp.deleteTimeoutToken(timeout));
+					}
+
+					// 将对应用户的信息加到data中
+					User user = userServiceApp.getByTel(telephoneNumber);
+					// 生成token令牌
+					String tokenString = TokenUtil.getToken(telephoneNumber + new Date().toString());
+					String idString = String.valueOf(user.getId());
+					String telString = user.getTel();
+					String passwordString = user.getPassword();
+					String realNameString = user.getReal_name();
+					String genderString = "女";
+					if (user.getGender() == 0) {
+						genderString = "女";
+					} else {
+						genderString = "男";
+					}
+					String headString = user.getHead();
+					Date birth = user.getBirthday();
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					String birthdayString = formatter.format(birth);
+					String cityString = user.getCity();
+					String descriptionString = user.getDescription();
+					String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
+					String roleNameString = user.getRole_id();
+					deparmentString=departmentService.getNameList(deparmentString);
+					roleNameString=roleService.getNameList(roleNameString);
+
+					data.put("token", tokenString);
+					data.put("userId", idString);
+					data.put("tel", telString);
+					data.put("password",passwordString);
+					data.put("realName", realNameString);
+					data.put("gender", genderString);
+					data.put("head", headString);
+					data.put("birthday", birthdayString);
+					data.put("city", cityString);
+					data.put("description", descriptionString);
+					data.put("department", deparmentString);
+					data.put("roleName", roleNameString);
 					// 将用户的信息加到session中，以token为key，对应的职位
-				}
-				
-				//0.1的概率删除过期session
-				//生成随机数
-				int max=100,min=1;
-				int ran2 = (int) (Math.random()*(max-min)+min);
-				if(ran2<10)
-				{
-					Date timeout=new Date();
-					Calendar calendar=Calendar.getInstance();
-					calendar.setTime(timeout);
-					calendar.add(Calendar.DATE, -15);
-					timeout=calendar.getTime();
-					System.out.println("删除过期session条数："+sessionSQLServiceApp.deleteTimeoutToken(timeout));
+					sessionSQLServiceApp.set(tokenString, data.toString());
+
+					userOpLogService.addOp(Integer.valueOf(idString), "用户登录", request, request.getRequestURL().toString());
+					return this.apiReturn("0", errMsg, data);
+				}else {
+					errMsg="手机号或密码错误！登录失败！";
+					return this.apiReturn("-2", "手机号或者密码不正确", data);
 				}
 
-				// 将对应用户的信息加到data中
-				User user = userServiceApp.getByTel(tel);
-				// 生成token令牌
-				String tokenString = TokenUtil.getToken(tel + new Date().toString());
-				String idString = String.valueOf(user.getId());
-				String telString = user.getTel();
-				String realNameString = user.getReal_name();
-				String genderString = "女";
-				if (user.getGender() == 0) {
-					genderString = "女";
-				} else {
-					genderString = "男";
-				}
-				String headString = user.getHead();
-				Date birth = user.getBirthday();
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				String birthdayString = formatter.format(birth);
-				String cityString = user.getCity();
-				String descriptionString = user.getDescription();
-				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
-				String roleNameString = user.getRole_id();
-				deparmentString=departmentService.getNameList(deparmentString);
-				roleNameString=roleService.getNameList(roleNameString);
-				
-				
-				
-				data.put("token", tokenString);
-				data.put("userId", idString);
-				data.put("tel", telString);
-				data.put("realName", realNameString);
-				data.put("gender", genderString);
-				data.put("head", headString);
-				data.put("birthday", birthdayString);
-				data.put("city", cityString);
-				data.put("description", descriptionString);
-				data.put("department", deparmentString);
-				data.put("roleName", roleNameString);
-				// 将用户的信息加到session中，以token为key，对应的职位
-				sessionSQLServiceApp.set(tokenString, data.toString());
-				
-				userOpLogService.addOp(Integer.valueOf(idString), "用户登录", request, request.getRequestURL().toString());
-				return this.apiReturn("0", errMsg, data);
+					// 将用户的信息加到session中，以token为key，对应的职位
+
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println("getVercodeApp错误，错误类型"+e.toString());
@@ -296,10 +293,10 @@ public class UserControllerApp {
 			}
 			// 没有设置保存多长时间会不会有问题
 		} else {
-			return this.apiReturn("-2", "手机号或者验证码不正确", data);
+			return this.apiReturn("-2", "手机号或者密码不正确", data);
 		}
 	}
-	
+
 	
 	// 退出接口
 		@RequestMapping(value = "loginout", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
@@ -352,101 +349,8 @@ public class UserControllerApp {
 		  	}  
 			
 		}
-	
-
-	// 接口登录
-//	@RequestMapping(value = "loginaa", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
-//	@ResponseBody
-//	public String login(HttpServletRequest request, HttpServletResponse response, @RequestBody String json)
-//			throws Exception {
-//		Map data = new HashMap();
-//		JSONObject jsonObject = JSONObject.fromObject(json);
-//		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
-//		String tel="";
-//		String verCode="";
-//		//参数获取
-//		try {
-//			tel = mapget.get("tel").toString();
-//			verCode = mapget.get("verCode").toString();
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			return this.apiReturn("-2", "请求参数获取异常", data);
-//		}
-//		
-//		System.out.println("登录接口:获取的参数为" + "tel" + tel + "verCode" + verCode);
-//		String sessioncode="";
-//		try {
-//			sessioncode = (String) sessionSQLServiceApp.get(tel+"verCode").getSess_value();
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			return this.apiReturn("-1", "session获取异常", data);
-//		}
-//		// 对比缓存是否相同+
-//		if ((verCode).equals(sessioncode)) {
-//			//获取用户信息
-//			try {
-//				// 判断是否为新用户
-//				String errMsg="";
-//				if (userServiceApp.getByTel(tel) == null) {
-//					User user=new User();
-//					user.setTel(tel);
-//					//设置头像路径
-//					String headString=ImageUtils.getURL(request);
-//					user.setHead(headString+"heads/default.jpg");
-//					userServiceApp.add(user);
-//					System.out.println(user.toString());
-//					errMsg="新用户登录成功";	
-//				} else {
-//					errMsg="用户登录成功";
-//					// 将用户的信息加到session中，以token为key，对应的职位
-//				}
-//				// 将对应用户的信息加到data中
-//				User user = userServiceApp.getByTel(tel);
-//				// 生成token令牌
-//				String tokenString = TokenUtil.getToken(tel + new Date().toString());
-//				String idString = String.valueOf(user.getId());
-//				String telString = user.getTel();
-//				String realNameString = user.getReal_name();
-//				String genderString = "女";
-//				if (user.getGender() == 0) {
-//					genderString = "女";
-//				} else {
-//					genderString = "男";
-//				}
-//				String headString = user.getHead();
-//				Date birth = user.getBirthday();
-//				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//				String birthdayString = formatter.format(birth);
-//				String cityString = user.getCity();
-//				String descriptionString = user.getDescription();
-//				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
-//				String roleNameString = user.getRole_id();
-//				data.put("token", tokenString);
-//				data.put("userId", idString);
-//				data.put("tel", telString);
-//				data.put("realName", realNameString);
-//				data.put("gender", genderString);
-//				data.put("head", headString);
-//				data.put("birthday", birthdayString);
-//				data.put("city", cityString);
-//				data.put("description", descriptionString);
-//				data.put("department", deparmentString);
-//				data.put("roleName", roleNameString);
-//				// 将用户的信息加到session中，以token为key，对应的职位
-//				sessionSQLServiceApp.set(tokenString, data.toString());
-//				return this.apiReturn("0", errMsg, data);
-//			} catch (Exception e) {
-//				// TODO: handle exception
-//				return this.apiReturn("-1", "数据库获取异常", data);
-//			}
-//			// 没有设置保存多长时间会不会有问题
-//		} else {
-//			return this.apiReturn("-2", "手机号或者验证码不正确", data);
-//		}
-//	}
 		
 		 //接口获取用户权限
-		  
 		  @RequestMapping(value="getAllPower",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 		  @ResponseBody public String getAllPower(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
 		  { 
@@ -550,15 +454,8 @@ public class UserControllerApp {
 		  	}  
 		  }
 		
-		
-		
-		
-		
-		
 
-	
 	  //接口获取用户个人信息
-	  
 	  @RequestMapping(value="getUserApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	  @ResponseBody public String getUser(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
 	  { 
@@ -725,7 +622,15 @@ public class UserControllerApp {
 				}		
 			}	  
 	  }
-	//更换手机号
+
+	/**
+	 * 更改手机号码
+	 * @param request
+	 * @param response
+	 * @param json
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="changeTelApp",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
 	@ResponseBody public String changeTel(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception 
 	{
@@ -735,11 +640,13 @@ public class UserControllerApp {
 		//获取参数
 		String tokenString="";
 		String newTel="";
-		String verCode="";
+		//String oldTel="";
+		String password="";
 		try {
 			tokenString=mapget.get("token").toString();
-			newTel=mapget.get("newTel").toString();
-			verCode=mapget.get("verCode").toString();
+			//oldTel = mapget.get("oldtel").toString();
+			newTel=mapget.get("tel").toString();
+			//password=mapget.get("password").toString();
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("changeTelApp"+e.toString());
@@ -764,30 +671,21 @@ public class UserControllerApp {
 		else {
 			//获取数据
 			try {
+				String mapString = sessionSQLServiceApp.get(tokenString).getSess_value();
+				Map map = StringToMap.stringToMap(mapString);
+				int id = Integer.valueOf((String) map.get("userId"));//获得旧手机号
+				User user = userServiceApp.get(id);
 				//新手机号是否已经被注册
-				if(userServiceApp.getByTel(newTel)!=null)
-				{   //已经注册了
-					return this.apiReturn("-2", "改手机号已经被注册", data);
-				}
-				else {
-					//验证码是否正确
-					String sessioncode = (String) sessionSQLServiceApp.get(newTel+"verCode").getSess_value();
-					if((verCode).equals(sessioncode))
-					{
-						//验证码正确
-						String mapString=sessionSQLServiceApp.get(tokenString).getSess_value();
-				  		Map map=StringToMap.stringToMap(mapString);
-				  		int id=Integer.valueOf((String)map.get("userId"));//获得旧手机号
-				  		User user=userServiceApp.get(id);
-				  		user.setTel(newTel);
-				  		userServiceApp.updata(user);
-				  		flashSession(tokenString);
-				  		userOpLogService.addOp(user.getId(), "用户修改手机号", request, request.getRequestURL().toString());
-				  		return this.apiReturn("0", "手机号修改成功", data);
-					}
-					else {
-						return this.apiReturn("-2", "验证码不正确", data);
-					}		
+				if(userServiceApp.getByTel(newTel)!=null) {
+					//已经注册了
+					return this.apiReturn("-2", "该手机号已经被注册", data);
+				} else {
+					//手机号码未被注册
+					user.setTel(newTel);
+					userServiceApp.updata(user);
+					flashSession(tokenString);
+					userOpLogService.addOp(user.getId(), "用户修改手机号", request, request.getRequestURL().toString());
+					return this.apiReturn("0", "手机号修改成功", data);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -796,6 +694,118 @@ public class UserControllerApp {
 				return this.apiReturn("-1", "数据获取异常", data);
 			}		
 		}  
+	}
+
+	/**
+	 * 更改密码
+	 * @param request
+	 * @param response
+	 * @param json
+	 * @return errCode
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "changePassword", produces = "text/plain;charset=utf-8", method = RequestMethod.POST)
+	@ResponseBody public String changePassword(HttpServletRequest request, HttpServletResponse response, @RequestBody String json) throws Exception {
+		Map data = new HashMap();
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+		//获取参数
+		String tokenString="";
+		String oldPassword="";
+		String newPassword="";
+		String telephone="";
+		try {
+			tokenString=mapget.get("token").toString();
+			oldPassword = mapget.get("oldpassword").toString();
+			newPassword=mapget.get("newpassword").toString();
+			telephone=mapget.get("tel").toString();
+			System.out.println(tokenString);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("changePassword" + e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
+			return this.apiReturn("-2", "请求参数异常", data);
+		}
+		//token令牌验证
+		Boolean tokenIsEmpty=true;
+		try {
+			tokenIsEmpty=(sessionSQLServiceApp.get(tokenString)==null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("changeTelApp"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
+			return this.apiReturn("-1", "数据库异常", data);
+		}
+
+		if(tokenIsEmpty) {
+			return this.apiReturn("-3", "token令牌错误", data);
+		}else{
+			//获取数据
+			try {
+				//手机号是否已经被注册
+				if (!userServiceApp.getByTel(telephone).getPassword().equals(oldPassword)) {
+					//没有注册
+
+					return this.apiReturn("-4", "旧密码输入错误", data);
+				} else {
+					//重置密码
+					User user = userServiceApp.getByTel(telephone);
+					user.setPassword(newPassword);
+					userServiceApp.updata(user);
+					userOpLogService.addOp(user.getId(), "用户修改密码", request, request.getRequestURL().toString());
+					return this.apiReturn("0", "密码修改成功", data);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("changeTelApp" + e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据获取异常", e);
+				return this.apiReturn("-1", "数据获取异常", data);
+			}
+		}
+
+	}
+
+	/**
+	 * 新用户注册
+	 * @param request
+	 * @param response
+	 * @param json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="userRegister",produces="text/plain;charset=utf-8",method=RequestMethod.POST)
+	@ResponseBody public String usergister(HttpServletRequest request,HttpServletResponse response,@RequestBody String json)throws Exception
+	{
+		Map data=new HashMap();
+		JSONObject jsonObject =JSONObject.fromObject(json);
+		Map<String, Object> mapget = (Map<String, Object>) JSONObject.toBean(jsonObject, Map.class);
+		//获取参数
+		String telephone="";
+		String password="";
+		String realName="";
+		try {
+			telephone=mapget.get("tel").toString();
+			password=mapget.get("password").toString();
+			realName=mapget.get("name").toString();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("userRegister"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "请求参数异常", e);
+			return this.apiReturn("-2", "请求参数异常", data);
+		}
+		//新手机号是否已经被注册
+		if(userServiceApp.getByTel(telephone)!=null) {
+			//已经注册了
+			return this.apiReturn("-2", "该手机号已经被注册", data);
+		} else {
+			User newUser = new User();
+			newUser.setTel(telephone);
+			newUser.setPassword(password);
+			newUser.setReal_name(realName);
+			userServiceApp.add(newUser);
+			return this.apiReturn("0", "用户注册成功", data);
+		}
+
 	}
 	  
 	  

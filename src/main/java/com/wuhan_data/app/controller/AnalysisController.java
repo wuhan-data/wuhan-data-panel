@@ -114,27 +114,26 @@ public class AnalysisController {
 	@ResponseBody
 	public String getAnalysisDetail(@RequestBody String resquestParams) {
 		JSONObject requestObject = JSONObject.parseObject(resquestParams);
-		String token = "";
-		Integer indexId = 0;
+		String token;
+		String indexIdString;
+		Integer indexId;
 		Integer userId = 0;
-		Map<String, Object> data = new HashMap<String, Object>();
+		Map<String, Object> data = new HashMap<>();
+		Map<String, Object> analysisPlate;
 		try {
 			System.out.println(requestObject.toString());
-			token = requestObject.containsKey("token") == false ? "" : requestObject.get("token").toString();
-			boolean hasIndexId = requestObject.containsKey("indexId");
-			if (!hasIndexId) {
+			token = requestObject.containsKey("token") ? requestObject.get("token").toString() : "";
+			if (!requestObject.containsKey("indexId")) {
 				return this.apiReturn("-1", "需要指定栏目id", data);
 			}
-			String indexIdString = requestObject.get("indexId").toString();
+			indexIdString = requestObject.get("indexId").toString();
 			indexId = Integer.parseInt(indexIdString);
 		} catch (Exception e) {
 			return this.apiReturn("-1", "参数获取异常", data);
 		}
 
-		Map<String, Object> analysisPlate = new HashMap<String, Object>();
-
 		try {
-			if (!token.equals("")) {
+			if (!"".equals(token)) {
 				String mapString = sessionSQLServiceApp.get(token).getSess_value();
 				Map map = StringToMap.stringToMap(mapString);
 				userId = Integer.valueOf((String) map.get("userId"));
