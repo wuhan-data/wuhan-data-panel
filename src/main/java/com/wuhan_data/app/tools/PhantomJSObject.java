@@ -71,14 +71,27 @@ public class PhantomJSObject {
     public void start() {
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append(phantomJsPath);
+            String path = System.getProperty("user.dir");
+            File phantomJs = new File(phantomJsPath);
+            File extendsJs = new File(extendsJSPath);
+            if(!phantomJs.exists()) throw new IOException("Invalid path : " + phantomJsPath);
+            if(!extendsJs.exists()) throw new IOException("Invalid path : " + extendsJSPath);
+            sb.append(formatPath(phantomJs.getAbsolutePath()));
             sb.append(BLANK);
-            sb.append(extendsJSPath);
+            sb.append(formatPath(extendsJs.getAbsolutePath()));
             sb.append(" -s -p ").append(port);
             Runtime.getRuntime().exec(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String formatPath(String path){
+        int index = path.indexOf("..\\");
+        if(index == -1) return path;
+        int preIndex = path.lastIndexOf('\\', index - 2);
+        String result = path.substring(0, preIndex) + path.substring(index + 2, path.length());
+        return result;
     }
     /*public void start() {
         String message = "";
