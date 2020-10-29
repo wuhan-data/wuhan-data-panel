@@ -87,7 +87,7 @@
                                         <tr>
                                             <th width="8%">反馈id</th>
                                             <th width="8%">用户id</th>
-                                            <th width="19%">标题</th>
+                                            <th width="19%">正文</th>
                                             <th width="10%">联系方式</th>
                                             <th width="10%">状态</th>
                                             <th width="15%">创建时间</th>
@@ -99,7 +99,7 @@
         <tr>
             <td >${c.id}</td>
             <td >${c.uid}</td>
-            <td ><div class="tabel-div">${c.title}</div></td>
+            <td ><div class="tabel-div">${c.text}</div></td>
             <td >${c.contact}</td>
             <td >${c.state}</td>
             <td >${c.timeString}</td>
@@ -143,7 +143,7 @@
 
 	<input class="form-control" type="hidden" name="editFeedbackID" id="editFeedbackID">
    反馈用户id：<input class="form-control" type="text" name="editFeedbackUid" id="editFeedbackUid"readonly>  <br>
-   反馈标题：&nbsp&nbsp&nbsp<input class="form-control" type="text" name="editFeedbackTitle" id="editFeedbackTitle"readonly>  <br>
+
    正文：<br><textarea class="form-control" type="text" name="editFeedbackText" id="editFeedbackText"readonly style="width:500px;height:80px;"></textarea>  <br>
    图片地址：<input class="form-control" type="text" name="editFeedbackImg" id="editFeedbackImg"readonly>  <br>
    联系方式：<input class="form-control" type="text" name="editFeedbackContact" id="editFeedbackContact"readonly>  <br>
@@ -183,7 +183,6 @@
 
 	<input class="form-control" type="hidden" name="lookFeedbackID" id="lookFeedbackID">
    反馈用户id：<input class="form-control" type="text" name="lookFeedbackUid" id="lookFeedbackUid" readonly>  <br>
-   反馈标题：&nbsp&nbsp&nbsp<input class="form-control" type="text" name="lookFeedbackTitle" id="lookFeedbackTitle" readonly>  <br>
    正文：<br><textarea class="form-control" type="text" name="lookFeedbackText" id="lookFeedbackText" readonly style="width:500px;height:80px;"> </textarea> <br>
    图片地址：<input class="form-control" type="text" name="lookFeedbackImg" id="lookFeedbackImg" readonly>  <br>
    联系方式：<input class="form-control" type="text" name="lookFeedbackContact" id="lookFeedbackContact" readonly>  <br>
@@ -304,8 +303,6 @@
                          });    
                   };
                   delClick = function(s_id,Url) {
-                      var c = confirm("是否删除？");
-                      if (!c) return;
                       $.ajax({
                                  type: 'GET',
                                  url:  Url+"?id="+s_id,

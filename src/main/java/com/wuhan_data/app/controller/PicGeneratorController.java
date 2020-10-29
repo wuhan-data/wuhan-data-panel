@@ -47,7 +47,7 @@ public class PicGeneratorController {
                     params.put("reqMethod", "echarts");
                     //params.put("file", "D:/echarts1.png");
                     String base64 = phantomJSObject.phantomJS(params);
-                    if (Objects.nonNull(base64)) {
+                    if (base64 != null && !"".equals(base64)) {
                         result.add(base64);
                     }
                 }
@@ -56,9 +56,7 @@ public class PicGeneratorController {
             responseMap.put("errCode", "1");
             responseMap.put("errMsg", "数据获取失败");
             System.out.println(e.getMessage());
-        } /*finally {
-            //phantomJSObject.close();
-        }*/
+        }
         responseMap.put("data", result);
         return JSON.toJSONString(responseMap, SerializerFeature.DisableCircularReferenceDetect);
     }

@@ -50,11 +50,16 @@
     </bean>
     <!-- 定义图片构造器 -->
     <bean id="phantomJSObject" class="com.wuhan_data.app.tools.PhantomJSObject">
-        <constructor-arg name="phantomJsPath"
-                         value="../webapps/wuhan_data1_war/WEB-INF/classes/static/phantomJS/phantomjs-2.1.1-windows/bin/phantomjs.exe"></constructor-arg>
-        <constructor-arg name="extendsJSPath"
-                         value="../webapps/wuhan_data1_war/WEB-INF/classes/static/js/convert.js"></constructor-arg>
-        <constructor-arg name="port" value="10999"></constructor-arg>
+        <!--服务器配置-->
+        <!--<constructor-arg name="phantomJsPath" value="C:\wuhan_data_source\static\PhantomJs\phantomjs-2.1.1-windows\bin\phantomjs.exe"></constructor-arg>
+        <constructor-arg name="extendsJSPath" value="C:\wuhan_data_source\static\js\convert.js"></constructor-arg>
+        <constructor-arg name="port" value="6666"></constructor-arg>
+        <constructor-arg name="url" value="http://localhost"></constructor-arg>-->
+
+        <!--本地配置-->
+        <constructor-arg name="phantomJsPath" value="C:\Users\dell\IdeaProjects\wuhan-data-panel\src\main\resources\static\PhantomJs\phantomjs-2.1.1-windows\bin\phantomjs.exe"></constructor-arg>
+        <constructor-arg name="extendsJSPath" value="C:\Users\dell\IdeaProjects\wuhan-data-panel\src\main\resources\static\js\convert.js"></constructor-arg>
+        <constructor-arg name="port" value="6666"></constructor-arg>
         <constructor-arg name="url" value="http://localhost"></constructor-arg>
     </bean>
 </beans>

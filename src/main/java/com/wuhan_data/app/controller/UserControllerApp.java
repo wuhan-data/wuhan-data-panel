@@ -215,86 +215,86 @@ public class UserControllerApp {
 		System.out.println("登录接口:获取的参数为" + "telephoneNumber:" + telephoneNumber + "password:" + password);
 
 		// 对比缓存是否相同+
-		if (true) {
-			//获取用户信息
-			try {
-				// 判断是否为新用户
-				String errMsg="";
-				if(userServiceApp.getByTel(telephoneNumber) != null && userServiceApp.getByTel(telephoneNumber).getPassword().equals(password)){
-					errMsg="用户登录成功";
-					//0.1的概率删除过期session
-					//生成随机数
-					int max=100,min=1;
-					int ran2 = (int) (Math.random()*(max-min)+min);
-					if(ran2<10)
-					{
-						Date timeout=new Date();
-						Calendar calendar=Calendar.getInstance();
-						calendar.setTime(timeout);
-						calendar.add(Calendar.DATE, -15);
-						timeout=calendar.getTime();
-						System.out.println("删除过期session条数："+sessionSQLServiceApp.deleteTimeoutToken(timeout));
-					}
-
-					// 将对应用户的信息加到data中
-					User user = userServiceApp.getByTel(telephoneNumber);
-					// 生成token令牌
-					String tokenString = TokenUtil.getToken(telephoneNumber + new Date().toString());
-					String idString = String.valueOf(user.getId());
-					String telString = user.getTel();
-					String passwordString = user.getPassword();
-					String realNameString = user.getReal_name();
-					String genderString = "女";
-					if (user.getGender() == 0) {
-						genderString = "女";
-					} else {
-						genderString = "男";
-					}
-					String headString = user.getHead();
-					Date birth = user.getBirthday();
-					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-					String birthdayString = formatter.format(birth);
-					String cityString = user.getCity();
-					String descriptionString = user.getDescription();
-					String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
-					String roleNameString = user.getRole_id();
-					deparmentString=departmentService.getNameList(deparmentString);
-					roleNameString=roleService.getNameList(roleNameString);
-
-					data.put("token", tokenString);
-					data.put("userId", idString);
-					data.put("tel", telString);
-					data.put("password",passwordString);
-					data.put("realName", realNameString);
-					data.put("gender", genderString);
-					data.put("head", headString);
-					data.put("birthday", birthdayString);
-					data.put("city", cityString);
-					data.put("description", descriptionString);
-					data.put("department", deparmentString);
-					data.put("roleName", roleNameString);
-					// 将用户的信息加到session中，以token为key，对应的职位
-					sessionSQLServiceApp.set(tokenString, data.toString());
-
-					userOpLogService.addOp(Integer.valueOf(idString), "用户登录", request, request.getRequestURL().toString());
-					return this.apiReturn("0", errMsg, data);
-				}else {
-					errMsg="手机号或密码错误！登录失败！";
-					return this.apiReturn("-2", "手机号或者密码不正确", data);
+		//获取用户信息
+		try {
+			// 判断是否为新用户
+			String errMsg="";
+			if (userServiceApp.getByTel(telephoneNumber).getPassword()==null || userServiceApp.getByTel(telephoneNumber).getPassword().equals("") || userServiceApp.getByTel(telephoneNumber).getPassword().equals("undefined")) {
+				//旧数据处理，可能存在用户密码为空或undefined
+				return this.apiReturn("-4", "用户信息有误，请联系管理员。", data);
+			}else if(userServiceApp.getByTel(telephoneNumber) != null && userServiceApp.getByTel(telephoneNumber).getPassword().equals(password)){
+				errMsg="用户登录成功";
+				//0.1的概率删除过期session
+				//生成随机数
+				int max=100,min=1;
+				int ran2 = (int) (Math.random()*(max-min)+min);
+				if(ran2<10)
+				{
+					Date timeout=new Date();
+					Calendar calendar=Calendar.getInstance();
+					calendar.setTime(timeout);
+					calendar.add(Calendar.DATE, -15);
+					timeout=calendar.getTime();
+					System.out.println("删除过期session条数："+sessionSQLServiceApp.deleteTimeoutToken(timeout));
 				}
 
-					// 将用户的信息加到session中，以token为key，对应的职位
+				// 将对应用户的信息加到data中
+				User user = userServiceApp.getByTel(telephoneNumber);
+				// 生成token令牌
+				String tokenString = TokenUtil.getToken(telephoneNumber + new Date().toString());
+				String idString = String.valueOf(user.getId());
+				String telString = user.getTel();
+				String passwordString = user.getPassword();
+				String realNameString = user.getReal_name();
+				String genderString = "女";
+				if (user.getGender() == 0) {
+					genderString = "女";
+				} else {
+					genderString = "男";
+				}
+				String headString = user.getHead();
+				Date birth = user.getBirthday();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				String birthdayString = formatter.format(birth);
+				String cityString = user.getCity();
+				String descriptionString = user.getDescription();
+				String deparmentString = user.getDepartment_id();// 这不是id，就是name懒得改了
+				String roleNameString = user.getRole_id();
+				deparmentString=departmentService.getNameList(deparmentString);
+				roleNameString=roleService.getNameList(roleNameString);
 
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("getVercodeApp错误，错误类型"+e.toString());
-				sysLogService.addUser(request, request.getRequestURL().toString(), "数据库获取异常", e);
-				return this.apiReturn("-1", "数据库获取异常", data);
+				data.put("token", tokenString);
+				data.put("userId", idString);
+				data.put("tel", telString);
+				data.put("password",passwordString);
+				data.put("realName", realNameString);
+				data.put("gender", genderString);
+				data.put("head", headString);
+				data.put("birthday", birthdayString);
+				data.put("city", cityString);
+				data.put("description", descriptionString);
+				data.put("department", deparmentString);
+				data.put("roleName", roleNameString);
+				// 将用户的信息加到session中，以token为key，对应的职位
+				sessionSQLServiceApp.set(tokenString, data.toString());
+
+				userOpLogService.addOp(Integer.valueOf(idString), "用户登录", request, request.getRequestURL().toString());
+				return this.apiReturn("0", errMsg, data);
+			}else {
+					errMsg="手机号或密码错误！登录失败！";
+					return this.apiReturn("-2", "手机号或者密码不正确", data);
 			}
-			// 没有设置保存多长时间会不会有问题
-		} else {
-			return this.apiReturn("-2", "手机号或者密码不正确", data);
+
+
+				// 将用户的信息加到session中，以token为key，对应的职位
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("getVercodeApp错误，错误类型"+e.toString());
+			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库获取异常", e);
+			return this.apiReturn("-1", "数据库获取异常", data);
 		}
+		// 没有设置保存多长时间会不会有问题
 	}
 
 	
@@ -612,7 +612,7 @@ public class UserControllerApp {
 						userOpLogService.addOp(user.getId(), "用户信息修改", request, request.getRequestURL().toString());
 						return this.apiReturn("0", "用户信息修改成功", data);
 					} else {
-						return this.apiReturn("-1", "用户信息修改失败", data);
+						return this.apiReturn("-4", "用户信息修改失败", data);
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -661,7 +661,7 @@ public class UserControllerApp {
 			// TODO: handle exception
 			System.out.println("changeTelApp"+e.toString());
 			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
-			return this.apiReturn("-1", "数据库异常", data);
+			return this.apiReturn("-1", "数据库操作错误", data);
 		}
 		
 		if(tokenIsEmpty)
@@ -678,7 +678,7 @@ public class UserControllerApp {
 				//新手机号是否已经被注册
 				if(userServiceApp.getByTel(newTel)!=null) {
 					//已经注册了
-					return this.apiReturn("-2", "该手机号已经被注册", data);
+					return this.apiReturn("-4", "该手机号已经被注册", data);
 				} else {
 					//手机号码未被注册
 					user.setTel(newTel);
@@ -691,7 +691,7 @@ public class UserControllerApp {
 				// TODO: handle exception
 				System.out.println("changeTelApp"+e.toString());
 				sysLogService.addUser(request, request.getRequestURL().toString(), "数据获取异常", e);
-				return this.apiReturn("-1", "数据获取异常", data);
+				return this.apiReturn("-1", "数据库操作错误", data);
 			}		
 		}  
 	}
@@ -734,7 +734,7 @@ public class UserControllerApp {
 			// TODO: handle exception
 			System.out.println("changeTelApp"+e.toString());
 			sysLogService.addUser(request, request.getRequestURL().toString(), "数据库异常", e);
-			return this.apiReturn("-1", "数据库异常", data);
+			return this.apiReturn("-1", "数据库操作错误", data);
 		}
 
 		if(tokenIsEmpty) {
@@ -759,7 +759,7 @@ public class UserControllerApp {
 				// TODO: handle exception
 				System.out.println("changeTelApp" + e.toString());
 				sysLogService.addUser(request, request.getRequestURL().toString(), "数据获取异常", e);
-				return this.apiReturn("-1", "数据获取异常", data);
+				return this.apiReturn("-1", "数据库操作错误", data);
 			}
 		}
 
@@ -796,14 +796,21 @@ public class UserControllerApp {
 		//新手机号是否已经被注册
 		if(userServiceApp.getByTel(telephone)!=null) {
 			//已经注册了
-			return this.apiReturn("-2", "该手机号已经被注册", data);
+			return this.apiReturn("-3", "该手机号已经被注册", data);
 		} else {
-			User newUser = new User();
-			newUser.setTel(telephone);
-			newUser.setPassword(password);
-			newUser.setReal_name(realName);
-			userServiceApp.add(newUser);
-			return this.apiReturn("0", "用户注册成功", data);
+			try {
+				User newUser = new User();
+				newUser.setTel(telephone);
+				newUser.setPassword(password);
+				newUser.setReal_name(realName);
+				userServiceApp.add(newUser);
+				return this.apiReturn("0", "用户注册成功", data);
+			}catch (Exception e){
+				// TODO: handle exception
+				System.out.println("userRegister" + e.toString());
+				sysLogService.addUser(request, request.getRequestURL().toString(), "数据获取异常", e);
+				return this.apiReturn("-1", "数据库操作错误", data);
+			}
 		}
 
 	}
