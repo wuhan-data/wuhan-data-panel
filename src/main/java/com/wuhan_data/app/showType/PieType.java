@@ -33,6 +33,7 @@ public class PieType {
 		toolTipMap.put("confine", true);
 		toolTipMap.put("show", true);
 		toolTipMap.put("trigger", "item");
+		toolTipMap.put("formatter", "{b}");
 //		toolTipMap.put("backgroundColor", "transparent");
 //		Map<String, Object> textStyleMap = new HashMap<String, Object>();
 //		textStyleMap.put("color", "#fff");
@@ -105,7 +106,7 @@ public class PieType {
 			listData.add(seriesListMap);
 		}
 		seriesList.put("type", "pie");
-		seriesList.put("radius", "75%");
+		seriesList.put("radius", "60%");
 		List<String> center = new ArrayList<String>();
 		center.add("50%");
 		center.add("50%");
