@@ -97,7 +97,7 @@ public class BarType {
 			legendHeight = 125;
 			legendMap.put("type", "scroll");
 		} else if(legendData.size() <= 3) {
-			legendHeight = legendData.size() * 20;
+			legendHeight = legendData.size() * 25;
 		} else {
 			legendHeight = legendData.size() * 25;
 		}
