@@ -657,10 +657,16 @@ public class AnalysisServiceImpl implements AnalysisService {
                     tableRow4.add("占比(%)");
                     for (int j = 1; j < tableRow2.size(); j++) {
                     	if (tableRow2.get(j).equals("-")) {
+                    		tableRow4.add("-");
                 			continue;
                 		}
                         Double dataValue = (Double.parseDouble(tableRow2.get(j)) / totalGDPDouble) * 200;
-                        tableRow4.add(String.format("%.2f", dataValue));
+                        if(dataValue == 200) {
+                        	//当月只有湖北省一个数据的特殊情况
+                        	tableRow4.add("100.00");
+                        } else {
+                        	tableRow4.add(String.format("%.2f", dataValue));
+                        }
                     }
 
                     dataTable.add(tableRow1);
