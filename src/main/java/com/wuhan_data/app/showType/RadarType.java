@@ -82,7 +82,7 @@ public class RadarType {
 			list1.get(i).put("max", maxd);
 			list1.get(i).put("min", mind);
 		}
-		radarMap.put("radius", "50%");
+		radarMap.put("radius", "45%");
 		radarMap.put("shape", "polygon");
 		radarTextStyleMap.put("color", "#000000");
 		radarTextStyleMap.put("fontSize", 10);

@@ -496,7 +496,11 @@ public class AnalysisServiceImpl implements AnalysisService {
                                 legend.add(indiList.get(j).getIndiName());
                                 showColor.add(indiList.get(j).getShowColor());
                                 showType.add(indiList.get(j).getShowType());
-                                unitName.add(indiInfoList.get(0).getUnitName().toString());
+                                if(indiInfoList.size() > 0) {
+                                	unitName.add(indiInfoList.get(0).getUnitName().toString());
+                                } else {
+                                	unitName.add("");
+                                }
                             }
                         }
                         LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
@@ -531,7 +535,11 @@ public class AnalysisServiceImpl implements AnalysisService {
                                 legend.add(indiList.get(j).getIndiName());
                                 showColor.add(indiList.get(j).getShowColor());
                                 showType.add(indiList.get(j).getShowType());
-                                unitName.add(indiInfoList.get(0).getUnitName());
+                                if(indiInfoList.size() > 0) {
+                                	unitName.add(indiInfoList.get(0).getUnitName().toString());
+                                } else {
+                                	unitName.add("");
+                                }
                             }
                         }
                         LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType,
@@ -561,7 +569,9 @@ public class AnalysisServiceImpl implements AnalysisService {
                         List<String> dataIndiValue = new ArrayList<String>();
 
                         System.out.println("进入特殊指标——各市州GDP-表格-单指标数据" + dataIndiValue);
-                        dataIndiValue.add(indiInfoList.get(0).getIndiValue());
+                        if (indiInfoList.size() > 0) {
+                        	dataIndiValue.add(indiInfoList.get(0).getIndiValue());
+                        }
                         dataValueTable.add(dataIndiValue);
                         legendTable.add(indiList.get(j).getIndiName());
                     }
@@ -600,7 +610,11 @@ public class AnalysisServiceImpl implements AnalysisService {
                         for (int k = 0; k < legendTable.size(); k++) {
                             if (legendTable.get(k).toString().indexOf(areaName) != -1
                                     && legendTable.get(k).toString().indexOf(funcName) != -1) {
-                                tableRow2Value = dataValueTable.get(k).get(0);
+                            	try {
+                            		tableRow2Value = dataValueTable.get(k).get(0);
+								} catch (Exception e) {
+									// TODO: handle exception
+								}
                                 tableRow2.add(tableRow2Value);
                                 break;
                             }
@@ -616,7 +630,11 @@ public class AnalysisServiceImpl implements AnalysisService {
                         for (int k = 0; k < legendTable.size(); k++) {
                             if (legendTable.get(k).toString().indexOf(areaName) != -1
                                     && legendTable.get(k).toString().indexOf(funcName) != -1) {
-                                tableRow3Value = dataValueTable.get(k).get(0);
+                            	try {
+                            		tableRow3Value = dataValueTable.get(k).get(0);
+								} catch (Exception e) {
+									// TODO: handle exception
+								}
                                 tableRow3.add(tableRow3Value);
                                 break;
                             }
@@ -626,16 +644,29 @@ public class AnalysisServiceImpl implements AnalysisService {
                     System.out.println(tableRow3);
 
                     Double totalGDPDouble = 0.0;
-                    for (int j = 1; j < tableRow2.size(); j++) {
+                	for (int j = 1; j < tableRow2.size(); j++) {
+                		if (tableRow2.get(j).equals("-")) {
+                			continue;
+                		}
                         Double dataValue = Double.parseDouble(tableRow2.get(j));
                         totalGDPDouble = totalGDPDouble + dataValue;
                     }
+                    
 
                     List<String> tableRow4 = new ArrayList<String>();
                     tableRow4.add("占比(%)");
                     for (int j = 1; j < tableRow2.size(); j++) {
+                    	if (tableRow2.get(j).equals("-")) {
+                    		tableRow4.add("-");
+                			continue;
+                		}
                         Double dataValue = (Double.parseDouble(tableRow2.get(j)) / totalGDPDouble) * 200;
-                        tableRow4.add(String.format("%.2f", dataValue));
+                        if(dataValue == 200) {
+                        	//当月只有湖北省一个数据的特殊情况
+                        	tableRow4.add("100.00");
+                        } else {
+                        	tableRow4.add(String.format("%.2f", dataValue));
+                        }
                     }
 
                     dataTable.add(tableRow1);
@@ -1773,7 +1804,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                     // 配置指标图例
                     RadarType radarType = new RadarType();
                     // 雷达图取最近的两期数据进行展示
-                    List<String> xAxisRadar = xAxis.subList(xAxis.size() - 3, xAxis.size());
+                    List<String> xAxisRadar = new ArrayList<String>();
+                    if (xAxis.size() < 3) {
+                    	xAxisRadar = xAxis.subList(0, xAxis.size());
+					} else {
+						xAxisRadar = xAxis.subList(xAxis.size() - 3, xAxis.size());
+					}
                     for (int j = 0; j < indiList.size(); j++) {
                         // 时间不与时间选择器进行关联
                         Map<String, Object> queryMap1 = new HashMap<String, Object>();
@@ -1821,7 +1857,9 @@ public class AnalysisServiceImpl implements AnalysisService {
                         queryMapPie.put("startTime", queryMap.get("endTime"));
                         queryMapPie.put("endTime", queryMap.get("endTime"));
                         queryMapPie.put("indiCode", indiList.get(j).getIndiCode());
+                        System.out.println(queryMapPie);
                         List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMapPie);
+                        System.out.println(indiInfoList);
                         String indiValue = "无数据";
                         if (indiInfoList.size() > 0) {
                             indiValue = indiInfoList.get(0).getIndiValue();

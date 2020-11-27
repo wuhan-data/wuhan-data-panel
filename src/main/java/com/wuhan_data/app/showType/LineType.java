@@ -218,6 +218,30 @@ public class LineType {
 		}
 		yAxis.add(yAxisMap);
 		lineOptionEntity.setyAxis(yAxis);
+		
+		if(id.equals("93")) {
+			System.out.println("进入id=93");
+			List<Map<String, Object>> yAxisSp = new ArrayList<Map<String, Object>>();
+			Map<String, Object> yAxisFirstMap = new HashMap<String, Object>();
+			System.out.println(unitName);
+			yAxisFirstMap.put("type", "value");
+			yAxisFirstMap.put("name", unitName.get(0));
+			Map<String, Boolean> yAxisFirstSplitLineMap = new HashMap<String, Boolean>();
+			yAxisFirstSplitLineMap.put("show", true);
+			yAxisFirstMap.put("splitLine", yAxisFirstSplitLineMap);
+			Map<String, Object> yAxisSecondMap = new HashMap<String, Object>();
+			yAxisSecondMap.put("type", "value");
+			yAxisSecondMap.put("name", unitName.get(unitName.size()-1));
+			Map<String, Boolean> yAxisSecondSplitLineMap = new HashMap<String, Boolean>();
+			yAxisSecondSplitLineMap.put("show", false);
+			yAxisSecondMap.put("splitLine", yAxisSecondSplitLineMap);
+			Map<String, Object> yAxisLabelMap = new HashMap<String, Object>();
+			yAxisLabelMap.put("formatter", "{value}");
+			yAxisFirstMap.put("axisLabel", yAxisLabelMap);
+			yAxisSp.add(yAxisFirstMap);
+			yAxisSp.add(yAxisSecondMap);
+			lineOptionEntity.setyAxis(yAxisSp);
+		}
 
 		// 构建series
 		List<Map<String, Object>> seriesList = new ArrayList<Map<String, Object>>();
@@ -232,6 +256,13 @@ public class LineType {
 			seriesListMap.put("data", tempList);
 			seriesListMap.put("z", z + i);
 			seriesListMap.put("connectNulls", true); // 折线图连接空数据
+			if (id.equals("93")) {
+				if(i == 0) {
+					seriesListMap.put("yAxisIndex", "0");
+				} else {
+					seriesListMap.put("yAxisIndex", "1");
+				}
+			}
 			// 配置特定的颜色参数
 			Map<String, Object> seriesItemStyleMap = new HashMap<String, Object>();
 			if (i < showColor.size()) {
