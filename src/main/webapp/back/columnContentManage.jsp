@@ -342,24 +342,23 @@
     		    		
     		
     		dosaveSeq = function(Url,cid){
-    	    /* 	if(fieIdSeqArray != undefined){ */   		    	
-    		    		$.ajax({ 
-    						 type: "GET",
-    						 url: Url+"?cid="+cid+"&sort="+fieIdSeqArray,
-    						 dataType: "html",
-                            success: function (data) {
-                                alert("保存成功");
-                                $('#getNewData').html(data);
-                            },
-                            error : function(data){
-                                alert("保存失败");
-                            }
-    					 });
-    		    	/* 
-    		    }
-    	    	else {
-    		    	alert("未发现变更记录");
-    		    } */
+                if(fieIdSeqArray == undefined) {
+                    alert("未发现变更记录");
+                } else {
+                    $.ajax({
+                        type: "GET",
+                        url: Url + "?cid=" + cid + "&sort=" + fieIdSeqArray,
+                        dataType: "html",
+                        success: function (data) {
+                            alert("保存成功");
+                            fieIdSeqArray = undefined;
+                            $('#getNewData').html(data);
+                        },
+                        error: function (data) {
+                            alert("保存失败");
+                        }
+                    });
+                }
     	    }
   
     		
