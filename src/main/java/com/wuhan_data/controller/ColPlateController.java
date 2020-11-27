@@ -95,22 +95,31 @@ public class ColPlateController { //栏目下的板块管理
         response.setCharacterEncoding("UTF-8");//防止乱码       
         ModelAndView mav = new ModelAndView();//返回视图类    
         Page page=new Page(); //分页类
+        ColPlate colPlate = new ColPlate();//新添加板块对象
         int cid=Integer.parseInt(request.getParameter("cid")); //获取二级栏目id
         String pname = request.getParameter("pname");//获取新板块名称
+        if(pname == null || "".equals(pname)) {
+            throw new IOException("板块名称为空");
+        }
         String cname=colPlateService.getAddCname(cid);//获取添加板块所属栏目的名称
         String show_type=request.getParameter("show_type");//获取显示类型
 //        int term = Integer.parseInt(request.getParameter("term"));//获取期数
-        int term = Integer.parseInt(request.getParameter("term"));//获取期数
+        String termStr = request.getParameter("term");
+        int term;
+        if(termStr != null && !"".equals(termStr)){
+            term = Integer.parseInt(termStr);//获取期数
+        }else{
+            term = 6;  //默认期数
+        }
         System.out.println("cid:"+cid);
         int pweight = colPlateService.getAddPid(cid);
-        
-        ColPlate colPlate = new ColPlate();//新添加板块对象
         colPlate.setCid(cid);
         colPlate.setCname(cname);
         colPlate.setPname(pname);
         colPlate.setPlate_weight(pweight);
         colPlate.setShow_type(show_type);
         colPlate.setTerm(term);
+
         colPlateService.add(colPlate);
         
         int count = colPlateService.total(cid);//每一个二级栏目下的板块数量
