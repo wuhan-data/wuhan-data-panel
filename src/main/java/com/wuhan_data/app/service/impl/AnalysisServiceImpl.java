@@ -722,7 +722,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-                        unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                        if (indiInfoList.size() > 0) {
+                            unitName.add(indiInfoList.get(0).getUnitName());
+                        } else {
+                            unitName.add(null);
+                        }
                     }
                     if (id.equals("202")) {
                         // 配置指标图例
@@ -1052,7 +1057,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legendTable.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-                        unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                        if (indiInfoList.size() > 0) {
+                            unitName.add(indiInfoList.get(0).getUnitName());
+                        } else {
+                            unitName.add(null);
+                        }
                     }
                     List<List<String>> dataValue1 = new ArrayList<List<String>>();
                     // 获取核准类项目个数,备案类项目个数,核准类投资总额,备案类投资总额
@@ -1167,7 +1177,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legendTable.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-                        unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                        if (indiInfoList.size() > 0) {
+                            unitName.add(indiInfoList.get(0).getUnitName());
+                        } else {
+                            unitName.add(null);
+                        }
                     }
                     List<List<String>> dataValue1 = new ArrayList<List<String>>();
                     // 获取CPI/PPI/IPI
@@ -1648,7 +1663,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(indiList.get(j).getIndiName() + "去年同期");
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-//					unitName.add(indiInfoList.get(0).getUnitName());
+ 					    //unitName.add(indiInfoList.get(0).getUnitName());
                         if (indiInfoList.size() > 0) {
                             unitName.add(indiInfoList.get(0).getUnitName());
                         } else {
@@ -1728,7 +1743,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-                        unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                        if (indiInfoList.size() > 0) {
+                            unitName.add(indiInfoList.get(0).getUnitName());
+                        } else {
+                            unitName.add(null);
+                        }
                     }
                     System.out.println(unitName.toString());
                     LineEntity lineEntity = lineType.getOption(id, title, xAxis, legend, dataValue, showColor, showType,
@@ -1776,7 +1796,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-//					unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
                         if (indiInfoList.size() > 0) {
                             unitName.add(indiInfoList.get(0).getUnitName());
                         } else {
@@ -1931,7 +1951,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-                        unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                        if (indiInfoList.size() > 0) {
+                            unitName.add(indiInfoList.get(0).getUnitName());
+                        } else {
+                            unitName.add(null);
+                        }
                     }
                     System.out.println(unitName.toString());
                     LineAndBarEntity lineAndBarEntity = lineAndBarType.getOption(id, title, xAxis, legend, dataValue,
@@ -1971,7 +1996,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-                        unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                        if (indiInfoList.size() > 0) {
+                            unitName.add(indiInfoList.get(0).getUnitName());
+                        } else {
+                            unitName.add(null);
+                        }
                     }
                     System.out.println(unitName.toString());
                     BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue, showColor,
@@ -2011,7 +2041,12 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(indiList.get(j).getIndiName());
                         showColor.add(indiList.get(j).getShowColor());
                         showType.add(indiList.get(j).getShowType());
-                        unitName.add(indiInfoList.get(0).getUnitName());
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                        if (indiInfoList.size() > 0) {
+                            unitName.add(indiInfoList.get(0).getUnitName());
+                        } else {
+                            unitName.add(null);
+                        }
                     }
                     System.out.println(unitName.toString());
                     BarStackLineEntity barStackLineEntity = barStackLineType.getOption(id, title, xAxis, legend, dataValue,
