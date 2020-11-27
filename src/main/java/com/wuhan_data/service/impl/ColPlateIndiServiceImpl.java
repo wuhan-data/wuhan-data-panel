@@ -100,7 +100,7 @@ public class ColPlateIndiServiceImpl implements ColPlateIndiService {
     }
 
     @Override
-    public ColPlateIndi getIdAndNew_name(String indi_old_name) {
+    public String getIdAndNew_name(String indi_old_name) {
         // TODO Auto-generated method stub
         return colPlateIndiMapper.getIdAndNew_name(indi_old_name);
     }

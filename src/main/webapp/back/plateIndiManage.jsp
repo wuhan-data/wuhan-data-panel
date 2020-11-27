@@ -298,6 +298,7 @@
                                     </tbody>
 
                                 </table>
+                                <input id="error_message" type="hidden" value="${error_message}">
                                 <input type="hidden" value="${cid}" name="cid_"/>
                                 <!--修改 模态框（Modal） -->
                                 <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog"
@@ -313,7 +314,7 @@
                                                     修改
                                                 </h4>
                                             </div>
-                                            <form class="" id="editForm" method="post" accept-charset="UTF-8" action="">
+                                            <form class="" id="editForm" method="post" accept-charset="UTF-8" action="#">
                                                 <div class="modal-body">
 
                                                     <input type="hidden" value="" name="indi_id_edit"
@@ -349,7 +350,7 @@
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">
                                                         关闭
                                                     </button>
-                                                    <button type="submit" class="btn btn-primary"
+                                                    <button type="button" class="btn btn-primary"
                                                             onclick="editClick('plateIndiUpdate')">
                                                         提交
                                                     </button>
@@ -382,7 +383,7 @@
                                                     <div class="form-group" id="indi_name_group">
                                                         <label>指标名称</label>
                                                         <input class="form-control" type="text"
-                                                               placeholder="请输入指标名称（xxx::xxx::xxx）" name="indi_old_name"
+                                                               placeholder="请输入指标名称（xxx:xxx:xxx）" name="indi_old_name"
                                                                id="indi_old_name" autocomplete="off">
                                                     </div>
 
@@ -390,13 +391,13 @@
 
                                                     <div class="form-group" id="indi_name_group">
                                                         <label>指标别名</label>
-                                                        <input class="form-control" type="text" placeholder="请输入指标别名"
+                                                        <input id="indi_new_name" class="form-control" type="text" placeholder="请输入指标别名"
                                                                name="indi_new_name">
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label>展示类型</label>
-                                                        <select class="form-control" name="show_type" onchange="f1()"
+                                                        <select id="show_type" class="form-control" name="show_type" onchange="f1()"
                                                                 placeholder="">
                                                             <option value="" selected>请选择展示类型</option>
                                                             <option value="line">line</option>
@@ -421,7 +422,7 @@
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">
                                                         关闭
                                                     </button>
-                                                    <button type="submit" class="btn btn-primary"
+                                                    <button type="button" class="btn btn-primary"
                                                             onclick="addClick('plateIndiAdd')">
                                                         提交
                                                     </button>
@@ -583,46 +584,110 @@
                 }  */
 
     editClick = function (Url) {
-        $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open');
-        var data = new FormData(document.getElementById("editForm"));
-        $.ajax({
-            type: 'POST',
-            url: Url,
-            dataType: "html",
-            data: data,
-            async: false,
-            contentType: false, //不设置内容类型
-            processData: false,
-            cache: false,
-            success: function (data) {
-                $('#getNewData').html(data);
-            },
-            error: function (data) {
-            }
-        });
+        var message = checkAll("edit");
+        if("valid" != message) {
+            alert(message);
+        } else {
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
+            var data = new FormData(document.getElementById("editForm"));
+            $.ajax({
+                type: 'POST',
+                url: Url,
+                dataType: "html",
+                data: data,
+                async: false,
+                contentType: false, //不设置内容类型
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    var err = $("#error_message").val();
+                    if(err != null && err != ""){
+                        alert(err);
+                    }
+                    $('#getNewData').html(data);
+                },
+                error: function (data) {
+                    var err = $("#error_message").val();
+                    if(err != null && err != ""){
+                        alert(err);
+                    }
+                    $('#getNewData').html(data);
+                }
+            });
+        }
     };
 
     addClick = function (Url) {
-        $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open');
-        var data = new FormData(document.getElementById("addForm"));
-        $.ajax({
-            type: 'POST',
-            url: Url,
-            dataType: "html",
-            data: data,
-            async: false,
-            contentType: false, //不设置内容类型
-            processData: false,
-            cache: false,
-            success: function (data) {
-                $('#getNewData').html(data);
-            },
-            error: function (data) {
-            }
-        });
+        var message = checkAll("add");
+        if("valid" != message) {
+            alert(message);
+        } else {
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
+            var data = new FormData(document.getElementById("addForm"));
+            $.ajax({
+                type: 'POST',
+                url: Url,
+                dataType: "html",
+                data: data,
+                async: false,
+                contentType: false, //不设置内容类型
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    var err = $("#error_message").val();
+                    if(err != null && err != ""){
+                        alert(err);
+                    }
+                    $('#getNewData').html(data);
+                },
+                error: function (data) {
+                    var err = $("#error_message").val();
+                    if(err != null && err != ""){
+                        alert(err);
+                    }
+                    $('#getNewData').html(data);
+                }
+            });
+        }
     };
+
+    function checkAll(type){
+        var indi_new_name;
+        var show_type;
+        var color;
+        switch(type){
+            case "add":
+                var indi_old_name = $("#indi_old_name").val();
+                var r = checkIndexOldName(indi_old_name);
+                if(r != "valid") return r;
+                indi_new_name = $("#indi_new_name").val();
+                show_type = $("#show_type").val();
+                color = $("#color").val();
+                break;
+            case "edit":
+                indi_new_name = $("#indi_new_name_edit").val();
+                show_type = $("#show_type_edit").val();
+                color = $("#color_edit").val();
+                break;
+            default:
+                return "错误的操作类型。";
+        }
+        if(indi_new_name == undefined || indi_new_name == "") return "请填写指标别名。";
+        if(show_type == undefined || show_type == "") return "请选择展示类型。";
+        if(color == undefined || color == "") return "请输入展示颜色。";
+        var color_test = /#[0-9a-fA-F]{6}/;
+        if(!color_test.test(color)) return "错误的展示颜色格式，请检查。（参照格式：#ffffff）";
+        return "valid";
+    }
+
+    function checkIndexOldName(name){
+        var test = /[\u4e00-\u9fa5]+:[\u4e00-\u9fa5]+:[\u4e00-\u9fa5]+:[\u4e00-\u9fa5]+/;
+        if(name == undefined || name == "") return "请填写指标名称。";
+        if(!test.test(name)) return "错误的指标名称格式，请检查。";
+        return "valid";
+    }
 
 
     delClick = function (pid, id, Url) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,6 +101,15 @@ public class PlateIndiController {
         response.setCharacterEncoding("UTF-8");//防止乱码       
         ModelAndView mav = new ModelAndView();//返回视图类    
         Page page=new Page(); //分页类
+
+        mav.addObject("label_id", label_id);
+        mav.addObject("label_name", label_name);
+        mav.addObject("type_name", type_name);
+        mav.addObject("theme_name", theme_name);
+        mav.addObject("plate_id", plate_id);
+        mav.addObject("theme_id", theme_id);
+        mav.addObject("plate_name", plate_name);
+        mav.addObject("cid", plate_id);
 //        int pid=Integer.parseInt(request.getParameter("cid")); //板块id
         System.out.print("&&&&&&&&&&&&&&&:板块id"+plate_id);
         
@@ -114,7 +124,13 @@ public class PlateIndiController {
         ColPlateIndi colPlateIndi = new ColPlateIndi();
         colPlateIndi.setPlate_id(plate_id);
         colPlateIndi.setIndi_new_name(indi_new_name);
-        colPlateIndi.setSearch_indi_id(colPlateIndiService.getIdAndNew_name(indi_old_name).getSearch_indi_id());
+        String search_indi_id = colPlateIndiService.getIdAndNew_name(indi_old_name);
+        if(search_indi_id == null || search_indi_id.equals("")){
+            mav.addObject("error_message", "未找到对应的指标名称。");
+            mav.setViewName("plateIndiManage"); //返回到jsp页面
+            return mav;
+        }
+        colPlateIndi.setSearch_indi_id(search_indi_id);
         colPlateIndi.setIndi_old_name(indi_old_name);
         colPlateIndi.setShow_type(show_type);
         colPlateIndi.setShow_color(show_color);
@@ -137,14 +153,7 @@ public class PlateIndiController {
         
         mav.addObject("indicolumnByPage", indicolumnByPage);
         mav.addObject("page", page);    
-        mav.addObject("label_id", label_id);  
-        mav.addObject("label_name", label_name);  
-        mav.addObject("type_name", type_name);  
-        mav.addObject("theme_name", theme_name); 
-        mav.addObject("plate_id", plate_id);  
-        mav.addObject("theme_id", theme_id); 
-        mav.addObject("plate_name", plate_name);  
-        mav.addObject("cid", plate_id);  
+
         
         mav.setViewName("plateIndiManage"); //返回到jsp页面
         return mav;
