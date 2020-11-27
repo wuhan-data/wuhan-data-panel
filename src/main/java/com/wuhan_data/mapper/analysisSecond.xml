@@ -48,7 +48,7 @@
         </select>
         
         <select id="getMaxWeight" resultType="int" parameterType="int" >
-           select max(theme_weight)+1 from WUHAN_DATA."ANALYSIS_THEME" where label_id=#{label_id}
+           select nvl(max(theme_weight),0)+1 from WUHAN_DATA."ANALYSIS_THEME" where label_id=#{label_id}
         </select> 
         
 <!--         添加二级栏目
