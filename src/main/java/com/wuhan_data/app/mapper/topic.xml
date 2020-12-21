@@ -1171,7 +1171,7 @@ when right(left(c1,6),2)='04' then '-Q4'
 end
 )
 ) as date_code
-,c9 as indi_value,c4 as indi_name from SJJG.T1 where c3='0400012'  and c2='SS' and c1 &lt; '201801SS' and c8='203' order by c1 desc limit 0,5
+,c9 as indi_value,c4 as indi_name from SJJG.T1 where c3='0400012'  and c2='SS' and c1 &lt; '201801SS' and c7='湖北省' and c8='203' order by c1 desc limit 0,5
               </select>
               <select id="getTopic4Value51_2" resultType="com.wuhan_data.pojo.indi_TF">
               select concat(c16,
