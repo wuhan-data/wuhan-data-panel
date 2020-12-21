@@ -985,6 +985,9 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(xAxis.get(xAxis.size() - 1) + "第三产业");
                         showColor.add("#F0805F");
                         dataV.add(String.format("%.2f", dataThirdValueDouble));
+                        if (id.equals("18")) {
+                        	title = queryMap.get("endTime").toString() +"湖北省"+ title;
+                        }
                         PieType pieType = new PieType();
                         PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
                         TotalList.add(pieEntity);
@@ -1887,6 +1890,9 @@ public class AnalysisServiceImpl implements AnalysisService {
                         legend.add(j, indiName);
                         dataV.add(j, indiValue);
                         showColor.add(indiList.get(j).getShowColor());
+                    }
+                    if (id.equals("204")) {
+                    	title = queryMap.get("endTime").toString() +"湖北省"+ title;
                     }
                     PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
                     TotalList.add(pieEntity);
