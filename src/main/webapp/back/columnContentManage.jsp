@@ -225,11 +225,11 @@
 				</h4>
 			</div>
 			
-			<form class="" id="addForm" method="post" accept-charset="UTF-8" action="colPlateAdd">
+			<form class="" id="addForm" method="post" accept-charset="UTF-8">
 			<div class="modal-body">
 				
 <!-- <!--      指标  id：<input class="form-control" type="search" placeholder="请输入指标id" name="indi_id"> -->
-      板块名称：<input class="form-control" type="search" placeholder="请输入指标名称" name="pname"> 
+      板块名称：<input class="form-control" type="search" placeholder="请输入板块名称" name="pname" id="pname">
       展示形式：<input class="form-control" type="search" placeholder="请输入展示形式" name="show_type"> 
       显示期数：<input class="form-control" type="search" placeholder="请输入显示期数" name="term"> 
      		  <input class="form-control"  type="hidden" value="${cid}" name="cid"/>
@@ -240,7 +240,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 				</button>
-				<button type="submit" class="btn btn-primary" onclick="addClick('colPlateAdd')">
+				<button type="button" class="btn btn-primary" onclick="addClick('colPlateAdd')">
 					提交
 				</button>
 			</div>
@@ -384,25 +384,38 @@
                 };
            	            
               addClick = function(Url) {
-           	   $('.modal-backdrop').remove();
-           	    $('body').removeClass('modal-open');
-                	var data = new FormData(document.getElementById("addForm"));
-                	 $.ajax({
-                           type: 'POST',
-                           url:  Url,
-                           dataType: "html",
-                      	    data: data,
-                      	    async : false,
-                       	contentType: false, //不设置内容类型
-                      	    processData: false,
-                           cache:false,
-                           success: function(data){
-                               $('#getNewData').html(data);
-                           },
-                           error : function(data){
-                           }
-                       });    
+                  var pname = $("#pname").val();
+                  if(!checkPname(pname)){
+                      alert("请输入板块名称。");
+                      return;
+                  }else{
+                      $('.modal-backdrop').remove();
+                      $('body').removeClass('modal-open');
+                      var data = new FormData(document.getElementById("addForm"));
+                      $.ajax({
+                          type: 'POST',
+                          url:  Url,
+                          dataType: "html",
+                          data: data,
+                          async : false,
+                          contentType: false, //不设置内容类型
+                          processData: false,
+                          cache:false,
+                          success: function(data){
+                              $('#getNewData').html(data);
+                          },
+                          error : function(data){
+                              $('#getNewData').html(data);
+                          }
+                      });
+                  }
                 };
+
+              function checkPname(pname){
+                  if(pname == undefined) return false;
+                  if(pname == "") return false;
+                  return true;
+              }
                 
                 
                 delClick = function(id,cid,Url) {

@@ -36,5 +36,5 @@ public int add(ColPlateIndi colPlateIndi);
 	
 	public List<ColPlateIndi> searchIndi(String content);//用于添加指标时对指标的搜索
 	
-	public ColPlateIndi getIdAndNew_name(String indi_old_name);
+	public String getIdAndNew_name(String indi_old_name);
 }

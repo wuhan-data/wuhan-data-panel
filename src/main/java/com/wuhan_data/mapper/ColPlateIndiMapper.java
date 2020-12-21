@@ -31,7 +31,7 @@ public interface ColPlateIndiMapper {
 	@DataSource(value="dataSource_dm")
 	public List<ColPlateIndi> searchIndi(String content);//用于添加指标时对指标的搜索
 	@DataSource(value="dataSource_dm")
-	public ColPlateIndi getIdAndNew_name(String indi_old_name);
+	public String getIdAndNew_name(String indi_old_name);
 
 	/**
 	 * 修改权值

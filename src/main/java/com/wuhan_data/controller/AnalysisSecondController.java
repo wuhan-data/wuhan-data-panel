@@ -67,20 +67,20 @@ public class AnalysisSecondController {
     public ModelAndView addTheme(HttpServletRequest request, 
             HttpServletResponse response) throws IOException{
 		request.setCharacterEncoding("UTF-8"); //防止乱码   	
-        response.setCharacterEncoding("UTF-8");//防止乱码         
+        response.setCharacterEncoding("UTF-8");//防止乱码
+        ModelAndView mav = new ModelAndView();//返回视图类
         String theme_name = request.getParameter("addThemeName");
         AnalysisTheme analysisTheme = new AnalysisTheme();
         analysisTheme.setLabel_id(label_id);
         analysisTheme.setTheme_name(theme_name);
         analysisTheme.setTheme_weight(analysisSecondService.getMaxWeight(label_id));
-        analysisSecondService.add(analysisTheme);  
-        ModelAndView mav = new ModelAndView();//返回视图类  
-        Map<String,Object> map = new HashMap<String, Object>(); //分页查询参数 
+        analysisSecondService.add(analysisTheme);
+        Map<String, Object> map = new HashMap<String, Object>(); //分页查询参数
         map.put("label_id", label_id);
-        List<AnalysisTheme> indianalysisSecondByPage=analysisSecondService.getlist(map);//获取分页
+        List<AnalysisTheme> indianalysisSecondByPage = analysisSecondService.getlist(map);//获取分页
         mav.addObject("indianalysisSecondByPage", indianalysisSecondByPage);//查询结果，前端展示
-        mav.addObject("cid", label_id); //前端获取二级栏目id，以便多次传参 
-        mav.addObject("label_id", label_id); //前端获取二级栏目id，以便多次传参 
+        mav.addObject("cid", label_id); //前端获取二级栏目id，以便多次传参
+        mav.addObject("label_id", label_id); //前端获取二级栏目id，以便多次传参
         mav.addObject("label_name", label_name);
         mav.addObject("type_name", type_name);
         mav.setViewName("columnSecondManageFrame"); //返回到jsp页面
