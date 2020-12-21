@@ -307,11 +307,22 @@ public class AnalysisServiceImpl implements AnalysisService {
             }
         }
         List<String> xAxis = startTimeList.subList(startFlag, endFlag + 1);
+        String startTimeRadar = endTimeList.get(startTimeList.size()).toString();
+        if (startTimeList.size()>=4) {
+        	startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
+        } else {
+        	startTimeRadar = endTimeList.get(0).toString();
+        }
 
-        String startTimeRadar = endTimeList.get(startTimeList.size() - 4).toString();
         String startTimePoint = endTimeList.get(0).toString();
-        String endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
-        String endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
+        String endTimeRadar = endTimeList.get(endTimeList.size()).toString();
+        if (endTimeList.size() >= 1) {
+        	endTimeRadar = endTimeList.get(endTimeList.size() - 1).toString();
+        }
+        String endTimePoint = endTimeList.get(endTimeList.size()).toString();
+        if (endTimeList.size() >= 1) {
+        	endTimePoint = endTimeList.get(endTimeList.size() - 1).toString();
+        }
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("freqName", freqName);
         queryMap.put("area", area);
