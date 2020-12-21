@@ -142,12 +142,12 @@ public class AnalysisController {
 			System.out.println("无效的token令牌");
 		}
 
-//		try {
+		try {
 		// 获取栏目下的版块信息
 		analysisPlate = analysisService.initAnalysisPlate(indexId, userId);
-//		} catch (Exception e) {
-//			return this.apiReturn("-1", "获取数据异常", data);
-//		}
+		} catch (Exception e) {
+			return this.apiReturn("-1", "获取数据异常", data);
+		}
 		return this.apiReturn("0", "数据获取成功", analysisPlate);
 	}
 
@@ -195,12 +195,15 @@ public class AnalysisController {
 		}
 
 		Map<String, Object> analysisPlate = new HashMap<String, Object>();
-//		try {
+		try {
 		// 获取栏目下的版块信息
 		analysisPlate = analysisService.initAnalysisPlateByTime(indexId, startTime, endTime, timeFreq, area);
-//		} catch (Exception e) {
-//			return this.apiReturn("-1", "获取数据异常", data);
-//		}
+		} catch (Exception e) {
+			if(endTime.contains("01")) {
+				return this.apiReturn("-1", "缺少1月份数据，无法绘制图表", data);
+			}
+			return this.apiReturn("-1", "获取数据异常", data);
+		}
 		return this.apiReturn("0", "数据获取成功", analysisPlate);
 	}
 
