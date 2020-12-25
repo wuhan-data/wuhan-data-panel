@@ -162,6 +162,9 @@ public class LineType {
 		Map<String, Object> yAxisMap = new HashMap<String, Object>();
 		yAxisMap.put("type", "value");
 		yAxisMap.put("name", unitName.get(0));
+		if(id.equals("77")) {
+			yAxisMap.put("name", "");
+		}
 		// 配置经济分析特殊图表的y轴样式
 		List<String> boundaryGap = new ArrayList<String>();
 		switch (id) {

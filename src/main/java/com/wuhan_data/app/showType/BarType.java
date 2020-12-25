@@ -85,6 +85,7 @@ public class BarType {
 
 		// 构建legend
 		Map<String, Object> legendMap = new HashMap<String, Object>();
+		
 		legendMap.put("formatter", "{name}");
 		legendMap.put("orient", "vertical");
 		legendMap.put("left", "center");
@@ -104,6 +105,10 @@ public class BarType {
 		legendMap.put("height", String.valueOf(legendHeight));
 		// 控制初始展示图例个数,默认展示2个
 		int showNum = 4;
+		if(id.equals("58")) {
+			legendMap.put("show", false);
+			showNum = 1;
+		}
 		if (legendData.size() >= showNum) {
 			Map<String, Boolean> legendSelectedMap = new HashMap<String, Boolean>();
 			for (int i = 0; i < legendData.size(); i++) {
@@ -115,6 +120,7 @@ public class BarType {
 			}
 			legendMap.put("selected", legendSelectedMap);
 		}
+		
 		barOptionEntity.setLegend(legendMap);
 
 		// 构建调色盘

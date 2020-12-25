@@ -1,6 +1,7 @@
 package com.wuhan_data.app.service.impl;
 
 import java.util.Date;
+import java.net.Inet4Address;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -553,6 +554,71 @@ public class AnalysisServiceImpl implements AnalysisService {
                     flagPlate = 1;
                 }
                 break;
+                
+                case "109": {
+                	// 绘制三产占比数据（堆叠柱状）
+                    System.out.println("进入特殊指标——投资三产占比-堆叠柱");
+                    List<List<String>> dataValue = new ArrayList<List<String>>();
+                    List<String> legend = new ArrayList<String>();
+                    List<String> showColor = new ArrayList<String>();
+                    List<String> showType = new ArrayList<String>();
+                    List<String> unitName = new ArrayList<String>();
+                    // 配置指标图例
+                    BarStoreType barStoreType = new BarStoreType();
+                    for (int j = 0; j < indiList.size(); j++) {
+                        queryMap.put("indiCode", indiList.get(j).getIndiCode());
+                        List<AnalysisIndiValue> indiInfoList = analysisMapper.getIndiValue(queryMap);
+                        List<String> dataIndiValue = Arrays.asList(new String[xAxis.size()]);
+                        for (int m = 0; m < indiInfoList.size(); m++) {
+                            String dataXTemp = indiInfoList.get(m).getTime();
+                            if (xAxis.contains(dataXTemp)) {
+                                int index = xAxis.indexOf(dataXTemp);
+                                dataIndiValue.set(index, indiInfoList.get(m).getIndiValue());
+                            }
+                        }
+                        dataValue.add(dataIndiValue);
+                        legend.add(indiList.get(j).getIndiName());
+                        showColor.add(indiList.get(j).getShowColor());
+                        showType.add(indiList.get(j).getShowType());
+                        unitName.add("%");//占比为%
+                        //unitName.add(indiInfoList.get(0).getUnitName());
+                    }
+                    System.out.println(dataValue);
+                    for (int j = 0; j < dataValue.get(0).size(); j++) {
+                    	Double totalGDPDouble = 0.0;
+                    	for(int m = 0; m < indiList.size();m++) {
+                    		if (dataValue.get(m).get(j) == null) {
+                    			continue;
+                    		}
+                    		totalGDPDouble += Double.parseDouble(dataValue.get(m).get(j));
+                    	}
+                    	List<String> dataValueTemp = new ArrayList<String>();
+                    	for(int m = 0; m < indiList.size();m++) {
+                    		if (dataValue.get(m).get(j) == null) {
+                    			continue;
+                    		}
+                    		dataValueTemp = dataValue.get(m);
+                    		String dataNewValueString = String.format("%.2f", (Double.parseDouble(dataValue.get(m).get(j)) / totalGDPDouble)*100);
+                    		dataValueTemp.set(j, dataNewValueString);
+                    		dataValue.set(m, dataValueTemp);
+                    	}
+                    	System.out.println(dataValueTemp);
+                    }
+                    System.out.println(unitName.toString());
+                    BarStoreEntity barStoreEntity = barStoreType.getOption(id, title, xAxis, legend, dataValue, showColor,
+                            showType, unitName);
+                    TotalList.add(barStoreEntity);
+                    // 配置表格数据
+                    TableType tableType = new TableType();
+                    List<List<String>> dataXaisTable = new ArrayList<List<String>>();
+                    for (int q = 0; q < indiList.size(); q++) {
+                        dataXaisTable.add(xAxis);
+                    }
+                    TableEntity tableEntity = tableType.getTable(id, title, dataXaisTable, legend, dataValue);
+                    TotalList.add(tableEntity);
+                    flagPlate = 1;
+                }
+                break;
 
                 case "238": {
                     // 绘制表格数据
@@ -648,15 +714,19 @@ public class AnalysisServiceImpl implements AnalysisService {
                     System.out.println(tableRow3);
 
                     Double totalGDPDouble = 0.0;
-                	for (int j = 1; j < tableRow2.size(); j++) {
-                		if (tableRow2.get(j).equals("-")) {
-                			continue;
-                		}
-                        Double dataValue = Double.parseDouble(tableRow2.get(j));
-                        totalGDPDouble = totalGDPDouble + dataValue;
+                    
+                    if (tableRow2.get(1).equals("-")) {
+                    	for (int j = 2; j < tableRow2.size(); j++) {
+                    		if (tableRow2.get(j).equals("-")) {
+                    			continue;
+                    		}
+                            Double dataValue = Double.parseDouble(tableRow2.get(j));
+                            totalGDPDouble = totalGDPDouble + dataValue;
+                        }
+                    } else {
+                    	totalGDPDouble = Double.parseDouble(tableRow2.get(1));;
                     }
                     
-
                     List<String> tableRow4 = new ArrayList<String>();
                     tableRow4.add("占比(%)");
                     for (int j = 1; j < tableRow2.size(); j++) {
@@ -664,8 +734,8 @@ public class AnalysisServiceImpl implements AnalysisService {
                     		tableRow4.add("-");
                 			continue;
                 		}
-                        Double dataValue = (Double.parseDouble(tableRow2.get(j)) / totalGDPDouble) * 200;
-                        if(dataValue == 200) {
+                        Double dataValue = (Double.parseDouble(tableRow2.get(j)) / totalGDPDouble) * 100;
+                        if(dataValue == 100) {
                         	//当月只有湖北省一个数据的特殊情况
                         	tableRow4.add("100.00");
                         } else {
@@ -990,7 +1060,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                         showColor.add("#F0805F");
                         dataV.add(String.format("%.2f", dataThirdValueDouble));
                         if (id.equals("18")) {
-                        	title = queryMap.get("endTime").toString() +"湖北省"+ title;
+                        	title = queryMap.get("endTime").toString() + title;//不用再加湖北省，因为已经有，再加会重复
                         }
                         PieType pieType = new PieType();
                         PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
@@ -1896,7 +1966,7 @@ public class AnalysisServiceImpl implements AnalysisService {
                         showColor.add(indiList.get(j).getShowColor());
                     }
                     if (id.equals("204")) {
-                    	title = queryMap.get("endTime").toString() +"湖北省"+ title;
+                    	title = queryMap.get("endTime").toString() + title;
                     }
                     PieEntity pieEntity = pieType.getOption(id, title, dataV, legend, showColor);
                     TotalList.add(pieEntity);

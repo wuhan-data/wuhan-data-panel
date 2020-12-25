@@ -87,7 +87,12 @@ public class PieType {
 		for (int i = 0; i < dataV.size(); i++) {
 			Map<String, Object> seriesListMap = new HashMap<String, Object>();
 			seriesListMap.put("value", dataV.get(i));
-			seriesListMap.put("name", legendData.get(i));
+			if (id.equals("235")) {
+				seriesListMap.put("name", legendData.get(i).replace("_累计值", ""));
+			} else {
+				seriesListMap.put("name", legendData.get(i));
+			}
+			
 			// 配置label到饼上
 			Map<String, Object> seriesLabelMap = new HashMap<String, Object>();
 			seriesLabelMap.put("show", true);
