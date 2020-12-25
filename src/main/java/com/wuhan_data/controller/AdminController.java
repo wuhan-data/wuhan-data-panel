@@ -522,6 +522,7 @@ public class AdminController {
 	    	map.put("password",password);
 	    	if (adminService.adminLogin(map)==0)
 	    	{
+				maView.addObject("errorInfo", "用户名或密码不正确。");
 	    		maView.setViewName("login");
 	    	}
 	    	else {

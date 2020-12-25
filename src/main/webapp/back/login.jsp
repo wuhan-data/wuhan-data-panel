@@ -82,7 +82,10 @@
 									<i class="fa fa-lock"></i>
 									<input type="password" class="form-control" id="exampleInputPassword1" name="password">
 								  </div>
-								  <div class="form-actions" id="loginbtn">
+									<div class="form-group">
+										<label id="errorInfo" style="color: #ff4b42">${errorInfo}</label>
+									</div>
+									<div class="form-actions" id="loginbtn">
 									<!-- <label class="checkbox"> <input type="checkbox" class="uniform" value=""> Remember me</label> -->
 									<button type="submit" class="btn btn-danger">登录</button>
 								  </div>
